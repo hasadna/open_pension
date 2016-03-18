@@ -1,0 +1,19 @@
+{
+  "name": "open-pension-client",
+  "version": "1.0.0",
+  "description": "The Front-End of Open Pension",
+  "repository": "https://github.com/nirgn975/open_pension",
+  "license": "MIT",
+  "devDependencies": {
+    "angular": "^1.5.1",
+    "angular-route": "^1.5.1",
+    "http-server": "^0.6.1"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "start": "http-server -a localhost -p 3000 -c-1",
+    "preupdate-webdriver": "npm install",
+    "update-webdriver": "webdriver-manager update",
+    "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + sed(/sourceMappingURL=angular-loader.min.js.map/,'sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map','app/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\""
+  }
+}

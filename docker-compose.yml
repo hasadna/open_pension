@@ -1,0 +1,15 @@
+db:
+  image: postgres
+
+web:
+  build: .
+  command: ./run.sh
+  volumes:
+    - .:/usr/src
+  ports:
+    # Server:
+    - "8080:8000"
+    # Client:
+    - "3000:3000"
+  links:
+    - db
