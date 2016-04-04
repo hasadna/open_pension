@@ -184,3 +184,7 @@ $RECYCLE.BIN/
 ### Sass ###
 .sass-cache/
 *.css.map
+
+
+# Local settings.
+*config/local_settings.py
