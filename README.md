@@ -9,8 +9,9 @@ Open Pension is [a "Hasadna" project](hasadna.org.il), that aimed to revealing t
 ## Installation
 Install the project for development.
 
-1. Run `$ docker-compose up` to build the docker images and run them.
-2. That's it, no step two. Start coding! (:
+1. `cd server/config` then `cp local_settings.template local_settings.py` and modify it by your local settings.
+2. Run `$ docker-compose up` to build the docker images and run them.
+3. That's it, no step two. Start coding! (:
 
 ## Our Stack
 * [Angular 1.x](https://angularjs.org/)

@@ -1,0 +1,15 @@
+_user = '{{webuser}}'
+_host = '{{host}}'
+
+SECRET_KEY = '{{secret_key}}'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': _user,
+        'USER': _user,
+        'PASSWORD': _user,
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
