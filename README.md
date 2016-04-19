@@ -14,7 +14,7 @@ Install the project for development.
 3. That's it, no step two. Start coding! (:
 
 ## Our Stack
-* [Angular 1.x](https://angularjs.org/)
+* [Angular 2.x](https://angularjs.org/)
 * [Django 1.9.x](https://www.djangoproject.com/)
 * [PostgreSQL](http://www.postgresql.org/)
 

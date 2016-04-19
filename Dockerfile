@@ -24,5 +24,5 @@ RUN cd /usr/src/client && \
 
 RUN npm install -g gulp
 
-# Add a bash script to run all
+# Add a bash script to run all ..
 RUN chmod +x /usr/src/run.sh
