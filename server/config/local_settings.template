@@ -5,7 +5,7 @@ SECRET_KEY = '{{secret_key}}'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': _user,
         'USER': _user,
         'PASSWORD': _user,
