@@ -7,13 +7,31 @@ cd /usr/src/server && pip install -r requirements.txt
 cd /usr/src/client && npm install
 npm install -g gulp
 
+# Install PostgreSQL
+apt-get -y install libpq-dev python-dev postgresql postgresql-contrib
+
+# Configure PostgreSQL
+
+# Install
 apt-get install -y nginx
-#cd /usr/src/server
-#python manage.py migrate
-#python manage.py runserver
+
+# Configure nginx
+cp django_project /etc/nginx/sites-enabled
 
 # temp
 #cd /usr/src/client
 #npm start
 
-echo "run.sh is on! yeah! (:"
+# Configure Django
+#python manage.py syncdb --noinput
+#python manage.py migrate
+#python manage.py collectstatic --noinput
+
+# Create superuser
+#echo "from django.contrib.auth.models import User
+#if not User.objects.filter(username='admin').count():
+#    User.objects.create_superuser('admin', 'admin@example.com', 'pass')
+#" | python manage.py shell
+
+# Run the gunicorn server
+#/usr/local/bin/gunicorn WhatsBuzz.wsgi:application -w 2 -b :8000 --reload
