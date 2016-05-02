@@ -5,12 +5,11 @@
   "repository": "https://github.com/nirgn975/open_pension",
   "license": "MIT",
   "scripts": {
-    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
-    "lite": "lite-server",
+    "start": "concurrent --kill-others \"gulp watch\" \"lite-server\"",
     "postinstall": "typings install",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "typings": "typings"
+    "clean": "gulp clean",
+    "compile": "gulp compile",
+    "build": "gulp build"
   },
   "license": "ISC",
   "dependencies": {
@@ -19,12 +18,20 @@
     "es6-shim": "^0.35.0",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
-    "zone.js": "0.6.10"
+    "zone.js": "0.6.10",
+    "jquery": "2.2.2"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
-    "lite-server": "^2.2.0",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^4.3.3",
+    "gulp-typescript": "^2.12.0",
+    "lite-server": "^2.1.0",
+    "tslint": "^3.5.0",
     "typescript": "^1.8.10",
-    "typings":"^0.7.12"
+    "typings": "^0.7.12"
   }
 }
+
