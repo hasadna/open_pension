@@ -100,7 +100,6 @@ coverage.xml
 
 # Django stuff:
 *.log
-local_settings.py
 
 # pyenv
 .python-version
@@ -185,6 +184,3 @@ $RECYCLE.BIN/
 .sass-cache/
 *.css.map
 
-
-# Local settings.
-*config/local_settings.py
