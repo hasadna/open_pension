@@ -53,3 +53,5 @@ class Holding(models.Model):
     instrument = models.ForeignKey(Instrument)
     fund = models.ForeignKey(Fund)
     quarter = models.ForeignKey(Quarter)
+    fair_value = models.DecimalField
+
