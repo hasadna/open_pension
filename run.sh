@@ -12,7 +12,7 @@ apt-get -y install libpq-dev python-dev postgresql postgresql-contrib
 
 # Configure PostgreSQL
 
-# Install
+# Install nginx
 apt-get install -y nginx
 
 # Configure nginx
