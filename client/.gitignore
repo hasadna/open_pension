@@ -1,5 +1,4 @@
 typings
-src/app/**/*.js
-src/app/**/*.map
+app/**/*.js
+app/**/*.map
 node_modules
-build
