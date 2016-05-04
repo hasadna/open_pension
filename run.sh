@@ -5,18 +5,23 @@ cd /usr/src/server && pip install -r requirements.txt
 
 # Install Node.js dependencies.
 cd /usr/src/client && npm install
-npm install -g gulp
+npm install -g webpack
 
 # Install PostgreSQL
-apt-get -y install libpq-dev python-dev postgresql postgresql-contrib
+apt-get -y install libpq-dev python-dev
+apt-get -y install postgresql postgresql-contrib
 
 # Configure PostgreSQL
+/etc/init.d/postgresql restart
+su - postgres
+psql postgres -c "CREATE DATABASE open_pension"
+psql postgres -c" ALTER USER postgres WITH PASSWORD 'postgres'";
 
 # Install
 apt-get install -y nginx
 
 # Configure nginx
-cp django_project /etc/nginx/sites-enabled
+#cp django_project /etc/nginx/sites-enabled
 
 # temp
 #cd /usr/src/client
@@ -34,4 +39,5 @@ cp django_project /etc/nginx/sites-enabled
 #" | python manage.py shell
 
 # Run the gunicorn server
+python manage.py runserver 0.0.0.0:80 &
 #/usr/local/bin/gunicorn WhatsBuzz.wsgi:application -w 2 -b :8000 --reload
