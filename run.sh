@@ -17,7 +17,7 @@ su - postgres
 psql postgres -c "CREATE DATABASE open_pension"
 psql postgres -c" ALTER USER postgres WITH PASSWORD 'postgres'";
 
-# Install
+# Install nginx
 apt-get install -y nginx
 
 # Configure nginx
