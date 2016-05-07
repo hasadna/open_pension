@@ -1,4 +1,5 @@
-typings
-app/**/*.js
-app/**/*.map
-node_modules
+src/**/**.js
+src/**/**.map
+npm-debug.log
+node_modules/
+typings/
