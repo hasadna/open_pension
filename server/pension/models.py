@@ -16,18 +16,18 @@ class Quarters(object):
     )
 
 
-class InstrumentType(object):
-    TYPE1 = 1
-    TYPE2 = 2
-
-    choices = (
-        (TYPE1, _('')),
-        (TYPE2, _('')),
-    )
+# class InstrumentType(object):
+#     TYPE1 = 1
+#     TYPE2 = 2
+#
+#     choices = (
+#         (TYPE1, _('INSTRUMENT TYPE')),
+#         (TYPE2, _('2')),
+#     )
 
 
 class Quarter(models.Model):
-    year = models.IntegerField
+    year = models.IntegerField(default=2000)
     quarter = models.IntegerField(choices=Quarters.choices)
 
 
@@ -42,8 +42,9 @@ class Fund(models.Model):
 
 class Instrument(models.Model):
     label = models.CharField(max_length=200)
-    instrument_type = models.IntegerField(choices=InstrumentType.choices)
-    instrument_id = models.IntegerField
+    # instrument_type = models.IntegerField(choices=InstrumentType.choices)
+    instrument_type = models.CharField(max_length=200)
+    instrument_id = models.IntegerField(default=0)
 
 
 class Holding(models.Model):
@@ -53,5 +54,5 @@ class Holding(models.Model):
     instrument = models.ForeignKey(Instrument)
     fund = models.ForeignKey(Fund)
     quarter = models.ForeignKey(Quarter)
-    fair_value = models.DecimalField
+    fair_value = models.DecimalField(default=0, decimal_places=2, max_digits=16)
 
