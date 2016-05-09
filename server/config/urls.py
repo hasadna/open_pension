@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 """config URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -18,4 +19,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^index/', TemplateView.as_view(template_name='index.html')),
 ]
