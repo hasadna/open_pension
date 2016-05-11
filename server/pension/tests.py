@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import TestCase
 
 class TestPension(TestCase):
     def test_index_view(self):
