@@ -16,15 +16,21 @@ class Quarters(object):
     )
 
 
-# class InstrumentType(object):
-#     TYPE1 = 1
-#     TYPE2 = 2
-#
-#     choices = (
-#         (TYPE1, _('INSTRUMENT TYPE')),
-#         (TYPE2, _('2')),
-#     )
+class InstrumentType(object):
+    TYPE1 = 1
+    TYPE2 = 2
 
+    choices = (
+        (TYPE1, _('?????? ??? ??????')),
+        (TYPE2, _('aaaa')),
+    )
+
+    def get_choice(self, choice_str):
+        i=0
+        for i in range(len(self.choices)):
+            if InstrumentType.choices[i][1] == choice_str:
+                return self.choices[i][0]
+            i = i+1
 
 class Quarter(models.Model):
     year = models.IntegerField(default=2000)
