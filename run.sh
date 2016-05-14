@@ -15,29 +15,30 @@ apt-get -y install postgresql postgresql-contrib
 /etc/init.d/postgresql restart
 su - postgres
 psql postgres -c "CREATE DATABASE open_pension"
-psql postgres -c" ALTER USER postgres WITH PASSWORD 'postgres'";
+psql postgres -c"ALTER USER postgres WITH PASSWORD 'postgres'"
+exit
 
 # Install nginx
 apt-get install -y nginx
 
 # Configure nginx
-#cp django_project /etc/nginx/sites-enabled
+cat /usr/src/django_project.conf > /etc/nginx/sites-enabled/default
 
 # temp
 #cd /usr/src/client
 #npm start
 
 # Configure Django
-#python manage.py syncdb --noinput
-#python manage.py migrate
-#python manage.py collectstatic --noinput
+cd /usr/src/server
+python manage.py syncdb --noinput
+python manage.py migrate
+python manage.py collectstatic --noinput
 
 # Create superuser
-#echo "from django.contrib.auth.models import User
-#if not User.objects.filter(username='admin').count():
-#    User.objects.create_superuser('admin', 'admin@example.com', 'pass')
-#" | python manage.py shell
+echo "from django.contrib.auth.models import User
+if not User.objects.filter(username='admin').count():
+    User.objects.create_superuser('admin', 'admin@example.com', 'pass')
+" | python manage.py shell
 
 # Run the gunicorn server
-python manage.py runserver 0.0.0.0:80 &
-#/usr/local/bin/gunicorn WhatsBuzz.wsgi:application -w 2 -b :8000 --reload
+/usr/local/bin/gunicorn config.wsgi:application -w 2 -b :80 --reload
