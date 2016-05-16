@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="ui-grid">
+    <div class="five wide column" *ngFor="let mangingBody of mangingBodyList" >
+        <op-manging-body [manging-body-data]="mangingBody"
+                (notify)="onNotify($event)"
+                ></op-manging-body>
+    </div>
 
-</body>
-</html>
+</div>
