@@ -21,16 +21,10 @@ class InstrumentType(object):
     TYPE2 = 2
 
     choices = (
-        (TYPE1, _('?????? ??? ??????')),
+        (TYPE1, _('ניירות ערך סחירים')),
         (TYPE2, _('aaaa')),
     )
 
-    def get_choice(self, choice_str):
-        i=0
-        for i in range(len(self.choices)):
-            if InstrumentType.choices[i][1] == choice_str:
-                return self.choices[i][0]
-            i = i+1
 
 class Quarter(models.Model):
     year = models.IntegerField(default=2000)
@@ -48,9 +42,9 @@ class Fund(models.Model):
 
 class Instrument(models.Model):
     label = models.CharField(max_length=200)
-    # instrument_type = models.IntegerField(choices=InstrumentType.choices)
-    instrument_type = models.CharField(max_length=200)
-    instrument_id = models.IntegerField(default=0)
+    instrument_type = models.IntegerField(choices=InstrumentType.choices)
+    # instrument_type = models.CharField(max_length=200)
+    instrument_id = models.IntegerField(default=1)
 
 
 class Holding(models.Model):
