@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-# Install django dependencies.
-cd /usr/src/server && pip install -r requirements.txt
-
-# Install Node.js dependencies.
-cd /usr/src/client && npm install
-npm install -g webpack
-
 # Install PostgreSQL
 apt-get -y install libpq-dev python-dev
 apt-get -y install postgresql postgresql-contrib
@@ -23,10 +16,11 @@ apt-get install -y nginx
 
 # Configure nginx
 cat /usr/src/django_project.conf > /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/django_project.conf
+service nginx start
 
-# temp
-#cd /usr/src/client
-#npm start
+# Install django dependencies.
+cd /usr/src/server && pip install -r requirements.txt
 
 # Configure Django
 cd /usr/src/server
@@ -42,3 +36,13 @@ if not User.objects.filter(username='admin').count():
 
 # Run the gunicorn server
 /usr/local/bin/gunicorn config.wsgi:application -w 2 -b :80 --reload
+
+# Install Node.js dependencies.
+#cd /usr/src/client && npm install
+#npm install -g webpack
+
+# temp
+#cd /usr/src/client
+#npm start
+
+

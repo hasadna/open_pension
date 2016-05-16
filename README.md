@@ -14,7 +14,7 @@ Install the project for development.
 3. Run ```$ docker run -dit -v `pwd`:/usr/src -p 8080:80 --name=op-con op``` to run a docker container based on the docker image we build in step two.
 4. Start coding! (:
 
-If you wan't to enter the bash inside the machine `$ docker exec -it op-con bash`.
+If you want to enter the bash inside the machine `$ docker exec -it op-con bash`.
 
 ## Our Stack
 * [Angular 2.x](https://angularjs.org/)
