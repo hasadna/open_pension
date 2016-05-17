@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { Router, RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
-import { Home } from 'home/home.component';
-import { About } from 'about/about.component';
+import { Home } from './home/home.component';
+import { About } from './about/about.component';
 
 @Component({
-  selector: 'main-app',
+  selector: 'app',
   providers: [],
   pipes: [],
   directives: [ROUTER_DIRECTIVES],
-  templateUrl: 'app/main-app.html',
+  templateUrl: 'app/app.html',
 })
 @RouteConfig([
   { path: '/home',       component: Home,        name: 'Home', useAsDefault: true },
