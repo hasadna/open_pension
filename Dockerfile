@@ -14,7 +14,6 @@ ADD run.sh /usr/run.sh
 RUN chmod +x /usr/run.sh
 
 VOLUME ["/usr/src"]
-#CMD ["/usr/run.sh"]
-#ENTRYPOINT ["/usr/run.sh"]
+ENTRYPOINT ["/usr/run.sh"]
 
-EXPOSE 80
+EXPOSE 80 3000

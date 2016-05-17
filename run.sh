@@ -6,10 +6,8 @@ apt-get -y install postgresql postgresql-contrib
 
 # Configure PostgreSQL
 /etc/init.d/postgresql restart
-su - postgres
-psql postgres -c "CREATE DATABASE open_pension"
-psql postgres -c"ALTER USER postgres WITH PASSWORD 'postgres'"
-exit
+PGPASSWORD=postgres psql -h localhost -Upostgres -c "CREATE DATABASE open_pension"
+PGPASSWORD=postgres psql -h localhost -Upostgres -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 
 # Install nginx
 apt-get install -y nginx
@@ -24,7 +22,6 @@ cd /usr/src/server && pip install -r requirements.txt
 
 # Configure Django
 cd /usr/src/server
-python manage.py syncdb --noinput
 python manage.py migrate
 python manage.py collectstatic --noinput
 
@@ -35,14 +32,9 @@ if not User.objects.filter(username='admin').count():
 " | python manage.py shell
 
 # Run the gunicorn server
-/usr/local/bin/gunicorn config.wsgi:application -w 2 -b :80 --reload
+/usr/local/bin/gunicorn config.wsgi:application -w 2 -b :8000 --reload &
 
 # Install Node.js dependencies.
-#cd /usr/src/client && npm install
-#npm install -g webpack
-
-# temp
-#cd /usr/src/client
-#npm start
-
-
+cd /usr/src/client && npm install -g webpack webpack-dev-server typings typescript
+npm install
+npm start
