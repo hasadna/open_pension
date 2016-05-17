@@ -6,14 +6,22 @@ apt-get -y install postgresql postgresql-contrib
 
 # Configure PostgreSQL
 /etc/init.d/postgresql restart
-PGPASSWORD=postgres psql -h localhost -Upostgres -c "CREATE DATABASE open_pension"
-PGPASSWORD=postgres psql -h localhost -Upostgres -c "ALTER USER postgres WITH PASSWORD 'postgres'"
+su - postgres
+psql postgres -c "CREATE DATABASE open_pension"
+psql postgres -c "ALTER USER postgres WITH PASSWORD 'postgres'"
+exit
+
+psql -U postgres postgres -c "CREATE DATABASE open_pension"
+psql -h localhost -Upostgres -c "CREATE USER admin WITH PASSWORD 'test101';"
+#PGPASSWORD=postgres psql -h localhost -Upostgres -c "CREATE DATABASE open_pension"
+#PGPASSWORD=postgres psql -h localhost -Upostgres -c "CREATE DATABASE open_pension"
+#PGPASSWORD=postgres psql -h localhost -Upostgres -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 
 # Install nginx
 apt-get install -y nginx
 
 # Configure nginx
-cat /usr/src/django_project.conf > /etc/nginx/sites-enabled/default
+cat /usr/src/ngnix.conf > /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/django_project.conf
 service nginx start
 

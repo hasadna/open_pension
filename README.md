@@ -11,7 +11,7 @@ Install the project for development.
 
 1. `cd server/config` then `cp local_settings.template local_settings.py` and modify it by your local settings.
 2. Build the docker image with `$ docker build -t op .` (when you in the root of the project).
-3. Run ```$ docker run -dit -v `pwd`:/usr/src -p 8080:80 --name=op-con op``` to run a docker container based on the docker image we build in step two.
+3. Run ```$ docker run -dit -v `pwd`:/usr/src -p 8080:80 -p 3000:3000 --name=op-con op``` to run a docker container based on the docker image we build in step two.
 4. Start coding! (:
 
 If you want to enter the bash inside the machine `$ docker exec -it op-con bash`.
