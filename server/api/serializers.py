@@ -3,6 +3,7 @@ from pension.models import ManagingBody
 
 
 class ManagingBodySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ManagingBody
         fields = ('pk', 'label')
