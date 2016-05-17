@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-
 @Component({
   selector: 'about',
   templateUrl: 'app/about/about.component.html',
@@ -9,8 +8,7 @@ import { Component } from '@angular/core';
   directives: [],
   pipes: []
 })
-export class About {
 
-  constructor() {}
-  
+export class About {
+  constructor() { }
 }

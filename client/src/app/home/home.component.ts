@@ -8,8 +8,7 @@ import { Component } from '@angular/core';
   directives: [],
   pipes: []
 })
+
 export class Home {
-
-  constructor() {}
-
+  constructor() { }
 }
