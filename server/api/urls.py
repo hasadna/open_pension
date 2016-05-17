@@ -1,7 +1,10 @@
-from django.conf.urls import url
-from api.views import managing_bodies_list, managing_bodies_detail
+from api import views
+from django.conf.urls import url, include
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'managing_bodies', views.ManagingBodyViewSet)
 
 urlpatterns = [
-    url(r'^managing_bodies/$', managing_bodies_list),
-    url(r'^managing_bodies/(?P<pk>[0-9]+)/$', managing_bodies_detail),
+    url(r'^', include(router.urls)),
 ]
