@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'op-managing-body',
@@ -10,10 +10,10 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 })
 
 export class ManagingBodyComponent {
-  constructor() {}
-
   @Input() mangingBodyData: Object;
   @Output() notify : EventEmitter<string> = new EventEmitter();
+  
+  constructor() {}
   
   onClick(){
     this.notify.emit(${this.mangingBodyData.title});
