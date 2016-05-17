@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'op-managing-body',
   templateUrl: 'app/components/managing-body/managing-body.component.html',
-  styleUrls: ['app/components/managing-body/managing-body.component.css'],
+  styleUrls: ['app/components/managing-body/managing-body.component.scss'],
   providers: [],
   directives: [],
   pipes: []
