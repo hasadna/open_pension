@@ -1,5 +1,5 @@
-typings
-src/app/**/*.js
-src/app/**/*.map
-node_modules
-build
+src/**/**.js
+src/**/**.map
+npm-debug.log
+node_modules/
+typings/
