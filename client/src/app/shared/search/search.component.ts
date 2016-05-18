@@ -9,6 +9,8 @@ import { Component } from '@angular/core';
   pipes: []
 })
 
-export class Search {
-  constructor() { }
+export class SearchComponent {
+
+  constructor() {}
+
 }

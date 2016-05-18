@@ -9,6 +9,8 @@ import { Component } from '@angular/core';
   pipes: []
 })
 
-export class About {
-  constructor() { }
+export class AboutComponent {
+
+  constructor() {}
+  
 }
