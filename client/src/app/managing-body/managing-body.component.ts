@@ -1,21 +1,21 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+
+import { ManagingBodyDetailComponent } from '../managing-body-detail/managing-body-detail.component';
+import { ManagingBody } from './managing-body.service';
 
 @Component({
   selector: 'op-managing-body',
-  templateUrl: 'app/components/managing-body/managing-body.component.html',
+  templateUrl: 'app/managing-body/managing-body.component.html',
   styleUrls: [],
   providers: [],
-  directives: [],
+  directives: [ROUTER_DIRECTIVES],
   pipes: []
 })
 
 export class ManagingBodyComponent {
-  @Input() mangingBodyData: Object;
-  @Output()notify : EventEmitter<string> = new EventEmitter();
+  @Input() mangingBody: ManagingBody;
   
   constructor() {}
-  
-  onClick(){
-    this.notify.emit(${this.mangingBodyData.title});
-  }
+
 }

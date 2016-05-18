@@ -1,15 +1,19 @@
-<div class="managingBody" (click)="onClick()">
+<div class="managingBody">
     <div>
         <div>
-            <p>{{mangingBodyData.title}}</p>
+            <img />
+            <a [attr.data-id]="mangingBody.id"
+               [routerLink]=" ['ManagingBodyDetailComponent', {id: mangingBody.id}] "
+            > {{mangingBody.label}}
+            </a>
         </div>
         <div>
-            <p>{{mangingBodyData.text}}</p>
-            <p>{{mangingBodyData.changePercents}}</p>
+            <p>{{mangingBody.quarterTimeChange}}</p>
+            <p>{{mangingBody.changePercents}}</p>
         </div>
         <div>
-            <p>{{mangingBodyData.percents}}</p>
-            <p>{{mangingBodyData.value}}</p>
+            <p>{{mangingBody.totalPercents}}</p>
+            <p>{{mangingBody.totalValue}}</p>
         </div>
     </div>
 </div>

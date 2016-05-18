@@ -1,0 +1,19 @@
+<div class="managingBody">
+    <div>
+        <div>
+            <img />
+            <a [attr.data-id]="mangingBodyData.pk"
+               [routerLink]=" [''] "
+            > {{mangingBodyData.label}}
+            </a>
+        </div>
+        <div>
+            <p>{{mangingBodyData.quarterTimeChange}}</p>
+            <p>{{mangingBodyData.changePercents}}</p>
+        </div>
+        <div>
+            <p>{{mangingBodyData.totalPercents}}</p>
+            <p>{{mangingBodyData.totalValue}}</p>
+        </div>
+    </div>
+</div>
