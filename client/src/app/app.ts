@@ -20,5 +20,7 @@ import { ManagingBodyDetailComponent } from './managing-body-detail/managing-bod
 ])
 
 export class App {
-  constructor() { }
+
+  constructor() {}
+
 }
