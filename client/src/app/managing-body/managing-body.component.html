@@ -1,19 +1,19 @@
-<div class="managingBody">
+<div>
+  <div>
+    <p>hello</p>
     <div>
-        <div>
-            <img />
-            <a [attr.data-id]="mangingBody.id"
-               [routerLink]=" ['ManagingBodyDetailComponent', {id: mangingBody.id}] "
-            > {{mangingBody.label}}
-            </a>
-        </div>
-        <div>
-            <p>{{mangingBody.quarterTimeChange}}</p>
-            <p>{{mangingBody.changePercents}}</p>
-        </div>
-        <div>
-            <p>{{mangingBody.totalPercents}}</p>
-            <p>{{mangingBody.totalValue}}</p>
-        </div>
+      <p>{{mangingBody.pk}}</p>
+      <a [routerLink]=" ['ManagingBodyDetailComponent', {id: mangingBody.pk}] ">
+        {{mangingBody.label}}
+      </a>
     </div>
+    <div>
+      <!--<p>{{mangingBody.quarterTimeChange}}</p>-->
+      <!--<p>{{mangingBody.changePercents}}</p>-->
+    </div>
+    <div>
+      <!--<p>{{mangingBody.totalPercents}}</p>-->
+      <!--<p>{{mangingBody.totalValue}}</p>-->
+    </div>
+  </div>
 </div>

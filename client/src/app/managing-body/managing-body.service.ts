@@ -3,6 +3,8 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
+import { CONFIG } from '../config';
+
 export interface ManagingBody {
     id: number;
     label: string;
@@ -13,15 +15,15 @@ export class ManagingBodyService  {
 
   constructor(private http: Http) {}
 
-  getManagingBody() {
-    return this._http.get('http://localhost:8000//api/managing_bodies/?format=json')
-      .map((response: Response) => response.json())
+  getManagingBodies() {
+    return this.http.get(CONFIG.baseUrls + 'managing_bodies/?format=json')
+      .map((response: Response) => response.json().results)
       .do(data => console.log(data))
       .catch(this.handleError);
   }
 
   getManagingBody(id: number) {
-    return this._http.get('http://localhost:8000//api/managing_bodies/?format=json')
+    return this.http.get('http://localhost:8000/api/managing_bodies/2/?format=json')
       .map((response: Response) => response.json())
       .do(data => console.log(data))
       .catch(this.handleError);
