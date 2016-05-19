@@ -1,20 +1,17 @@
-<h3>
-  Angular 2 Seed
-</h3>
 <nav>
-	<a [routerLink]=" ['/Home'] ">
-    Home
-  </a>
-  |
-	<a [routerLink]=" ['/About'] ">
-    About
-  </a>
+  <ul>
+    <li>
+      <a [routerLink]=" ['Home'] ">Home</a>
+    </li>
+    <li>
+      <a [routerLink]=" ['About'] ">About</a>
+    </li>
+  </ul>
 </nav>
 
 <main>
-	<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </main>
-
 
 <footer>
   © 2016

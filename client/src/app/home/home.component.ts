@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 
+import { ManagingBodyListComponent } from '../managing-body-list/managing-body-list.component';
+
 @Component({
-  selector: 'home',
+  selector: 'op-home',
   templateUrl: 'app/home/home.component.html',
   styleUrls: [],
   providers: [],
-  directives: [],
+  directives: [ManagingBodyListComponent],
   pipes: []
 })
 
-export class Home {
+export class HomeComponent {
+
   constructor() { }
+  
 }
