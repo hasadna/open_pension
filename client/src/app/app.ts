@@ -14,8 +14,8 @@ import { ManagingBodyDetailComponent } from './managing-body-detail/managing-bod
 })
 
 @RouteConfig([
-  { path: '/home',               component: HomeComponent,          name: 'Home', useAsDefault: true },
-  { path: '/about',              component: AboutComponent,         name: 'About' },
+  { path: '/home',               component: HomeComponent,                name: 'Home', useAsDefault: true },
+  { path: '/about',              component: AboutComponent,               name: 'About' },
   { path: '/managingbody/:id',   component: ManagingBodyDetailComponent,  name: 'ManagingBodyDetailComponent' },
 ])
 

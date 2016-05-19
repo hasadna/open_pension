@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map';
 import { CONFIG } from '../config';
 
 export interface ManagingBody {
-    id: number;
-    label: string;
+  id: number;
+  label: string;
 }
 
 @Injectable()
@@ -23,7 +23,7 @@ export class ManagingBodyService  {
   }
 
   getManagingBody(id: number) {
-    return this.http.get('http://localhost:8000/api/managing_bodies/2/?format=json')
+    return this.http.get(CONFIG.baseUrls + 'managing_bodies/' + id + '/?format=json')
       .map((response: Response) => response.json())
       .do(data => console.log(data))
       .catch(this.handleError);
