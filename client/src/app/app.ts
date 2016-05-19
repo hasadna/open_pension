@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
-import { Home } from './home/home.component';
-import { About } from './about/about.component';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 
 @Component({
   selector: 'app',
@@ -13,10 +13,12 @@ import { About } from './about/about.component';
 })
 
 @RouteConfig([
-  { path: '/home',       component: Home,        name: 'Home', useAsDefault: true },
-  { path: '/about',      component: About,       name: 'About' },
+  { path: '/home',               component: HomeComponent,          name: 'Home', useAsDefault: true },
+  { path: '/about',              component: AboutComponent,         name: 'About' },
 ])
 
 export class App {
-  constructor() { }
+
+  constructor() {}
+
 }

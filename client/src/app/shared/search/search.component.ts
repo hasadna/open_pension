@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'search',
+  selector: 'op-search',
   templateUrl: 'app/search/search.component.html',
   styleUrls: [],
   providers: [],
@@ -9,6 +9,8 @@ import { Component } from '@angular/core';
   pipes: []
 })
 
-export class Search {
-  constructor() { }
+export class SearchComponent {
+
+  constructor() {}
+
 }

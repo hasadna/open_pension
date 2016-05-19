@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'about',
+  selector: 'op-about',
   templateUrl: 'app/about/about.component.html',
   styleUrls: [],
   providers: [],
@@ -9,6 +9,8 @@ import { Component } from '@angular/core';
   pipes: []
 })
 
-export class About {
-  constructor() { }
+export class AboutComponent {
+
+  constructor() {}
+  
 }
