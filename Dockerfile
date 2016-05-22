@@ -9,11 +9,11 @@ RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_5.x | bash -
 RUN apt-get install -y nodejs
 
-# Add a bash script to run Installation.
+# Add a bash script to finalize all
 ADD run.sh /usr/run.sh
 RUN chmod +x /usr/run.sh
 
 VOLUME ["/usr/src"]
 # ENTRYPOINT ["/usr/run.sh"]
 
-EXPOSE 80 3000
+EXPOSE 80 8000 3000

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Install PostgreSQL
-apt-get -y install libpq-dev python-dev
-apt-get -y install postgresql postgresql-contrib
+apt-get install -y python-software-properties software-properties-common postgresql-9.4 postgresql-client-9.4 postgresql-contrib-9.4
 
 # Configure PostgreSQL
 /etc/init.d/postgresql restart
@@ -11,9 +10,6 @@ psql postgres -c "CREATE DATABASE open_pension"
 psql postgres -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 exit
 
-psql -U postgres postgres -c "CREATE DATABASE open_pension"
-psql -h localhost -Upostgres -c "CREATE USER admin WITH PASSWORD 'test101';"
-#PGPASSWORD=postgres psql -h localhost -Upostgres -c "CREATE DATABASE open_pension"
 #PGPASSWORD=postgres psql -h localhost -Upostgres -c "CREATE DATABASE open_pension"
 #PGPASSWORD=postgres psql -h localhost -Upostgres -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 
@@ -21,7 +17,7 @@ psql -h localhost -Upostgres -c "CREATE USER admin WITH PASSWORD 'test101';"
 apt-get install -y nginx
 
 # Configure nginx
-cat /usr/src/ngnix.conf > /etc/nginx/sites-enabled/default
+cat /usr/src/nginx.conf > /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/django_project.conf
 service nginx start
 
