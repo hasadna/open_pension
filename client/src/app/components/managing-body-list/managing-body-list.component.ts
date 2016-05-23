@@ -8,7 +8,7 @@ import {ManagingBodyComponent} from './managing-body/managing-body.component';
 @Component({
     selector: 'op-managing-body-list',
     templateUrl: 'app/components/managing-body-list/managing-body-list.component.html',
-    styleUrls: ['app/components/managing-body-list/managing-body-list.component.css'],
+    styleUrls: [],
     providers: [],
     directives: [ManagingBodyComponent],
     pipes: []
@@ -29,6 +29,3 @@ export class ManagingBodyListComponent {
 
 
 }
-
-
-
