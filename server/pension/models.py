@@ -34,6 +34,9 @@ class Quarter(models.Model):
 class ManagingBody(models.Model):
     label = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.label
+
 
 class Fund(models.Model):
     label = models.CharField(max_length=200)

@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from pension.models import ManagingBody
+from api.serializers import ManagingBodySerializer
 
-# Create your views here.
+
+class ManagingBodyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ManagingBody.objects.all()
+    serializer_class = ManagingBodySerializer
