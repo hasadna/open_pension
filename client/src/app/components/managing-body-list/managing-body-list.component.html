@@ -1,8 +1,7 @@
-<div class="ui-grid">
-    <div class="five wide column" *ngFor="let mangingBody of mangingBodyList" >
-        <op-manging-body [manging-body-data]="mangingBody"
-                (notify)="onNotify($event)"
-                ></op-manging-body>
-    </div>
-
+<div>
+  <ul>
+    <li *ngFor="let mangingBody of managingBodyList | async">
+      <op-managing-body [mangingBody]="mangingBody"></op-managing-body>
+    </li>
+  </ul>
 </div>

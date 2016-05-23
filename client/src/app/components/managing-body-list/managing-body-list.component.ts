@@ -1,31 +1,31 @@
-/**
- * Created by amanecer on 16/05/2016.
- */
-import {Component,Input,Output,EventEmitter} from '@angular/core';
-import {ManagingBodyComponent} from './managing-body/managing-body.component';
+import { Component, OnInit, Output } from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 
+import { ManagingBodyComponent } from '../managing-body/managing-body.component';
+import { ManagingBody, ManagingBodyService } from '../managing-body/managing-body.service';
 
 @Component({
-    selector: 'op-managing-body-list',
-    templateUrl: 'app/components/managing-body-list/managing-body-list.component.html',
-    styleUrls: [],
-    providers: [],
-    directives: [ManagingBodyComponent],
-    pipes: []
+  selector: 'op-managing-body-list',
+  templateUrl: 'app/managing-body-list/managing-body-list.component.html',
+  styleUrls: [],
+  providers: [ManagingBodyService],
+  directives: [ManagingBodyComponent],
+  pipes: []
 })
-export class ManagingBodyListComponent {
 
-    constructor() {
+export class ManagingBodyListComponent implements OnInit {
+  managingBodyList: Observable<ManagingBody[]>;
+  errorMessage: String;
 
-    }
-    @Input() mangingBodyList : any;
+  constructor(
+    private managingBodyService: ManagingBodyService
+  ) {}
 
-    @Output() notify : EventEmitter<any> = new EventEmitter<any>;
+  ngOnInit() {
+    this.getManagingBodies();
+  }
 
-
-    onNotify(name:string):void{
-        this.notify.emit(name);
-    }
-
-
+  getManagingBodies() {
+    this.managingBodyList = this.managingBodyService.getManagingBodies();
+  }
 }
