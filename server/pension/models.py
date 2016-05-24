@@ -32,9 +32,9 @@ class Quarter(models.Model):
 
 
 class ManagingBody(models.Model):
-    ''' 
-    The body that owns the funds 
-    '''
+    """
+    The body that owns the funds.
+    """
     label = models.CharField(max_length=200)
 
     def __str__(self):
@@ -46,10 +46,10 @@ class Fund(models.Model):
 
 
 class FundManagingBody(models.Model):
-    ''' 
-    A fund can move from one ManagingBody to another. 
-    This model documents the moves 
-    '''
+    """
+    A fund can move from one ManagingBody to another, this model documents the
+    moves.
+    """
     fund = models.ForeignKey(Fund)
     managing_body = models.ForeignKey(ManagingBody)
     start = models.ForeignKey(Quarter)
@@ -57,16 +57,16 @@ class FundManagingBody(models.Model):
 
 
 class Issuer(models.Model):
-    ''' 
-    Company (or other body) that issues a security 
-    '''
+    """
+    Company (or other body) that issues a security.
+    """
     label = models.CharField(max_length=200)
 
 
 class Instrument(models.Model):
-    ''' 
-    E.g. common stock, preferred stock, bond, etc. 
-    '''
+    """
+    E.g. common stock, preferred stock, bond, etc.
+    """
     label = models.CharField(max_length=200)
     issuer = models.ForeignKey(Issuer)
     instrument_type = models.IntegerField(choices=InstrumentType.choices)
@@ -75,7 +75,7 @@ class Instrument(models.Model):
 
 class Holding(models.Model):
     """
-    The amount of an instrument held by a fund at a certain point in time
+    The amount of an instrument held by a fund at a certain point in time.
     """
     instrument = models.ForeignKey(Instrument)
     fund = models.ForeignKey(FundManagingBody)
