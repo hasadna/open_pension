@@ -52,8 +52,8 @@ class FundManagingBody(models.Model):
     """
     fund = models.ForeignKey(Fund)
     managing_body = models.ForeignKey(ManagingBody)
-    start = models.ForeignKey(Quarter)
-    end = models.ForeignKey(Quarter, null=True)
+    start = models.ForeignKey(Quarter, related_name='quarter_start')
+    end = models.ForeignKey(Quarter, null=True, related_name='quarter_end')
 
 
 class Issuer(models.Model):
