@@ -1,8 +1,8 @@
 import { Component, OnInit, Output } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
-import { ManagingBodyComponent } from '../managing-body/managing-body.component';
-import { ManagingBody, ManagingBodyService } from '../managing-body/managing-body.service';
+import { ManagingBodyComponent } from '../../managing-body/managing-body.component';
+import { ManagingBody, ManagingBodyService } from '../../managing-body/managing-body.service';
 
 @Component({
   selector: 'op-managing-body-list',
