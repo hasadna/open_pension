@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
 
 @Component({
   selector: 'op-search-result-detail',
@@ -6,10 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: [],
   providers: [],
   directives: [],
-  pipes: []
+  pipes: [],
+  inputs : ['serachResult','searchResultLebal']
 })
 
 export class SearchResultDetailComponent{
 
   constructor() {}
+
+    @Input() searchResult: string = searchResultLabel  + 'אין תוצאות עבור' ;
+    @Input() searchResultLabel: string;
+
 }
