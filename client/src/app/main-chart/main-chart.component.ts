@@ -1,0 +1,73 @@
+import {Component, Input, ElementRef} from '@angular/core';
+
+import * as D3 from 'd3';
+import * as Moment from 'moment';
+
+import {MainChartConfig} from './main-chart-config';
+
+@Component({
+  selector: 'main-chart',
+  template: `<ng-content></ng-content>`,
+  styleUrls: ['app/main-chart/main-chart.css'],
+  directives: []
+})
+
+export class MainChartComponent {
+
+  // TODO: fix input - managing-body-list-managing-body
+  @Input() config: Array<MainChartConfig>;
+
+  private host;        // D3 object referebcing host dom object
+  private svg;         // SVG in which we will print our chart
+  private margin;      // Space between the svg borders and the actual chart graphic
+  private width;       // Component width
+  private height;      // Component height
+  private xScale;      // D3 scale in X
+  private yScale;      // D3 scale in Y
+  private xAxis;       // D3 X Axis
+  private yAxis;       // D3 Y Axis
+  private htmlElement; // Host HTMLElement
+
+   // get element reference from angular and use if as host element for d3
+  constructor(private element: ElementRef) {
+    this.htmlElement = this.element.nativeElement;
+    this.host = D3.select(this.element.nativeElement);
+
+    this.setup();
+    this.buildSVG();
+  }
+
+  // every time the @Input is updated, we rebuild the chart
+  ngOnChanges(): void {
+    if (!this.config || this.config.length === 0) return;
+    this.setup();
+    this.buildSVG();
+  }
+
+  // setup the chart container
+  private setup(): void {
+    var demoWidth = 600;
+
+    this.margin = { top: 20, right: 20, bottom: 40, left: 40 };
+    //this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
+    this.width = demoWidth - this.margin.left - this.margin.right;
+    this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
+    this.xScale = D3.time.scale().range([0, this.width]);
+    this.yScale = D3.scale.linear().range([this.height, 0]);
+  }
+
+  // build svg using the configurations
+  private buildSVG(): void {
+    this.host.html('');
+    this.svg = this.host.append('svg')
+      .attr('width', this.width + this.margin.left + this.margin.right)
+      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
+    // var demoPie = D3.layout.pie().value(function(d){return d.value;});
+    // this.svg.append(demoPie);
+  }
+
+}
+

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ManagingBodyListComponent } from '../components/managing-body-list/managing-body-list.component';
-import { MainChartComponent } from '../components/main-chart/main-chart.component';
+import { MainChartComponent } from '../main-chart/main-chart.component';
 
 @Component({
   selector: 'op-home',
