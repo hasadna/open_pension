@@ -17,7 +17,7 @@ export class MainChartComponent {
   // TODO: fix input - managing-body-list-managing-body
   @Input() config: Array<MainChartConfig>;
 
-  private host;        // D3 object referebcing host dom object
+  private host;        // D3 object referecing host dom object
   private svg;         // SVG in which we will print our chart
   private margin;      // Space between the svg borders and the actual chart graphic
   private width;       // Component width
