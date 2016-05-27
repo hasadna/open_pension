@@ -15,6 +15,6 @@ export class SearchResultDetailComponent{
   constructor() {}
 
     @Input() searchResult: string = searchResultLabel  + 'אין תוצאות עבור' ;
-    @Input() searchResultLabel: string;
+    @Input() searchResultLabel: string; 
 
 }
