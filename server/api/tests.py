@@ -5,7 +5,7 @@ class TestPensionApi(TestCase):
 
     def test_api_root(self):
         """
-        Test the api root url.
+        Test the url of the api root.
         """
         response = self.client.get('/api/')
         self.assertEqual(response.status_code, 200)
