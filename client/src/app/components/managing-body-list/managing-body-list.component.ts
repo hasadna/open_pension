@@ -5,7 +5,6 @@ import { ManagingBodyComponent } from '../../managing-body/managing-body.compone
 import { ManagingBody, ManagingBodyService } from '../../managing-body/managing-body.service';
 
 @Component({
-  selector: 'op-managing-body-list',
   templateUrl: 'app/managing-body-list/managing-body-list.component.html',
   styleUrls: [],
   providers: [ManagingBodyService],
