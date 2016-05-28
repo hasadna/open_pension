@@ -4,11 +4,10 @@ import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ManagingBodyDetailComponent } from './managing-body-detail/managing-body-detail.component';
-import { ManagingBody, ManagingBodyService } from './managing-body/managing-body.service';
 
 @Component({
   selector: 'app',
-  providers: [ManagingBodyService],
+  providers: [],
   pipes: [],
   directives: [ROUTER_DIRECTIVES],
   templateUrl: 'app/app.html',
@@ -21,7 +20,7 @@ import { ManagingBody, ManagingBodyService } from './managing-body/managing-body
 ])
 
 export class App {
-    public managingBodyService: ManagingBodyService
+
   constructor() {}
 
 }
