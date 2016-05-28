@@ -1,0 +1,10 @@
+sudo: false
+
+services:
+  - docker
+
+before_script:
+  - docker build -t op .
+
+script:
+  - docker run -it -v `pwd`:/usr/src -p 8080:80 op
