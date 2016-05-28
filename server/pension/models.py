@@ -27,7 +27,7 @@ class InstrumentType(object):
 
 
 class Quarter(models.Model):
-    year = models.IntegerField(default=-1)
+    year = models.IntegerField(default=None)
     quarter = models.IntegerField(choices=Quarters.choices)
 
     def __str__(self):
