@@ -72,8 +72,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'open_pension',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': 'open_pension',
+        'PASSWORD': 'open_pension',
         'HOST': 'localhost',
         'PORT': '',
     }
