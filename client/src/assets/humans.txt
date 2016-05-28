@@ -3,9 +3,17 @@
 
 # TEAM
 
-  <Name> -- <role> -- <twitter>
+  -- Name ---------- Email --------------------------- GitHub --
+  Nir Galon       -- nirg975   [at] gmail [dot] com -- nirgn975
+  Or David        -- ordavidil [at] gmail [dot] com -- ordavidil
+  Tamir Arieli    -- Tarieli1  [at] gmail [dot] com -- tarieli1
+  Shahar levi     -- sh2le86   [at] gmail [dot] com -- amanecer2
+  Maaike Brugghen -- brugghen  [at] gmail [dot] com -- MaaikeB
+  Eyal Cohen      --           [at] gmail [dot] com --
 
 # TECHNOLOGY COLOPHON
 
-  HTML5, CSS3
+  HTML5, CSS3, SASS
   Angular2, TypeScript, Webpack
+  Python, Django
+  PostgreSQL
