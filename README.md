@@ -6,12 +6,10 @@ Open Pension is [a "Hasadna" project](hasadna.org.il), that aimed to revealing t
 1. install [docker](https://www.docker.com/).
 2. install [docker-machine](https://docs.docker.com/machine/) only if you're on Windows / OSX.
 
-## Installation
+## Auto Installation
 Install the project for development.
 
-1. `cd server/config` then `cp local_settings.template local_settings.py` and modify it by your local settings.
-2. Build the docker image with `$ docker build -t op .` (when you in the root of the project).
-3. Run ```$ docker run -dit -v `pwd`:/usr/src -p 8080:80 -p 3000:3000 --name=op-con op``` to run a docker container based on the docker image we build in step two.
+2. Build the docker image with `$ docker-compose up` (when you in the root of the project).
 4. Start coding! (:
 
 If you want to enter the bash inside the machine `$ docker exec -it op-con bash`.
