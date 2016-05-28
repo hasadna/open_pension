@@ -18,7 +18,7 @@ export class ManagingBodyListComponent implements OnInit {
   errorMessage: String;
 
   constructor(
-      private managingBodyService: ManagingBodyService
+    private managingBodyService: ManagingBodyService
   ) {}
 
   ngOnInit() {
