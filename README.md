@@ -3,8 +3,9 @@ The repo contains the server & the client parts of the Open Pension project.
 Open Pension is [a "Hasadna" project](hasadna.org.il), that aimed to revealing the secrets behind the Israeli pension market.
 
 ## Pre Requirements
-1. install [docker](https://www.docker.com/).
-2. install [docker-machine](https://docs.docker.com/machine/) only if you're on Windows / OSX.
+1. Install [docker](https://www.docker.com/).
+2. Install [docker-compose[(https://docs.docker.com/compose/install/).
+3. Install [docker-machine](https://docs.docker.com/machine/) only if you're on Windows / OSX.
 
 ## Auto Installation
 Install the project for development.
