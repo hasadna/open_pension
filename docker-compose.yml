@@ -1,16 +1,37 @@
 version: '2'
 services:
-  db:
-    image: postgres
-  web:
-    build: .
-    command: ./run.sh
-    volumes:
-      - .:/usr/src
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx/
     ports:
-      # Server:
-      - "8080:8000"
-      # Client:
-      #- "3000:3000"
+      - "80:80"
+    volumes_from:
+      - server
+      # - client
+    links:
+      - server:server
+      # - client:client
+  db:
+    container_name: database
+    image: postgres
+  server:
+    container_name: server
+    restart: always
+    build: ./server
+    command: /usr/src/server/run.sh
+    volumes:
+      - ./server:/usr/src/server
+    expose:
+      - "8000"
     depends_on:
       - db
+#  client:
+#    container_name: client
+#    restart: always
+#    build: ./client
+#     command: /usr/src/client/run.sh
+#    volumes:
+#      - ./client:/usr/src/client
+#    expose:
+#      - "3000"
