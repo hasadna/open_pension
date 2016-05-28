@@ -1,6 +1,7 @@
 # Install with: `pip install -r requirements.txt`
 
 Django==1.9.5
+ipython==4.2.0
 psycopg2==2.6.1
 Pillow==2.9.0
 gunicorn==19.3.0
