@@ -5,11 +5,12 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ManagingBodyDetailComponent } from './managing-body-detail/managing-body-detail.component';
 
+import { ManagingBodyService } from './managing-body/managing-body.service';
+
 @Component({
-  selector: 'app',
-  providers: [],
-  pipes: [],
+  selector: 'op-app',
   directives: [ROUTER_DIRECTIVES],
+  providers: [ManagingBodyService],
   templateUrl: 'app/app.html',
 })
 

@@ -7,10 +7,7 @@ import { ManagingBody } from './managing-body.service';
 @Component({
   selector: 'op-managing-body',
   templateUrl: 'app/managing-body/managing-body.component.html',
-  styleUrls: [],
-  providers: [],
   directives: [ROUTER_DIRECTIVES],
-  pipes: []
 })
 
 export class ManagingBodyComponent {

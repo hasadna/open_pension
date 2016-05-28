@@ -5,10 +5,7 @@ import { ManagingBodyListComponent } from '../managing-body-list/managing-body-l
 @Component({
   selector: 'op-home',
   templateUrl: 'app/home/home.component.html',
-  styleUrls: [],
-  providers: [],
   directives: [ManagingBodyListComponent],
-  pipes: []
 })
 
 export class HomeComponent {
