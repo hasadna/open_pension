@@ -21,8 +21,8 @@ class InstrumentType(object):
     TYPE2 = 2
 
     choices = (
-        (TYPE1, _('')),
-        (TYPE2, _('')),
+        (TYPE1, _('Type 1')),
+        (TYPE2, _('Type 2')),
     )
 
 
