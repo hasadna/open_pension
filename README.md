@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hasadna/open_pension.svg?branch=master)](https://travis-ci.org/hasadna/open_pension)
+
 # Open Pension
 The repo contains the server & the client parts of the Open Pension project.
 Open Pension is [a "Hasadna" project](hasadna.org.il), that aimed to revealing the secrets behind the Israeli pension market.
