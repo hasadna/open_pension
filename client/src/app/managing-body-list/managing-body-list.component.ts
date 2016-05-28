@@ -7,10 +7,8 @@ import { ManagingBody, ManagingBodyService } from '../managing-body/managing-bod
 @Component({
   selector: 'op-managing-body-list',
   templateUrl: 'app/managing-body-list/managing-body-list.component.html',
-  styleUrls: [],
   providers: [ManagingBodyService],
   directives: [ManagingBodyComponent],
-  pipes: []
 })
 
 export class ManagingBodyListComponent implements OnInit {
