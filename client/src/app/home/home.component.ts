@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ManagingBodyListComponent } from '../managing-body-list/managing-body-list.component';
+import { ManagingBodyListComponent } from '../components/managing-body-list/managing-body-list.component';
 
 @Component({
   selector: 'op-home',
