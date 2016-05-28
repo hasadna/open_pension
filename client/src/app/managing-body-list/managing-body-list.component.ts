@@ -1,5 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 import { ManagingBodyComponent } from '../managing-body/managing-body.component';
 
@@ -24,6 +24,6 @@ export class ManagingBodyListComponent implements OnInit {
   }
 
   getManagingBodies() {
-    this.managingBodyList = this.getManagingBodies();
+     this.managingBodyList = this.getManagingBodies();
   }
 }
