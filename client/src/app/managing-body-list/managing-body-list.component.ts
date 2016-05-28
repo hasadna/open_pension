@@ -28,4 +28,5 @@ export class ManagingBodyListComponent implements OnInit {
   getManagingBodies() {
     this.managingBodyList = this.managingBodyService.getManagingBodies();
   }
+  
 }
