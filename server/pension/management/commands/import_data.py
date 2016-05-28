@@ -37,27 +37,28 @@ class Command(BaseCommand):
         reader = csv.DictReader(csv_file)
 
         for row in reader:
-            managing_body = ManagingBody.objects.get_or_create(label=row.get('managing_body'))
-            quarter = Quarter.objects.get_or_create(year=row.get('report_year'), quarter=row.get('report_quarter'))
-            issuer = Issuer.objects.get_or_create(label=row.get('issuer'))
-            fund = Fund.objects.get_or_create(label=row.get('fund_name'))
-            fund_managing_body = FundManagingBody.objects.get_or_create(
-                fund=fund[0],
-                managing_body=managing_body[0],
-                start=quarter[0]
+            managing_body, created = ManagingBody.objects.get_or_create(label=row.get('managing_body'))
+            quarter, created = Quarter.objects.get_or_create(
+                year=row.get('report_year'),
+                quarter=row.get('report_quarter')
             )
-
-            instrument = Instrument.objects.get_or_create(
+            issuer, created = Issuer.objects.get_or_create(label=row.get('issuer'))
+            fund, created = Fund.objects.get_or_create(label=row.get('fund_name'))
+            fund_managing_body, created = FundManagingBody.objects.get_or_create(
+                fund=fund,
+                managing_body=managing_body,
+                start=quarter
+            )
+            instrument, created = Instrument.objects.get_or_create(
                 instrument_type=get_instrument_type_value(row.get('instrument_type')),
                 label=row.get('instrument_name'),
                 instrument_id=row.get('instrument_id'),
-                issuer=issuer[0]
+                issuer=issuer
             )
-
             Holding.objects.get_or_create(
-                instrument=instrument[0],
-                fund=fund_managing_body[0],
-                quarter=quarter[0],
+                instrument=instrument,
+                fund=fund_managing_body,
+                quarter=quarter,
                 fair_value=row.get('fair_value')
             )
 
