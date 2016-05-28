@@ -68,7 +68,7 @@ class Instrument(models.Model):
     E.g. common stock, preferred stock, bond, etc.
     """
     label = models.CharField(max_length=200)
-    issuer = models.ForeignKey(Issuer)
+    issuer = models.ForeignKey(Issuer, null=True)
     instrument_type = models.IntegerField(choices=InstrumentType.choices)
     instrument_id = models.IntegerField
 
