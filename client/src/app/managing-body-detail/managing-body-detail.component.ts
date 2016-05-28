@@ -13,6 +13,9 @@ import { OpBarChartComponent } from '../op-bar-chart/op-bar-chart.component';
 
 export class ManagingBodyDetailComponent {
 
-  constructor() {}
+  constructor() {
+
+    console.log('ManagingBodyDetailComponent');
+  }
 
 }
