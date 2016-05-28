@@ -7,8 +7,6 @@ import { ManagingBodyDetailComponent } from './managing-body-detail/managing-bod
 
 @Component({
   selector: 'op-app',
-  providers: [],
-  pipes: [],
   directives: [ROUTER_DIRECTIVES],
   templateUrl: 'app/app.html',
 })
