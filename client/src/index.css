@@ -2,3 +2,19 @@ body {
     direction: rtl;  /* Right to Left */
     background-color: #ebf4f8;
 }
+
+op-bar-chart-component {
+    display: block;
+    width: 300px;
+    height: 300px;
+
+    .chart div {
+      font: 10px sans-serif;
+      background-color: steelblue;
+      text-align: right;
+      padding: 3px;
+      margin: 1px;
+      color: white;
+    }
+}
+

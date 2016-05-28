@@ -8,14 +8,13 @@ import {MainChartConfig} from './main-chart-config';
 @Component({
   selector: 'main-chart',
   template: `<ng-content></ng-content>`,
-  styleUrls: ['app/main-chart/main-chart.css'],
   directives: []
 })
 
-export class MainChartComponent {
+export class OpBarChartComponent {
 
   // TODO: fix input - managing-body-list-managing-body
-  @Input() config: Array<MainChartConfig>;
+  @Input() config:Array<MainChartConfig>;
 
   private host;        // D3 object referecing host dom object
   private svg;         // SVG in which we will print our chart
@@ -33,8 +32,23 @@ export class MainChartComponent {
     this.htmlElement = this.element.nativeElement;
     this.host = D3.select(this.element.nativeElement);
 
-    this.setup();
-    this.buildSVG();
+    this.createDummyChart();
+
+    //this.setup();
+    //this.buildSVG();
+  }
+
+  // setup the chart container
+  private createDummyChart(): void {
+
+    var data = [4, 8, 15, 16, 23, 42];
+    this.host             // d3 host object
+        .selectAll("div") // defining the selection
+        .data(data)       // data join to the selection
+        .enter()          // returns data.update object, which is empty at start
+        .append("div")    // new data for which there was no existing element
+        .style("width", function(d) { return d * 10 + "px"; })    // set the width according to the data-item's value
+        .text(function(d) { return d; });
   }
 
   // every time the @Input is updated, we rebuild the chart
