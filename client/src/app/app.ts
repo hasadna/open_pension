@@ -6,7 +6,7 @@ import { AboutComponent } from './about/about.component';
 import { ManagingBodyDetailComponent } from './managing-body-detail/managing-body-detail.component';
 
 @Component({
-  selector: 'app',
+  selector: 'op-app',
   providers: [],
   pipes: [],
   directives: [ROUTER_DIRECTIVES],
