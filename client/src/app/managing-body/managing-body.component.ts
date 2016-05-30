@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES, RouteConfig } from '@angular/router-deprecated';
 
 import { ManagingBodyDetailComponent } from '../managing-body-detail/managing-body-detail.component';
+
 import { ManagingBody } from './managing-body.service';
 
 @Component({
@@ -9,6 +10,10 @@ import { ManagingBody } from './managing-body.service';
   templateUrl: 'app/managing-body/managing-body.component.html',
   directives: [ROUTER_DIRECTIVES],
 })
+
+@RouteConfig([
+  { path: '/managingbody/...',   component: ManagingBodyDetailComponent,  name: 'ManagingBodyDetailComponent'  }
+])
 
 export class ManagingBodyComponent {
   @Input() mangingBody: ManagingBody;
