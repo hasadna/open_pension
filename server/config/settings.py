@@ -23,6 +23,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'api',
     'django.contrib.admin',
     'django.contrib.auth',
