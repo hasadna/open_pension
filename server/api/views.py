@@ -1,7 +1,7 @@
 from rest_framework import viewsets
-from pension.models import ManagingBody, Fund, Instrument, Holding, Quarter
+from pension.models import ManagingBody, Fund, FundManagingBody, Instrument, Holding, Quarter
 from api.serializers import ManagingBodySerializer, FundSerializer, InstrumentSerializer, \
-    HoldingSerializer, QuarterSerializer, ManagingBodyDataSerializer
+    HoldingSerializer, QuarterSerializer, ManagingBodyDataSerializer, FundManagingBodySerializer
 from django.db.models import Sum
 from decimal import *
 import datetime as dt
@@ -16,6 +16,11 @@ class ManagingBodyViewSet(viewsets.ReadOnlyModelViewSet):
 class FundViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Fund.objects.all()
     serializer_class = FundSerializer
+
+
+class FundManagingBodyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = FundManagingBody.objects.all()
+    serializer_class = FundManagingBodySerializer
 
 
 class InstrumentViewSet(viewsets.ReadOnlyModelViewSet):
@@ -33,12 +38,12 @@ class QuarterViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = QuarterSerializer
 
 
-class ManagingBodyDataViewSet(viewsets.ModelViewSet):
+class ManagingBodyDataViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_holding_sum(self, managing_body, quarter):
         fair_value_sum = Decimal(0)
 
-        funds = Fund.objects.filter(managing_body=managing_body)
+        funds = FundManagingBody.objects.filter(managing_body=managing_body)
         for fund in funds:
             fair_val = Holding.objects.filter(fund=fund, quarter=quarter).aggregate(Sum('fair_value')).get('fair_value__sum')
             if fair_val != None:

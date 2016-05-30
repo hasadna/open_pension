@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from pension.models import ManagingBody, Fund, Instrument, Holding, Quarter
+from pension.models import ManagingBody, Fund, FundManagingBody, Instrument, Holding, Quarter
 
 
 class ManagingBodySerializer(serializers.ModelSerializer):
@@ -13,7 +13,14 @@ class FundSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Fund
-        fields = ('pk', 'label', 'managing_body')
+        fields = ('pk', 'label')
+
+
+class FundManagingBodySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FundManagingBody
+        fields = ('pk', 'fund', 'managing_body')
 
 
 class InstrumentSerializer(serializers.ModelSerializer):

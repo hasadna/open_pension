@@ -6,6 +6,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'managing_bodies', views.ManagingBodyViewSet)
 router.register(r'funds', views.FundViewSet)
+router.register(r'funds_managing_body', views.FundManagingBodyViewSet)
 router.register(r'instruments', views.InstrumentViewSet)
 router.register(r'holdings', views.HoldingViewSet)
 router.register(r'quarter', views.QuarterViewSet)
