@@ -13,6 +13,9 @@ SECRET_KEY = 'yx6bafd5hfp553k6(pma1)yoky5krjnm_3&+ldea6wrx66^q%-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CORS_ORIGIN_REGEX_WHITELIST = (
+    '^(localhost:)*',
+)
 
 ALLOWED_HOSTS = []
 
@@ -20,6 +23,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'api',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,20 +31,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_extensions',
     'rest_framework',
+    'corsheaders',
+
     'pension',
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -56,7 +66,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.i18n',
             ],
         },
     },
@@ -107,35 +116,21 @@ REST_FRAMEWORK = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
-
-LANGUAGES = (
-    ('en', _('English')),
-    ('he', _('Hebrew')),
-)
-
-LANGUAGE_CODE = 'en_us'
-
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'config/locale'),
-)
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'he'
+LANGUAGES = [
+  ('he', _('Hebrew')),
+  ('en', _('English')),
+]
+TIME_ZONE = 'Asia/Jerusalem'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+DATA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "data"))
 
 # Importing local settings if exists.
 try:
