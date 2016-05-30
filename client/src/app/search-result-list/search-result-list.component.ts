@@ -1,17 +1,27 @@
-import { Component } from '@angular/core';
-import { SearchResultDetailComponent } from '../search-result-details/search-result-details.component'
+import { Component, OnInit, Output ,Input } from '@angular/core';
+import {Observable} from '../../../node_modules/rxjs/Observable.d';
+
+import { SearchResultDetailComponent } from '../search-result-details/search-result-details.component';
+import { SearchResultService } from  'search-result-list.service';
 
 @Component({
   selector: 'op-search-result-list',
   templateUrl: 'app/search-result-list/search-result-list.component.html',
-  directives: [SearchResultDetailComponent],
-
+  providers: [SearchResultService],
+  directives: [SearchResultDetailComponent]
 })
 
-export class SearchResultListComponent{
+export class SearchResultListComponent implements OnInit{
+  searchResultList: Observable<SearchResultDetailComponent[]>;
 
-  constructor() {}
+  constructor(private searchResultService : SearchResultService ) {}
 
-  searchResult : any;
-  searchResultLabel:string;
+  ngOnInit() {
+    this.getSearchResult();
+  }
+
+  getSearchResult(){
+    this.searchResultList = this.searchResultService.getSearchResult();
+  }
+
 }
