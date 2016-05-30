@@ -1,9 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { ROUTER_DIRECTIVES, RouteConfig } from '@angular/router-deprecated';
-
-import { ManagingBodyDetailComponent } from '../managing-body-detail/managing-body-detail.component';
-
-import { ManagingBody } from './managing-body.service';
+import {Component, Input} from "@angular/core";
+import {ROUTER_DIRECTIVES, RouteConfig} from "@angular/router-deprecated";
+import {ManagingBodyDetailComponent} from "../managing-body-detail/managing-body-detail.component";
+import {ManagingBody} from "./managing-body.service";
+import {ManagingBodyListComponent} from "../managing-body-list/managing-body-list.component";
 
 @Component({
   selector: 'op-managing-body',
@@ -12,12 +11,14 @@ import { ManagingBody } from './managing-body.service';
 })
 
 @RouteConfig([
-  { path: '/managingbody/...',   component: ManagingBodyDetailComponent,  name: 'ManagingBodyDetailComponent'  }
+  { path: '/managingbody/...',   component: ManagingBodyDetailComponent,  name: 'ManagingBodyDetailComponent', useAsDefault: true },
+  { path: '/:id', component: ManagingBodyListComponent, name:'ManagingBodyListComponent' }
 ])
 
 export class ManagingBodyComponent {
   @Input() mangingBody: ManagingBody;
 
   constructor() {}
+
 
 }
