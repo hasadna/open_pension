@@ -12,9 +12,11 @@ services:
     links:
       - server:server
       # - client:client
+
   db:
     container_name: database
     image: postgres
+
   server:
     container_name: server
     restart: always
@@ -26,6 +28,7 @@ services:
       - "8000"
     depends_on:
       - db
+
 #  client:
 #    container_name: client
 #    restart: always

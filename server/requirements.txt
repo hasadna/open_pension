@@ -2,7 +2,6 @@
 
 Django==1.9.5
 psycopg2==2.6.1
-Pillow==2.9.0
 gunicorn==19.3.0
 django-extensions==1.6.6
 
