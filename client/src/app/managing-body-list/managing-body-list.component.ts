@@ -7,7 +7,6 @@ import { ManagingBody, ManagingBodyService } from '../managing-body/managing-bod
 @Component({
   selector: 'op-managing-body-list',
   templateUrl: 'app/managing-body-list/managing-body-list.component.html',
-  providers: [ManagingBodyService],
   directives: [ManagingBodyComponent],
 })
 
@@ -16,7 +15,7 @@ export class ManagingBodyListComponent implements OnInit {
   errorMessage: String;
 
   constructor(
-     private managingBodyService: ManagingBodyService
+      private managingBodyService: ManagingBodyService
   ) {}
 
   ngOnInit() {
@@ -26,5 +25,4 @@ export class ManagingBodyListComponent implements OnInit {
   getManagingBodies() {
     this.managingBodyList = this.managingBodyService.getManagingBodies();
   }
-  
 }
