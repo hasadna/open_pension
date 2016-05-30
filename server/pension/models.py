@@ -22,7 +22,7 @@ class InstrumentType(object):
 
     choices = (
         (TYPE1, _('ניירות ערך סחירים')),
-        (TYPE2, _('aaaa')),
+        (TYPE2, _('ניירות ערך לא סחירים')),
     )
 
 
@@ -33,9 +33,6 @@ class Quarter(models.Model):
 
 class ManagingBody(models.Model):
     label = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.label
 
 
 class Fund(models.Model):
@@ -59,3 +56,9 @@ class Holding(models.Model):
     quarter = models.ForeignKey(Quarter)
     fair_value = models.DecimalField(default=0, decimal_places=2, max_digits=16)
 
+
+
+class ManagingBodyData(object):
+    managing_body = models.ForeignKey(ManagingBody)
+    fair_value_sum = 0
+    relative_value = 0
