@@ -114,3 +114,8 @@ class Holding(models.Model):
             self.fair_value,
         )
 
+
+class ManagingBodyData(object):
+    managing_body = models.ForeignKey(ManagingBody)
+    fair_value_sum = 0
+    relative_value = 0
