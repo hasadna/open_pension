@@ -8,33 +8,34 @@ services:
       - "80:80"
     volumes_from:
       - server
-      # - client
+      - client
     links:
       - server:server
-      # - client:client
+      - client:client
 
-  db:
+  database:
     container_name: database
+    restart: always
     image: postgres
 
   server:
     container_name: server
     restart: always
-    build: ./server
+    build: ./server/
     command: /usr/src/server/run.sh
     volumes:
-      - ./server:/usr/src/server
+      - ./server:/server
     expose:
       - "8000"
     depends_on:
-      - db
+      - database
 
-#  client:
-#    container_name: client
-#    restart: always
-#    build: ./client
-#     command: /usr/src/client/run.sh
-#    volumes:
-#      - ./client:/usr/src/client
-#    expose:
-#      - "3000"
+  client:
+    container_name: client
+    restart: always
+    build: ./client/
+#    command: /usr/src/client/run.sh
+    volumes:
+      - ./client:/client
+    expose:
+      - "3000"
