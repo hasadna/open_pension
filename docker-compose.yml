@@ -1,17 +1,17 @@
 version: '2'
 services:
-  nginx:
-    container_name: nginx
-    restart: always
-    build: ./nginx/
-    ports:
-      - "80:80"
-    volumes_from:
-      - server
-      - client
-    links:
-      - server:server
-      - client:client
+  # nginx:
+  #   container_name: nginx
+  #   restart: always
+  #   build: ./nginx/
+  #   ports:
+  #     - "80:80"
+  #   volumes_from:
+  #     - server
+  #     # - client
+  #   links:
+  #     - server:server
+      # - client:client
 
   database:
     container_name: database
@@ -21,10 +21,12 @@ services:
   server:
     container_name: server
     restart: always
-    build: ./server/
-    command: /usr/src/server/run.sh
+    build: server/
+    # command: /usr/src/app/run.sh
+    # command: run.sh
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./server:/server
+      - ./server:/usr/src/app
     expose:
       - "8000"
     depends_on:
@@ -33,9 +35,9 @@ services:
   client:
     container_name: client
     restart: always
-    build: ./client/
-#    command: /usr/src/client/run.sh
+    build: client/
+    # command: /usr/src/app/run.sh
     volumes:
-      - ./client:/client
+      - ./client:/usr/src/app
     expose:
       - "3000"
