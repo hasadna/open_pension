@@ -6,6 +6,8 @@ services:
     build: nginx/
     ports:
       - "8080:80"
+    volumes:
+      - /www/static
     volumes_from:
       - server
       - client
@@ -26,6 +28,7 @@ services:
     command: sh run.sh
     volumes:
       - ./server:/usr/src/app
+      - ./server/static:/usr/src/app/static
     expose:
       - "8000"
     depends_on:
