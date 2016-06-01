@@ -5,7 +5,7 @@ server {
     charset utf-8;
 
     location /static {
-        alias /server/static;
+        alias /usr/src/app/static;
     }
 
     location / {

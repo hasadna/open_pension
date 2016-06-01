@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-apt-get -y install libpq-dev python-dev
-
-# Configure Django
-cd /usr/src/app
+apt-get -y install libpq-dev python3-dev
 
 echo "[run] Migrate DB"
 python manage.py migrate
