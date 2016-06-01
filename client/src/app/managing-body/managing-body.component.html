@@ -1,6 +1,7 @@
 <div>
   <div>
-    <a [routerLink]=" ['ManagingBodyDetailComponent', {id: mangingBody.pk}] ">
+    <a [routerLink]=" ['/managingbody/:id', {id: mangingBody.pk}] ">
+    <!-- <a [routerLink]=" ['ManagingBodyDetailComponent', {id: mangingBody.pk}] "> -->
       {{mangingBody.label}}
     </a>
   </div>

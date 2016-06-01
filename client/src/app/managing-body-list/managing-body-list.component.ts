@@ -5,8 +5,9 @@ import { ManagingBodyComponent } from '../managing-body/managing-body.component'
 import { ManagingBody, ManagingBodyService } from '../managing-body/managing-body.service';
 
 @Component({
+  moduleId: module.id,
   selector: 'op-managing-body-list',
-  templateUrl: 'app/managing-body-list/managing-body-list.component.html',
+  templateUrl: 'managing-body-list.component.html',
   directives: [ManagingBodyComponent],
 })
 
