@@ -5,7 +5,7 @@ import {
   iit,
   it
 } from '@angular/core/testing';
-import {ManagingBody} from './managing-body';
+import {ManagingBody} from './managing-body.model';
 
 describe('ManagingBody', () => {
   it('should create an instance', () => {
