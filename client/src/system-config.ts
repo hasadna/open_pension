@@ -28,16 +28,9 @@ const barrels: string[] = [
 
   // App specific barrels.
   'app',
-  'app/shared',``
-  'app/managing-body-list',
-  'app/+managing-body',
+  'app/shared',
   'app/+home',
   'app/+about',
-  'app/+manageing-body',
-  'app/manageing-body-list',
-  'app/+manageing-body-detail',
-  'app/+manageing-bodies',
-  'app/+manageing-bodies/manageing-body',
   'app/+managing-bodies',
   'app/+managing-bodies/managing-body',
   'app/+managing-bodies/managing-body-list',

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Routes , ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
-import { ManagingBodyComponent } from './+managing-body';
 import { HomeComponent } from './+home';
 import { AboutComponent } from './+about';
 import { ManagingBodiesComponent } from './+managing-bodies';
@@ -15,9 +14,18 @@ import { ManagingBodiesComponent } from './+managing-bodies';
 })
 
 @Routes([
-  {path: '/home', component: HomeComponent},
-  {path: '/about', component: AboutComponent},
-  {path: '/managing-bodies', component: ManagingBodiesComponent}
+  {
+    path: '/home',
+    component: HomeComponent
+  },
+  {
+    path: '/about',
+    component: AboutComponent
+  },
+  {
+    path: '/managing-bodies',
+    component: ManagingBodiesComponent
+  }
 ])
 
 export class OpAppComponent {
