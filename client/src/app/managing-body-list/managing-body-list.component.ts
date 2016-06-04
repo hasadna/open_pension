@@ -1,8 +1,7 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-
-import { ManagingBodyComponent } from '../managing-body/managing-body.component';
-import { ManagingBody, ManagingBodyService } from '../managing-body/managing-body.service';
+import {Component, OnInit} from "@angular/core";
+import {Observable} from "rxjs/Observable";
+import {ManagingBodyComponent} from "../managing-body/managing-body.component";
+import {ManagingBody, ManagingBodyService} from "../managing-body/managing-body.service";
 
 @Component({
   selector: 'op-managing-body-list',
@@ -15,7 +14,7 @@ export class ManagingBodyListComponent implements OnInit {
   errorMessage: String;
 
   constructor(
-      private managingBodyService: ManagingBodyService
+     private managingBodyService: ManagingBodyService
   ) {}
 
   ngOnInit() {
