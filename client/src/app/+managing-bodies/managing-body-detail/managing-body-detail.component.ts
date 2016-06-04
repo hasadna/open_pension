@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -6,11 +6,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'managing-body-detail.component.html',
   styleUrls: ['managing-body-detail.component.css']
 })
-export class ManagingBodyDetailComponent implements OnInit {
+
+export class ManagingBodyDetailComponent {
 
   constructor() {}
-
-  ngOnInit() {
-  }
 
 }

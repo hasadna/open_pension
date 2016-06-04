@@ -1,2 +1,2 @@
-export * from './managing-body';
+export * from './managing-body.model';
 export * from './managing-body.service';

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
 import { Routes , ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
+
 import { HomeComponent } from './+home';
 import { AboutComponent } from './+about';
 import { ManagingBodiesComponent } from './+managing-bodies';
@@ -10,21 +12,17 @@ import { ManagingBodiesComponent } from './+managing-bodies';
   templateUrl: 'op.component.html',
   styleUrls: ['op.component.css'],
   directives: [ROUTER_DIRECTIVES],
-  providers: [ROUTER_PROVIDERS]
+  providers: [HTTP_PROVIDERS, ROUTER_PROVIDERS]
 })
 
 @Routes([
   {
     path: '/home',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: '/about',
     component: AboutComponent
-  },
-  {
-    path: '/managing-bodies',
-    component: ManagingBodiesComponent
   }
 ])
 
