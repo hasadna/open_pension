@@ -16,9 +16,18 @@ import { ManagingBodiesComponent } from './+managing-bodies';
 })
 
 @Routes([
-  { path: '/home', component: HomeComponent }, // , useAsDefault: true}, // coming soon
-  { path: '/about', component: AboutComponent },
-  { path: '/managing-bodies/...', component: ManagingBodiesComponent }
+  {
+    path: '/home',
+    component: HomeComponent
+  }, // , useAsDefault: true}, // coming soon
+  {
+    path: '/about',
+    component: AboutComponent
+  },
+  {
+    path: '/managingBodies',
+    component: ManagingBodiesComponent
+  }
 ])
 
 export class OpAppComponent {

@@ -1,6 +1,5 @@
 <div>
-  <a [routerLink]=" ['/managing-bodies'] ">
-  <!-- <a [routerLink]=" ['/managing-bodies', {id: mangingBody.pk}] "> -->
-    {{mangingBody.label}}
+  <a (click)="onSelect(managingBody.pk)">
+    {{managingBody.label}}
   </a>
 </div>

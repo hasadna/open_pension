@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ROUTER_DIRECTIVES} from '@angular/router';
+import { Router, RouteSegment, RouteTree, ROUTER_DIRECTIVES} from '@angular/router';
 
 import { ManagingBody } from '../shared/managing-body.model';
 
@@ -12,8 +12,13 @@ import { ManagingBody } from '../shared/managing-body.model';
 })
 
 export class ManagingBodyComponent {
-  @Input() mangingBody: ManagingBody;
+  @Input() managingBody: ManagingBody;
 
-  constructor() {}
-  
+  constructor(
+    private router: Router
+  ) {}
+
+  onSelect(id: number) {
+    this.router.navigate(['/managingBodies', id]);
+  }
 }

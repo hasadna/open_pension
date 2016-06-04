@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Routes } from '@angular/router';
+import { Routes, ROUTER_DIRECTIVES } from '@angular/router';
 
 import { ManagingBodyDetailComponent } from './managing-body-detail/managing-body-detail.component';
 import { ManagingBodyListComponent } from './managing-body-list/managing-body-list.component';
@@ -13,8 +13,10 @@ import { ManagingBodyListComponent } from './managing-body-list/managing-body-li
 })
 
 @Routes([
-  { path: '/', component: ManagingBodyDetailComponent }
-  // { path: '/:id', component: ManagingBodyDetailComponent }
+  {
+    path: '/:id',
+    component: ManagingBodyDetailComponent
+  },
 ])
 
 export class ManagingBodiesComponent {
