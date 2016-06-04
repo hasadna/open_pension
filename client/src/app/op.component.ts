@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
-import { Routes , ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
+import { Routes, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
 
 import { HomeComponent } from './+home';
 import { AboutComponent } from './+about';
@@ -16,14 +16,9 @@ import { ManagingBodiesComponent } from './+managing-bodies';
 })
 
 @Routes([
-  {
-    path: '/home',
-    component: HomeComponent,
-  },
-  {
-    path: '/about',
-    component: AboutComponent
-  }
+  { path: '/home', component: HomeComponent },
+  { path: '/about', component: AboutComponent },
+  { path: '/managing-bodies/...', component: ManagingBodiesComponent }
 ])
 
 export class OpAppComponent {

@@ -1,0 +1,7 @@
+<div>
+  <ul>
+    <li *ngFor="let mangingBody of managingBodies | async">
+      <op-managing-body [mangingBody]="mangingBody"></op-managing-body>
+    </li>
+  </ul>
+</div>

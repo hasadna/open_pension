@@ -1,33 +1,24 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component } from '@angular/core';
+import { Routes } from '@angular/router';
 
-import { ManagingBodyComponent } from './managing-body/managing-body.component';
-import { ManagingBody } from './shared/managing-body.model';
-import { ManagingBodyService } from './shared/managing-body.service';
+import { ManagingBodyDetailComponent } from './managing-body-detail/managing-body-detail.component';
+import { ManagingBodyListComponent } from './managing-body-list/managing-body-list.component';
 
 @Component({
   moduleId: module.id,
   selector: 'op-managing-bodies',
   templateUrl: 'managing-bodies.component.html',
   styleUrls: ['managing-bodies.component.css'],
-  directives: [ManagingBodyComponent],
-  providers: [ManagingBodyService]
+  directives: [ManagingBodyListComponent],
 })
 
-export class ManagingBodiesComponent implements OnInit {
-  managingBodies: Observable<ManagingBody[]>;
-  errorMessage: String;
+@Routes([
+  { path: '/', component: ManagingBodyDetailComponent }
+  // { path: '/:id', component: ManagingBodyDetailComponent }
+])
 
-  constructor(
-    private managingBodyService: ManagingBodyService
-  ) {}
+export class ManagingBodiesComponent {
 
-  ngOnInit() {
-    this.getManagingBodies();
-  }
-
-  getManagingBodies() {
-    this.managingBodies = this.managingBodyService.getManagingBodies();
-  }
+  constructor() {}
 
 }
