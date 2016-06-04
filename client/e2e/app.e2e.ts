@@ -1,14 +1,14 @@
-import { PROJECTNAMEPage } from './app.po';
+import { OpPage } from './app.po';
 
-describe('open-pension App', function() {
-  let page: PROJECTNAMEPage;
+describe('op App', function() {
+  let page: OpPage;
 
   beforeEach(() => {
-    page = new PROJECTNAMEPage();
+    page = new OpPage();
   });
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('open-pension works!');
+    expect(page.getParagraphText()).toEqual('op works!');
   });
 });

@@ -1,7 +1,7 @@
 {
   "project": {
     "version": "1.0.0-beta.5",
-    "name": "open-pension"
+    "name": "op"
   },
   "apps": [
     {
@@ -23,7 +23,7 @@
     }
   },
   "defaults": {
-    "prefix": "app",
+    "prefix": "op",
     "sourceDir": "src",
     "styleExt": "css",
     "prefixInterfaces": false

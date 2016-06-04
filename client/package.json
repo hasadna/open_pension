@@ -1,11 +1,7 @@
 {
-  "name": "open-pension",
-  "version": "1.0.0",
-  "description": "The Front-End of Open Pension",
+  "name": "op",
+  "version": "0.0.0",
   "license": "MIT",
-  "contributors": [
-    "Nir Galon <nirgn975@gmail.com>"
-  ],
   "angular-cli": {},
   "scripts": {
     "start": "ng server",
@@ -44,13 +40,5 @@
     "tslint": "^3.6.0",
     "typescript": "^1.8.10",
     "typings": "^0.8.1"
-  },
-  "repository": {
-  "type": "git",
-  "url": "git+https://github.com/hasadna/open_pension.git"
-  },
-  "bugs": {
-    "url": "https://github.com/hasadna/open_pension/issues"
-  },
-  "homepage": "https://github.com/hasadna/open_pension/blob/master/client/README.md"
+  }
 }
