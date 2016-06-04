@@ -15,5 +15,5 @@ export class ManagingBodyComponent {
   @Input() mangingBody: ManagingBody;
 
   constructor() {}
-
+  
 }
