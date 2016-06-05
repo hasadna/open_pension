@@ -11,8 +11,17 @@ import {ManagingBody} from "./managing-body.service";
 })
 
 @RouteConfig([
-  { path: '/managingbody/...',   component: ManagingBodyDetailComponent,  name: 'ManagingBodyDetailComponent', useAsDefault: true },
-  { path: '/:id', component: ManagingBodyListComponent, name:'ManagingBodyListComponent' }
+  {
+    path: '/managingbody/...',
+    component: ManagingBodyDetailComponent,
+    name: 'ManagingBodyDetailComponent',
+    useAsDefault: true
+  },
+  {
+    path: '/:id',
+    component: ManagingBodyListComponent,
+    name:'ManagingBodyListComponent'
+  }
 ])
 
 export class ManagingBodyComponent {
