@@ -13,9 +13,22 @@ import {ManagingBodyService} from "./managing-body/managing-body.service";
 })
 
 @RouteConfig([
-  { path: '/home',               component: HomeComponent,                name: 'Home', useAsDefault: true },
-  { path: '/about',              component: AboutComponent,               name: 'About' },
-  { path: '/managingbody/...',   component: ManagingBodyComponent,  name: 'ManagingBodyComponent' },
+  {
+    path: '/home',
+    component: HomeComponent,
+    name: 'Home',
+    useAsDefault: true
+  },
+  {
+    path: '/about',
+    component: AboutComponent,
+    name: 'About'
+  },
+  {
+    path: '/managingbody/...',
+    component: ManagingBodyComponent,
+    name: 'ManagingBodyComponent'
+  },
 ])
 
 export class App {
