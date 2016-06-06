@@ -1,7 +1,6 @@
 from django.test import TestCase
 
-from pension.models import Quarter, InstrumentType, ManagingBody, Fund,
-FundManagingBody, Issuer, Instrument, Holding
+from pension.models import Quarter, InstrumentType
 
 
 class QuarterCase(TestCase):
@@ -15,5 +14,10 @@ class QuarterCase(TestCase):
         """
         Test the basic functionality of Quarter
         """
-        self.assertEqual(self.quarter.year, 2014)
+        self.assertEqual(self.quarter.year, 2015)
         self.assertEqual(self.quarter.quarter, 1)
+
+
+class InstrumentTestCase(TestCase):
+    pass
+
