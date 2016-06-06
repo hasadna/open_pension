@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+# Install Angular CLI tool.
+npm install -g angular-cli
+
 # Install npm dependencies.
-npm install -g webpack webpack-dev-server typings typescript
 npm install
 
 # Start the npm server
-npm start
+ng build
