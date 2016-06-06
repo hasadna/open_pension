@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
+import { Observable } from '../../../tmp/vendor-input_base_path-xmxsiXsB.tmp/0/rxjs/Rx.d';
+import '../../../node_modules/rxjs/add/operator/map.d';
 
 import { CONFIG } from '../config';
 

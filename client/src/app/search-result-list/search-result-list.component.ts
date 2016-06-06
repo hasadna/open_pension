@@ -1,8 +1,8 @@
 import { Component, OnInit, Output ,Input } from '@angular/core';
-import {Observable} from '../../../node_modules/rxjs/Observable.d';
+import {Observable} from '../../../node_modules/rxjs/Observable.d.ts';
 
 import { SearchResultDetailComponent } from '../search-result-details/search-result-details.component';
-import { SearchResultService } from  'search-result-list.service';
+import { SearchResultService } from  'search-result-list.service.ts';
 
 @Component({
   selector: 'op-search-result-list',
