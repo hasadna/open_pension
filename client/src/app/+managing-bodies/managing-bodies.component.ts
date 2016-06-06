@@ -9,7 +9,7 @@ import { ManagingBodyListComponent } from './managing-body-list/managing-body-li
   selector: 'op-managing-bodies',
   templateUrl: 'managing-bodies.component.html',
   styleUrls: ['managing-bodies.component.css'],
-  directives: [ManagingBodyListComponent],
+  directives: [ROUTER_DIRECTIVES, ManagingBodyListComponent],
 })
 
 @Routes([

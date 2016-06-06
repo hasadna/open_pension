@@ -18,8 +18,9 @@ import { ManagingBodiesComponent } from './+managing-bodies';
 @Routes([
   {
     path: '/home',
-    component: HomeComponent
-  }, // , useAsDefault: true}, // coming soon
+    component: HomeComponent,
+    // useAsDefault: true coming soon
+  },
   {
     path: '/about',
     component: AboutComponent
