@@ -3,11 +3,11 @@ The front end (client) part of the open pension project written in [Angular 2.x]
 
 ## Installation
 
-* Make sure you have node.js installed
-* run `npm install -g webpack webpack-dev-server typings typescript` to install global dependencies
-* run `npm install` to install dependencies
-* run `npm start` to fire up dev server
-* open browser to [http://localhost:3000](http://localhost:3000)
+* Make sure you have [Angular-cli](https://github.com/angular/angular-cli) and [npm](https://nodejs.org/en/) installed
+* run `npm install` to install global dependencies
+* run `ng serve` to fire up the dev server
+* open browser to [http://localhost:4200](http://localhost:4200)
 
 ## Tests
-Nothing yet.
+* `ng test --no-watch`
+* `ng e2e`
