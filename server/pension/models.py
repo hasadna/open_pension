@@ -17,18 +17,21 @@ class Quarters(object):
 
 
 class InstrumentType(object):
-    TYPE1 = 1
-    TYPE2 = 2
+    NEGOTIABLE_SECURITY = 1
+    NON_NEGOTIABLE_SECURITY = 2
 
     choices = (
-        (TYPE1, _('')),
-        (TYPE2, _('')),
+        (NEGOTIABLE_SECURITY, _('Negotiable Security')),
+        (NON_NEGOTIABLE_SECURITY, _('Non-Negotiable Security')),
     )
 
 
 class Quarter(models.Model):
-    year = models.IntegerField
+    year = models.IntegerField(default=None)
     quarter = models.IntegerField(choices=Quarters.choices)
+
+    def __str__(self):
+        return '{} / {}'.format(self.quarter, self.year)
 
 
 class ManagingBody(models.Model):
@@ -44,6 +47,9 @@ class ManagingBody(models.Model):
 class Fund(models.Model):
     label = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.label
+
 
 class FundManagingBody(models.Model):
     """
@@ -55,12 +61,22 @@ class FundManagingBody(models.Model):
     start = models.ForeignKey(Quarter, related_name='quarter_start')
     end = models.ForeignKey(Quarter, null=True, related_name='quarter_end')
 
+    def __str__(self):
+        return '{} / {} / {}'.format(
+            self.managing_body,
+            self.fund,
+            '{} - {}'.format(self.start, self.end)
+        )
+
 
 class Issuer(models.Model):
     """
     Company (or other body) that issues a security.
     """
     label = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.label
 
 
 class Instrument(models.Model):
@@ -70,7 +86,15 @@ class Instrument(models.Model):
     label = models.CharField(max_length=200)
     issuer = models.ForeignKey(Issuer, null=True)
     instrument_type = models.IntegerField(choices=InstrumentType.choices)
-    instrument_id = models.IntegerField
+    instrument_id = models.IntegerField(default=None)
+
+    def __str__(self):
+        return '{} / {} / {} / {}'.format(
+            self.instrument_type,
+            self.instrument_id,
+            self.issuer,
+            self.label,
+        )
 
 
 class Holding(models.Model):
@@ -80,5 +104,13 @@ class Holding(models.Model):
     instrument = models.ForeignKey(Instrument)
     fund = models.ForeignKey(FundManagingBody)
     quarter = models.ForeignKey(Quarter)
-    fair_value = models.DecimalField
+    fair_value = models.DecimalField(default=None, decimal_places=2, max_digits=16)
+
+    def __str__(self):
+        return '{} / {} / {} / {}'.format(
+            self.instrument,
+            self.fund,
+            self.quarter,
+            self.fair_value,
+        )
 
