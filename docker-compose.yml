@@ -43,4 +43,4 @@ services:
     volumes:
       - ./client:/usr/src/app
     expose:
-      - "3000"
+      - "4200"

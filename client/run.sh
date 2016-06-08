@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Install Angular CLI tool.
-npm install -g angular-cli
+# npm install -g angular-cli
 
 # Install npm dependencies.
-npm install
+# npm install
 
 # Start the npm server
-ng build
+# ng build
