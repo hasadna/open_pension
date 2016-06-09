@@ -3,7 +3,7 @@ import {ManagingBodyListComponent} from "../managing-body-list/managing-body-lis
 
 @Component({
   selector: 'op-home',
-  templateUrl: 'app/home/privacy.component.html',
+  templateUrl: 'app/home/home.component.html',
   directives: [ManagingBodyListComponent],
 })
 

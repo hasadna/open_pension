@@ -2,9 +2,10 @@ import {Component} from "@angular/core";
 import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {HomeComponent} from "./home/home.component";
 import {AboutComponent} from "./about/about.component";
+import {PrivacyComponent} from "./privacy/privacy.component";
 import {ManagingBodyDetailComponent} from "./managing-body-detail/managing-body-detail.component";
 import {ManagingBodyService} from "./managing-body/managing-body.service";
-import {PrivacyComponent} from "./privacy/privacy.component";
+
 
 @Component({
   selector: 'op-app',
