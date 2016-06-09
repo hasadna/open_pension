@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
-import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
-
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ManagingBodyDetailComponent } from './managing-body-detail/managing-body-detail.component';
-
-import { ManagingBodyService } from './managing-body/managing-body.service';
+import {Component} from "@angular/core";
+import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {HomeComponent} from "./home/home.component";
+import {AboutComponent} from "./about/about.component";
+import {ManagingBodyDetailComponent} from "./managing-body-detail/managing-body-detail.component";
+import {ManagingBodyService} from "./managing-body/managing-body.service";
 
 @Component({
   selector: 'op-app',
@@ -17,6 +15,7 @@ import { ManagingBodyService } from './managing-body/managing-body.service';
 @RouteConfig([
   { path: '/home',               component: HomeComponent,                name: 'Home', useAsDefault: true },
   { path: '/about',              component: AboutComponent,               name: 'About' },
+  { path: '/privacy',            component: PrivacyComponent,               name: 'Privacy' },
   { path: '/managingbody/:id',   component: ManagingBodyDetailComponent,  name: 'ManagingBodyDetailComponent' },
 ])
 
