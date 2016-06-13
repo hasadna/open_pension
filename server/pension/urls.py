@@ -1,5 +1,3 @@
-__author__ = 'user'
-
 # -*- coding: utf-8 -*-
 from django.conf.urls import include, url
 from django.contrib import admin
@@ -11,3 +9,4 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     url(r'^admin/', include(admin.site.urls)),
 )
+
