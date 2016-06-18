@@ -13,6 +13,6 @@ So, you want to start contribute, Great!
 
 4. When you finish, remove the `WIP` from the title and assign it to `@nirgn975` or `@ordavidil`, and write some text like "@ordavidil Ready for review" (so GitHub will send a notification to that person when you mention him like that).
 
-5. Please go through (PEP 8 -- Style Guide for Python Code)[https://www.python.org/dev/peps/pep-0008/] and (Angular2 Style Guide)[https://angular.io/styleguide] before submitting a PR.
+5. Please go through [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/) and [Angular2 Style Guide](https://angular.io/styleguide) before submitting a PR.
 
 6. Wait for the code review and HAVE FUN!
