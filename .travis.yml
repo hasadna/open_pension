@@ -24,5 +24,4 @@ before_install:
 script:
   - docker version
   - docker-compose version
-  - docker-compose up
-  - exit 0
+  - docker-compose up && exit 0
