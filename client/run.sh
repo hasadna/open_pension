@@ -4,10 +4,11 @@
 npm set progress=false
 
 # Install Angular CLI tool.
-npm install -g angular-cli
+npm install -g angular-cli typings --silent
 
 # Install npm dependencies.
-npm install
+npm install --silent
+npm run postinstall
 
 # Start the npm server
 ng serve
