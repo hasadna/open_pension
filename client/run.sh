@@ -7,4 +7,4 @@ npm install -g angular-cli
 npm install
 
 # Start the npm server
-ng build
+ng serve
