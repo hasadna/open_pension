@@ -5,6 +5,7 @@ import { Routes, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
 import { HomeComponent } from './+home';
 import { AboutComponent } from './+about';
 import { ManagingBodiesComponent } from './+managing-bodies';
+import { PrivacyComponent } from './privacy';
 
 @Component({
   moduleId: module.id,
@@ -28,6 +29,10 @@ import { ManagingBodiesComponent } from './+managing-bodies';
   {
     path: '/managingBodies',
     component: ManagingBodiesComponent
+  },
+  {
+    path: '/privacy',
+    component: PrivacyComponent
   }
 ])
 
