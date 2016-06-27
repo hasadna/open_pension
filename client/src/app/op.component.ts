@@ -5,6 +5,7 @@ import { Routes, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
 import { HomeComponent } from './+home';
 import { AboutComponent } from './+about';
 import { ManagingBodiesComponent } from './+managing-bodies';
+import { FeedbackComponent } from './feedback'
 
 @Component({
   moduleId: module.id,
@@ -24,6 +25,10 @@ import { ManagingBodiesComponent } from './+managing-bodies';
   {
     path: '/about',
     component: AboutComponent
+  },
+  {
+    path:'/feedback',
+    component: FeedbackComponent
   },
   {
     path: '/managingBodies',

@@ -35,6 +35,7 @@ const barrels: string[] = [
   'app/+managing-bodies/managing-body',
   'app/+managing-bodies/managing-body-list',
   'app/+managing-bodies/managing-body-detail',
+  'app/feedback',
   /** @cli-barrel */
 ];
 
