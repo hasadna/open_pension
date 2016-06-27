@@ -10,7 +10,7 @@ import { disableDeprecatedForms, provideForms } from '@angular/forms';
 export class FeedbackComponent implements OnInit {
 
   constructor(
-    private name: string
+    private name: string,
     private email: string,
     private text: string) {}
 
