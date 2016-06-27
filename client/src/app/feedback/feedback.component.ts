@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
-
+import { NgForm }    from '@angular/common';
 @Component({
   moduleId: module.id,
   selector: 'op-feedback',
@@ -12,7 +12,8 @@ export class FeedbackComponent implements OnInit {
   constructor(
     private name: string,
     private email: string,
-    private text: string) {}
+    private text: string
+    ) {}
 
   ngOnInit() {
   }
