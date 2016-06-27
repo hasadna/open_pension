@@ -8,6 +8,7 @@ import { FormGroup, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
   templateUrl: 'feedback.component.html',
   styleUrls: ['feedback.component.css']
 })
+
 export class FeedbackComponent implements OnInit {
 
   constructor() {}
