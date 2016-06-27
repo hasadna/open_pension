@@ -9,11 +9,7 @@ import { NgForm }    from '@angular/common';
 })
 export class FeedbackComponent implements OnInit {
 
-  constructor(
-    private name: string,
-    private email: string,
-    private text: string
-    ) {}
+  constructor() {}
 
   ngOnInit() {
   }
