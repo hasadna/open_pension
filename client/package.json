@@ -27,6 +27,7 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
+    "@angular/forms": "^0.1.1",
     "angular-cli": "^1.0.0-beta.5",
     "codelyzer": "0.0.19",
     "ember-cli-inject-live-reload": "^1.4.0",

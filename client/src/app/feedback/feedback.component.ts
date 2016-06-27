@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
 @Component({
   moduleId: module.id,
