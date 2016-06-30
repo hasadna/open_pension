@@ -6,6 +6,7 @@
 [ ] Refactoring (no functional changes, no api changes)
 [ ] Build related changes
 [ ] CI related changes
+[ ] Docs related changes
 [ ] Other... Please describe:
 ```
 
