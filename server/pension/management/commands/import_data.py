@@ -33,7 +33,7 @@ class Command(BaseCommand):
             raise CommandError("File does not exist at the specified path.")
 
         print("Importing CSV")
-        csv_file = open(csv_filename)
+        csv_file = open(csv_filename, encoding='utf-8')
         reader = csv.DictReader(csv_file)
 
         for row in reader:
