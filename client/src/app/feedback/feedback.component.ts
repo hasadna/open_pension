@@ -18,11 +18,6 @@ export class FeedbackComponent {
   ) {}
 
   feedbackModalClicked() {
-
-  }
-
-  showModal()
-  {
     this.feedbackModalIsVisible = true;
   }
 
