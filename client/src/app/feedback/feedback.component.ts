@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgForm } from '@angular/common';
+import { Component } from '@angular/core';
+
 
 
 @Component({
@@ -9,11 +9,26 @@ import { NgForm } from '@angular/common';
   styleUrls: ['feedback.component.css']
 })
 
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent {
+  private feedbackModal: any;
+  public feedbackModalIsVisible: boolean;
 
-  constructor() {}
 
-  ngOnInit() {
+  constructor(
+  ) {}
+
+  feedbackModalClicked() {
+
+  }
+
+  showModal()
+  {
+    this.feedbackModalIsVisible = true;
+  }
+
+  hideModal()
+  {
+    this.feedbackModalIsVisible = false;
   }
 
 }

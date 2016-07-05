@@ -1,20 +1,16 @@
-<h1> Send Feedback </h1>
-<div class="container">
-  <form>
-    <fieldset>
-        <legend> Send Feedback </legend>
-        <label for="name">
-          <input type="text" required />
-        </label>
-        <label for="email">
-          <input type="email" required />
-        </label>
-        <label for="feedback">
-          <input type="text" required />
-        </label>
-    </fieldset>
-    <button type="submit" class="btn btn-default">Submit</button>
-  </form>
+<div *ngIf="feedbackModalIsVisible" class="modal fade show on click" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send Feedback</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ErrorMsg}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="hideErrorMsg()">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
-
-
