@@ -12,12 +12,15 @@ import { Component } from '@angular/core';
 export class FeedbackComponent {
   private feedbackModal: any;
   public feedbackModalIsVisible: boolean;
+  public buttonIsClicked: boolean;
 
 
   constructor(
   ) {}
 
+
   feedbackModalClicked() {
+    this.buttonIsClicked = true;
     this.feedbackModalIsVisible = true;
   }
 
@@ -25,5 +28,4 @@ export class FeedbackComponent {
   {
     this.feedbackModalIsVisible = false;
   }
-
 }
