@@ -1,7 +1,7 @@
 import os
 from django.core.management import BaseCommand, CommandError
 from django.utils import translation
-from pension.models import Quarter, ManagingBody, Fund, Instrument, Holding, InstrumentType, FundManagingBody, Issuer
+from pension.models import Quarter, Fund, Instrument, Holding, InstrumentType, FundManagingBody, Issuer
 import csv
 from config.settings import DATA_ROOT
 
@@ -37,7 +37,7 @@ class Command(BaseCommand):
         reader = csv.DictReader(csv_file)
 
         for row in reader:
-            managing_body, created = ManagingBody.objects.get_or_create(label=row.get('managing_body'))
+            managing_body, created = Issuer.objects.get_or_create(label=row.get('managing_body'))
             quarter, created = Quarter.objects.get_or_create(
                 year=row.get('report_year'),
                 quarter=row.get('report_quarter')
