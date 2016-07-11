@@ -3,10 +3,14 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
+  'ng2-translate': 'vendor/ng2-translate'
 };
 
 /** User packages configuration. */
 const packages: any = {
+  'ng2-translate': {
+    defaultExtension: 'js'
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

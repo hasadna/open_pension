@@ -1,2 +1,9 @@
 
+<div>
+  {{ 'OPEN_PENSION' | translate }}
+</div>
+        Change language:
+<select (change)="translate.use($event.target.value)">
+    <option *ngFor="let lang of ['he', 'en']" [selected]="lang === translate.currentLang">{{lang}}</option>
+</select>
 <op-managing-bodies></op-managing-bodies>
