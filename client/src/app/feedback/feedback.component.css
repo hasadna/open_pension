@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  justify-content: center;
+}
+.open-button {
+  padding: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}

@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { Routes, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
+
 
 import { HomeComponent } from './+home';
 import { AboutComponent } from './+about';
 import { ManagingBodiesComponent } from './+managing-bodies';
+import { FeedbackComponent } from './feedback';
 
 @Component({
   moduleId: module.id,
@@ -28,9 +30,13 @@ import { ManagingBodiesComponent } from './+managing-bodies';
   {
     path: '/managingBodies',
     component: ManagingBodiesComponent
+  },
+  {
+    path:'/feedback',
+    component: FeedbackComponent
   }
 ])
 
 export class OpAppComponent {
-  title = 'op works!';
+  title = 'op works!';  
 }
