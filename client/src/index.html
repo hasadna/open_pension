@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Op</title>
+  <title>Open Pension</title>
   <base href="/">
 
   {{#unless environment.production}}
@@ -13,7 +13,7 @@
 </head>
 <body>
   <app-root>Loading...</app-root>
-  
+
     {{#each scripts.polyfills}}
     <script src="{{.}}"></script>
     {{/each}}
@@ -22,6 +22,6 @@
         System.import('main');
       }).catch(console.error.bind(console));
     </script>
-  
+
 </body>
 </html>
