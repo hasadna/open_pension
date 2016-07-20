@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.5",
+    "version": "1.0.0-beta.10",
     "name": "op"
   },
   "apps": [
@@ -23,9 +23,10 @@
     }
   },
   "defaults": {
-    "prefix": "op",
+    "prefix": "app",
     "sourceDir": "src",
     "styleExt": "css",
-    "prefixInterfaces": false
+    "prefixInterfaces": false,
+    "lazyRoutePrefix": "+"
   }
 }

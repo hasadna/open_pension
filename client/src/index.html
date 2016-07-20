@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Open Pension</title>
+  <title>Op</title>
   <base href="/">
 
   {{#unless environment.production}}
@@ -12,14 +12,16 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <op-app>Loading...</op-app>
-
-  {{#each scripts.polyfills}}<script src="{{.}}"></script>{{/each}}
-  <script>
-    System.import('system-config.js').then(function () {
-      System.import('main');
-    }).catch(console.error.bind(console));
-  </script>
-
+  <app-root>Loading...</app-root>
+  
+    {{#each scripts.polyfills}}
+    <script src="{{.}}"></script>
+    {{/each}}
+    <script>
+      System.import('system-config.js').then(function () {
+        System.import('main');
+      }).catch(console.error.bind(console));
+    </script>
+  
 </body>
 </html>
