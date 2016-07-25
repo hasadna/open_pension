@@ -7,6 +7,9 @@ env:
     global:
         - DOCKER_VERSION=1.10.1-0~trusty
         - DOCKER_COMPOSE_VERSION=1.7.1
+    matrix:
+      - SCRIPT="bash travis_scripts/code_sniffer.sh"
+      - SCRIPT="bash travis_scripts/docker.sh"
 
 before_install:
     # list docker-engine versions
@@ -22,7 +25,4 @@ before_install:
     - sudo mv docker-compose /usr/local/bin
 
 script:
-  - docker version
-  - docker-compose version
-  - docker-compose up -d
-  - echo "a"
+  - eval $SCRIPT
