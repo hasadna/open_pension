@@ -1,11 +1,5 @@
 from modeltranslation.translator import register, TranslationOptions
-from .models import ManagingBody, Fund, Instrument, Issuer
-
-
-@register(ManagingBody)
-class ManagingBodyTranslation(TranslationOptions):
-    fields = ('label',)
-    required_languages = ('he',)
+from .models import Fund, Instrument, Issuer
 
 
 @register(Fund)

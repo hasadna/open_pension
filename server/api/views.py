@@ -1,8 +1,8 @@
 from rest_framework import viewsets
-from pension.models import ManagingBody
-from api.serializers import ManagingBodySerializer
+from pension.models import Issuer
+from api.serializers import IssuerSerializer
 
 
-class ManagingBodyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = ManagingBody.objects.all()
-    serializer_class = ManagingBodySerializer
+class IssuerViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Issuer.objects.all()
+    serializer_class = IssuerSerializer
