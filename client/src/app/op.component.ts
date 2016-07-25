@@ -19,7 +19,6 @@ import { FooterComponent } from './shared/footer';
     FooterComponent
   ]
 })
-
 export class OpComponent {
   title = 'app works!';
 }
