@@ -24,5 +24,5 @@ before_install:
 script:
   - docker version
   - docker-compose version
-  - docker-compose up > /dev/null
+  - docker-compose up -d
   - echo "a"
