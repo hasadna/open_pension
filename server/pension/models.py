@@ -104,7 +104,8 @@ class Holding(models.Model):
     instrument = models.ForeignKey(Instrument)
     fund = models.ForeignKey(FundManagingBody)
     quarter = models.ForeignKey(Quarter)
-    fair_value = models.DecimalField(default=None, decimal_places=2, max_digits=16)
+    fair_value = models.DecimalField(default=None, decimal_places=2,
+                                     max_digits=16)
 
     def __str__(self):
         return '{} / {} / {} / {}'.format(
@@ -113,4 +114,3 @@ class Holding(models.Model):
             self.quarter,
             self.fair_value,
         )
-
