@@ -17,7 +17,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Fund',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('label', models.CharField(max_length=200)),
                 ('label_he', models.CharField(max_length=200, null=True)),
                 ('label_en', models.CharField(max_length=200, null=True)),
@@ -26,32 +27,42 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FundManagingBody',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
             ],
         ),
         migrations.CreateModel(
             name='Holding',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fair_value', models.DecimalField(decimal_places=2, default=None, max_digits=16)),
-                ('fund', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pension.FundManagingBody')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
+                ('fair_value', models.DecimalField(decimal_places=2,
+                                                   default=None,
+                                                   max_digits=16)),
+                ('fund', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='pension.FundManagingBody')),
             ],
         ),
         migrations.CreateModel(
             name='Instrument',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('label', models.CharField(max_length=200)),
                 ('label_he', models.CharField(max_length=200, null=True)),
                 ('label_en', models.CharField(max_length=200, null=True)),
-                ('instrument_type', models.IntegerField(choices=[(1, 'Negotiable Security'), (2, 'Non-Negotiable Security')])),
+                ('instrument_type', models.IntegerField(
+                    choices=[(1, 'Negotiable Security'),
+                             (2, 'Non-Negotiable Security')])),
                 ('instrument_id', models.IntegerField(default=None)),
             ],
         ),
         migrations.CreateModel(
             name='Issuer',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('label', models.CharField(max_length=200)),
                 ('label_he', models.CharField(max_length=200, null=True)),
                 ('label_en', models.CharField(max_length=200, null=True)),
@@ -60,7 +71,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ManagingBody',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('label', models.CharField(max_length=200)),
                 ('label_he', models.CharField(max_length=200, null=True)),
                 ('label_en', models.CharField(max_length=200, null=True)),
@@ -69,44 +81,67 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Quarter',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('year', models.IntegerField(default=None)),
-                ('quarter', models.IntegerField(choices=[(1, 'First Quarter'), (2, 'Second Quarter'), (3, 'Third Quarter'), (4, 'Fourth Quarter')])),
+                ('quarter', models.IntegerField(choices=[(1, 'First Quarter'),
+                                                         (2, 'Second Quarter'),
+                                                         (3, 'Third Quarter'),
+                                                         (4, 'Fourth Quarter')]
+                                                )),
             ],
         ),
         migrations.AddField(
             model_name='instrument',
             name='issuer',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='pension.Issuer'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='pension.Issuer'),
         ),
         migrations.AddField(
             model_name='holding',
             name='instrument',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pension.Instrument'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='pension.Instrument'),
         ),
         migrations.AddField(
             model_name='holding',
             name='quarter',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pension.Quarter'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='pension.Quarter'),
         ),
         migrations.AddField(
             model_name='fundmanagingbody',
             name='end',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='quarter_end', to='pension.Quarter'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='quarter_end',
+                to='pension.Quarter'),
         ),
         migrations.AddField(
             model_name='fundmanagingbody',
             name='fund',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pension.Fund'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='pension.Fund'),
         ),
         migrations.AddField(
             model_name='fundmanagingbody',
             name='managing_body',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pension.ManagingBody'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='pension.ManagingBody'),
         ),
         migrations.AddField(
             model_name='fundmanagingbody',
             name='start',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quarter_start', to='pension.Quarter'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='quarter_start',
+                to='pension.Quarter'),
         ),
     ]

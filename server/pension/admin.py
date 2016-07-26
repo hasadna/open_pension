@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Quarter, ManagingBody, Fund, Holding, Instrument, Issuer, FundManagingBody
+from .models import Quarter, ManagingBody, Fund, Holding, Instrument, Issuer, \
+    FundManagingBody
 
 admin.site.register(Fund)
 admin.site.register(FundManagingBody)
