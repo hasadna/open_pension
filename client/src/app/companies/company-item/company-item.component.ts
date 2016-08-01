@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import { Company } from '../shared/company.model';
 
 @Component({
   moduleId: module.id,
@@ -6,11 +8,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'company-item.component.html',
   styleUrls: ['company-item.component.css']
 })
-export class CompanyItemComponent implements OnInit {
+export class CompanyItemComponent {
+  @Input() company: Company;
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

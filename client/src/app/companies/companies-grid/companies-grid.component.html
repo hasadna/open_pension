@@ -1,1 +1,3 @@
-<op-company-item></op-company-item>
+<div>
+  <op-company-item *ngFor="let company of companies | async" [company]="company"></op-company-item>
+</div>
