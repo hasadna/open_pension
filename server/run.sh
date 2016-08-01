@@ -16,6 +16,7 @@ if not User.objects.filter(username='admin').count():
 
 echo "[run] Run tests"
 python3 manage.py test
+exit 0
 
 echo "[run] runserver"
 /usr/local/bin/gunicorn config.wsgi:application -w 2 -b :8000 --reload
