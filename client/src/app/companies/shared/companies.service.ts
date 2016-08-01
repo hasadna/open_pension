@@ -12,7 +12,6 @@ export class CompaniesService {
   getCompanies() {
     return this.http.get('app/data/managing-bodies.json')
       .map((res: Response) => res.json())
-      .do((data) => console.log(data))
       .catch(this.handleError);
   }
 
