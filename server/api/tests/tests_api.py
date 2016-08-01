@@ -8,7 +8,7 @@ class TestPensionApi(TestCase):
         Test the url of the api root.
         """
         response = self.client.get('/api/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 2020)
 
         # When trailing slash is missing it should add it after redirection.
         response = self.client.get('/api')
