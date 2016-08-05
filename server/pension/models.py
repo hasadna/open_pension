@@ -27,8 +27,8 @@ class InstrumentType(object):
 
 
 class Quarter(models.Model):
-    year = models.IntegerField(default=None)
-    quarter = models.IntegerField(choices=Quarters.choices)
+    year = models.PositiveIntegerField(default=None)
+    quarter = models.PositiveIntegerField(choices=Quarters.choices)
 
     def __str__(self):
         return '{} / {}'.format(self.quarter, self.year)
