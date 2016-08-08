@@ -3,11 +3,11 @@
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { addProviders, async, inject } from '@angular/core/testing';
-import { CompaniesGridComponent } from './companies-grid.component';
+import { PiComponent } from './pi.component';
 
-describe('Component: CompaniesGrid', () => {
+describe('Component: Pi', () => {
   it('should create an instance', () => {
-    let component = new CompaniesGridComponent();
+    let component = new PiComponent();
     expect(component).toBeTruthy();
   });
 });
