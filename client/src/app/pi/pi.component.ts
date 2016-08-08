@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   moduleId: module.id,
-  selector: 'app-pi',
+  selector: 'op-pi',
   templateUrl: 'pi.component.html',
   styleUrls: ['pi.component.css']
 })

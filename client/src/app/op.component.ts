@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
 
-import { CompaniesComponent } from './companies';
 import { HeaderComponent } from './shared/header';
 import { SearchComponent } from './shared/search';
 import { FooterComponent } from './shared/footer';
+
+import { PiComponent } from './pi/pi.component';
 
 @Component({
   moduleId: module.id,
@@ -12,11 +12,10 @@ import { FooterComponent } from './shared/footer';
   templateUrl: 'op.component.html',
   styleUrls: ['op.component.css'],
   directives: [
-    ROUTER_DIRECTIVES,
-    CompaniesComponent,
     HeaderComponent,
     SearchComponent,
-    FooterComponent
+    FooterComponent,
+    PiComponent
   ]
 })
 export class OpComponent {}
