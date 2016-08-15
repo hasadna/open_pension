@@ -12,9 +12,6 @@ services:
     volumes_from:
       - server
       - client
-    links:
-      - server:server
-      - client:client
 
   database:
     container_name: database
