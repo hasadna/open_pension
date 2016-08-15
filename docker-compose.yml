@@ -2,7 +2,7 @@ version: '2'
 services:
   nginx:
     container_name: nginx
-    restart: always
+    restart: on-faiure:5
     build: nginx/
     ports:
       - "8080:80"
@@ -18,12 +18,12 @@ services:
 
   database:
     container_name: database
-    restart: always
+    restart: on-faiure:5
     image: postgres
 
   server:
     container_name: server
-    restart: always
+    restart: on-faiure:5
     build: server/
     working_dir: /usr/src/app
     command: sh run.sh
@@ -37,7 +37,7 @@ services:
 
   client:
     container_name: client
-    restart: always
+    restart: on-faiure:5
     build: client/
     working_dir: /www/app
     command: sh run.sh
