@@ -1,3 +1,3 @@
-[submodule "server/data/-f"]
-	path = server/data/-f
+[submodule "server/data/OpenPensionCSV"]
+	path = server/data/OpenPensionCSV
 	url = https://github.com/RoySegall/OpenPensionCSV.git
