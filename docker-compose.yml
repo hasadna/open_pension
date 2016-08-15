@@ -20,8 +20,6 @@ services:
     container_name: server
     restart: on-faiure:5
     build: server/
-    working_dir: /usr/src/app
-    command: sh run.sh
     volumes:
       - ./server:/usr/src/app
       - ./server/static:/usr/src/app/static
