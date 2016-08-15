@@ -12,9 +12,4 @@ describe('App: Op', () => {
     inject([OpComponent], (app: OpComponent) => {
       expect(app).toBeTruthy();
     }));
-
-  it('should have as title \'app works!\'',
-    inject([OpComponent], (app: OpComponent) => {
-      expect(app.title).toEqual('app works!');
-    }));
 });
