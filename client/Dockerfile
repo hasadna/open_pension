@@ -13,5 +13,4 @@ COPY package.json typings.json /usr/src/app/
 RUN npm install \
 && npm run postinstall
 
-COPY . /usr/src/app
 CMD ["npm", "start"]
