@@ -29,7 +29,9 @@ services:
       - database
 
   client:
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: Dockerfile-development
     container_name: client
     restart: on-faiure:5
     volumes:
