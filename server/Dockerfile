@@ -1,10 +1,11 @@
 FROM python:3.5-alpine
 MAINTAINER Nir Galon <nirgn975@gmail.com>
 
-RUN apk add --no-cache \
-  --virtual build-dependencies \
-    postgresql-dev \
-    python3-dev
+RUN apk add --no-cache --virtual build-dependencies \
+    gcc \
+    musl-dev \
+    python3-dev \
+&& apk add --no-cache postgresql-dev
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
