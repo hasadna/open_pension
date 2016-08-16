@@ -18,5 +18,5 @@ RUN pip install --no-cache-dir -r requirements.txt \
 COPY . /usr/src/app
 RUN python manage.py collectstatic --noinput
 
-CMD ["/usr/local/bin/gunicorn config.wsgi:application", \
+CMD ["/usr/local/bin/gunicorn", "config.wsgi:application", \
   "-w", "2", "-b", ":8000", "--reload"]
