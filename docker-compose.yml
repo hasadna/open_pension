@@ -34,5 +34,9 @@ services:
     restart: on-faiure:5
     volumes:
       - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/typings
+      - /usr/src/app/tmp
+      - /usr/src/app/dist
     ports:
       - "8081:4200"
