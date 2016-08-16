@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 RUN npm set progress=false \
 && npm install -g angular-cli typings
 
-COPY package.json /usr/src/app/
+COPY package.json typings.json /usr/src/app/
 RUN npm install \
 && npm run postinstall
 
