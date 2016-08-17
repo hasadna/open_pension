@@ -27,6 +27,8 @@ services:
       - "8000"
     depends_on:
       - database
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.development
 
   client:
     build:
