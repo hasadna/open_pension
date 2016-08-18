@@ -6,8 +6,6 @@ services:
     build: nginx/
     ports:
       - "8080:80"
-    volumes:
-      - /www/static
     volumes_from:
       - server
 
