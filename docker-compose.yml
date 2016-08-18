@@ -27,6 +27,7 @@ services:
       - database
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
+    command: gunicorn config.wsgi:application -w 2 -b :8000 --reload
 
   client:
     build:

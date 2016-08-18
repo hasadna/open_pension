@@ -19,5 +19,4 @@ COPY . /usr/src/app
 # SECRET_KEY hack -- we need collectstatic before the env var is available
 RUN SECRET_KEY='x' python manage.py collectstatic --noinput && unset SECRET_KEY
 
-CMD ["/usr/local/bin/gunicorn", "config.wsgi:application", \
-  "-w", "2", "-b", ":8000", "--reload"]
+CMD ["gunicorn", "config.wsgi:application", "-w", "2", "-b", ":8000"]
