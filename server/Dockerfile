@@ -7,7 +7,6 @@ RUN apk add --no-cache --virtual build-dependencies \
     python3-dev \
 && apk add --no-cache postgresql-dev
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ENV PYTHONUNBUFFERED 1

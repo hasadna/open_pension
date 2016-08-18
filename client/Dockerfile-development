@@ -3,7 +3,6 @@
 FROM node:6.3
 MAINTAINER Nir Galon <nirgn975@gmail.com>
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 RUN npm set progress=false \
