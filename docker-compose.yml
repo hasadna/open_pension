@@ -20,7 +20,7 @@ services:
     build: server/
     volumes:
       - ./server:/usr/src/app
-      - ./server/static:/usr/src/app/static
+      - /usr/src/app/static
     expose:
       - "8000"
     depends_on:
