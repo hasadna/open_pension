@@ -5,11 +5,18 @@ MAINTAINER Nir Galon <nirgn975@gmail.com>
 
 WORKDIR /usr/src/app
 
-RUN npm set progress=false \
+RUN groupadd -r client && useradd -r -m -g client client \
+&& npm set progress=false \
 && npm install -g angular-cli typings
 
 COPY package.json typings.json /usr/src/app/
 RUN npm install \
-&& npm run postinstall
+&& npm run postinstall \
+&& mkdir -p dist tmp \
+&& chown -R :client . \
+&& find . -type d -exec chmod 550 {} \; \
+&& find . -type f -exec chmod 440 {} \; \
+&& chmod 770 dist tmp
 
+USER client
 CMD ["npm", "start"]
