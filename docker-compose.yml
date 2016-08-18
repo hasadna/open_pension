@@ -1,7 +1,6 @@
 version: '2'
 services:
   nginx:
-    container_name: nginx
     restart: on-faiure:5
     build: nginx/
     ports:
@@ -10,12 +9,10 @@ services:
       - server
 
   database:
-    container_name: database
     restart: on-faiure:5
     image: postgres
 
   server:
-    container_name: server
     restart: on-faiure:5
     build: server/
     volumes:
@@ -33,7 +30,6 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile-development
-    container_name: client
     restart: on-faiure:5
     volumes:
       - ./client:/usr/src/app
