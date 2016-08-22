@@ -1,6 +1,7 @@
 import os
 import csv
 import string
+import re
 from django.core.management import BaseCommand, CommandError
 
 
@@ -25,3 +26,25 @@ class Command(BaseCommand):
     """
     def normalize(self, path):
         content = open(path, 'r').read()
+        metadata = self.get_meta_data(content)
+
+    """
+    Get the metadata of the file - Kupa number and date
+
+    :param content:
+        The content of the file
+
+    :return:
+        The metadata of the file
+    """
+    def get_meta_data(self, content):
+        split = content.split("\n")
+
+        date = filter(lambda x: re.compile("[0-9]*/[0-9]*/[0-9]*").match(x), split[0].split(','))
+        number = filter(lambda x: x.isdigit(), split[3].split(','))
+
+        return {
+            'date': list(date)[0],
+            'number': list(number)[0]
+        }
+
