@@ -1,47 +1,41 @@
 version: '2'
 services:
   nginx:
-    container_name: nginx
-    restart: always
+    restart: on-faiure:5
     build: nginx/
     ports:
       - "8080:80"
-      - "8081:81"
-    volumes:
-      - /www/static
     volumes_from:
       - server
-      - client
-    links:
-      - server:server
-      - client:client
 
   database:
-    container_name: database
-    restart: always
+    restart: on-faiure:5
     image: postgres
 
   server:
-    container_name: server
-    restart: always
+    restart: on-faiure:5
     build: server/
-    working_dir: /usr/src/app
-    command: sh run.sh
     volumes:
       - ./server:/usr/src/app
-      - ./server/static:/usr/src/app/static
+      - /usr/src/app/static
     expose:
       - "8000"
     depends_on:
       - database
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.development
+    command: gunicorn config.wsgi:application -w 2 -b :8000 --reload
 
   client:
-    container_name: client
-    restart: always
-    build: client/
-    working_dir: /www/app
-    command: sh run.sh
+    build:
+      context: ./client
+      dockerfile: Dockerfile-development
+    restart: on-faiure:5
     volumes:
-      - ./client:/www/app
-    expose:
-      - "4200"
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/typings
+      - /usr/src/app/tmp
+      - /usr/src/app/dist
+    ports:
+      - "8081:4200"

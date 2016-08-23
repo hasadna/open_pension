@@ -1,0 +1,13 @@
+# compiled output
+static
+
+# IDEs and editors
+.idea
+
+# misc
+.git
+.gitignore
+
+#System Files
+.DS_Store
+Thumbs.db
