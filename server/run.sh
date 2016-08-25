@@ -14,5 +14,9 @@ if not User.objects.filter(username='admin').count():
     User.objects.create_superuser('admin', 'admin@example.com', 'pass')
 " | python3 manage.py shell
 
+echo "[run] Run tests"
+python3 manage.py test
+exit 0
+
 echo "[run] runserver"
 /usr/local/bin/gunicorn config.wsgi:application -w 2 -b :8000 --reload

@@ -2,5 +2,5 @@
 
 docker version
 docker-compose version
-docker-compose up -d
+docker-compose up
 echo "a"
