@@ -40,11 +40,31 @@ class Command(BaseCommand):
     def get_meta_data(self, content):
         split = content.split("\n")
 
-        date = filter(lambda x: re.compile("[0-9]*/[0-9]*/[0-9]*").match(x), split[0].split(','))
-        number = filter(lambda x: x.isdigit(), split[3].split(','))
+        for element in split[3].split(','):
+            if element.isdigit():
+                number = element
+                break
+
+        for element in split[0].split(','):
+            if re.compile("[0-9]*/[0-9]*/[0-9]*").match(element):
+                date = element
+                break
 
         return {
-            'date': list(date)[0],
-            'number': list(number)[0]
+            'number': number,
+            'date': date,
         }
+
+    """
+    Get the fields from the csv file
+
+    :param content:
+        The content of the file
+
+    :return:
+        The metadata of the file
+    """
+    def get_fields(self, content):
+        split = content.split("\n")
+        return split[7].split(",")
 
