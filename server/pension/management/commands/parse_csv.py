@@ -8,8 +8,8 @@ from django.core.management import BaseCommand, CommandError
 class Command(BaseCommand):
 
     fields = {
-        "שם המנפיק/שם נייר ערך": "ss",
-        'מספר ני""ע': "",
+        "שם המנפיק/שם נייר ערך": 'managing_body',
+        'מספר ני""ע': 'fund',
         "זירת מסחר": '',
         "ספק מידע": '',
         "מספר מנפיק": '',
@@ -27,6 +27,25 @@ class Command(BaseCommand):
         "שעור מערך נקוב מונפק": '',
         "שעור מנכסי אפיק ההשקעה": '',
         "שעור מסך נכסי השקעה": '',
+        "קונסורציום כן/לא": '',
+        "שיעור ריבית ממוצע": '',
+        "שווי הוגן": '',
+        "תנאי ושיעור ריבית": '',
+        "ריבית אפקטיבית": '',
+        "עלות מתואמת": '',
+        "שעור מנכסי השקעה": '',
+        "נכס הבסיס": '',
+        "ספק המידע": '',
+        "סכום ההתחייבות": '',
+        "תאריך סיום ההתחייבות": '',
+        "שעור תשואה במהלך התקופה": '',
+        "תאריך שערוך אחרון": '',
+        "אופי הנכס": '',
+        "שווי משוערך": '',
+        "מספר הנייר": '',
+        "שם המדרג": '',
+        "שעור הריבית": '',
+        "תשואה לפדיון": '',
     }
 
     def add_arguments(self, parser):
@@ -36,6 +55,7 @@ class Command(BaseCommand):
         path = options['path']
         for file in os.listdir(options['path']):
             self.normalize(path + "/" + file)
+            break
 
     """
     Normalize the file content.
@@ -49,6 +69,8 @@ class Command(BaseCommand):
     def normalize(self, path):
         content = open(path, 'r').read()
         metadata = self.get_meta_data(content)
+        fields = self.get_fields(content)
+        input(fields.format())
 
     """
     Get the metadata of the file - Kupa number and date
@@ -88,5 +110,5 @@ class Command(BaseCommand):
     """
     def get_fields(self, content):
         split = content.split("\n")
-        return split[7].split(",")
+        return split[7]
 
