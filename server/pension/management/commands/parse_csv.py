@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     fields = {
         "שם המנפיק/שם נייר ערך": 'managing_body',
-        'מספר ני""ע': 'fund',
+        'מספר ניע': 'fund',
         "זירת מסחר": 'market_place',
         "ספק מידע": 'information_provider',
         "מספר מנפיק": 'issuer',
@@ -17,7 +17,7 @@ class Command(BaseCommand):
         "דירוג": 'ranking',
         "שם מדרג": 'there_hierarchy',
         "תאריך רכישה": 'purchase_date',
-        'מח""מ': 'average_life_spend',
+        'מחמ': 'average_life_spend',
         "סוג מטבע": 'currency_type',
         "שיעור ריבית": 'interest_rate',
         "תשואה לפידיון": 'yield_to_maturity',
@@ -70,7 +70,7 @@ class Command(BaseCommand):
         content = open(path, 'r').read()
         metadata = self.get_meta_data(content)
         fields = self.get_fields(content)
-        input(fields.format())
+        input(fields)
 
     """
     Get the metadata of the file - Kupa number and date
@@ -110,5 +110,13 @@ class Command(BaseCommand):
     """
     def get_fields(self, content):
         split = content.split("\n")
-        return split[7]
+        fields = split[7].split(",")
 
+        new_fields = []
+        for field in fields:
+            if field.strip() == '':
+                continue
+
+            new_fields.append(self.fields[field.strip().replace('"', '')])
+
+        return new_fields
