@@ -67,10 +67,10 @@ class Command(BaseCommand):
         The human readable, relatively, CSV file.
     """
     def normalize(self, path):
-        content = open(path, 'r').read()
-        metadata = self.get_meta_data(content)
-        fields = self.get_fields(content)
-        input(fields)
+        csv_file = open(path, 'r').read()
+        metadata = self.get_meta_data(csv_file)
+        fields = self.get_fields(csv_file)
+        content = self.get_content(csv_file, fields)
 
     """
     Get the metadata of the file - Kupa number and date
@@ -86,11 +86,13 @@ class Command(BaseCommand):
 
         for element in split[3].split(','):
             if element.isdigit():
+                # Found the kupa number. No need for extra iteration.
                 number = element
                 break
 
         for element in split[0].split(','):
             if re.compile("[0-9]*/[0-9]*/[0-9]*").match(element):
+                # Found the date. No need to extra iteration.
                 date = element
                 break
 
@@ -115,8 +117,23 @@ class Command(BaseCommand):
         new_fields = []
         for field in fields:
             if field.strip() == '':
+                # An empty fields cannot be added as a field in the CSV header.
                 continue
 
             new_fields.append(self.fields[field.strip().replace('"', '')])
 
         return new_fields
+
+    """
+    Get the content of the fields.
+
+    :param content:
+        The content of the CSV.
+
+    :param fields:
+        The fields of the file. The fields are passed in order to add fields
+        which will be added by the row context(in israel, not in israel etc.
+        etc.)
+    """
+    def get_content(self, content, fields):
+        return ''
