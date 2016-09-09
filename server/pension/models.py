@@ -69,6 +69,24 @@ class FundManagingBody(models.Model):
         )
 
 
+class InvestmentHome(models.Model):
+    """
+    #Daniel
+    #InvestmentHome represents the places the money is invested.
+    """
+    Investment_home_sizes = (
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+    )
+    Investment_home_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    place = models.CharField(max_length=30)
+    InvestmentFirm_Size = models.CharField(max_length=1, choices=Investment_home_sizes)
+    Establishment_Date = models.DateField
+
+
+
 class Issuer(models.Model):
     """
     Company (or other body) that issues a security.
