@@ -75,10 +75,11 @@ class InvestmentHome(models.Model):
     #InvestmentHome represents the place the money invested.
     """
     investment_home_sizes = (
-        ('S', 'Small')
+        ('S', 'Small'),
         ('M', 'Medium'),
         ('L', 'Large'),
     )
+
     investment_home_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     place = models.CharField(max_length=30)
