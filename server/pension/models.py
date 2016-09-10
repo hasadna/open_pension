@@ -72,18 +72,28 @@ class FundManagingBody(models.Model):
 class InvestmentHome(models.Model):
     """
     #Daniel
-    #InvestmentHome represents the places the money is invested.
+    #InvestmentHome represents the place the money invested.
     """
     investment_home_sizes = (
-        ('S', 'Small'),
+        ('S', 'Small')
         ('M', 'Medium'),
         ('L', 'Large'),
     )
     investment_home_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     place = models.CharField(max_length=30)
-    investment_firm_Size = models.CharField(max_length=1, choices=investment_home_sizes)
+    investment_firm_size = models.CharField(max_length=1, choices=investment_home_sizes)
     establishment_date = models.DateField
+
+    def __str__(self):
+        return '{} / {} / {} / {} / {}'.format(
+            self.investment_home_id,
+            self.name,
+            self.place,
+            self.investment_firm_size,
+            self.establishment_date
+        )
+
 
 
 class Issuer(models.Model):
