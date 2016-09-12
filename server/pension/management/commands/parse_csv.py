@@ -55,6 +55,7 @@ class Command(BaseCommand):
         path = options['path']
         for file in os.listdir(options['path']):
             self.normalize(path + "/" + file)
+            # todo: remove.
             break
 
     """
@@ -67,52 +68,63 @@ class Command(BaseCommand):
         The human readable, relatively, CSV file.
     """
     def normalize(self, path):
+        metadata = {'number': '', 'date': ''}
         csv_file = open(path, 'r').read()
-        metadata = self.get_meta_data(csv_file)
-        fields = self.get_fields(csv_file)
+        rows = csv_file.split("\n")
+        for i, value in enumerate(rows):
+            if i == 0:
+                metadata['date'] = self.get_kupa_date(value)
+            elif i == 3:
+                metadata['number'] = self.get_kupa_number(value)
+            elif i == 7:
+                fields = self.get_fields(value)
+            elif i >= 11:
+                print(value)
+
+
         content = self.get_content(csv_file, fields)
 
     """
-    Get the metadata of the file - Kupa number and date
+    Get the kupa number from the first row.
 
-    :param content:
-        The content of the file
+    :param row:
+        The first row.
 
     :return:
-        The metadata of the file
+        The kupa date
     """
-    def get_meta_data(self, content):
-        split = content.split("\n")
-
-        for element in split[3].split(','):
-            if element.isdigit():
-                # Found the kupa number. No need for extra iteration.
-                number = element
-                break
-
-        for element in split[0].split(','):
+    def get_kupa_date(self, row):
+        for element in row.split(','):
             if re.compile("[0-9]*/[0-9]*/[0-9]*").match(element):
                 # Found the date. No need to extra iteration.
-                date = element
-                break
-
-        return {
-            'number': number,
-            'date': date,
-        }
+                return element
 
     """
-    Get the fields from the csv file
+    Get the date of the kupa.
 
-    :param content:
+    :param row:
+        The content of the file
+
+    :return:
+        The kupa number
+    """
+    def get_kupa_number(self, row):
+        for element in row.split(','):
+            if element.isdigit():
+                # Found the kupa number. No need for extra iteration.
+                return element
+
+    """
+    Get the fields from the csv file.
+
+    :param row:
         The content of the file
 
     :return:
         The metadata of the file
     """
-    def get_fields(self, content):
-        split = content.split("\n")
-        fields = split[7].split(",")
+    def get_fields(self, row):
+        fields = row.split(",")
 
         new_fields = []
         for field in fields:
@@ -136,4 +148,6 @@ class Command(BaseCommand):
         etc.)
     """
     def get_content(self, content, fields):
+        fields = content.split("\n")
+
         return ''
