@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+import datetime
 
 
 class Quarters(object):
@@ -84,15 +85,13 @@ class InvestmentHome(models.Model):
     name = models.CharField(max_length=30)
     place = models.CharField(max_length=30)
     investment_firm_size = models.CharField(max_length=1, choices=investment_home_sizes)
-    establishment_date = models.DateField
 
     def __str__(self):
-        return '{} / {} / {} / {} / {}'.format(
+        return '{} / {} / {} / {} '.format(
             self.investment_home_id,
             self.name,
             self.place,
-            self.investment_firm_size,
-            self.establishment_date
+            self.investment_firm_size
         )
 
 
