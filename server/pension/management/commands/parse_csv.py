@@ -46,6 +46,14 @@ class Command(BaseCommand):
         "שם המדרג": 'rating_given',
         "שעור הריבית": 'interest_rate',
         "תשואה לפדיון": 'yield_to_maturity',
+        "בישראל": "in_israel",
+        "צמודות מדד": "cpi",
+        "לא צמודות": "no_cpi",
+        "צמודות למטח": "foreign_coin_related",
+        "אחר": "other",
+        "בחול": "not_in_israel",
+        "חברות ישראליות בחול": "israel_company_out_state",
+        "חברות זרות בחול": "foreign_company_out_state"
     }
 
     def add_arguments(self, parser):
@@ -79,11 +87,11 @@ class Command(BaseCommand):
             elif i == 3:
                 metadata['number'] = self.get_kupa_number(value)
             elif i == 7:
-                fields.append(self.get_fields(value))
+                fields = self.get_fields(value)
             elif i >= 11:
                 row_context = self.is_context(value, contexts)
                 if row_context:
-                    fields.append(row_context)
+                    fields.append(self.english_text(row_context))
 
     """
     Get the kupa number from the first row.
@@ -92,7 +100,7 @@ class Command(BaseCommand):
         The first row.
 
     :return:
-        The kupa date
+        The kupa date.
     """
     def get_kupa_date(self, row):
         for element in row.split(','):
@@ -104,10 +112,10 @@ class Command(BaseCommand):
     Get the date of the kupa.
 
     :param row:
-        The content of the file
+        The content of the file.
 
     :return:
-        The kupa number
+        The kupa number.
     """
     def get_kupa_number(self, row):
         for element in row.split(','):
@@ -133,9 +141,22 @@ class Command(BaseCommand):
                 # An empty fields cannot be added as a field in the CSV header.
                 continue
 
-            new_fields.append(self.fields[field.strip().replace('"', '')])
+            new_fields.append(self.english_text(field))
 
-        return new_fields.append('in_israel')
+        new_fields.append('in_israel')
+        return new_fields
+
+    """
+    Get the english field representation of the hebrew.
+
+    :param field:
+        The hebrew field.
+
+    :return:
+        The english field for the hebrew term.
+    """
+    def english_text(self, field):
+        return self.fields[field.strip().replace('"', '')]
 
     """
     Get the content of the fields.
@@ -154,10 +175,16 @@ class Command(BaseCommand):
         return ''
 
     """
-    Return the context
+    Check if the current line is a line context.
+
+    :return:
+        The text context of boolean when not found.
     """
     def is_context(self, row, contexts):
         if re.compile(',(.+),,,,,,,,,,,,,,,,,,,,').match(row):
-            return row.replace(",", '').replace('"', '')
+            field = row.replace(",", '').replace('"', '')
+            # Don't return this field. Yet.
+            if field != "בעל ענין/צד קשור *":
+                return field
         else:
             return False
