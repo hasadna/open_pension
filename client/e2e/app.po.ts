@@ -1,4 +1,6 @@
-export class OpPage {
+import { browser, element, by } from 'protractor/globals';
+
+export class AngularCliTestPage {
   navigateTo() {
     return browser.get('/');
   }
