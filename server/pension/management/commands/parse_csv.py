@@ -72,6 +72,7 @@ class Command(BaseCommand):
         csv_file = open(path, 'r').read()
         rows = csv_file.split("\n")
         contexts = []
+        fields = []
         for i, value in enumerate(rows):
             if i == 0:
                 metadata['date'] = self.get_kupa_date(value)
@@ -80,7 +81,9 @@ class Command(BaseCommand):
             elif i == 7:
                 fields = self.get_fields(value)
             elif i >= 11:
-                self.is_context(value, contexts)
+                if self.is_context(value, contexts):
+                    fields.append()
+
 
     """
     Get the kupa number from the first row.
@@ -150,6 +153,11 @@ class Command(BaseCommand):
 
         return ''
 
+    """
+    Return the context
+    """
     def is_context(self, row, contexts):
         if re.compile(',(.+),,,,,,,,,,,,,,,,,,,,').match(row):
-            print(row.replace(",", '').replace('"', ''))
+            return row.replace(",", '').replace('"', '')
+        else:
+            return False
