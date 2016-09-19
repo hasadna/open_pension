@@ -79,11 +79,11 @@ class Command(BaseCommand):
             elif i == 3:
                 metadata['number'] = self.get_kupa_number(value)
             elif i == 7:
-                fields = self.get_fields(value)
+                fields.append(self.get_fields(value))
             elif i >= 11:
-                if self.is_context(value, contexts):
-                    fields.append()
-
+                row_context = self.is_context(value, contexts)
+                if row_context:
+                    fields.append(row_context)
 
     """
     Get the kupa number from the first row.
