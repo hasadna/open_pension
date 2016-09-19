@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+import datetime
 
 
 class Quarters(object):
@@ -67,6 +68,32 @@ class FundManagingBody(models.Model):
             self.fund,
             '{} - {}'.format(self.start, self.end)
         )
+
+
+class InvestmentHome(models.Model):
+    """
+    #Daniel
+    #InvestmentHome represents the place the money invested.
+    """
+    investment_home_sizes = (
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+    )
+
+    investment_home_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    place = models.CharField(max_length=30)
+    investment_firm_size = models.CharField(max_length=1, choices=investment_home_sizes)
+
+    def __str__(self):
+        return '{} / {} / {} / {} '.format(
+            self.investment_home_id,
+            self.name,
+            self.place,
+            self.investment_firm_size
+        )
+
 
 
 class Issuer(models.Model):
