@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from pension.models import ManagingBody
+from pension.models import Example
 
 
-class ManagingBodySerializer(serializers.ModelSerializer):
-
+class ExampleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = ManagingBody
-        fields = ('pk', 'label')
+        model = Example
+        fields = ('title', 'number',)

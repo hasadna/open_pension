@@ -1,31 +1,58 @@
-[![Build Status](https://travis-ci.org/hasadna/open_pension.svg?branch=master)](https://travis-ci.org/hasadna/open_pension)
-
 # Open Pension
 
-[![Join the chat at https://gitter.im/open-pension/Lobby](https://badges.gitter.im/open-pension/Lobby.svg)](https://gitter.im/open-pension/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-The repo contains the server & the client parts of the Open Pension project.
-Open Pension is [a "Hasadna" project](hasadna.org.il), that aimed to revealing the secrets behind the Israeli pension market.
+[![Build Status][travis-image]][travis-url] [![Join the chat at https://gitter.im/open-pension/Lobby][gitter-image]][gitter-url]
 
-## Pre Requirements
-1. install [docker](https://www.docker.com/).
-2. install [docker-compose](https://docs.docker.com/compose/install/).
-
-## Installation
-Automatic installation of the project with docker, for development.
-
-1. Run `$ docker-compose up` to build the docker images and run them.
-2. That's it, no step two. Start coding! (:
-3. Open the browser at [http://localhost:80](http://localhost:80).
-
-If you want to install the project manually, go to the `/client` or `/server` directories and read the `README` file. 
+> The repo contains the server & the client parts of the Open Pension project.
+Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to revealing the secrets behind the Israeli pension market.
 
 ## Our Stack
-* [Angular 2.x](https://angular.io/)
-* [Django 1.9.x](https://www.djangoproject.com/)
-* [PostgreSQL](http://www.postgresql.org/)
+
+  * [Angular 2.0](https://angular.io/)
+  * [Django 1.10.1](https://www.djangoproject.com/)
+  * [PostgreSQL](http://www.postgresql.org/)
+
+## Pre Requirements
+
+  1. Make sure you have Python 3.x and pip installed.
+  2. [NodeJS](nodejs.org).
+  3. [Angular CLI](https://github.com/angular/angular-cli).
+
+## Installation
+
+**Client**
+
+  1. `npm install` inside the `client` directory.
+  2. Open the browser at [http://localhost:4200](http://localhost:4200).
+
+**Server**
+
+  1. `cd server/config` then `cp local_settings.template local_settings.py` and modify it by your local settings.
+  2. Install requirements with `pip install -r requirements.txt` (located under `server` directory).
+  3. Migrate the data with `python manage.py migrate`.
+  4. Import the dummy data with `python manage.py import_data`.
+  5. Run the server with `python manage.py runserver`.
+  6. Open the browser at [http://localhost:8000](http://localhost:8000).
+
+## Tests
+
+**Client**
+
+  * Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+  * Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+**Server**
+
+  * Not yet.
 
 ## Contribute
+
 Just fork and do a pull request (;
 
 ## License
+
 MIT
+
+[travis-image]: https://travis-ci.org/hasadna/open_pension.svg?branch=master
+[travis-url]: https://travis-ci.org/hasadna/open_pension
+[gitter-image]: https://badges.gitter.im/open-pension/Lobby.svg
+[gitter-url]: https://gitter.im/open-pension/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
