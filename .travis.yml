@@ -20,5 +20,4 @@ install:
   - source ~/.bashrc
 
 script:
-  - pycodestyle --show-pep8 server
-
+  - pycodestyle --show-source --show-pep8 server
