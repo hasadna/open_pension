@@ -20,4 +20,4 @@ install:
   - source ~/.bashrc
 
 script:
-  - pycodestyle --show-source --show-pep8 server
+  - pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server
