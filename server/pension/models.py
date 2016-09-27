@@ -13,4 +13,4 @@ class Example(models.Model):
     """ Example enttiy. """
     title = models.CharField(max_length=255, blank=True)
     number = models.CharField(max_length=25, choices=NumberType.choices, default='int')
-    REQUIRED_FIELDS = ['title',]
+    REQUIRED_FIELDS = ['title', ]
