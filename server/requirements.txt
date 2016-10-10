@@ -3,6 +3,7 @@
 Django==1.10.1
 psycopg2==2.6.2
 django-extensions==1.7.4
+django-ckeditor==5.1.1
 
 # Rest Framework
 djangorestframework==3.4.7

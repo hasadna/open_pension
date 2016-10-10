@@ -4,5 +4,5 @@ from pension.models import Example
 
 @register(Example)
 class ExampleTranslation(TranslationOptions):
-    fields = ('title',)
+    fields = ('title', 'body')
     required_languages = ('he',)

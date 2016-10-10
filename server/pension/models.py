@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from ckeditor.fields import RichTextField
+
 
 class NumberType(object):
     choices = (
@@ -15,6 +17,7 @@ class Example(models.Model):
     """
     title = models.CharField(_('title'), max_length=255, blank=True)
     number = models.CharField(_('number'), max_length=25, choices=NumberType.choices, default='int')
+    body = RichTextField(_('body'), blank=True)
     REQUIRED_FIELDS = ['title', ]
 
     class Meta:
