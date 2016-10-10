@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-26 20:57+0300\n"
+"POT-Creation-Date: 2016-10-10 18:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,22 @@ msgstr "מספר שלם"
 #: pension/models.py:8
 msgid "Float"
 msgstr "נקודה צפה"
+
+#: pension/models.py:16
+msgid "title"
+msgstr "כותרת"
+
+#: pension/models.py:17
+msgid "number"
+msgstr "מספר"
+
+#: pension/models.py:21
+msgid "Example"
+msgstr "דוגמא"
+
+#: pension/models.py:22
+msgid "Examples"
+msgstr "דוגמאות"
 
 #: pension/templates/admin/base_site.html:3
 msgid "Django site admin"

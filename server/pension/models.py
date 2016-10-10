@@ -10,7 +10,13 @@ class NumberType(object):
 
 
 class Example(models.Model):
-    """ Example enttiy. """
-    title = models.CharField(max_length=255, blank=True)
-    number = models.CharField(max_length=25, choices=NumberType.choices, default='int')
+    """
+    Example entity.
+    """
+    title = models.CharField(_('title'), max_length=255, blank=True)
+    number = models.CharField(_('number'), max_length=25, choices=NumberType.choices, default='int')
     REQUIRED_FIELDS = ['title', ]
+
+    class Meta:
+        verbose_name = _('Example')
+        verbose_name_plural = _('Examples')
