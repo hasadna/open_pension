@@ -14,7 +14,6 @@ class ExampleAdmin(TranslationAdmin):
             'modeltranslation/js/tabbed_translation_fields.js',
         )
         css = {
-            "all": ("css/admin.css",),
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
 

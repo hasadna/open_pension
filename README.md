@@ -44,6 +44,21 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 
   * Not yet.
 
+## Translation
+
+**Client**
+
+Not yet..
+
+**Server**
+
+To make new strings for translation use the command
+
+```shell
+python manage.py makemessages -l he
+python manage.py compilemessages -l he
+```
+
 ## Contribute
 
 Just fork and do a pull request (;

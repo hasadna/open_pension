@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
+
+    'ckeditor',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -157,10 +159,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# DATA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'data'))
+MEDIA_URL = '/staticuploads/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'staticuploads')
+
+
+# CKEditor - WYSIWYG editor.
+# https://github.com/django-ckeditor/django-ckeditor
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Font', 'FontSize'],
+            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-',
+             'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'],
+            ['Link', 'Unlink'],
+            ['TextColor', 'BGColor'],
+        ]
+    }
+}
 
 
 # Importing local settings if exists.
