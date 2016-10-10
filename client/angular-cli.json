@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.14",
+    "version": "1.0.0-beta.15",
     "name": "op"
   },
   "apps": [
@@ -15,7 +15,7 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css", "assets/main.css"
+        "styles.css"
       ],
       "scripts": [],
       "environments": {

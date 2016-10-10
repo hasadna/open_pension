@@ -1,31 +1,50 @@
 sudo: required
-
-services:
-  - docker
+dist: trusty
 
 language: python
-python: 3.5
+python:
+  - 3.5
+  - 2.7
 
-env:
-    global:
-      - DOCKER_VERSION=1.10.1-0~trusty
-      - DOCKER_COMPOSE_VERSION=1.7.1
-    matrix:
-      - SCRIPT="bash travis_scripts/code_sniffer.sh"
-      - SCRIPT="bash travis_scripts/docker.sh"
+services:
+  - postgresql
 
 before_install:
-    # list docker-engine versions
-    - apt-cache madison docker-engine
+  # Install nodejs for npm packages.
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
+    sudo apt-get install -y build-essential;
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -;
+    sudo apt-get install -y nodejs;
+    export DISPLAY=:99.0;
+    sh -e /etc/init.d/xvfb start;
+    fi
 
-    # upgrade docker-engine to specific version
-    - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
+install:
+  # Install code sniffer.
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.5 ]]; then
+    pip install pycodestyle;
+    pip install --upgrade pycodestyle;
+    source ~/.bash_profile;
+    source ~/.bashrc;
+    fi
 
-    # reinstall docker-compose at specific version
-    - sudo rm /usr/local/bin/docker-compose
-    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-    - chmod +x docker-compose
-    - sudo mv docker-compose /usr/local/bin
+  # Install Angular CLI
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
+    npm install -g npm@latest;
+    npm install -g angular-cli;
+    cd client;
+    npm install;
+    cd ..;
+    fi
 
 script:
-  - eval $SCRIPT
+  # Run code sniffer on the server directory.
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.5 ]]; then
+    pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
+    fi
+
+  # Run e2e tests on the client directory.
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
+    cd client;
+    ng serve& ng e2e;
+    fi
