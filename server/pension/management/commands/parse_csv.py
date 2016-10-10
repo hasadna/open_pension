@@ -56,6 +56,11 @@ class Command(BaseCommand):
         "חברות זרות בחול": "foreign_company_out_state"
     }
 
+    global_contexts = {
+        "in_israel",
+        "not_in_israel"
+    }
+
     def add_arguments(self, parser):
         parser.add_argument('--path', type=str)
 
@@ -81,6 +86,8 @@ class Command(BaseCommand):
         rows = csv_file.split("\n")
         contexts = []
         fields = []
+        last_context = ''
+        global_context = ''
         for i, value in enumerate(rows):
             if i == 0:
                 metadata['date'] = self.get_kupa_date(value)
@@ -91,7 +98,17 @@ class Command(BaseCommand):
             elif i >= 11:
                 row_context = self.is_context(value, contexts)
                 if row_context:
-                    fields.append(self.english_text(row_context))
+                    """ Get the current context """
+                    last_context = self.english_text(row_context)
+
+                    """ Check if the current context is a global context or """
+                    if self.is_global_context(last_context):
+                        global_context = last_context
+
+                    """ Add the context to the fields """
+                    fields.append(last_context)
+                else:
+                    print(global_context)
 
     """
     Get the kupa number from the first row.
@@ -159,22 +176,6 @@ class Command(BaseCommand):
         return self.fields[field.strip().replace('"', '')]
 
     """
-    Get the content of the fields.
-
-    :param content:
-        The content of the CSV.
-
-    :param fields:
-        The fields of the file. The fields are passed in order to add fields
-        which will be added by the row context(in israel, not in israel etc.
-        etc.)
-    """
-    def get_content(self, content, fields):
-        fields = content.split("\n")
-
-        return ''
-
-    """
     Check if the current line is a line context.
 
     :return:
@@ -188,3 +189,16 @@ class Command(BaseCommand):
                 return field
         else:
             return False
+
+    """
+    Check if the given context is a global context
+
+    : param context:
+        The name of the context
+
+    :return:
+        The text context of boolean when not found.
+    """
+    def is_global_context(self, context):
+        return context in self.global_contexts
+
