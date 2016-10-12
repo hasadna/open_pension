@@ -9,11 +9,12 @@ import {TRANSLATION_PROVIDERS} from "./translation/translation";
 import {TranslatePipe} from "./translation/transplate.pipe";
 import {TranslateService} from "./translation/trnanslate.service";
 import {Store} from "./app.store";
+import { LogoComponent } from './logo/logo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderSectionComponent, TranslatePipe
+    HeaderSectionComponent, TranslatePipe, LogoComponent
   ],
   imports: [
     BrowserModule,
