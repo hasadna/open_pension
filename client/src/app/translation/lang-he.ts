@@ -11,5 +11,7 @@ export const LANG_HE_NAME = 'he';
 export const LANG_HE_TRANS = {
   'About': 'אודות',
   'ContactUs': 'יצירת קשר',
-  'HowItWorks' : 'איך זה עובד'
+  'HowItWorks' : 'איך זה עובד',
+  'Open Pension' :'פנסיה פתוחה',
+  'search' : 'חיפוש'
 };

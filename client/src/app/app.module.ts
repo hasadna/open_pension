@@ -10,16 +10,21 @@ import {TranslatePipe} from "./translation/transplate.pipe";
 import {TranslateService} from "./translation/trnanslate.service";
 import {Store} from "./app.store";
 import { LogoComponent } from './logo/logo.component';
+import { SearchComponent } from './search/search.component';
+import {routing} from "./app.routes";
+import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderSectionComponent, TranslatePipe, LogoComponent
+    HeaderSectionComponent, TranslatePipe, LogoComponent, SearchComponent, AboutComponent, HomeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routing
   ],
   providers: [TRANSLATION_PROVIDERS, TranslateService, Store],
   bootstrap: [AppComponent]
