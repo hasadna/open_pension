@@ -67,7 +67,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         path = options['path']
         for file in os.listdir(options['path']):
-            self.normalize(path + "/" + file)
+            print(self.normalize(path + "/" + file))
             # todo: remove.
             break
 
@@ -86,8 +86,10 @@ class Command(BaseCommand):
         rows = csv_file.split("\n")
         contexts = []
         fields = []
-        last_context = ''
+        local_context = ''
         global_context = ''
+        body = []
+
         for i, value in enumerate(rows):
             if i == 0:
                 metadata['date'] = self.get_kupa_date(value)
@@ -99,16 +101,21 @@ class Command(BaseCommand):
                 row_context = self.is_context(value, contexts)
                 if row_context:
                     """ Get the current context """
-                    last_context = self.english_text(row_context)
+                    local_context = self.english_text(row_context)
 
-                    """ Check if the current context is a global context or """
-                    if self.is_global_context(last_context):
-                        global_context = last_context
-
-                    """ Add the context to the fields """
-                    fields.append(last_context)
+                    """ Check if the current context is a global context or. """
+                    if self.is_global_context(local_context):
+                        global_context = local_context
                 else:
-                    print(global_context)
+                    """ Remove the extra comma from the end. """
+                    value = value[:-1]
+                    value += global_context + "," + local_context
+
+                    """ Remove the comma at the beginning. """
+                    body.append(value[1:])
+        fields.append('global_context')
+        fields.append('local_context')
+        return ','.join(fields) + "\n" + "\n".join(body)
 
     """
     Get the kupa number from the first row.
@@ -160,7 +167,6 @@ class Command(BaseCommand):
 
             new_fields.append(self.english_text(field))
 
-        new_fields.append('in_israel')
         return new_fields
 
     """
