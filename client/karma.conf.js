@@ -37,7 +37,8 @@ module.exports = function (config) {
       Chrome_without_sandbox: {
         base: 'Chrome',
         flags: ['--no-sandbox'] // with sandbox it fails under Docker
-      },
+      }
+    },
     singleRun: false
   });
 };
