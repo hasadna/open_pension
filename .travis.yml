@@ -17,7 +17,6 @@ before_install:
     sudo apt-get install -y nodejs;
     export DISPLAY=:99.0;
     sh -e /etc/init.d/xvfb start;
-    nohup bash -c "./nodemodules/protractor/bin/webdriver-manager start 2>&1 &"
     fi
 
 install:
