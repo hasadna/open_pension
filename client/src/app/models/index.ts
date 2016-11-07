@@ -1,0 +1,2 @@
+
+// export { Example } from './example';
