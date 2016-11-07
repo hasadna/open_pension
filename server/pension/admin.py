@@ -17,4 +17,5 @@ class ExampleAdmin(TranslationAdmin):
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
 
+
 admin.site.register(Example, ExampleAdmin)
