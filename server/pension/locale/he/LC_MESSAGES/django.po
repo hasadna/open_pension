@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-28 19:16+0300\n"
+"POT-Creation-Date: 2016-10-10 18:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,26 +18,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: pension/models.py:12
-msgid "First Quarter"
-msgstr "רבעון ראשון"
+#: config/settings.py:141
+msgid "Hebrew"
+msgstr "עברית"
 
-#: pension/models.py:13
-msgid "Second Quarter"
-msgstr "רבעון שני"
+#: config/settings.py:142
+msgid "English"
+msgstr "אנגלית"
 
-#: pension/models.py:14
-msgid "Third Quarter"
-msgstr "רבעון שלישי"
+#: pension/models.py:9
+msgid "Integer"
+msgstr "מספר שלם"
 
-#: pension/models.py:15
-msgid "Fourth Quarter"
-msgstr "רבעון רביעי"
+#: pension/models.py:10
+msgid "Float"
+msgstr "נקודה צפה"
+
+#: pension/models.py:18
+msgid "title"
+msgstr "כותרת"
+
+#: pension/models.py:19
+msgid "number"
+msgstr "מספר"
+
+#: pension/models.py:20
+msgid "body"
+msgstr "תוכן"
 
 #: pension/models.py:24
-msgid "Negotiable Security"
-msgstr "ניירות ערך סחירים"
+msgid "Example"
+msgstr "דוגמא"
 
 #: pension/models.py:25
-msgid "Non-Negotiable Security"
-msgstr "ניירות ערך לא סחירים"
+msgid "Examples"
+msgstr "דוגמאות"
+
+#: pension/templates/admin/base_site.html:3
+msgid "Django site admin"
+msgstr "מנהל אתר Django"

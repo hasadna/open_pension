@@ -22,11 +22,6 @@
       140
     ],
     "member-access": false,
-    "member-ordering": [
-      true,
-      "static-before-instance",
-      "variables-before-functions"
-    ],
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -46,7 +41,7 @@
     "no-inferrable-types": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
-    "no-switch-case-fall-through": true,
+    "no-switch-case-fall-through": false,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
     "no-unused-variable": true,
@@ -93,6 +88,8 @@
       "check-type"
     ],
 
+    "directive-selector-prefix": [true, "op"],
+    "component-selector-prefix": [true, "op"],
     "directive-selector-name": [true, "camelCase"],
     "component-selector-name": [true, "kebab-case"],
     "directive-selector-type": [true, "attribute"],
@@ -105,6 +102,8 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "templates-use-public": true,
+    "invoke-injectable": true
   }
 }
