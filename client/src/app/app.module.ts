@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { AppRoutingModule } from './app-routing.module';
 import { OpComponent } from './op.component';
 import reducer from './reducers';
 
@@ -36,6 +37,7 @@ import {
     BrowserModule,
     FormsModule,
     HttpModule,
+    AppRoutingModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // EffectsModule.run(ExampleEffects),

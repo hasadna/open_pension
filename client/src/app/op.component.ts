@@ -3,12 +3,11 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'op-root',
   template: `
-    <h1>
-      {{title}}
-    </h1>
+    <op-header></op-header>
+    <router-outlet></router-outlet>
+    <op-footer></op-footer>
   `,
   styles: [``]
 })
 export class OpComponent {
-  title = 'app works!';
 }
