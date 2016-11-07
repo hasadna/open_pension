@@ -207,4 +207,3 @@ class Command(BaseCommand):
     """
     def is_global_context(self, context):
         return context in self.global_contexts
-
