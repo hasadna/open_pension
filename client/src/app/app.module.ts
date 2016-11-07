@@ -6,25 +6,38 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { AppRoutingModule } from './app-routing.module';
 import { OpComponent } from './op.component';
 import reducer from './reducers';
+
+import {
+  HeaderComponent,
+  SearchComponent,
+  FooterComponent,
+  PaiComponent,
+  FiltersComponent
+} from './components';
 
 // import { ExampleActions } from './actions';
 
 // import { ExapleEffects } from './effects';
 
-// import { ExampleComponent } from './components';
-
 // import { ExampleService } from './services';
 
 @NgModule({
   declarations: [
-    OpComponent
+    OpComponent,
+    HeaderComponent,
+    SearchComponent,
+    FooterComponent,
+    PaiComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    AppRoutingModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // EffectsModule.run(ExampleEffects),
