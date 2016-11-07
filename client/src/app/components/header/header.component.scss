@@ -1,0 +1,43 @@
+.links{
+  float: left;
+  background-color: #5F7D8C;
+  color: white;
+  vertical-align: middle;
+}
+
+.navSection{
+  float: left;
+  padding-top: 2%;
+  padding-left: 4%;
+}
+
+.navLinks{
+  vertical-align: middle;
+  margin: 5px;
+}
+
+app-header-section  + div{
+  background-color: #5F7D8C;
+  color: white;
+}
+
+.header.mainDiv{
+  min-height: 110px;
+  max-height: 110px;
+  overflow: hidden;
+  padding-right: 10%;
+}
+
+.header a{
+  text-decoration: none;
+  color: inherit;
+
+}
+
+.header{
+  background-color: #5F7D8C;
+  color: white;
+
+
+}
+
