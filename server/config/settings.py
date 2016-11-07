@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'ckeditor',
+    'graphene_django'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -180,6 +181,16 @@ CKEDITOR_CONFIGS = {
             ['TextColor', 'BGColor'],
         ]
     }
+}
+
+
+# ...
+GRAPHENE = {
+    'SCHEMA': 'config.schema.schema',
+    'MIDDLEWARE': (
+        'graphene_django.debug.DjangoDebugMiddleware',
+    ),
+    'SCHEMA_INDENT': 2,
 }
 
 
