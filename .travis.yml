@@ -40,11 +40,12 @@ install:
 script:
   # Run code sniffer on the server directory.
   - if [[ $TRAVIS_PYTHON_VERSION == 3.5 ]]; then
-    pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
+    pycodestyle --show-source --max-line-length=119 --exclude=server/whatsbuzz/migrations --show-pep8 server;
     fi
 
   # Run e2e tests on the client directory.
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
     cd client;
+    ng lint;
     ng serve& ng e2e;
     fi
