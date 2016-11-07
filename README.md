@@ -59,6 +59,10 @@ python manage.py makemessages -l he
 python manage.py compilemessages -l he
 ```
 
+## Data
+
+If you need the data itself use the `--recursive` flag when you `git clone` this repo.
+
 ## Contribute
 
 Just fork and do a pull request (;
