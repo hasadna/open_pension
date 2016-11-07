@@ -6,9 +6,4 @@ describe('angular-cli-test App', function() {
   beforeEach(() => {
     page = new OpPage();
   });
-
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
-  });
 });

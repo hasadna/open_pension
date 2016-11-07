@@ -46,5 +46,6 @@ script:
   # Run e2e tests on the client directory.
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
     cd client;
+    ng lint;
     ng serve& ng e2e;
     fi

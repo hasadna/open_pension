@@ -2,31 +2,47 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { AppComponent } from './app.component';
-import {HeaderSectionComponent} from "./header-section/header-section.component";
-import {TRANSLATION_PROVIDERS} from "./translation/translation";
-import {TranslatePipe} from "./translation/transplate.pipe";
-import {TranslateService} from "./translation/trnanslate.service";
-import {Store} from "./app.store";
-import { LogoComponent } from './logo/logo.component';
-import { SearchComponent } from './search/search.component';
-import {routing} from "./app.routes";
-import { AboutComponent } from './about/about.component';
-import { HomeComponent } from './home/home.component';
+import { AppRoutingModule } from './app-routing.module';
+import { OpComponent } from './op.component';
+import reducer from './reducers';
+
+import {
+  HeaderComponent,
+  SearchComponent,
+  FooterComponent,
+  PaiComponent,
+  FiltersComponent
+} from './components';
+
+// import { ExampleActions } from './actions';
+
+// import { ExapleEffects } from './effects';
+
+// import { ExampleService } from './services';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderSectionComponent, TranslatePipe, LogoComponent, SearchComponent, AboutComponent, HomeComponent
+    OpComponent,
+    HeaderComponent,
+    SearchComponent,
+    FooterComponent,
+    PaiComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    AppRoutingModule,
+    StoreModule.provideStore(reducer),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    // EffectsModule.run(ExampleEffects),
   ],
-  providers: [TRANSLATION_PROVIDERS, TranslateService, Store],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [OpComponent]
 })
 export class AppModule { }
