@@ -7,17 +7,22 @@ nav {
 
 #logo {
   float: right;
-}
-
-img {
   vertical-align: middle;
 }
 
 .links {
   direction: rtl;
+  margin: 15px 0;
 
   a {
+    margin: 0 10px;
     float: left;
     color: $header-text-color;
+    cursor: pointer;
+    font-size: 20px;
+
+    i {
+      vertical-align:middle;
+    }
   }
 }
