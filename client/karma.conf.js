@@ -34,13 +34,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome_without_sandbox'],
-    customLaunchers: {
-      Chrome_without_sandbox: {
-        base: 'Chrome',
-        flags: ['--no-sandbox'] // with sandbox it fails under Docker
-      }
-    },
+    browsers: ['Chrome'],
     singleRun: false
   });
 };

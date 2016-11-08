@@ -1,6 +1,6 @@
 import { OpPage } from './app.po';
 
-describe('angular-cli-test App', function() {
+describe('op App', function() {
   let page: OpPage;
 
   beforeEach(() => {
