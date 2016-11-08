@@ -1,3 +1,5 @@
+@import "../../../assets/vars.scss";
+
 #logo {
   width: 25%;
   float: right;
@@ -5,7 +7,7 @@
 
 .links{
   float: left;
-  background-color: #5F7D8C;
+  background-color: $header-background;
   color: white;
   vertical-align: middle;
 }
@@ -22,7 +24,7 @@
 }
 
 app-header-section  + div{
-  background-color: #5F7D8C;
+  background-color: $header-background;
   color: white;
 }
 
@@ -39,6 +41,6 @@ app-header-section  + div{
 }
 
 .header{
-  background-color: #5F7D8C;
+  background-color: $header-background;
   color: white;
 }
