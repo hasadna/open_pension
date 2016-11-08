@@ -6,9 +6,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-// Temp.
-import { LayoutModule } from 'ng2-flex-layout';
-
 import { AppRoutingModule } from './app-routing.module';
 import { OpComponent } from './op.component';
 import reducer from './reducers';
@@ -41,7 +38,6 @@ import {
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    LayoutModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // EffectsModule.run(ExampleEffects),
