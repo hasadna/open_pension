@@ -1,3 +1,8 @@
+#logo {
+  width: 25%;
+  float: right;
+}
+
 .links{
   float: left;
   background-color: #5F7D8C;
@@ -31,13 +36,9 @@ app-header-section  + div{
 .header a{
   text-decoration: none;
   color: inherit;
-
 }
 
 .header{
   background-color: #5F7D8C;
   color: white;
-
-
 }
-

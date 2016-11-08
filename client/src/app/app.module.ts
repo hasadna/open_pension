@@ -17,7 +17,6 @@ import {
   PaiComponent,
   FiltersComponent
 } from './components';
-import {LogoComponent} from "./components/logo/logo.component";
 
 // import { ExampleActions } from './actions';
 
@@ -32,8 +31,7 @@ import {LogoComponent} from "./components/logo/logo.component";
     SearchComponent,
     FooterComponent,
     PaiComponent,
-    FiltersComponent,LogoComponent
-
+    FiltersComponent,
   ],
   imports: [
     BrowserModule,
