@@ -1,18 +1,20 @@
-<nav>
-  <img id="logo" src="/assets/logo.png" alt="Open Pension Logo" />
-  <div class="links">
-    <a [routerLink]="['/about']">
-      <md-icon>info_outline</md-icon>
-      אודות
-    </a>
-    <a [routerLink]="['/contact']">
-      <md-icon>mail_outline</md-icon>
-      יצירת קשר
-    </a>
-    <a [routerLink]="['/how']">
-      <md-icon>help_outline</md-icon>
-      איך זה עובד?
-    </a>
+<nav layout="row">
+  <img id="logo" src="/assets/logo.png" alt="Open Pension Logo" flex="20" />
+  <div flex="80" layout="column">
+    <div class="links" layout="row" layout-align="space-around center">
+      <a [routerLink]="['/about']">
+        <md-icon>info_outline</md-icon>
+        אודות
+      </a>
+      <a [routerLink]="['/contact']">
+        <md-icon>mail_outline</md-icon>
+        יצירת קשר
+      </a>
+      <a [routerLink]="['/how']">
+        <md-icon>help_outline</md-icon>
+        איך זה עובד?
+      </a>
+    </div>
+    <op-search></op-search>
   </div>
-  <op-search></op-search>
 </nav>
