@@ -1,6 +1,9 @@
-op-search div {
-  background-color: white;
-  border-color: white;
-  border-style: solid;
-  border-color: white;
+@import "../../../assets/vars.scss";
+
+md-input {
+  color: $header-text-color;
+}
+
+.md-input-placeholder.md-empty.md-float {
+  text-align: right;
 }

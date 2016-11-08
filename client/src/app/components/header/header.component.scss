@@ -1,46 +1,24 @@
 @import "../../../assets/vars.scss";
 
+nav {
+  background-color: $header-background;
+  display: block;
+}
+
 #logo {
   width: 25%;
   float: right;
 }
 
-.links{
-  float: left;
-  background-color: $header-background;
-  color: white;
+img {
   vertical-align: middle;
 }
 
-.navSection{
-  float: left;
-  padding-top: 2%;
-  padding-left: 4%;
-}
+.links {
+  direction: rtl;
 
-.navLinks{
-  vertical-align: middle;
-  margin: 5px;
-}
-
-app-header-section  + div{
-  background-color: $header-background;
-  color: white;
-}
-
-.header.mainDiv{
-  min-height: 110px;
-  max-height: 110px;
-  overflow: hidden;
-  padding-right: 10%;
-}
-
-.header a{
-  text-decoration: none;
-  color: inherit;
-}
-
-.header{
-  background-color: $header-background;
-  color: white;
+  a {
+    float: left;
+    color: $header-text-color;
+  }
 }
