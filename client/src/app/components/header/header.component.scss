@@ -3,16 +3,25 @@
 nav {
   background-color: $header-background;
   display: block;
+  height: 120px;
+
+  .container {
+    position: relative;
+  }
 }
 
 #logo {
   float: right;
   vertical-align: middle;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
 }
 
 .links {
   direction: rtl;
-  margin: 15px 0;
+  margin: 10px 0;
 
   a {
     margin: 0 10px;
