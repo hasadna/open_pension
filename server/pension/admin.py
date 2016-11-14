@@ -1,6 +1,8 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
+
 from pension.models import Blog, Tags
+from pension.forms import BlogForm
 
 
 class TagsAdmin(TranslationAdmin):
@@ -20,6 +22,7 @@ class TagsAdmin(TranslationAdmin):
 
 
 class BlogAdmin(TranslationAdmin):
+    form = BlogForm
     model = Blog
     list_display = ('title', 'body', 'publish')
 
