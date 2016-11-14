@@ -3,7 +3,7 @@ from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 
-from .models import Blog
+from pension.models import Blog
 
 
 class BlogForm(forms.ModelForm):

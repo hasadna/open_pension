@@ -28,10 +28,6 @@ urlpatterns = [
     url(r'^api/', include('api.urls')),
 ]
 
-# Serve static uploaded files if in debug mode.
-if settings.DEBUG:
-    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 # URLs that should be translated.
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
