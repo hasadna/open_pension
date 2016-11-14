@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-10 18:28+0300\n"
+"POT-Creation-Date: 2016-11-14 17:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,32 +27,32 @@ msgid "English"
 msgstr "אנגלית"
 
 #: pension/models.py:9
-msgid "Integer"
-msgstr "מספר שלם"
+msgid "tag"
+msgstr "תג"
 
-#: pension/models.py:10
-msgid "Float"
-msgstr "נקודה צפה"
+#: pension/models.py:15
+msgid "Tag"
+msgstr "תג"
 
-#: pension/models.py:18
+#: pension/models.py:16
+msgid "Tags"
+msgstr "תגיות"
+
+#: pension/models.py:24
 msgid "title"
 msgstr "כותרת"
 
-#: pension/models.py:19
-msgid "number"
-msgstr "מספר"
-
-#: pension/models.py:20
+#: pension/models.py:25
 msgid "body"
 msgstr "תוכן"
 
-#: pension/models.py:24
-msgid "Example"
-msgstr "דוגמא"
+#: pension/models.py:27
+msgid "publish"
+msgstr "פרסום"
 
-#: pension/models.py:25
-msgid "Examples"
-msgstr "דוגמאות"
+#: pension/models.py:28
+msgid "tags"
+msgstr "תגיות"
 
 #: pension/templates/admin/base_site.html:3
 msgid "Django site admin"

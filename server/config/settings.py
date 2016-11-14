@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'api',
     'pension',
 
+    'ckeditor',
+    'dal',
+    'dal_select2',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,8 +53,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
-
-    'ckeditor',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -123,7 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Django REST Framework
 # http://www.django-rest-framework.org/
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
@@ -134,9 +135,7 @@ REST_FRAMEWORK = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
-
 LANGUAGE_CODE = 'he'
-
 LANGUAGES = [
     ('he', _('Hebrew')),
     ('en', _('English')),
@@ -147,20 +146,15 @@ LOCALE_PATHS = (
 )
 
 TIME_ZONE = 'Asia/Jerusalem'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 MEDIA_URL = '/staticuploads/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'staticuploads')
 

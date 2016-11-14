@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from pension.models import Example
+from pension.models import Blog
 
 
-class ExampleSerializer(serializers.HyperlinkedModelSerializer):
+class BlogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Example
-        fields = ('title', 'number',)
+        model = Blog
+        fields = ('title',)
