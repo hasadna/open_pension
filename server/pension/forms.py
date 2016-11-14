@@ -9,7 +9,7 @@ from .models import Blog
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ('title', 'body', 'publish', 'tags', )
+        fields = ('title', 'author', 'body', 'publish', 'tags', )
         widgets = {
             'tags': autocomplete.ModelSelect2Multiple(url='tags-autocomplete', attrs={
                 'data-placeholder': _('Select Tags'),

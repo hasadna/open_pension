@@ -10,5 +10,5 @@ class TagsTranslation(TranslationOptions):
 
 @register(Blog)
 class BlogTranslation(TranslationOptions):
-    fields = ('title', 'body')
+    fields = ('title', 'author', 'body')
     required_languages = ('he',)

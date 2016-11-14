@@ -24,7 +24,7 @@ class TagsAdmin(TranslationAdmin):
 class BlogAdmin(TranslationAdmin):
     form = BlogForm
     model = Blog
-    list_display = ('title', 'body', 'publish')
+    list_display = ('title', 'author', 'body', 'publish')
 
     class Media:
         js = (

@@ -23,6 +23,7 @@ class Blog(models.Model):
     unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     title = models.CharField(_('title'), max_length=255, blank=True)
     body = RichTextField(_('body'), blank=True)
+    author = models.CharField(_('author'), max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     publish = models.DateTimeField(_('publish'), null=True)
     tags = models.ManyToManyField(Tags, _('tags'), blank=True)

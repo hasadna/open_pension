@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-14 17:23+0200\n"
+"POT-Creation-Date: 2016-11-14 20:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: config/settings.py:141
+#: config/settings.py:139
 msgid "Hebrew"
 msgstr "עברית"
 
-#: config/settings.py:142
+#: config/settings.py:140
 msgid "English"
 msgstr "אנגלית"
+
+#: pension/forms.py:15
+msgid "Select Tags"
+msgstr "בחר תגיות"
 
 #: pension/models.py:9
 msgid "tag"
@@ -46,11 +50,15 @@ msgstr "כותרת"
 msgid "body"
 msgstr "תוכן"
 
-#: pension/models.py:27
+#: pension/models.py:26
+msgid "author"
+msgstr "מחבר"
+
+#: pension/models.py:28
 msgid "publish"
 msgstr "פרסום"
 
-#: pension/models.py:28
+#: pension/models.py:29
 msgid "tags"
 msgstr "תגיות"
 
