@@ -1,12 +1,12 @@
 from rest_framework import viewsets
-from api.serializers import ExampleSerializer
+from api.serializers import BlogSerializer
 
-from pension.models import Example
+from pension.models import Blog
 
 
-class ExampleViewSet(viewsets.ReadOnlyModelViewSet):
+class BlogViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint for Example.
     """
-    queryset = Example.objects.all()
-    serializer_class = ExampleSerializer
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer

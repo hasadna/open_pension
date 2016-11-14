@@ -1,0 +1,37 @@
+@import "../../../assets/vars.scss";
+
+nav {
+  background-color: $header-background;
+  display: block;
+  height: 120px;
+
+  .container {
+    position: relative;
+  }
+}
+
+#logo {
+  float: right;
+  vertical-align: middle;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.links {
+  direction: rtl;
+  margin: 10px 0;
+
+  a {
+    margin: 0 10px;
+    float: left;
+    color: $header-text-color;
+    cursor: pointer;
+    font-size: 20px;
+
+    i {
+      vertical-align:middle;
+    }
+  }
+}

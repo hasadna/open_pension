@@ -31,7 +31,7 @@ import {
     SearchComponent,
     FooterComponent,
     PaiComponent,
-    FiltersComponent
+    FiltersComponent,
   ],
   imports: [
     BrowserModule,

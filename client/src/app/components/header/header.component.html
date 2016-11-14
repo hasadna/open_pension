@@ -1,3 +1,24 @@
-<p>
-  header works!
-</p>
+<nav>
+  <div class="container">
+    <a [routerLink]="['/']">
+      <img id="logo" src="/assets/logo.svg" alt="Open Pension Logo" class="col-xs-5">
+    </a>
+    <div class="col-xs-7">
+      <div class="links row">
+        <a [routerLink]="['/how-it-works']">
+          <i class="material-icons">help_outline</i>
+          איך זה עובד?
+        </a>
+        <a [routerLink]="['/contact']">
+          <i class="material-icons">mail_outline</i>
+          יצירת קשר
+        </a>
+        <a [routerLink]="['/about']">
+          <i class="material-icons">info_outline</i>
+          אודות
+        </a>
+      </div>
+      <op-search></op-search>
+    </div>
+  </div>
+</nav>
