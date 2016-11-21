@@ -1,8 +1,9 @@
 @import "../../../assets/vars.scss";
 
 .op-contact-us {
+
   h2{
-    color: black;
+    color: #4B4B4B;
     font-size: 24px;
     font-weight: bolder;
   }
@@ -17,9 +18,8 @@
   color: #A3A3A3;
   direction: rtl;
   margin-right: 140px;
-  h2{
-font-size:18px;
-  }
+  margin-top: 80px;
+
   textarea{
 
 height: 200px;
