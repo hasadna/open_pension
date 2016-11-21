@@ -3,10 +3,10 @@ import csv
 import string
 import re
 from django.core.management import BaseCommand, CommandError
+from yapsy.PluginManager import PluginManager
 
 
 class Command(BaseCommand):
-
     fields = {
         "שם המנפיק/שם נייר ערך": 'managing_body',
         'מספר ניע': 'fund',
@@ -72,6 +72,12 @@ class Command(BaseCommand):
         '(.+),,,,,,,,,,,',
     }
 
+    pluginManager = PluginManager()
+
+    plugins = {
+        'אג"ח קונצרני': 'agach'
+    }
+
     def add_arguments(self, parser):
         parser.add_argument('--source', type=str)
         parser.add_argument('--destination', type=str)
@@ -79,13 +85,26 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         path = options['source']
         destination = options['destination']
-        for file in os.listdir(options['source']):
-            if file != "אופציות-Table 1.csv":
-                continue
 
-            # f = open(destination + "/" + file, 'w')
-            print(self.normalize(path + "/" + file))
-            # f.close()
+        self.pluginManager.setPluginPlaces(
+            ["pension/management/commands/plugins"])
+        self.pluginManager.collectPlugins()
+
+        print(self.pluginManager.getPluginByName('agach').print_name())
+
+        for file in os.listdir(options['source']):
+            split_file = file.split('-')
+            del split_file[-1]
+            # plugin = self.pluginManager.getPluginByName(self.plugins["-".join(split_file)]).print_name()
+
+            # if plugin is None:
+            continue
+
+            # print(plugin.print_name())
+
+                # f = open(destination + "/" + file, 'w')
+                # print(self.normalize(path + "/" + file))
+                # f.close()
 
     """
     Normalize the file content.
@@ -96,6 +115,7 @@ class Command(BaseCommand):
     :return:
         The human readable, relatively, CSV file.
     """
+
     def normalize(self, path):
         metadata = {'number': '', 'date': ''}
         csv_file = open(path, 'r').read()
@@ -142,6 +162,7 @@ class Command(BaseCommand):
     :return:
         The kupa date.
     """
+
     def get_kupa_date(self, row):
         for element in row.split(','):
             if re.compile("[0-9]*/[0-9]*/[0-9]*").match(element):
@@ -157,6 +178,7 @@ class Command(BaseCommand):
     :return:
         The kupa number.
     """
+
     def get_kupa_number(self, row):
         for element in row.split(','):
             if element.isdigit():
@@ -172,6 +194,7 @@ class Command(BaseCommand):
     :return:
         The metadata of the file
     """
+
     def get_fields(self, row):
         fields = row.split(",")
 
@@ -194,6 +217,7 @@ class Command(BaseCommand):
     :return:
         The english field for the hebrew term.
     """
+
     def english_text(self, field):
         return self.fields[field.strip().replace('"', '')]
 
@@ -203,6 +227,7 @@ class Command(BaseCommand):
     :return:
         The text context of boolean when not found.
     """
+
     def is_context(self, row, contexts):
         for context in self.contexts:
             if re.compile(context).match(row):
@@ -222,5 +247,6 @@ class Command(BaseCommand):
     :return:
         The text context of boolean when not found.
     """
+
     def is_global_context(self, context):
         return context in self.global_contexts
