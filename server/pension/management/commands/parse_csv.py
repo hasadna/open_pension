@@ -53,7 +53,11 @@ class Command(BaseCommand):
         "אחר": "other",
         "בחול": "not_in_israel",
         "חברות ישראליות בחול": "israel_company_out_state",
-        "חברות זרות בחול": "foreign_company_out_state"
+        "חברות זרות בחול": "foreign_company_out_state",
+        "מדדים כולל מניות": "madad_with_stocks",
+        "שח/מטח": "nis_foreign",
+        "ריבית": "intereset",
+        "סחורות": "merchendise",
     }
 
     global_contexts = {
@@ -61,15 +65,27 @@ class Command(BaseCommand):
         "not_in_israel"
     }
 
+    contexts = {
+        ',(.+),,,,,,,,,,,,,,,,,,,,',
+        '(.+),,,,,,,,,,,,,,,,,,,,',
+        ',(.+),,,,,,,,,,,',
+        '(.+),,,,,,,,,,,',
+    }
+
     def add_arguments(self, parser):
-        parser.add_argument('--path', type=str)
+        parser.add_argument('--source', type=str)
+        parser.add_argument('--destination', type=str)
 
     def handle(self, *args, **options):
-        path = options['path']
-        for file in os.listdir(options['path']):
+        path = options['source']
+        destination = options['destination']
+        for file in os.listdir(options['source']):
+            if file != "אופציות-Table 1.csv":
+                continue
+
+            # f = open(destination + "/" + file, 'w')
             print(self.normalize(path + "/" + file))
-            # todo: remove.
-            break
+            # f.close()
 
     """
     Normalize the file content.
@@ -188,13 +204,14 @@ class Command(BaseCommand):
         The text context of boolean when not found.
     """
     def is_context(self, row, contexts):
-        if re.compile(',(.+),,,,,,,,,,,,,,,,,,,,').match(row):
-            field = row.replace(",", '').replace('"', '')
-            # Don't return this field. Yet.
-            if field != "בעל ענין/צד קשור *":
-                return field
-        else:
-            return False
+        for context in self.contexts:
+            if re.compile(context).match(row):
+                field = row.replace(",", '').replace('"', '')
+                # Don't return this field. Yet.
+                if field != "בעל ענין/צד קשור *":
+                    return field
+            else:
+                return False
 
     """
     Check if the given context is a global context
