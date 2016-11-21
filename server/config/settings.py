@@ -52,7 +52,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
-    'graphene_django'
+    'graphene_django',
+
+    # 'config.whatsbuzz.apps.PensionConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
