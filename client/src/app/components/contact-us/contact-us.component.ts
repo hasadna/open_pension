@@ -16,7 +16,8 @@ export class ContactUsComponent implements OnInit {
   }
 
   submitMe() {
-
+    console.log('submitting data', {name: this.contactName,
+      eMail: this.contactEmail, content: this.content});
   }
 
 }
