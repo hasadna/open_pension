@@ -1,0 +1,26 @@
+@import "../../../assets/vars.scss";
+
+.op-contact-us {
+  h2{
+    color: black;
+  }
+
+  input, textarea {
+    border-radius: 3px;
+    border-width: 1px;
+    border-color: #B1B1B1;
+    width:500px;
+
+  }
+  color: #A3A3A3;
+  direction: rtl;
+  margin-right: 140px;
+  h2{
+font-size:18px;
+  }
+  textarea{
+
+height: 200px;
+  }
+div{ margin-top: 30px;}
+}

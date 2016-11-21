@@ -15,10 +15,10 @@ import {
   SearchComponent,
   FooterComponent,
   PaiComponent,
-  FiltersComponent
+  FiltersComponent,
+  ContactUsComponent
 } from './components';
-import { ContatcUsComponent } from './components/contatc-us/contatc-us.component';
-import { ContactUsComponent } from './components/contact-us/contact-us.component';
+
 
 // import { ExampleActions } from './actions';
 
@@ -34,7 +34,6 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
     FooterComponent,
     PaiComponent,
     FiltersComponent,
-    ContatcUsComponent,
     ContactUsComponent,
   ],
   imports: [
