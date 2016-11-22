@@ -90,7 +90,8 @@ class Command(BaseCommand):
             ["pension/management/commands/plugins"])
         self.pluginManager.collectPlugins()
 
-        print(self.pluginManager.getPluginByName('agach').print_name())
+        plugin = self.pluginManager.getPluginByName('agach')
+        plugin.plugin_object.print_name()
 
         for file in os.listdir(options['source']):
             split_file = file.split('-')
