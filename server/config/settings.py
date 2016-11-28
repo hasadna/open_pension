@@ -178,7 +178,7 @@ CKEDITOR_CONFIGS = {
 
 
 GRAPHENE = {
-    'SCHEMA': 'config.schema.schema' # Where your Graphene schema lives
+    'SCHEMA': 'config.schema.schema'  # Where your Graphene schema lives
 }
 
 

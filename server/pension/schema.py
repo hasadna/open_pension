@@ -15,4 +15,5 @@ class Query(graphene.ObjectType):
     def resolve_blogs(self):
         return Post.objects.all()
 
+
 schema = graphene.Schema(query=Query)
