@@ -16,7 +16,7 @@ class Tags(models.Model):
         verbose_name_plural = _('Tags')
 
 
-class Blog(models.Model):
+class Post(models.Model):
     """
     A blog post entity.
     """
@@ -28,3 +28,7 @@ class Blog(models.Model):
     publish = models.DateTimeField(_('publish'), null=True)
     tags = models.ManyToManyField(Tags, _('tags'), blank=True)
     REQUIRED_FIELDS = ['title', 'body', 'publish']
+
+    class Meta:
+        verbose_name = _('Post')
+        verbose_name_plural = _('Posts')

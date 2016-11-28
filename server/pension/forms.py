@@ -3,12 +3,12 @@ from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 
-from pension.models import Blog
+from pension.models import Post
 
 
-class BlogForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     class Meta:
-        model = Blog
+        model = Post
         fields = ('title', 'author', 'body', 'publish', 'tags', )
         widgets = {
             'tags': autocomplete.ModelSelect2Multiple(url='tags-autocomplete', attrs={

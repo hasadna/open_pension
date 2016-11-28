@@ -24,7 +24,7 @@ from pension.models import Tags
 
 # URLs that shouldn't be translated.
 urlpatterns = [
-    url(r'^api/', include('api.urls')),
+
 ]
 
 # URLs that should be translated.

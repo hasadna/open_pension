@@ -35,7 +35,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'modeltranslation',
 
-    'api',
     'pension',
 
     'ckeditor',
