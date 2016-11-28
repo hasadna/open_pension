@@ -15,7 +15,8 @@ import {
   SearchComponent,
   FooterComponent,
   PaiComponent,
-  FiltersComponent
+  FiltersComponent,
+  AboutComponent
 } from './components';
 
 // import { ExampleActions } from './actions';
@@ -32,6 +33,7 @@ import {
     FooterComponent,
     PaiComponent,
     FiltersComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
