@@ -14,25 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls.i18n import i18n_patterns
-from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.conf import settings
-
 from graphene_django.views import GraphQLView
+
 from dal import autocomplete
 
 from pension.models import Tags
 
-
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^api/', include('api.urls')),
-    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
 
 # URLs that should be translated.
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
     url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete'),
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 )

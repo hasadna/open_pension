@@ -52,9 +52,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
-    'graphene_django',
 
-    # 'config.whatsbuzz.apps.PensionConfig',
+    'graphene_django',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -179,13 +178,8 @@ CKEDITOR_CONFIGS = {
 }
 
 
-# ...
 GRAPHENE = {
-    'SCHEMA': 'config.schema.schema',
-    'MIDDLEWARE': (
-        'graphene_django.debug.DjangoDebugMiddleware',
-    ),
-    'SCHEMA_INDENT': 2,
+    'SCHEMA': 'config.schema.schema' # Where your Graphene schema lives
 }
 
 

@@ -7,5 +7,4 @@ router.register(r'blog', views.BlogViewSet, base_name='blog')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^test-grpah/$', views.TestGrpahQL.as_view()),
 ]
