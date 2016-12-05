@@ -19,12 +19,16 @@
       "mobile": false,
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../node_modules/intro.js/introjs.css",
+        "../node_modules/intro.js/introjs-rtl.css",
         "styles.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/tether/dist/js/tether.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.js"
+        "../node_modules/bootstrap/dist/js/bootstrap.js",
+        "../node_modules/intro.js/intro.js"
+
       ],
       "environments": {
         "source": "environments/environment.ts",
