@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'op-contact-us',
@@ -10,12 +10,16 @@ export class ContactUsComponent {
   private contactName: string;
   private contactEmail: string;
   private content: string;
-  constructor() { }
+
+  constructor() {
+  }
 
 
   submitMe() {
-    console.log('submitting data', {name: this.contactName,
-      eMail: this.contactEmail, content: this.content});
+    console.log('submitting data', {
+      name: this.contactName,
+      eMail: this.contactEmail, content: this.content
+    });
   }
 
 }
