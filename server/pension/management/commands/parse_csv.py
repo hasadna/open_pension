@@ -90,22 +90,19 @@ class Command(BaseCommand):
             ["pension/management/commands/plugins"])
         self.pluginManager.collectPlugins()
 
-        plugin = self.pluginManager.getPluginByName('agach')
-        plugin.plugin_object.print_name()
-
-        for file in os.listdir(options['source']):
+        for file in os.listdir(path):
             split_file = file.split('-')
             del split_file[-1]
-            # plugin = self.pluginManager.getPluginByName(self.plugins["-".join(split_file)]).print_name()
+            plugin_id = "-".join(split_file)
+            if plugin_id not in self.plugins:
+                # No matching plugin. Skipping.
+                continue
 
-            # if plugin is None:
-            continue
-
-            # print(plugin.print_name())
-
-                # f = open(destination + "/" + file, 'w')
-                # print(self.normalize(path + "/" + file))
-                # f.close()
+            plugin_id = self.plugins[plugin_id]
+            plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
+            print(self.normalize(path + "/" + file, plugin))
+            # f = open(destination + "/" + file, 'w')
+            # f.close()
 
     """
     Normalize the file content.
@@ -113,19 +110,19 @@ class Command(BaseCommand):
     :param path:
         The path of the file.
 
+    :param plugin:
+        The plugin object which handle the body.
+
     :return:
         The human readable, relatively, CSV file.
     """
 
-    def normalize(self, path):
+    def normalize(self, path, plugin):
         metadata = {'number': '', 'date': ''}
         csv_file = open(path, 'r').read()
         rows = csv_file.split("\n")
         contexts = []
         fields = []
-        local_context = ''
-        global_context = ''
-        body = []
 
         for i, value in enumerate(rows):
             if i == 0:
@@ -135,24 +132,11 @@ class Command(BaseCommand):
             elif i == 7:
                 fields = self.get_fields(value)
             elif i >= 11:
-                row_context = self.is_context(value, contexts)
-                if row_context:
-                    """ Get the current context """
-                    local_context = self.english_text(row_context)
+                plugin.parseBody(self, value, contexts)
 
-                    """ Check if the current context is a global context or. """
-                    if self.is_global_context(local_context):
-                        global_context = local_context
-                else:
-                    """ Remove the extra comma from the end. """
-                    value = value[:-1]
-                    value += global_context + "," + local_context
-
-                    """ Remove the comma at the beginning. """
-                    body.append(value[1:])
         fields.append('global_context')
         fields.append('local_context')
-        return ','.join(fields) + "\n" + "\n".join(body)
+        return ','.join(fields) + "\n" + "\n".join(plugin.body)
 
     """
     Get the kupa number from the first row.
