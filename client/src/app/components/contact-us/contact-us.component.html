@@ -1,0 +1,16 @@
+<div class="op-contact-us">
+<h2>יצירת קשר</h2>
+טקסט לדוגמא על יצירת קשר
+<form (submit)="submitMe()">
+  <div>
+    <input type="text" name="contactName" [(ngModel)]="contactName" placeholder="שם" />
+  </div>
+  <div>
+    <input type="email" name="contactEmail" [(ngModel)]="contactEmail" placeholder="אימייל" />
+  </div>
+  <div>
+    <textarea placeholder="תוכן" [(ngModel)]="content" name="content" ></textarea>
+  </div>
+  <button type="submit">שליחת פנייה</button>
+</form>
+</div>
