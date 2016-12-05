@@ -17,6 +17,7 @@ import {
   PaiComponent,
   FiltersComponent
 } from './components';
+import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
 
 // import { ExampleActions } from './actions';
 
@@ -32,6 +33,7 @@ import {
     FooterComponent,
     PaiComponent,
     FiltersComponent,
+    HowItWorksComponent,
   ],
   imports: [
     BrowserModule,
