@@ -1,8 +1,12 @@
 from rest_framework import viewsets
-from pension.models import ManagingBody
-from api.serializers import ManagingBodySerializer
+from api.serializers import ExampleSerializer
+
+from pension.models import Example
 
 
-class ManagingBodyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = ManagingBody.objects.all()
-    serializer_class = ManagingBodySerializer
+class ExampleViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint for Example.
+    """
+    queryset = Example.objects.all()
+    serializer_class = ExampleSerializer
