@@ -1,6 +1,6 @@
 # Open Pension
 
-[![Build Status][travis-image]][travis-url] [![Join the chat at https://gitter.im/open-pension/Lobby][gitter-image]][gitter-url]
+[![license][license-image]][license-url] [![Build Status][travis-image]][travis-url] [![Python 3][python-image]][python-url] [![Updates][updates-image]][updates-url] [![Join the chat at https://gitter.im/open-pension/Lobby][gitter-image]][gitter-url]
 
 > The repo contains the server & the client parts of the Open Pension project.
 Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to revealing the secrets behind the Israeli pension market.
@@ -67,11 +67,13 @@ If you need the data itself use the `--recursive` flag when you `git clone` this
 
 Just fork and do a pull request (;
 
-## License
-
-MIT
-
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg
+[license-url]: https://github.com/hasadna/open_pension/blob/master/LICENSE
 [travis-image]: https://travis-ci.org/hasadna/open_pension.svg?branch=master
 [travis-url]: https://travis-ci.org/hasadna/open_pension
+[python-image]: https://pyup.io/repos/github/hasadna/open_pension/python-3-shield.svg
+[python-url]: https://pyup.io/repos/github/hasadna/open_pension
+[updates-image]: https://pyup.io/repos/github/hasadna/open_pension/shield.svg
+[updates-url]: https://pyup.io/repos/github/hasadna/open_pension
 [gitter-image]: https://badges.gitter.im/open-pension/Lobby.svg
 [gitter-url]: https://gitter.im/open-pension/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
