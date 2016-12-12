@@ -1,6 +1,3 @@
-_user = '{{webuser}}'
-_host = '{{host}}'
-
 SECRET_KEY = '{{secret_key}}'
 
 DATABASES = {
