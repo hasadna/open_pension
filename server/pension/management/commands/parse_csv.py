@@ -75,7 +75,8 @@ class Command(BaseCommand):
     pluginManager = PluginManager()
 
     plugins = {
-        'אג"ח קונצרני': 'agach'
+        'אג"ח קונצרני': 'agach',
+        'אופציות': 'options',
     }
 
     def add_arguments(self, parser):
@@ -120,6 +121,7 @@ class Command(BaseCommand):
         csv_file = open(path, 'r').read()
         rows = csv_file.split("\n")
         fields = []
+        contexts = []
 
         for i, value in enumerate(rows):
             if i == 0:
@@ -129,7 +131,7 @@ class Command(BaseCommand):
             elif i == 7:
                 fields = self.get_fields(value)
             elif i >= 11:
-                plugin.parseBody(self, value)
+                plugin.parseBody(self, value, contexts)
 
         fields.append('global_context')
         fields.append('local_context')
