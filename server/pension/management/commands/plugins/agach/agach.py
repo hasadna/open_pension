@@ -10,6 +10,14 @@ class PluginOne(IPlugin):
     body = []
 
     def parseBody(self, command, value, contexts):
+        """
+        Main method to parse xsl files.
+        :param command:
+            The CLI command object.
+        :param value:
+             The CSV content beside the global fields.
+        :return:
+        """
         row_context = command.is_context(value, contexts)
         if row_context:
             # Get the current context.
