@@ -9,7 +9,7 @@ class Blog(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    blogs = graphene.Field(Blog)
+    blogs = graphene.List(Blog)
 
     @graphene.resolve_only_args
     def resolve_blogs(self):
