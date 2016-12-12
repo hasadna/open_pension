@@ -101,8 +101,6 @@ class Command(BaseCommand):
             plugin_id = self.plugins[plugin_id]
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
             print(self.normalize(path + "/" + file, plugin))
-            # f = open(destination + "/" + file, 'w')
-            # f.close()
 
     """
     Normalize the file content.
