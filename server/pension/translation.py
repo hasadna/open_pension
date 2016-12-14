@@ -1,12 +1,16 @@
 from modeltranslation.translator import register, TranslationOptions
-from pension.models import Blog, Tags
+from pension.models import Blog, Tags, Security
 
+
+@register(Security)
+class SecurityTranslation(TranslationOptions):
+    fields = ('security_name', 'security_number', 'rating', 'rating_cause')
+    required_languages = ('he',)
 
 @register(Tags)
 class TagsTranslation(TranslationOptions):
     fields = ('name',)
     required_languages = ('he',)
-
 
 @register(Blog)
 class BlogTranslation(TranslationOptions):
