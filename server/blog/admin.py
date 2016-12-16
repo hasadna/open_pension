@@ -1,8 +1,8 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from pension.models import Blog, Tags
-from pension.forms import BlogForm
+from blog.models import Blog, Tags
+from blog.forms import BlogForm
 
 
 class TagsAdmin(TranslationAdmin):
