@@ -3,7 +3,7 @@ from yapsy.IPlugin import IPlugin
 
 class PluginOne(IPlugin):
     """
-    Reformatting the agach tab.
+    Reformatting the options tab.
     """
 
     global_context = ''
@@ -37,8 +37,7 @@ class PluginOne(IPlugin):
                 self.global_context = self.local_context
         else:
             # Remove the extra comma from the end.
-            value = value[:-1]
             value += self.global_context + "," + self.local_context
 
             # Remove the comma at the beginning.
-            self.body.append(value[1:])
+            self.body.append(value)
