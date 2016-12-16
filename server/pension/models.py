@@ -64,5 +64,6 @@ class other_investments(models.Model):
 class investments_balance(models.Model):
     pass
 
+
 class others(models.Model):
     pass
