@@ -2,7 +2,7 @@ from django.core.files import File
 from django.utils import timezone
 from django.core.management import BaseCommand
 
-from pension.models import Blog, Tags
+from blog.models import Blog, Tags
 
 
 class Command(BaseCommand):
@@ -42,6 +42,7 @@ def create_blog_dummy_data():
              'אנו משתמשים במילון עם מעל 200 ערכים בלטינית משולבים במבני משפטים על מנת לשוות לטקט מראה'
              'הגיוני. ולכן הטקסט של Lorem Ipsum לעולם לא יכיל טקסטים חוזרים, הומור, או מילים לא מאופייניות וכדומה',
         author_en='Nir Galon',
+        title_en='Institutional investments and bonds of Africa Israel',
         body_en='Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has'
                 'been the industrys standard dummy text ever since the 1500s, when an unknown printer took a'
                 'galley of type and scrambled it to make a type specimen book. It has survived not only five'

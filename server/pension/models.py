@@ -5,26 +5,65 @@ from ckeditor.fields import RichTextField
 from django.utils.translation import ugettext_lazy as _
 
 
-class Tags(models.Model):
-    name = models.CharField(_('tag'), max_length=255, unique=True)
-
-    def __str__(self):
-        return "{0}".format(self.name)
-
-    class Meta:
-        verbose_name = _('Tag')
-        verbose_name_plural = _('Tags')
+class cash_and_deposit(models.Model):
+    pass
 
 
-class Blog(models.Model):
-    """
-    A blog post entity.
-    """
-    unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    title = models.CharField(_('title'), max_length=255, blank=True)
-    body = RichTextField(_('body'), blank=True)
-    author = models.CharField(_('author'), max_length=255, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    publish = models.DateTimeField(_('publish'), null=True)
-    tags = models.ManyToManyField(Tags, _('tags'), blank=True)
-    REQUIRED_FIELDS = ['title', 'body', 'publish']
+class government_bonds(models.Model):
+    pass
+
+
+class commercial_bonds(models.Model):
+    pass
+
+
+class corporate_bonds(models.Model):
+    pass
+
+
+class shares(models.Model):
+    pass
+
+
+class etf(models.Model):
+    pass
+
+
+class trust_funds(models.Model):
+    pass
+
+
+class option_warrants(models.Model):
+    pass
+
+
+class options(models.Model):
+    pass
+
+
+class futures(models.Model):
+    pass
+
+
+class structured_products(models.Model):
+    pass
+
+
+class land_rights(models.Model):
+    pass
+
+
+class companies_investments(models.Model):
+    pass
+
+
+class other_investments(models.Model):
+    pass
+
+
+class investments_balance(models.Model):
+    pass
+
+
+class others(models.Model):
+    pass
