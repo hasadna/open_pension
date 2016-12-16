@@ -9,6 +9,8 @@ class PluginOne(IPlugin):
 
     body = []
 
+    text_skip = 'סה""כ'
+
     def parseBody(self, command, value):
         """
         Main method to parse xsl files.
@@ -19,6 +21,10 @@ class PluginOne(IPlugin):
         :return:
         """
         row_context = command.is_context(value)
+
+        if self.text_skip in value:
+            return
+
         if row_context:
             # Get the current context.
             self.local_context = command.english_text(row_context)

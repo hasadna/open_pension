@@ -26,7 +26,7 @@ class Command(BaseCommand):
         "שווי שוק": 'market_value',
         "שעור מערך נקוב מונפק": 'issued_par_rate',
         "שעור מנכסי אפיק ההשקעה": 'rate_assets',
-        "שעור מסך נכסי השקעה": 'total_assets _investment',
+        "שעור מסך נכסי השקעה": 'total_assets_investment',
         "קונסורציום כן/לא": 'consortium',
         "שיעור ריבית ממוצע": 'average_interest_rate',
         "שווי הוגן": 'fair_value',
@@ -82,10 +82,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--source', type=str)
         parser.add_argument('--destination', type=str)
+        parser.add_argument('--plugin_id', type=str)
 
     def handle(self, *args, **options):
         path = options['source']
         destination = options['destination']
+        specific_plugin = options['plugin_id']
 
         self.pluginManager.setPluginPlaces(
             ["pension/management/commands/plugins"])
@@ -100,6 +102,11 @@ class Command(BaseCommand):
                 continue
 
             plugin_id = self.plugins[plugin_id]
+
+            if specific_plugin is not None:
+                if plugin_id != specific_plugin:
+                    continue
+
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
             print(self.normalize(path + "/" + file, plugin))
 
@@ -121,7 +128,6 @@ class Command(BaseCommand):
         csv_file = open(path, 'r').read()
         rows = csv_file.split("\n")
         fields = []
-        contexts = []
 
         for i, value in enumerate(rows):
             if i == 0:
@@ -131,6 +137,9 @@ class Command(BaseCommand):
             elif i == 7:
                 fields = self.get_fields(value)
             elif i >= 11:
+                if self.should_skip_line(value):
+                    continue
+
                 plugin.parseBody(self, value)
 
         fields.append('global_context')
@@ -234,3 +243,22 @@ class Command(BaseCommand):
 
     def is_global_context(self, context):
         return context in self.global_contexts
+
+
+    def should_skip_line(self, value):
+        """
+        Check if the line should be skipped or not.
+
+        :param value:
+            The current line.
+        :return:
+            True or false.
+        """
+        skipping_text = 'בעל ענין/צד קשור *'
+        if skipping_text in value:
+            return True
+
+        if value.replace(',', '') == "":
+            return True
+
+        return False
