@@ -5,4 +5,6 @@ export class PostsService {
 
   constructor() { }
 
+  getPosts(): void {}
+
 }
