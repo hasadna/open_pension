@@ -17,6 +17,7 @@ import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
 import { PostComponent } from './components/post/post.component';
+import { PostsComponent } from './components/posts/posts.component';
 
 // import { ExampleActions } from './actions';
 
@@ -34,6 +35,7 @@ import { PostComponent } from './components/post/post.component';
     FiltersComponent,
     AboutComponent,
     PostComponent,
+    PostsComponent,
   ],
   imports: [
     BrowserModule,
