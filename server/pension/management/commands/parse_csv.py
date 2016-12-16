@@ -244,7 +244,6 @@ class Command(BaseCommand):
     def is_global_context(self, context):
         return context in self.global_contexts
 
-
     def should_skip_line(self, value):
         """
         Check if the line should be skipped or not.
