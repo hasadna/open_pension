@@ -131,7 +131,7 @@ class Command(BaseCommand):
             elif i == 7:
                 fields = self.get_fields(value)
             elif i >= 11:
-                plugin.parseBody(self, value, contexts)
+                plugin.parseBody(self, value)
 
         fields.append('global_context')
         fields.append('local_context')

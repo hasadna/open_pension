@@ -9,7 +9,7 @@ class PluginOne(IPlugin):
 
     body = []
 
-    def parseBody(self, command, value, contexts):
+    def parseBody(self, command, value):
         """
         Main method to parse xsl files.
         :param command:
@@ -19,7 +19,7 @@ class PluginOne(IPlugin):
         :return:
         """
         print('a')
-        row_context = command.is_context(value, contexts)
+        row_context = command.is_context(value)
         if row_context:
             # Get the current context.
             self.local_context = command.english_text(row_context)
