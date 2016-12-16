@@ -103,8 +103,7 @@ class Command(BaseCommand):
 
             plugin_id = self.plugins[plugin_id]
 
-            if specific_plugin is not None:
-                if plugin_id != specific_plugin:
+            if specific_plugin is not None and plugin_id != specific_plugin:
                     continue
 
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object

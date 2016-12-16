@@ -2,6 +2,9 @@ from yapsy.IPlugin import IPlugin
 
 
 class PluginOne(IPlugin):
+    """
+    Reformatting the options tab.
+    """
 
     global_context = ''
 

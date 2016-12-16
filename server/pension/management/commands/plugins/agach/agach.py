@@ -2,6 +2,9 @@ from yapsy.IPlugin import IPlugin
 
 
 class PluginOne(IPlugin):
+    """
+    Reformatting the agach tab.
+    """
 
     global_context = ''
 
