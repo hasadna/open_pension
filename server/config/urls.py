@@ -20,7 +20,7 @@ from graphene_django.views import GraphQLView
 
 from dal import autocomplete
 
-from pension.models import Tags
+from blog.models import Tags
 
 # URLs that shouldn't be translated.
 urlpatterns = [

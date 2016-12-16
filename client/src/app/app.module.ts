@@ -10,13 +10,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { OpComponent } from './op.component';
 import reducer from './reducers';
 
-import {
-  HeaderComponent,
-  SearchComponent,
-  FooterComponent,
-  PaiComponent,
-  FiltersComponent
-} from './components';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { SearchComponent } from './components/search/search.component';
+import { PaiComponent } from './components/pai/pai.component';
+import { FiltersComponent } from './components/filters/filters.component';
+import { AboutComponent } from './components/about/about.component';
 
 // import { ExampleActions } from './actions';
 
@@ -32,6 +31,7 @@ import {
     FooterComponent,
     PaiComponent,
     FiltersComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
