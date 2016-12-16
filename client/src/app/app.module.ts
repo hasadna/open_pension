@@ -11,12 +11,18 @@ import { OpComponent } from './op.component';
 import reducer from './reducers';
 
 import {
-  HeaderComponent,
-  SearchComponent,
-  FooterComponent,
-  PaiComponent,
-  FiltersComponent
+  // HeaderComponent,
+  // SearchComponent,
+  // FooterComponent,
+  // PaiComponent,
+  // FiltersComponent
 } from './components';
+
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { SearchComponent } from './components/search/search.component';
+import { PaiComponent } from './components/pai/pai.component';
+import { FiltersComponent } from './components/filters/filters.component';
 
 // import { ExampleActions } from './actions';
 
