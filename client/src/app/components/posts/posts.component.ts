@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PostComponent } from '../post/post.component';
 
 @Component({
   selector: 'op-posts',
