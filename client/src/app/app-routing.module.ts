@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// import { PaiComponent } from './components';
 import { PaiComponent } from './components/pai/pai.component';
 
 const routes: Routes = [
