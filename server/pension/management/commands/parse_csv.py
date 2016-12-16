@@ -212,7 +212,7 @@ class Command(BaseCommand):
         The text context of boolean when not found.
     """
 
-    def is_context(self, row, contexts):
+    def is_context(self, row):
         for context in self.contexts:
             if re.compile(context).match(row):
                 field = row.replace(",", '').replace('"', '')
