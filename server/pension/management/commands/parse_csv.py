@@ -65,17 +65,17 @@ class Command(BaseCommand):
         "not_in_israel"
     }
 
-    contexts = {
+    contexts = [
         ',(.+),,,,,,,,,,,,,,,,,,,,',
         '(.+),,,,,,,,,,,,,,,,,,,,',
         ',(.+),,,,,,,,,,,',
         '(.+),,,,,,,,,,,',
-    }
+    ]
 
     pluginManager = PluginManager()
 
     plugins = {
-        'אג"ח קונצרני': 'agach',
+        'אג"ח-קונצרני': 'agach',
         'אופציות': 'options',
         'השקעה-בחברות-מוחזקות': 'invest-in-held-companies',
     }
@@ -105,7 +105,7 @@ class Command(BaseCommand):
             plugin_id = self.plugins[plugin_id]
 
             if specific_plugin is not None and plugin_id != specific_plugin:
-                    continue
+                continue
 
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
             print(self.normalize(path + "/" + file, plugin))
@@ -228,8 +228,7 @@ class Command(BaseCommand):
                 # Don't return this field. Yet.
                 if field != "בעל ענין/צד קשור *":
                     return field
-            else:
-                return False
+        return False
 
     """
     Check if the given context is a global context
