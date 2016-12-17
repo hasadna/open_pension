@@ -58,6 +58,9 @@ class Command(BaseCommand):
         "שח/מטח": "nis_foreign",
         "ריבית": "intereset",
         "סחורות": "merchendise",
+        "מעלות": "degrees",
+        "שקל חדש": "nis",
+        "כנגד חסכון עמיתים/מבוטחים": "against_fund_amitim",
     }
 
     global_contexts = {
@@ -77,6 +80,7 @@ class Command(BaseCommand):
     plugins = {
         'אג"ח קונצרני': 'agach',
         'אופציות': 'options',
+        'הלוואות': 'loans',
     }
 
     def add_arguments(self, parser):
