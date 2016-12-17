@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: '', component: PaiComponent },
   { path: 'about', component: AboutComponent },
   { path: 'blog', component: PostsComponent },
-  { path: 'post/:id', component: PostComponent },
+  { path: 'blog/:id', component: PostComponent },
 ];
 
 @NgModule({

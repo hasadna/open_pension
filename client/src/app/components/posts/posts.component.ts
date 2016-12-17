@@ -10,13 +10,13 @@ import { Post } from '../../models/post';
   providers: [PostsService]
 })
 export class PostsComponent implements OnInit {
-	posts: Post[];
+  posts: Post[];
 
   constructor(
-  	private postsService: PostsService
-	) { }
+    private postsService: PostsService
+  ) { }
 
   ngOnInit(): void {
-  	this.posts = this.postsService.getPosts();
+    this.posts = this.postsService.getPosts();
   }
 }
