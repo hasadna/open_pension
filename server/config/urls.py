@@ -24,12 +24,11 @@ from blog.models import Tags
 
 # URLs that shouldn't be translated.
 urlpatterns = [
-
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
 
 # URLs that should be translated.
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
     url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete'),
-    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 )

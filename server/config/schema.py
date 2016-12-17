@@ -1,10 +1,10 @@
-import pension.schema
+import blog.schema
 import graphene
 
 from graphene_django.debug import DjangoDebug
 
 
-class Query(pension.schema.Query, graphene.ObjectType):
+class Query(blog.schema.Query, graphene.ObjectType):
     debug = graphene.Field(DjangoDebug, name='__debug')
 
 

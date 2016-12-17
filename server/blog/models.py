@@ -26,5 +26,9 @@ class Blog(models.Model):
     author = models.CharField(_('author'), max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     publish = models.DateTimeField(_('publish'), null=True)
-    tags = models.ManyToManyField(Tags, _('tags'), blank=True)
+    tags = models.ManyToManyField(Tags, blank=True)
     REQUIRED_FIELDS = ['title', 'body', 'publish']
+
+    class Meta:
+        verbose_name = _('Blog')
+        verbose_name_plural = _('Blogs')
