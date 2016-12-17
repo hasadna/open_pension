@@ -77,6 +77,7 @@ class Command(BaseCommand):
     plugins = {
         'אג"ח קונצרני': 'agach',
         'אופציות': 'options',
+        'השקעה-בחברות-מוחזקות': 'invest-in-held-companies',
     }
 
     def add_arguments(self, parser):
@@ -96,7 +97,7 @@ class Command(BaseCommand):
         for file in os.listdir(path):
             split_file = file.split('-')
             del split_file[-1]
-            plugin_id = "-".join(split_file)
+            plugin_id = "-".join(split_file).replace(' ', '-')
             if plugin_id not in self.plugins:
                 # No matching plugin. Skipping.
                 continue
