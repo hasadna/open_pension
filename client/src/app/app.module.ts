@@ -5,10 +5,12 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ApolloModule } from 'angular2-apollo';
 
 import { AppRoutingModule } from './app-routing.module';
-import { OpComponent } from './op.component';
-import reducer from './reducers';
+import { AppComponent } from './app.component';
+import { reducer } from './reducers';
+import { client } from './client';
 
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -17,15 +19,9 @@ import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
 
-// import { ExampleActions } from './actions';
-
-// import { ExapleEffects } from './effects';
-
-// import { ExampleService } from './services';
-
 @NgModule({
   declarations: [
-    OpComponent,
+    AppComponent,
     HeaderComponent,
     SearchComponent,
     FooterComponent,
@@ -40,9 +36,9 @@ import { AboutComponent } from './components/about/about.component';
     AppRoutingModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    // EffectsModule.run(ExampleEffects),
+    ApolloModule.withClient(client),
   ],
   providers: [],
-  bootstrap: [OpComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
