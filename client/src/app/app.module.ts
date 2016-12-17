@@ -6,11 +6,11 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ApolloModule } from 'angular2-apollo';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { reducer } from './reducers';
-import { client } from './client';
 
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -18,6 +18,13 @@ import { SearchComponent } from './components/search/search.component';
 import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
+
+// by default, this client will send queries to `/graphql` (relative to the URL of your app)
+const client = new ApolloClient({
+  networkInterface: createNetworkInterface({
+    uri: 'http://localhost:8000'
+  }),
+});
 
 @NgModule({
   declarations: [
@@ -36,7 +43,7 @@ import { AboutComponent } from './components/about/about.component';
     AppRoutingModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    ApolloModule.withClient(client),
+    ApolloModule.withClient(client)
   ],
   providers: [],
   bootstrap: [AppComponent]
