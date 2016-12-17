@@ -16,6 +16,8 @@ import { SearchComponent } from './components/search/search.component';
 import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
+import { PostComponent } from './components/post/post.component';
+import { PostsComponent } from './components/posts/posts.component';
 
 // import { ExampleActions } from './actions';
 
@@ -32,6 +34,8 @@ import { AboutComponent } from './components/about/about.component';
     PaiComponent,
     FiltersComponent,
     AboutComponent,
+    PostComponent,
+    PostsComponent,
   ],
   imports: [
     BrowserModule,
