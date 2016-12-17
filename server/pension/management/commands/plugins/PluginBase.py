@@ -36,8 +36,8 @@ class PluginBase(IPlugin):
             if command.is_global_context(self.local_context):
                 self.global_context = self.local_context
         else:
-            # Remove the extra comma from the end.
-            value += self.global_context + "," + self.local_context
+            value = value[:-1]
+            value += "," + self.global_context + "," + self.local_context
 
             # Remove the comma at the beginning.
             self.body.append(value)
