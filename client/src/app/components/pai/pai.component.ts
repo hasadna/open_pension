@@ -1,12 +1,11 @@
 import {
     Component,
-    OnInit
+    OnInit,
+    ElementRef,
+    ViewChild,
 } from '@angular/core';
 import * as scale from 'd3-scale';
 import * as selection from 'd3-selection';
-import {
-    format
-} from 'd3-format';
 import {
     hierarchy as d3hierarchy,
     partition as d3partition
@@ -21,32 +20,97 @@ import 'd3-transition';
     templateUrl: './pai.component.html',
     styles: [require('./pai.component.scss')]
 })
+// TODO- use the correct typings and not any.    
 export class PaiComponent implements OnInit {
-    partition: any;
-
+    @ViewChild('pai') paiContainer: ElementRef;
+    private arcGenerator: any;
+    private mainAxes: {
+        x: any,
+        y: any
+    };
+    private dimensions: any;
+    private paiElement: any;
+    private colorScale: any;
     constructor() {
-
+        this.mainAxes = {
+            x: 0,
+            y: 0
+        };
+        this.dimensions = {};
     }
 
     ngOnInit() {
-        var width = 960,
-            height = 700,
-            radius = (Math.min(width, height) / 2) - 10;
+        this.initDimensions();
+        this.initAxes();
+        this.initArcGenerator();
+        this.initPai();
+        // TODO - accept data as component input
+        const root = require('./flare.json');
+        this.loadData(root);
+    }
 
-        var formatNumber = format(",d");
+    zoomToNode(d) {
+        const x = this.mainAxes.x;
+        const y = this.mainAxes.y;
+        const radius = this.dimensions.radius;
+        const arc = this.arcGenerator;
+        this.paiElement.transition()
+            .duration(750)
+            .tween("scale", function() {
+                var xd = d3interpolate(x.domain(), [d.x0, d.x1]),
+                    yd = d3interpolate(y.domain(), [d.y0, 1]),
+                    yr = d3interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+                return function(t) {
+                    x.domain(xd(t));
+                    y.domain(yd(t)).range(yr(t));
+                };
+            })
+            .selectAll("path")
+            .attrTween("d", function(d: any) {
+                return function() {
+                    return arc(d);
+                };
+            });
+    }
 
-        var x = scale.scaleLinear()
+    loadData(root) {
+        const partition = d3partition();
+        const color = scale.scaleOrdinal(scale.schemeCategory20);
+        root = d3hierarchy(root);
+        root.sum(function(d) {
+            return d.size;
+        });
+        this.paiElement.selectAll("path")
+            .data(partition(root).descendants())
+            .enter().append("path")
+            .attr("d", this.arcGenerator)
+            .style("fill", function(d: any) {
+                return color((d.children ? d : d.parent).data.name);
+            })
+            .on("click", this.zoomToNode.bind(this))
+            .append("title")
+            .text(function(d: any) {
+                return d.data.name + "\n" + d.value;
+            });
+    }
+
+    private initDimensions() {
+        this.dimensions.width = this.paiContainer.nativeElement.offsetWidth,
+            this.dimensions.height = this.paiContainer.nativeElement.offsetHeight,
+            this.dimensions.radius = (Math.min(this.dimensions.width, this.dimensions.height) / 2) - 10;
+    }
+    private initAxes() {
+        this.mainAxes.x = scale.scaleLinear()
             .range([0, 2 * Math.PI]);
+        this.mainAxes.y = scale.scaleSqrt()
+            .range([0, this.dimensions.radius]);
+    }
 
-        var y = scale.scaleSqrt()
-            .range([0, radius]);
-
-        var color = scale.scaleOrdinal(scale.schemeCategory20);
-
-        var partition = d3partition();
-
-        var arc : any = d3Shape.arc();
-        arc.startAngle(function(d: any) {
+    private initArcGenerator() {
+        const x = this.mainAxes.x;
+        const y = this.mainAxes.y;
+        this.arcGenerator = d3Shape.arc();
+        this.arcGenerator.startAngle(function(d: any) {
                 return Math.max(0, Math.min(2 * Math.PI, x(d.x0)));
             })
             .endAngle(function(d: any) {
@@ -58,51 +122,14 @@ export class PaiComponent implements OnInit {
             .outerRadius(function(d: any) {
                 return Math.max(0, y(d.y1));
             });
+    }
 
-
-        var svg = selection.select("#pai").append("svg")
-            .attr("width", width)
-            .attr("height", height)
+    private initPai() {
+        this.paiElement = selection.select(this.paiContainer.nativeElement).append("svg")
+            .attr("width", this.dimensions.width)
+            .attr("height", this.dimensions.height)
             .append("g")
-            .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
-        var root = require('./flare.json');
-        root = d3hierarchy(root);
-        root.sum(function(d) {
-            return d.size;
-        });
-        svg.selectAll("path")
-            .data(partition(root).descendants())
-            .enter().append("path")
-            .attr("d", arc)
-            .style("fill", function(d : any) {
-                return color((d.children ? d : d.parent).data.name);
-            })
-            .on("click", click)
-            .append("title")
-            .text(function(d : any) {
-                return d.data.name + "\n" + formatNumber(d.value);
-            });
-
-        function click(d) {
-            svg.transition()
-                .duration(750)
-                .tween("scale", function() {
-                    var xd = d3interpolate(x.domain(), [d.x0, d.x1]),
-                        yd = d3interpolate(y.domain(), [d.y0, 1]),
-                        yr = d3interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
-                    return function(t) {
-                        x.domain(xd(t));
-                        y.domain(yd(t)).range(yr(t));
-                    };
-                })
-                .selectAll("path")
-                .attrTween("d", function(d: any) {
-                    return function() {
-                        return arc(d);
-                    };
-                });
-        }
-
+            .attr("transform", "translate(" + this.dimensions.width / 2 + "," + (this.dimensions.height / 2) + ")");
     }
 
 }
