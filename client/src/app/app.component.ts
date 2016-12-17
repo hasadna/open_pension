@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'op-root',
+  selector: 'app-root',
   template: `
     <op-header></op-header>
     <router-outlet></router-outlet>
@@ -9,5 +9,5 @@ import { Component } from '@angular/core';
   `,
   styles: [``]
 })
-export class OpComponent {
+export class AppComponent {
 }

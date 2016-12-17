@@ -14,10 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls.i18n import i18n_patterns
-from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.conf import settings
+from graphene_django.views import GraphQLView
 
 from dal import autocomplete
 
@@ -25,7 +24,7 @@ from blog.models import Tags
 
 # URLs that shouldn't be translated.
 urlpatterns = [
-
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
 
 # URLs that should be translated.
