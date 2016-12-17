@@ -9,8 +9,6 @@ export class PostsService {
   constructor() { }
 
   getPosts(): Post[] {
-
   	return Posts;
   }
-
 }
