@@ -137,6 +137,7 @@ class Command(BaseCommand):
                 metadata['number'] = self.get_kupa_number(value)
             elif i == 7:
                 fields = self.get_fields(value)
+                plugin.fieldsLength = len(fields)
             elif i >= 11:
                 if self.should_skip_line(value):
                     continue

@@ -1,4 +1,5 @@
 from yapsy.IPlugin import IPlugin
+import csv
 
 
 class PluginOne(IPlugin):
@@ -25,6 +26,10 @@ class PluginOne(IPlugin):
         :return:
         """
         row_context = command.is_context(value)
+
+        reader = csv.reader(value, ',')
+        for row in reader:
+            print('\t'.join(row))
 
         if self.text_skip in value:
             return
