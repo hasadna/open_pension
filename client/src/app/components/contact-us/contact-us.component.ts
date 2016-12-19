@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'op-contact-us',
@@ -6,14 +6,11 @@ import {Component} from '@angular/core';
   styleUrls: ['./contact-us.component.scss']
 })
 export class ContactUsComponent {
-
   private contactName: string;
   private contactEmail: string;
   private content: string;
 
-  constructor() {
-  }
-
+  constructor() { }
 
   submitMe() {
     console.log('submitting data', {
