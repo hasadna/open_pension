@@ -58,6 +58,8 @@ class Command(BaseCommand):
         "שח/מטח": "nis_foreign",
         "ריבית": "intereset",
         "סחורות": "merchendise",
+        "מניב": "yield",
+        "לא מניב": "not_yield"
     }
 
     global_contexts = {
@@ -79,6 +81,7 @@ class Command(BaseCommand):
         'אופציות': 'options',
         'השקעה-בחברות-מוחזקות': 'invest-in-held-companies',
         'השקעות-אחרות': 'other-investments',
+        'זכויות-מקרקעין': 'real-estate-copyrights',
     }
 
     def add_arguments(self, parser):
