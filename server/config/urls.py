@@ -21,11 +21,11 @@ from django.conf import settings
 
 from dal import autocomplete
 
-from pension.models import Tags
+from blog.models import Tags
 
 # URLs that shouldn't be translated.
 urlpatterns = [
-    url(r'^api/', include('api.urls')),
+
 ]
 
 # URLs that should be translated.
