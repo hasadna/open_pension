@@ -82,6 +82,7 @@ class Command(BaseCommand):
         'השקעה-בחברות-מוחזקות': 'invest-in-held-companies',
         'השקעות-אחרות': 'other-investments',
         'זכויות-מקרקעין': 'real-estate-copyrights',
+        'חוזים-עתידיים': 'future-contracts',
     }
 
     def add_arguments(self, parser):
