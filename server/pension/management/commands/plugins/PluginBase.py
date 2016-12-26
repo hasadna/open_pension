@@ -1,4 +1,5 @@
 from yapsy.IPlugin import IPlugin
+import re
 
 
 class PluginBase(IPlugin):
@@ -36,8 +37,21 @@ class PluginBase(IPlugin):
             if command.is_global_context(self.local_context):
                 self.global_context = self.local_context
         else:
-            # Remove the extra comma from the end.
-            value += self.global_context + "," + self.local_context
+            value = value[:-self.calculateExtraCommasDelete(value)]
+            value += "," + self.global_context + "," + self.local_context
 
             # Remove the comma at the beginning.
             self.body.append(value)
+
+    def calculateExtraCommasDelete(self, value):
+        """
+        Calculate the extra amount of commas which we need to remove.
+
+        :param value:
+            The current line.
+
+        :return:
+            The number of commas to delete.
+        """
+        return len(
+            re.sub(r'\"(.*)\"', '""', value).split(',')) - self.fieldsLength

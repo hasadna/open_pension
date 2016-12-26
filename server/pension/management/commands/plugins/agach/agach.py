@@ -42,4 +42,4 @@ class PluginOne(IPlugin):
             value += self.global_context + "," + self.local_context
 
             # Remove the comma at the beginning.
-            self.body.append(value[1:])
+            self.body.append(value)

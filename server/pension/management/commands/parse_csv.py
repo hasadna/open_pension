@@ -78,6 +78,7 @@ class Command(BaseCommand):
         'אג"ח-קונצרני': 'agach',
         'אופציות': 'options',
         'השקעה-בחברות-מוחזקות': 'invest-in-held-companies',
+        'השקעות-אחרות': 'other-investments',
     }
 
     def add_arguments(self, parser):
@@ -97,7 +98,7 @@ class Command(BaseCommand):
         for file in os.listdir(path):
             split_file = file.split('-')
             del split_file[-1]
-            plugin_id = "-".join(split_file).replace(' ', '-')
+            plugin_id = "-".join(split_file).strip().replace(' ', '-')
             if plugin_id not in self.plugins:
                 # No matching plugin. Skipping.
                 continue
@@ -136,11 +137,12 @@ class Command(BaseCommand):
                 metadata['number'] = self.get_kupa_number(value)
             elif i == 7:
                 fields = self.get_fields(value)
+                plugin.fieldsLength = len(fields)
             elif i >= 11:
                 if self.should_skip_line(value):
                     continue
 
-                plugin.parseBody(self, value)
+                plugin.parseBody(self, value[1:])
 
         fields.append('global_context')
         fields.append('local_context')
