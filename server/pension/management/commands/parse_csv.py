@@ -72,6 +72,7 @@ class Command(BaseCommand):
         '(.+),,,,,,,,,,,,,,,,,,,,',
         ',(.+),,,,,,,,,,,',
         '(.+),,,,,,,,,,,',
+        '(.+),,,,',
     ]
 
     pluginManager = PluginManager()
@@ -82,6 +83,7 @@ class Command(BaseCommand):
         'השקעה-בחברות-מוחזקות': 'invest-in-held-companies',
         'השקעות-אחרות': 'other-investments',
         'זכויות-מקרקעין': 'real-estate-copyrights',
+        'יתרת-התחייבות-להשקעה': 'balance-of-investment-commitment',
     }
 
     def add_arguments(self, parser):
