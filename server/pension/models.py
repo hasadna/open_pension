@@ -4,59 +4,23 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.translation import ugettext_lazy as _
 
-class ManagingBody(models.Model):
-    name = models.CharField(_('name'), max_length=255, blank=False, unique=True)
-
-    # amitim, clal, menora, migdal, psagot, harel, other
-
-    class Meta:
-        verbose_name = _('ManagingBody')
-        verbose_name_plural = _('ManagingBody')
-
-class Quarter(models.Model):
-    year = models.IntegerField(_('year'), max_length=4, blank=False)
-    year_quarter = models.IntegerField(_('year_quarter'), blank=False)
-
-    class Meta:
-        verbose_name = _('Quarter')
-        verbose_name_plural = _('Quarter')
-
-class AssetType():
-    # see sheet for values
-    pass
-
-class ActivityIndustry():
-    # see sheet for values
-    pass
-
-class Currency():
-    # see sheet for values
-    pass
-
-class Rating():
-    # prime, high, upper_medium, lower_medium, speculative, highly_speculative, risk
-    pass
+from pension.choices import CURRENCIES, ASSET_TYPES, RATING, ACTIVITY_INDUSTRY, QUARTER, MANAGING_BODIES, GEOGRAPHICAL_LOCATION
 
 class Security(models.Model):
     """
-    Model representing a Security, but not the holding of a Security by a ManagingBody
+    Model representing a Security, regardless of time and its holding by a specific ManagingBody
     """
-    name = models.CharField(_('name'), max_length=255, null=True)
+    security_name = models.CharField(_('security_name'), max_length=255)
     security_number = models.IntegerField('security_number')
-    asset_type = models.CharField('asset_type', max_length=255, null=True)
-    rating = models.CharField('rating', max_length=255, null=True)
-    rater = models.CharField('rater', max_length=255)
-    currency = models.CharField('currency', max_length=255, choices=[])
-    activity_industry = models.IntegerField('activity_industry', choices=[])
-    life_span = models.IntegerField('average_life_span_years')
-    interest_rate = models.IntegerField('interest_rate')
-    rate_of_ipo = models.IntegerField('rate_of_ipo')
-    fair_value = models.IntegerField('fair_value')
+    asset_type = models.CharField('asset_type', max_length=255, choices=ASSET_TYPES, default='d')
+    currency = models.CharField('currency', max_length=255, choices=CURRENCIES, default='d')
+    activity_industry = models.IntegerField('activity_industry', choices=ACTIVITY_INDUSTRY, default='d')
 
-    liquidity = models.BooleanField('liquidity')
-    geographical_location = models.CharField('geographical_location', max_length=255)
-    reference_type = models.CharField('reference_type', max_length=255)
-    # local_context?
+    # 'subcategories' - noted in sheets as row listings, not in columns
+    is_liquid = models.BooleanField('is_liquid', default=True)
+    geographical_location = models.CharField('geographical_location', max_length=255, null=True)
+    reference_type = models.CharField('reference_type', max_length=255, null=True)
+    local_context = models.CharField('local_context', max_length=255, null=True)
 
     def __str__(self):
         """
@@ -67,20 +31,43 @@ class Security(models.Model):
     class Meta:
         verbose_name = _('Security')
         verbose_name_plural = _('Security')
-        ordering = ["name"]
+        ordering = ["security_name"]
+
+# rating	rater	life_span	interest_rate	rate_of_ipo	exchange_rate
+class SecurityQuarter(models.Model):
+    """
+    Model representing the Security in a specific quarter
+    """
+    security = models.ForeignKey(Security, null=True)
+    quarter = models.CharField('quarter', max_length=255, null=True, choices=QUARTER, default='d')
+    rating = models.CharField('rating', max_length=255, null=True, choices=RATING, default='d')
+    rater = models.CharField('rater', max_length=255, null=True)
+    life_span = models.IntegerField('average_life_span_years', null=True)
+    interest_rate = models.IntegerField('interest_rate', null=True)
+    rate_of_ipo = models.IntegerField('rate_of_ipo', null=True)
+    exchange_rate_agorot = models.IntegerField('exchange_rate_agorot', null=True)
+
+    def __str__(self):
+        """
+        String for representing the Model object.
+        """
+        return self.name
+
+    class Meta:
+        verbose_name = _('SecurityQuarter')
+        verbose_name_plural = _('SecurityQuarter')
+        ordering = ["rating"]
 
 class Holding(models.Model):
-    managing_body = models.ManyToManyField(ManagingBody, _('name'), max_length=255, blank=True)
-    quarter = models.ManyToManyField(Quarter, _('quarter'))
-    security_name = models.ManyToManyField(Security, _('name'), max_length=255, blank=True)
+    managing_body = models.CharField('managing_body', max_length=255, choices=MANAGING_BODIES, null=True)
+    security_quarter = models.ForeignKey(SecurityQuarter, max_length=255, null=True)
 
-    acquisition_date = models.IntegerField(_('acquisition_date'))
-    market_cap = models.IntegerField(_('market_cap'))       # thousand nis
-    par_value = models.IntegerField(_('par_value'))         # percentage of the security of total investment of fund
-    linkage_type = models.IntegerField(_('linkage_type'))   # percentage of the security held by fund out of total issues amount
-    part_of_total_investment = models.IntegerField(_('part_of_total_investment'))
-
-    exchange_rate_agorot = models.IntegerField(_('exchange_rate_agorot'))
+    fair_value = models.IntegerField('fair_value', null=True)
+    acquisition_date = models.IntegerField('acquisition_date', null=True)
+    market_cap = models.IntegerField('market_cap', null=True)       # thousand nis
+    par_value = models.IntegerField('par_value', null=True)         # percentage of the security of total investment of fund
+    linkage_type = models.IntegerField('linkage_type', null=True)   # percentage of the security held by fund out of total issues amount
+    part_of_total_investment = models.IntegerField('part_of_total_investment', null=True)
 
     class Meta:
         verbose_name = _('Holding')

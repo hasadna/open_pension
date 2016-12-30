@@ -4,7 +4,7 @@ from pension.models import Blog, Tags, Security
 
 @register(Security)
 class SecurityTranslation(TranslationOptions):
-    fields = ('name',)
+    fields = ('security_name',)
     required_languages = ('he',)
 
 @register(Tags)

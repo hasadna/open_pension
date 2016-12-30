@@ -6,7 +6,7 @@ from pension.forms import BlogForm
 
 class SecurityAdmin(TranslationAdmin):
     model = Security
-    list_display = ('name',)
+    list_display = ('security_name',)
 
     class Media:
         js = (
