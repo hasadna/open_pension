@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Post } from '../models/post';
 import { Posts } from '../models/posts';
+import { DummyPost } from '../models/dummyPost';
 
 @Injectable()
 export class PostsService {
@@ -10,5 +11,9 @@ export class PostsService {
 
   getPosts(): Post[] {
     return Posts;
+  }
+
+  getPost(id: number): Post {
+    return DummyPost;
   }
 }

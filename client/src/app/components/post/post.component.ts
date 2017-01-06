@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { PostService } from '../../services/post.service';
+import { PostsService } from '../../services/posts.service';
 import { Post } from '../../models/post';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'op-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
-  providers: [PostService]
+  providers: [PostsService]
 })
 export class PostComponent implements OnInit {
   post: Post;
 
   constructor(
-    private postService: PostService,
+    private postsService: PostsService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.route.params.switchMap((params: Params) => this.postService.getPost(+params['id'])).subscribe(x => this.post = x);
+    this.route.params.subscribe((params: Params) => this.post = this.postsService.getPost(+params['id']));
     // this.post = this.postService.getPost();
   }
 
