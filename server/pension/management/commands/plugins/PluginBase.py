@@ -55,3 +55,12 @@ class PluginBase(IPlugin):
         """
         return len(
             re.sub(r'\"(.*)\"', '""', value).split(',')) - self.fieldsLength
+
+    def contextAlter(self, contexts):
+        """
+        Altering the contexts of the plugins.
+
+        :param contexts:
+        The list of context.
+        """
+        pass

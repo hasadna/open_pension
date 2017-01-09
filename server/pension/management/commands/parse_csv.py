@@ -82,6 +82,7 @@ class Command(BaseCommand):
         'השקעה-בחברות-מוחזקות': 'invest-in-held-companies',
         'השקעות-אחרות': 'other-investments',
         'זכויות-מקרקעין': 'real-estate-copyrights',
+        'יתרת-התחייבות-להשקעה': 'balance-of-investment-commitment',
     }
 
     def add_arguments(self, parser):
@@ -132,6 +133,8 @@ class Command(BaseCommand):
         csv_file = open(path, 'r').read()
         rows = csv_file.split("\n")
         fields = []
+
+        plugin.contextAlter(self.contexts)
 
         for i, value in enumerate(rows):
             if i == 0:
@@ -217,7 +220,13 @@ class Command(BaseCommand):
     """
 
     def english_text(self, field):
-        return self.fields[field.strip().replace('"', '')]
+        clear_field_name = field.strip().replace('"', '')
+
+        if clear_field_name not in self.fields:
+            print("The field " + clear_field_name + " does not exists in the "
+                                                    "field name")
+
+        return self.fields[clear_field_name]
 
     """
     Check if the current line is a line context.

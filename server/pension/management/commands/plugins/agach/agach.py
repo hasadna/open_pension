@@ -1,7 +1,7 @@
-from yapsy.IPlugin import IPlugin
+from pension.management.commands.plugins.PluginBase import PluginBase
 
 
-class PluginOne(IPlugin):
+class Agach(PluginBase):
 
     """
     Reformatting the options tab.
