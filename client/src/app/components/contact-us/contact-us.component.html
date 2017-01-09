@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="col-sm-8">
+    <h2>יצירת קשר</h2>
+
+    <p>טקסט בסגנון - מוזמנים לפנות אלינו בכל בעיה / תקלה /להתנדב וכו.</p>
+
+    <form (submit)="submitMe()">
+      <div>
+        <input type="text" name="contactName" placeholder="שם">
+      </div>
+      <div>
+        <input type="email" name="contactEmail" [ngModel]="contactEmail" placeholder="אימייל"/>
+      </div>
+      <div>
+        <textarea placeholder="תוכן" [(ngModel)]="content" name="content"></textarea>
+      </div>
+      <button class="col-sm-2" type="submit">שליחה</button>
+    </form>
+  </div>
+</div>
