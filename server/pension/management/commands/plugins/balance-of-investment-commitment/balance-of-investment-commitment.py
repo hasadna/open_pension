@@ -10,4 +10,4 @@ class InvestInHeldCompanies(PluginBase):
         :param contexts:
         The list of context.
         """
-        contexts.append('(.+),,,,')
+        contexts.append('([\u0591-\u05F4\"\"])')
