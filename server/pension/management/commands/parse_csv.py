@@ -72,7 +72,6 @@ class Command(BaseCommand):
         '(.+),,,,,,,,,,,,,,,,,,,,',
         ',(.+),,,,,,,,,,,',
         '(.+),,,,,,,,,,,',
-        '(.+),,,,',
     ]
 
     pluginManager = PluginManager()
