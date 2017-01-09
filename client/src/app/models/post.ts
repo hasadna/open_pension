@@ -1,4 +1,4 @@
-export class Post {
+export interface Post {
   unique_id: number;
   title: string;
   body: string;
