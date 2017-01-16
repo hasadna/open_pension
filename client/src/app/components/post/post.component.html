@@ -1,5 +1,17 @@
 <section class="container text-xs-right">
   <div id="blog-container" class="col-xs-8 push-xs-2">
-    
+    <h2>{{ post.title }}</h2>
+    <div class="post-container">
+      <div id="post-meta-data" class="text-xs-right">
+        <i class="material-icons">access_time</i>
+        <span>{{ post.publish | date: 'd/M/y' }}</span>
+        <i class="material-icons">person</i>
+        <span>צוות פנסיה פתוחה</span>
+      </div>
+      <p *ngFor="let i of [0,0,0,0,0]">
+        {{ post.body }}
+      </p>
+      <div id="share">שיתוף:</div>
+    </div>
   </div>
 </section>
