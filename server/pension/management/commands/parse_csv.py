@@ -59,7 +59,9 @@ class Command(BaseCommand):
         "ריבית": "intereset",
         "סחורות": "merchendise",
         "מניב": "yield",
-        "לא מניב": "not_yield"
+        "לא מניב": "not_yield",
+        "כתבי אופציות בישראל": "warrants_in_israel",
+        "כתבי אופציה בחול": "warrants_not_in_israel",
     }
 
     global_contexts = {
@@ -72,6 +74,7 @@ class Command(BaseCommand):
         '(.+),,,,,,,,,,,,,,,,,,,,',
         ',(.+),,,,,,,,,,,',
         '(.+),,,,,,,,,,,',
+        '(.+),,,,,,,,,,',
     ]
 
     pluginManager = PluginManager()
@@ -83,6 +86,7 @@ class Command(BaseCommand):
         'השקעות-אחרות': 'other-investments',
         'זכויות-מקרקעין': 'real-estate-copyrights',
         'יתרת-התחייבות-להשקעה': 'balance-of-investment-commitment',
+        'כתבי-אופציה': 'warrants',
     }
 
     def add_arguments(self, parser):
