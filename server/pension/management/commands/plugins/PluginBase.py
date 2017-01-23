@@ -37,7 +37,10 @@ class PluginBase(IPlugin):
             if command.is_global_context(self.local_context):
                 self.global_context = self.local_context
         else:
-            value = value[:-self.calculateExtraCommasDelete(value)]
+            # Get the amount of extra fields and see if we need to trim them.
+            extra = self.calculateExtraCommasDelete(value)
+            if extra > 0:
+                value = value[:-self.calculateExtraCommasDelete(value)]
             value += "," + self.global_context + "," + self.local_context
 
             # Remove the comma at the beginning.
