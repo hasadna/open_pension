@@ -10,10 +10,15 @@ nav {
   }
 }
 
+li {
+  display: inline-block;
+  color: #ffffff;
+}
+
 #logo {
   float: right;
   vertical-align: middle;
-  position: absolute;
+  display: inline-block;
   top: 50%;
   right: 0;
   transform: translateY(-50%);

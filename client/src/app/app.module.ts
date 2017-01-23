@@ -1,7 +1,13 @@
+import 'hammerjs';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -42,6 +48,8 @@ import { PostsComponent } from './components/posts/posts.component';
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    MaterialModule.forRoot(),
+    FlexLayoutModule.forRoot(),
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     // EffectsModule.run(ExampleEffects),
