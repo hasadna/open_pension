@@ -1,9 +1,9 @@
-<section class="container text-xs-right">
-  <div id="blog-container" class="col-xs-8 push-xs-2">
+<section>
+  <div id="blog-container">
     <h2>בלוג</h2>
     <div *ngFor="let post of posts" class="post-container">
       <h3>{{ post.title }}</h3>
-      <div id="post-meta-data" class="text-xs-right">
+      <div id="post-meta-data">
         <i class="material-icons">access_time</i>
         <span>{{ post.publish | date: 'd/M/y' }}</span>
         <i class="material-icons">person</i>
