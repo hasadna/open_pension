@@ -22,3 +22,17 @@ h2 {
 #share {
   color: #a8a8a8;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flex-start {
+  align-self: flex-start;
+}
+
+.flex-end {
+  align-self: flex-end;
+}

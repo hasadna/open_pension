@@ -1,6 +1,13 @@
 <section class="container text-xs-right">
   <div id="blog-container" class="col-xs-8 push-xs-2">
-    <h2>{{ post.title }}</h2>
+    <div class="flex-container">
+      <div class="flex-start">
+        <h2>{{ post.title }}</h2>
+      </div>
+      <div class="flex-end">
+        <a [routerLink]="['/blog']">חזרה לבלוג >></a>
+      </div>
+    </div>
     <div class="post-container">
       <div id="post-meta-data" class="text-xs-right">
         <i class="material-icons">access_time</i>
@@ -11,6 +18,7 @@
       <p *ngFor="let i of [0,0,0,0,0]">
         {{ post.body }}
       </p>
+      <!-- Add social network icons here -->
       <div id="share">שיתוף:</div>
     </div>
   </div>
