@@ -10,7 +10,7 @@ django-autocomplete-light==3.2.1
 
 # Rest Framework
 djangorestframework==3.5.3
-Markdown==2.6.7
+Markdown==2.6.8
 django-filter==1.0.1
 
 # CORS
