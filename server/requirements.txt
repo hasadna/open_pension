@@ -14,7 +14,7 @@ Markdown==2.6.8
 django-filter==1.0.1
 
 # CORS
-django-cors-headers==2.0.0
+django-cors-headers==2.0.1
 
 # Translations
 django-modeltranslation==0.12
