@@ -1,3 +1,17 @@
-<p>
-  posts works!
-</p>
+<section>
+  <div id="blog-container">
+    <h2>בלוג</h2>
+    <div *ngFor="let post of posts" class="post-container">
+      <h3>{{ post.title }}</h3>
+      <div id="post-meta-data">
+        <i class="material-icons">access_time</i>
+        <span>{{ post.publish | date: 'd/M/y' }}</span>
+        <i class="material-icons">person</i>
+        <span>צוות פנסיה פתוחה</span>
+      </div>
+      <p>
+        {{ post.body | slice:0:250 }}.. <a href="#">קרא עוד>></a>
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,4 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+body{
+  font-family: 'Alef-Hebrew';
+  direction: rtl;
+  margin: 0;
+}
 
 a {
   text-decoration: none !important;
