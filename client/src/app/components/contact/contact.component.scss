@@ -1,0 +1,66 @@
+@import "../../../assets/vars.scss";
+
+section {
+  margin-top: 60px;
+  direction: rtl;
+  color: #4a4a4a;
+  display: flex;
+  justify-content: center;
+}
+
+div {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-basis: 30rem;
+
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-basis: 25rem;
+    flex-grow: 0;
+
+    input {
+        height: 2rem;
+    }
+
+    button {
+      background: $header-background;
+      color: #ffffff;
+      font-size: 20px;
+      padding: 10px 20px 10px 20px;
+      text-decoration: none;
+      border: none;
+      max-width: 6rem;
+      font-weight: 300;
+}
+
+    button:hover {
+      background: #97b4c2;
+      text-decoration: none;
+    }
+
+    textarea{
+
+    }
+}
+
+form > * {
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    border: 1px solid #97b4c2;
+    font-size: 1.2rem;
+    font-weight: 200;
+    padding: 4px;
+}
+
+
+
+p {
+  font-size: 17px;
+}
