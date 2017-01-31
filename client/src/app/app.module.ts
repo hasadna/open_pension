@@ -24,6 +24,7 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
 import { PostComponent } from './components/post/post.component';
 import { PostsComponent } from './components/posts/posts.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 // import { ExampleActions } from './actions';
 
@@ -42,6 +43,7 @@ import { PostsComponent } from './components/posts/posts.component';
     AboutComponent,
     PostComponent,
     PostsComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
