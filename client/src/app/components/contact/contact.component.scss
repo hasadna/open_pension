@@ -31,12 +31,12 @@ form {
     button {
       background: $header-background;
       color: #ffffff;
-      font-size: 20px;
+      font-size: 16px;
       padding: 10px 20px 10px 20px;
       text-decoration: none;
       border: none;
       max-width: 6rem;
-      font-weight: 300;
+      font-weight: 200;
 }
 
     button:hover {
@@ -47,9 +47,9 @@ form {
 }
 
 form > * {
-    -webkit-border-radius: 6;
-    -moz-border-radius: 6;
-    border-radius: 6px;
+    -webkit-border-radius: 4;
+    -moz-border-radius: 4;
+    border-radius: 4px;
         border: 1px solid #97b4c2;
     font-size: 14px;
     font-weight: 200;
