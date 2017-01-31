@@ -13,7 +13,7 @@ div {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-basis: 30rem;
+  flex-basis: 35rem;
 
 }
 
@@ -21,11 +21,11 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    flex-basis: 25rem;
+    flex-basis: 23rem;
     flex-grow: 0;
 
     input {
-        height: 2rem;
+        height: 1.6rem;
     }
 
     button {
@@ -44,19 +44,16 @@ form {
       text-decoration: none;
     }
 
-    textarea{
-
-    }
 }
 
 form > * {
     -webkit-border-radius: 6;
     -moz-border-radius: 6;
     border-radius: 6px;
-    border: 1px solid #97b4c2;
-    font-size: 1.2rem;
+        border: 1px solid #97b4c2;
+    font-size: 14px;
     font-weight: 200;
-    padding: 4px;
+    padding: 8px;
 }
 
 
