@@ -87,6 +87,7 @@ class Command(BaseCommand):
         'זכויות-מקרקעין': 'real-estate-copyrights',
         'יתרת-התחייבות-להשקעה': 'balance-of-investment-commitment',
         'כתבי-אופציה': 'warrants',
+        'לא-סחיר---אג"ח-קונצרני': "agach-non-marketable"
     }
 
     def add_arguments(self, parser):
