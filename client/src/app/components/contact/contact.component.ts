@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'op-contact',
@@ -6,8 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent implements OnInit {
+  contactForm: FormGroup;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) {
+      this.buildForm();
+  }
+
+
+  buildForm() {
+      this.contactForm = this.formBuilder.group({});
+  }
 
   ngOnInit() {
   }
