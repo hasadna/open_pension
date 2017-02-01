@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'op-contact',
@@ -15,7 +15,9 @@ export class ContactComponent implements OnInit {
 
 
   buildForm() {
-      this.contactForm = this.formBuilder.group({});
+      this.contactForm = this.formBuilder.group({
+
+      });
   }
 
   ngOnInit() {
