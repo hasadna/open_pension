@@ -5,9 +5,12 @@
         מוזמנים....
       </p>
       <form [formGroup]="contactForm">
-        <input type="text" autofocus="true" placeholder="שם">
-        <input type="email" placeholder="אימייל">
-        <textarea name="name" rows="8" cols="30" placeholder="תוכן"></textarea>
+        <input type="text" autofocus="true" placeholder="שם"
+        formControlName="name">
+        <input type="email" placeholder="אימייל"
+        formControlName="email">
+        <textarea name="name" rows="8" cols="30" placeholder="תוכן"
+        formControlName="content"></textarea>
         <button type="button">שליחה</button>
       </form>
     </div>
