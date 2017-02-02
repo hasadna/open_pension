@@ -40,8 +40,11 @@ form {
 }
 
     button:hover {
-      background: #97b4c2;
-      text-decoration: none;
+      background: #739db3;
+    }
+
+    button:disabled {
+        background: #97b4c2;
     }
 
 }

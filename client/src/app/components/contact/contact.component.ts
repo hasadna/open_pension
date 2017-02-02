@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'op-contact',
@@ -16,9 +16,9 @@ export class ContactComponent implements OnInit {
 
   buildForm() {
       this.contactForm = this.formBuilder.group({
-          name: this.formBuilder.control(null),
-          email: this.formBuilder.control(null),
-          content: this.formBuilder.control(null),
+          name: this.formBuilder.control(null, Validators.required),
+          email: this.formBuilder.control(null, Validators.required),
+          content: this.formBuilder.control(null, Validators.required),
       });
   }
 

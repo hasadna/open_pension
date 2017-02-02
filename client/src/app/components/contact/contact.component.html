@@ -11,7 +11,7 @@
         formControlName="email">
         <textarea name="name" rows="8" cols="30" placeholder="תוכן"
         formControlName="content"></textarea>
-        <button type="button">שליחה</button>
+        <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
       </form>
     </div>
 </section>
