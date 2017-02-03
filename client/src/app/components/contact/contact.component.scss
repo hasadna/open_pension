@@ -24,6 +24,16 @@ form {
     flex-basis: 23rem;
     flex-grow: 0;
 
+    input, textarea {
+        -webkit-border-radius: 4;
+        -moz-border-radius: 4;
+        border-radius: 4px;
+            border: 1px solid #97b4c2;
+        font-size: 14px;
+        font-weight: 200;
+        padding: 8px;
+    }
+
     input {
         height: 1.6rem;
     }
@@ -49,17 +59,15 @@ form {
 
 }
 
-form > * {
-    -webkit-border-radius: 4;
-    -moz-border-radius: 4;
-    border-radius: 4px;
-        border: 1px solid #97b4c2;
-    font-size: 14px;
-    font-weight: 200;
-    padding: 8px;
+.warn{
+    color: #e6a749;
 }
 
-
+.errors{
+    flex: 0.1;
+    font-size: 0.8rem;
+    color: #ec8856;
+}
 
 p {
   font-size: 17px;
