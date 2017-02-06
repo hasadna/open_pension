@@ -68,6 +68,7 @@ class Command(BaseCommand):
         "אגח קונצרני של חברות ישראליות": "concern_agach_for_israeli_company",
         "מטח/מטח": "foreign_key__foreign_key",
         "מטבע": "currency",
+        "קרן מובטחת": "principle_fund",
     }
 
     global_contexts = {
@@ -97,6 +98,7 @@ class Command(BaseCommand):
         'לא-סחיר---אופציות': "options-non-marketable",
         'לא-סחיר---חוזים-עתידיים': "future-contracts-non-marketable",
         'לא-סחיר---כתבי-אופציה': "warrants-contracts-non-marketable",
+        'לא-סחיר---מוצרים-מובנים': "built-in-products-non-marketable",
     }
 
     def add_arguments(self, parser):
