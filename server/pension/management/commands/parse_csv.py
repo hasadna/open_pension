@@ -61,6 +61,7 @@ class Command(BaseCommand):
         "מניב": "yield",
         "לא מניב": "not_yield",
         "כתבי אופציות בישראל": "warrants_in_israel",
+        "כתבי אופציה בישראל": "warrants_in_israel",
         "כתבי אופציה בחול": "warrants_not_in_israel",
         "צמוד מדד": "cpi",
         "לא צמוד": "no_cpi",
@@ -95,6 +96,7 @@ class Command(BaseCommand):
         'לא-סחיר---אג"ח-קונצרני': "agach-non-marketable",
         'לא-סחיר---אופציות': "options-non-marketable",
         'לא-סחיר---חוזים-עתידיים': "future-contracts-non-marketable",
+        'לא-סחיר---כתבי-אופציה': "warrants-contracts-non-marketable",
     }
 
     def add_arguments(self, parser):
