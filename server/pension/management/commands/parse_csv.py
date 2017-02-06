@@ -62,6 +62,10 @@ class Command(BaseCommand):
         "לא מניב": "not_yield",
         "כתבי אופציות בישראל": "warrants_in_israel",
         "כתבי אופציה בחול": "warrants_not_in_israel",
+        "צמוד מדד": "cpi",
+        "לא צמוד": "no_cpi",
+        "אגח קונצרני של חברות ישראליות": "concern_agach_for_israeli_company",
+        "אגח קונצרני של חברות זרות": "concern_agach_for_non_israeli_company",
     }
 
     global_contexts = {
@@ -87,6 +91,7 @@ class Command(BaseCommand):
         'זכויות-מקרקעין': 'real-estate-copyrights',
         'יתרת-התחייבות-להשקעה': 'balance-of-investment-commitment',
         'כתבי-אופציה': 'warrants',
+        'לא-סחיר---אג"ח-קונצרני': "agach-non-marketable"
     }
 
     def add_arguments(self, parser):
