@@ -94,6 +94,7 @@ class Command(BaseCommand):
         'כתבי-אופציה': 'warrants',
         'לא-סחיר---אג"ח-קונצרני': "agach-non-marketable",
         'לא-סחיר---אופציות': "options-non-marketable",
+        'לא-סחיר---חוזים-עתידיים': "future-contracts-non-marketable",
     }
 
     def add_arguments(self, parser):
