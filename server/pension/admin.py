@@ -19,4 +19,5 @@ class SecurityAdmin(TranslationAdmin):
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
 
+
 admin.site.register(Security, SecurityAdmin)

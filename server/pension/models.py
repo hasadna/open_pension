@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from pension.choices import CURRENCIES, ASSET_TYPES, RATING, ACTIVITY_INDUSTRY, QUARTER, \
     MANAGING_BODIES, GEOGRAPHICAL_LOCATION
 
+
 class Security(models.Model):
     """
     Model representing a Security, regardless of time and its holding by a specific ManagingBody
@@ -34,6 +35,7 @@ class Security(models.Model):
         verbose_name_plural = _('Security')
         ordering = ["security_name"]
 
+
 # rating	rater	life_span	interest_rate	rate_of_ipo	exchange_rate
 class SecurityQuarter(models.Model):
     """
@@ -59,6 +61,7 @@ class SecurityQuarter(models.Model):
         verbose_name_plural = _('SecurityQuarter')
         ordering = ["rating"]
 
+
 class Holding(models.Model):
     managing_body = models.CharField('managing_body', max_length=255, choices=MANAGING_BODIES, null=True)
     security_quarter = models.ForeignKey(SecurityQuarter, max_length=255, null=True)
@@ -66,8 +69,10 @@ class Holding(models.Model):
     fair_value = models.IntegerField('fair_value', null=True)
     acquisition_date = models.IntegerField('acquisition_date', null=True)
     market_cap = models.IntegerField('market_cap', null=True)       # thousand nis
-    par_value = models.IntegerField('par_value', null=True)         # percentage of the security of total investment of fund
-    linkage_type = models.IntegerField('linkage_type', null=True)   # percentage of the security held by fund out of total issues amount
+    # percentage of the security of total investment of fund
+    par_value = models.IntegerField('par_value', null=True)
+    # percentage of the security held by fund out of total issues amount
+    linkage_type = models.IntegerField('linkage_type', null=True)
     part_of_total_investment = models.IntegerField('part_of_total_investment', null=True)
 
     class Meta:
