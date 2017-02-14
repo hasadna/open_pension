@@ -2,7 +2,7 @@ from django.core.files import File
 from django.utils import timezone
 from django.core.management import BaseCommand
 
-from blog.models import Blog, Tags
+from blog.models import Post, Tags
 
 
 class Command(BaseCommand):
@@ -31,7 +31,7 @@ def create_blog_dummy_data():
     )
 
     # First Trend post.
-    Blog.objects.get_or_create(
+    Post.objects.get_or_create(
         title='השקעות מוסדיים ואגח אפריקה ישראל',
         author='ניר גלאון',
         body='יש המון גרסאות זמינות לפסקאות של'
@@ -54,7 +54,7 @@ def create_blog_dummy_data():
     )[0].tags.add(tag1[0])
 
     # Second Trend post.
-    Blog.objects.get_or_create(
+    Post.objects.get_or_create(
         title='ניהול פאסיבי מול ניהול אקטיבי בתיק נכסי הפנסיה',
         author='מערכת פנסיה פתוחה',
         body='לורם איפסום הוא פשוט טקסט'
@@ -76,7 +76,7 @@ def create_blog_dummy_data():
     )[0].tags.add(tag1[0], tag2[0])
 
     # Third Trend post.
-    Blog.objects.get_or_create(
+    Post.objects.get_or_create(
         title='חוסר השקיפות בתיק נכסי הציבור',
         author='מערכת פנסיה פתוחה',
         body='זוהי עובדה מבוססת שדעתו של הקורא תהיה'

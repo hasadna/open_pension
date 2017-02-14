@@ -16,7 +16,7 @@ class Tags(models.Model):
         verbose_name_plural = _('Tags')
 
 
-class Blog(models.Model):
+class Post(models.Model):
     """
     A blog post entity.
     """

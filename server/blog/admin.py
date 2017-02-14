@@ -1,8 +1,8 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from blog.models import Blog, Tags
-from blog.forms import BlogForm
+from blog.models import Post, Tags
+from blog.forms import PostForm
 
 
 class TagsAdmin(TranslationAdmin):
@@ -21,9 +21,9 @@ class TagsAdmin(TranslationAdmin):
         }
 
 
-class BlogAdmin(TranslationAdmin):
-    form = BlogForm
-    model = Blog
+class PostAdmin(TranslationAdmin):
+    form = PostForm
+    model = Post
     list_display = ('title', 'author', 'body', 'publish')
 
     class Media:
@@ -40,4 +40,4 @@ class BlogAdmin(TranslationAdmin):
 
 
 admin.site.register(Tags, TagsAdmin)
-admin.site.register(Blog, BlogAdmin)
+admin.site.register(Post, PostAdmin)
