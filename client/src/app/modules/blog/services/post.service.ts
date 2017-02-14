@@ -21,9 +21,9 @@ export class PostService {
     return this.http.get('/api/posts', options)
       .map(res => res.json().results)
       .catch(this.handleError);
-    }
+  }
 
-    private handleError(error: Response) {
-      return Observable.throw(error.json().error || 'Server error');
-    }
+  private handleError(error: Response) {
+    return Observable.throw(error.json().error || 'Server error');
+  }
 }

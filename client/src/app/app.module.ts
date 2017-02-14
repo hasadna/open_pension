@@ -9,16 +9,19 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
-// import reducer from './reducers';
+import { reducer } from './reducers';
 
 import { OpComponent } from './op.component';
-
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SearchComponent } from './components/search/search.component';
 import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
+
+import { PaiEffects } from './effects/pai';
+
+import { PaiService } from './services/pai.service';
 
 @NgModule({
   declarations: [
@@ -36,10 +39,13 @@ import { AboutComponent } from './components/about/about.component';
     HttpModule,
     AppRoutingModule,
     MaterialModule.forRoot(),
-    // StoreModule.provideStore(reducer),
-    // StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    StoreModule.provideStore(reducer),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    EffectsModule.run(PaiEffects),
   ],
-  providers: [],
+  providers: [
+    PaiService,
+  ],
   bootstrap: [OpComponent]
 })
 export class AppModule { }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from './reducers';
@@ -39,7 +38,6 @@ export class BlogComponent implements OnInit {
 
   constructor(
     private store: Store<fromRoot.State>,
-    private router: Router,
   ) {
     this.posts$ = this.store.select(fromRoot.getPostState);
   }
