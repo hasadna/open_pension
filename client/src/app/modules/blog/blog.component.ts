@@ -39,7 +39,7 @@ export class BlogComponent implements OnInit {
   constructor(
     private store: Store<fromRoot.State>,
   ) {
-    this.posts$ = this.store.select(fromRoot.getPostState);
+    this.posts$ = this.store.select(fromRoot.getPostsEntities);
   }
 
   ngOnInit() {
