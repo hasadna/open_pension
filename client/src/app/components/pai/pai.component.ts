@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as paiAction from '../../actions/pai';
-import { Pai } from '../../models/pai';
 
 import * as scale from 'd3-scale';
 import * as selection from 'd3-selection';
@@ -18,10 +17,7 @@ import 'd3-transition';
   templateUrl: './pai.component.html',
   styleUrls: ['./pai.component.scss']
 })
-// TODO- use the correct typings and not any.
 export class PaiComponent implements OnInit {
-  private root$: any;
-
   @ViewChild('pai')paiContainer: ElementRef;
   private arcGenerator: any;
   private mainAxes: {
