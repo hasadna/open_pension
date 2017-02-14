@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
+
+    'graphene_django',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -142,6 +144,7 @@ LANGUAGES = [
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'pension/locale'),
+    os.path.join(BASE_DIR, 'blog/locale'),
 )
 
 TIME_ZONE = 'Asia/Jerusalem'
@@ -173,6 +176,10 @@ CKEDITOR_CONFIGS = {
             ['TextColor', 'BGColor'],
         ]
     }
+}
+
+GRAPHENE = {
+    'SCHEMA': 'config.schema.schema'  # Where your Graphene schema lives
 }
 
 

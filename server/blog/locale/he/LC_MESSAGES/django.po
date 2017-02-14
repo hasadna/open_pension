@@ -18,23 +18,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: config/settings.py:141
-msgid "Hebrew"
-msgstr "עברית"
+#: blog/forms.py:15
+msgid "Select Tags"
+msgstr "בחר תגיות"
 
-#: config/settings.py:142
-#: venv/lib/python3.6/site-packages/graphene_django/tests/test_converter.py:167
-msgid "English"
-msgstr "אגלית"
+#: blog/models.py:9
+msgid "tag"
+msgstr "תג"
 
-#: pension/models.py:9
+#: blog/models.py:15
+msgid "Tag"
+msgstr ""
+
+#: blog/models.py:16
+msgid "Tags"
+msgstr "תג"
+
+#: blog/models.py:24
 msgid "title"
 msgstr "כותרת"
 
-#: pension/models.py:12 pension/models.py:13
-msgid "Cash And Deposit"
-msgstr "מזומנים ופיקדונות"
+#: blog/models.py:25
+msgid "body"
+msgstr "תוכן"
 
-#: pension/templates/admin/base_site.html:3
-msgid "Django site admin"
-msgstr "מנהל אתר"
+#: blog/models.py:26
+msgid "author"
+msgstr "מחבר"
+
+#: blog/models.py:28
+msgid "publish"
+msgstr "פרסום"
+
+#: blog/models.py:29
+msgid "tags"
+msgstr "תגיות"
+
+#: blog/models.py:33
+msgid "Post"
+msgstr "פוסט"
+
+#: blog/models.py:34
+msgid "Posts"
+msgstr "פוסטים"

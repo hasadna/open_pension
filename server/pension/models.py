@@ -5,65 +5,69 @@ from ckeditor.fields import RichTextField
 from django.utils.translation import ugettext_lazy as _
 
 
-class cash_and_deposit(models.Model):
+class CashAndDeposit(models.Model):
+    title = models.CharField(_('title'), max_length=255)
+
+    class Meta:
+        verbose_name = _('Cash And Deposit')
+        verbose_name_plural = _('Cash And Deposit')
+
+
+class GovernmentBonds(models.Model):
     pass
 
 
-class government_bonds(models.Model):
+class CommercialBonds(models.Model):
     pass
 
 
-class commercial_bonds(models.Model):
+class CorporateBonds(models.Model):
     pass
 
 
-class corporate_bonds(models.Model):
+class Shares(models.Model):
     pass
 
 
-class shares(models.Model):
+class ETF(models.Model):
     pass
 
 
-class etf(models.Model):
+class TrustFunds(models.Model):
     pass
 
 
-class trust_funds(models.Model):
+class OptionWarrants(models.Model):
     pass
 
 
-class option_warrants(models.Model):
+class Options(models.Model):
     pass
 
 
-class options(models.Model):
+class Futures(models.Model):
     pass
 
 
-class futures(models.Model):
+class StructuredProducts(models.Model):
     pass
 
 
-class structured_products(models.Model):
+class LandRights(models.Model):
     pass
 
 
-class land_rights(models.Model):
+class CompaniesInvestments(models.Model):
     pass
 
 
-class companies_investments(models.Model):
+class OtherInvestments(models.Model):
     pass
 
 
-class other_investments(models.Model):
+class InvestmentsBalance(models.Model):
     pass
 
 
-class investments_balance(models.Model):
-    pass
-
-
-class others(models.Model):
+class Others(models.Model):
     pass
