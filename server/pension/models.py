@@ -76,65 +76,129 @@ class Holding(models.Model):
 
 # ==========================================
 
-class cash_and_deposit(models.Model):
+class CashAndDeposit(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Cash And Deposit')
+        verbose_name_plural = _('Cash And Deposit')
 
-class government_bonds(models.Model):
+
+class GovernmentBonds(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Government Bonds')
+        verbose_name_plural = _('GovernmentBonds')
 
-class commercial_bonds(models.Model):
+
+class CommercialBonds(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Commercial Bonds')
+        verbose_name_plural = _('Commercial Bonds')
 
-class corporate_bonds(models.Model):
+
+class CorporateBonds(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Corporate Bonds')
+        verbose_name_plural = _('CorporateBonds')
 
-class shares(models.Model):
+
+class Shares(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Shares')
+        verbose_name_plural = _('Shares')
 
-class etf(models.Model):
+
+class ETF(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('ETF')
+        verbose_name_plural = _('ETF')
 
-class trust_funds(models.Model):
+
+class TrustFunds(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Trust Funds')
+        verbose_name_plural = _('Trust Funds')
 
-class option_warrants(models.Model):
+
+class OptionWarrants(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Option Warrants')
+        verbose_name_plural = _('Option Warrants')
 
-class options(models.Model):
+
+class Options(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Options')
+        verbose_name_plural = _('Options')
 
-class futures(models.Model):
+
+class Futures(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Futures')
+        verbose_name_plural = _('Futures')
 
-class structured_products(models.Model):
+
+class StructuredProducts(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Structured Products')
+        verbose_name_plural = _('Structured Products')
 
-class land_rights(models.Model):
+
+class LandRights(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Land Rights')
+        verbose_name_plural = _('LandRights')
 
-class companies_investments(models.Model):
+
+class CompaniesInvestments(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Companies Investments')
+        verbose_name_plural = _('Companies Investments')
 
-class other_investments(models.Model):
+
+class OtherInvestments(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Other Investments')
+        verbose_name_plural = _('Other Investments')
 
-class investments_balance(models.Model):
+
+class InvestmentsBalance(models.Model):
     pass
 
+    class Meta:
+        verbose_name = _('Investments Balance')
+        verbose_name_plural = _('Investments Balance')
 
-class others(models.Model):
+
+class Others(models.Model):
     pass
+
+    class Meta:
+        verbose_name = _('Others')
+        verbose_name_plural = _('Others')
