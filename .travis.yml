@@ -39,7 +39,7 @@ script:
   - cd .. && pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
 
     # Client
-  - cd ../client
+  - cd client
   - npm run lint
   - npm run test
   - npm run e2e
