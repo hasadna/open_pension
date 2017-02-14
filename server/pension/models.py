@@ -4,7 +4,8 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.translation import ugettext_lazy as _
 
-from pension.choices import CURRENCIES, ASSET_TYPES, RATING, ACTIVITY_INDUSTRY, QUARTER, MANAGING_BODIES, GEOGRAPHICAL_LOCATION
+from pension.choices import CURRENCIES, ASSET_TYPES, RATING, ACTIVITY_INDUSTRY, QUARTER, \
+    MANAGING_BODIES, GEOGRAPHICAL_LOCATION
 
 class Security(models.Model):
     """

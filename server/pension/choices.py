@@ -69,7 +69,3 @@ GEOGRAPHICAL_LOCATION = (
     ('IL', 'israel'),
     ('ABR', 'abroad')
 )
-
-
-
-

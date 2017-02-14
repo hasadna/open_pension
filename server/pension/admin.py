@@ -3,6 +3,7 @@ from modeltranslation.admin import TranslationAdmin
 
 from pension.models import Security
 
+
 class SecurityAdmin(TranslationAdmin):
     model = Security
     list_display = ('security_name',)
