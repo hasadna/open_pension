@@ -1,0 +1,14 @@
+<h3>{{ post.title }}</h3>
+<div id="post-meta-data">
+  <div class="date">
+    <i class="material-icons">access_time</i>
+    <span>{{ post.publish | date: 'd/M/y' }}</span>
+  </div>
+  <div class="author">
+    <i class="material-icons">person</i>
+    <span>{{ post.author }}</span>
+  </div>
+</div>
+<p>
+  {{ post.body | slice:0:250 }}.. <a href="#">קרא עוד>></a>
+</p>
