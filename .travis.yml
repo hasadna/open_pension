@@ -8,9 +8,6 @@ addons:
     packages:
       - google-chrome-stable
 
-# language: python
-# python: 3.5
-
 language: node_js
 node_js:
   - "6"
@@ -39,7 +36,7 @@ install:
 
 script:
   # Server
-  - pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
+  - cd ../server && pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
 
     # Client
   - cd ../client
