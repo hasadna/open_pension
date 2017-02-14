@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -16,10 +16,10 @@ import 'd3-transition';
 @Component({
   selector: 'op-pai',
   templateUrl: './pai.component.html',
-  styles: ['./pai.component.scss']
+  styleUrls: ['./pai.component.scss']
 })
 // TODO- use the correct typings and not any.
-export class PaiComponent implements OnInit, DoCheck {
+export class PaiComponent implements OnInit {
   private root$: any;
 
   @ViewChild('pai')paiContainer: ElementRef;
@@ -35,9 +35,6 @@ export class PaiComponent implements OnInit, DoCheck {
   constructor(
     private store: Store<fromRoot.State>,
   ) {
-    this.store.select(fromRoot.getPaiState).subscribe(
-      res => this.root$ = res
-    );
     this.mainAxes = {
       x: 0,
       y: 0
@@ -47,16 +44,16 @@ export class PaiComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.store.dispatch(new paiAction.LoadPaiAction());
-  }
-
-  ngDoCheck() {
-    if (this.root$.children.length) {
-      this.initDimensions();
-      this.initAxes();
-      this.initArcGenerator();
-      this.initPai();
-      this.loadData(this.root$);
-    }
+    this.store.select(fromRoot.getPaiState).subscribe(
+      res => {
+        if (res.children.length) {
+          this.initDimensions();
+          this.initAxes();
+          this.initArcGenerator();
+          this.initPai();
+          this.loadData(res);
+        }
+    });
   }
 
   zoomToNode(d) {
