@@ -9,7 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
-import reducer from './reducers';
+// import reducer from './reducers';
 
 import { OpComponent } from './op.component';
 
@@ -19,8 +19,6 @@ import { SearchComponent } from './components/search/search.component';
 import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
-import { PostComponent } from './components/post/post.component';
-import { PostsComponent } from './components/posts/posts.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +29,6 @@ import { PostsComponent } from './components/posts/posts.component';
     PaiComponent,
     FiltersComponent,
     AboutComponent,
-    PostComponent,
-    PostsComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,8 +36,8 @@ import { PostsComponent } from './components/posts/posts.component';
     HttpModule,
     AppRoutingModule,
     MaterialModule.forRoot(),
-    StoreModule.provideStore(reducer),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    // StoreModule.provideStore(reducer),
+    // StoreDevtoolsModule.instrumentOnlyWithExtension(),
   ],
   providers: [],
   bootstrap: [OpComponent]

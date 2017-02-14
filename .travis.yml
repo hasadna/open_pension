@@ -36,7 +36,7 @@ install:
 
 script:
   # Server
-  - cd ../server && pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
+  - cd .. && pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
 
     # Client
   - cd ../client

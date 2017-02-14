@@ -3,23 +3,30 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { reducer } from './reducers';
+import { StoreModule } from '@ngrx/store';
 
-import { PaiComponent } from './pai.component';
+import { BlogComponent } from './blog.component';
 
-describe('PaiComponent', () => {
-  let component: PaiComponent;
-  let fixture: ComponentFixture<PaiComponent>;
+describe('BlogComponent', () => {
+  let component: BlogComponent;
+  let fixture: ComponentFixture<BlogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaiComponent ],
+      imports: [
+        RouterTestingModule,
+        StoreModule.provideStore(reducer),
+      ],
+      declarations: [ BlogComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaiComponent);
+    fixture = TestBed.createComponent(BlogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
