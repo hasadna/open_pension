@@ -1,5 +1,4 @@
-
-#blog-container {
+section {
   margin-top: 100px;
   color: #4a4a4a;
   direction: rtl;
@@ -24,16 +23,8 @@ h2 {
   color: #a8a8a8;
 }
 
-.flex-container {
+#post-header {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-}
-
-.flex-start {
-  align-self: flex-start;
-}
-
-.flex-end {
-  align-self: flex-end;
+  justify-content: space-around;
 }
