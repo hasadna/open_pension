@@ -42,6 +42,7 @@
     "d3-shape": "^1.0.4",
     "d3-transition": "^1.0.3",
     "hammerjs": "^2.0.8",
+    "intro.js": "^2.4.0",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.7.2"
@@ -61,6 +62,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.2.1",
     "protractor": "~4.0.13",
+    "retyped-intro.js-tsd-ambient": "^1.1.1-0",
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
     "typescript": "~2.0.3"
