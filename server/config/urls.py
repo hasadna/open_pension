@@ -25,7 +25,7 @@ from blog.models import Tags
 
 # URLs that shouldn't be translated.
 urlpatterns = [
-
+    url(r'^api/', include('blog.urls')),
 ]
 
 # URLs that should be translated.
