@@ -18,19 +18,22 @@ def validate_percentage(value):
 
 
 class Quarter(models.Model):
+    quarter_id = models.AutoField(primary_key=True)
     year = models.PositiveIntegerField(_('Year'), choices=YEARS)
     month = models.PositiveIntegerField(_('Month'), choices=MONTHS)
 
 
 class Bonds(models.Model):
+    bonds_id = models.AutoField(primary_key=True)
     name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
+    bond_id = models.PositiveIntegerField(_('Bond Id'))
     currency = models.CharField(_('Currency'), max_length=255)
     nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
     exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
 
 
 class MarketableBonds(Bonds):
+    marketable_bonds_id = models.AutoField(primary_key=True)
     market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.",
                                        max_digits=50, decimal_places=3)
     issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.",
@@ -40,11 +43,13 @@ class MarketableBonds(Bonds):
 
 
 class RatedMarketableBonds(models.Model):
+    rated_marketable_bonds_id = models.AutoField(primary_key=True)
     rate = models.CharField(_('Rate'), max_length=255)
     rating_name = models.CharField(_('Rating Name'), max_length=255)
 
 
 class ExtendedMarketableBonds(models.Model):
+    extended_marketable_bonds_id = models.AutoField(primary_key=True)
     average_life_span = models.DecimalField(_('Average Life Span'), max_digits=50, decimal_places=3)
     interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.",
                                         validators=[validate_percentage], max_digits=50, decimal_places=3)
@@ -53,16 +58,18 @@ class ExtendedMarketableBonds(models.Model):
 
 
 class PurchasableDateBonds(models.Model):
+    purchasable_date_bonds_id = models.AutoField(primary_key=True)
     purchase_date = models.DateField(_('Purchase Date'))
 
 
 class ActivityIndustryBonds(models.Model):
+    activity_industry_bonds_id = models.AutoField(primary_key=True)
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
 
 
 class CashAndDeposit(Quarter, RatedMarketableBonds):
     name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
+    bond_id = models.PositiveIntegerField(_('Bond Id'))
     currency = models.CharField(_('Currency'), max_length=255)
     interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.",
                                         validators=[validate_percentage], max_digits=50, decimal_places=3)
