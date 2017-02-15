@@ -1,5 +1,5 @@
 from modeltranslation.translator import register, TranslationOptions
-from blog.models import Blog, Tags
+from blog.models import Post, Tags
 
 
 @register(Tags)
@@ -8,7 +8,7 @@ class TagsTranslation(TranslationOptions):
     required_languages = ('he',)
 
 
-@register(Blog)
-class BlogTranslation(TranslationOptions):
+@register(Post)
+class PostTranslation(TranslationOptions):
     fields = ('title', 'author', 'body')
     required_languages = ('he',)
