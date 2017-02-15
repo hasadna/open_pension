@@ -73,6 +73,7 @@ class NotNegotiableCommercialBondsAdmin(admin.ModelAdmin):
     model = NotNegotiableCommercialBonds
     list_display = ('name',)
 
+
 class NotNegotiableCorporateBondsAdmin(admin.ModelAdmin):
     model = NotNegotiableCorporateBonds
     list_display = ('name',)

@@ -139,7 +139,8 @@ class Futures(Quarter, Bonds, ActivityIndustryBonds):
         verbose_name_plural = _('Futures')
 
 
-class StructuredProducts(Quarter, ExtendedMarketableBonds, MarketableBonds, RatedMarketableBonds, PurchasableDateBonds):
+class StructuredProducts(Quarter, ExtendedMarketableBonds, MarketableBonds, RatedMarketableBonds,
+                         PurchasableDateBonds):
     base_asset = models.CharField(_('Base Asset'), max_length=255)
 
     class Meta:
