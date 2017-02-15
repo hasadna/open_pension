@@ -92,7 +92,37 @@ def validate_percentage(value):
 
 
 class Bonds(models.Model):
-    pass
+    name = models.CharField(_('Name'), max_length=255)
+    id = models.PositiveIntegerField(_('Id'))
+    currency = models.CharField(_('Currency'), max_length=255)
+    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
+    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
+
+
+class MarketableBonds(Bonds):
+    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.",
+                                       max_digits=50, decimal_places=3)
+    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.",
+                                          validators=[validate_percentage], max_digits=50, decimal_places=3)
+    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.",
+                                                 validators=[validate_percentage], max_digits=50, decimal_places=3)
+
+
+class ExtendedMarketableBonds(MarketableBonds):
+    rate = models.CharField(_('Rate'), max_length=255)
+    rating_name = models.CharField(_('Rating Name'), max_length=255)
+
+
+class ExtendedExtendedMarketableBonds(ExtendedMarketableBonds):
+    average_life_span = models.DecimalField(_('Average Life Span'), max_digits=50, decimal_places=3)
+    interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.",
+                                        validators=[validate_percentage], max_digits=50, decimal_places=3)
+    yield_to_maturity = models.DecimalField(_('Yield To Maturity'), help_text="This is a percentage value.",
+                                            validators=[validate_percentage], max_digits=50, decimal_places=3)
+
+
+class NoneExtendedExtendedMarketableBonds(ExtendedExtendedMarketableBonds):
+    purchase_date = models.DateField(_('Purchase Date'))
 
 
 class CashAndDeposit(models.Model):
@@ -103,143 +133,60 @@ class CashAndDeposit(models.Model):
         verbose_name_plural = _('Cash And Deposit')
 
 
-class GovernmentBonds(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
-    rate = models.CharField(_('Rate'), max_length=255)
-    rating_name = models.CharField(_('Rating Name'), max_length=255)
-    average_life_span = models.DecimalField(_('Average Life Span'), max_digits=50, decimal_places=3)
-    interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    yield_to_maturity = models.DecimalField(_('Yield To Maturity'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-
+class GovernmentBonds(ExtendedExtendedMarketableBonds):
     class Meta:
         verbose_name = _('Government Bonds')
         verbose_name_plural = _('GovernmentBonds')
 
 
-class CommercialBonds(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
-    rate = models.CharField(_('Rate'), max_length=255)
-    rating_name = models.CharField(_('Rating Name'), max_length=255)
-    average_life_span = models.DecimalField(_('Average Life Span'), max_digits=50, decimal_places=3)
-    interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    yield_to_maturity = models.DecimalField(_('Yield To Maturity'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
+class CommercialBonds(ExtendedExtendedMarketableBonds):
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Commercial Bonds')
         verbose_name_plural = _('Commercial Bonds')
 
 
-class CorporateBonds(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
-    rate = models.CharField(_('Rate'), max_length=255)
-    rating_name = models.CharField(_('Rating Name'), max_length=255)
-    average_life_span = models.DecimalField(_('Average Life Span'), max_digits=50, decimal_places=3)
-    interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    yield_to_maturity = models.DecimalField(_('Yield To Maturity'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
+class CorporateBonds(ExtendedExtendedMarketableBonds):
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Corporate Bonds')
-        verbose_name_plural = _('CorporateBonds')
+        verbose_name_plural = _('Corporate Bonds')
 
 
-class Shares(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
+class Shares(MarketableBonds):
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Shares')
         verbose_name_plural = _('Shares')
 
 
-class ETF(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-
+class ETF(MarketableBonds):
     class Meta:
         verbose_name = _('ETF')
         verbose_name_plural = _('ETF')
 
 
-class TrustFunds(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
-    rate = models.CharField(_('Rate'), max_length=255)
-    rating_name = models.CharField(_('Rating Name'), max_length=255)
+class TrustFunds(ExtendedMarketableBonds):
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Trust Funds')
         verbose_name_plural = _('Trust Funds')
 
 
-class OptionWarrants(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
+class OptionWarrants(MarketableBonds):
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Option Warrants')
         verbose_name_plural = _('Option Warrants')
 
 
-class Options(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
+class Options(MarketableBonds):
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Options')
@@ -247,38 +194,42 @@ class Options(Bonds):
 
 
 class Futures(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-    currency = models.CharField(_('Currency'), max_length=255)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Futures')
         verbose_name_plural = _('Futures')
 
 
-class StructuredProducts(Bonds):
-    name = models.CharField(_('Name'), max_length=255)
-    id = models.PositiveIntegerField(_('Id'))
+class StructuredProducts(ExtendedExtendedMarketableBonds):
     base_asset = models.CharField(_('Base Asset'), max_length=255)
-    rate = models.CharField(_('Rate'), max_length=255)
-    rating_name = models.CharField(_('Rating Name'), max_length=255)
     purchase_date = models.DateField(_('Purchase Date'))
-    average_life_span = models.DecimalField(_('Average Life Span'), max_digits=50, decimal_places=3)
-    currency = models.CharField(_('Currency'), max_length=255)
-    interest_rate = models.DecimalField(_('Interest Rate'), max_digits=50, decimal_places=3)
-    yield_to_maturity = models.DecimalField(_('Yield To Maturity'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-    exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
-    market_value = models.DecimalField(_('Market Value'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
-    issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
-    investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3)
 
     class Meta:
         verbose_name = _('Structured Products')
         verbose_name_plural = _('Structured Products')
+
+
+class NotNegotiableGovernmentBonds(NoneExtendedExtendedMarketableBonds):
+    class Meta:
+        verbose_name = _('Government Bonds')
+        verbose_name_plural = _('GovernmentBonds')
+
+
+class NotNegotiableCommercialBonds(NoneExtendedExtendedMarketableBonds):
+    activity_industry = models.CharField(_('Activity Industry'), max_length=255)
+
+    class Meta:
+        verbose_name = _('Commercial Bonds')
+        verbose_name_plural = _('Commercial Bonds')
+
+
+class NotNegotiableCorporateBonds(NoneExtendedExtendedMarketableBonds):
+    activity_industry = models.CharField(_('Activity Industry'), max_length=255)
+
+    class Meta:
+        verbose_name = _('Corporate Bonds')
+        verbose_name_plural = _('Corporate Bonds')
 
 
 class LandRights(models.Model):
