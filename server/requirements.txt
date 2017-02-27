@@ -1,19 +1,22 @@
 # Install with: `pip install -r requirements.txt`
 
-Django==1.10.1
+Django==1.10.5
 psycopg2==2.6.2
-django-extensions==1.7.4
-django-ckeditor==5.1.1
+django-extensions==1.7.7
+
+# Admin
+django-ckeditor==5.2.1
+django-autocomplete-light==3.2.1
 
 Yapsy==1.11.223
 
 # Rest Framework
-djangorestframework==3.4.7
-Markdown==2.6.6
-django-filter==0.15.0
+djangorestframework==3.5.4
+Markdown==2.6.8
+django-filter==1.0.1
 
 # CORS
-django-cors-headers==1.1.0
+django-cors-headers==2.0.2
 
 # Translations
 django-modeltranslation==0.12

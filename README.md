@@ -1,28 +1,36 @@
 # Open Pension
 
-[![Build Status][travis-image]][travis-url] [![Join the chat at https://gitter.im/open-pension/Lobby][gitter-image]][gitter-url]
+[![license][license-image]][license-url] [![Build Status][travis-image]][travis-url] [![Python 3][python-image]][python-url] [![Updates][updates-image]][updates-url] [![Join the chat at https://gitter.im/open-pension/Lobby][gitter-image]][gitter-url]
 
 > The repo contains the server & the client parts of the Open Pension project.
 Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to revealing the secrets behind the Israeli pension market.
 
 ## Our Stack
 
-  * [Angular 2.0](https://angular.io/)
-  * [Django 1.10.1](https://www.djangoproject.com/)
+  * [Angular](https://angular.io/)
+  * [Django](https://www.djangoproject.com/)
   * [PostgreSQL](http://www.postgresql.org/)
+
+**Tools we use**
+
+  * [Angular Cli](https://github.com/angular/angular-cli)
+  * [Angular Material](https://material.angular.io/)
+  * [ngrx](https://github.com/ngrx)
 
 ## Pre Requirements
 
-  1. Make sure you have Python 3.x and pip installed.
-  2. [NodeJS](nodejs.org).
-  3. [Angular CLI](https://github.com/angular/angular-cli).
+  1. Make sure you have [Python 3.x](https://www.python.org/) and [pip](https://pypi.python.org/pypi/pip) installed.
+  2. [NodeJS](nodejs.org)
+  3. [Angular CLI](https://github.com/angular/angular-cli)
+  4. [PostgreSQL](http://www.postgresql.org/)
 
 ## Installation
 
 **Client**
 
-  1. `npm install` inside the `client` directory.
-  2. Open the browser at [http://localhost:4200](http://localhost:4200).
+  1. Install requirements with `npm install` (located under `client` directory).
+  2. Run the server with `ng start`.
+  3. Open the browser at [http://localhost:4200](http://localhost:4200).
 
 **Server**
 
@@ -37,8 +45,9 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 
 **Client**
 
-  * Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-  * Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+  * Run `npm run lint` to check for lint mistakes.
+  * Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+  * Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 **Server**
 
@@ -63,15 +72,28 @@ python manage.py compilemessages -l he
 
 If you need the data itself use the `--recursive` flag when you `git clone` this repo.
 
+## Deploy
+
+**Client**
+
+  1. Run `ng build -prod -aot` to build the project.
+  2. Run `npm run sw` to generate the service worker file (in `dist` directory).
+
+**Server**
+
+  1. Not yet..
+
 ## Contribute
 
 Just fork and do a pull request (;
 
-## License
-
-MIT
-
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg
+[license-url]: https://github.com/hasadna/open_pension/blob/master/LICENSE
 [travis-image]: https://travis-ci.org/hasadna/open_pension.svg?branch=master
 [travis-url]: https://travis-ci.org/hasadna/open_pension
+[python-image]: https://pyup.io/repos/github/hasadna/open_pension/python-3-shield.svg
+[python-url]: https://pyup.io/repos/github/hasadna/open_pension
+[updates-image]: https://pyup.io/repos/github/hasadna/open_pension/shield.svg
+[updates-url]: https://pyup.io/repos/github/hasadna/open_pension
 [gitter-image]: https://badges.gitter.im/open-pension/Lobby.svg
 [gitter-url]: https://gitter.im/open-pension/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
