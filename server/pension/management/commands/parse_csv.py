@@ -68,6 +68,13 @@ class Command(BaseCommand):
         "אגח קונצרני של חברות ישראליות": "concern_agach_for_israeli_company",
         "מטח/מטח": "foreign_key__foreign_key",
         "מטבע": "currency",
+        "קרן מובטחת": "principle_fund",
+        "קרן לא מובטחת": "un_principle_fund",
+        "מוצרים מאוגחים": "agached_products",
+        "שכבת חוב (Tranch) בדרוג AA- ומעלה": "tranch_rating_of_aa_or_higher",
+        "שכבת חוב (Tranch) בדרוג BBB- עד A+": "tranch_bbb_rating_to_a_plus",
+        "שכבת חוב (Tranch) בדרוג BB+ ומטה": "tranch_bbb_rating_to_a_plus",
+        "שכבת הון (Equity Tranch)": "equity_tranch",
     }
 
     global_contexts = {
@@ -97,6 +104,7 @@ class Command(BaseCommand):
         'לא-סחיר---אופציות': "options-non-marketable",
         'לא-סחיר---חוזים-עתידיים': "future-contracts-non-marketable",
         'לא-סחיר---כתבי-אופציה': "warrants-contracts-non-marketable",
+        'לא-סחיר---מוצרים-מובנים': "built-in-products-non-marketable",
     }
 
     def add_arguments(self, parser):
