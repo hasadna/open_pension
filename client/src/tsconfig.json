@@ -21,7 +21,7 @@
       "node",
       "jasmine",
       "hammerjs",
-      "intro.js"
+      "introJs"
     ]
   }
 }

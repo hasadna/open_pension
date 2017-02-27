@@ -4,10 +4,10 @@
       <img id="logo" src="/assets/logo.svg" alt="Open Pension Logo">
     </a>
     <div>
-      <div class="links">
+      <div class="links" data-intro='Hello step one!'>
         <ul>
           <li>
-            <a [routerLink]="['/intro']">
+            <a (click)="intro()">
               <i class="material-icons">help_outline</i>
               איך זה עובד?
             </a>

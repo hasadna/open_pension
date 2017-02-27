@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: 'pai', component: PaiComponent },
   { path: 'about', component: AboutComponent },
   { path: 'blog', loadChildren: 'app/modules/blog/blog.module#BlogModule' },
-  { path: 'intro', loadChildren: 'app/modules/intro/intro.module#IntroModule' },
 ];
 
 @NgModule({
