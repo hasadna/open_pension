@@ -106,6 +106,7 @@ class Command(BaseCommand):
         'לא-סחיר---כתבי-אופציה': "warrants-contracts-non-marketable",
         'לא-סחיר---מוצרים-מובנים': "built-in-products-non-marketable",
         'לא-סחיר---מניות': "non-marketable-stocks",
+        'לא-סחיר---קרנות-השקעה': "non-marketable-investment-fund",
     }
 
     def add_arguments(self, parser):
