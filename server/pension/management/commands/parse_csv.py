@@ -85,6 +85,12 @@ class Command(BaseCommand):
         "קרנות השקעה אחרות בחול": "oversea_stock_fund",
         "תעודות חוב מסחריות של חברות ישראליות": "commercial_bonds_for_israeli_companies",
         "תעודות חוב מסחריות של חברות זרות": "commercial_bonds_for_foreign_companies",
+        "חץ": "hetz",
+        "ערד": "arad",
+        "מירון": "miron",
+        "פיקדונות חשכל": "deposit_accountant_general",
+        "אגח של ממשלת ישראל שהונפקו בחול": "israel_governmental_bonds_produced_oversea",
+        "אגח לא סחיר שהנפיקו ממשלות זרות בחול": "non_trade_foreign_governmental_bonds_produced_oversea",
     }
 
     global_contexts = {
@@ -118,6 +124,7 @@ class Command(BaseCommand):
         'לא-סחיר---מניות': "non-marketable-stocks",
         'לא-סחיר---קרנות-השקעה': "non-marketable-investment-fund",
         'לא-סחיר---תעודות-חוב-מסחריות': "non-marketable-certificate-of-indebtedness",
+        'לא-סחיר--תעודות-התחייבות-ממשלתי': "non-marketable-governmental-liability-certificate",
     }
 
     def add_arguments(self, parser):
