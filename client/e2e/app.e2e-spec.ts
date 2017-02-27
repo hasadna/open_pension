@@ -1,9 +1,9 @@
-import { OpPage } from './app.po';
+import { OpenpensionPage } from './app.po';
 
-describe('op App', () => {
-  let page: OpPage;
+describe('OpenpensionPage App', () => {
+  let page: OpenpensionPage;
 
   beforeEach(() => {
-    page = new OpPage();
+    page = new OpenpensionPage();
   });
 });

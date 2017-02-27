@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class OpPage {
+export class OpenpensionPage {
   navigateTo() {
     return browser.get('/');
   }

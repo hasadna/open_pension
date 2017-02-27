@@ -13,7 +13,11 @@
     "target": "es5",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "types": [
+      "node",
+      "jasmine",
+      "hammerjs"
+    ]
   },
   "exclude": [
     "test.ts",
