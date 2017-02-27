@@ -1,0 +1,21 @@
+@import "../../../assets/vars.scss";
+
+form {
+  position: relative;
+  width: 60%;
+}
+
+i {
+  color: #4A90E2;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 36px;
+}
+
+input {
+  text-align: right;
+  width: 100%;
+  padding: 8px;
+  font-size: 18px;
+}

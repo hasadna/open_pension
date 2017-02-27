@@ -1,0 +1,7 @@
+.inline-related > h3 {
+    display:none
+}
+
+.related-widget-wrapper {
+    float: none;
+}

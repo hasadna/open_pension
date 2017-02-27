@@ -1,14 +1,9 @@
-import { OpPage } from './app.po';
+import { OpenpensionPage } from './app.po';
 
-describe('op App', function() {
-  let page: OpPage;
+describe('openpension App', function() {
+  let page: OpenpensionPage;
 
   beforeEach(() => {
-    page = new OpPage();
-  });
-
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    page = new OpenpensionPage();
   });
 });

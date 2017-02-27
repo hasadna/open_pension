@@ -1,0 +1,38 @@
+<nav>
+  <div>
+    <a [routerLink]="['/']">
+      <img id="logo" src="/assets/logo.svg" alt="Open Pension Logo">
+    </a>
+    <div>
+      <div class="links">
+        <ul>
+          <li>
+            <a [routerLink]="['/how-it-works']">
+              <i class="material-icons">help_outline</i>
+              איך זה עובד?
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/contact']">
+              <i class="material-icons">mail_outline</i>
+              יצירת קשר
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/about']">
+              <i class="material-icons">info_outline</i>
+              אודות
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/blog']">
+              <i class="material-icons">toc</i>
+              בלוג
+            </a>
+          </li>
+        </ul>
+      </div>
+      <op-search></op-search>
+    </div>
+  </div>
+</nav>

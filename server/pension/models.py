@@ -1,25 +1,69 @@
+import uuid
+
 from django.db import models
+from ckeditor.fields import RichTextField
 from django.utils.translation import ugettext_lazy as _
 
-from ckeditor.fields import RichTextField
+
+class cash_and_deposit(models.Model):
+    pass
 
 
-class NumberType(object):
-    choices = (
-        ('int', _('Integer')),
-        ('float', _('Float')),
-    )
+class government_bonds(models.Model):
+    pass
 
 
-class Example(models.Model):
-    """
-    Example entity.
-    """
-    title = models.CharField(_('title'), max_length=255, blank=True)
-    number = models.CharField(_('number'), max_length=25, choices=NumberType.choices, default='int')
-    body = RichTextField(_('body'), blank=True)
-    REQUIRED_FIELDS = ['title', ]
+class commercial_bonds(models.Model):
+    pass
 
-    class Meta:
-        verbose_name = _('Example')
-        verbose_name_plural = _('Examples')
+
+class corporate_bonds(models.Model):
+    pass
+
+
+class shares(models.Model):
+    pass
+
+
+class etf(models.Model):
+    pass
+
+
+class trust_funds(models.Model):
+    pass
+
+
+class option_warrants(models.Model):
+    pass
+
+
+class options(models.Model):
+    pass
+
+
+class futures(models.Model):
+    pass
+
+
+class structured_products(models.Model):
+    pass
+
+
+class land_rights(models.Model):
+    pass
+
+
+class companies_investments(models.Model):
+    pass
+
+
+class other_investments(models.Model):
+    pass
+
+
+class investments_balance(models.Model):
+    pass
+
+
+class others(models.Model):
+    pass
