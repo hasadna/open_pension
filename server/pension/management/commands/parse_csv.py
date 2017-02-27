@@ -75,6 +75,14 @@ class Command(BaseCommand):
         "שכבת חוב (Tranch) בדרוג BBB- עד A+": "tranch_bbb_rating_to_a_plus",
         "שכבת חוב (Tranch) בדרוג BB+ ומטה": "tranch_bbb_rating_to_a_plus",
         "שכבת הון (Equity Tranch)": "equity_tranch",
+        "קרנות הון סיכון": "venture_capital_fund",
+        "קרנות גידור": "hedge_fund",
+        "קרנות נדלן": "real_estate_fund",
+        "קרנות השקעה אחרות": "stock_fund",
+        "קרנות הון סיכון בחול": "oversea_venture_capital_fund",
+        "קרנות גידור בחול": "oversea_hedge_fund",
+        "קרנות נדלן בחול": "oversea_real_estate_fund",
+        "קרנות השקעה אחרות בחול": "oversea_stock_fund",
     }
 
     global_contexts = {
