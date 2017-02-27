@@ -83,6 +83,8 @@ class Command(BaseCommand):
         "קרנות גידור בחול": "oversea_hedge_fund",
         "קרנות נדלן בחול": "oversea_real_estate_fund",
         "קרנות השקעה אחרות בחול": "oversea_stock_fund",
+        "תעודות חוב מסחריות של חברות ישראליות": "commercial_bonds_for_israeli_companies",
+        "תעודות חוב מסחריות של חברות זרות": "commercial_bonds_for_foreign_companies",
     }
 
     global_contexts = {
@@ -115,6 +117,7 @@ class Command(BaseCommand):
         'לא-סחיר---מוצרים-מובנים': "built-in-products-non-marketable",
         'לא-סחיר---מניות': "non-marketable-stocks",
         'לא-סחיר---קרנות-השקעה': "non-marketable-investment-fund",
+        'לא-סחיר---תעודות-חוב-מסחריות': "non-marketable-certificate-of-indebtedness",
     }
 
     def add_arguments(self, parser):
