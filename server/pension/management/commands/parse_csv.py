@@ -125,6 +125,7 @@ class Command(BaseCommand):
         'לא-סחיר---קרנות-השקעה': "non-marketable-investment-fund",
         'לא-סחיר---תעודות-חוב-מסחריות': "non-marketable-certificate-of-indebtedness",
         'לא-סחיר--תעודות-התחייבות-ממשלתי': "non-marketable-governmental-liability-certificate",
+        'מוצרים-מובנים': "built-in-products",
     }
 
     def add_arguments(self, parser):
