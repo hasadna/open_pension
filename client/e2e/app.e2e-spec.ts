@@ -1,6 +1,6 @@
 import { OpenpensionPage } from './app.po';
 
-describe('OpenpensionPage App', () => {
+describe('openpension App', () => {
   let page: OpenpensionPage;
 
   beforeEach(() => {
