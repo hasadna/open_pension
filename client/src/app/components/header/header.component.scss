@@ -29,10 +29,14 @@ li {
     float: left;
     color: $header-text-color;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
 
     i {
       vertical-align:middle;
     }
   }
 }
+
+ op-search {
+   justify-content: flex-start;
+ }
