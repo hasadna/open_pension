@@ -126,6 +126,7 @@ class Command(BaseCommand):
         'לא-סחיר---תעודות-חוב-מסחריות': "non-marketable-certificate-of-indebtedness",
         'לא-סחיר--תעודות-התחייבות-ממשלתי': "non-marketable-governmental-liability-certificate",
         'מוצרים-מובנים': "built-in-products",
+        'מזומנים': "cash-flow",
     }
 
     def add_arguments(self, parser):
