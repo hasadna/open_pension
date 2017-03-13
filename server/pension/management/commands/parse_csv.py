@@ -100,6 +100,10 @@ class Command(BaseCommand):
         "פקדונות במטח עד 3 חודשים": "three_months_linked_foreign_currency_deposit",
         "יתרות מזומנים ועוש נקובים במטח": "cash_balance_current_account_in_foreign_currency",
         "פקדונות במטח עד שלושה חודשים": "three_months_deposit_in_foreign_currency",
+        "תל אביב 25": "tlv_25",
+        "תל אביב 75": "tlv_75",
+        "מניות היתר": "extra_stocks",
+        "call 001 אופציות": "options_001",
     }
 
     global_contexts = {
@@ -136,6 +140,7 @@ class Command(BaseCommand):
         'לא-סחיר--תעודות-התחייבות-ממשלתי': "non-marketable-governmental-liability-certificate",
         'מוצרים-מובנים': "built-in-products",
         'מזומנים': "cash-flow",
+        'מניות': "stocks",
     }
 
     def add_arguments(self, parser):
