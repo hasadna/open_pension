@@ -2,11 +2,12 @@
 
 nav {
   background-color: $header-background;
-  display: block;
-  height: 120px;
+  height: 15vh;
 
   .container {
     position: relative;
+    display: flex;
+    justify-content: space-around;
   }
 }
 
@@ -16,12 +17,7 @@ li {
 }
 
 #logo {
-  float: right;
-  vertical-align: middle;
-  display: inline-block;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
+  align-self: center;
 }
 
 .links {
@@ -33,10 +29,14 @@ li {
     float: left;
     color: $header-text-color;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
 
     i {
       vertical-align:middle;
     }
   }
 }
+
+ op-search {
+   justify-content: flex-start;
+ }
