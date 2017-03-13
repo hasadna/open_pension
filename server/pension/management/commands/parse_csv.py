@@ -91,6 +91,15 @@ class Command(BaseCommand):
         "פיקדונות חשכל": "deposit_accountant_general",
         "אגח של ממשלת ישראל שהונפקו בחול": "israel_governmental_bonds_produced_oversea",
         "אגח לא סחיר שהנפיקו ממשלות זרות בחול": "non_trade_foreign_governmental_bonds_produced_oversea",
+        "יתרת מזומנים ועוש בשח": "nis_cash_balance",
+        "יתרת מזומנים ועוש נקובים במטח": "foreign_currency_cash_balance",
+        "פחק/פרי": "pachak_perry",
+        "פקמ לתקופה של עד שלושה חודשים": "three_months_short_term_deposit",
+        "פקדון צמוד מדד עד שלושה חודשים": "three_months_deposit_linked_to_the_index",
+        "פקדון צמוד מטח עד שלושה חודשים (פצמ)": "three_months_foreign_currency_deposit",
+        "פקדונות במטח עד 3 חודשים": "three_months_linked_foreign_currency_deposit",
+        "יתרות מזומנים ועוש נקובים במטח": "cash_balance_current_account_in_foreign_currency",
+        "פקדונות במטח עד שלושה חודשים": "three_months_deposit_in_foreign_currency",
     }
 
     global_contexts = {
@@ -126,6 +135,7 @@ class Command(BaseCommand):
         'לא-סחיר---תעודות-חוב-מסחריות': "non-marketable-certificate-of-indebtedness",
         'לא-סחיר--תעודות-התחייבות-ממשלתי': "non-marketable-governmental-liability-certificate",
         'מוצרים-מובנים': "built-in-products",
+        'מזומנים': "cash-flow",
     }
 
     def add_arguments(self, parser):
