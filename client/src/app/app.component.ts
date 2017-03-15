@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'op-root',
   template: `
     <op-header></op-header>
     <router-outlet></router-outlet>
@@ -10,5 +10,4 @@ import { Component } from '@angular/core';
   styles: [``]
 })
 export class AppComponent {
-  title = 'app works!';
 }

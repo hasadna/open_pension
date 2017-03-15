@@ -14,15 +14,15 @@
     "module": "es2015",
     "baseUrl": "",
     "types": [
+      "node",
+      "jasmine",
+      "hammerjs",
       "d3-hierarchy",
       "d3-interpolate",
       "d3-scale",
       "d3-selection",
       "d3-shape",
-      "d3-transition",
-      "hammerjs",
-      "jasmine",
-      "node",
+      "d3-transition"
     ]
   },
   "exclude": [
