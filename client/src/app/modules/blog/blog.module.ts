@@ -16,11 +16,13 @@ import { reducer } from './reducers';
 import { PostEffects } from './effects/post';
 
 import { PostService } from './services/post.service';
+import { DetailPostComponent } from './components/detail-post/detail-post.component';
 
 @NgModule({
   declarations: [
     BlogComponent,
     PostComponent,
+    DetailPostComponent,
   ],
   imports: [
     CommonModule,

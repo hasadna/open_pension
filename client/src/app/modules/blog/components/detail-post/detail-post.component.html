@@ -1,0 +1,17 @@
+<section>
+  <div id="post-header">
+    <h2>{{ post$.title }}</h2>
+    <a [routerLink]="['/blog']">חזרה לבלוג >></a>
+  </div>
+  <div id="post-meta-data">
+    <i class="material-icons">access_time</i>
+    <!-- <span>{{ post$.publish | date: 'd/M/y' }}</span> -->
+    <i class="material-icons">person</i>
+    <span>צוות פנסיה פתוחה</span>
+  </div>
+  <p *ngFor="let i of [0,0,0,0,0]">
+    {{ post$.body }}
+  </p>
+  <!-- Add social network icons here -->
+  <div id="share">שיתוף:</div>
+</section>
