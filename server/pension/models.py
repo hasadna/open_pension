@@ -23,33 +23,6 @@ class Quarter(models.Model):
     month = models.PositiveIntegerField(_('Month'), choices=MONTHS)
 
 
-# class OldBonds(models.Model):
-#     bonds_id = models.AutoField(primary_key=True)
-#     name = models.CharField(_('Name'), max_length=255)
-#     bond_id = models.PositiveIntegerField(_('Bond Id'))
-#     currency = models.CharField(_('Currency'), max_length=255)
-#     nominal_value = models.DecimalField(_('Nominal Value'), max_digits=50, decimal_places=3)
-#     exchange_rate = models.DecimalField(_('Exchange Rate'), max_digits=50, decimal_places=3)
-#     marketable_bonds_id = models.AutoField(primary_key=True)
-#     issued_par_rate = models.DecimalField(_('Issued Par Rate'), help_text="This is a percentage value.",
-#                                           validators=[validate_percentage], max_digits=50, decimal_places=3)
-#     investment_assets_rate = models.DecimalField(_('Investment Assets Rate'), help_text="This is a percentage value.",
-#                                                  validators=[validate_percentage], max_digits=50, decimal_places=3)
-#     rated_marketable_bonds_id = models.AutoField(primary_key=True)
-#     rate = models.CharField(_('Rate'), max_length=255)
-#     rating_name = models.CharField(_('Rating Name'), max_length=255)
-#     extended_marketable_bonds_id = models.AutoField(primary_key=True)
-#     average_life_span = models.DecimalField(_('Average Life Span'), max_digits=50, decimal_places=3)
-#     interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.",
-#                                          validators=[validate_percentage], max_digits=50, decimal_places=3)
-#     yield_to_maturity = models.DecimalField(_('Yield To Maturity'), help_text="This is a percentage value.",
-#                                              validators=[validate_percentage], max_digits=50, decimal_places=3)
-#     purchasable_date_bonds_id = models.AutoField(primary_key=True)
-#     purchase_date = models.DateField(_('Purchase Date'))
-#     activity_industry_bonds_id = models.AutoField(primary_key=True)
-#     activity_industry = models.CharField(_('Activity Industry'), max_length=255)
-
-
 class Cash(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     issuer_id = models.PositiveIntegerField(_('Issuer Id'))
@@ -88,6 +61,7 @@ class GovernmentDebtCertificates(models.Model):
         self.market_value = self.market_value * 1000
         super(GovernmentDebtCertificates, self).save()
 
+
 class CommercialDebtCertificates(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     market_place = models.CharField(_('Market Place'), max_length=255)
@@ -111,6 +85,7 @@ class CommercialDebtCertificates(models.Model):
     def save(self):
         self.market_value = self.market_value * 1000
         super(CommercialDebtCertificates, self).save()
+
 
 class CorporateBonds(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -136,6 +111,7 @@ class CorporateBonds(models.Model):
         self.market_value = self.market_value * 1000
         super(CorporateBonds, self).save()
 
+
 class Stock(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     market_place = models.CharField(_('Market Place'), max_length=255)
@@ -154,6 +130,7 @@ class Stock(models.Model):
         self.market_value = self.market_value * 1000
         super(Stock, self).save()
 
+
 class ETF(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     market_place = models.CharField(_('Market Place'), max_length=255)
@@ -170,6 +147,7 @@ class ETF(models.Model):
     def save(self):
         self.market_value = self.market_value * 1000
         super(ETF, self).save()
+
 
 class MutualFunds(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -190,6 +168,7 @@ class MutualFunds(models.Model):
         self.market_value = self.market_value * 1000
         super(MutualFunds, self).save()
 
+
 class Warrants(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     market_place = models.CharField(_('Market Place'), max_length=255)
@@ -207,6 +186,7 @@ class Warrants(models.Model):
         self.market_value = self.market_value * 1000
         super(Warrants, self).save()
 
+
 class Options(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     market_place = models.CharField(_('Market Place'), max_length=255)
@@ -223,6 +203,7 @@ class Options(models.Model):
         self.market_value = self.market_value * 1000
         super(Options, self).save()
 
+
 class FutureContracts(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     market_place = models.CharField(_('Market Place'), max_length=255)
@@ -237,6 +218,7 @@ class FutureContracts(models.Model):
     def save(self):
         self.market_value = self.market_value * 1000
         super(FutureContracts, self).save()
+
 
 class StructuredProducts(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -259,6 +241,7 @@ class StructuredProducts(models.Model):
         self.market_value = self.market_value * 1000
         super(StructuredProducts, self).save()
 
+
 class NotNegotiableGovernmentCommitmentsCertificates(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     rating = models.CharField(_('Rating'), max_length=255)
@@ -278,6 +261,7 @@ class NotNegotiableGovernmentCommitmentsCertificates(models.Model):
     def save(self):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableGovernmentCommitmentsCertificates, self).save()
+
 
 class NotNegotiableCommercialDebtCertificates(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -300,6 +284,7 @@ class NotNegotiableCommercialDebtCertificates(models.Model):
     def save(self):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableCommercialDebtCertificates, self).save()
+
 
 class NotNegotiableCorporateBonds(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -324,6 +309,7 @@ class NotNegotiableCorporateBonds(models.Model):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableCorporateBonds, self).save()
 
+
 class NotNegotiableStock(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     provide_information = models.CharField(_('Provide Information'), max_length=255)
@@ -341,6 +327,7 @@ class NotNegotiableStock(models.Model):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableStock, self).save()
 
+
 class NotNegotiableInvestmentFunds(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     currency_type = models.CharField(_('Currency Type'), max_length=255)
@@ -355,6 +342,7 @@ class NotNegotiableInvestmentFunds(models.Model):
     def save(self):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableInvestmentFunds, self).save()
+
 
 class NotNegotiableWarrants(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -372,6 +360,7 @@ class NotNegotiableWarrants(models.Model):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableWarrants, self).save()
 
+
 class NotNegotiableOptions(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     trading_sector = models.CharField(_('Trading Sector'), max_length=255)
@@ -388,6 +377,7 @@ class NotNegotiableOptions(models.Model):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableOptions, self).save()
 
+
 class NotNegotiableFutureContracts(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     trading_sector = models.CharField(_('Trading Sector'), max_length=255)
@@ -402,6 +392,7 @@ class NotNegotiableFutureContracts(models.Model):
     def save(self):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableFutureContracts, self).save()
+
 
 class NotNegotiableStructuredProducts(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -424,6 +415,7 @@ class NotNegotiableStructuredProducts(models.Model):
         self.fair_value = self.market_value * 1000
         super(NotNegotiableStructuredProducts, self).save()
 
+
 class Loans(models.Model):
     consortium = models.NullBooleanField(_('Consortium'))
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -442,6 +434,7 @@ class Loans(models.Model):
     def save(self):
         self.fair_value = self.market_value * 1000
         super(Loans, self).save()
+
 
 class DepositsOverThreeMonths(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -462,6 +455,7 @@ class DepositsOverThreeMonths(models.Model):
         self.fair_value = self.market_value * 1000
         super(DepositsOverThreeMonths, self).save()
 
+
 class LandRights(models.Model):
     last_valuation_date = models.DateField(_('Last Valuation Date'))
     property_type = models.CharField(_('Property Type'), max_length=255)
@@ -474,6 +468,7 @@ class LandRights(models.Model):
     def save(self):
         self.estimated_value = self.market_value * 1000
         super(LandRights, self).save()
+
 
 class OtherInvestments(models.Model):
     security_number = models.PositiveIntegerField(_('Security Number'))
@@ -490,6 +485,7 @@ class OtherInvestments(models.Model):
         self.fair_value = self.market_value * 1000
         super(OtherInvestments, self).save()
 
+
 class InvesteeCompanies(models.Model):
     issuer_id = models.PositiveIntegerField(_('Issuer Id'))
     rating = models.CharField(_('Rating'), max_length=255)
@@ -505,6 +501,7 @@ class InvesteeCompanies(models.Model):
         self.fair_value = self.market_value * 1000
         super(InvesteeCompanies, self).save()
 
+
 class InvestmentCommitmentsBalance(models.Model):
     commitment_amount = models.DecimalField(_('Commitment Amount'), help_text="Value is in thousands.", max_digits=50, decimal_places=3)
     commitment_completion_date = models.DateField(_('Commitment Completion Date'))
@@ -512,6 +509,7 @@ class InvestmentCommitmentsBalance(models.Model):
     def save(self):
         self.commitment_amount = self.market_value * 1000
         super(InvestmentCommitmentsBalance, self).save()
+
 
 class CorporateBondsAdjustedCost(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
@@ -533,6 +531,7 @@ class CorporateBondsAdjustedCost(models.Model):
         self.adjusted_cost = self.market_value * 1000
         super(TradableCorporateBondsAdjustedCost, self).save()
 
+
 class NotNegotiableCorporateBondsAdjustedCost(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
     trading_sector = models.CharField(_('Trading Sector'), max_length=255)
@@ -552,6 +551,7 @@ class NotNegotiableCorporateBondsAdjustedCost(models.Model):
     def save(self):
         self.adjusted_cost = self.market_value * 1000
         super(NotNegotiableCorporateBondsAdjustedCost, self).save()
+
 
 class BorrowersCreditAdjustedCost(models.Model):
     security_id = models.AutoField(_('Security Id'), primary_key=True)
