@@ -5,11 +5,13 @@ import { MaterialModule } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { DisqusModule } from "ng2-awesome-disqus";
 
 import { BlogRoutingModule } from './blog-routing.module';
 
 import { BlogComponent } from './blog.component';
 import { PostComponent } from './components/post/post.component';
+import { DetailPostComponent } from './components/detail-post/detail-post.component';
 
 import { reducer } from './reducers';
 
@@ -21,12 +23,14 @@ import { PostService } from './services/post.service';
   declarations: [
     BlogComponent,
     PostComponent,
+    DetailPostComponent,
   ],
   imports: [
     CommonModule,
     HttpModule,
     BlogRoutingModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
+    DisqusModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(PostEffects),
