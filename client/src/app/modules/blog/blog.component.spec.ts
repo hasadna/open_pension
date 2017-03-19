@@ -39,8 +39,9 @@ describe('BlogComponent', () => {
         }, {
           'name': 'bar',
         }],
-      }]},
-  }
+      }];
+    },
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,7 +59,7 @@ describe('BlogComponent', () => {
     component = fixture.componentInstance;
 
     // Create a dummy posts.
-    component.posts$ = Observable.create(()=> { return this.posts} )
+    component.posts$ = Observable.create(() => { return this.posts; });
     fixture.detectChanges();
   });
 
