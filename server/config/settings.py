@@ -171,7 +171,9 @@ CKEDITOR_CONFIGS = {
              'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'],
             ['Link', 'Unlink'],
             ['TextColor', 'BGColor'],
-        ]
+            ['Image', 'Table', 'HorizontalRule', 'PageBreak', 'Iframe'],
+        ],
+        'width': '100%',
     }
 }
 
