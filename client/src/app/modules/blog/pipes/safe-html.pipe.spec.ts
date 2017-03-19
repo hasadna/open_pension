@@ -3,7 +3,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 
 describe('Pipe: SafeHtml', () => {
   it('create an instance', () => {
-    let pipe = new SafeHtml();
+    const pipe = new SafeHtmlPipe();
     expect(pipe).toBeTruthy();
   });
 });

@@ -1,20 +1,20 @@
 <section>
-  <div id="post-header">
+  <div class="header">
     <h2>{{ post$.title }}</h2>
     <a [routerLink]="['/blog']">חזרה לבלוג >></a>
   </div>
 
-  <div id="post-meta-data">
+  <div class="meta-data">
     <i class="fa fa-clock-o" aria-hidden="true"></i>
     <span>{{ post$.publish | date: 'd/M/y' }}</span>
     <i class="fa fa-user" aria-hidden="true"></i>
-    <span>צוות פנסיה פתוחה</span>
+    <span>{{ post$.author }}</span>
   </div>
 
-  <div [innerHTML]="post$.body | safeHtml"></div>
+  <div class="body" [innerHTML]="post$.body | safeHtml"></div>
 
   <!-- Add social network icons here -->
-  <div id="share">שיתוף:</div>
+  <div class="share">שיתוף:</div>
   <share-buttons
     [url]="shareUrl"
     [description]="post$.title"

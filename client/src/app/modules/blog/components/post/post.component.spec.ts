@@ -4,6 +4,7 @@ import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { PostComponent } from './post.component';
+import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 
 describe('PostComponent', () => {
   let component: PostComponent;
@@ -26,7 +27,10 @@ describe('PostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
-      declarations: [ PostComponent ]
+      declarations: [
+        PostComponent,
+        SafeHtmlPipe,
+      ]
     })
     .compileComponents();
   }));
@@ -52,13 +56,11 @@ describe('PostComponent', () => {
   it('date should be next to date icon', () => {
     element = fixture.debugElement.query(By.css('.date')).nativeElement;
     expect(element.textContent).toContain('14/2/2017');
-    expect(element.textContent).toContain('access_time');
   });
 
   it('author should be next to person icon', () => {
     element = fixture.debugElement.query(By.css('.author')).nativeElement;
     expect(element.textContent).toContain(post.author);
-    expect(element.textContent).toContain('person');
   });
 
   it('body should be in a <p> tag element', () => {
