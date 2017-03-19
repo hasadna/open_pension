@@ -1,0 +1,29 @@
+<section>
+  <div class="header">
+    <h2>{{ post$.title }}</h2>
+    <a [routerLink]="['/blog']">חזרה לבלוג >></a>
+  </div>
+
+  <div class="meta-data">
+    <i class="fa fa-clock-o" aria-hidden="true"></i>
+    <span>{{ post$.publish | date: 'd/M/y' }}</span>
+    <i class="fa fa-user" aria-hidden="true"></i>
+    <span>{{ post$.author }}</span>
+  </div>
+
+  <div class="body" [innerHTML]="post$.body | safeHtml"></div>
+
+  <!-- Add social network icons here -->
+  <div class="share">שיתוף:</div>
+  <share-buttons
+    [url]="shareUrl"
+    [description]="post$.title"
+
+    [pinterest]="false"
+    [tumblr]="false"
+    [reddit]="false"
+    [stumbleUpOn]="false"
+    ></share-buttons>
+
+  <disqus [shortname]="'openpension'" [identifier]="post$.unique_id" ></disqus>
+</section>
