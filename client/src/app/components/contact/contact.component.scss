@@ -1,74 +1,61 @@
 @import "../../../assets/vars.scss";
 
 section {
-  margin-top: 60px;
-  direction: rtl;
-  color: #4a4a4a;
-  display: flex;
-  justify-content: center;
-}
-
-div {
-  padding: 0;
+  margin-top: 2%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex-basis: 35rem;
-
+  width: 50%;
+  margin-right: 20%;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    flex-basis: 23rem;
-    flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-basis: 23rem;
 
-    input, textarea {
-        -webkit-border-radius: 4;
-        -moz-border-radius: 4;
-        border-radius: 4px;
-            border: 1px solid #97b4c2;
-        font-size: 14px;
-        font-weight: 200;
-        padding: 8px;
-    }
+  input,
+  textarea {
+    border-radius: 4px;
+    border: 1px solid #97b4c2;
+    font-size: 14px;
+    font-weight: 200;
+    padding: 8px;
+  }
 
-    input {
-        height: 1.6rem;
-    }
+  input {
+    height: 1.6rem;
+  }
 
-    button {
-      background: $header-background;
-      color: #ffffff;
-      font-size: 16px;
-      padding: 10px 20px 10px 20px;
-      text-decoration: none;
-      border: none;
-      max-width: 6rem;
-      font-weight: 200;
-}
+  textarea {
+    max-width: 815px;
+    max-height: 136px;
+  }
 
-    button:hover {
-      background: #739db3;
-    }
+  input.ng-touched.ng-dirty.ng-invalid,
+  textarea.ng-touched.ng-dirty.ng-invalid {
+    border: 2px solid red;
+  }
 
-    button:disabled {
-        background: #97b4c2;
-    }
+  button {
+    background: $header-background;
+    color: $header-text-color;
+    font-size: $text-size;
+    padding: 10px 20px;
+    border: none;
+  }
 
-}
-
-.warn{
-    color: #e6a749;
-}
-
-.errors{
-    flex: 0.1;
-    font-size: 0.8rem;
-    color: #ec8856;
+  button:disabled {
+    background: yellow;
+  }
 }
 
 p {
-  font-size: 17px;
+  font-size: $text-size;
+}
+
+.errors{
+  flex: 0;
+  font-size: 0.8rem;
+  color: red;
 }
