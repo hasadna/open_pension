@@ -1,7 +1,7 @@
 import { Post } from '../models/post';
 import * as post from '../actions/post';
 
-export type  State = {
+export interface State {
   entities: Post[];
   selectedPost: Post;
 };

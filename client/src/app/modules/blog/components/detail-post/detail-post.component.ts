@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-// import * as fromRoot from '../../../../reducers';
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../../../reducers';
 import * as postAction from '../../actions/post';
 import { Post } from '../../models/post';
 
@@ -15,6 +14,7 @@ import { Post } from '../../models/post';
 })
 export class DetailPostComponent implements OnInit {
   public post$: Post;
+  public shareUrl: String;
 
   constructor(
       private store: Store<fromRoot.State>,
@@ -27,6 +27,7 @@ export class DetailPostComponent implements OnInit {
 
   ngOnInit() {
     const postId = this.route.snapshot.params['postId'];
+    this.shareUrl = `http://openpension.org/blog/${postId}`;
     this.store.dispatch(new postAction.LoadPostByIdAction(postId));
   }
 }

@@ -5,18 +5,25 @@
   </div>
 
   <div id="post-meta-data">
-    <i class="material-icons">access_time</i>
+    <i class="fa fa-clock-o" aria-hidden="true"></i>
     <span>{{ post$.publish | date: 'd/M/y' }}</span>
-    <i class="material-icons">person</i>
+    <i class="fa fa-user" aria-hidden="true"></i>
     <span>צוות פנסיה פתוחה</span>
   </div>
 
-  <p>
-    {{ post$.body }}
-  </p>
+  <div [innerHTML]="post$.body | safeHtml"></div>
 
   <!-- Add social network icons here -->
   <div id="share">שיתוף:</div>
+  <share-buttons
+    [url]="shareUrl"
+    [description]="post$.title"
+
+    [pinterest]="false"
+    [tumblr]="false"
+    [reddit]="false"
+    [stumbleUpOn]="false"
+    ></share-buttons>
 
   <disqus [shortname]="'openpension'" [identifier]="post$.unique_id" ></disqus>
 </section>

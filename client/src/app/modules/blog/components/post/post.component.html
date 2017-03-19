@@ -1,14 +1,16 @@
 <h3>{{ post.title }}</h3>
 <div id="post-meta-data">
   <div class="date">
-    <i class="material-icons">access_time</i>
+    <i class="fa fa-clock-o" aria-hidden="true"></i>
     <span>{{ post.publish | date: 'd/M/y' }}</span>
   </div>
   <div class="author">
-    <i class="material-icons">person</i>
+    <i class="fa fa-user" aria-hidden="true"></i>
     <span>{{ post.author }}</span>
   </div>
 </div>
-<p>
-  {{ post.body | slice:0:250 }}.. <a [routerLink]="['/blog', post.unique_id]">קרא עוד>></a>
-</p>
+
+<div>
+  <p [innerHTML]="post.body | slice:0:250"></p>
+  <a [routerLink]="['/blog', post.unique_id]">קרא עוד>></a>
+</div>
