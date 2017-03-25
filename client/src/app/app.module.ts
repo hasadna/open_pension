@@ -24,7 +24,6 @@ import { AboutComponent } from './components/about/about.component';
 import { PaiEffects } from './effects/pai';
 
 import { PaiService } from './services/pai.service';
-import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
