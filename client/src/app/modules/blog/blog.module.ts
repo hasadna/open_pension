@@ -19,12 +19,6 @@ import { PostService } from './services/post.service';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 @NgModule({
-  declarations: [
-    BlogComponent,
-    PostComponent,
-    DetailPostComponent,
-    SafeHtmlPipe,
-  ],
   imports: [
     CommonModule,
     HttpModule,
@@ -33,6 +27,12 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     DisqusModule,
     ShareButtonsModule.forRoot(),
     EffectsModule.run(PostEffects),
+  ],
+  declarations: [
+    BlogComponent,
+    PostComponent,
+    DetailPostComponent,
+    SafeHtmlPipe,
   ],
   providers: [
     PostService,

@@ -7,7 +7,6 @@ import { StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { BlogComponent } from './blog.component';
-import { Post } from './models/post';
 
 describe('BlogComponent', () => {
   let component: BlogComponent;
@@ -45,11 +44,7 @@ describe('BlogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.provideStore(reducer),
-      ],
-      declarations: [ BlogComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [ BlogComponent ]
     })
     .compileComponents();
   }));

@@ -11,5 +11,4 @@ export class PostComponent {
   @Input() post: Post;
 
   constructor() { }
-
 }

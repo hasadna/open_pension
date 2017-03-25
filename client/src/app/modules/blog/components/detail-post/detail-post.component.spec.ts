@@ -30,13 +30,13 @@ describe('DetailPostComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.provideStore(reducer),
-      ],
       declarations: [
         DetailPostComponent,
         SafeHtmlPipe,
+      ],
+      imports: [
+        RouterTestingModule,
+        StoreModule.provideStore(reducer),
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
