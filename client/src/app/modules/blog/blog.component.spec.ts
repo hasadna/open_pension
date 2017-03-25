@@ -44,7 +44,13 @@ describe('BlogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BlogComponent ]
+      declarations: [
+        BlogComponent,
+      ],
+      imports: [
+        StoreModule.provideStore(reducer),
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));
