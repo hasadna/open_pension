@@ -104,6 +104,7 @@ class Command(BaseCommand):
         "תל אביב 75": "tlv_75",
         "מניות היתר": "extra_stocks",
         "call 001 אופציות": "options_001",
+        "אגח קונצרני של חברות זרות": "concern_bond_of_foreign_countries",
     }
 
     global_contexts = {
