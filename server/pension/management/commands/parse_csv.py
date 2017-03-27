@@ -105,6 +105,8 @@ class Command(BaseCommand):
         "מניות היתר": "extra_stocks",
         "call 001 אופציות": "options_001",
         "אגח קונצרני של חברות זרות": "concern_bond_of_foreign_countries",
+        "נקוב במטח": "written_in_foreign_key",
+        "צמודי מטח": "linked_foreign_coin",
     }
 
     global_contexts = {
@@ -145,6 +147,7 @@ class Command(BaseCommand):
         'עלות-מתואמת-אג"ח-קונצרני-ל.סחיר': "un-negotiable-adjusted-cost-of-corporate-bonds",
         'עלות-מתואמת-אג"ח-קונצרני-סחיר': "negotiable-adjusted-cost-of-corporate-bonds",
         'עלות-מתואמת-מסגרות-אשראי-ללווים': "adjusted-cost-of-credit-facilities-to-borrowers",
+        'פקדונות-מעל-3-חודשים': "deposits-over-three-months",
     }
 
     def add_arguments(self, parser):
