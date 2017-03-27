@@ -144,6 +144,7 @@ class Command(BaseCommand):
         'מניות': "stocks",
         'עלות-מתואמת-אג"ח-קונצרני-ל.סחיר': "un-negotiable-adjusted-cost-of-corporate-bonds",
         'עלות-מתואמת-אג"ח-קונצרני-סחיר': "negotiable-adjusted-cost-of-corporate-bonds",
+        'עלות-מתואמת-מסגרות-אשראי-ללווים': "adjusted-cost-of-credit-facilities-to-borrowers",
     }
 
     def add_arguments(self, parser):
