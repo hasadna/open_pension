@@ -141,6 +141,7 @@ class Command(BaseCommand):
         'מוצרים-מובנים': "built-in-products",
         'מזומנים': "cash-flow",
         'מניות': "stocks",
+        'עלות-מתואמת-אג"ח-קונצרני-ל.סחיר': "un-negotiable-adjusted-cost-of-corporate-bonds",
     }
 
     def add_arguments(self, parser):
