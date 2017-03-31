@@ -1,5 +1,5 @@
 from pension.management.commands.plugins.PluginBase import PluginBase
 
 
-class CashFlow(PluginBase):
+class CommercialDebtCertificates(PluginBase):
     pass
