@@ -159,6 +159,7 @@ class Command(BaseCommand):
         'פקדונות-מעל-3-חודשים': "deposits-over-three-months",
         'קרנות-נאמנות': "mutual-funds",
         'תעודות-התחייבות-ממשלתיות': "government-debt-certificates",
+        'תעודות-חוב-מסחריות': "commercial-debt-certificates",
     }
 
     def add_arguments(self, parser):
