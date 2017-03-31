@@ -16,13 +16,13 @@ export class PostEffects {
 
   @Effect()
   loadPosts$: Observable<Action>= this.actions$
-    .ofType(post.ActionTypes.LOAD_POSTS)
+    .ofType(post.LOAD_POSTS)
     .switchMap(() => this.postService.getPosts())
     .map(posts => new post.LoadPostsSuccessAction(posts));
 
   @Effect()
   loadPostById$: Observable<Action>= this.actions$
-    .ofType(post.ActionTypes.LOAD_POST_BY_ID)
+    .ofType(post.LOAD_POST_BY_ID)
     .switchMap((postId) => this.postService.getPostById(postId.payload))
     .map(postData => new post.LoadPostByIdSuccessAction(postData));
 }
