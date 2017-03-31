@@ -107,6 +107,8 @@ class Command(BaseCommand):
         "אגח קונצרני של חברות זרות": "concern_bond_of_foreign_countries",
         "נקוב במטח": "written_in_foreign_key",
         "צמודי מטח": "linked_foreign_coin",
+        "תעודות השתתפות בקרנות נאמנות בישראל": "certificate_of_participation_in_israel_funds_classification",
+        "תעודות השתתפות בקרנות נאמנות בחול": "certificate_of_participation_in_overseas_funds_classification",
     }
 
     global_contexts = {
@@ -148,6 +150,7 @@ class Command(BaseCommand):
         'עלות-מתואמת-אג"ח-קונצרני-סחיר': "negotiable-adjusted-cost-of-corporate-bonds",
         'עלות-מתואמת-מסגרות-אשראי-ללווים': "adjusted-cost-of-credit-facilities-to-borrowers",
         'פקדונות-מעל-3-חודשים': "deposits-over-three-months",
+        'קרנות-נאמנות': "mutual-funds",
     }
 
     def add_arguments(self, parser):
