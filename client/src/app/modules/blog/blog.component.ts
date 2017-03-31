@@ -21,6 +21,8 @@ import { Post } from './models/post';
       margin-top: 100px;
       color: #4a4a4a;
       direction: rtl;
+      width: 960px;
+      margin: auto;
     }
 
     h2 {
