@@ -109,6 +109,13 @@ class Command(BaseCommand):
         "צמודי מטח": "linked_foreign_coin",
         "תעודות השתתפות בקרנות נאמנות בישראל": "certificate_of_participation_in_israel_funds_classification",
         "תעודות השתתפות בקרנות נאמנות בחול": "certificate_of_participation_in_overseas_funds_classification",
+        "צמודות למדד": "cpi",
+        "גליל": "galil",
+        "מלווה קצר מועד": "short_term_loan",
+        "שחר": "shachar",
+        "גילון": "gilon",
+        "צמודות לדולר": "dollar_linked",
+        "אגח שהנפיקו ממשלות זרות בחול": "dollar_linked",
     }
 
     global_contexts = {
@@ -151,6 +158,7 @@ class Command(BaseCommand):
         'עלות-מתואמת-מסגרות-אשראי-ללווים': "adjusted-cost-of-credit-facilities-to-borrowers",
         'פקדונות-מעל-3-חודשים': "deposits-over-three-months",
         'קרנות-נאמנות': "mutual-funds",
+        'תעודות-התחייבות-ממשלתיות': "government-debt-certificates",
     }
 
     def add_arguments(self, parser):
