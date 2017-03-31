@@ -116,6 +116,13 @@ class Command(BaseCommand):
         "גילון": "gilon",
         "צמודות לדולר": "dollar_linked",
         "אגח שהנפיקו ממשלות זרות בחול": "dollar_linked",
+        "שמחקות מדדי מניות בישראל": "	mimic_stock_rates_in_israel",
+        "שמחקות מדדים אחרים בישראל": "mimic_other_rates_in_israel",
+        "שמחקות מדדים אחרים בחול": "mimic_other_rates_oversees",
+        "שמחקות מדדי מניות בחול": "mimic_stock_rates_oversees",
+        "שמחקות מדדי מניות": "mimic_stock_rates",
+        "שמחקות מדדים אחרים": "mimic_other_rates",
+        "short": "short",
     }
 
     global_contexts = {
@@ -160,6 +167,7 @@ class Command(BaseCommand):
         'קרנות-נאמנות': "mutual-funds",
         'תעודות-התחייבות-ממשלתיות': "government-debt-certificates",
         'תעודות-חוב-מסחריות': "commercial-debt-certificates",
+        'תעודות-סל': "etf",
     }
 
     def add_arguments(self, parser):
