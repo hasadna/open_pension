@@ -123,6 +123,9 @@ class Command(BaseCommand):
         "שמחקות מדדי מניות": "mimic_stock_rates",
         "שמחקות מדדים אחרים": "mimic_other_rates",
         "short": "short",
+        "מעלות": "degrees",
+        "שקל חדש": "nis",
+        "כנגד חסכון עמיתים/מבוטחים": "against_fund_amitim",
     }
 
     global_contexts = {
@@ -168,6 +171,7 @@ class Command(BaseCommand):
         'תעודות-התחייבות-ממשלתיות': "government-debt-certificates",
         'תעודות-חוב-מסחריות': "commercial-debt-certificates",
         'תעודות-סל': "etf",
+        'הלוואות': 'loans',
     }
 
     def add_arguments(self, parser):
@@ -285,10 +289,14 @@ class Command(BaseCommand):
         fields = row.split(",")
 
         new_fields = []
-        for field in fields:
+        for i, field in enumerate(fields):
+
             if field.strip() == '':
                 # An empty fields cannot be added as a field in the CSV header.
                 continue
+
+            if fields[i + 1] == '':
+                break
 
             new_fields.append(self.english_text(field))
 
