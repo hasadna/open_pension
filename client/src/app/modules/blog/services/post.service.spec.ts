@@ -1,12 +1,15 @@
-import { TestBed, async, inject } from '@angular/core/testing';
-import { PostService } from './post.service';
+import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+
+import { PostService } from './post.service';
 
 describe('PostService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule],
+      imports: [
+        HttpModule
+      ],
       providers: [
         PostService,
         {
