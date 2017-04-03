@@ -123,6 +123,19 @@ class Command(BaseCommand):
         "שמחקות מדדי מניות": "mimic_stock_rates",
         "שמחקות מדדים אחרים": "mimic_other_rates",
         "short": "short",
+        "מעלות": "degrees",
+        "שקל חדש": "nis",
+        "כנגד חסכון עמיתים/מבוטחים": "against_fund_amitim",
+        "מבוטחות במשכנתא או תיקי משכנתאות": "insured_in_mortgage_or_mortgage_folders",
+        "מובטחות בערבות בנקאית": "insured_by_bank_support",
+        "מובטחות בבטחונות אחרים": "insured_by_other_support",
+        "מובטחות בשיעבוד כלי רכב": "insured_by_lined_vehicle",
+        "הלוואות לסוכנים": "loans_to_agents",
+        "מובטחות בתזרים עמלות": "insured_by_fees_workflow",
+        "בטחונות אחרים": "other_insurance",
+        "הלוואות לעובדים ונושאי משרה": "loans_to_employees",
+        "לא מובטחות": "un_insured",
+        "מובטחות במשכנתא או תיקי משכנתאות": "insured_in_mortgage_or_mortgage_folders",
     }
 
     global_contexts = {
@@ -168,6 +181,7 @@ class Command(BaseCommand):
         'תעודות-התחייבות-ממשלתיות': "government-debt-certificates",
         'תעודות-חוב-מסחריות': "commercial-debt-certificates",
         'תעודות-סל': "etf",
+        'הלוואות': 'loans',
     }
 
     def add_arguments(self, parser):
@@ -285,10 +299,14 @@ class Command(BaseCommand):
         fields = row.split(",")
 
         new_fields = []
-        for field in fields:
+        for i, field in enumerate(fields):
+
             if field.strip() == '':
                 # An empty fields cannot be added as a field in the CSV header.
                 continue
+
+            if fields[i + 1] == '':
+                break
 
             new_fields.append(self.english_text(field))
 
@@ -308,8 +326,9 @@ class Command(BaseCommand):
         clear_field_name = field.strip().replace('"', '')
 
         if clear_field_name not in self.fields:
-            print("The field " + clear_field_name + " does not exists in the "
-                                                    "field name")
+            # print("The field " + clear_field_name + " does not exists in the "
+            #                                         "field name")
+            return ''
 
         return self.fields[clear_field_name]
 
