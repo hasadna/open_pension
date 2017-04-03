@@ -182,6 +182,7 @@ class Command(BaseCommand):
         'תעודות-חוב-מסחריות': "commercial-debt-certificates",
         'תעודות-סל': "etf",
         'הלוואות': 'loans',
+        'חוזים-עתידיים': 'future-contracts',
     }
 
     def add_arguments(self, parser):
