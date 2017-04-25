@@ -1,4 +1,5 @@
 YEARS = (
+    ('2018', '2018'),
     ('2017', '2017'),
     ('2016', '2016'),
     ('2015', '2015'),
@@ -8,10 +9,10 @@ YEARS = (
 )
 
 MONTHS = (
-    ('01', '01'),
-    ('02', '02'),
-    ('03', '03'),
-    ('04', '04'),
+    ('1', '01'),
+    ('2', '02'),
+    ('3', '03'),
+    ('4', '04'),
 )
 
 MANAGING_BODIES = (
@@ -31,4 +32,27 @@ MANAGING_BODIES = (
 GEOGRAPHICAL_LOCATION = (
     ('IL', 'Israel'),
     ('ABR', 'Abroad')
+)
+
+INSTRUMENT_TYPES = (
+    ('CASH', 'Cash'),
+    ('GDC', 'Government Debt Certificates'),
+    ('CDC', 'Commercial Debt Certificates'),
+    ('CB', 'Corporate Bonds'),
+    ('STOCK', 'Stock'),
+    ('IF', 'Investment Funds'),
+    ('ETF', 'ETF'),
+    ('MF', 'Mutual Funds'),
+    ('WARRANTS', 'Warrants'),
+    ('OPTIONS', 'Options'),
+    ('FC', 'Future Contracts'),
+    ('SP', 'Structured Products'),
+    ('LOANS', 'Loans'),
+    ('DOTM', 'Deposits Over Three Months'),
+    ('LR', 'Land Rights'),
+    ('OI', 'Other Investments'),
+    ('IC', 'Investee Companies'),
+    ('ICB', 'Investment Commitments Balance'),
+    ('CBAC', 'Corporate Bonds Adjusted Cost'),
+    ('BCAC', 'Borrowers Credit Adjusted Cost'),
 )
