@@ -4,7 +4,6 @@ import pandas as pd
 from django.utils import timezone
 
 from django.core.management import BaseCommand, CommandError
-from django.utils import translation
 from pension.models import Quarter, Instrument
 
 managing_body_dict = {
@@ -53,6 +52,39 @@ instrument_dict = {
     'עלות מותאמת מסגרות אשראי ללווים ': 'BCAC',
 }
 
+is_title_per_sheet = {
+    'מזומנים': 'מספר ני"ע',
+    'תעודות התחייבות ממשלתיות': 'מספר ני"ע',
+    'תעודות חוב מסחריות': 'מספר ני"ע',
+    'אג״ח קונצרני': 'מספר ני"ע',
+    'מניות': 'מספר ני"ע',
+    'תעודות סל': 'מספר ני"ע',
+    'קרנות נאמנות': 'מספר ני"ע',
+    'כתבי אופציה': 'מספר ני"ע',
+    'אופציות': 'מספר ני"ע',
+    'חוזים עתידיים': 'מספר ני"ע',
+    'מוצרים מובנים': 'מספר ני"ע',
+    'לא סחיר - תעודות התחייבות ממשלתי': 'מספר ני"ע',
+    'לא סחיר - תעודות חוב מסחריות': 'מספר ני"ע',
+    'לא סחיר - אג״ח קונצרני': 'מספר ני"ע',
+    'לא סחיר - מניות': 'מספר ני"ע',
+    'לא סחיר - קרנות השקעה': 'מספר ני"ע',
+    'לא סחיר - כתבי אופציה': 'מספר ני"ע',
+    'לא סחיר - אופציות': 'מספר ני"ע',
+    'לא סחיר - חוזים עתידיים': 'מספר ני"ע',
+    'לא סחיר - מוצרים מובנים': 'מספר ני"ע',
+    'הלוואות': 'מספר ני"ע',
+    'פקדונות מעל 3 חודשים': 'מספר ני"ע',
+    'זכויות מקרקעין': 'אופי הנכס',
+    'השקעות אחרות': 'מספר ני"ע',
+    'השקעה בחברות מוחזקות': 'מספר מנפיק',
+    'יתרת התחיבות להשקעה': 'תאריך סיום ההתחייבות',
+    'עלות מותאמת אג״ח קונצרני סחיר': 'מספר ני"ע',
+    'עלות מותאמת אג״ח קונצרני לא סחיר': 'מספר ני"ע',
+    'עלות מותאמת מסגרות אשראי ללווים ': 'מספר ני"ע',
+}
+
+
 def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
     sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip)
 
@@ -60,9 +92,9 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
     for index, col_title in enumerate(sheet['שם המנפיק/שם נייר ערך ']):
         if col_title == 'nan':
             continue
-        elif col_title == 'סה"כ בישראל:':
+        elif col_title == 'בישראל':
             context = 'IL'
-        elif col_title == 'סה"כ בחו"ל:':
+        elif col_title == 'בחו"ל':
             context = 'ABR'
 
         # Continue only if we have a context
@@ -71,13 +103,19 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         except UnboundLocalError as e:
             continue
 
+        # Check if it's a title or really a data cell
+        cell = is_title_per_sheet[sheet_name]
+        if str(sheet[cell][index]) == 'nan':
+            print("This is a title row, I'm going out!")
+            continue
+
         # Try to get every possible field
         try:
             issuer_id = sheet['מספר ני"ע'][index]
             if str(issuer_id) == 'nan':
                 raise(KeyError)
         except KeyError as e:
-            issuer_id = 0
+            issuer_id = sheet_name
 
         try:
             rating = sheet['דירוג'][index]
@@ -101,11 +139,11 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             currency = ''
 
         try:
-            intrest_rate = sheet['שיעור ריבית'][index]
-            if str(intrest_rate) == 'nan':
+            interest_rate = sheet['שיעור ריבית'][index]
+            if str(interest_rate) == 'nan':
                 raise(KeyError)
         except KeyError as e:
-            intrest_rate = 0.0
+            interest_rate = 0.0
 
         try:
             yield_to_maturity = sheet['תשואה לפידיון'][index]
@@ -269,12 +307,12 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             par_value = 0.0
 
         try:
-            instrument = Instrument.objects.get_or_create(
+            instrument, created = Instrument.objects.get_or_create(
                 issuer_id=issuer_id,
                 rating=rating,
                 rating_agency=rating_agency,
                 currency=currency,
-                intrest_rate=intrest_rate,
+                interest_rate=interest_rate,
                 yield_to_maturity=yield_to_maturity,
                 market_cap=market_cap,
                 rate_of_investment_channel=rate_of_investment_channel,
@@ -302,14 +340,18 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 geographical_location=context,
                 instrument_sub_type=instrument_dict[sheet_name],
                 quarter=quarter[0],
+                # defaults={
+                #     'birthday': date(1940, 10, 9)
+                # },
             )
+            print('created', instrument, created)
         except ValueError as e:
             print('index', index)
             print('issuer_id', issuer_id)
             print('rating', rating)
             print('rating_agency', rating_agency)
             print('currency', currency)
-            print('intrest_rate', intrest_rate)
+            print('interest_rate', interest_rate)
             print('yield_to_maturity', yield_to_maturity)
             print('market_cap', market_cap)
             print('rate_of_investment_channel', rate_of_investment_channel)
@@ -353,7 +395,7 @@ def read_xls_file(filename):
     # Loop over all the sheets in the file
     for sheet_name in xls_file.sheet_names:
         if sheet_name == 'מזומנים':
-            rows_to_skip = 6
+            rows_to_skip = 7
             read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
 
     print('Finish with {filename}'.format(filename=filename))
@@ -366,7 +408,8 @@ class Command(BaseCommand):
         # Go over all the xls files in that directory
         os.chdir("/Users/nirgalon/Downloads")
         for file in glob.glob("*.xlsx"):
-            if not file == 'amitim_2015_3_332.xlsx':
+            # Temp fix
+            if not file == 'amitim_2016_1_212.xlsx':
                 return
 
             read_xls_file(file)

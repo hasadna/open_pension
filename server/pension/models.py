@@ -21,11 +21,11 @@ class Quarter(models.Model):
 
 class Instrument(models.Model):
     instrument_id = models.AutoField(_('Instrument Id'), primary_key=True)
-    issuer_id = models.PositiveIntegerField(_('Issuer Id'), null=True)
+    issuer_id = models.CharField(_('Issuer Id'), max_length=255, blank=True)
     rating = models.CharField(_('Rating'), max_length=255, blank=True)
     rating_agency = models.CharField(_('Rating Agency'), max_length=255, blank=True)
     currency = models.CharField(_('Currency'), max_length=255, blank=True)
-    intrest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
+    interest_rate = models.DecimalField(_('Interest Rate'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
     yield_to_maturity = models.DecimalField(_('Yield To Maturity'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
     market_cap = models.DecimalField(_('Market Cap'), help_text="Value is in thousands.", max_digits=50, decimal_places=3, null=True)
     rate_of_investment_channel = models.DecimalField(_('Rate Of Investment Channel'), help_text="This is a percentage value.", validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
