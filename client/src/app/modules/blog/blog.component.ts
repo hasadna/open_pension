@@ -34,7 +34,7 @@ import { Post } from './models/post';
   `]
 })
 export class BlogComponent implements OnInit {
-  private posts$: Observable<Post[]>;
+  public posts$: Observable<Post[]>;
 
   constructor(
     private store: Store<fromRoot.State>,
