@@ -31,7 +31,7 @@ import { PostService } from './services/post.service';
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(PostEffects),
   ],
-  declarations: [
+  providers: [
     PostService,
   ]
 })
