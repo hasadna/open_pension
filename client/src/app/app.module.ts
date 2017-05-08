@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterialModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -14,12 +16,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { reducer } from './reducers';
 
 import { OpComponent } from './op.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { SearchComponent } from './components/search/search.component';
-import { PaiComponent } from './components/pai/pai.component';
-import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
+import { FiltersComponent } from './components/filters/filters.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { PaiComponent } from './components/pai/pai.component';
+import { SearchComponent } from './components/search/search.component';
 
 import { PaiEffects } from './effects/pai';
 
@@ -28,19 +30,20 @@ import { PaiService } from './services/pai.service';
 @NgModule({
   declarations: [
     OpComponent,
-    HeaderComponent,
-    FooterComponent,
-    SearchComponent,
-    PaiComponent,
-    FiltersComponent,
     AboutComponent,
+    FiltersComponent,
+    FooterComponent,
+    HeaderComponent,
+    PaiComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
+    BrowserAnimationsModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(PaiEffects),

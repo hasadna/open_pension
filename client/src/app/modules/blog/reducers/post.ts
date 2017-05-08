@@ -17,11 +17,11 @@ const initialState: State = [{
 
 export function reducer(state = initialState, action: post.Actions): State {
   switch (action.type) {
-    case post.ActionTypes.LOAD_POSTS: {
+    case post.LOAD_POSTS: {
       return initialState;
     }
 
-    case post.ActionTypes.LOAD_POSTS_SUCCESS: {
+    case post.LOAD_POSTS_SUCCESS: {
       return action.payload;
     }
 

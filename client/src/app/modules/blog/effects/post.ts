@@ -16,7 +16,7 @@ export class PostEffects {
 
   @Effect()
   loadPosts$: Observable<Action>= this.actions$
-    .ofType(post.ActionTypes.LOAD_POSTS)
+    .ofType(post.LOAD_POSTS)
     .switchMap(() => this.postService.getPosts())
     .map(posts => new post.LoadPostsSuccessAction(posts));
 }
