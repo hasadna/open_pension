@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PostComponent } from './post.component';
+import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 
 describe('PostComponent', () => {
   let component: PostComponent;
@@ -10,11 +12,11 @@ describe('PostComponent', () => {
   let element: HTMLElement;
   const post: any = {
     unique_id: 'a1b2c3-d4e5f6-g8',
-      title: 'This is the title',
-      body: 'This is the body',
-      author: 'Nir',
-      created_at: '2017-02-14T10:07:20.932252Z',
-      publish: '2017-02-14T10:07:20.930119Z',
+    title: 'This is the title',
+    body: 'This is the body',
+    author: 'Nir',
+    created_at: '2017-02-14T10:07:20.932252Z',
+    publish: '2017-02-14T10:07:20.930119Z',
     tags: [{
       'name': 'finance',
     }, {
@@ -24,7 +26,13 @@ describe('PostComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PostComponent ]
+      declarations: [
+        PostComponent,
+        SafeHtmlPipe,
+      ],
+      imports: [
+        RouterTestingModule,
+      ],
     })
     .compileComponents();
   }));
@@ -33,7 +41,7 @@ describe('PostComponent', () => {
     fixture = TestBed.createComponent(PostComponent);
     component = fixture.componentInstance;
 
-    // Create a dummy transaction.
+    // Create a dummy post.
     component.post = post;
     fixture.detectChanges();
   });
@@ -50,13 +58,11 @@ describe('PostComponent', () => {
   it('date should be next to date icon', () => {
     element = fixture.debugElement.query(By.css('.date')).nativeElement;
     expect(element.textContent).toContain('14/2/2017');
-    expect(element.textContent).toContain('access_time');
   });
 
   it('author should be next to person icon', () => {
     element = fixture.debugElement.query(By.css('.author')).nativeElement;
     expect(element.textContent).toContain(post.author);
-    expect(element.textContent).toContain('person');
   });
 
   it('body should be in a <p> tag element', () => {

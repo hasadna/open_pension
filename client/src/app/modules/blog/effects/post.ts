@@ -19,4 +19,10 @@ export class PostEffects {
     .ofType(post.LOAD_POSTS)
     .switchMap(() => this.postService.getPosts())
     .map(posts => new post.LoadPostsSuccessAction(posts));
+
+  @Effect()
+  loadPostById$: Observable<Action>= this.actions$
+    .ofType(post.LOAD_POST_BY_ID)
+    .switchMap((postId) => this.postService.getPostById(postId.payload))
+    .map(postData => new post.LoadPostByIdSuccessAction(postData));
 }
