@@ -11,9 +11,7 @@ describe('PaiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.provideStore(reducer),
-      ],
+      imports: [ StoreModule.provideStore(reducer) ],
       declarations: [ PaiComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

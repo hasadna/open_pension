@@ -9,6 +9,4 @@ import { Post } from '../../models/post';
 })
 export class PostComponent {
   @Input() post: Post;
-
-  constructor() { }
 }

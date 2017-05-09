@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 import { Post } from '../models/post';
 
-export const LOAD_POSTS =  '[POST] Load Posts';
+export const LOAD_POSTS = '[POST] Load Posts';
 export const LOAD_POSTS_SUCCESS = '[POST] Load Posts Success';
-export const LOAD_POST_BY_ID =  '[POST] Load Post By Id';
-export const LOAD_POST_BY_ID_SUCCESS = '[POST] Load Posts By Id Success';
+export const LOAD_POST_BY_ID = '[POST] Load Post By ID';
+export const LOAD_POST_BY_ID_SUCCESS = '[POST] Load Post By ID Success';
 
 export class LoadPostsAction implements Action {
   readonly type = LOAD_POSTS;
