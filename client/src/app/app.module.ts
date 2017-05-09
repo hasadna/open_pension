@@ -16,12 +16,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { reducer } from './reducers';
 
 import { OpComponent } from './op.component';
-import { AboutComponent } from './components/about/about.component';
-import { FiltersComponent } from './components/filters/filters.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { PaiComponent } from './components/pai/pai.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { SearchComponent } from './components/search/search.component';
+import { PaiComponent } from './components/pai/pai.component';
+import { FiltersComponent } from './components/filters/filters.component';
+import { AboutComponent } from './components/about/about.component';
 
 import { PaiEffects } from './effects/pai';
 
@@ -30,20 +30,20 @@ import { PaiService } from './services/pai.service';
 @NgModule({
   declarations: [
     OpComponent,
-    AboutComponent,
-    FiltersComponent,
-    FooterComponent,
     HeaderComponent,
+    FooterComponent,
+    SearchComponent,
     PaiComponent,
-    SearchComponent
+    FiltersComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(PaiEffects),

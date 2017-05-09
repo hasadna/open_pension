@@ -4,7 +4,17 @@
     "outDir": "../out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "types": [
+      "node",
+      "jasmine",
+      "hammerjs",
+      "d3-hierarchy",
+      "d3-interpolate",
+      "d3-scale",
+      "d3-selection",
+      "d3-shape",
+      "d3-transition"
+    ]
   },
   "exclude": [
     "test.ts",
