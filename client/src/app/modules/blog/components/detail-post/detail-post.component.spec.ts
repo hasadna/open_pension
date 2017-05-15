@@ -1,16 +1,20 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { reducer } from '../../../../reducers';
+import { StoreModule } from '@ngrx/store';
 
-import { PostComponent } from './post.component';
+import { DetailPostComponent } from './detail-post.component';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
+import { Post } from '../../models/post';
 
-describe('PostComponent', () => {
-  let component: PostComponent;
-  let fixture: ComponentFixture<PostComponent>;
+describe('DetailPostComponent', () => {
+  let component: DetailPostComponent;
+  let fixture: ComponentFixture<DetailPostComponent>;
   let element: HTMLElement;
-  const post: any = {
+  const post: Post = {
     unique_id: 'a1b2c3-d4e5f6-g8',
     title: 'This is the title',
     body: 'This is the body',
@@ -27,22 +31,24 @@ describe('PostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PostComponent,
+        DetailPostComponent,
         SafeHtmlPipe,
       ],
       imports: [
         RouterTestingModule,
+        StoreModule.provideStore(reducer),
       ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PostComponent);
+    fixture = TestBed.createComponent(DetailPostComponent);
     component = fixture.componentInstance;
 
     // Create a dummy post.
-    component.post = post;
+    component.post$ = post;
     fixture.detectChanges();
   });
 
@@ -50,23 +56,19 @@ describe('PostComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('title should be in h3', () => {
-    element = fixture.debugElement.query(By.css('h3')).nativeElement;
+  it('title should be in h2', () => {
+    element = fixture.debugElement.query(By.css('h2')).nativeElement;
     expect(element.textContent).toContain(post.title);
   });
 
-  it('date should be next to date icon', () => {
-    element = fixture.debugElement.query(By.css('.date')).nativeElement;
+  it('date and author should be in meta area', () => {
+    element = fixture.debugElement.query(By.css('.meta-data')).nativeElement;
     expect(element.textContent).toContain('14/2/2017');
-  });
-
-  it('author should be next to person icon', () => {
-    element = fixture.debugElement.query(By.css('.author')).nativeElement;
     expect(element.textContent).toContain(post.author);
   });
 
-  it('body should be in a <p> tag element', () => {
-    element = fixture.debugElement.query(By.css('p')).nativeElement;
+  it('post body should be in the page, inside div with body class', () => {
+    element = fixture.debugElement.query(By.css('.body')).nativeElement;
     expect(element.textContent).toContain(post.body);
   });
 });
