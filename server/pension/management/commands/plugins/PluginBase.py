@@ -5,6 +5,9 @@ import re
 class PluginBase(IPlugin):
     """
     Reformatting the options tab.
+
+    context_column_index -- Define which empty column determine if this is a
+    context row.
     """
 
     global_context = ''
@@ -15,6 +18,8 @@ class PluginBase(IPlugin):
 
     text_skip = 'סה""כ'
 
+    context_column_index = 2
+
     def parseBody(self, command, value):
         """
         Main method to parse xsl files.
@@ -24,7 +29,7 @@ class PluginBase(IPlugin):
              The CSV content beside the global fields.
         :return:
         """
-        row_context = command.is_context(value)
+        row_context = command.is_context(value, self.context_column_index)
 
         if self.text_skip in value:
             return

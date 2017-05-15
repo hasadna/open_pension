@@ -24,7 +24,7 @@ class Agach(PluginBase):
              The CSV content beside the global fields.
         :return:
         """
-        row_context = command.is_context(value)
+        row_context = command.is_context(value, self.context_column_index)
 
         if self.text_skip in value:
             return

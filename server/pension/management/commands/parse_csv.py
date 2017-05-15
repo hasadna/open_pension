@@ -215,20 +215,19 @@ class Command(BaseCommand):
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
             print(self.normalize(path + "/" + file, plugin))
 
-    """
-    Normalize the file content.
-
-    :param path:
-        The path of the file.
-
-    :param plugin:
-        The plugin object which handle the body.
-
-    :return:
-        The human readable, relatively, CSV file.
-    """
-
     def normalize(self, path, plugin):
+        """
+        Normalize the file content.
+
+        :param path:
+            The path of the file.
+
+        :param plugin:
+            The plugin object which handle the body.
+
+        :return:
+            The human readable, relatively, CSV file.
+        """
         metadata = {'number': '', 'date': ''}
         csv_file = open(path, 'r').read()
         rows = csv_file.split("\n")
@@ -254,49 +253,46 @@ class Command(BaseCommand):
         fields.append('local_context')
         return ','.join(fields) + "\n" + "\n".join(plugin.body)
 
-    """
-    Get the kupa number from the first row.
-
-    :param row:
-        The first row.
-
-    :return:
-        The kupa date.
-    """
-
     def get_kupa_date(self, row):
+        """
+        Get the kupa number from the first row.
+
+        :param row:
+            The first row.
+
+        :return:
+            The kupa date.
+        """
         for element in row.split(','):
             if re.compile("[0-9]*/[0-9]*/[0-9]*").match(element):
                 # Found the date. No need to extra iteration.
                 return element
 
-    """
-    Get the date of the kupa.
-
-    :param row:
-        The content of the file.
-
-    :return:
-        The kupa number.
-    """
-
     def get_kupa_number(self, row):
+        """
+        Get the date of the kupa.
+
+        :param row:
+            The content of the file.
+
+        :return:
+            The kupa number.
+        """
         for element in row.split(','):
             if element.isdigit():
                 # Found the kupa number. No need for extra iteration.
                 return element
 
-    """
-    Get the fields from the csv file.
-
-    :param row:
-        The content of the file
-
-    :return:
-        The metadata of the file
-    """
-
     def get_fields(self, row):
+        """
+        Get the fields from the csv file.
+
+        :param row:
+            The content of the file
+
+        :return:
+            The metadata of the file
+        """
         fields = row.split(",")
 
         new_fields = []
@@ -306,24 +302,20 @@ class Command(BaseCommand):
                 # An empty fields cannot be added as a field in the CSV header.
                 continue
 
-            if fields[i + 1] == '':
-                break
-
             new_fields.append(self.english_text(field))
 
         return new_fields
 
-    """
-    Get the english field representation of the hebrew.
-
-    :param field:
-        The hebrew field.
-
-    :return:
-        The english field for the hebrew term.
-    """
-
     def english_text(self, field):
+        """
+        Get the english field representation of the hebrew.
+
+        :param field:
+            The hebrew field.
+
+        :return:
+            The english field for the hebrew term.
+        """
         clear_field_name = field.strip().replace('"', '')
 
         if clear_field_name not in self.fields:
@@ -333,33 +325,34 @@ class Command(BaseCommand):
 
         return self.fields[clear_field_name]
 
-    """
-    Check if the current line is a line context.
+    def is_context(self, row, empty_column):
+        """
+        Check if the current line is a line context.
 
-    :return:
-        The text context of boolean when not found.
-    """
+        :param row:
+            The row to check if it a context row or not.
+        :param empty_column:
+            Define which column should be empty inorder to decide if this is a
+            context row or not.
+        :return:
+            The text context of boolean when not found.
+        """
 
-    def is_context(self, row):
-        for context in self.contexts:
-            if re.compile(context).match(row):
-                field = row.replace(",", '').replace('"', '')
-                # Don't return this field. Yet.
-                if field != "בעל ענין/צד קשור *":
-                    return field
-        return False
-
-    """
-    Check if the given context is a global context
-
-    : param context:
-        The name of the context
-
-    :return:
-        The text context of boolean when not found.
-    """
+        # Might not be good for numbers with comma. Let's hold hand and pray for
+        # the best.
+        columns = row.split(',')
+        return columns[empty_column] is None
 
     def is_global_context(self, context):
+        """
+        Check if the given context is a global context
+
+        : param context:
+            The name of the context
+
+        :return:
+            The text context of boolean when not found.
+        """
         return context in self.global_contexts
 
     def should_skip_line(self, value):
