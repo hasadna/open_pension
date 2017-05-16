@@ -143,14 +143,6 @@ class Command(BaseCommand):
         "not_in_israel"
     }
 
-    contexts = [
-        ',(.+),,,,,,,,,,,,,,,,,,,,',
-        '(.+),,,,,,,,,,,,,,,,,,,,',
-        ',(.+),,,,,,,,,,,',
-        '(.+),,,,,,,,,,,',
-        '(.+),,,,,,,,,,',
-    ]
-
     pluginManager = PluginManager()
 
     plugins = {
