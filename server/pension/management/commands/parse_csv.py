@@ -1,8 +1,6 @@
 import os
-import csv
-import string
 import re
-from django.core.management import BaseCommand, CommandError
+from django.core.management import BaseCommand
 from yapsy.PluginManager import PluginManager
 
 
@@ -205,6 +203,7 @@ class Command(BaseCommand):
                 continue
 
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
+            plugin.report = os.path.normpath(path).split('/')[-1]
             print(self.normalize(path + "/" + file, plugin))
 
     def normalize(self, path, plugin):

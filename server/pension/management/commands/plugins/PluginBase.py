@@ -20,6 +20,8 @@ class PluginBase(IPlugin):
 
     context_column_index = 1
 
+    report = ''
+
     def parseBody(self, command, value):
         """
         Main method to parse xsl files.

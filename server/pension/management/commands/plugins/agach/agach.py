@@ -28,8 +28,14 @@ class Agach(PluginBase):
 
         # todo: Check if we in YL and remove the sum from the context.
 
-        if self.text_skip in value:
-            return
+        if not (self.report.find('yl') == 0):
+            if self.text_skip in value:
+                return
+        else:
+            if row_context:
+                # Yalin Lapidot store the context and the sum in the same row.
+                # We need to remove the sum from the context.
+                row_context = row_context.replace('סהכ', '').strip()
 
         if row_context:
             # Get the current context.
