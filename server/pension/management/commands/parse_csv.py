@@ -331,7 +331,10 @@ class Command(BaseCommand):
         # Might not be good for numbers with comma. Let's hold hand and pray for
         # the best.
         columns = row.split(',')
-        return columns[empty_column] is None
+        if columns[empty_column] == "":
+            return columns[0].replace('"', '').replace("'", '')
+        return False
+
 
     def is_global_context(self, context):
         """
