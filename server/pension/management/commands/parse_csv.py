@@ -225,8 +225,6 @@ class Command(BaseCommand):
         rows = csv_file.split("\n")
         fields = []
 
-        plugin.contextAlter(self.contexts)
-
         for i, value in enumerate(rows):
             if i == 0:
                 metadata['date'] = self.get_kupa_date(value)
