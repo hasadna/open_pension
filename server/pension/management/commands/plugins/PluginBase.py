@@ -18,7 +18,7 @@ class PluginBase(IPlugin):
 
     text_skip = 'סה""כ'
 
-    context_column_index = 2
+    context_column_index = 1
 
     def parseBody(self, command, value):
         """
