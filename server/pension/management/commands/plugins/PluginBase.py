@@ -63,4 +63,3 @@ class PluginBase(IPlugin):
         """
         return len(
             re.sub(r'\"(.*)\"', '""', value).split(',')) - self.fieldsLength
-
