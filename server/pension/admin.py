@@ -1,23 +1,19 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from pension.models import CashAndDeposit
+from pension.models import Quarter, Instrument
 
 
-class CashAndDepositAdmin(TranslationAdmin):
-    model = CashAndDeposit
-    list_display = ('title',)
-
-    class Media:
-        js = (
-            'modeltranslation/js/force_jquery.js',
-            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js',
-            'modeltranslation/js/tabbed_translation_fields.js',
-        )
-        css = {
-            "all": ("css/admin.css",),
-            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
-        }
+class InstrumentAdmin(admin.ModelAdmin):
+    model = Instrument
+    list_display = ('instrument_id', 'issuer_id',)
+    search_fields = ['instrument_id']
 
 
-admin.site.register(CashAndDeposit, CashAndDepositAdmin)
+class QuarterAdmin(admin.ModelAdmin):
+    model = Quarter
+    list_display = ('year', 'month',)
+
+
+admin.site.register(Instrument, InstrumentAdmin)
+admin.site.register(Quarter, QuarterAdmin)
