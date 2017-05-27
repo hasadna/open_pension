@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 23:37+0200\n"
+"POT-Creation-Date: 2016-11-14 20:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,46 +18,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: blog/forms.py:15
+#: config/settings.py:139
+msgid "Hebrew"
+msgstr "עברית"
+
+#: config/settings.py:140
+msgid "English"
+msgstr "אנגלית"
+
+#: pension/forms.py:15
 msgid "Select Tags"
 msgstr "בחר תגיות"
 
-#: blog/models.py:9
+#: pension/models.py:9
 msgid "tag"
 msgstr "תג"
 
-#: blog/models.py:15
+#: pension/models.py:15
 msgid "Tag"
-msgstr ""
-
-#: blog/models.py:16
-msgid "Tags"
 msgstr "תג"
 
-#: blog/models.py:24
+#: pension/models.py:16
+msgid "Tags"
+msgstr "תגיות"
+
+#: pension/models.py:24
 msgid "title"
 msgstr "כותרת"
 
-#: blog/models.py:25
+#: pension/models.py:25
 msgid "body"
 msgstr "תוכן"
 
-#: blog/models.py:26
+#: pension/models.py:26
 msgid "author"
 msgstr "מחבר"
 
-#: blog/models.py:28
+#: pension/models.py:28
 msgid "publish"
 msgstr "פרסום"
 
-#: blog/models.py:29
+#: pension/models.py:29
 msgid "tags"
 msgstr "תגיות"
 
-#: blog/models.py:33
-msgid "Post"
-msgstr "פוסט"
-
-#: blog/models.py:34
-msgid "Posts"
-msgstr "פוסטים"
+#: pension/templates/admin/base_site.html:3
+msgid "Django site admin"
+msgstr "מנהל אתר Django"
