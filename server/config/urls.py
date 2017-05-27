@@ -15,6 +15,7 @@ Including another URLconf
 """
 from rest_framework.documentation import include_docs_urls
 from django.conf.urls.i18n import i18n_patterns
+from graphene_django.views import GraphQLView
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -30,7 +31,8 @@ API_DESCRIPTION = 'The blog api description..'
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^api/', include('blog.urls')),
-    url(r'^docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION))
+    url(r'^docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)),
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
 
 # URLs that should be translated.
