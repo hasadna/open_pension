@@ -144,7 +144,6 @@ LANGUAGES = [
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'pension/locale'),
-    os.path.join(BASE_DIR, 'blog/locale'),
 )
 
 TIME_ZONE = 'Asia/Jerusalem'
