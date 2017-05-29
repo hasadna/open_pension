@@ -33,8 +33,15 @@ class PluginBase(IPlugin):
         """
         row_context = command.is_context(value, self.context_column_index)
 
-        if self.text_skip in value:
-            return
+        # In YL and remove the sum from the context.
+        if not (self.report.find('yl') == 0):
+            if self.text_skip in value:
+                return
+        else:
+            if row_context:
+                # Yalin Lapidot store the context and the sum in the same row.
+                # We need to remove the sum from the context.
+                row_context = row_context.replace('סהכ', '').strip()
 
         if row_context:
             # Get the current context.
