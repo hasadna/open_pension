@@ -51,18 +51,15 @@ class PluginBase(IPlugin):
             if command.is_global_context(self.local_context):
                 self.global_context = self.local_context
         else:
-            # Get the amount of extra fields and see if we need to trim them.
-            extra = self.calculateExtraCommasDelete(value)
-            if extra > 0:
-                value = value[:-self.calculateExtraCommasDelete(value)]
-            value += "," + self.global_context + "," + self.local_context
+            value = self.getCleanRow(value)
+            value = value + "," + self.global_context + "," + self.local_context
 
             # Remove the comma at the beginning.
             self.body.append(value)
 
-    def calculateExtraCommasDelete(self, value):
+    def getCleanRow(self, value):
         """
-        Calculate the extra amount of commas which we need to remove.
+        todo: better doc :)
 
         :param value:
             The current line.
@@ -70,5 +67,9 @@ class PluginBase(IPlugin):
         :return:
             The number of commas to delete.
         """
-        return len(
-            re.sub(r'\"(.*)\"', '""', value).split(',')) - self.fieldsLength
+        for item in re.findall(r'\"(\d[\d,.]*)\"', value):
+            new_item = item.replace(',', '')
+            value = value.replace('"' + item + '"', new_item)
+
+        # Remove any comma with space of strings.
+        return ','.join(value.replace(', ', '[escaped_comma]').split(',')[0:self.fieldsLength])
