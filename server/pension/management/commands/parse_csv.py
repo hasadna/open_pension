@@ -334,7 +334,6 @@ class Command(BaseCommand):
             return columns[0].replace('"', '').replace("'", '')
         return False
 
-
     def is_global_context(self, context):
         """
         Check if the given context is a global context

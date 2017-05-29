@@ -26,8 +26,7 @@ class Agach(PluginBase):
         """
         row_context = command.is_context(value, self.context_column_index)
 
-        # todo: Check if we in YL and remove the sum from the context.
-
+        # In YL and remove the sum from the context.
         if not (self.report.find('yl') == 0):
             if self.text_skip in value:
                 return
