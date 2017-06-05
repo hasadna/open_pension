@@ -13,6 +13,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
+import { provideClient } from './client';
+
+import { ApolloModule } from 'apollo-angular';
 import { reducer } from './reducers';
 
 import { OpComponent } from './op.component';
@@ -44,6 +47,7 @@ import { PaiService } from './services/pai.service';
     MaterialModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    ApolloModule.forRoot(provideClient),
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(PaiEffects),

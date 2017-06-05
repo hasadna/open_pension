@@ -18,19 +18,35 @@ class InstrumentNode(DjangoObjectType):
         ]
 
 
-class QuarterNode(DjangoObjectType):
+class QuarterInterface(graphene.Interface):
+    quarter_id = graphene.Int()
+    year = graphene.String()
+    month = graphene.String()
+
+
+# class QuarterNode(DjangoObjectType):
+#     class Meta:
+#         model = Quarter
+#         # interfaces = (graphene.Node,)
+#         interfaces = (QuarterInterface,)
+#         filter_fields = ['year', 'month']
+
+class QuarterType(DjangoObjectType):
     class Meta:
         model = Quarter
-        interfaces = (graphene.Node,)
-        filter_fields = ['year', 'month']
 
 
 class Query(graphene.ObjectType):
     instrument = graphene.Node.Field(InstrumentNode)
     all_instruments = DjangoFilterConnectionField(InstrumentNode)
 
-    quarter = graphene.Node.Field(QuarterNode)
-    all_quarters = DjangoFilterConnectionField(QuarterNode)
+    # quarter = graphene.Node.Field(QuarterNode)
+    all_quarters = graphene.List(QuarterType)
+    # all_quarters = DjangoFilterConnectionField(QuarterNode)
+
+    @graphene.resolve_only_args
+    def resolve_all_quarters(self):
+        return Quarter.objects.all()
 
     @graphene.resolve_only_args
     def resolve_users(self):

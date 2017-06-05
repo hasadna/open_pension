@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
+
+interface QueryResponse{
+  currentUser
+  loading
+}
 
 @Component({
   selector: 'op-filters',
@@ -7,9 +14,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FiltersComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(
+    private apollo: Apollo,
+  ) { }
 
   ngOnInit() {
+    const AllQuarters = gql`
+      query AllQuarters {
+        allQuarters {
+          month,
+          year
+        }
+      }
+    `;
+
+    this.apollo.watchQuery<QueryResponse>({
+      query: AllQuarters
+    }).subscribe(({data}) => {
+      console.log('data', data);
+    });
   }
 
 }

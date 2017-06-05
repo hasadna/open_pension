@@ -48,9 +48,9 @@ export function reducer(state = initialState, action: post.Actions): State {
     }
 
     case post.LOAD_POST_BY_ID_SUCCESS: {
-      const newEntits = { selectedPost: action.payload };
+      const newSelectedPost = { selectedPost: action.payload };
 
-      return Object.assign({}, state, newEntits);
+      return Object.assign({}, state, newSelectedPost);
     }
 
     default: {
