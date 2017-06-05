@@ -2,6 +2,7 @@ import os
 import re
 from django.core.management import BaseCommand
 from yapsy.PluginManager import PluginManager
+from pathlib import Path
 
 
 class Command(BaseCommand):
@@ -204,7 +205,17 @@ class Command(BaseCommand):
 
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
             plugin.report = os.path.normpath(path).split('/')[-1]
-            print(self.normalize(path + "/" + file, plugin))
+            content = self.normalize(path + "/" + file, plugin)
+
+            if not destination:
+                print(content)
+                return
+
+            lib_path = destination + "/" + plugin.report
+            Path(lib_path).mkdir(parents=True, exist_ok=True)
+            f = open(lib_path + "/" + plugin_id + ".csv", 'w+')
+            f.write(content)
+            f.close()
 
     def normalize(self, path, plugin):
         """
