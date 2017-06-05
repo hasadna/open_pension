@@ -4,7 +4,7 @@
   "license": "ISC",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "ng serve --proxy-config proxy.conf.json --open",
     "build": "ng build",
     "test": "ng test --single-run --code-coverage",
     "lint": "ng lint",
