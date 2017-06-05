@@ -209,13 +209,12 @@ class Command(BaseCommand):
 
             if not destination:
                 print(content)
-                return
-
-            lib_path = destination + "/" + plugin.report
-            Path(lib_path).mkdir(parents=True, exist_ok=True)
-            f = open(lib_path + "/" + plugin_id + ".csv", 'w+')
-            f.write(content)
-            f.close()
+            else:
+                lib_path = destination + "/" + plugin.report
+                Path(lib_path).mkdir(parents=True, exist_ok=True)
+                f = open(lib_path + "/" + plugin_id + ".csv", 'w+')
+                f.write(content)
+                f.close()
 
     def normalize(self, path, plugin):
         """
