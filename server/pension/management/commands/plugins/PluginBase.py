@@ -71,6 +71,7 @@ class PluginBase(IPlugin):
             new_item = item.replace(',', '')
             value = value.replace('"' + item + '"', new_item)
 
-        # Remove any comma with space of strings.
+        # Replace any comma inside a string since we need that comma - it's part
+        # of the value. Unlike the comma in numbers which we don't need.
         return ','.join(value.replace(', ', '[escaped_comma]').split(',')
                         [0:self.fieldsLength]).replace('[escaped_comma]', ', ')

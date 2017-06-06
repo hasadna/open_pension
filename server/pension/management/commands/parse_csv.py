@@ -204,6 +204,9 @@ class Command(BaseCommand):
                 continue
 
             plugin = self.pluginManager.getPluginByName(plugin_id).plugin_object
+            # Init the body value to prevent any extra values we don't need in
+            # other plugins.
+            plugin.body = []
             plugin.report = os.path.normpath(path).split('/')[-1]
             content = self.normalize(path + "/" + file, plugin)
 
