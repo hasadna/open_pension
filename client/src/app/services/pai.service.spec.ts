@@ -1,14 +1,15 @@
-/* tslint:disable:no-unused-variable */
-
-import { TestBed, async, inject } from '@angular/core/testing';
-import { PaiService } from './pai.service';
+import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+
+import { PaiService } from './pai.service';
 
 describe('PaiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule],
+      imports: [
+        HttpModule,
+      ],
       providers: [
         PaiService,
         {

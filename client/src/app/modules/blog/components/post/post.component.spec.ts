@@ -26,11 +26,13 @@ describe('PostComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule ],
       declarations: [
         PostComponent,
         SafeHtmlPipe,
-      ]
+      ],
+      imports: [
+        RouterTestingModule,
+      ],
     })
     .compileComponents();
   }));
@@ -39,7 +41,7 @@ describe('PostComponent', () => {
     fixture = TestBed.createComponent(PostComponent);
     component = fixture.componentInstance;
 
-    // Create a dummy transaction.
+    // Create a dummy post.
     component.post = post;
     fixture.detectChanges();
   });
