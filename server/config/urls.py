@@ -24,17 +24,15 @@ from dal import autocomplete
 
 from blog.models import Tags
 
-API_TITLE = 'Blog API'
-API_DESCRIPTION = 'The blog api description..'
 
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^api/', include('blog.urls')),
-    url(r'^docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION))
+
 ]
 
 # URLs that should be translated.
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
-    url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete'),
+    url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete')
 )
