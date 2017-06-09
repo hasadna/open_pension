@@ -18,3 +18,12 @@ django-cors-headers==2.0.2
 
 # Translations
 django-modeltranslation==0.12
+
+# Pandas
+pandas==0.20.2
+
+# Numpy
+numpy==1.13.0
+
+# XLRD
+xlrd==1.0.0

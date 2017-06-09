@@ -1,4 +1,5 @@
 import os
+import re
 import glob
 import pandas as pd
 from django.utils import timezone
@@ -81,20 +82,35 @@ is_title_per_sheet = {
     'יתרת התחיבות להשקעה': 'תאריך סיום ההתחייבות',
     'עלות מותאמת אג״ח קונצרני סחיר': 'מספר ני"ע',
     'עלות מותאמת אג״ח קונצרני לא סחיר': 'מספר ני"ע',
-    'עלות מותאמת מסגרות אשראי ללווים ': 'מספר ני"ע',
+    'עלות מותאמת מסגרות אשראי ללווים': 'מספר ני"ע',
 }
 
 
 def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
     sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip)
+    sheet.to_csv('/Users/infinity/open_pension_proj/out1111.csv', sep='\t', encoding='utf-8')
+
+    print(sheet.columns.tolist())
+    sheet.columns = sheet.columns.str.strip()
+    sheet.columns.tolist()
+
 
     # Read the content of the sheet
-    for index, col_title in enumerate(sheet['שם המנפיק/שם נייר ערך ']):
+    for index, col_title in enumerate(sheet['שם המנפיק/שם נייר ערך']):
+        # print(type(index))
+        # print(type(col_title))
+        # print(type(sheet['שם המנפיק/שם נייר ערך ']))
+
         if col_title == 'nan':
             continue
         elif col_title == 'בישראל':
             context = 'IL'
         elif col_title == 'בחו"ל':
+            context = 'ABR'
+
+        elif 'ישראל' in str(col_title):
+            context = 'IL'
+        elif 'חו"ל' in str(col_title):
             context = 'ABR'
 
         # Continue only if we have a context
@@ -105,9 +121,13 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
         # Check if it's a title or really a data cell
         cell = is_title_per_sheet[sheet_name]
-        if str(sheet[cell][index]) == 'nan':
+        if str(sheet[cell][index]) == 'nan' or '*' in str(col_title)\
+                or 'סה"כ' in str(col_title) or '0' in str(col_title):
             print("This is a title row, I'm going out!")
             continue
+
+        print(str(sheet[cell][index]))
+        print(index)
 
         # Try to get every possible field
         try:
@@ -345,6 +365,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 # },
             )
             print('created', instrument, created)
+
         except ValueError as e:
             print('index', index)
             print('issuer_id', issuer_id)
@@ -385,7 +406,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
 
 def read_xls_file(filename):
-    xls_file = pd.ExcelFile('/Users/nirgalon/Downloads/{filename}'.format(filename=filename))
+    xls_file = pd.ExcelFile('/Users/infinity/op_input/{filename}'.format(filename=filename))
     split_filename = filename.split('.')[0].split('_')
     quarter = Quarter.objects.get_or_create(
         year=split_filename[1],
@@ -406,11 +427,11 @@ class Command(BaseCommand):
         print('Importing..')
 
         # Go over all the xls files in that directory
-        os.chdir("/Users/nirgalon/Downloads")
+        os.chdir("/Users/infinity/op_input")
         for file in glob.glob("*.xlsx"):
             # Temp fix
-            if not file == 'amitim_2016_1_212.xlsx':
-                return
+            # if not file == 'amitim_2016_1_212.xlsx':
+            #     return
 
             read_xls_file(file)
 
