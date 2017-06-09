@@ -29,7 +29,7 @@ before_install:
   - sudo add-apt-repository ppa:jonathonf/python-3.6 -y
   - sudo apt-get update -y
   - sudo apt-get install python3.6 -y
-  - python -v
+  - alias python="pyton3.6"
 
 install:
   # Server
