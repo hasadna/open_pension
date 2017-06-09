@@ -38,19 +38,17 @@ install:
   - pip install -U pytest
 
 script:
-  - pwd
   # Install requirements.
-  - cd server
+  - cd ../server
   - pip install -r requirements.txt
-  - cd -
 
   # Checking the coding standards.
-  - cd .. && pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
+  - pycodestyle --show-source --max-line-length=119 --exclude=pension/migrations --show-pep8 server;
 
   # Unit testing.
-  - cd server/pension/tests
+  - cd pension/tests
   - pytest
-  - cd -
+  - cd ../..
 
     # Client
   - cd client
