@@ -30,7 +30,7 @@ before_install:
 
 install:
   # Server
-  - cd home/travis/build/hasadna/open_pension/client && npm install
+  - cd /home/travis/build/hasadna/open_pension/client && npm install
 
   # Client
   - pip install pycodestyle
@@ -41,7 +41,7 @@ install:
 script:
 
   # Install requirements.
-  - cd home/travis/build/hasadna/open_pension/server
+  - cd /home/travis/build/hasadna/open_pension/server
   - pip install -r requirements.txt
 
   # Checking the coding standards.
@@ -53,7 +53,7 @@ script:
   - cd ../..
 
     # Client
-  - cd home/travis/build/hasadna/open_pension/client
+  - cd /home/travis/build/hasadna/open_pension/client
   - npm run lint
   - npm run test
   - npm run e2e
