@@ -54,5 +54,6 @@ class TestParseCSV(unittest.TestCase):
         row = "foo,bar,,,,,"
         self.assertEquals(self.Command.get_kupa_date(row), None)
 
+
 if __name__ == '__main__':
     unittest.main()
