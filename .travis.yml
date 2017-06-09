@@ -35,11 +35,11 @@ install:
   - cd /home/travis/build/hasadna/open_pension/client && npm install
 
   # Server
-  - pip install --upgrade pip
-  - pip install pycodestyle
+  - pip3 install --upgrade pip
+  - pip3 install pycodestyle
 
   # Pytest
-  - pip install -U pytest
+  - pip3 install -U pytest
 
 script:
 
