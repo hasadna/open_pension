@@ -32,10 +32,11 @@ before_install:
   - alias python="pyton3.6"
 
 install:
-  # Server
+  # Client
   - cd /home/travis/build/hasadna/open_pension/client && npm install
 
-  # Client
+  # Server
+  - pip install --upgrade pip
   - pip install pycodestyle
 
   # Pytest
