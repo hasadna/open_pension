@@ -43,6 +43,16 @@ class TestParseCSV(unittest.TestCase):
         new_row = self.Command.get_fields(bad_row)
         self.assertEquals(new_row, ['', ''])
 
+    def test_get_kupa_number(self):
+        row = "foo,bar,1234,foo"
+        self.assertEquals(self.Command.get_kupa_number(row), '1234')
+
+    def test_get_kupa_date(self):
+        row = "foo,bar,,,,1/02/1989,"
+        self.assertEquals(self.Command.get_kupa_date(row), '1/02/1989')
+
+        row = "foo,bar,,,,,"
+        self.assertEquals(self.Command.get_kupa_date(row), None)
 
 if __name__ == '__main__':
     unittest.main()
