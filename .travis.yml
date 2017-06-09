@@ -45,7 +45,7 @@ script:
   - pip install -r requirements.txt
 
   # Checking the coding standards.
-  - pycodestyle --show-source --max-line-length=119 --exclude=pension/migrations --show-pep8 server;
+  - pycodestyle --show-source --max-line-length=119 --exclude=pension/migrations --show-pep8 .;
 
   # Unit testing.
   - cd pension/tests
