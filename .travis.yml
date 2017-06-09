@@ -7,7 +7,6 @@ addons:
       - google-chrome
     packages:
       - google-chrome-stable
-      - python3.6
 
 language: node_js
 node_js:
