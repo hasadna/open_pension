@@ -7,32 +7,32 @@
   <div class="meta-data">
     <ul>
       <li>
-        <div class="meta-data">
-          <i class="fa fa-clock-o" aria-hidden="true"></i>
-          <span>{{ post$.publish | date: 'd/M/y' }}</span>
-        </div>
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span>{{ post$.publish | date: 'd/M/y' }}</span>
       </li>
       <li>
-          <i class="fa fa-user" aria-hidden="true"></i>
-          <span>{{ post$.author }}</span>
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>{{ post$.author }}</span>
       </li>
     </ul>
   </div>
 
   <div>
-    <p>{{ post$.body }}</p>
+    <p id="content">{{ post$.body }}</p>
   </div>
 
-  <div class="share">שיתוף:</div>
-  <share-buttons
-    [url]="shareUrl"
-    [description]="post$.title"
+  <div class="share-wrapper">
+    <div class="share">שיתוף:</div>
+    <share-buttons
+      [url]="shareUrl"
+      [description]="post$.title"
 
-    [pinterest]="false"
-    [tumblr]="false"
-    [reddit]="false"
-    [stumbleUpOn]="false"
+      [pinterest]="false"
+      [tumblr]="false"
+      [reddit]="false"
+      [stumbleUpOn]="false"
     ></share-buttons>
+  </div>
 
   <disqus [shortname]="'openpension'" [identifier]="post$.unique_id" ></disqus>
 </section>

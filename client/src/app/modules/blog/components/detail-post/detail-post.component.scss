@@ -1,6 +1,19 @@
-
 h2 {
-  display: inline-block;
+  //display: inline-block;
+  display: inline-flex;
+  color: #4A4A4A;
+  font-size: 30px;
+}
+
+a {
+  color: #4990E2;
+  font-size: 18px;
+  display: inline-flex;
+}
+
+div.header {
+  display: flex;
+  justify-content: space-between;
 }
 
 span, i {
@@ -25,13 +38,53 @@ p {
   margin: 0 0 30px 0;
 }
 
-a {
-  color: #4990E2;
-  font-size: 18px;
-  float: left;
-}
-
 section {
   width: 960px;
   margin: auto;
+}
+
+#content {
+  margin: 0;
+}
+
+.share {
+  color: #9B9B9B;
+  display: inline-block;
+}
+
+/deep/ div.sb-style {
+  justify-content: flex-start;
+  display: inline-flex;
+}
+
+/deep/ share-buttons > div.sb-buttons.sb-style.sb-style-colors {
+  margin: 0 0 3em 0;
+}
+
+/deep/ div.sb-buttons > share-button.sb-button {
+  flex: 0;
+}
+
+/deep/ share-button.sb-button > button {
+  background: #fff !important;
+}
+
+/deep/ div.sb-template > i.fa-facebook {
+  color: #4267b2;
+}
+
+/deep/ div.sb-template > i.fa-twitter {
+  color: #00acee;
+}
+
+/deep/ div.sb-template > i.fa-google-plus {
+  color: #db4437;
+}
+
+/deep/ div.sb-template > i.fa-linkedin {
+  color: #006fa6;
+}
+
+/deep/ div.sb-template > i.fa-whatsapp {
+  color: #25d366;
 }

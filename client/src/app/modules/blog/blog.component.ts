@@ -27,7 +27,7 @@ import { Post } from './models/post';
 
     h2 {
       font-weight: bold;
-      font-size: 23px;
+      font-size: 30px;
     }
 
     div {
