@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import re
+import json
 from django.core.management import BaseCommand
 from yapsy.PluginManager import PluginManager
 from pathlib import Path
@@ -178,6 +179,8 @@ class Command(BaseCommand):
         'חוזים-עתידיים': 'future-contracts',
     }
 
+    metadata = {}
+
     def add_arguments(self, parser):
         parser.add_argument('--source', type=str)
         parser.add_argument('--destination', type=str)
@@ -217,9 +220,16 @@ class Command(BaseCommand):
             else:
                 lib_path = destination + "/" + plugin.report
                 Path(lib_path).mkdir(parents=True, exist_ok=True)
+
+                # Write the file.
                 f = open(lib_path + "/" + plugin_id + ".csv", 'w+')
                 f.write(content)
                 f.close()
+
+                # Write the metadata file.
+                if not Path(lib_path + "/metadata.json").is_file():
+                    with open(lib_path + "/metadata.json", 'w') as outfile:
+                        json.dump(self.metadata, outfile)
 
     def normalize(self, path, plugin):
         """
@@ -238,6 +248,7 @@ class Command(BaseCommand):
         csv_file = open(path, 'r').read()
         rows = csv_file.split("\n")
         fields = []
+        self.metadata = {}
 
         for i, value in enumerate(rows):
             if i == 0:
@@ -253,6 +264,7 @@ class Command(BaseCommand):
 
                 plugin.parseBody(self, value[1:])
 
+        self.metadata = metadata
         fields.append('global_context')
         fields.append('local_context')
         return ','.join(fields) + "\n" + "\n".join(plugin.body)
