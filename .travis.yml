@@ -29,8 +29,6 @@ before_install:
   - sudo add-apt-repository ppa:jonathonf/python-3.6 -y
   - sudo apt-get update -y
   - sudo apt-get install python3.6 -y
-  - alias python='python3'
-  - python --version
 
 install:
   # Client
@@ -54,7 +52,7 @@ script:
 
   # Unit testing.
   - cd pension/tests
-  - pytest
+  - python3 -m pytest
   - cd ../..
 
     # Client
