@@ -292,10 +292,10 @@ class Command(BaseCommand):
         Get the fields from the csv file.
 
         :param row:
-            The content of the file
+            The row
 
         :return:
-            The metadata of the file
+            Array of fields
         """
         fields = row.split(",")
 
