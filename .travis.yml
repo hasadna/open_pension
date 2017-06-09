@@ -12,6 +12,7 @@ language: node_js
 node_js:
   - "6"
   - "8"
+python: 3.6
 
 cache:
   npm: true
@@ -29,7 +30,7 @@ before_install:
 
 install:
   # Server
-  - cd client && npm install
+  - cd home/travis/build/hasadna/open_pension/client && npm install
 
   # Client
   - pip install pycodestyle
@@ -38,8 +39,9 @@ install:
   - pip install -U pytest
 
 script:
+
   # Install requirements.
-  - cd ../server
+  - cd home/travis/build/hasadna/open_pension/server
   - pip install -r requirements.txt
 
   # Checking the coding standards.
@@ -51,7 +53,7 @@ script:
   - cd ../..
 
     # Client
-  - cd client
+  - cd home/travis/build/hasadna/open_pension/client
   - npm run lint
   - npm run test
   - npm run e2e
