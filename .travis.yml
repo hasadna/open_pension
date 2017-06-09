@@ -40,6 +40,7 @@ install:
 script:
   # Server
   - cd .. && pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
+  - pwd
   - cd tests
   - pytest
   - cd -
