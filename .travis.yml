@@ -34,9 +34,15 @@ install:
   # Client
   - pip install pycodestyle
 
+  # Pytest
+  - pip install -U pytest
+
 script:
   # Server
   - cd .. && pycodestyle --show-source --max-line-length=119 --exclude=server/pension/migrations --show-pep8 server;
+  - cd server/tests
+  - pytest
+  - cd -
 
     # Client
   - cd client

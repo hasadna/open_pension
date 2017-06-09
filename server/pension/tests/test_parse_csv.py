@@ -1,5 +1,6 @@
 import unittest
-from parse_csv import Command
+
+from server.pension.management.commands.parse_csv import Command
 
 
 class TestParseCSV(unittest.TestCase):
