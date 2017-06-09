@@ -67,9 +67,9 @@ class PluginBase(IPlugin):
         :return:
             The number of commas to delete.
         """
-        for item in re.findall(r'\"(\d[\d,.]*)\"', value):
+        for item in re.findall(r'\"-*[\d,.]+\"', value):
             new_item = item.replace(',', '')
-            value = value.replace('"' + item + '"', new_item)
+            value = value.replace(item, new_item)
 
         # Replace any comma inside a string since we need that comma - it's part
         # of the value. Unlike the comma in numbers which we don't need.
