@@ -30,14 +30,14 @@ class TestParseCSV(unittest.TestCase):
 
     def test_english_text(self):
         buddy = self.Command.english_text(field="שם המנפיק/שם נייר ערך")
-        self.assertEquals(buddy, 'managing_body')
+        self.assertEquals(buddy, 'instrument_id')
         not_buddy = self.Command.english_text(field='Drupal')
         self.assertEquals(not_buddy, '')
 
     def test_get_fields(self):
         row = "שם המנפיק/שם נייר ערך, מחמ"
         new_row = self.Command.get_fields(row)
-        self.assertEquals(new_row, ['managing_body', 'average_life_spend'])
+        self.assertEquals(new_row, ['instrument_id', 'average_of_duration'])
 
         bad_row = "Drupal, Wordpress"
         new_row = self.Command.get_fields(bad_row)
