@@ -43,5 +43,6 @@ class TestParseCSV(unittest.TestCase):
         new_row = self.Command.get_fields(bad_row)
         self.assertEquals(new_row, ['', ''])
 
+
 if __name__ == '__main__':
     unittest.main()
