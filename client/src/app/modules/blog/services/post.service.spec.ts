@@ -7,9 +7,7 @@ import { PostService } from './post.service';
 describe('PostService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpModule
-      ],
+      imports: [ HttpModule ],
       providers: [
         PostService,
         {

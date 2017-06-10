@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Pai } from '../models/pai';
 
-export const LOAD_PAI =  '[PAI] Load Pai';
+export const LOAD_PAI = '[PAI] Load Pai';
 export const LOAD_PAI_SUCCESS = '[PAI] Load Pai Success';
 
 export class LoadPaiAction implements Action {

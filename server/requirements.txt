@@ -8,8 +8,10 @@ django-extensions==1.7.7
 django-ckeditor==5.2.1
 django-autocomplete-light==3.2.1
 
+Yapsy==1.11.223
+
 # Rest Framework
-djangorestframework==3.5.4
+djangorestframework==3.6.3
 Markdown==2.6.8
 django-filter==1.0.1
 

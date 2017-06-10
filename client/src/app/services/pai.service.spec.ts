@@ -7,9 +7,7 @@ import { PaiService } from './pai.service';
 describe('PaiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpModule,
-      ],
+      imports: [ HttpModule ],
       providers: [
         PaiService,
         {
