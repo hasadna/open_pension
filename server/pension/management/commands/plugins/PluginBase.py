@@ -52,7 +52,12 @@ class PluginBase(IPlugin):
                 self.global_context = self.local_context
         else:
             value = self.getCleanRow(value)
-            value = value + "," + self.global_context + "," + self.local_context
+            # value = value + "," + self.global_context + "," + self.local_context
+            value = '{value},{global_context},{local_context}'.format(
+                value=value,
+                global_context=self.global_context,
+                local_context=self.local_context
+            )
 
             # Remove the comma at the beginning.
             self.body.append(value)
