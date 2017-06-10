@@ -8,7 +8,8 @@ h2 {
 a {
   color: #4990E2;
   font-size: 18px;
-  display: inline-flex;
+  margin: 2em 0;
+  min-width: 120px;
 }
 
 div.header {
@@ -39,7 +40,7 @@ p {
 }
 
 section {
-  width: 960px;
+  width: 680px;
   margin: auto;
 }
 
