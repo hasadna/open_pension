@@ -2,7 +2,7 @@ from django.core.files import File
 from django.utils import timezone
 from django.core.management import BaseCommand
 
-from blog.models import Post, Tags
+from blog.models import Post
 
 
 class Command(BaseCommand):
@@ -14,22 +14,6 @@ class Command(BaseCommand):
 
 
 def create_blog_dummy_data():
-    # Create tags.
-    tag1 = Tags.objects.get_or_create(
-        name='פננסים',
-        name_en='Financial',
-    )
-
-    tag2 = Tags.objects.get_or_create(
-        name='אנליטיקה',
-        name_en='Analytics',
-    )
-
-    tag3 = Tags.objects.get_or_create(
-        name='אגח',
-        name_en='Debentures Series',
-    )
-
     # First Trend post.
     Post.objects.get_or_create(
         title='השקעות מוסדיים ואגח אפריקה ישראל',
@@ -51,7 +35,7 @@ def create_blog_dummy_data():
                 'passages, and more recently with desktop publishing software like Aldus PageMaker including'
                 'versions of Lorem Ipsum.',
         publish=timezone.now()
-    )[0].tags.add(tag1[0])
+    )
 
     # Second Trend post.
     Post.objects.get_or_create(
@@ -73,7 +57,7 @@ def create_blog_dummy_data():
                 'their infancy. Various versions have evolved over the years, sometimes by accident, sometimes'
                 'on purpose (injected humour and the like).',
         publish=timezone.now(),
-    )[0].tags.add(tag1[0], tag2[0])
+    )
 
     # Third Trend post.
     Post.objects.get_or_create(
@@ -96,4 +80,4 @@ def create_blog_dummy_data():
                 'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or'
                 'non-characteristic words etc.',
         publish=timezone.now(),
-    )[0].tags.add(tag3[0], tag2[0])
+    )

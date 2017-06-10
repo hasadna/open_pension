@@ -8,26 +8,20 @@ export interface State {
 
 const initialState: State = {
   entities: [{
-    unique_id: '',
+    uniqueId: '',
     title: '',
     body: '',
     author: '',
-    created_at: '',
+    createdAt: '',
     publish: '',
-    tags: [{
-      'name': ''
-    }],
   }],
   selectedPost: {
-    unique_id: '',
+    uniqueId: '',
     title: '',
     body: '',
     author: '',
-    created_at: '',
+    createdAt: '',
     publish: '',
-    tags: [{
-      'name': ''
-    }],
   }
 };
 

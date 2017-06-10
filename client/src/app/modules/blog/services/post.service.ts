@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Apollo, ApolloQueryObservable } from 'apollo-angular';
+import gql from 'graphql-tag';
 
 import { Post } from '../models/post';
 
@@ -10,17 +12,36 @@ export class PostService {
 
   constructor(
     private http: Http,
+    private apollo: Apollo,
   ) {
     this.headers = new Headers();
     this.headers.append('Accept-Language', 'he');
   }
 
-  getPosts(): Observable<Post[]> {
-    const options = new RequestOptions({ headers: this.headers });
+  getPosts(): ApolloQueryObservable<any> {
+  // getPosts(): any {
+    // const options = new RequestOptions({ headers: this.headers });
+    //
+    // return this.http.get('/api/posts', options)
+    //   .map(res => res.json().results)
+    //   .catch(this.handleError);
+    const AllQuarters = gql`{
+      allPosts {
+        uniqueId,
+        title,
+        body,
+        author,
+        createdAt,
+        publish,
+      }
+    }`;
 
-    return this.http.get('/api/posts', options)
-      .map(res => res.json().results)
-      .catch(this.handleError);
+    return this.apollo.watchQuery<any>({
+      query: AllQuarters
+    });
+    // }).subscribe(({data}) => {
+    //   console.log('data', data);
+    // });
   }
 
   getPostById(postId): Observable<Post> {

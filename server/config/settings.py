@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
-    'rest_framework',
     'corsheaders',
 
     'graphene_django',
@@ -122,16 +121,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Django REST Framework
-# http://www.django-rest-framework.org/
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ],
-    'PAGE_SIZE': 10,
-}
 
 
 # Internationalization
