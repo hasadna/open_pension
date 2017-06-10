@@ -72,6 +72,18 @@ python manage.py compilemessages -l he
 
 If you need the data itself use the `--recursive` flag when you `git clone` this repo.
 
+In order to transform bad CSVs to good:
+```bash
+python manage.py parse_csv --source=PATH_OF_FOLDER --destination=csv/
+```
+
+In order to transform only one:
+```bash
+python manage.py parse_csv --source=PATH_OF_FOLDER --plugin=PLUGIN --destination=csv/
+```
+
+Plugin ID can be achieved from `server/pension/management/commands/plugins.json`
+
 ## Deploy
 
 **Client**
