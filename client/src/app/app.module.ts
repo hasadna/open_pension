@@ -26,6 +26,7 @@ import { AboutComponent } from './components/about/about.component';
 import { PaiEffects } from './effects/pai';
 
 import { PaiService } from './services/pai.service';
+import { BarGraphComponent } from './components/bar-graph/bar-graph.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { PaiService } from './services/pai.service';
     PaiComponent,
     FiltersComponent,
     AboutComponent,
+    BarGraphComponent,
   ],
   imports: [
     BrowserModule,
