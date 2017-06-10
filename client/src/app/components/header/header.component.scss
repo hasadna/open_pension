@@ -2,12 +2,13 @@
 
 nav {
   background-color: $header-background;
-  height: 15vh;
+  height: 120px;
 
   .container {
     position: relative;
     display: flex;
     justify-content: space-around;
+    height: 120px;
   }
 }
 
