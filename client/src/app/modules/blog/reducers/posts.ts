@@ -33,21 +33,21 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: post.Actions): State {
   switch (action.type) {
-    case post.ActionTypes.LOAD_POSTS: {
+    case post.LOAD_POSTS: {
       return Object.assign({}, state);
     }
 
-    case post.ActionTypes.LOAD_POST_BY_ID: {
+    case post.LOAD_POST_BY_ID: {
       return Object.assign({}, state);
     }
 
-    case post.ActionTypes.LOAD_POSTS_SUCCESS: {
+    case post.LOAD_POSTS_SUCCESS: {
       const newEntits = { entities: action.payload };
 
       return Object.assign({}, state, newEntits);
     }
 
-    case post.ActionTypes.LOAD_POST_BY_ID_SUCCESS: {
+    case post.LOAD_POST_BY_ID_SUCCESS: {
       const newEntits = { selectedPost: action.payload };
 
       return Object.assign({}, state, newEntits);

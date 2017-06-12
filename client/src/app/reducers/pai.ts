@@ -10,11 +10,11 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: pai.Actions): State {
   switch (action.type) {
-    case pai.ActionTypes.LOAD_PAI: {
+    case pai.LOAD_PAI: {
       return initialState;
     }
 
-    case pai.ActionTypes.LOAD_PAI_SUCCESS: {
+    case pai.LOAD_PAI_SUCCESS: {
       return action.payload;
     }
 
