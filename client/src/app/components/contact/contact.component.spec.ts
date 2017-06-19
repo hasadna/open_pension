@@ -2,6 +2,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { ContactComponent } from './contact.component';
 
@@ -13,7 +14,9 @@ describe('ContactComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactComponent ]
+      imports: [ ReactiveFormsModule ],
+      declarations: [ ContactComponent ],
+      // providers: [ FormBuilder ],
     })
     .compileComponents();
   }));
@@ -38,7 +41,7 @@ describe('ContactComponent', () => {
   it('it should display "description" message in paragraph', () => {
     de = fixture.debugElement.query(By.css('p'));
     el = de.nativeElement;
-    expect(el.textContent).toContain('....מוזמנים');
+    expect(el.textContent).toContain('מוזמנים');
     expect(component).toBeTruthy();
   });
 });
