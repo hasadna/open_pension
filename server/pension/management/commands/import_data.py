@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import re
 import glob
@@ -25,7 +26,7 @@ instrument_dict = {
     'מזומנים': 'CASH',
     'תעודות התחייבות ממשלתיות': 'GDC',
     'תעודות חוב מסחריות': 'CDC',
-    'אג״ח קונצרני': 'CB',
+    'אג"ח קונצרני': 'CB',
     'מניות': 'STOCK',
     'תעודות סל': 'ETF',
     'קרנות נאמנות': 'MF',
@@ -35,7 +36,7 @@ instrument_dict = {
     'מוצרים מובנים': 'SP',
     'לא סחיר - תעודות התחייבות ממשלתי': 'GDC',
     'לא סחיר - תעודות חוב מסחריות': 'CDC',
-    'לא סחיר - אג״ח קונצרני': 'CB',
+    'לא סחיר - אג"ח קונצרני': 'CB', # לא סחיר - אג״ח קונצרני
     'לא סחיר - מניות': 'STOCK',
     'לא סחיר - קרנות השקעה': 'IF',
     'לא סחיר - כתבי אופציה': 'WARRANTS',
@@ -50,14 +51,14 @@ instrument_dict = {
     'יתרת התחיבות להשקעה': 'ICB',
     'עלות מותאמת אג״ח קונצרני סחיר': 'CBAC',
     'עלות מותאמת אג״ח קונצרני לא סחיר': 'CBAC',
-    'עלות מותאמת מסגרות אשראי ללווים ': 'BCAC',
+    'עלות מותאמת מסגרות אשראי ללווים': 'BCAC',
 }
 
 is_title_per_sheet = {
     'מזומנים': 'מספר ני"ע',
     'תעודות התחייבות ממשלתיות': 'מספר ני"ע',
     'תעודות חוב מסחריות': 'מספר ני"ע',
-    'אג״ח קונצרני': 'מספר ני"ע',
+    'אג"ח קונצרני': 'מספר ני"ע',
     'מניות': 'מספר ני"ע',
     'תעודות סל': 'מספר ני"ע',
     'קרנות נאמנות': 'מספר ני"ע',
@@ -67,22 +68,24 @@ is_title_per_sheet = {
     'מוצרים מובנים': 'מספר ני"ע',
     'לא סחיר - תעודות התחייבות ממשלתי': 'מספר ני"ע',
     'לא סחיר - תעודות חוב מסחריות': 'מספר ני"ע',
-    'לא סחיר - אג״ח קונצרני': 'מספר ני"ע',
-    'לא סחיר - מניות': 'מספר ני"ע',
-    'לא סחיר - קרנות השקעה': 'מספר ני"ע',
-    'לא סחיר - כתבי אופציה': 'מספר ני"ע',
-    'לא סחיר - אופציות': 'מספר ני"ע',
-    'לא סחיר - חוזים עתידיים': 'מספר ני"ע',
-    'לא סחיר - מוצרים מובנים': 'מספר ני"ע',
+    'לא סחיר - אג"ח קונצרני': 'מספר ני"ע',  # לא סחיר - אג״ח קונצרני
+    'לא סחיר - מניות': 'מספר ני"ע',  # לא סחיר - מניות
+    'לא סחיר - קרנות השקעה': 'מספר ני"ע', # לא סחיר - קרנות השקעה
+    'לא סחיר - כתבי אופציה': 'מספר ני"ע', # לא סחיר - כתבי אופציה
+    'לא סחיר - אופציות': 'מספר ני"ע', # לא סחיר - אופציות
+    'לא סחיר - חוזים עתידיים': 'מספר ני"ע', # לא סחיר - חוזים עתידיים
+    'לא סחיר - מוצרים מובנים': 'מספר ני"ע', # לא סחיר - מוצרים מובנים
     'הלוואות': 'מספר ני"ע',
     'פקדונות מעל 3 חודשים': 'מספר ני"ע',
     'זכויות מקרקעין': 'אופי הנכס',
-    'השקעות אחרות': 'מספר ני"ע',
+    'השקעות אחרות': 'מספר הנייר',
     'השקעה בחברות מוחזקות': 'מספר מנפיק',
     'יתרת התחיבות להשקעה': 'תאריך סיום ההתחייבות',
-    'עלות מותאמת אג״ח קונצרני סחיר': 'מספר ני"ע',
+    'יתרת התחייבות להשקעה': 'תאריך סיום ההתחייבות',
+    'עלות מתואמת אג"ח קונצרני סחיר': 'מספר ני"ע',
     'עלות מותאמת אג״ח קונצרני לא סחיר': 'מספר ני"ע',
-    'עלות מותאמת מסגרות אשראי ללווים': 'מספר ני"ע',
+    'עלות מתואמת אג"ח קונצרני ל.סחיר': 'מספר ני"ע',
+    'עלות מתואמת מסגרות אשראי ללווים': 'מספר ני"ע',
 }
 
 
@@ -90,17 +93,19 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
     sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip)
     sheet.to_csv('/Users/infinity/open_pension_proj/out1111.csv', sep='\t', encoding='utf-8')
 
-    print(sheet.columns.tolist())
     sheet.columns = sheet.columns.str.strip()
     sheet.columns.tolist()
 
 
     # Read the content of the sheet
     for index, col_title in enumerate(sheet['שם המנפיק/שם נייר ערך']):
-        # print(type(index))
-        # print(type(col_title))
-        # print(type(sheet['שם המנפיק/שם נייר ערך ']))
-
+        cleaned_sheet_name = str(sheet_name).strip().replace('-', ' - ').replace('  ', ' ')
+        print(cleaned_sheet_name)
+        print(quarter.__repr__())
+        print(quarter)
+        print(quarter[0])
+        print(quarter[1])
+        print('####################')
         if col_title == 'nan':
             continue
         elif col_title == 'בישראל':
@@ -119,23 +124,27 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         except UnboundLocalError as e:
             continue
 
-        # Check if it's a title or really a data cell
-        cell = is_title_per_sheet[sheet_name]
-        if str(sheet[cell][index]) == 'nan' or '*' in str(col_title)\
-                or 'סה"כ' in str(col_title) or '0' in str(col_title):
+        # Check if it's a title or really a data
+        itps = cleaned_sheet_name
+        cell = is_title_per_sheet[itps]
+
+        if str(sheet[cell][index]) == 'nan' or '*' in str(col_title) or 'סה"כ' in str(col_title) or '0' in str(col_title):
             print("This is a title row, I'm going out!")
             continue
 
-        print(str(sheet[cell][index]))
-        print(index)
-
-        # Try to get every possible field
         try:
             issuer_id = sheet['מספר ני"ע'][index]
             if str(issuer_id) == 'nan':
                 raise(KeyError)
         except KeyError as e:
-            issuer_id = sheet_name
+            try:
+                issuer_id = sheet['מספר הנייר'][index]
+                if str(issuer_id) == 'nan':
+                    raise (KeyError)
+            except KeyError as e:
+                issuer_id = cleaned_sheet_name  # sheet_name
+
+            issuer_id = cleaned_sheet_name  # sheet_name
 
         try:
             rating = sheet['דירוג'][index]
@@ -309,6 +318,11 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             consortium = sheet['קונסורציום כן/לא'][index]
             if str(consortium) == 'nan':
                 raise(KeyError)
+            elif str(consortium).strip() == 'כן':
+                consortium = True
+            elif str(consortium).strip() == 'לא':
+                consortium = False
+
         except KeyError as e:
             consortium = False
 
@@ -327,6 +341,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             par_value = 0.0
 
         try:
+
             instrument, created = Instrument.objects.get_or_create(
                 issuer_id=issuer_id,
                 rating=rating,
@@ -358,12 +373,14 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 par_value=par_value,
                 managing_body=managing_body_dict[managing_body],
                 geographical_location=context,
-                instrument_sub_type=instrument_dict[sheet_name],
+                instrument_sub_type=instrument_dict[cleaned_sheet_name],
+
                 quarter=quarter[0],
                 # defaults={
                 #     'birthday': date(1940, 10, 9)
                 # },
             )
+
             print('created', instrument, created)
 
         except ValueError as e:
@@ -398,7 +415,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             print('par_value', par_value)
             print('managing_body', managing_body_dict[managing_body])
             print('geographical_location', context)
-            print('instrument_sub_type', instrument_dict[sheet_name])
+            print('instrument_sub_type', instrument_dict[cleaned_sheet_name])
             print('--------------------')
             raise(ValueError)
 
@@ -408,6 +425,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 def read_xls_file(filename):
     xls_file = pd.ExcelFile('/Users/infinity/op_input/{filename}'.format(filename=filename))
     split_filename = filename.split('.')[0].split('_')
+
     quarter = Quarter.objects.get_or_create(
         year=split_filename[1],
         month=split_filename[2],
@@ -415,7 +433,7 @@ def read_xls_file(filename):
 
     # Loop over all the sheets in the file
     for sheet_name in xls_file.sheet_names:
-        if sheet_name == 'מזומנים':
+        if sheet_name not in ('סכום נכסי הקרן'):
             rows_to_skip = 7
             read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
 
