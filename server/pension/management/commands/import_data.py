@@ -128,7 +128,8 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         itps = cleaned_sheet_name
         cell = is_title_per_sheet[itps]
 
-        if str(sheet[cell][index]) == 'nan' or '*' in str(col_title) or 'סה"כ' in str(col_title) or '0' in str(col_title):
+        if str(sheet[cell][index]) == 'nan' or '*' in str(col_title) \
+                or 'סה"כ' in str(col_title) or '0' in str(col_title):
             print("This is a title row, I'm going out!")
             continue
 
