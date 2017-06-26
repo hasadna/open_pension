@@ -21,7 +21,7 @@
       "prefix": "op",
       "styles": [
         "styles.scss",
-        "node_modules/dragula/dist/dragula.css",
+        "../node_modules/dragula/dist/dragula.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

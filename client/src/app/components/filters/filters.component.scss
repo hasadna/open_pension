@@ -5,6 +5,18 @@
 .filters-date-select {
   width: 200px;
   height: 50px;
+  background-color: #fff;
+  color: #5f7d8c;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.filters-label {
+  color: #5f7d8c;
+
+  &--underline {
+    text-decoration: underline;
+  }
 }
 
 .filters-button {
