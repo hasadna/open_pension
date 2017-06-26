@@ -16,12 +16,21 @@
     <p>סה"כ שוק הפנסיה 100%</p>
   </div>
 
-  <div class="filters-parameters-div">
-    <button class="button-purple">גוף מנהל</button>
-    <button class="button-green">רמת סחירות</button>
-    <button class="button-lightblue">סוג נכס</button>
-    <button class="button-orange">רמת נזילות</button>
-    <button>+ הוספה</button>
-  </div>
+  <div>
+    <div class='filters-parameters-div'>
+      <div [dragula]='"bag-one"'></div>
+      <div [dragula]='"bag-one"'></div>
+      <div [dragula]='"bag-two"'></div>
+      <div [dragula]='"bag-three"'></div>
+      <div [dragula]='"bag-four"'></div>
+      <div class='container' [dragula]='"first-bag"'>
+        <div class="filters-button button-purple">גוף מנהל</div>
+        <div class="filters-button button-green">רמת סחירות</div>
+        <div class="filters-button button-lightblue">סוג נכס</div>
+        <div class="filters-button button-orange">רמת נזילות</div>
+      </div>
 
+    </div>
+    <button class="filters-button add-button">+ הוספה</button>
+  </div>
 </div>

@@ -20,7 +20,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "op",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "node_modules/dragula/dist/dragula.css",
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

@@ -7,22 +7,38 @@
   height: 50px;
 }
 
+.filters-button {
+  margin: 10px;
+  height: 50px;
+  padding: 5px;
+  vertical-align: middle;
+  border-radius: 5px;
+  text-align: right;
+  color: #fff;
+  width: 200px;
+  box-sizing: border-box;
+}
+
 .button-purple {
   background-color: #9267d9;
-  color: #fff;
 }
 
 .button-green {
   background-color: #89c540;
-  color: #fff;
 }
 
 .button-lightblue {
-  color: #fff;
   background-color: #00bcd6;
 }
 
 .button-orange {
-  color: #fff;
   background-color: #ff9900;
+}
+
+.add-button {
+  background: #fff;
+  color: #5f7d8c;
+  border: 1px dashed #5f7d8c;
+  text-align: center;
+  font-size: 18px;
 }
