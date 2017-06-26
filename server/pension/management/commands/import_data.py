@@ -48,7 +48,7 @@ instrument_dict = {
     'זכויות מקרקעין': 'LR',
     'השקעות אחרות': 'OI',
     'השקעה בחברות מוחזקות': 'IC',
-    'יתרת התחיבות להשקעה': 'ICB',
+    'יתרת התחייבות להשקעה': 'ICB',
     'עלות מותאמת אג״ח קונצרני סחיר': 'CBAC',
     'עלות מותאמת אג״ח קונצרני לא סחיר': 'CBAC',
     'עלות מותאמת מסגרות אשראי ללווים': 'BCAC',
@@ -123,11 +123,12 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         cell = is_title_per_sheet[itps]
 
         if str(sheet[cell][index]) == 'nan' or '*' in str(col_title) \
-                or 'סה"כ' in str(col_title) or '0' in str(col_title):
+                or 'סה"כ' in str(col_title) or '0' == str(col_title).strip():
             print("This is a title row, I'm going out!")
             continue
 
         try:
+
             issuer_id = sheet['מספר ני"ע'][index]
             if str(issuer_id) == 'nan':
                 raise KeyError
@@ -282,7 +283,11 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             liabilities = 0.0
 
         try:
-            expiry_date_of_liabilities = sheet['תאריך סיום ההתחייבות'][index]
+            if 'מועד' in str(sheet['תאריך סיום ההתחייבות'][index]):
+                expiry_date_of_liabilities = '3000-01-01'
+            else:
+                expiry_date_of_liabilities = sheet['תאריך סיום ההתחייבות'][index]
+
             if str(expiry_date_of_liabilities) == 'nan':
                 raise KeyError
         except KeyError as e:
@@ -317,7 +322,6 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 consortium = True
             elif str(consortium).strip() == 'לא':
                 consortium = False
-
         except KeyError as e:
             consortium = False
 
