@@ -2,7 +2,10 @@
 
 .graph-container{
   // TO-DO change to responesive values
-  width: 50%;
+  width: 40%;
+  display: inline-block;
+  float: left;
+  margin: 1% 0 1% 12%;
 
   // SVG rendered inside the op-pai element is a little ofset.
   // We account for that with the rule below.
