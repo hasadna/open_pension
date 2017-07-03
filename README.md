@@ -29,7 +29,7 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 **Client**
 
   1. Install requirements with `npm install` (located under `client` directory).
-  2. Run the server with `ng start`.
+  2. Run the server with `npm start`.
   3. Open the browser at [http://localhost:4200](http://localhost:4200).
 
 **Server**
@@ -71,6 +71,18 @@ python manage.py compilemessages -l he
 ## Data
 
 If you need the data itself use the `--recursive` flag when you `git clone` this repo.
+
+In order to transform bad CSVs to good:
+```bash
+python manage.py parse_csv --source=PATH_OF_FOLDER --destination=csv/
+```
+
+In order to transform only one:
+```bash
+python manage.py parse_csv --source=PATH_OF_FOLDER --plugin=PLUGIN --destination=csv/
+```
+
+Plugin ID can be achieved from `server/pension/management/commands/plugins.json`
 
 ## Deploy
 

@@ -5,25 +5,34 @@
   </div>
 
   <div class="meta-data">
-    <i class="fa fa-clock-o" aria-hidden="true"></i>
-    <span>{{ post$.publish | date: 'd/M/y' }}</span>
-    <i class="fa fa-user" aria-hidden="true"></i>
-    <span>{{ post$.author }}</span>
+    <ul>
+      <li>
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span>{{ post$.publish | date: 'd/M/y' }}</span>
+      </li>
+      <li>
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>{{ post$.author }}</span>
+      </li>
+    </ul>
   </div>
 
-  <div class="body" [innerHTML]="post$.body | safeHtml"></div>
+  <div>
+    <p id="content">{{ post$.body }}</p>
+  </div>
 
-  <!-- Add social network icons here -->
-  <div class="share">שיתוף:</div>
-  <share-buttons
-    [url]="shareUrl"
-    [description]="post$.title"
+  <div class="share-wrapper">
+    <div class="share">שיתוף:</div>
+    <share-buttons
+      [url]="shareUrl"
+      [description]="post$.title"
 
-    [pinterest]="false"
-    [tumblr]="false"
-    [reddit]="false"
-    [stumbleUpOn]="false"
+      [pinterest]="false"
+      [tumblr]="false"
+      [reddit]="false"
+      [stumbleUpOn]="false"
     ></share-buttons>
+  </div>
 
   <disqus [shortname]="'openpension'" [identifier]="post$.unique_id" ></disqus>
 </section>
