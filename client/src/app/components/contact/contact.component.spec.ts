@@ -16,7 +16,6 @@ describe('ContactComponent', () => {
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule ],
       declarations: [ ContactComponent ],
-      // providers: [ FormBuilder ],
     })
     .compileComponents();
   }));
