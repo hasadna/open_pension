@@ -32,7 +32,7 @@ export class ContactComponent implements OnInit, OnChanges {
 
   checkAll() {
     console.log('this.contactForm.valid', this.contactForm.valid);
-    if(!this.contactForm.valid) {
+    if (!this.contactForm.valid) {
       this.displayErrs = true;
     }
   }
