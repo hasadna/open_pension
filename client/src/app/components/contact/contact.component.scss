@@ -1,18 +1,18 @@
-@import "../../../assets/vars.scss";
+@import "../../../assets/sass/vars.scss";
 
 section {
   margin-top: 2%;
   display: flex;
   flex-direction: column;
-  width: 50%;
-  margin-right: 20%;
+  width: 40%;
+  margin-right: 10%;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  flex-basis: 23rem;
+  justify-content: space-between;
+  // flex-basis: auto;
 
   input,
   textarea {
@@ -25,6 +25,7 @@ form {
 
   input {
     height: 1.6rem;
+    margin-bottom: 1rem;
   }
 
   textarea {
@@ -46,7 +47,7 @@ form {
   }
 
   button:disabled {
-    background: yellow;
+    background: #DFE5E8;
   }
 }
 
