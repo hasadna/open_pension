@@ -91,7 +91,6 @@ is_title_per_sheet = {
 
 def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
     sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip)
-    sheet.to_csv('/Users/infinity/open_pension_proj/out1111.csv', sep='\t', encoding='utf-8')
 
     sheet.columns = sheet.columns.str.strip()
     sheet.columns.tolist()
@@ -284,7 +283,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
         try:
             if 'מועד' in str(sheet['תאריך סיום ההתחייבות'][index]):
-                expiry_date_of_liabilities = '3000-01-01'
+                expiry_date_of_liabilities = None
             else:
                 expiry_date_of_liabilities = sheet['תאריך סיום ההתחייבות'][index]
 

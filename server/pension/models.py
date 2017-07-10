@@ -55,7 +55,7 @@ class Instrument(models.Model):
                                            null=True)
     liabilities = models.DecimalField(_('Liabilities'), help_text="Value is in thousands.", max_digits=50,
                                       decimal_places=3, null=True)
-    expiry_date_of_liabilities = models.DateField(_('Expiry Date Of Liabilities'))
+    expiry_date_of_liabilities = models.DateField(_('Expiry Date Of Liabilities'), null=True)
     effective_rate = models.DecimalField(_('Effective Rate'), help_text="This is a percentage value.",
                                          validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
     coordinated_cost = models.DecimalField(_('Coordinated Cost'), help_text="Value is in thousands.",
