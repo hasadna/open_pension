@@ -1,6 +1,6 @@
 # Open Pension
 
-[![license][license-image]][license-url] [![Build Status][travis-image]][travis-url] [![Python 3][python-image]][python-url] [![Updates][updates-image]][updates-url] [![Join the chat at https://gitter.im/open-pension/Lobby][gitter-image]][gitter-url]
+[![license][license-image]][license-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][dependency-image]][dependency-url] [![Gitter][gitter-image]][gitter-url]
 
 > The repo contains the server & the client parts of the Open Pension project.
 Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to revealing the secrets behind the Israeli pension market.
@@ -29,7 +29,7 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 **Client**
 
   1. Install requirements with `npm install` (located under `client` directory).
-  2. Run the server with `ng start`.
+  2. Run the server with `npm start`.
   3. Open the browser at [http://localhost:4200](http://localhost:4200).
 
 **Server**
@@ -72,6 +72,18 @@ python manage.py compilemessages -l he
 
 If you need the data itself use the `--recursive` flag when you `git clone` this repo.
 
+In order to transform bad CSVs to good:
+```bash
+python manage.py parse_csv --source=PATH_OF_FOLDER --destination=csv/
+```
+
+In order to transform only one:
+```bash
+python manage.py parse_csv --source=PATH_OF_FOLDER --plugin=PLUGIN --destination=csv/
+```
+
+Plugin ID can be achieved from `server/pension/management/commands/plugins.json`
+
 ## Deploy
 
 **Client**
@@ -91,9 +103,7 @@ Just fork and do a pull request (;
 [license-url]: https://github.com/hasadna/open_pension/blob/master/LICENSE
 [travis-image]: https://travis-ci.org/hasadna/open_pension.svg?branch=master
 [travis-url]: https://travis-ci.org/hasadna/open_pension
-[python-image]: https://pyup.io/repos/github/hasadna/open_pension/python-3-shield.svg
-[python-url]: https://pyup.io/repos/github/hasadna/open_pension
-[updates-image]: https://pyup.io/repos/github/hasadna/open_pension/shield.svg
-[updates-url]: https://pyup.io/repos/github/hasadna/open_pension
-[gitter-image]: https://badges.gitter.im/open-pension/Lobby.svg
+[dependency-image]: https://dependencyci.com/github/hasadna/open_pension/badge
+[dependency-url]: https://dependencyci.com/github/hasadna/open_pension
+[gitter-image]: https://img.shields.io/badge/Gitter-Join_the_chat_%E2%86%92-00d06f.svg
 [gitter-url]: https://gitter.im/open-pension/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge

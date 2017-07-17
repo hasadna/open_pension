@@ -16,7 +16,7 @@ export class PaiEffects {
 
   @Effect()
   loadPai$: Observable<Action>= this.actions$
-    .ofType(pai.ActionTypes.LOAD_PAI)
+    .ofType(pai.LOAD_PAI)
     .switchMap(() => this.postService.getPai())
     .map(data => new pai.LoadPaiSuccessAction(data));
 }

@@ -1,33 +1,33 @@
 <nav>
-  <div>
-    <a [routerLink]="['/']">
-      <img id="logo" src="/assets/logo.svg" alt="Open Pension Logo">
+  <div class="container">
+    <a id="logo" [routerLink]="['/']">
+      <img src="/assets/logo.svg" alt="Open Pension Logo">
     </a>
     <div>
-      <div class="links" data-intro='Hello step one!'>
+      <div class="links">
         <ul>
           <li>
-            <a (click)="intro()">
-              <i class="material-icons">help_outline</i>
-              איך זה עובד?
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/contact']">
-              <i class="material-icons">mail_outline</i>
-              יצירת קשר
+            <a [routerLink]="['/blog']">
+              <i class="fa fa-list" aria-hidden="true"></i>
+              בלוג
             </a>
           </li>
           <li>
             <a [routerLink]="['/about']">
-              <i class="material-icons">info_outline</i>
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
               אודות
             </a>
           </li>
           <li>
-            <a [routerLink]="['/blog']">
-              <i class="material-icons">toc</i>
-              בלוג
+            <a [routerLink]="['/contact']">
+              <i class="fa fa-envelope-o" aria-hidden="true"></i>
+              יצירת קשר
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/how-it-works']">
+              <i class="fa fa-question-circle" aria-hidden="true"></i>
+              איך זה עובד?
             </a>
           </li>
         </ul>

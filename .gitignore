@@ -252,3 +252,4 @@ $RECYCLE.BIN/
 
 ### Custom ###
 local_settings.py
+server/csv

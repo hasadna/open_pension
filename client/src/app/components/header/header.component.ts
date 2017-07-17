@@ -9,6 +9,8 @@ declare const introJs: any;
 })
 export class HeaderComponent {
 
+  constructor() { }
+
   intro() {
     introJs().start();
   }

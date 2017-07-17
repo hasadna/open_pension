@@ -1,21 +1,27 @@
-@import "../../../assets/vars.scss";
+@import "../../../assets/sass/vars.scss";
 
 form {
   position: relative;
-  width: 60%;
 }
 
 i {
-  color: #4A90E2;
+  color: #FFF;
   position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 36px;
+  top: 4px;
+  left: -11px;
+  font-size: 29px;
 }
 
 input {
   text-align: right;
   width: 100%;
-  padding: 8px;
-  font-size: 18px;
+  padding: 8px 8px;
+  font-size: 16px;
+  font-family: 'Alef', sans-serif;;
+  background-color: #4D6571;
+  border-style: none;
+}
+
+input::placeholder {
+  color: #FFFFFF;
 }

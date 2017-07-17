@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from rest_framework.documentation import include_docs_urls
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.conf.urls import url, include
@@ -23,13 +24,15 @@ from dal import autocomplete
 
 from blog.models import Tags
 
+
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^api/', include('blog.urls')),
+
 ]
 
 # URLs that should be translated.
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
-    url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete'),
+    url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete')
 )

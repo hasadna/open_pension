@@ -23,6 +23,14 @@ export class PostService {
       .catch(this.handleError);
   }
 
+  getPostById(postId): Observable<Post> {
+    const options = new RequestOptions({ headers: this.headers });
+
+    return this.http.get(`/api/posts/${postId}`, options)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     return Observable.throw(error.json().error || 'Server error');
   }
