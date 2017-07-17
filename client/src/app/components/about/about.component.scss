@@ -6,6 +6,33 @@ section {
   margin: auto;
 }
 
+.about-section {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  width: 100%;
+}
+
+.about-text {
+  width: 680px;
+  max-width: 100%;
+
+  @media (max-width: 960px) {
+    width: 95%;
+  }
+}
+
+.about-empty {
+  max-width: 100%;
+  direction: rtl;
+  margin: 10px 0;
+  width: 180px;
+
+  @media (max-width: 960px) {
+    display: none;
+  }
+}
+
 div {
   padding: 0;
 }
