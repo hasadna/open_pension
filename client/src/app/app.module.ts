@@ -27,6 +27,8 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { PaiEffects } from './effects/pai';
 import { PaiService } from './services/pai.service';
+import { ValidationService } from './services/validation.service';
+import { ControlMessages } from './components/control-messages/control-messages.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { PaiService } from './services/pai.service';
     FiltersComponent,
     AboutComponent,
     ContactComponent,
+    ControlMessages,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { PaiService } from './services/pai.service';
   ],
   providers: [
     PaiService,
+    ValidationService,
   ],
   bootstrap: [OpComponent]
 })

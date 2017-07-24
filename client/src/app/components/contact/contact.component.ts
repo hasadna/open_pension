@@ -1,53 +1,83 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ValidationService } from '../../services/validation.service';
 
 @Component({
   selector: 'op-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
-export class ContactComponent implements OnInit, OnChanges {
-  contactForm: FormGroup;
-  nameControl;
-  emailControl;
-  contentControl;
-  displayErrs = false;
+export class ContactComponent {
+  contactForm: any;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private formBuilder: FormBuilder) {
 
-  ngOnInit() {
     this.contactForm = this.formBuilder.group({
-      name: this.formBuilder.control(null, [Validators.minLength(2), Validators.required]),
-      email: this.formBuilder.control(null, [Validators.pattern(/\S+@\S+\.\S+/), Validators.required]),
-      content: this.formBuilder.control(null, Validators.required),
+      'name': ['', Validators.required],
+      'email': ['', [Validators.required, ValidationService.emailValidator]],
+      'content': ['', [Validators.required, Validators.minLength(10)]]
     });
-
-    this.nameControl = this.contactForm.get('name');
-    this.emailControl = this.contactForm.get('email');
-    this.contentControl = this.contactForm.get('content');
-  }
-
-  checkAll() {
-    console.log('this.contactForm.valid', this.contactForm.valid);
-    if (!this.contactForm.valid) {
-      this.displayErrs = true;
-    }
   }
 
   onSubmit() {
-    const formModel = this.contactForm.value;
-    console.log('save', formModel);
-    this.ngOnChanges();
-  }
-
-  ngOnChanges() {
-    this.contactForm.setValue({
-      name: '',
-      email: '',
-      content: ''
-    });
+    if (this.contactForm.dirty && this.contactForm.valid) {
+      alert(`Name: ${this.contactForm.value.name} Email: ${this.contactForm.value.email}`);
+    }
   }
 }
+
+
+
+// import { Component, OnInit, OnChanges } from '@angular/core';
+// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+//
+//
+// @Component({
+//   selector: 'op-contact',
+//   templateUrl: './contact.component.html',
+//   styleUrls: ['./contact.component.scss']
+// })
+// export class ContactComponent implements OnInit, OnChanges {
+//   contactForm: FormGroup;
+//   nameControl;
+//   emailControl;
+//   contentControl;
+//   displayErrs = false;
+//
+//   constructor(
+//     private formBuilder: FormBuilder
+//   ) {}
+//
+//   ngOnInit() {
+//     this.contactForm = this.formBuilder.group({
+//       name: this.formBuilder.control(null, [Validators.minLength(2), Validators.required]),
+//       email: this.formBuilder.control(null, [Validators.pattern(/\S+@\S+\.\S+/), Validators.required]),
+//       content: this.formBuilder.control(null, Validators.required),
+//     });
+//
+//     this.nameControl = this.contactForm.get('name');
+//     this.emailControl = this.contactForm.get('email');
+//     this.contentControl = this.contactForm.get('content');
+//   }
+//
+//   checkAll() {
+//     console.log('this.contactForm.valid', this.contactForm.valid);
+//     if (!this.contactForm.valid) {
+//       this.displayErrs = true;
+//     }
+//   }
+//
+//   onSubmit() {
+//     const formModel = this.contactForm.value;
+//     console.log('save', formModel);
+//     this.ngOnChanges();
+//   }
+//
+//   ngOnChanges() {
+//     this.contactForm.setValue({
+//       name: '',
+//       email: '',
+//       content: ''
+//     });
+//   }
+// }
