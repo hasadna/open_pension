@@ -21,7 +21,8 @@
       "prefix": "op",
       "styles": [
         "styles.scss",
-        "../node_modules/dragula/dist/dragula.min.css"
+        "../node_modules/dragula/dist/dragula.min.css",
+        "../node_modules/intro.js/themes/introjs-modern.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
