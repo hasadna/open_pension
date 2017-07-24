@@ -1,6 +1,6 @@
 <section>
   <div class="header">
-    <h2>{{ post$.title }}</h2>
+    <h2>{{ post$.titleHe }}</h2>
     <a [routerLink]="['/blog']">חזרה לבלוג >></a>
   </div>
 
@@ -12,21 +12,20 @@
       </li>
       <li>
         <i class="fa fa-user" aria-hidden="true"></i>
-        <span>{{ post$.author }}</span>
+        <span>{{ post$.authorHe }}</span>
       </li>
     </ul>
   </div>
 
   <div>
-    <p id="content">{{ post$.body }}</p>
+    <p id="content">{{ post$.bodyHe }}</p>
   </div>
 
   <div class="share-wrapper">
     <div class="share">שיתוף:</div>
     <share-buttons
       [url]="shareUrl"
-      [description]="post$.title"
-
+      [description]="post$.titleHe"
       [pinterest]="false"
       [tumblr]="false"
       [reddit]="false"
@@ -34,5 +33,5 @@
     ></share-buttons>
   </div>
 
-  <disqus [shortname]="'openpension'" [identifier]="post$.unique_id" ></disqus>
+  <disqus [shortname]="'openpension'" [identifier]="post$.uniqueId" ></disqus>
 </section>

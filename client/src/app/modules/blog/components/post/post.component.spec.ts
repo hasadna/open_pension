@@ -11,11 +11,11 @@ describe('PostComponent', () => {
   let fixture: ComponentFixture<PostComponent>;
   let element: HTMLElement;
   const post: any = {
-    unique_id: 'a1b2c3-d4e5f6-g8',
+    uniqueId: 'a1b2c3-d4e5f6-g8',
     title: 'This is the title',
     body: 'This is the body',
     author: 'Nir',
-    created_at: '2017-02-14T10:07:20.932252Z',
+    createdAt: '2017-02-14T10:07:20.932252Z',
     publish: '2017-02-14T10:07:20.930119Z',
     tags: [{
       'name': 'finance',

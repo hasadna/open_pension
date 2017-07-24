@@ -1,10 +1,8 @@
-import { Tag } from './tag';
-
 export class Post {
   uniqueId: string;
-  title: string;
-  body: string;
-  author: string;
+  titleHe: string;
+  bodyHe: string;
+  authorHe: string;
   createdAt: string;
   publish: string;
 }

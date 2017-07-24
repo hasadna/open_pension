@@ -13,25 +13,15 @@ export class PostService {
   constructor(
     private http: Http,
     private apollo: Apollo,
-  ) {
-    this.headers = new Headers();
-    this.headers.append('Accept-Language', 'he');
-  }
+  ) {}
 
-  // getPosts(): ApolloQueryObservable<any> {
-  getPosts(): any {
-  // getPosts(): any {
-    // const options = new RequestOptions({ headers: this.headers });
-    //
-    // return this.http.get('/api/posts', options)
-    //   .map(res => res.json().results)
-    //   .catch(this.handleError);
+  getPosts(): Observable<Post[]>  {
     const AllQuarters = gql`{
       allPosts {
         uniqueId,
-        title,
-        body,
-        author,
+        titleHe,
+        bodyHe,
+        authorHe,
         createdAt,
         publish,
       }
@@ -41,18 +31,24 @@ export class PostService {
       query: AllQuarters
     })
     .map(res => res.data.allPosts);
-    // .do(res => console.log(res.data.allPosts));
-    // }).subscribe(({data}) => {
-    //   console.log('data', data);
-    // });
   }
 
   getPostById(postId): Observable<Post> {
-    const options = new RequestOptions({ headers: this.headers });
+    const AllQuarters = gql`query {
+      post(uniqueId: "${postId}") {
+        uniqueId,
+        titleHe,
+        bodyHe,
+        authorHe,
+        createdAt,
+        publish,
+      }
+    }`;
 
-    return this.http.get(`/api/posts/${postId}`, options)
-      .map(res => res.json())
-      .catch(this.handleError);
+    return this.apollo.watchQuery<any>({
+      query: AllQuarters
+    })
+    .map(res => res.data.post);
   }
 
   private handleError(error: Response) {

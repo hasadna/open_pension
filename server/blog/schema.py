@@ -11,7 +11,7 @@ class PostType(DjangoObjectType):
 
 class Query(graphene.AbstractType):
 
-    post = graphene.Field(PostType, postId=graphene.Int())
+    post = graphene.Field(PostType, uniqueId=graphene.String())
     all_posts = graphene.List(PostType)
 
     def resolve_all_tags(self, args, context, info):
@@ -21,9 +21,9 @@ class Query(graphene.AbstractType):
         return Post.objects.all()
 
     def resolve_post(self, args, context, info):
-        postId = args.get('postId')
+        uniqueId = args.get('uniqueId')
 
-        if postId is not None:
-            return Post.objects.get(pk=postId)
+        if uniqueId is not None:
+            return Post.objects.get(unique_id=uniqueId)
 
         return None

@@ -1,4 +1,4 @@
-<h3>{{ post.title }}</h3>
+<h3>{{ post.titleHe }}</h3>
 <div id="post-meta-data">
   <ul>
     <li>
@@ -10,7 +10,7 @@
     <li>
       <div class="author">
         <i class="fa fa-user" aria-hidden="true"></i>
-        <span>{{ post.author }}</span>
+        <span>{{ post.authorHe }}</span>
       </div>
     </li>
   </ul>
@@ -18,8 +18,8 @@
 
 <div>
   <p>
-    {{ post.body | slice:0:250 }}...
-    <a [routerLink]="['/blog', post.unique_id]">קרא עוד>></a>
+    {{ post.bodyHe | slice:0:250 }}...
+    <a [routerLink]="['/blog', post.uniqueId]">קרא עוד>></a>
   </p>
 </div>
 
