@@ -23,26 +23,12 @@ from django.conf import settings
 
 from dal import autocomplete
 
-<<<<<<< HEAD
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),
-=======
-from blog.models import Tags
-
-
-# URLs that shouldn't be translated.
-urlpatterns = [
-    url(r'^api/', include('blog.urls')),
-
->>>>>>> master
 ]
 
 # URLs that should be translated.
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),
-<<<<<<< HEAD
-=======
-    url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete')
->>>>>>> master
 )
