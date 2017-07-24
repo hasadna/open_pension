@@ -68,7 +68,7 @@ describe('DetailPostComponent', () => {
   });
 
   it('post body should be in the page, inside div with body class', () => {
-    element = fixture.debugElement.query(By.css('.body')).nativeElement;
+    element = fixture.debugElement.query(By.css('#content')).nativeElement;
     expect(element.textContent).toContain(post.body);
   });
 });
