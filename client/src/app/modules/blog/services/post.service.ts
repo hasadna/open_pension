@@ -18,7 +18,8 @@ export class PostService {
     this.headers.append('Accept-Language', 'he');
   }
 
-  getPosts(): ApolloQueryObservable<any> {
+  // getPosts(): ApolloQueryObservable<any> {
+  getPosts(): any {
   // getPosts(): any {
     // const options = new RequestOptions({ headers: this.headers });
     //
@@ -38,7 +39,9 @@ export class PostService {
 
     return this.apollo.watchQuery<any>({
       query: AllQuarters
-    });
+    })
+    .map(res => res.data.allPosts);
+    // .do(res => console.log(res.data.allPosts));
     // }).subscribe(({data}) => {
     //   console.log('data', data);
     // });
