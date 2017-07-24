@@ -1,6 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { ApolloModule } from 'apollo-angular';
 
 import { PostService } from './post.service';
 
@@ -10,6 +11,7 @@ describe('PostService', () => {
       imports: [ HttpModule ],
       providers: [
         PostService,
+        ApolloModule,
         {
           provide: Http,
           useFactory: (mockBackend, options) => {

@@ -3,6 +3,7 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 import graphene
 
+
 class PostType(DjangoObjectType):
     class Meta:
         model = Post
