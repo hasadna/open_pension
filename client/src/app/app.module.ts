@@ -28,6 +28,7 @@ import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { PaiEffects } from './effects/pai';
 
 import { PaiService } from './services/pai.service';
+import { BarGraphComponent } from './components/bar-graph/bar-graph.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PaiService } from './services/pai.service';
     PaiComponent,
     FiltersComponent,
     AboutComponent,
+    BarGraphComponent,
   ],
   imports: [
     BrowserModule,

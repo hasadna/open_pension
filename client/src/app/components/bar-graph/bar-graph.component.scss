@@ -1,0 +1,42 @@
+.container {
+	background-color: #F2F6F8;
+	border: 2px solid #C6C8C9;
+	position: relative;
+	color: #4C4C4C;
+	padding: 0 15px 15px 15px;
+	text-align: center;
+	max-width: 700px;
+	margin: 15px auto;
+}
+.container .close-btn {
+	color: #697C8A;
+	position: absolute;
+	right: 5px; top: 5px;
+}
+
+.graph-container {
+	background-color: #EBEFF1;
+}
+
+.seperator {
+	background-color: #C6C8C9;
+	border: 0;
+	height: 2px;
+}
+
+/deep/.bar {
+  fill: steelblue;
+}
+
+/deep/.bar:hover {
+  fill: brown;
+}
+
+/deep/.axis--x path {
+  display: none;
+}
+
+.graph-header {
+	font-weight: bold;
+	text-align: right;
+}
