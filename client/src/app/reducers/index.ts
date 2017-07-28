@@ -37,6 +37,7 @@ import { combineReducers } from '@ngrx/store';
  * notation packages up all of the exports into a single object.
  */
 import * as fromPai from './pai';
+import * as fromQuarter from './quarter';
 import * as fromPosts from '../modules/blog/reducers/posts';
 
 
@@ -46,6 +47,7 @@ import * as fromPosts from '../modules/blog/reducers/posts';
  */
 export interface State {
   pai: fromPai.State;
+  quarter: fromQuarter.State;
   posts: fromPosts.State;
 }
 
@@ -59,6 +61,7 @@ export interface State {
  */
 const reducers = {
   pai: fromPai.reducer,
+  quarter: fromQuarter.reducer,
   posts: fromPosts.reducer,
 };
 
@@ -90,6 +93,7 @@ export function reducer(state: any, action: any) {
  * ```
  */
 export const getPaiState = (state: State) => state.pai;
+export const getQuarterState = (state: State) => state.quarter;
 export const getPostsState = (state: State) => state.posts;
 
 
