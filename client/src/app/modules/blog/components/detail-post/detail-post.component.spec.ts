@@ -16,16 +16,11 @@ describe('DetailPostComponent', () => {
   let element: HTMLElement;
   const post: Post = {
     uniqueId: 'a1b2c3-d4e5f6-g8',
-    title: 'This is the title',
-    body: 'This is the body',
-    author: 'Nir',
+    titleHe: 'This is the title',
+    bodyHe: 'This is the body',
+    authorHe: 'Nir',
     createdAt: '2017-02-14T10:07:20.932252Z',
     publish: '2017-02-14T10:07:20.930119Z',
-    tags: [{
-      'name': 'finance',
-    }, {
-      'name': 'pension',
-    }],
   };
 
   beforeEach(async(() => {
@@ -58,17 +53,17 @@ describe('DetailPostComponent', () => {
 
   it('title should be in h2', () => {
     element = fixture.debugElement.query(By.css('h2')).nativeElement;
-    expect(element.textContent).toContain(post.title);
+    expect(element.textContent).toContain(post.titleHe);
   });
 
   it('date and author should be in meta area', () => {
     element = fixture.debugElement.query(By.css('.meta-data')).nativeElement;
     expect(element.textContent).toContain('14/2/2017');
-    expect(element.textContent).toContain(post.author);
+    expect(element.textContent).toContain(post.authorHe);
   });
 
   it('post body should be in the page, inside div with body class', () => {
     element = fixture.debugElement.query(By.css('#content')).nativeElement;
-    expect(element.textContent).toContain(post.body);
+    expect(element.textContent).toContain(post.bodyHe);
   });
 });
