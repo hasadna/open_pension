@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
+
 import { DisqusModule } from 'ng2-awesome-disqus';
 import { ShareButtonsModule } from 'ng2-sharebuttons';
+import { ApolloModule } from 'apollo-angular';
 
 import { BlogRoutingModule } from './blog-routing.module';
+import { provideClient } from '../../client';
 
 import { BlogComponent } from './blog.component';
 import { PostComponent } from './components/post/post.component';
@@ -27,6 +30,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     DisqusModule,
     ShareButtonsModule.forRoot(),
     EffectsModule.run(PostEffects),
+    ApolloModule.forRoot(provideClient),
   ],
   declarations: [
     BlogComponent,
