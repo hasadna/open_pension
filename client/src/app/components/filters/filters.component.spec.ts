@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+import { reducer } from '../../reducers';
+import { StoreModule } from '@ngrx/store';
 
 import { FiltersComponent } from './filters.component';
 
@@ -9,7 +11,10 @@ describe('FiltersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ DragulaModule ],
+      imports: [
+        DragulaModule,
+        StoreModule.provideStore(reducer),
+      ],
       declarations: [ FiltersComponent ]
     })
     .compileComponents();
