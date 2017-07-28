@@ -26,8 +26,10 @@ import { AboutComponent } from './components/about/about.component';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
 import { PaiEffects } from './effects/pai';
+import { FiltersEffects } from './effects/filters';
 
 import { PaiService } from './services/pai.service';
+import { FiltersService } from './services/filters.service';
 
 @NgModule({
   declarations: [
@@ -50,9 +52,11 @@ import { PaiService } from './services/pai.service';
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(PaiEffects),
+    EffectsModule.run(FiltersEffects),
   ],
   providers: [
     PaiService,
+    FiltersService,
   ],
   bootstrap: [OpComponent]
 })
