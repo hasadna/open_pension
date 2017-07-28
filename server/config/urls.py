@@ -15,20 +15,25 @@ Including another URLconf
 """
 from rest_framework.documentation import include_docs_urls
 from django.conf.urls.i18n import i18n_patterns
-from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.conf import settings
 
 from dal import autocomplete
 
 from blog.models import Tags
 
+from blog.views import PostViewSet
+from pension.views import QuarterViewSet, InstrumentViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'posts', PostViewSet, base_name='posts')
+router.register(r'quarter', QuarterViewSet, base_name='quarter')
+router.register(r'instrument', InstrumentViewSet, base_name='instrument')
 
 # URLs that shouldn't be translated.
 urlpatterns = [
-    url(r'^api/', include('blog.urls')),
-
+    url(r'^api/', include(router.urls)),
 ]
 
 # URLs that should be translated.

@@ -5,7 +5,7 @@ import { PaiService } from '../services/pai.service';
 import { EffectsTestingModule } from '@ngrx/effects/testing';
 
 describe('PaiEffects', () => {
-  const userServiceStub = {};
+  const paiServiceStub = {};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -13,7 +13,7 @@ describe('PaiEffects', () => {
         EffectsTestingModule
       ],
       providers: [
-        { provide: PaiService, useValue: userServiceStub },
+        { provide: PaiService, useValue: paiServiceStub },
         PaiEffects,
       ]
     });
