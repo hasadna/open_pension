@@ -13,10 +13,14 @@ Yapsy==1.11.223
 # Rest Framework
 djangorestframework==3.6.3
 Markdown==2.6.8
-django-filter==1.0.1
 
 # CORS
 django-cors-headers==2.0.2
 
 # Translations
 django-modeltranslation==0.12
+
+# GraphQL
+django-filter==1.0.4
+graphene==1.4
+graphene-django==1.3

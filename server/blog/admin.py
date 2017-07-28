@@ -1,24 +1,8 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from blog.models import Post, Tags
+from blog.models import Post
 from blog.forms import PostForm
-
-
-class TagsAdmin(TranslationAdmin):
-    model = Tags
-    list_display = ('name',)
-
-    class Media:
-        js = (
-            'modeltranslation/js/force_jquery.js',
-            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js',
-            'modeltranslation/js/tabbed_translation_fields.js',
-        )
-        css = {
-            "all": ("css/admin.css",),
-            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
-        }
 
 
 class PostAdmin(TranslationAdmin):
@@ -39,5 +23,4 @@ class PostAdmin(TranslationAdmin):
         }
 
 
-admin.site.register(Tags, TagsAdmin)
 admin.site.register(Post, PostAdmin)

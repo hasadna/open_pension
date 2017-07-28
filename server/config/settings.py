@@ -50,8 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
-    'rest_framework',
     'corsheaders',
+
+    'graphene_django',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -122,16 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Django REST Framework
-# http://www.django-rest-framework.org/
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ],
-    'PAGE_SIZE': 10,
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 LANGUAGE_CODE = 'he'
@@ -175,6 +166,10 @@ CKEDITOR_CONFIGS = {
         ],
         'width': '100%',
     }
+}
+
+GRAPHENE = {
+    'SCHEMA': 'config.schema.schema'  # Where your Graphene schema lives
 }
 
 

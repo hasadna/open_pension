@@ -15,7 +15,7 @@ export class LoadPostsAction implements Action {
 export class LoadPostsSuccessAction implements Action {
   readonly type = LOAD_POSTS_SUCCESS;
 
-  constructor(public payload: Post[]) { }
+  constructor(public payload: any) { }
 }
 
 export class LoadPostByIdAction implements Action {
