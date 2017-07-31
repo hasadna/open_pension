@@ -9,47 +9,50 @@ declare const introJs: any;
 })
 export class HeaderComponent {
 
-  constructor() { this.intro() }
+  intro: any;
+  getIntro: Function;
+  constructor() { this.intro = null }
 
-  intro() {
-    console.log('a');
-    var intro = introJs();
-    intro.setOptions({
-      nextLabel : "המשך >>",
-      prevLabel : "",
-      skipLabel : "",
-      doneLabel : "סגור",
-      steps : [
-        {
-          intro: "Hello world!"
-        },
-        {
-          element: document.querySelector('.filters-button.button-lightblue'),
-          intro: "This is a tooltip.",
-          position: "left"
-        },
-        {
-          element: document.querySelectorAll('#step2')[0],
-          intro: "Ok, wasn't that fun?",
-          position: 'right'
-        },
-        {
-          element: '#step3',
-          intro: 'More features, more fun.',
-          position: 'left'
-        },
-        {
-          element: '#step4',
-          intro: "Another step.",
-          position: 'bottom'
-        },
-        {
-          element: '#step5',
-          intro: 'Get it, use it.'
-        }
-      ]
-    });
-    introJs().setOptions('nextLabel', 'foo');
-    introJs().start();
+  genIntro() {
+    if (this.intro) {
+      return this.intro;
+    } else {
+      this.intro = introJs();
+      this.intro.setOptions({
+        nextLabel : "המשך >>",
+        prevLabel : "<< חזור",
+        skipLabel : "",
+        doneLabel : "סגור",
+        steps : [
+          {
+            element: document.querySelector('.filters-button.button-lightblue'),
+            intro: 'זוהי רשימת הפרמטרים שיופיעו בגרף. כל פעם יופיעו בגרף 4 פרמטרים (אלה הצבעונים בהתאמה).<br> אפשר לשנות את סדר הפרמטרים ע"י גרירה, ואפשר להוסיף פרמטרים נוספים.',
+            position: "left",
+          },
+          {
+            element: document.querySelector('#pai'),
+            intro: 'כדי לראות את הפרטמר הבא ברשימה צריך ללחוץ על פלח במעגל הפנימי ואז הוא יהפוך להיות מרכז המעגל ופרמטר נוסף יתווסף כמעגל חיצוני מרשימת הפרמטרים.',
+            position: 'bottom'
+          },
+          {
+            element: document.querySelector('.filters-button.button-grey'),
+            intro: 'כדי לחזור אחורה בעומק הפאי אפשר ללחוץ על הפרמטרים העליונים שכבר נעשתה בהם בחירה.',
+            position: 'left'
+          },
+          {
+            element: document.querySelector('#pai'),
+            intro: "בשדה החיפוש אפשר לחפש כל פרמטר נוסף שיופיע במרכז הגרף כבסיס לו (למשל בית השקעות ספציפי / סוג מטבע / בנק ספציפי וכו').",
+            position: 'top'
+          },
+        ]
+      });
+      return this.intro;
+    }
   }
+
+  startIntro() {
+    const intro = this.genIntro();
+    intro.start();
+  }
+
 }
