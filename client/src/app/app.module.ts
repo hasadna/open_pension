@@ -25,10 +25,12 @@ import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { ControlMessagesComponent } from './components/control-messages/control-messages.component';
+
 import { PaiEffects } from './effects/pai';
 import { PaiService } from './services/pai.service';
+
 import { ValidationService } from './services/validation.service';
-import { ControlMessages } from './components/control-messages/control-messages.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,7 @@ import { ControlMessages } from './components/control-messages/control-messages.
     FiltersComponent,
     AboutComponent,
     ContactComponent,
-    ControlMessages,
+    ControlMessagesComponent,
   ],
   imports: [
     BrowserModule,

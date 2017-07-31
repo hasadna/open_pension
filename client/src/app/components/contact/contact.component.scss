@@ -12,7 +12,7 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // flex-basis: auto;
+  flex-basis: auto;
 
   input,
   textarea {
@@ -55,8 +55,9 @@ p {
   font-size: $text-size;
 }
 
-.errors{
+.error-message{
   flex: 0;
   font-size: 0.8rem;
   color: red;
+  // visibility: hidden;
 }

@@ -4,36 +4,14 @@
 
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
     <input type="text" autofocus="true" placeholder="שם" formControlName="name" />
-    <control-messages [control]="contactForm.controls.name"></control-messages>
+    <op-control-messages class="error-message" [control]="contactForm.controls.name"></op-control-messages>
 
     <input type="email" placeholder="אימייל" formControlName="email">
-    <control-messages [control]="contactForm.controls.email"></control-messages>
+    <op-control-messages class="error-message" [control]="contactForm.controls.email"></op-control-messages>
 
     <textarea name="name" rows="8" cols="30" placeholder="תוכן" formControlName="content"></textarea>
-    <control-messages [control]="contactForm.controls.profile"></control-messages>
+    <op-control-messages class="error-message" [control]="contactForm.controls.content"></op-control-messages>
 
     <button type="submit" [disabled]="!contactForm.valid">Submit</button>
   </form>
-
-  <!-- <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-    <input type="text" autofocus="true" placeholder="שם" formControlName="name">
-    <div class="errors" *ngIf="nameControl.errors && displayErrs">
-      <span>נדרש</span>
-    </div>
-
-    <input type="email" placeholder="אימייל" formControlName="email">
-    <div class="errors" *ngIf="emailControl.errors">
-      <span *ngIf="emailControl.errors.required && displayErrs">נדרש</span>
-      <span class="warn" *ngIf="emailControl.errors.pattern">חייב להיות אימייל תקף</span>
-    </div>
-
-    <textarea name="name" rows="8" cols="30" placeholder="תוכן" formControlName="content"></textarea>
-    <div class="errors" *ngIf="contentControl.errors">
-      <span *ngIf="contentControl.errors.required && displayErrs">נדרש</span>
-    </div>
-
-    <span (mouseenter)="checkAll()">
-      <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
-    </span>
-  </form> -->
 </section>
