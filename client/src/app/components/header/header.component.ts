@@ -12,8 +12,8 @@ export class HeaderComponent {
   getIntro: Function;
 
   constructor() {
-    this.intro = null
-  };
+    this.intro = null;
+  }
 
   genIntro() {
     if (this.intro) {
