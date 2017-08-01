@@ -9,13 +9,12 @@ declare const introJs: any;
 })
 export class HeaderComponent {
   intro: any;
-  getIntro: Function;
 
   constructor() {
     this.intro = null;
   }
 
-  genIntro() {
+  getIntro() {
     if (this.intro) {
       return this.intro;
     } else {
@@ -50,7 +49,7 @@ export class HeaderComponent {
   }
 
   startIntro() {
-    const intro = this.genIntro();
+    const intro = this.getIntro();
     intro.start();
   }
 
