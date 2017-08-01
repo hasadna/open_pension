@@ -60,7 +60,7 @@ describe('BlogComponent', () => {
     component = fixture.componentInstance;
 
     // Create a dummy posts.
-    component.posts$ = Observable.create(() => { return this.posts; });
+    component.posts$ = Observable.create(() => this.posts);
     fixture.detectChanges();
   });
 

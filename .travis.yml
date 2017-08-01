@@ -10,7 +10,6 @@ addons:
 
 language: node_js
 node_js:
-  - "6"
   - "8"
 
 cache:
@@ -38,22 +37,14 @@ install:
   - pip3 install --upgrade pip
   - pip3 install pycodestyle
 
-  # Pytest
-  - pip3 install -U pytest
 
 script:
-
   # Install requirements.
   - cd /home/travis/build/hasadna/open_pension/server
   - pip3 install -r requirements.txt
 
   # Checking the coding standards.
   - pycodestyle --show-source --max-line-length=119 --exclude=pension/migrations --show-pep8 .;
-
-  # Unit testing.
-  - cd pension/tests
-  - python3 -m pytest
-  - cd ../..
 
     # Client
   - cd /home/travis/build/hasadna/open_pension/client

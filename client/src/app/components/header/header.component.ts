@@ -8,10 +8,12 @@ declare const introJs: any;
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
   intro: any;
   getIntro: Function;
-  constructor() { this.intro = null }
+
+  constructor() {
+    this.intro = null
+  };
 
   genIntro() {
     if (this.intro) {
@@ -19,10 +21,10 @@ export class HeaderComponent {
     } else {
       this.intro = introJs();
       this.intro.setOptions({
-        nextLabel : "המשך >>",
-        prevLabel : "<< חזור",
-        skipLabel : "",
-        doneLabel : "סגור",
+        nextLabel : 'המשך >>',
+        prevLabel : '<< חזור',
+        skipLabel : '',
+        doneLabel : 'סגור',
         steps : [{
             element: document.querySelector('.filters-button.button-lightblue'),
             intro: 'זוהי רשימת הפרמטרים שיופיעו בגרף. כל פעם יופיעו בגרף 4 פרמטרים (אלה הצבעונים בהתאמה).<br> אפשר לשנות את סדר הפרמטרים ע"י גרירה, ואפשר להוסיף פרמטרים נוספים.',
@@ -37,7 +39,7 @@ export class HeaderComponent {
             position: 'left'
           }, {
             element: document.querySelector('#pai'),
-            intro: "בשדה החיפוש אפשר לחפש כל פרמטר נוסף שיופיע במרכז הגרף כבסיס לו (למשל בית השקעות ספציפי / סוג מטבע / בנק ספציפי וכו').",
+            intro: 'בשדה החיפוש אפשר לחפש כל פרמטר נוסף שיופיע במרכז הגרף כבסיס לו (למשל בית השקעות ספציפי / סוג מטבע / בנק ספציפי וכו).',
             position: 'top'
           }]
       });
