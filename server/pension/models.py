@@ -21,7 +21,10 @@ class Quarter(models.Model):
 
 class Instrument(models.Model):
     instrument_id = models.AutoField(_('Instrument Id'), primary_key=True)
+    fund_name = models.CharField(_('Fund Name'), max_length=255, blank=True)
+    fund_id = models.CharField(_('Fund Id'), max_length=255, blank=True)
     issuer_id = models.CharField(_('Issuer Id'), max_length=255, blank=True)
+    issuer_name = models.CharField(_('Issuer Name'), max_length=255, blank=True)
     rating = models.CharField(_('Rating'), max_length=255, blank=True)
     rating_agency = models.CharField(_('Rating Agency'), max_length=255, blank=True)
     currency = models.CharField(_('Currency'), max_length=255, blank=True)
@@ -69,4 +72,5 @@ class Instrument(models.Model):
     managing_body = models.CharField('Managing Body', max_length=255, choices=MANAGING_BODIES)
     geographical_location = models.CharField('Geographical Location', max_length=255, choices=GEOGRAPHICAL_LOCATION)
     instrument_sub_type = models.CharField('Instrument Sub Type', max_length=255, choices=INSTRUMENT_TYPES)
+    negotiable = models.NullBooleanField(_('Negotiable'))
     quarter = models.ForeignKey(Quarter, related_name='instrument_quarter')

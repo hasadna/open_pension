@@ -14,7 +14,7 @@ export class FiltersService {
 
   getQuarters(): Observable<Quarter[]> {
     return this.http.get(`/api/quarter`)
-      .map(res => res.json().results)
+      .map(res => res.json())
       .catch(this.handleError);
   }
 
