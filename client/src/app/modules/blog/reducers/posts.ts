@@ -4,7 +4,7 @@ import * as post from '../actions/post';
 export interface State {
   entities: Post[];
   selectedPost: Post;
-};
+}
 
 const initialState: State = {
   entities: [{
