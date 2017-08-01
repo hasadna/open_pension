@@ -23,28 +23,23 @@ export class HeaderComponent {
         prevLabel : "<< חזור",
         skipLabel : "",
         doneLabel : "סגור",
-        steps : [
-          {
+        steps : [{
             element: document.querySelector('.filters-button.button-lightblue'),
             intro: 'זוהי רשימת הפרמטרים שיופיעו בגרף. כל פעם יופיעו בגרף 4 פרמטרים (אלה הצבעונים בהתאמה).<br> אפשר לשנות את סדר הפרמטרים ע"י גרירה, ואפשר להוסיף פרמטרים נוספים.',
             position: "left",
-          },
-          {
+          }, {
             element: document.querySelector('#pai'),
             intro: 'כדי לראות את הפרטמר הבא ברשימה צריך ללחוץ על פלח במעגל הפנימי ואז הוא יהפוך להיות מרכז המעגל ופרמטר נוסף יתווסף כמעגל חיצוני מרשימת הפרמטרים.',
             position: 'bottom'
-          },
-          {
+          }, {
             element: document.querySelector('.filters-button.button-grey'),
             intro: 'כדי לחזור אחורה בעומק הפאי אפשר ללחוץ על הפרמטרים העליונים שכבר נעשתה בהם בחירה.',
             position: 'left'
-          },
-          {
+          }, {
             element: document.querySelector('#pai'),
             intro: "בשדה החיפוש אפשר לחפש כל פרמטר נוסף שיופיע במרכז הגרף כבסיס לו (למשל בית השקעות ספציפי / סוג מטבע / בנק ספציפי וכו').",
             position: 'top'
-          },
-        ]
+          }]
       });
       return this.intro;
     }
