@@ -23,6 +23,7 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
     this.contactForm = this.formBuilder.group({
       name: this.formBuilder.control(null, [Validators.minLength(2), Validators.required]),
+      // tslint:disable-next-line
       email: this.formBuilder.control(null, [Validators.pattern(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/), Validators.required]),
       content: this.formBuilder.control(null, Validators.required),
     });
@@ -56,6 +57,6 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     const formModel = this.contactForm.value;
-
+    console.log(formModel);
   }
 }
