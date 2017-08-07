@@ -1,27 +1,61 @@
-import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ValidationService } from '../../services/validation.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'op-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
-export class ContactComponent {
-  contactForm: any;
+export class ContactComponent implements OnInit {
+  contactForm: FormGroup;
+  nameControl;
+  emailControl;
+  contentControl;
+  NameError = false;
+  EmailError = false;
+  ContentError = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder
+  ) {}
 
+  ngOnInit() {
     this.contactForm = this.formBuilder.group({
-      'name': ['', Validators.required],
-      'email': ['', [Validators.required, ValidationService.emailValidator]],
-      'content': ['', [Validators.required, Validators.minLength(10)]]
+      name: this.formBuilder.control(null, [Validators.minLength(2), Validators.required]),
+      email: this.formBuilder.control(null, [Validators.pattern(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/), Validators.required]),
+      content: this.formBuilder.control(null, Validators.required),
     });
+
+    this.nameControl = this.contactForm.get('name');
+    this.emailControl = this.contactForm.get('email');
+    this.contentControl = this.contactForm.get('content');
+  }
+
+  checkError(event) {
+    if (event.keyCode === 9) {
+      return;
+    }
+
+    const elementName = event.target.getAttribute('formcontrolname');
+    switch (elementName) {
+      case 'name': {
+        this.NameError = true;
+        break;
+      }
+      case 'email': {
+        this.EmailError = true;
+        break;
+      }
+      case 'content': {
+        this.ContentError = true;
+        break;
+      }
+    }
   }
 
   onSubmit() {
-    if (this.contactForm.dirty && this.contactForm.valid) {
-      alert(`Name: ${this.contactForm.value.name} Email: ${this.contactForm.value.email}`);
-    }
+    const formModel = this.contactForm.value;
+
   }
 }
