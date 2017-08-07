@@ -4,6 +4,7 @@ import re
 import glob
 import pandas as pd
 from django.utils import timezone
+import dateutil.parser
 
 from django.core.management import BaseCommand, CommandError
 from pension.models import Quarter, Instrument
@@ -15,8 +16,10 @@ managing_body_dict = {
     'ds': 'MTD',
     'yl': 'YL',
     'fnx': 'FNX',
+    'fenix': 'FNX',
     'harel': 'HRL',
     'menoramivt': 'MNR',
+    'menora': 'MNR',
     'migdal': 'MGD',
     'psagot': 'PSG',
     'xnes': 'XNS',
@@ -35,6 +38,7 @@ instrument_dict = {
     'חוזים עתידיים': 'FC',
     'מוצרים מובנים': 'SP',
     'לא סחיר - תעודות התחייבות ממשלתי': 'GDC',
+    'לא סחיר - תעודות התחייבות ממשלת': 'GDC',
     'לא סחיר - תעודות חוב מסחריות': 'CDC',
     'לא סחיר - אג"ח קונצרני': 'CB',  # לא סחיר - אג״ח קונצרני
     'לא סחיר - מניות': 'STOCK',
@@ -51,6 +55,7 @@ instrument_dict = {
     'יתרת התחייבות להשקעה': 'ICB',
     'עלות מותאמת אג״ח קונצרני סחיר': 'CBAC',
     'עלות מותאמת אג״ח קונצרני לא סחיר': 'CBAC',
+    'עלות מתואמת אג"ח קונצרני ל.סחיר': 'CBAC',
     'עלות מותאמת מסגרות אשראי ללווים': 'BCAC',
 }
 
@@ -67,6 +72,7 @@ is_title_per_sheet = {
     'חוזים עתידיים': 'מספר ני"ע',
     'מוצרים מובנים': 'מספר ני"ע',
     'לא סחיר - תעודות התחייבות ממשלתי': 'מספר ני"ע',
+    'לא סחיר - תעודות התחייבות ממשלת': 'מספר ני"ע',
     'לא סחיר - תעודות חוב מסחריות': 'מספר ני"ע',
     'לא סחיר - אג"ח קונצרני': 'מספר ני"ע',  # לא סחיר - אג״ח קונצרני
     'לא סחיר - מניות': 'מספר ני"ע',  # לא סחיר - מניות
@@ -88,15 +94,74 @@ is_title_per_sheet = {
     'עלות מתואמת מסגרות אשראי ללווים': 'מספר ני"ע',
 }
 
+def calc_rows_to_skip(xls_file, sheet_name):
+    rows_to_skip_calculated = 0
+    is_table_head = False
+    while not is_table_head and rows_to_skip_calculated < 10:
+        pre_sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
+        # print(' ')
+        # print('+++++++++++++++++++++++++++++++++++++++++++++')
+        # print(len(pre_sheet.columns))
+        # print('type pre_sheet:%s' % pre_sheet.columns)
+        # print('type pre_sheet:%s' % type(pre_sheet.columns))
+        # print('---------------------------------------------')
+        if len(pre_sheet.columns) > 0:
+            pre_sheet_columns = pre_sheet.columns.str.strip()
+        else:
+            pre_sheet_columns = []
+        pre_sheet_columns = list(pre_sheet_columns)
+
+        if ('שם נ"ע' in pre_sheet_columns) or \
+                ('שם המנפיק/שם נייר ערך' in pre_sheet_columns) or \
+                ('שם נייר ערך' in pre_sheet_columns) or \
+                ('מזומנים ושווי מזומנים' in pre_sheet_columns) or \
+                ('מספר נ"ע' in pre_sheet_columns) or \
+                ('זכויות במקרעין' in pre_sheet_columns):
+            is_table_head = True
+        else:
+            rows_to_skip_calculated += 1
+
+    print('rows_to_skip_calculated:%s' % rows_to_skip_calculated)
+    return rows_to_skip_calculated
 
 def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
-    sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip)
+
+    # if sheet_name == 'תעודות התחייבות ממשלתיות':
+    #     exit()
+
+    rows_to_skip_calculated = calc_rows_to_skip(xls_file, sheet_name)
+
+
+    sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated, parse_cols=40)
 
     sheet.columns = sheet.columns.str.strip()
-    sheet.columns.tolist()
-
+    # print(sheet.columns.tolist())
+    # print(sheet)
     # Read the content of the sheet
-    for index, col_title in enumerate(sheet['שם המנפיק/שם נייר ערך']):
+    try:
+        current_sh = sheet['שם המנפיק/שם נייר ערך']
+    except KeyError as ke:
+        # print('+1 on rows')
+        print(sheet_name)
+        # sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
+        # sheet.columns = sheet.columns.str.strip()
+        print(sheet.columns.tolist())
+        try:
+            current_sh = sheet['שם נייר ערך']
+        except KeyError as ke2:
+            try:
+                current_sh = sheet['שם נ"ע']
+            except KeyError as ke3:
+                try:
+                    current_sh = sheet['מספר הנייר']
+                except KeyError as ke5:
+                    try:
+                        current_sh = sheet['מספר נ"ע']
+                    except KeyError as ke6:
+                        current_sh = sheet['אופי הנכס']
+
+    print('current_sh:%s' % current_sh)
+    for index, col_title in enumerate(current_sh):
         cleaned_sheet_name = str(sheet_name).strip().replace('-', ' - ').replace('  ', ' ')
 
         if col_title == 'nan':
@@ -117,13 +182,20 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         except UnboundLocalError as e:
             continue
 
-        # Check if it's a title or really a data
+        # Check if it's a title or real data
         itps = cleaned_sheet_name
         cell = is_title_per_sheet[itps]
 
+        # print('index row no178:%s' % str(index))
+        # print('cell  row no178:%s' % str(cell))
+        try:
+            str(sheet[cell][index])
+        except KeyError as ke4:
+            cell = 'מספר ני"ע'
+
         if str(sheet[cell][index]) == 'nan' or '*' in str(col_title) \
                 or 'סה"כ' in str(col_title) or '0' == str(col_title).strip():
-            print("This is a title row, I'm going out!")
+            #print("This is a title row, I'm going out!")
             continue
 
         try:
@@ -254,7 +326,15 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             activity_industry = ''
 
         try:
-            date_of_revaluation = sheet['תאריך שערוך אחרון'][index]
+            # print('type:%s|value:%s' % (type(sheet['תאריך שערוך אחרון'][index]), sheet['תאריך שערוך אחרון'][index]))
+            if type(sheet['תאריך שערוך אחרון'][index]) is str:
+                if len(sheet['תאריך שערוך אחרון'][index]) > 3:
+                    date_of_revaluation = dateutil.parser.parse(sheet['תאריך שערוך אחרון'][index])
+                else:
+                    date_of_revaluation = timezone.now()
+            else:
+                date_of_revaluation = sheet['תאריך שערוך אחרון'][index]
+
             if str(date_of_revaluation) == 'nan':
                 raise KeyError
         except KeyError as e:
@@ -282,11 +362,23 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             liabilities = 0.0
 
         try:
-            if 'מועד' in str(sheet['תאריך סיום ההתחייבות'][index]):
-                expiry_date_of_liabilities = None
-            else:
-                expiry_date_of_liabilities = sheet['תאריך סיום ההתחייבות'][index]
 
+            if type(sheet['תאריך סיום ההתחייבות'][index]) is str:
+                if 'מועד' in str(sheet['תאריך סיום ההתחייבות'][index]):
+                    expiry_date_of_liabilities_pre = None
+                else:
+
+                    try:
+                        expiry_date_of_liabilities_pre = dateutil.parser.parse(sheet['תאריך סיום ההתחייבות'][index], fuzzy=True)
+                    except ValueError as ve:
+                        print(sheet['תאריך סיום ההתחייבות'][index])
+                        expiry_date_of_liabilities_pre = None
+                        # expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
+            else:
+                expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
+
+
+            expiry_date_of_liabilities = expiry_date_of_liabilities_pre
             if str(expiry_date_of_liabilities) == 'nan':
                 raise KeyError
         except KeyError as e:
@@ -379,7 +471,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 # },
             )
 
-            print('created', instrument, created)
+            #print('created', instrument, created)
 
         except ValueError as e:
             print('index', index)
@@ -417,7 +509,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             print('--------------------')
             raise(ValueError)
 
-    print('Finish with {sheet_name}'.format(sheet_name=sheet_name))
+    # print('Finish with {sheet_name}'.format(sheet_name=sheet_name))
 
 
 def read_xls_file(filename):
@@ -435,7 +527,7 @@ def read_xls_file(filename):
             rows_to_skip = 7
             read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
 
-    print('Finish with {filename}'.format(filename=filename))
+    #print('Finish with {filename}'.format(filename=filename))
 
 
 class Command(BaseCommand):
@@ -444,11 +536,11 @@ class Command(BaseCommand):
 
         # Go over all the xls files in that directory
         os.chdir("/Users/infinity/op_input")
-        for file in glob.glob("*.xlsx"):
+        for file in glob.glob("*.xls*"):
             # Temp fix
             # if not file == 'amitim_2016_1_212.xlsx':
             #     return
-
+            print(str(file))
             read_xls_file(file)
 
         print('Import completed successfully.')
