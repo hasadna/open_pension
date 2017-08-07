@@ -2,11 +2,9 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
+    "baseUrl": "./",
     "module": "es2015",
-    "baseUrl": "",
     "types": [
-      "node",
-      "jasmine",
       "hammerjs",
       "d3-hierarchy",
       "d3-interpolate",

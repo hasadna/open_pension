@@ -21,9 +21,14 @@
       "prefix": "op",
       "styles": [
         "styles.scss",
-        "../node_modules/dragula/dist/dragula.min.css"
+        "../node_modules/dragula/dist/dragula.min.css",
+        "../node_modules/intro.js/minified/introjs.min.css",
+        "../node_modules/intro.js/minified/introjs-rtl.min.css",
+        "../node_modules/intro.js/themes/introjs-modern.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/intro.js/minified/intro.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -38,13 +43,16 @@
   },
   "lint": [
     {
-      "project": "src/tsconfig.app.json"
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
     },
     {
-      "project": "src/tsconfig.spec.json"
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
     },
     {
-      "project": "e2e/tsconfig.e2e.json"
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
     }
   ],
   "test": {

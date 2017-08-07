@@ -1,9 +1,7 @@
 <div class="filters">
   <div class="filters-date-select-div">
     <select class="filters-date-select">
-      <option value="2016-4">2016 - רבעון ד'</option>
-      <option value="2017-1">2017 - רבעון א'</option>
-      <option value="2017-2">2017 - רבעון ב'</option>
+      <option *ngFor="let quarter of quarters$ | async" value="{{quarter.year}}-{{quarter.month}}">{{quarter.year}} - {{quarter.month}}</option>
     </select>
   </div>
   <div>
@@ -18,7 +16,7 @@
   <div>
     <div class="filters-parameters-div">
       <div class='container' [dragula]='"first-bag"'>
-        <div class="filters-button button-purple">בסיס<br>סה״כ שוק הפנסיה 100%</div>
+        <div class="filters-button button-grey"><br>סה״כ שוק הפנסיה 100%</div>
         <div class="filters-button button-purple">גוף מנהל</div>
         <div class="filters-button button-green">רמת סחירות</div>
         <div class="filters-button button-lightblue">סוג נכס</div>
