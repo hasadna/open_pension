@@ -2,12 +2,13 @@ import 'hammerjs';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
 import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -23,7 +24,7 @@ import { SearchComponent } from './components/search/search.component';
 import { PaiComponent } from './components/pai/pai.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { AboutComponent } from './components/about/about.component';
-import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+import { ContactComponent } from './components/contact/contact.component';
 
 import { PaiEffects } from './effects/pai';
 import { FiltersEffects } from './effects/filters';
@@ -40,10 +41,12 @@ import { FiltersService } from './services/filters.service';
     PaiComponent,
     FiltersComponent,
     AboutComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     MaterialModule,
     BrowserAnimationsModule,
