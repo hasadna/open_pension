@@ -27,11 +27,8 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 
 import { PaiEffects } from './effects/pai';
-<<<<<<< HEAD
-=======
 import { FiltersEffects } from './effects/filters';
 
->>>>>>> master
 import { PaiService } from './services/pai.service';
 import { FiltersService } from './services/filters.service';
 
