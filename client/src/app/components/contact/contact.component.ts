@@ -34,6 +34,7 @@ export class ContactComponent implements OnInit {
   }
 
   checkError(event) {
+    // Check if the pressed key is tab, if so we dont want to run validation.
     if (event.keyCode === 9) {
       return;
     }
@@ -57,6 +58,5 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     const formModel = this.contactForm.value;
-    console.log(formModel);
   }
 }
