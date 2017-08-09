@@ -1,6 +1,6 @@
 # Open Pension
 
-[![license][license-image]][license-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][dependency-image]][dependency-url] [![Gitter][gitter-image]][gitter-url] [![Contributors][contributors-image]][contributors-url]
+[![license][license-image]][license-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][dependency-image]][dependency-url] [![Contributors][contributors-image]][contributors-url] [![Gitter][gitter-image]][gitter-url]
 
 > The repo contains the server & the client parts of the Open Pension project.
 Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to revealing the secrets behind the Israeli pension market.
