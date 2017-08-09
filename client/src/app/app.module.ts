@@ -15,7 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
-import { reducer } from './reducers';
+import { reducers, metaReducers } from './reducers';
 
 import { OpComponent } from './op.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -31,6 +31,8 @@ import { FiltersEffects } from './effects/filters';
 
 import { PaiService } from './services/pai.service';
 import { FiltersService } from './services/filters.service';
+
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -52,10 +54,12 @@ import { FiltersService } from './services/filters.service';
     BrowserAnimationsModule,
     AppRoutingModule,
     DragulaModule,
-    StoreModule.provideStore(reducer),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    EffectsModule.run(PaiEffects),
-    EffectsModule.run(FiltersEffects),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([
+      PaiEffects,
+      FiltersEffects,
+    ])
   ],
   providers: [
     PaiService,

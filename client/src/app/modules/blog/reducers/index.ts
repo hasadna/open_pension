@@ -4,7 +4,7 @@ import {
   createFeatureSelector,
   ActionReducer,
 } from '@ngrx/store';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 /**
  * Every reducer module's default export is the reducer function itself. In
@@ -13,16 +13,14 @@ import { environment } from '../../environments/environment';
  * notation packages up all of the exports into a single object.
  */
 
- import * as fromPai from './pai';
- import * as fromQuarter from './quarter';
+ import * as fromPosts from './posts';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  pai: fromPai.State;
-  quarter: fromQuarter.State;
+  posts: fromPosts.State;
 }
 
 /**
@@ -31,8 +29,7 @@ export interface State {
  * and the current or initial state and return a new immutable state.
  */
 export const reducers: ActionReducerMap<State> = {
-  pai: fromPai.reducer,
-  quarter: fromQuarter.reducer,
+  posts: fromPosts.reducer,
 };
 
 /**
@@ -47,5 +44,14 @@ export const metaReducers: ActionReducer<any, any>[] = !environment.production
 /**
  * Layout Reducers
  */
-export const getPaiState = createFeatureSelector<fromPai.State>('pai');
-export const getQuarterState = createFeatureSelector<fromQuarter.State>('quarter');
+export const getPostsState = createFeatureSelector<fromPosts.State>('posts');
+
+export const getPostsEntities = createSelector(
+  getPostsState,
+  fromPosts.getEntities
+);
+
+export const getSelectedPost = createSelector(
+  getPostsState,
+  fromPosts.getSelectedPost
+);
