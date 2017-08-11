@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 
 import { Pai } from '../models/pai';
 
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class PaiService {
 
@@ -12,7 +14,7 @@ export class PaiService {
   ) { }
 
   getPai(): Observable<Pai> {
-    return this.http.get('/data/flare.json')
+    return this.http.get(`${environment.backend}/data/flare.json`)
       .map(res => res.json())
       .catch(this.handleError);
   }

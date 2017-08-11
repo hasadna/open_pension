@@ -6,12 +6,7 @@
     "module": "es2015",
     "types": [
       "hammerjs",
-      "d3-hierarchy",
-      "d3-interpolate",
-      "d3-scale",
-      "d3-selection",
-      "d3-shape",
-      "d3-transition"
+      "d3"
     ]
   },
   "exclude": [
