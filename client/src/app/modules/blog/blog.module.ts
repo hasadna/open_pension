@@ -6,8 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { DisqusModule } from 'ng2-awesome-disqus';
-import { ShareButtonsModule } from 'ng2-sharebuttons';
+import { DisqusModule } from 'ngx-disqus';
+import { ShareButtonsModule } from 'ngx-sharebuttons';
 
 import { BlogRoutingModule } from './blog-routing.module';
 import { reducers, metaReducers } from './reducers';
@@ -30,7 +30,7 @@ import { environment } from '../../../environments/environment';
     HttpModule,
     BlogRoutingModule,
     MaterialModule,
-    DisqusModule,
+    DisqusModule.forRoot('openpension'),
     ShareButtonsModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
