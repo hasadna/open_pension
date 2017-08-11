@@ -10,6 +10,7 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
   * [Angular](https://angular.io/)
   * [Django](https://www.djangoproject.com/)
   * [PostgreSQL](http://www.postgresql.org/)
+  * [Docker](https://www.docker.com/)
 
 **Tools we use**
 
@@ -86,14 +87,10 @@ Plugin ID can be achieved from `server/pension/management/commands/plugins.json`
 
 ## Deploy
 
-**Client**
-
-  1. Run `ng build -prod -aot` to build the project.
-  2. Run `npm run sw` to generate the service worker file (in `dist` directory).
-
-**Server**
-
-  1. Not yet..
+1. In client directory run `docker build -t client .` to build the Docker image.
+2. In server directory run `docker build -t server .` to build the Docker image.
+3. To create a swarm docker swarm init.
+4. Run `docker stack deploy --compose-file=docker-compose.yml` prod
 
 ## Contribute
 

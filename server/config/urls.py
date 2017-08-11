@@ -34,10 +34,11 @@ router.register(r'instrument', InstrumentViewSet, base_name='instrument')
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # URLs that should be translated.
 urlpatterns += i18n_patterns(
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    url(r'^secret-admin/', admin.site.urls),
     url(r'^tags-autocomplete/$', autocomplete.Select2QuerySetView.as_view(model=Tags), name='tags-autocomplete')
 )
