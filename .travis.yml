@@ -44,10 +44,10 @@ script:
   - npm run e2e
 
   # Server
+  - export python=python3
   - cd ../server && coverage run --source='.' manage.py test
   - coverage xml
   - pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
 
 after_script:
-  - export python=python3
   - cd .. && codecov -t 4e44efc7-43b7-42e3-a122-4042d83e19ff
