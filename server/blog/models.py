@@ -28,3 +28,7 @@ class Post(models.Model):
     publish = models.DateTimeField(_('publish'), null=True)
     tags = models.ManyToManyField(Tags, _('tags'), blank=True)
     REQUIRED_FIELDS = ['title', 'body', 'publish']
+
+    class Meta:
+        verbose_name = _('Post')
+        verbose_name_plural = _('Posts')
