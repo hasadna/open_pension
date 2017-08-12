@@ -93,39 +93,37 @@ is_title_per_sheet = {
     'עלות מתואמת מסגרות אשראי ללווים': 'מספר ני"ע',
 }
 
-def calc_rows_to_skip(xls_file, sheet_name):
-    rows_to_skip_calculated = 0
-    is_table_head = False
-    while not is_table_head and rows_to_skip_calculated < 10:
-        pre_sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
-        if len(pre_sheet.columns) > 0:
-            pre_sheet_columns = pre_sheet.columns.str.strip()
-        else:
-            pre_sheet_columns = []
-        pre_sheet_columns = list(pre_sheet_columns)
 
+def calculate_rows_to_skip(xls_file, sheet_name):
+    rows_to_skip_calculated = 0
+
+    while rows_to_skip_calculated < 10:
+        pre_sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
+        pre_sheet_columns = list()
+
+        # Something
+        if len(pre_sheet.columns) > 0:
+            pre_sheet_columns = list(pre_sheet.columns.str.strip())
+
+        # Something
         if ('שם נ"ע' in pre_sheet_columns) or \
                 ('שם המנפיק/שם נייר ערך' in pre_sheet_columns) or \
                 ('שם נייר ערך' in pre_sheet_columns) or \
                 ('מזומנים ושווי מזומנים' in pre_sheet_columns) or \
                 ('מספר נ"ע' in pre_sheet_columns) or \
                 ('זכויות במקרעין' in pre_sheet_columns):
-            is_table_head = True
-        else:
-            rows_to_skip_calculated += 1
+            return rows_to_skip_calculated
 
-    print('rows_to_skip_calculated:%s' % rows_to_skip_calculated)
+        # Move to the next row
+        rows_to_skip_calculated += 1
+
     return rows_to_skip_calculated
 
-def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
-    # if sheet_name == 'תעודות התחייבות ממשלתיות':
-    #     exit()
+def read_sheet(xls_file, sheet_name, managing_body, quarter):
+    rows_to_skip = calculate_rows_to_skip(xls_file, sheet_name)
 
-    rows_to_skip_calculated = calc_rows_to_skip(xls_file, sheet_name)
-
-
-    sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated, parse_cols=40)
+    sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip, parse_cols=40)
 
     sheet.columns = sheet.columns.str.strip()
     # Read the content of the sheet
@@ -184,7 +182,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
         if str(sheet[cell][index]) == 'nan' or '*' in str(col_title) \
                 or 'סה"כ' in str(col_title) or '0' == str(col_title).strip():
-            #print("This is a title row, I'm going out!")
+            # print("This is a title row, I'm going out!")
             continue
 
         try:
@@ -357,13 +355,15 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 else:
 
                     try:
-                        expiry_date_of_liabilities_pre = dateutil.parser.parse(sheet['תאריך סיום ההתחייבות'][index], fuzzy=True)
+                        expiry_date_of_liabilities_pre = dateutil.parser.parse(
+                            sheet['תאריך סיום ההתחייבות'][index],
+                            fuzzy=True,
+                        )
                     except ValueError as ve:
                         print(sheet['תאריך סיום ההתחייבות'][index])
                         expiry_date_of_liabilities_pre = None
             else:
                 expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
-
 
             expiry_date_of_liabilities = expiry_date_of_liabilities_pre
             if str(expiry_date_of_liabilities) == 'nan':
@@ -508,8 +508,7 @@ def read_xls_file(filename):
     # Loop over all the sheets in the file
     for sheet_name in xls_file.sheet_names:
         if sheet_name not in ('סכום נכסי הקרן'):
-            rows_to_skip = 7
-            read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
+            read_sheet(xls_file, sheet_name, split_filename[0], quarter)
 
     print('Finish with {filename}'.format(filename=filename))
 
@@ -524,6 +523,7 @@ class Command(BaseCommand):
             # Temp fix
             if not file == 'amitim_2016_1_212.xlsx':
                 return
+
             read_xls_file(file)
 
         print('Import completed successfully.')
