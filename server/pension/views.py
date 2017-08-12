@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-from rest_framework.response import Response
 
 from pension.serializers import QuartersSerializer, InstrumentsSerializer
 from pension.models import Quarter, Instrument

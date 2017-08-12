@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 from django.utils.translation import ugettext_lazy as _
 import os
+import raven
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,35 +21,33 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = os.environ.get('SECRET_KEY', True)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
+
+ALLOWED_HOSTS = []
 CORS_ORIGIN_REGEX_WHITELIST = (
     '^(localhost:)*',
 )
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 INSTALLED_APPS = [
     'modeltranslation',
-
     'pension',
     'blog',
-
     'ckeditor',
     'dal',
     'dal_select2',
-
+    'flat_responsive',
+    'raven.contrib.django.raven_compat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'admin_honeypot',
     'django_extensions',
     'rest_framework',
     'corsheaders',
@@ -94,10 +93,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'open_pension',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'NAME': os.environ.get('DB_NAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASS', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
         'PORT': 5432,
     }
 }
@@ -121,9 +120,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Logging
+
+RAVEN_CONFIG = {
+    'dsn': 'https://2d4c5f09376d40ef8beef9b4b5444667:1d6e71bd3c74485dab6529b6dee9bd59@sentry.io/202882',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    # 'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+}
+
 
 # Django REST Framework
 # http://www.django-rest-framework.org/
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
@@ -134,6 +143,7 @@ REST_FRAMEWORK = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
+
 LANGUAGE_CODE = 'he'
 LANGUAGES = [
     ('he', _('Hebrew')),
@@ -152,14 +162,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/staticuploads/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'staticuploads')
 
 
 # CKEditor - WYSIWYG editor.
 # https://github.com/django-ckeditor/django-ckeditor
+
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 CKEDITOR_CONFIGS = {
     'default': {

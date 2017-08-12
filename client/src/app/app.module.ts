@@ -1,7 +1,8 @@
 import 'hammerjs';
+import * as Raven from 'raven-js';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -33,6 +34,16 @@ import { FiltersService } from './services/filters.service';
 
 import { environment } from '../environments/environment';
 
+Raven
+  .config('https://2d4c5f09376d40ef8beef9b4b5444667@sentry.io/202882')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    Raven.captureException(err);
+  }
+}
+
 @NgModule({
   declarations: [
     OpComponent,
@@ -63,6 +74,7 @@ import { environment } from '../environments/environment';
   providers: [
     PaiService,
     FiltersService,
+    { provide: ErrorHandler, useClass: RavenErrorHandler }
   ],
   bootstrap: [OpComponent]
 })
