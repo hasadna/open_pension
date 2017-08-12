@@ -90,7 +90,7 @@ Plugin ID can be achieved from `server/pension/management/commands/plugins.json`
 1. In client directory run `docker build -t client .` to build the Docker image.
 2. In server directory run `docker build -t server .` to build the Docker image.
 3. To create a swarm docker swarm init.
-4. Run `docker stack deploy --compose-file=docker-compose.yml` prod
+4. Run `docker stack deploy --compose-file=docker-compose.yml prod`
 
 ## Contribute
 
