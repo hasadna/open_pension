@@ -85,12 +85,23 @@ python manage.py parse_csv --source=PATH_OF_FOLDER --plugin=PLUGIN --destination
 
 Plugin ID can be achieved from `server/pension/management/commands/plugins.json`
 
-## Deploy
+## Logging
+
+Logging is done using [sentry.io](https://sentry.io/hasadna).
+
+To see the log ask the team leader an access to the openPension email account.
+
+## Deployment
 
 1. In client directory run `docker build -t client .` to build the Docker image.
 2. In server directory run `docker build -t server .` to build the Docker image.
 3. To create a swarm docker swarm init.
-4. Run `docker stack deploy --compose-file=docker-compose.yml prod`
+4. Download all docker images:
+    * `docker pull dockercloud/haproxy`  
+    * `docker pull postgres`  
+5. Run `docker stack deploy --compose-file=docker-compose.yml prod`
+6. Open the browser at [http://localhost](http://localhost) to see your Angular (client) app.
+7. Open the browser at [http://localhost:8000](http://localhost:8000) to see your Django (server) app.
 
 ## Contribute
 

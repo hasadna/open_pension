@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 from django.utils.translation import ugettext_lazy as _
 import os
+import raven
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'flat_responsive',
+    'raven.contrib.django.raven_compat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -118,32 +120,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Logging
-# https://github.com/vklochan/python-logstash
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'logstash': {
-            'level': 'DEBUG',
-            'class': 'logstash.LogstashHandler',
-            'host': 'localhost',
-            'port': 5959,
-            'version': 1,
-            'message_type': 'logstash',
-            'fqdn': False,
-            'tags': ['tag1', 'tag2'],
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['logstash'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
+RAVEN_CONFIG = {
+    'dsn': 'https://2d4c5f09376d40ef8beef9b4b5444667:1d6e71bd3c74485dab6529b6dee9bd59@sentry.io/202882',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    # 'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
 }
 
 

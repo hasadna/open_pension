@@ -22,7 +22,7 @@ django-filter==1.0.2
 django-cors-headers==2.1.0
 
 # Logging
-python-logstash==0.4.6
+ raven==6.1.0
 
 # Translations
 django-modeltranslation==0.12
