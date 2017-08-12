@@ -1,9 +1,8 @@
 import os
-import re
 import glob
 import pandas as pd
-from django.utils import timezone
 import dateutil.parser
+from django.utils import timezone
 
 from django.core.management import BaseCommand, CommandError
 from pension.models import Quarter, Instrument
@@ -122,19 +121,13 @@ def calculate_rows_to_skip(xls_file, sheet_name):
 
 def read_sheet(xls_file, sheet_name, managing_body, quarter):
     rows_to_skip = calculate_rows_to_skip(xls_file, sheet_name)
-
     sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip, parse_cols=40)
-
     sheet.columns = sheet.columns.str.strip()
+
     # Read the content of the sheet
     try:
         current_sh = sheet['שם המנפיק/שם נייר ערך']
     except KeyError as ke:
-        # print('+1 on rows')
-        print(sheet_name)
-        # sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
-        # sheet.columns = sheet.columns.str.strip()
-        print(sheet.columns.tolist())
         try:
             current_sh = sheet['שם נייר ערך']
         except KeyError as ke2:
@@ -149,9 +142,8 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
                     except KeyError as ke6:
                         current_sh = sheet['אופי הנכס']
 
-    print('current_sh:%s' % current_sh)
     for index, col_title in enumerate(current_sh):
-        cleaned_sheet_name = str(sheet_name).strip().replace('-', ' - ').replace('  ', ' ')
+        sheet_name = str(sheet_name).strip().replace('-', ' - ').replace('  ', ' ')
 
         if col_title == 'nan':
             continue
@@ -172,8 +164,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
             continue
 
         # Check if it's a title or real data
-        itps = cleaned_sheet_name
-        cell = is_title_per_sheet[itps]
+        cell = is_title_per_sheet[sheet_name]
 
         try:
             str(sheet[cell][index])
@@ -196,9 +187,9 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
                 if str(issuer_id) == 'nan':
                     raise(KeyError)
             except KeyError as e:
-                issuer_id = cleaned_sheet_name  # sheet_name
+                issuer_id = sheet_name
 
-            issuer_id = cleaned_sheet_name  # sheet_name
+            issuer_id = sheet_name
 
         try:
             rating = sheet['דירוג'][index]
@@ -450,7 +441,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
                 par_value=par_value,
                 managing_body=managing_body_dict[managing_body],
                 geographical_location=context,
-                instrument_sub_type=instrument_dict[cleaned_sheet_name],
+                instrument_sub_type=instrument_dict[sheet_name],
 
                 quarter=quarter[0],
             )
@@ -489,7 +480,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
             print('par_value', par_value)
             print('managing_body', managing_body_dict[managing_body])
             print('geographical_location', context)
-            print('instrument_sub_type', instrument_dict[cleaned_sheet_name])
+            print('instrument_sub_type', instrument_dict[sheet_name])
             print('--------------------')
             raise(ValueError)
 
@@ -497,6 +488,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
 
 
 def read_xls_file(filename):
+    print('filename', filename)
     xls_file = pd.ExcelFile('/Users/nirgalon/Downloads/{filename}'.format(filename=filename))
     split_filename = filename.split('.')[0].split('_')
 
@@ -518,12 +510,8 @@ class Command(BaseCommand):
         print('Importing..')
 
         # Go over all the xls files in that directory
-        os.chdir("/Users/nirgalon/Downloads")
-        for file in glob.glob("*.xls*"):
-            # Temp fix
-            if not file == 'amitim_2016_1_212.xlsx':
-                return
-
+        os.chdir('/Users/nirgalon/Downloads')
+        for file in glob.glob('*.xls*'):
             read_xls_file(file)
 
         print('Import completed successfully.')
