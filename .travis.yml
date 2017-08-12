@@ -32,7 +32,7 @@ install:
 
   # Server
   - cd ../server && pip3 install coverage pycodestyle
-  - pip install -r requirements.txt
+  - pip3 install -r requirements.txt
   - psql -c 'create database server;' -U postgres
 
 script:
@@ -44,7 +44,6 @@ script:
   - npm run e2e
 
   # Server
-  - export python=python3
   - cd ../server && coverage run --source='.' manage.py test
   - coverage xml
   - pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
