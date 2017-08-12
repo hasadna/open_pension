@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/switchMap';
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, toPayload } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -17,12 +17,18 @@ export class PostEffects {
   @Effect()
   loadPosts$: Observable<Action>= this.actions$
     .ofType(post.LOAD_POSTS)
-    .switchMap(() => this.postService.getPosts())
-    .map(posts => new post.LoadPostsSuccessAction(posts));
+    .switchMap(_ => this.postService.getPosts()
+      .map(posts => new post.LoadPostsSuccessAction(posts))
+      // .catch(error => Observable.of(getPostsFail(error)))
+    );
 
   @Effect()
   loadPostById$: Observable<Action>= this.actions$
     .ofType(post.LOAD_POST_BY_ID)
-    .switchMap((postId) => this.postService.getPostById(postId.payload))
-    .map(postData => new post.LoadPostByIdSuccessAction(postData));
+    .map(toPayload)
+    .switchMap((postId) => this.postService.getPostById(postId)
+      .map(postData => new post.LoadPostByIdSuccessAction(postData))
+      // .catch(error => Observable.of(getPostsFail(error)))
+    );
+
 }

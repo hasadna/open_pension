@@ -1,25 +1,98 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { hot, cold } from 'jasmine-marbles';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs/Observable';
+
+import { Http, BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 import { PostEffects } from './post';
+import { Post } from '../models/post';
+import * as postAction from '../actions/post';
 import { PostService } from '../services/post.service';
-import { EffectsTestingModule } from '@ngrx/effects/testing';
 
 describe('PostEffects', () => {
-  const userServiceStub = {};
+  let effects: PostEffects;
+  let actions: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        EffectsTestingModule
-      ],
       providers: [
-        { provide: PostService, useValue: userServiceStub },
         PostEffects,
-      ]
+        provideMockActions(() => actions),
+        // other providers
+        PostService,
+        {
+          provide: Http,
+          useFactory: (mockBackend, options) => {
+            return new Http(mockBackend, options);
+          },
+          deps: [MockBackend, BaseRequestOptions]
+        },
+        MockBackend,
+        BaseRequestOptions,
+      ],
     });
+
+    effects = TestBed.get(PostEffects);
   });
 
   it('should create the effects', inject([PostEffects], (service: PostEffects) => {
     expect(service).toBeTruthy();
   }));
+
+  it('loadPosts$ should work', () => {
+    const post1 = {
+      unique_id: '111',
+      title: 'someTitle',
+      body: 'someBody',
+      author: 'someAuthor',
+      created_at: 'createdAt',
+      publish: 'somePublish',
+      tags: [{name: 'someName'}]
+    } as Post;
+    const post2 = {
+      unique_id: '222',
+      title: 'someTitle',
+      body: 'someBody',
+      author: 'someAuthor',
+      created_at: 'createdAt',
+      publish: 'somePublish',
+      tags: [{name: 'someName'}]
+    } as Post;
+    const posts = [post1, post2];
+
+    const action = new postAction.LoadPostsAction();
+    const completion = new postAction.LoadPostsSuccessAction(posts);
+    actions = hot('--a-', { a: action });
+
+    const expected = cold('--b', { b: completion });
+
+    effects.loadPosts$.subscribe(result => {
+        expect(result).toBe(completion);
+      });
+  });
+
+  it('loadPostById$ should work', () => {
+    const postData = {
+      unique_id: '111',
+      title: 'someTitle',
+      body: 'someBody',
+      author: 'someAuthor',
+      created_at: 'createdAt',
+      publish: 'somePublish',
+      tags: [{name: 'someName'}]
+    } as Post;
+
+    const action = new postAction.LoadPostsAction();
+    const completion = new postAction.LoadPostByIdSuccessAction(postData);
+    actions = hot('--a-', { a: action });
+
+    const expected = cold('--b', { b: completion });
+
+    effects.loadPostById$.subscribe(result => {
+        expect(result).toBe(completion);
+      });
+  });
 });

@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { reducer } from '../../reducers';
+import { reducers, metaReducers } from './reducers';
 import { StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -44,12 +44,8 @@ describe('BlogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        BlogComponent,
-      ],
-      imports: [
-        StoreModule.provideStore(reducer),
-      ],
+      declarations: [ BlogComponent ],
+      imports: [ StoreModule.forRoot(reducers, { metaReducers }) ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();

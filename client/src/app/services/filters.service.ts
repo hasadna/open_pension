@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Rx';
 import { Instrument } from '../models/instrument';
 import { Quarter } from '../models/quarter';
 
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class FiltersService {
 
@@ -13,7 +15,7 @@ export class FiltersService {
   ) { }
 
   getQuarters(): Observable<Quarter[]> {
-    return this.http.get(`/api/quarter`)
+    return this.http.get(`${environment.backend}/api/quarter`)
       .map(res => res.json().results)
       .catch(this.handleError);
   }

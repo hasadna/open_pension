@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 
 import { Post } from '../models/post';
 
+import { environment } from '../../../../environments/environment';
+
 @Injectable()
 export class PostService {
   private headers;
@@ -18,7 +20,7 @@ export class PostService {
   getPosts(): Observable<Post[]> {
     const options = new RequestOptions({ headers: this.headers });
 
-    return this.http.get('/api/posts', options)
+    return this.http.get(`${environment.backend}/api/posts`, options)
       .map(res => res.json().results)
       .catch(this.handleError);
   }
@@ -26,7 +28,7 @@ export class PostService {
   getPostById(postId): Observable<Post> {
     const options = new RequestOptions({ headers: this.headers });
 
-    return this.http.get(`/api/posts/${postId}`, options)
+    return this.http.get(`${environment.backend}/api/posts/${postId}`, options)
       .map(res => res.json())
       .catch(this.handleError);
   }

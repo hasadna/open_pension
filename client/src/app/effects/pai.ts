@@ -11,12 +11,15 @@ import * as pai from '../actions/pai';
 export class PaiEffects {
   constructor(
     private actions$: Actions,
-    private postService: PaiService
+    private paiService: PaiService
   ) { }
 
   @Effect()
   loadPai$: Observable<Action>= this.actions$
     .ofType(pai.LOAD_PAI)
-    .switchMap(() => this.postService.getPai())
-    .map(data => new pai.LoadPaiSuccessAction(data));
+    .switchMap(_ => this.paiService.getPai()
+      .map(paiData => new pai.LoadPaiSuccessAction(paiData))
+      // .catch(error => Observable.of(getPostsFail(error)))
+    );
+
 }
