@@ -31,7 +31,7 @@ install:
   - cd client && npm install
 
   # Server
-  - cd ../server && pip install coverage pycodestyle
+  - cd ../server && pip3 install coverage pycodestyle
   - pip install -r requirements.txt
   - psql -c 'create database server;' -U postgres
 
