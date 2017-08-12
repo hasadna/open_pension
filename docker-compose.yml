@@ -22,9 +22,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Zaq12345
       - POSTGRES_DB=openpension
-    # volumes:
-    #   - ./database:/etc/cron.daily
-    #   - /var/backups:/var/backups
+    volumes:
+      - ./database:/etc/cron.daily
+      - /var/backups:/var/backups
     deploy:
       replicas: 1
       restart_policy:
