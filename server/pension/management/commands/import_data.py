@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import re
 import glob
@@ -40,7 +39,7 @@ instrument_dict = {
     'לא סחיר - תעודות התחייבות ממשלתי': 'GDC',
     'לא סחיר - תעודות התחייבות ממשלת': 'GDC',
     'לא סחיר - תעודות חוב מסחריות': 'CDC',
-    'לא סחיר - אג"ח קונצרני': 'CB',  # לא סחיר - אג״ח קונצרני
+    'לא סחיר - אג"ח קונצרני': 'CB',
     'לא סחיר - מניות': 'STOCK',
     'לא סחיר - קרנות השקעה': 'IF',
     'לא סחיר - כתבי אופציה': 'WARRANTS',
@@ -74,13 +73,13 @@ is_title_per_sheet = {
     'לא סחיר - תעודות התחייבות ממשלתי': 'מספר ני"ע',
     'לא סחיר - תעודות התחייבות ממשלת': 'מספר ני"ע',
     'לא סחיר - תעודות חוב מסחריות': 'מספר ני"ע',
-    'לא סחיר - אג"ח קונצרני': 'מספר ני"ע',  # לא סחיר - אג״ח קונצרני
-    'לא סחיר - מניות': 'מספר ני"ע',  # לא סחיר - מניות
-    'לא סחיר - קרנות השקעה': 'מספר ני"ע',  # לא סחיר - קרנות השקעה
-    'לא סחיר - כתבי אופציה': 'מספר ני"ע',  # לא סחיר - כתבי אופציה
-    'לא סחיר - אופציות': 'מספר ני"ע',  # לא סחיר - אופציות
-    'לא סחיר - חוזים עתידיים': 'מספר ני"ע',  # לא סחיר - חוזים עתידיים
-    'לא סחיר - מוצרים מובנים': 'מספר ני"ע',  # לא סחיר - מוצרים מובנים
+    'לא סחיר - אג"ח קונצרני': 'מספר ני"ע',
+    'לא סחיר - מניות': 'מספר ני"ע',
+    'לא סחיר - קרנות השקעה': 'מספר ני"ע',
+    'לא סחיר - כתבי אופציה': 'מספר ני"ע',
+    'לא סחיר - אופציות': 'מספר ני"ע',
+    'לא סחיר - חוזים עתידיים': 'מספר ני"ע',
+    'לא סחיר - מוצרים מובנים': 'מספר ני"ע',
     'הלוואות': 'מספר ני"ע',
     'פקדונות מעל 3 חודשים': 'מספר ני"ע',
     'זכויות מקרקעין': 'אופי הנכס',
@@ -99,12 +98,6 @@ def calc_rows_to_skip(xls_file, sheet_name):
     is_table_head = False
     while not is_table_head and rows_to_skip_calculated < 10:
         pre_sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
-        # print(' ')
-        # print('+++++++++++++++++++++++++++++++++++++++++++++')
-        # print(len(pre_sheet.columns))
-        # print('type pre_sheet:%s' % pre_sheet.columns)
-        # print('type pre_sheet:%s' % type(pre_sheet.columns))
-        # print('---------------------------------------------')
         if len(pre_sheet.columns) > 0:
             pre_sheet_columns = pre_sheet.columns.str.strip()
         else:
@@ -135,8 +128,6 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
     sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated, parse_cols=40)
 
     sheet.columns = sheet.columns.str.strip()
-    # print(sheet.columns.tolist())
-    # print(sheet)
     # Read the content of the sheet
     try:
         current_sh = sheet['שם המנפיק/שם נייר ערך']
@@ -186,8 +177,6 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         itps = cleaned_sheet_name
         cell = is_title_per_sheet[itps]
 
-        # print('index row no178:%s' % str(index))
-        # print('cell  row no178:%s' % str(cell))
         try:
             str(sheet[cell][index])
         except KeyError as ke4:
@@ -202,12 +191,12 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
             issuer_id = sheet['מספר ני"ע'][index]
             if str(issuer_id) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             try:
                 issuer_id = sheet['מספר הנייר'][index]
                 if str(issuer_id) == 'nan':
-                    raise KeyError
+                    raise(KeyError)
             except KeyError as e:
                 issuer_id = cleaned_sheet_name  # sheet_name
 
@@ -216,117 +205,116 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         try:
             rating = sheet['דירוג'][index]
             if str(rating) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             rating = ''
 
         try:
             rating_agency = sheet['שם מדרג'][index]
             if str(rating_agency) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             rating_agency = ''
 
         try:
             currency = sheet['סוג מטבע'][index]
             if str(currency) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             currency = ''
 
         try:
             interest_rate = sheet['שיעור ריבית'][index]
             if str(interest_rate) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             interest_rate = 0.0
 
         try:
             yield_to_maturity = sheet['תשואה לפידיון'][index]
             if str(yield_to_maturity) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             yield_to_maturity = 0.0
 
         try:
             market_cap = sheet['שווי שוק'][index]
             if str(market_cap) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             market_cap = 0.0
 
         try:
             rate_of_investment_channel = sheet['שעור מנכסי אפיק ההשקעה'][index]
             if str(rate_of_investment_channel) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             rate_of_investment_channel = 0.0
 
         try:
             rate_of_fund = sheet['שעור מסך נכסי השקעה'][index]
             if str(rate_of_fund) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             rate_of_fund = 0.0
 
         try:
             trading_floor = sheet['זירת מסחר'][index]
             if str(trading_floor) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             trading_floor = ''
 
         try:
             date_of_purchase = sheet['תאריך רכישה'][index]
             if str(date_of_purchase) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             date_of_purchase = ''
 
         try:
             average_of_duration = sheet['מח"מ'][index]
             if str(average_of_duration) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             average_of_duration = 0.0
 
         try:
             rate = sheet['שער'][index]
             if str(rate) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             rate = 0.0
 
         try:
             rate_of_ipo = sheet['שעור מערך נקוב מונפק'][index]
             if str(rate_of_ipo) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             rate_of_ipo = 0.0
 
         try:
             informer = sheet['ספק מידע'][index]
             if str(informer) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             informer = ''
 
         try:
             fair_value = sheet['שווי הוגן'][index]
             if str(fair_value) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             fair_value = 0.0
 
         try:
             activity_industry = sheet['ענף מסחר'][index]
             if str(activity_industry) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             activity_industry = ''
 
         try:
-            # print('type:%s|value:%s' % (type(sheet['תאריך שערוך אחרון'][index]), sheet['תאריך שערוך אחרון'][index]))
             if type(sheet['תאריך שערוך אחרון'][index]) is str:
                 if len(sheet['תאריך שערוך אחרון'][index]) > 3:
                     date_of_revaluation = dateutil.parser.parse(sheet['תאריך שערוך אחרון'][index])
@@ -336,28 +324,28 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 date_of_revaluation = sheet['תאריך שערוך אחרון'][index]
 
             if str(date_of_revaluation) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             date_of_revaluation = timezone.now()
 
         try:
             type_of_asset = sheet['אופי הנכס'][index]
             if str(type_of_asset) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             type_of_asset = ''
 
         try:
             return_on_equity = sheet[''][index]
             if str(return_on_equity) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             return_on_equity = 0.0
 
         try:
             liabilities = sheet['סכום ההתחייבות'][index]
             if str(liabilities) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             liabilities = 0.0
 
@@ -373,42 +361,41 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                     except ValueError as ve:
                         print(sheet['תאריך סיום ההתחייבות'][index])
                         expiry_date_of_liabilities_pre = None
-                        # expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
             else:
                 expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
 
 
             expiry_date_of_liabilities = expiry_date_of_liabilities_pre
             if str(expiry_date_of_liabilities) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             expiry_date_of_liabilities = timezone.now()
 
         try:
             effective_rate = sheet['ריבית אפקטיבית'][index]
             if str(effective_rate) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             effective_rate = 0.0
 
         try:
             coordinated_cost = sheet['עלות מתואמת'][index]
             if str(coordinated_cost) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             coordinated_cost = 0.0
 
         try:
             underlying_asset = sheet['נכס הבסיס'][index]
             if str(underlying_asset) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             underlying_asset = 0.0
 
         try:
             consortium = sheet['קונסורציום כן/לא'][index]
             if str(consortium) == 'nan':
-                raise KeyError
+                raise(KeyError)
             elif str(consortium).strip() == 'כן':
                 consortium = True
             elif str(consortium).strip() == 'לא':
@@ -419,14 +406,14 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         try:
             average_rate = sheet['שיעור ריבית ממוצע'][index]
             if str(average_rate) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             average_rate = 0.0
 
         try:
             par_value = sheet['שווי משוערך'][index]
             if str(par_value) == 'nan':
-                raise KeyError
+                raise(KeyError)
         except KeyError as e:
             par_value = 0.0
 
@@ -466,12 +453,9 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 instrument_sub_type=instrument_dict[cleaned_sheet_name],
 
                 quarter=quarter[0],
-                # defaults={
-                #     'birthday': date(1940, 10, 9)
-                # },
             )
 
-            #print('created', instrument, created)
+            print('created', instrument, created)
 
         except ValueError as e:
             print('index', index)
@@ -509,11 +493,11 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             print('--------------------')
             raise(ValueError)
 
-    # print('Finish with {sheet_name}'.format(sheet_name=sheet_name))
+    print('Finish with {sheet_name}'.format(sheet_name=sheet_name))
 
 
 def read_xls_file(filename):
-    xls_file = pd.ExcelFile('/Users/infinity/op_input/{filename}'.format(filename=filename))
+    xls_file = pd.ExcelFile('/Users/nirgalon/Downloads/{filename}'.format(filename=filename))
     split_filename = filename.split('.')[0].split('_')
 
     quarter = Quarter.objects.get_or_create(
@@ -527,7 +511,7 @@ def read_xls_file(filename):
             rows_to_skip = 7
             read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
 
-    #print('Finish with {filename}'.format(filename=filename))
+    print('Finish with {filename}'.format(filename=filename))
 
 
 class Command(BaseCommand):
@@ -535,12 +519,11 @@ class Command(BaseCommand):
         print('Importing..')
 
         # Go over all the xls files in that directory
-        os.chdir("/Users/infinity/op_input")
+        os.chdir("/Users/nirgalon/Downloads")
         for file in glob.glob("*.xls*"):
             # Temp fix
-            # if not file == 'amitim_2016_1_212.xlsx':
-            #     return
-            print(str(file))
+            if not file == 'amitim_2016_1_212.xlsx':
+                return
             read_xls_file(file)
 
         print('Import completed successfully.')
