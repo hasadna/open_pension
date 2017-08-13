@@ -1,6 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -50,9 +49,8 @@ describe('PaiEffects', () => {
 
     const action = new paiAction.LoadPaiAction();
     const completion = new paiAction.LoadPaiSuccessAction(pai);
-    actions = hot('--a-', { a: action });
-
-    const expected = cold('--b', { b: completion });
+    const someAction = new ReplaySubject(1);
+    someAction.next(action);
 
     effects.loadPai$.subscribe(result => {
         expect(result).toBe(completion);
