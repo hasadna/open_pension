@@ -23,3 +23,14 @@ class InstrumentsSerializer(serializers.HyperlinkedModelSerializer):
                   'coordinated_cost', 'underlying_asset', 'consortium', 'average_rate', 'par_value',
                   'managing_body', 'geographical_location', 'instrument_sub_type', 'quarter_id',
                   'quarter_year', 'quarter_month')
+
+
+class ManagingBodySerializer(serializers.HyperlinkedModelSerializer):
+    body = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Instrument
+        fields = ('body', )
+
+    def get_body(self,obj):
+        return obj.get_managing_body_display()

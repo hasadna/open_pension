@@ -23,13 +23,14 @@ from dal import autocomplete
 
 from blog.models import Tags
 from blog.views import PostViewSet
-from pension.views import QuarterViewSet, InstrumentViewSet
+from pension.views import QuarterViewSet, InstrumentViewSet, ManagingBodyViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, base_name='posts')
 router.register(r'quarter', QuarterViewSet, base_name='quarter')
 router.register(r'instrument', InstrumentViewSet, base_name='instrument')
+router.register(r'managing-body', ManagingBodyViewSet, base_name='managing-body')
 
 # URLs that shouldn't be translated.
 urlpatterns = [

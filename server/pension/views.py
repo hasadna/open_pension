@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from pension.serializers import QuartersSerializer, InstrumentsSerializer
+from pension.serializers import QuartersSerializer, InstrumentsSerializer, ManagingBodySerializer
 from pension.models import Quarter, Instrument
 
 
@@ -24,3 +24,11 @@ class InstrumentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Instrument.objects.all()
     serializer_class = InstrumentsSerializer
     lookup_field = 'instrument_id'
+
+
+class ManagingBodyViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint to expose managing body.
+    """
+    queryset = Instrument.objects.all().distinct('managing_body')
+    serializer_class = ManagingBodySerializer

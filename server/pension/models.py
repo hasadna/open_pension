@@ -18,6 +18,9 @@ class Quarter(models.Model):
     year = models.CharField(_('Year'), max_length=225, choices=YEARS)
     month = models.CharField(_('Month'), max_length=225, choices=MONTHS)
 
+    def __str__(self):
+        return '{year} - {month}'.format(year=self.year, month=self.month)
+
 
 class Instrument(models.Model):
     instrument_id = models.AutoField(_('Instrument Id'), primary_key=True)
