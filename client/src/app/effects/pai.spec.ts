@@ -13,7 +13,7 @@ import { PaiService } from '../services/pai.service';
 
 describe('PaiEffects', () => {
   let effects: PaiEffects;
-  let actions: Observable<any>;
+  const actions: Observable<any> = Observable.of('');
 
   beforeEach(() => {
     TestBed.configureTestingModule({

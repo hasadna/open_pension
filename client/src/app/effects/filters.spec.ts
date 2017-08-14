@@ -13,7 +13,7 @@ import { FiltersService } from '../services/filters.service';
 
 describe('FiltersEffects', () => {
   let effects: FiltersEffects;
-  let actions: Observable<any>;
+  const actions: Observable<any> = Observable.of('');
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -13,7 +13,7 @@ import { PostService } from '../services/post.service';
 
 describe('PostEffects', () => {
   let effects: PostEffects;
-  let actions: Observable<any>;
+  const actions: Observable<any> = Observable.of('');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
