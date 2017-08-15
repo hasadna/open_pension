@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from pension.models import Quarter, Instrument
+from pension.models import Quarter, Instrument, InstrumentFields
 
 
 class InstrumentAdmin(admin.ModelAdmin):
@@ -14,5 +14,11 @@ class QuarterAdmin(admin.ModelAdmin):
     list_display = ('year', 'month',)
 
 
+class InstrumentFieldsAdmin(admin.ModelAdmin):
+    model = InstrumentFields
+    list_display = ('fields_to_show', 'color')
+
+
 admin.site.register(Instrument, InstrumentAdmin)
 admin.site.register(Quarter, QuarterAdmin)
+admin.site.register(InstrumentFields, InstrumentFieldsAdmin)

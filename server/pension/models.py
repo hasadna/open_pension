@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES
+from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES, INSTRUMENT_FIELDS
 
 
 def validate_percentage(value):
@@ -73,3 +73,8 @@ class Instrument(models.Model):
     geographical_location = models.CharField('Geographical Location', max_length=255, choices=GEOGRAPHICAL_LOCATION)
     instrument_sub_type = models.CharField('Instrument Sub Type', max_length=255, choices=INSTRUMENT_TYPES)
     quarter = models.ForeignKey(Quarter, related_name='instrument_quarter')
+
+
+class InstrumentFields(models.Model):
+    fields_to_show = models.CharField(_('Fields To Show'), max_length=255, choices=INSTRUMENT_FIELDS)
+    color = models.CharField(_('Color'), max_length=255)

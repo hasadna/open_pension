@@ -1,17 +1,20 @@
 from rest_framework import serializers
-from pension.models import Quarter, Instrument
+from pension.models import Quarter, Instrument, InstrumentFields
 
 
 class QuartersSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Quarter
-        fields = ('quarter_id', 'year', 'month')
+        fields = ('quarter_id', 'year', 'month', )
 
 
 class InstrumentsSerializer(serializers.HyperlinkedModelSerializer):
     quarter_id = serializers.CharField(source='quarter.quarter_id')
     quarter_year = serializers.CharField(source='quarter.year')
     quarter_month = serializers.CharField(source='quarter.month')
+    managing_body_name = serializers.SerializerMethodField()
+    geographical_location_name = serializers.SerializerMethodField()
+    instrument_sub_type_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Instrument
@@ -21,16 +24,25 @@ class InstrumentsSerializer(serializers.HyperlinkedModelSerializer):
                   'informer', 'fair_value', 'activity_industry', 'date_of_revaluation', 'type_of_asset',
                   'return_on_equity', 'liabilities', 'expiry_date_of_liabilities', 'effective_rate',
                   'coordinated_cost', 'underlying_asset', 'consortium', 'average_rate', 'par_value',
-                  'managing_body', 'geographical_location', 'instrument_sub_type', 'quarter_id',
-                  'quarter_year', 'quarter_month')
+                  'managing_body', 'managing_body_name', 'geographical_location', 'geographical_location_name',
+                  'instrument_sub_type', 'instrument_sub_type_name', 'quarter_id', 'quarter_year', 'quarter_month', )
+
+    def get_managing_body_name(self, obj):
+        return obj.get_managing_body_display()
+
+    def get_geographical_location_name(self, obj):
+        return obj.get_geographical_location_display()
+
+    def get_instrument_sub_type_name(self, obj):
+        return obj.get_instrument_sub_type_display()
 
 
-class ManagingBodySerializer(serializers.HyperlinkedModelSerializer):
-    body = serializers.SerializerMethodField()
+class InstrumentFieldsSerializer(serializers.HyperlinkedModelSerializer):
+    fields_to_show_name = serializers.SerializerMethodField()
 
     class Meta:
-        model = Instrument
-        fields = ('body', )
+        model = InstrumentFields
+        fields = ('fields_to_show', 'fields_to_show_name', 'color', )
 
-    def get_body(self,obj):
-        return obj.get_managing_body_display()
+    def get_fields_to_show_name(self, obj):
+        return obj.get_fields_to_show_display()

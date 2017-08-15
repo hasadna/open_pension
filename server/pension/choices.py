@@ -56,3 +56,14 @@ INSTRUMENT_TYPES = (
     ('CBAC', 'Corporate Bonds Adjusted Cost'),
     ('BCAC', 'Borrowers Credit Adjusted Cost'),
 )
+
+INSTRUMENT_FIELDS = (
+    ('currency', 'Currency'),
+    ('informer', 'Informer'),
+    ('activity_industry', 'Activity Industry'),
+    ('type_of_asset', 'Type Of Asset'),
+    ('consortium', 'Consortium'),
+    ('managing_body', 'Managing Body'),
+    ('geographical_location', 'Geographical Location'),
+    ('instrument_sub_type', 'Instrument Sub Type'),
+)

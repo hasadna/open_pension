@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { reducers, metaReducers } from '../../reducers';
 import { StoreModule } from '@ngrx/store';
@@ -12,6 +13,7 @@ describe('FiltersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        FormsModule,
         DragulaModule,
         StoreModule.forRoot(reducers, { metaReducers }),
       ],
