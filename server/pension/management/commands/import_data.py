@@ -94,36 +94,6 @@ is_title_per_sheet = {
     'עלות מתואמת מסגרות אשראי ללווים': 'מספר ני"ע',
 }
 
-def calc_rows_to_skip(xls_file, sheet_name):
-    rows_to_skip_calculated = 0
-    is_table_head = False
-    while not is_table_head and rows_to_skip_calculated < 10:
-        pre_sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
-        # print(' ')
-        # print('+++++++++++++++++++++++++++++++++++++++++++++')
-        # print(len(pre_sheet.columns))
-        # print('type pre_sheet:%s' % pre_sheet.columns)
-        # print('type pre_sheet:%s' % type(pre_sheet.columns))
-        # print('---------------------------------------------')
-        if len(pre_sheet.columns) > 0:
-            pre_sheet_columns = pre_sheet.columns.str.strip()
-        else:
-            pre_sheet_columns = []
-        pre_sheet_columns = list(pre_sheet_columns)
-
-        if ('שם נ"ע' in pre_sheet_columns) or \
-                ('שם המנפיק/שם נייר ערך' in pre_sheet_columns) or \
-                ('שם נייר ערך' in pre_sheet_columns) or \
-                ('מזומנים ושווי מזומנים' in pre_sheet_columns) or \
-                ('מספר נ"ע' in pre_sheet_columns) or \
-                ('זכויות במקרעין' in pre_sheet_columns):
-            is_table_head = True
-        else:
-            rows_to_skip_calculated += 1
-
-    print('rows_to_skip_calculated:%s' % rows_to_skip_calculated)
-    return rows_to_skip_calculated
-
 def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
     # if sheet_name == 'תעודות התחייבות ממשלתיות':
@@ -142,10 +112,10 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         current_sh = sheet['שם המנפיק/שם נייר ערך']
     except KeyError as ke:
         # print('+1 on rows')
-        print(sheet_name)
+        # print(sheet_name)
         # sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
         # sheet.columns = sheet.columns.str.strip()
-        print(sheet.columns.tolist())
+        # print(sheet.columns.tolist())
         try:
             current_sh = sheet['שם נייר ערך']
         except KeyError as ke2:
@@ -160,7 +130,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                     except KeyError as ke6:
                         current_sh = sheet['אופי הנכס']
 
-    print('current_sh:%s' % current_sh)
+    # print('current_sh:%s' % current_sh)
     for index, col_title in enumerate(current_sh):
         cleaned_sheet_name = str(sheet_name).strip().replace('-', ' - ').replace('  ', ' ')
 
@@ -371,7 +341,7 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                     try:
                         expiry_date_of_liabilities_pre = dateutil.parser.parse(sheet['תאריך סיום ההתחייבות'][index], fuzzy=True)
                     except ValueError as ve:
-                        print(sheet['תאריך סיום ההתחייבות'][index])
+                        # print(sheet['תאריך סיום ההתחייבות'][index])
                         expiry_date_of_liabilities_pre = None
                         # expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
             else:
@@ -511,6 +481,35 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
 
     # print('Finish with {sheet_name}'.format(sheet_name=sheet_name))
 
+def calc_rows_to_skip(xls_file, sheet_name):
+    rows_to_skip_calculated = 0
+    is_table_head = False
+    while not is_table_head and rows_to_skip_calculated < 10:
+        pre_sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
+        # print(' ')
+        # print('+++++++++++++++++++++++++++++++++++++++++++++')
+        # print(len(pre_sheet.columns))
+        # print('type pre_sheet:%s' % pre_sheet.columns)
+        # print('type pre_sheet:%s' % type(pre_sheet.columns))
+        # print('---------------------------------------------')
+        if len(pre_sheet.columns) > 0:
+            pre_sheet_columns = pre_sheet.columns.str.strip()
+        else:
+            pre_sheet_columns = []
+        pre_sheet_columns = list(pre_sheet_columns)
+
+        if ('שם נ"ע' in pre_sheet_columns) or \
+                ('שם המנפיק/שם נייר ערך' in pre_sheet_columns) or \
+                ('שם נייר ערך' in pre_sheet_columns) or \
+                ('מזומנים ושווי מזומנים' in pre_sheet_columns) or \
+                ('מספר נ"ע' in pre_sheet_columns) or \
+                ('זכויות במקרעין' in pre_sheet_columns):
+            is_table_head = True
+        else:
+            rows_to_skip_calculated += 1
+
+    # print('rows_to_skip_calculated:%s' % rows_to_skip_calculated)
+    return rows_to_skip_calculated
 
 def read_xls_file(filename):
     xls_file = pd.ExcelFile('/Users/infinity/op_input/{filename}'.format(filename=filename))
@@ -535,12 +534,14 @@ class Command(BaseCommand):
         print('Importing..')
 
         # Go over all the xls files in that directory
-        os.chdir("/Users/infinity/op_input")
-        for file in glob.glob("*.xls*"):
-            # Temp fix
-            # if not file == 'amitim_2016_1_212.xlsx':
-            #     return
-            print(str(file))
-            read_xls_file(file)
+        inputs_dir = "/Users/infinity/op_input"
+        os.chdir(inputs_dir)
 
+        for file in glob.glob("*.xls*"):
+            print(str(file))
+            try:
+                read_xls_file(file)
+            except Exception as e:
+                # faults move to badfiles dir
+                os.rename(os.path.join(inputs_dir,file), os.path.join(os.path.join(inputs_dir, "notpassed"),file))
         print('Import completed successfully.')
