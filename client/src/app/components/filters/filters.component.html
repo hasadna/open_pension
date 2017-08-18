@@ -18,7 +18,6 @@
   <div>
     <div class="filters-parameters-div">
       <div class='container' [dragula]='"first-bag"'>
-        <div class="filters-button" style="background: #5F7D8C"><br>סה״כ שוק הפנסיה 100%</div>
         <div *ngFor="let filter of selectedFilters$ | async" class="filters-button" [style.background]=filter.color>
           {{ filter.fields_to_show_name }}
         </div>
