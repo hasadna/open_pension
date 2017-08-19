@@ -9,6 +9,7 @@ from blog.models import Post, Tags
 # initialize the APIClient app
 client = Client()
 
+
 class PostTest(TestCase):
     """ Test module for Post model """
 
@@ -68,7 +69,7 @@ class PostTest(TestCase):
         self.second_post.tags.add(second_tag)
 
     def test_get_all_posts(self):
-        response = client.get(reverse('api:posts-list')  )
+        response = client.get(reverse('api:posts-list'))
         posts = Post.objects.all()
         serializer = PostsSerializer(posts, many=True)
         self.assertEqual(response.data['results'], serializer.data)
