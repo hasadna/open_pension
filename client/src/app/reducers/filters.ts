@@ -28,11 +28,15 @@ export function reducer(state = initialState, action: filters.Actions): State {
     }
 
     case filters.SELECT_NEW_FILTER_ACTION: {
-      const newSelectedFilter = state.entities.filter((field) => field.fields_to_show === action.payload);
-      const newSelectedFilters = { selectedFilters: [...state.selectedFilters, newSelectedFilter[0]] };
-      const newEntities = {entities: state.entities.filter((field) => field.fields_to_show !== action.payload) };
+      if (state.selectedFilters.length < 4) {
+        const newSelectedFilter = state.entities.filter((field) => field.fields_to_show === action.payload);
+        const newSelectedFilters = { selectedFilters: [...state.selectedFilters, newSelectedFilter[0]] };
+        const newEntities = {entities: state.entities.filter((field) => field.fields_to_show !== action.payload) };
 
-      return Object.assign({}, state, newEntities, newSelectedFilters);
+        return Object.assign({}, state, newEntities, newSelectedFilters);
+      }
+
+      return state;
     }
 
     default: {

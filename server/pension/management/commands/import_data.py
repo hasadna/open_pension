@@ -127,19 +127,19 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
     # Read the content of the sheet
     try:
         current_sh = sheet['שם המנפיק/שם נייר ערך']
-    except KeyError as ke:
+    except KeyError:
         try:
             current_sh = sheet['שם נייר ערך']
-        except KeyError as ke2:
+        except KeyError:
             try:
                 current_sh = sheet['שם נ"ע']
-            except KeyError as ke3:
+            except KeyError:
                 try:
                     current_sh = sheet['מספר הנייר']
-                except KeyError as ke5:
+                except KeyError:
                     try:
                         current_sh = sheet['מספר נ"ע']
-                    except KeyError as ke6:
+                    except KeyError:
                         current_sh = sheet['אופי הנכס']
 
     for index, col_title in enumerate(current_sh):
@@ -304,7 +304,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
             activity_industry = ''
 
         try:
-            if type(sheet['תאריך שערוך אחרון'][index]) is str:
+            if isinstance(sheet['תאריך שערוך אחרון'][index], str):
                 if len(sheet['תאריך שערוך אחרון'][index]) > 3:
                     date_of_revaluation = dateutil.parser.parse(sheet['תאריך שערוך אחרון'][index])
                 else:
@@ -340,7 +340,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
 
         try:
 
-            if type(sheet['תאריך סיום ההתחייבות'][index]) is str:
+            if isinstance(sheet['תאריך סיום ההתחייבות'][index], str):
                 if 'מועד' in str(sheet['תאריך סיום ההתחייבות'][index]):
                     expiry_date_of_liabilities_pre = None
                 else:
@@ -350,7 +350,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
                             sheet['תאריך סיום ההתחייבות'][index],
                             fuzzy=True,
                         )
-                    except ValueError as ve:
+                    except ValueError:
                         print(sheet['תאריך סיום ההתחייבות'][index])
                         expiry_date_of_liabilities_pre = None
             else:

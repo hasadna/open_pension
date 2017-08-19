@@ -34,7 +34,7 @@ router.register(r'instrument-fields', InstrumentFieldsViewSet, base_name='instru
 
 # URLs that shouldn't be translated.
 urlpatterns = [
-    url(r'^api/', include(router.urls)),
+    url(r'^api/', include(router.urls, namespace='api')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # URLs that should be translated.

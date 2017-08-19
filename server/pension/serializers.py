@@ -27,13 +27,16 @@ class InstrumentsSerializer(serializers.HyperlinkedModelSerializer):
                   'managing_body', 'managing_body_name', 'geographical_location', 'geographical_location_name',
                   'instrument_sub_type', 'instrument_sub_type_name', 'quarter_id', 'quarter_year', 'quarter_month', )
 
-    def get_managing_body_name(self, obj):
+    @classmethod
+    def get_managing_body_name(cls, obj):
         return obj.get_managing_body_display()
 
-    def get_geographical_location_name(self, obj):
+    @classmethod
+    def get_geographical_location_name(cls, obj):
         return obj.get_geographical_location_display()
 
-    def get_instrument_sub_type_name(self, obj):
+    @classmethod
+    def get_instrument_sub_type_name(cls, obj):
         return obj.get_instrument_sub_type_display()
 
 
@@ -44,5 +47,6 @@ class InstrumentFieldsSerializer(serializers.HyperlinkedModelSerializer):
         model = InstrumentFields
         fields = ('fields_to_show', 'fields_to_show_name', 'color', )
 
-    def get_fields_to_show_name(self, obj):
+    @classmethod
+    def get_fields_to_show_name(cls, obj):
         return obj.get_fields_to_show_display()
