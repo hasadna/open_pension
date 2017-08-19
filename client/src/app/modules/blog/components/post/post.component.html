@@ -19,8 +19,6 @@
 <div>
   <p>
     {{ post.body | slice:0:250 }}...
-    <a [routerLink]="['/blog', post.unique_id]">קרא עוד>></a>
+    <a [routerLink]="['/blog', post.unique_id]">קרא עוד >></a>
   </p>
 </div>
-
-<hr>

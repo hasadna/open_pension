@@ -1,6 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -14,7 +13,7 @@ import { PostService } from '../services/post.service';
 
 describe('PostEffects', () => {
   let effects: PostEffects;
-  let actions: Observable<any>;
+  const actions: Observable<any> = Observable.of('');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,9 +64,8 @@ describe('PostEffects', () => {
 
     const action = new postAction.LoadPostsAction();
     const completion = new postAction.LoadPostsSuccessAction(posts);
-    actions = hot('--a-', { a: action });
-
-    const expected = cold('--b', { b: completion });
+    const someAction = new ReplaySubject(1);
+    someAction.next(action);
 
     effects.loadPosts$.subscribe(result => {
         expect(result).toBe(completion);
@@ -87,9 +85,8 @@ describe('PostEffects', () => {
 
     const action = new postAction.LoadPostsAction();
     const completion = new postAction.LoadPostByIdSuccessAction(postData);
-    actions = hot('--a-', { a: action });
-
-    const expected = cold('--b', { b: completion });
+    const someAction = new ReplaySubject(1);
+    someAction.next(action);
 
     effects.loadPostById$.subscribe(result => {
         expect(result).toBe(completion);
