@@ -168,7 +168,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
 
         try:
             str(sheet[cell][index])
-        except KeyError as ke4:
+        except KeyError:
             cell = 'מספר ני"ע'
 
         if str(sheet[cell][index]) == 'nan' or '*' in str(col_title) \

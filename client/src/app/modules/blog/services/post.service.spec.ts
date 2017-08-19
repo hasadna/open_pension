@@ -46,7 +46,7 @@ describe('PostService', () => {
       next: null,
       previous: null,
       results: [post],
-    }
+    };
 
     mockBackend.connections.subscribe((connection) => {
       connection.mockRespond(new Response(new ResponseOptions({

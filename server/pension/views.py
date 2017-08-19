@@ -10,6 +10,7 @@ class QuarterViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Quarter.objects.all()
     serializer_class = QuartersSerializer
+    pagination_class = None
     lookup_field = 'quarter_id'
 
     def filter_queryset(self, queryset):
@@ -23,6 +24,7 @@ class InstrumentViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Instrument.objects.all()
     serializer_class = InstrumentsSerializer
+    pagination_class = None
     lookup_field = 'instrument_id'
 
 
@@ -32,3 +34,4 @@ class InstrumentFieldsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = InstrumentFields.objects.all()
     serializer_class = InstrumentFieldsSerializer
+    pagination_class = None
