@@ -7,14 +7,21 @@ nav {
   .container {
     position: relative;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     height: 120px;
+    width: 80%;
+    margin: 0 auto;
   }
 }
 
-li {
-  display: inline-block;
-  color: #ffffff;
+ul {
+  padding: 0;
+  
+  li {
+    display: inline-block;
+    list-style-type: none;
+    color: #ffffff;
+  }
 }
 
 #logo {
@@ -38,6 +45,6 @@ li {
   }
 }
 
- op-search {
-   justify-content: flex-start;
- }
+op-search {
+  justify-content: flex-start;
+}
