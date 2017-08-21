@@ -9,13 +9,14 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
-import { reducers, metaReducers } from './reducers';
+import { reducers } from './reducers';
 
 import { OpComponent } from './op.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -64,12 +65,13 @@ export class RavenErrorHandler implements ErrorHandler {
     BrowserAnimationsModule,
     AppRoutingModule,
     DragulaModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([
       PaiEffects,
       FiltersEffects,
     ]),
+    FlexLayoutModule
   ],
   providers: [
     PaiService,
