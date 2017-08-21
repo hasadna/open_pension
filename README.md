@@ -69,6 +69,21 @@ python manage.py makemessages -l he
 python manage.py compilemessages -l he
 ```
 
+## Translation
+
+**Client**
+
+Not yet..
+
+**Server**
+
+To make new strings for translation use the command
+
+```
+python manage.py makemessages -l he
+python manage.py compilemessages -l he
+```
+
 ## Data
 
 If you need the data itself use the `--recursive` flag when you `git clone` this repo.
