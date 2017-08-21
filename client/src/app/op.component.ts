@@ -4,10 +4,17 @@ import { Component } from '@angular/core';
   selector: 'op-root',
   template: `
     <op-header></op-header>
-    <router-outlet></router-outlet>
+    <div id="app-wrapper">
+      <router-outlet></router-outlet>
+    </div>
     <op-footer></op-footer>
   `,
-  styles: [``]
-})
-export class OpComponent {
-}
+  styles: [`
+    #app-wrapper {
+      width: 80%;
+      margin: auto;
+    }
+    `]
+  })
+  export class OpComponent {
+  }
