@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Post } from '../models/post';
+import { PostResponse, Post } from '../models/post';
+
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class PostService {
@@ -18,15 +20,16 @@ export class PostService {
   getPosts(): Observable<Post[]> {
     const options = new RequestOptions({ headers: this.headers });
 
-    return this.http.get('/api/posts', options)
-      .map(res => res.json().results)
+    return this.http.get(`${environment.backend}/api/posts`, options)
+      .map(res => res.json())
+      .map(body => body.results)
       .catch(this.handleError);
   }
 
   getPostById(postId): Observable<Post> {
     const options = new RequestOptions({ headers: this.headers });
 
-    return this.http.get(`/api/posts/${postId}`, options)
+    return this.http.get(`${environment.backend}/api/posts/${postId}`, options)
       .map(res => res.json())
       .catch(this.handleError);
   }

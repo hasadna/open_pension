@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Open Pension</title>
@@ -7,19 +7,11 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <op-root>Loading...</op-root>
+  <op-root></op-root>
 
   <script src="https://use.fontawesome.com/12c2384bca.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-        console.log('Service Worker registered');
-      }).catch(function(err) {
-        console.log('Service Worker registration failed: ', err);
-      });
-    }
-  </script>
 </body>
 </html>

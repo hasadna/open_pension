@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
+import * as fromRoot from './reducers';
 import * as postAction from './actions/post';
 import { Post } from './models/post';
 
@@ -11,8 +11,9 @@ import { Post } from './models/post';
   template: `
     <section>
       <h2>בלוג</h2>
-      <div *ngFor="let post of posts$ | async ">
+      <div *ngFor="let post of posts$ | async; let last=last;" >
         <op-post [post]="post"></op-post>
+        <hr *ngIf="!last">
       </div>
     </section>
   `,
@@ -32,6 +33,10 @@ import { Post } from './models/post';
 
     div {
       margin-top: 30px;
+    }
+
+    hr {
+      color: #979797;
     }
   `]
 })

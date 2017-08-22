@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES
+from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES, INSTRUMENT_FIELDS
 
 
 def validate_percentage(value):
@@ -17,6 +17,9 @@ class Quarter(models.Model):
     quarter_id = models.AutoField(primary_key=True)
     year = models.CharField(_('Year'), max_length=225, choices=YEARS)
     month = models.CharField(_('Month'), max_length=225, choices=MONTHS)
+
+    def __str__(self):
+        return '{year} - {month}'.format(year=self.year, month=self.month)
 
 
 class Instrument(models.Model):
@@ -58,7 +61,7 @@ class Instrument(models.Model):
                                            null=True)
     liabilities = models.DecimalField(_('Liabilities'), help_text="Value is in thousands.", max_digits=50,
                                       decimal_places=3, null=True)
-    expiry_date_of_liabilities = models.DateField(_('Expiry Date Of Liabilities'))
+    expiry_date_of_liabilities = models.DateField(_('Expiry Date Of Liabilities'), null=True)
     effective_rate = models.DecimalField(_('Effective Rate'), help_text="This is a percentage value.",
                                          validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
     coordinated_cost = models.DecimalField(_('Coordinated Cost'), help_text="Value is in thousands.",
@@ -74,3 +77,8 @@ class Instrument(models.Model):
     instrument_sub_type = models.CharField('Instrument Sub Type', max_length=255, choices=INSTRUMENT_TYPES)
     negotiable = models.NullBooleanField(_('Negotiable'))
     quarter = models.ForeignKey(Quarter, related_name='instrument_quarter')
+
+
+class InstrumentFields(models.Model):
+    fields_to_show = models.CharField(_('Fields To Show'), max_length=255, choices=INSTRUMENT_FIELDS)
+    color = models.CharField(_('Color'), max_length=255)

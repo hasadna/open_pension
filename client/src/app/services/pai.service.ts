@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 
 import { Pai } from '../models/pai';
 
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class PaiService {
 

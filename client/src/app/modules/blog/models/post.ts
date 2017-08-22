@@ -9,3 +9,10 @@ export class Post {
   publish: string;
   tags: Tag[];
 }
+
+export interface PostResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Post[];
+}

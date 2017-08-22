@@ -1,8 +1,16 @@
 <div class="filters">
   <div class="filters-date-select-div">
     <select class="filters-date-select">
-      <option *ngFor="let quarter of quarters$ | async" value="{{quarter.year}}-{{quarter.month}}">{{quarter.year}} - {{quarter.month}}</option>
+      <option *ngFor="let quarter of quarters$ | async" value="{{ quarter.year }}-{{ quarter.month }}">
+        {{ quarter.year }} - {{ quarter.month }}
+      </option>
     </select>
+  </div>
+  <div>
+    <input id="quarterly" type="radio" name="time-display" value="quarterly"/>
+    <label class="filters-label" for="quarterly">רבעוני</label>
+    <input id="month" type="radio" name="time-display" value="month"/>
+    <label class="filters-label" for="month">חודשי</label>
   </div>
   <div class="filters-parameters-div">
     <h2>פרמטרים</h2>
@@ -10,14 +18,17 @@
   <div>
     <div class="filters-parameters-div">
       <div class='container' [dragula]='"first-bag"'>
-        <div class="filters-button button-purple">בסיס<br>סה״כ שוק הפנסיה 100%</div>
-        <div class="filters-button button-purple">גוף מנהל</div>
-        <div class="filters-button button-green">רמת סחירות</div>
-        <div class="filters-button button-lightblue">סוג נכס</div>
-        <div class="filters-button button-orange">רמת נזילות</div>
+        <div *ngFor="let filter of selectedFilters$ | async" class="filters-button" [style.background]=filter.color>
+          {{ filter.fields_to_show_name }}
+        </div>
       </div>
-
     </div>
-    <button class="filters-button add-button">+ הוספה</button>
+
+    <select class="filters-button add-button" [(ngModel)]="selectedFilter" (ngModelChange)="selectNewFilter()">
+      <option>+ הוספה</option>
+      <option *ngFor="let filter of filters$ | async" [value]="filter.fields_to_show">
+        {{ filter.fields_to_show_name }}
+      </option>
+    </select>
   </div>
 </div>
