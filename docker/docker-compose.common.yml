@@ -15,9 +15,6 @@ services:
 
   database:
     image: postgres
-    volumes:
-      - ./database:/etc/cron.daily
-      - /var/backups:/var/backups
     networks:
       - openpension
 

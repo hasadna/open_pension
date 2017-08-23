@@ -10,24 +10,26 @@ services:
       file: docker-compose.common.yml
       service: proxy
 
-
   database:
     extends:
       file: docker-compose.common.yml
-      service: proxy
+      service: database
     volumes:
       - db-data:/var/lib/postgresql/db-data
+    env_file:
+      - .env.dev
 
   client:
     extends:
       file: docker-compose.common.yml
-      service: proxy
-
+      service: client
 
   server:
     extends:
       file: docker-compose.common.yml
-      service: proxy
+      service: server
+    env_file:
+      - .env.dev
 
 networks:
   openpension:
