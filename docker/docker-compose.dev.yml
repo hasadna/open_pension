@@ -1,0 +1,34 @@
+version: "3"
+
+volumes:
+  db-data:
+    external: false
+
+services:
+  proxy:
+    extends:
+      file: docker-compose.common.yml
+      service: proxy
+
+
+  database:
+    extends:
+      file: docker-compose.common.yml
+      service: proxy
+    volumes:
+      - db-data:/var/lib/postgresql/db-data
+
+  client:
+    extends:
+      file: docker-compose.common.yml
+      service: proxy
+
+
+  server:
+    extends:
+      file: docker-compose.common.yml
+      service: proxy
+
+networks:
+  openpension:
+    driver: overlay
