@@ -13,6 +13,8 @@ services:
     extends:
       file: docker-compose.common.yml
       service: database
+    env_file:
+      - .env.prod
     deploy:
       replicas: 1
       restart_policy:
@@ -35,6 +37,11 @@ services:
         window: 120s
 
   server:
+    extends:
+      file: docker-compose.common.yml
+      service: server
+    env_file:
+      - .env.prod
     deploy:
       replicas: 2
       update_config:

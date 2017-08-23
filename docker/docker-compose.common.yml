@@ -15,10 +15,6 @@ services:
 
   database:
     image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Zaq12345
-      - POSTGRES_DB=openpension
     volumes:
       - ./database:/etc/cron.daily
       - /var/backups:/var/backups
@@ -38,13 +34,6 @@ services:
     image: server
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=False
-      - DB_HOST=database
-      - DB_NAME=openpension
-      - DB_USER=postgres
-      - DB_PASS=Zaq12345
-      - SECRET_KEY=-#&29$$6a5n)za$$%q-9di^$$lxu5bvo!so=0e$$anel3o7^3oscz6
     command: bash -c "/home/app/server/entrypoint.sh && gunicorn config.wsgi -b 0.0.0.0:8000"
     depends_on:
       - database
