@@ -10,33 +10,24 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 80:80
-    networks:
-      - openpension
 
   database:
     image: postgres
-    networks:
-      - openpension
 
   client:
     image: client
+    build: ../client
     ports:
       - "4200:4200"
     environment:
       - SERVICE_PORTS=4200
-    networks:
-      - openpension
 
   server:
     image: server
+    build: ../server
     ports:
       - "8000:8000"
     command: bash -c "/home/app/server/entrypoint.sh && gunicorn config.wsgi -b 0.0.0.0:8000"
     depends_on:
       - database
-    networks:
-      - openpension
 
-networks:
-  openpension:
-    driver: overlay
