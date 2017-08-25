@@ -15,7 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
-import { reducers, metaReducers } from './reducers';
+import { reducers } from './reducers';
 
 import { OpComponent } from './op.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -34,15 +34,15 @@ import { FiltersService } from './services/filters.service';
 
 import { environment } from '../environments/environment';
 
-Raven
-  .config('https://2d4c5f09376d40ef8beef9b4b5444667@sentry.io/202882')
-  .install();
-
-export class RavenErrorHandler implements ErrorHandler {
-  handleError(err: any): void {
-    Raven.captureException(err);
-  }
-}
+// Raven
+//   .config('https://2d4c5f09376d40ef8beef9b4b5444667@sentry.io/202882')
+//   .install();
+//
+// export class RavenErrorHandler implements ErrorHandler {
+//   handleError(err: any): void {
+//     Raven.captureException(err);
+//   }
+// }
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ export class RavenErrorHandler implements ErrorHandler {
     BrowserAnimationsModule,
     AppRoutingModule,
     DragulaModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([
       PaiEffects,
@@ -74,7 +74,7 @@ export class RavenErrorHandler implements ErrorHandler {
   providers: [
     PaiService,
     FiltersService,
-    { provide: ErrorHandler, useClass: RavenErrorHandler }
+    // { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   bootstrap: [OpComponent]
 })

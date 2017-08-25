@@ -10,7 +10,7 @@ import { DisqusModule } from 'ngx-disqus';
 import { ShareButtonsModule } from 'ngx-sharebuttons';
 
 import { BlogRoutingModule } from './blog-routing.module';
-import { reducers, metaReducers } from './reducers';
+import { reducers } from './reducers';
 
 import { BlogComponent } from './blog.component';
 import { PostComponent } from './components/post/post.component';
@@ -32,7 +32,7 @@ import { environment } from '../../../environments/environment';
     MaterialModule,
     DisqusModule.forRoot('openpension'),
     ShareButtonsModule.forRoot(),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([
       PostEffects,
