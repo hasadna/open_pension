@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { By } from '@angular/platform-browser';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
-import { reducers, metaReducers } from '../../reducers';
+import { reducers } from '../../reducers';
 import { StoreModule } from '@ngrx/store';
 
 import 'rxjs/add/observable/of';
@@ -40,7 +40,7 @@ describe('FiltersComponent', () => {
       imports: [
         FormsModule,
         DragulaModule,
-        StoreModule.forRoot(reducers, { metaReducers }),
+        StoreModule.forRoot(reducers),
       ],
       declarations: [ FiltersComponent ]
     })
