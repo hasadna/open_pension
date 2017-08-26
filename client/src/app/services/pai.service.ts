@@ -14,8 +14,9 @@ export class PaiService {
   ) { }
 
   getPai(): Observable<Pai> {
-    return this.http.get('/data/flare.json')
+    return this.http.get('http://localhost:8000/filter-pai?two=activity_industry&one=currency')
       .map(res => res.json())
+      .do(data => console.log(data))
       .catch(this.handleError);
   }
 
