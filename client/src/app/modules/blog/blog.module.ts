@@ -32,7 +32,7 @@ import { environment } from '../../../environments/environment';
     MaterialModule,
     DisqusModule.forRoot('openpension'),
     ShareButtonsModule.forRoot(),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([
       PostEffects,
