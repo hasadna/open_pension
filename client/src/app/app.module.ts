@@ -35,15 +35,15 @@ import { FiltersService } from './services/filters.service';
 
 import { environment } from '../environments/environment';
 
-Raven
-  .config('https://2d4c5f09376d40ef8beef9b4b5444667@sentry.io/202882')
-  .install();
-
-export class RavenErrorHandler implements ErrorHandler {
-  handleError(err: any): void {
-    Raven.captureException(err);
-  }
-}
+// Raven
+//   .config('https://2d4c5f09376d40ef8beef9b4b5444667@sentry.io/202882')
+//   .install();
+//
+// export class RavenErrorHandler implements ErrorHandler {
+//   handleError(err: any): void {
+//     Raven.captureException(err);
+//   }
+// }
 
 @NgModule({
   declarations: [
@@ -76,7 +76,7 @@ export class RavenErrorHandler implements ErrorHandler {
   providers: [
     PaiService,
     FiltersService,
-    { provide: ErrorHandler, useClass: RavenErrorHandler }
+    // { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   bootstrap: [OpComponent]
 })
