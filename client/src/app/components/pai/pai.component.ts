@@ -141,8 +141,8 @@ export class PaiComponent implements OnInit {
     this.paiElement = selection
       .select(this.paiContainer.nativeElement)
       .append('svg')
-      .attr('width', this.dimensions.width)
-      .attr('height', this.dimensions.height)
+      .attr('width', '100%')
+      .attr('height', '100%')
       .append('g')
       .attr('transform', 'translate(' + this.dimensions.width / 2 + ',' + (this.dimensions.height / 2) + ')');
   }
