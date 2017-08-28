@@ -1,13 +1,10 @@
 @import "../../../assets/sass/vars.scss";
-
+/deep/
 nav {
   background-color: $header-background;
   height: 120px;
 
   .container {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
     height: 120px;
     width: 80%;
     margin: 0 auto;
@@ -16,16 +13,25 @@ nav {
 
 ul {
   padding: 0;
-  
+  margin: 0;
+
   li {
     display: inline-block;
     list-style-type: none;
     color: #ffffff;
+
+    a {
+      margin: 0;
+    }
   }
 }
 
 #logo {
   align-self: center;
+
+  img {
+    max-width: 100%;
+  }
 }
 
 .links {
