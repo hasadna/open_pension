@@ -15,7 +15,7 @@ import 'd3-transition';
 @Component({
   selector: 'op-pai',
   templateUrl: './pai.component.html',
-  styleUrls: ['./pai.component.scss']
+  styleUrls: ['./pai.component.scss'],
 })
 export class PaiComponent implements OnInit {
   @ViewChild('pai')paiContainer: ElementRef;
