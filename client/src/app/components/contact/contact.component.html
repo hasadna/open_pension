@@ -2,7 +2,12 @@
   <h4>יצירת קשר</h4>
   <p>מוזמנים</p>
 
-  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+  <form
+    [formGroup]="contactForm"
+    (ngSubmit)="onSubmit()"
+    fxLayout="column"
+    fxLayoutAlign="space-between">
+
     <input type="text" autofocus="true" placeholder="שם" formControlName="name" (keyup)="checkError($event)">
     <div class="errors" [style.visibility]="(nameControl.errors && NameError) ? 'visible' : 'hidden'">
       <span>נדרש</span>
