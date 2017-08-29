@@ -1,0 +1,7 @@
+<section>
+  <h2>בלוג</h2>
+  <div *ngFor="let post of posts$ | async; let last=last;" >
+    <op-post [post]="post"></op-post>
+    <hr *ngIf="!last">
+  </div>
+</section>

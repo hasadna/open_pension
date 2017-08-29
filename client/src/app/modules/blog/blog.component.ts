@@ -8,37 +8,8 @@ import { Post } from './models/post';
 
 @Component({
   selector: 'op-blog',
-  template: `
-    <section>
-      <h2>בלוג</h2>
-      <div *ngFor="let post of posts$ | async; let last=last;" >
-        <op-post [post]="post"></op-post>
-        <hr *ngIf="!last">
-      </div>
-    </section>
-  `,
-  styles: [`
-    section {
-      margin-top: 100px;
-      color: #4a4a4a;
-      direction: rtl;
-      width: 680px;
-      margin: auto;
-    }
-
-    h2 {
-      font-weight: bold;
-      font-size: 30px;
-    }
-
-    div {
-      margin-top: 30px;
-    }
-
-    hr {
-      color: #979797;
-    }
-  `]
+  templateUrl: './blog.component.html',
+  styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
   public posts$: Observable<Post[]>;
