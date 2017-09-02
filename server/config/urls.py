@@ -25,12 +25,14 @@ from blog.models import Tags
 from blog.views import PostViewSet
 from pension.views import QuarterViewSet, InstrumentViewSet, InstrumentFieldsViewSet
 from rest_framework.routers import DefaultRouter
+from contact.views import ContactViewSet
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, base_name='posts')
 router.register(r'quarter', QuarterViewSet, base_name='quarter')
 router.register(r'instrument', InstrumentViewSet, base_name='instrument')
 router.register(r'instrument-fields', InstrumentFieldsViewSet, base_name='instrument-fields')
+router.register(r'contact', ContactViewSet, base_name='contact')
 
 # URLs that shouldn't be translated.
 urlpatterns = [

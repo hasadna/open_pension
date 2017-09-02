@@ -34,6 +34,7 @@ CORS_ORIGIN_REGEX_WHITELIST = (
 # Application definition
 INSTALLED_APPS = [
     'modeltranslation',
+    'contact',
     'pension',
     'blog',
     'ckeditor',
