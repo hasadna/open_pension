@@ -20,10 +20,7 @@ import 'd3-transition';
 export class PaiComponent implements OnInit {
   @ViewChild('pai')paiContainer: ElementRef;
   private arcGenerator: any;
-  private mainAxes: {
-    x: any,
-    y: any
-  };
+  private mainAxes: { x: any, y: any };
   private dimensions: any;
   private paiElement: any;
   private colorScale: any;
@@ -31,10 +28,7 @@ export class PaiComponent implements OnInit {
   constructor(
     private store: Store<fromRoot.State>,
   ) {
-    this.mainAxes = {
-      x: 0,
-      y: 0
-    };
+    this.mainAxes = { x: 0, y: 0 };
     this.dimensions = {};
   }
 
@@ -57,8 +51,7 @@ export class PaiComponent implements OnInit {
     const y = this.mainAxes.y;
     const radius = this.dimensions.radius;
     const arc = this.arcGenerator;
-    this
-      .paiElement
+    this.paiElement
       .transition()
       .duration(750)
       .tween('scale', () => {
@@ -85,19 +78,18 @@ export class PaiComponent implements OnInit {
     root.sum(function (d) {
       return d.size;
     });
-    this
-      .paiElement
+    this.paiElement
       .selectAll('path')
       .data(partition(root).descendants())
       .enter()
       .append('path')
       .attr('d', this.arcGenerator)
-      .style('fill', function (d: any) {
+      .style('fill', (d: any) => {
         return color((d.children ? d : d.parent).data.name);
       })
       .on('click', this.zoomToNode.bind(this))
       .append('title')
-      .text(function (d: any) {
+      .text((d: any) => {
         return d.data.name + '\n' + d.value;
       });
   }
@@ -121,8 +113,7 @@ export class PaiComponent implements OnInit {
     const x = this.mainAxes.x;
     const y = this.mainAxes.y;
     this.arcGenerator = d3Shape.arc();
-    this
-      .arcGenerator
+    this.arcGenerator
       .startAngle((d: any) => {
         return Math.max(0, Math.min(2 * Math.PI, x(d.x0)));
       })
@@ -138,6 +129,8 @@ export class PaiComponent implements OnInit {
   }
 
   private initPai() {
+    selection.select('svg').selectAll('*').remove();
+
     this.paiElement = selection
       .select(this.paiContainer.nativeElement)
       .append('svg')
