@@ -75,23 +75,24 @@ class GetPaiDataByFilters(APIView):
         if four_filter_name:
             queryset4 = Instrument.objects.values(str(four_filter_name)).annotate(Sum('market_cap'))
 
-
+        # Build the pai by the number of layers.
         if first_filter_name and second_filter_name and three_filter_name and four_filter_name:
-            new_pai = build_four_layers(pai, first_filter_name, second_filter_name, three_filter_name, four_filter_name)
+            new_pai = build_four_layers(pai, first_filter_name, second_filter_name, three_filter_name,
+                                        four_filter_name, queryset1, queryset2, queryset3)
             return Response(new_pai)
         elif first_filter_name and second_filter_name and three_filter_name:
-            new_pai = build_three_layers(pai, first_filter_name, second_filter_name, three_filter_name)
+            new_pai = build_three_layers(pai, first_filter_name, second_filter_name, three_filter_name,
+                                         queryset1, queryset2)
             return Response(new_pai)
         elif first_filter_name and second_filter_name:
             new_pai = build_two_layers(pai, first_filter_name, second_filter_name, queryset1)
             return Response(new_pai)
         elif first_filter_name:
-            new_pai = build_one_layer(pai, first_filter_name, queryset1)
-            print('new_pai', new_pai)
+            new_pai = build_one_layer(pai, first_filter_name)
             return Response(new_pai)
 
 
-def build_one_layer(pai, filter_one, o_queryset):
+def build_one_layer(pai, filter_one):
     queryset = Instrument.objects.all().values(filter_one) \
                 .annotate(Sum('market_cap')) \
                 .annotate(name=F(filter_one)) \
@@ -102,13 +103,13 @@ def build_one_layer(pai, filter_one, o_queryset):
     return pai
 
 
-def build_two_layers(pai, filter_one, filter_two, o_queryset):
-    for filter in o_queryset:
+def build_two_layers(pai, filter_one, filter_two, queryset1):
+    for filter in queryset1:
         queryset = Instrument.objects.filter(**{filter_one: filter[filter_one]}) \
-                    .values(filter_two).annotate(Sum('market_cap')) \
-                    .annotate(name=F(filter_two)) \
-                    .annotate(size=F('market_cap__sum')) \
-                    .values('name', 'size')
+            .values(filter_two).annotate(Sum('market_cap')) \
+            .annotate(name=F(filter_two)) \
+            .annotate(size=F('market_cap__sum')) \
+            .values('name', 'size')
         pai['children'].append({
             'name': filter[filter_one],
             'children': queryset,
@@ -117,9 +118,56 @@ def build_two_layers(pai, filter_one, filter_two, o_queryset):
     return pai
 
 
-def build_three_layers(pai, filter_one, filter_two, filter_three, o_queryset):
-    pass
+def build_three_layers(pai, filter_one, filter_two, filter_three, queryset1, queryset2):
+    for outter_filter in queryset1:
+        inner_pai = []
+        for inner_filter in queryset2:
+            queryset = Instrument.objects.filter(**{
+                            filter_one: outter_filter[filter_one],
+                            filter_two: inner_filter[filter_two],
+                        }) \
+                        .values(filter_three).annotate(Sum('market_cap')) \
+                        .annotate(name=F(filter_three)) \
+                        .annotate(size=F('market_cap__sum')) \
+                        .values('name', 'size')
+            inner_pai.append({
+                'name': inner_filter[filter_two],
+                'children': queryset,
+            })
+        pai['children'].append({
+            'name': outter_filter[filter_one],
+            'children': inner_pai,
+        })
+
+    return pai
 
 
-def build_four_layers(pai, filter_one, filter_two, filter_three, filter_four, o_queryset):
-    pass
+def build_four_layers(pai, filter_one, filter_two, filter_three, filter_four, queryset1, queryset2, queryset3):
+    for outter_filter in queryset1:
+        middle_pai = []
+        for middle_filter in queryset2:
+            inner_pai = []
+            for inner_filter in queryset3:
+                queryset = Instrument.objects.filter(**{
+                                filter_one: outter_filter[filter_one],
+                                filter_two: middle_filter[filter_two],
+                                filter_three: inner_filter[filter_three],
+                            }) \
+                            .values(filter_four).annotate(Sum('market_cap')) \
+                            .annotate(name=F(filter_four)) \
+                            .annotate(size=F('market_cap__sum')) \
+                            .values('name', 'size')
+                inner_pai.append({
+                    'name': inner_filter[filter_three],
+                    'children': queryset,
+                })
+            middle_pai.append({
+                'name': middle_filter[filter_two],
+                'children': inner_pai,
+            })
+        pai['children'].append({
+            'name': outter_filter[filter_one],
+            'children': middle_pai,
+        })
+
+    return pai
