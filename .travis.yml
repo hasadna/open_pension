@@ -31,15 +31,15 @@ install:
   - cd client && npm install
 
   # Server
-  - cd ../server && pip3 install coverage pycodestyle
-  - pip3 install -r requirements.txt
+  - cd ../server && pip install coverage pycodestyle
+  - pip install -r requirements.txt
   - psql -c 'create database server;' -U postgres
 
 script:
   # Client
   - cd ../client && npm run lint
   - npm run test
-  - npm run build -- --prod
+  - npm run build
   - cd dist && ws --port 4200&
   - npm run e2e
 

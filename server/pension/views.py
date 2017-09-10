@@ -44,7 +44,7 @@ class GetPaiDataByFilters(APIView):
     """
     A custom endpoint for GET Trend Game request.
     """
-    def get(self, request, format=None):
+    def get(self, request):
         # Get the base market cap.
         base = Instrument.objects.all().aggregate(Sum('market_cap'))
         pai = {
@@ -71,9 +71,6 @@ class GetPaiDataByFilters(APIView):
 
         if three_filter_name:
             queryset3 = Instrument.objects.values(str(three_filter_name)).annotate(Sum('market_cap'))
-
-        if four_filter_name:
-            queryset4 = Instrument.objects.values(str(four_filter_name)).annotate(Sum('market_cap'))
 
         # Build the pai by the number of layers.
         if first_filter_name and second_filter_name and three_filter_name and four_filter_name:
@@ -104,14 +101,14 @@ def build_one_layer(pai, filter_one):
 
 
 def build_two_layers(pai, filter_one, filter_two, queryset1):
-    for filter in queryset1:
-        queryset = Instrument.objects.filter(**{filter_one: filter[filter_one]}) \
+    for query_filter in queryset1:
+        queryset = Instrument.objects.filter(**{filter_one: query_filter[filter_one]}) \
             .values(filter_two).annotate(Sum('market_cap')) \
             .annotate(name=F(filter_two)) \
             .annotate(size=F('market_cap__sum')) \
             .values('name', 'size')
         pai['children'].append({
-            'name': filter[filter_one],
+            'name': query_filter[filter_one],
             'children': queryset,
         })
 
