@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as paiAction from '../../actions/pai';
+import { Filter } from '../../models/filter';
 
 import * as scale from 'd3-scale';
 import * as selection from 'd3-selection';
@@ -24,12 +25,16 @@ export class PaiComponent implements OnInit {
   private dimensions: any;
   private paiElement: any;
   private colorScale: any;
+  public selectedFilters: Filter[];
 
   constructor(
     private store: Store<fromRoot.State>,
   ) {
     this.mainAxes = { x: 0, y: 0 };
     this.dimensions = {};
+    this.store.select(fromRoot.getSelectedFilters).subscribe(
+      res => this.selectedFilters = res
+    );
   }
 
   ngOnInit() {
@@ -85,12 +90,18 @@ export class PaiComponent implements OnInit {
       .append('path')
       .attr('d', this.arcGenerator)
       .style('fill', (d: any) => {
-        return color((d.children ? d : d.parent).data.name);
+        // return color((d.children ? d : d.parent).data.name);
+        const colorNode = this.selectedFilters.filter((node, index) => (d.depth - 1) === index);
+        if (colorNode.length) {
+          return colorNode[0].color;
+        }
+
+        return '#000000';
       })
       .on('click', this.zoomToNode.bind(this))
       .append('title')
       .text((d: any) => {
-        return d.data.name + '\n' + d.value;
+        return `${d.data.name}\n${d.value}`;
       });
   }
 
@@ -129,7 +140,7 @@ export class PaiComponent implements OnInit {
   }
 
   private initPai() {
-    selection.select('svg').selectAll('*').remove();
+    selection.select('svg').remove();
 
     this.paiElement = selection
       .select(this.paiContainer.nativeElement)
