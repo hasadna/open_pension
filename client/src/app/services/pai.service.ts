@@ -23,7 +23,7 @@ export class PaiService {
   }
 
   getPaiWithFilters(): Observable<Pai> {
-    const query_level = ['one', 'two', 'three', 'four'];
+    const query_level = ['one', 'two', 'three', 'four', 'five'];
     let query = '';
 
     // Get all filters.

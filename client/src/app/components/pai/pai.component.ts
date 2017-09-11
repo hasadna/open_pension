@@ -91,7 +91,7 @@ export class PaiComponent implements OnInit {
       .attr('d', this.arcGenerator)
       .style('fill', (d: any) => {
         // return color((d.children ? d : d.parent).data.name);
-        const colorNode = this.selectedFilters.filter((node, index) => (d.depth - 1) === index);
+        const colorNode = this.selectedFilters.filter((node, index) => (d.depth) === index);
         if (colorNode.length) {
           return colorNode[0].color;
         }
