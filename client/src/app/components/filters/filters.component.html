@@ -1,7 +1,7 @@
 <div class="filters">
   <div class="filters-date-select-div">
-    <select class="filters-date-select">
-      <option *ngFor="let quarter of quarters$ | async" value="{{ quarter.year }}-{{ quarter.month }}">
+    <select class="filters-date-select" [(ngModel)]="selectedQuarter" (ngModelChange)="selectNewQuarter()">
+      <option *ngFor="let quarter of quarters" value="{{ quarter.year }}-{{ quarter.month }}">
         {{ quarter.year }} - {{ quarter.month }}
       </option>
     </select>

@@ -90,13 +90,12 @@ export class PaiComponent implements OnInit {
       .append('path')
       .attr('d', this.arcGenerator)
       .style('fill', (d: any) => {
-        // return color((d.children ? d : d.parent).data.name);
         const colorNode = this.selectedFilters.filter((node, index) => (d.depth) === index);
         if (colorNode.length) {
           return colorNode[0].color;
         }
 
-        return '#000000';
+        return '#ffffff';
       })
       .on('click', this.zoomToNode.bind(this))
       .append('title')

@@ -37,6 +37,7 @@ export class PaiService {
 
     return this.http.get(`http://localhost:8000/filter-pai?${query}`)
       .map(res => res.json())
+      .do(res => console.log('res', res))
       .catch(this.handleError);
   }
 

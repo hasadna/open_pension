@@ -58,7 +58,7 @@ class GetPaiDataByFilters(APIView):
 
         # If not filter selected.
         if not first_filter_name and not second_filter_name and not three_filter_name and not four_filter_name and not five_filter_name:
-            pai['children'] = [{ 'name': 'base', 'size': base['market_cap__sum'] }]
+            # pai['children'] = [{ 'name': 'base', 'size': base['market_cap__sum'] }]
             return Response(pai)
 
         if first_filter_name:

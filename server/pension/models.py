@@ -1,4 +1,5 @@
 from django.db import models
+from colorful.fields import RGBColorField
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -85,7 +86,7 @@ class Instrument(models.Model):
 
 class InstrumentFields(models.Model):
     fields_to_show = models.CharField(_('Fields To Show'), max_length=255, choices=INSTRUMENT_FIELDS)
-    color = models.CharField(_('Color'), max_length=255)
+    color = RGBColorField()
 
     class Meta:
         verbose_name = _('Instrument Field')

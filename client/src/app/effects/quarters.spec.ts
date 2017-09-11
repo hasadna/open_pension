@@ -6,23 +6,23 @@ import { Observable } from 'rxjs/Observable';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
-import { FiltersEffects } from './filters';
+import { QuartersEffects } from './quarters';
 import { Quarter } from '../models/quarter';
 import { Filter } from '../models/filter';
-import * as filtersAction from '../actions/filters';
-import { FiltersService } from '../services/filters.service';
+import * as quartersAction from '../actions/quarters';
+import { QuartersService } from '../services/quarters.service';
 
-describe('FiltersEffects', () => {
-  let effects: FiltersEffects;
+describe('QuartersEffects', () => {
+  let effects: QuartersEffects;
   const actions: Observable<any> = Observable.of('');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        FiltersEffects,
+        QuartersEffects,
         provideMockActions(() => actions),
         // other providers
-        FiltersService,
+        QuartersService,
         {
           provide: Http,
           useFactory: (mockBackend, options) => {
@@ -35,32 +35,32 @@ describe('FiltersEffects', () => {
       ],
     });
 
-    effects = TestBed.get(FiltersEffects);
+    effects = TestBed.get(QuartersEffects);
   });
 
-  it('should create the effects', inject([FiltersService], (service: FiltersService) => {
+  it('should create the effects', inject([QuartersService], (service: QuartersService) => {
     expect(service).toBeTruthy();
   }));
 
-  it('loadFilters$ should work', () => {
-    const filter1 = {
-      fields_to_show: 'foo',
-      fields_to_show_name: 'Foo',
-      color: '#ffffff',
-    } as Filter;
-    const filter2 = {
-      fields_to_show: 'bar',
-      fields_to_show_name: 'Bar',
-      color: '#000000',
-    } as Filter;
-    const filters = [filter1, filter2];
+  it('loadQuarters$ should work', () => {
+    const quarter1 = {
+      quarter_id: 111,
+      year: '2018',
+      month: '03',
+    } as Quarter;
+    const quarter2 = {
+      quarter_id: 222,
+      year: '2017',
+      month: '02',
+    } as Quarter;
+    const quarters = [quarter1, quarter2];
 
-    const action = new filtersAction.LoadInstrumentListAction();
-    const completion = new filtersAction.LoadInstrumentListSuccessAction(filters);
+    const action = new quartersAction.LoadQuartersAction();
+    const completion = new quartersAction.LoadQuarterSuccessAction(quarters);
     const someAction = new ReplaySubject(1);
     someAction.next(action);
 
-    effects.loadFilters$.subscribe(result => {
+    effects.loadQuarters$.subscribe(result => {
         expect(result).toBe(completion);
       });
   });
