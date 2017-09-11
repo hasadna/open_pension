@@ -31,4 +31,12 @@ export class PaiEffects {
       // .catch(error => Observable.of(getPostsFail(error)))
     );
 
+  @Effect()
+  changeFilterLayer$: Observable<Action>= this.actions$
+    .ofType(filters.CHANGE_LAYER_OF_FILTER_ACTION)
+    .switchMap(_ => this.paiService.getPaiWithFilters()
+      .map(paiData => new pai.LoadPaiAfterNewFilterSuccessAction(paiData))
+      // .catch(error => Observable.of(getPostsFail(error)))
+    );
+
 }

@@ -8,6 +8,7 @@ export const LOAD_QUARTERS_SUCCESS = '[FILTERS] Load Quarters Success';
 export const LOAD_INSTRUMENT_LIST = '[FILTERS] Load Instrument List';
 export const LOAD_INSTRUMENT_LIST_SUCCESS = '[FILTERS] Load Instrument List Success';
 export const SELECT_NEW_FILTER_ACTION = '[FILTERS] Select New Filter';
+export const CHANGE_LAYER_OF_FILTER_ACTION = '[FILTERS] Change Layer Of Filter';
 
 export class LoadQuartersAction implements Action {
   readonly type = LOAD_QUARTERS;
@@ -39,10 +40,16 @@ export class SelectNewFilterAction implements Action {
   constructor(public payload: string) { }
 }
 
+export class ChangeLayerOfFilterAction implements Action {
+  readonly type = CHANGE_LAYER_OF_FILTER_ACTION;
+
+  constructor() { }
+}
 
 export type Actions
   = LoadQuartersAction
   | LoadQuarterSuccessAction
   | LoadInstrumentListAction
   | LoadInstrumentListSuccessAction
-  | SelectNewFilterAction;
+  | SelectNewFilterAction
+  | ChangeLayerOfFilterAction;

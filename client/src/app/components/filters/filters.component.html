@@ -17,8 +17,8 @@
   </div>
   <div>
     <div class="filters-parameters-div">
-      <div class='container' [dragula]='"first-bag"'>
-        <div *ngFor="let filter of selectedFilters$ | async" class="filters-button" [style.background]=filter.color>
+      <div [dragula]='"another-bag"' [dragulaModel]='selectedFilters'>
+        <div *ngFor="let filter of selectedFilters" class="filters-button" [style.background]=filter.color>
           {{ filter.fields_to_show_name }}
         </div>
       </div>

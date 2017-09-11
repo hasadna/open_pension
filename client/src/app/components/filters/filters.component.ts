@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 import * as fromRoot from '../../reducers';
 import * as filtersAction from '../../actions/filters';
@@ -15,15 +16,22 @@ import { Filter } from '../../models/filter';
 export class FiltersComponent implements OnInit {
   public quarters$: Observable<Quarter[]>;
   public filters$: Observable<Filter[]>;
-  public selectedFilters$: Observable<Filter[]>;
+  public selectedFilters: Filter[];
   public selectedFilter: string;
 
   constructor(
+    private dragulaService: DragulaService,
     private store: Store<fromRoot.State>,
   ) {
     this.quarters$ = this.store.select(fromRoot.getQuarterState);
     this.filters$ = this.store.select(fromRoot.getFiltersEntities);
-    this.selectedFilters$ = this.store.select(fromRoot.getSelectedFilters);
+    this.store.select(fromRoot.getSelectedFilters).subscribe(
+      res => this.selectedFilters = res
+    );
+
+    dragulaService.dropModel.subscribe((value) => {
+      this.onDropModel(value.slice(1));
+    });
   }
 
   ngOnInit() {
@@ -33,6 +41,10 @@ export class FiltersComponent implements OnInit {
 
   selectNewFilter() {
     this.store.dispatch(new filtersAction.SelectNewFilterAction(this.selectedFilter));
+  }
+
+  private onDropModel(args) {
+    this.store.dispatch(new filtersAction.ChangeLayerOfFilterAction());
   }
 
 }
