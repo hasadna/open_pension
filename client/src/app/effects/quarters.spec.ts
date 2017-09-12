@@ -2,10 +2,11 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
-
+import { StoreModule } from '@ngrx/store';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
+import { reducers } from '../reducers';
 import { QuartersEffects } from './quarters';
 import { Quarter } from '../models/quarter';
 import { Filter } from '../models/filter';
@@ -19,6 +20,9 @@ describe('QuartersEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot(reducers),
+      ],
       providers: [
         QuartersEffects,
         provideMockActions(() => actions),
