@@ -23,7 +23,7 @@ from dal import autocomplete
 
 from blog.models import Tags
 from blog.views import PostViewSet
-from pension.views import QuarterViewSet, InstrumentViewSet, InstrumentFieldsViewSet
+from pension.views import QuarterViewSet, InstrumentViewSet, InstrumentFieldsViewSet, GetPaiDataByFilters
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -35,6 +35,7 @@ router.register(r'instrument-fields', InstrumentFieldsViewSet, base_name='instru
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^api/', include(router.urls, namespace='api')),
+    url(r'^filter-pai/', GetPaiDataByFilters.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # URLs that should be translated.

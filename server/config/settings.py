@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'dal',
     'dal_select2',
+    'colorful',
     'flat_responsive',
     'raven.contrib.django.raven_compat',
     'django.contrib.admin',
