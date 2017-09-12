@@ -45,8 +45,6 @@ class GetPaiDataByFilters(APIView):
     A custom endpoint for GET Trend Game request.
     """
     def get(self, request):
-        # Get the base market cap.
-        base = Instrument.objects.all().aggregate(Sum('market_cap'))
         pai = {'name': 'base', 'children': []}
 
         # Get all filters queries.
