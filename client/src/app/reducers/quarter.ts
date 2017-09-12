@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: quarters.Actions): State {
 
     case quarters.SELECT_NEW_QUARTER_ACTION: {
       const selectedQuarter = state.entities.filter((field) => `${field.year}-${field.month}` === action.payload);
-      const newSelectedQuarters = { selectedQuarter: selectedQuarter[0] }
+      const newSelectedQuarters = { selectedQuarter: selectedQuarter[0] };
 
       return Object.assign({}, state, newSelectedQuarters);
     }

@@ -58,7 +58,8 @@ class GetPaiDataByFilters(APIView):
         five_filter_name = self.request.query_params.get('five', None)
 
         # If not filter selected.
-        if not first_filter_name and not second_filter_name and not three_filter_name and not four_filter_name and not five_filter_name:
+        if (not first_filter_name and not second_filter_name and not three_filter_name and
+            not four_filter_name and not five_filter_name):
             return Response(pai)
 
         if requested_quarter:
@@ -94,7 +95,7 @@ class GetPaiDataByFilters(APIView):
             return Response(new_pai)
         elif first_filter_name:
             if queryset1['market_cap__sum']:
-                pai['children'] = [{ 'name': 'base', 'size': queryset1['market_cap__sum'] }]
+                pai['children'] = [{'name': 'base', 'size': queryset1['market_cap__sum']}]
             return Response(pai)
 
 
@@ -153,7 +154,8 @@ def build_four_layers(pai, filter_one, filter_two, filter_three, queryset1, quer
     return pai
 
 
-def build_five_layers(pai, filter_one, filter_two, filter_three, filter_four, queryset1, queryset2, queryset3, requested_quarter):
+def build_five_layers(pai, filter_one, filter_two, filter_three, filter_four, queryset1,
+                      queryset2, queryset3, requested_quarter):
     for outter_filter in queryset1:
         middle_pai = []
         for middle_filter in queryset2:

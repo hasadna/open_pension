@@ -16,7 +16,7 @@ import { Filter } from '../../models/filter';
 describe('FiltersComponent', () => {
   let component: FiltersComponent;
   let fixture: ComponentFixture<FiltersComponent>;
-  const quarters$: Observable<Quarter[]> = Observable.of([{
+  const quarters: Observable<Quarter[]> = Observable.of([{
     quarter_id: 111,
     year: '2018',
     month: '03',
@@ -52,7 +52,7 @@ describe('FiltersComponent', () => {
     component = fixture.componentInstance;
 
     // Load dummy data
-    component.quarters$ = quarters$;
+    component.quarters = quarters;
     component.filters$ = filters$;
     fixture.detectChanges();
   });
