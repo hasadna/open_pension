@@ -50,7 +50,7 @@ export const getQuartersEntities = createSelector(
   fromQuarter.getEntities
 );
 
-export const getselectedQuarter = createSelector(
+export const getSelectedQuarter = createSelector(
   getQuarterState,
   fromQuarter.getselectedQuarter
 );

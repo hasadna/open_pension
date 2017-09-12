@@ -34,10 +34,12 @@ export class PaiService {
         });
       }
     );
+    this.store.select(fromRoot.getSelectedQuarter).subscribe(
+      res => query += `&quarter=${res.quarter_id}`
+    );
 
     return this.http.get(`http://localhost:8000/filter-pai?${query}`)
       .map(res => res.json())
-      .do(res => console.log('res', res))
       .catch(this.handleError);
   }
 

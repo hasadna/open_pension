@@ -47,6 +47,8 @@ export class PaiComponent implements OnInit {
           this.initArcGenerator();
           this.initPai();
           this.loadData(res);
+        } else {
+          selection.select('svg').remove();
         }
     });
   }
