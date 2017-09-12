@@ -58,7 +58,7 @@ class GetPaiDataByFilters(APIView):
         # If not filter selected.
         if (not first_filter_name and not second_filter_name and not three_filter_name and
             not four_filter_name and not five_filter_name):
-            return Response(pai)
+                return Response(pai)
 
         if requested_quarter:
             requested_quarter = Quarter.objects.filter(quarter_id=requested_quarter)
