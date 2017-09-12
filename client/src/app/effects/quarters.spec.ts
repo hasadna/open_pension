@@ -11,6 +11,7 @@ import { Quarter } from '../models/quarter';
 import { Filter } from '../models/filter';
 import * as quartersAction from '../actions/quarters';
 import { QuartersService } from '../services/quarters.service';
+import { PaiService } from '../services/pai.service';
 
 describe('QuartersEffects', () => {
   let effects: QuartersEffects;
@@ -23,6 +24,7 @@ describe('QuartersEffects', () => {
         provideMockActions(() => actions),
         // other providers
         QuartersService,
+        PaiService,
         {
           provide: Http,
           useFactory: (mockBackend, options) => {
