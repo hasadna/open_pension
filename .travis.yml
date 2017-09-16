@@ -38,6 +38,7 @@ install:
   # Server
   - cd ../server && pip install pipenv
   - psql -c 'create database server;' -U postgres
+  - pipenv --three
   - pipenv install
 
 script:
