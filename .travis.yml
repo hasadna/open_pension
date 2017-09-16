@@ -37,10 +37,9 @@ install:
   - cd client && npm install
 
   # Server
-  - cd ../server && pip install pipenv pew
+  - cd ../server && pip install coverage pycodestyle flake8 isort
+  - pip install -r requirements.txt
   - psql -c 'create database server;' -U postgres
-  - pipenv --three
-  - pipenv install
 
 script:
   # Client
@@ -51,11 +50,11 @@ script:
   - npm run e2e
 
   # Server
-  - cd ../server && pipenv run coverage run --source='.' manage.py test
-  - pipenv run coverage xml
-  - pipenv run pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
-  - pipenv run flake8 .
-  - pipenv run isort . --recursive --check-only
+  - cd ../server && coverage run --source='.' manage.py test
+  - coverage xml
+  - pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
+  - flake8 .
+  - isort . --recursive --check-only
 
 after_script:
   - cd .. && codecov -t 4e44efc7-43b7-42e3-a122-4042d83e19ff
