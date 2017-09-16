@@ -42,6 +42,21 @@ export const getPostsEntities = createSelector(
   fromPosts.getEntities
 );
 
+export const getPostsCount = createSelector(
+  getPostsState,
+  fromPosts.getCount
+);
+
+export const getPostsNext = createSelector(
+  getPostsState,
+  fromPosts.getNext
+);
+
+export const getPostsPrevious = createSelector(
+  getPostsState,
+  fromPosts.getPrevious
+);
+
 export const getSelectedPost = createSelector(
   getPostsState,
   fromPosts.getSelectedPost

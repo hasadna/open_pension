@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Post } from '../models/post';
+import { PostResponse } from '../models/post';
 
 export const LOAD_POSTS = '[POST] Load Posts';
 export const LOAD_POSTS_SUCCESS = '[POST] Load Posts Success';
@@ -15,7 +15,7 @@ export class LoadPostsAction implements Action {
 export class LoadPostsSuccessAction implements Action {
   readonly type = LOAD_POSTS_SUCCESS;
 
-  constructor(public payload: Post[]) { }
+  constructor(public payload: PostResponse) { }
 }
 
 export class LoadPostByIdAction implements Action {
