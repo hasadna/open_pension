@@ -31,8 +31,10 @@ install:
   - cd client && npm install
 
   # Server
-  - cd ../server && pip install coverage pycodestyle
+  - cd ../server && pip install coverage pycodestyle pipenv
   - psql -c 'create database server;' -U postgres
+  - pipenv install
+  - pipenv shell
 
 script:
   # Client
