@@ -58,6 +58,17 @@ export function reducer(state = initialState, action: post.Actions): State {
       return Object.assign({}, state, newEntits);
     }
 
+    case post.LOAD_POSTS_BY_PAGE_NUMBER_SUCCESS: {
+      const newEntits = {
+        count: action.payload.count,
+        next: action.payload.next,
+        previous: action.payload.previous,
+        entities: action.payload.results,
+      };
+
+      return Object.assign({}, state, newEntits);
+    }
+
     case post.LOAD_POST_BY_ID_SUCCESS: {
       const newEntits = { selectedPost: action.payload };
 

@@ -22,4 +22,9 @@ hr {
 .pagination {
   text-align: center;
   margin: 0 0 10px 0;
+
+  .active {
+    background-color: #5F7D8C;
+    color: #ffffff;
+  }
 }

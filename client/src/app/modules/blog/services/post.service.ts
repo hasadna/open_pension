@@ -25,6 +25,14 @@ export class PostService {
       .catch(this.handleError);
   }
 
+  getPostsByPageNumber(pageNumber): Observable<PostResponse> {
+    const options = new RequestOptions({ headers: this.headers });
+
+    return this.http.get(`${environment.backend}/api/posts?page=${pageNumber}`, options)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   getPostById(postId): Observable<Post> {
     const options = new RequestOptions({ headers: this.headers });
 
