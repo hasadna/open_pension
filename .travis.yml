@@ -8,9 +8,6 @@ addons:
     packages:
       - google-chrome-stable
 
-# language: node_js
-# node_js:
-#   - "8"
 language: python
 python:
   - 3.6
@@ -50,6 +47,8 @@ script:
   - cd ../server && coverage run --source='.' manage.py test
   - coverage xml
   - pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
+  - flake8 .
+  - isort . --recursive --check-only
 
 after_script:
   - cd .. && codecov -t 4e44efc7-43b7-42e3-a122-4042d83e19ff

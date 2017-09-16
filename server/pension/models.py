@@ -3,7 +3,7 @@ from colorful.fields import RGBColorField
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES, INSTRUMENT_FIELDS
+from pension.choices import YEARS, MONTHS, MANAGING_BODIES, INSTRUMENT_TYPES, INSTRUMENT_FIELDS, GEOGRAPHICAL_LOCATION
 
 
 def validate_percentage(value):

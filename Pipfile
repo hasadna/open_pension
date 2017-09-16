@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[packages]
+django = "*"
+psycopg2 = "*"
+django-extensions = "*"
+gunicorn = "*"
+django-flat-responsive = "*"
+django-ckeditor = "*"
+django-autocomplete-light = "*"
+django-colorful = "*"
+django-admin-honeypot = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+django-cors-headers = "*"
+raven = "*"
+django-modeltranslation = "*"
+pandas = "*"
+numpy = "*"
+xlrd = "*"
+flake8 = "*"
+isort = "*"

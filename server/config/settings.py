@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-from django.utils.translation import ugettext_lazy as _
 import os
-import raven
+
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -192,6 +192,6 @@ CKEDITOR_CONFIGS = {
 
 # Importing local settings if exists.
 try:
-    from .local_settings import *
+    from .local_settings import *  # noqa: F401, F403
 except ImportError:
     pass
