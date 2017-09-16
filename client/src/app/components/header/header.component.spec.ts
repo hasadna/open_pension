@@ -10,9 +10,15 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule ],
-      declarations: [ HeaderComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      imports: [
+        RouterTestingModule,
+      ],
+      declarations: [
+        HeaderComponent,
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA,
+      ]
     })
     .compileComponents();
   }));

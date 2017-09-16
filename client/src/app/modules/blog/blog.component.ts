@@ -15,10 +15,10 @@ import { Post } from './models/post';
 })
 export class BlogComponent implements OnInit {
   public posts$: Observable<Post[]>;
-  public currentPage: string = '1';
+  public currentPage = '1';
   public countPage: Array<number> = [];
-  public nextPage: string = '';
-  public previousPage: string = '';
+  public nextPage = '';
+  public previousPage = '';
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -36,17 +36,17 @@ export class BlogComponent implements OnInit {
     this.store.dispatch(new postAction.LoadPostsByPageNumberAction(this.currentPage));
   }
 
-  private loadNextPage() {
+  loadNextPage() {
     const pageToLoad = String(Number(this.currentPage) + 1);
     this.loadNewPage(pageToLoad);
   }
 
-  private loadPreviousPage() {
+  loadPreviousPage() {
     const pageToLoad = String(Number(this.currentPage) - 1);
     this.loadNewPage(pageToLoad);
   }
 
-  private loadNewPage(pageToLoad: string) {
+  loadNewPage(pageToLoad: string) {
     this.currentPage = pageToLoad;
     this.location.replaceState(`blog/${pageToLoad}`);
     this.store.dispatch(new postAction.LoadPostsByPageNumberAction(pageToLoad));
