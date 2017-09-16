@@ -17,12 +17,19 @@ export class PostService {
     this.headers.append('Accept-Language', 'he');
   }
 
-  getPosts(): Observable<Post[]> {
+  getPosts(): Observable<PostResponse> {
     const options = new RequestOptions({ headers: this.headers });
 
     return this.http.get(`${environment.backend}/api/posts`, options)
       .map(res => res.json())
-      .map(body => body.results)
+      .catch(this.handleError);
+  }
+
+  getPostsByPageNumber(pageNumber): Observable<PostResponse> {
+    const options = new RequestOptions({ headers: this.headers });
+
+    return this.http.get(`${environment.backend}/api/posts?page=${pageNumber}`, options)
+      .map(res => res.json())
       .catch(this.handleError);
   }
 

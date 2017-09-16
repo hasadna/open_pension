@@ -1,10 +1,10 @@
-from django.db.models import Sum, F
 from rest_framework import viewsets
-from rest_framework.response import Response
+from django.db.models import F, Sum
 from rest_framework.views import APIView
+from rest_framework.response import Response
 
-from pension.serializers import QuartersSerializer, InstrumentsSerializer, InstrumentFieldsSerializer
 from pension.models import Quarter, Instrument, InstrumentFields
+from pension.serializers import QuartersSerializer, InstrumentsSerializer, InstrumentFieldsSerializer
 
 
 class QuarterViewSet(viewsets.ReadOnlyModelViewSet):

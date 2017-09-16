@@ -1,4 +1,5 @@
-from modeltranslation.translator import register, TranslationOptions
+from modeltranslation.translator import TranslationOptions, register
+
 from blog.models import Post, Tags
 
 

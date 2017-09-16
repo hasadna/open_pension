@@ -5,8 +5,9 @@ import { BlogComponent } from './blog.component';
 import { DetailPostComponent } from './components/detail-post/detail-post.component';
 
 const routes: Routes = [
-  { path: '', component: BlogComponent },
-  { path: ':postId', component: DetailPostComponent },
+  { path: '', redirectTo: '1', pathMatch: 'full' },
+  { path: ':pageNumber', component: BlogComponent },
+  { path: 'post/:postId', component: DetailPostComponent },
 ];
 
 @NgModule({
