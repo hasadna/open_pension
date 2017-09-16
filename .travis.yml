@@ -32,7 +32,6 @@ install:
 
   # Server
   - cd ../server && pip install coverage pycodestyle
-  - pip install -r requirements.txt
   - psql -c 'create database server;' -U postgres
 
 script:
