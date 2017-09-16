@@ -51,9 +51,9 @@ script:
   - npm run e2e
 
   # Server
-  # - cd ../server && coverage run --source='.' manage.py test
-  # - coverage xml
-  - pipenv run pycodestyle pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
+  - cd ../server && pipenv run coverage run --source='.' manage.py test
+  - pipenv run coverage xml
+  - pipenv run pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
   - pipenv run flake8 .
   - pipenv run isort . --recursive --check-only
 
