@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', True)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_REGEX_WHITELIST = (
     '^(localhost:)*',
 )
@@ -192,6 +192,6 @@ CKEDITOR_CONFIGS = {
 
 # Importing local settings if exists.
 try:
-    from .local_settings import *  # noqa: F401, F403
+    from local_settings import *  # noqa: F401, F403
 except ImportError:
     pass
