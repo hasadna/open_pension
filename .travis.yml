@@ -34,7 +34,7 @@ install:
   - cd ../server && pip install coverage pycodestyle pipenv
   - psql -c 'create database server;' -U postgres
   - pipenv install
-  - pipenv shell
+  - pipenv shell -y
 
 script:
   # Client
