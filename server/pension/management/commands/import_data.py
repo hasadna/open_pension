@@ -524,8 +524,10 @@ def read_xls_file(filename):
     for sheet_name in xls_file.sheet_names:
         if sheet_name not in ('סכום נכסי הקרן'):
             rows_to_skip = 7
-            read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
-
+            try:
+                read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
+            except Exception as e:
+                print(sheet_name)
     #print('Finish with {filename}'.format(filename=filename))
 
 
