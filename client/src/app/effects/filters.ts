@@ -22,12 +22,4 @@ export class FiltersEffects {
       // .catch(error => Observable.of(getPostsFail(error)))
     );
 
-  @Effect()
-  loadFilters$: Observable<Action>= this.actions$
-    .ofType(filters.LOAD_INSTRUMENT_LIST)
-    .switchMap(_ => this.filtersService.getFiltersOptions()
-      .map(filtersData => new filters.LoadInstrumentListSuccessAction(filtersData))
-      // .catch(error => Observable.of(getPostsFail(error)))
-    );
-
 }
