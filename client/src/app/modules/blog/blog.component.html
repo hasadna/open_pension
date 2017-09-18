@@ -4,4 +4,16 @@
     <op-post [post]="post"></op-post>
     <hr *ngIf="!last">
   </div>
+
+  <div class="pagination">
+    <button [disabled]="!previousPage" (click)="loadPreviousPage()" md-button color="primary">« הקודם</button>
+    <button md-button color="primary"
+      [disabled]="currentPage == index + 1"
+      [class.active]="currentPage == index + 1"
+      *ngFor="let pages of countPage; let index = index"
+      (click)="loadNewPage(index + 1)">
+        {{ index + 1 }}
+      </button>
+    <button [disabled]="!nextPage" (click)="loadNextPage()" md-button color="primary">הבא »</button>
+  </div>
 </section>

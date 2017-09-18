@@ -1,13 +1,18 @@
+import { StoreModule } from '@ngrx/store';
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 
+import { reducers } from '../reducers';
 import { PaiService } from './pai.service';
 
 describe('PaiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule ],
+      imports: [
+        HttpModule,
+        StoreModule.forRoot(reducers),
+      ],
       providers: [
         PaiService,
         {

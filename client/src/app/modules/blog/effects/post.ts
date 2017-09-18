@@ -31,4 +31,13 @@ export class PostEffects {
       // .catch(error => Observable.of(getPostsFail(error)))
     );
 
+  @Effect()
+  loadPostByPageNumber$: Observable<Action>= this.actions$
+    .ofType(post.LOAD_POSTS_BY_PAGE_NUMBER)
+    .map(toPayload)
+    .switchMap((pageNumber) => this.postService.getPostsByPageNumber(pageNumber)
+      .map(postData => new post.LoadPostsByPageNumberSuccessAction(postData))
+      // .catch(error => Observable.of(getPostsFail(error)))
+    );
+
 }

@@ -15,10 +15,10 @@ export class FiltersEffects {
   ) { }
 
   @Effect()
-  loadQuarters$: Observable<Action>= this.actions$
-    .ofType(filters.LOAD_QUARTERS)
-    .switchMap(_ => this.filtersService.getQuarters()
-      .map(quartersData => new filters.LoadQuarterSuccessAction(quartersData))
+  loadFilters$: Observable<Action>= this.actions$
+    .ofType(filters.LOAD_INSTRUMENT_LIST)
+    .switchMap(_ => this.filtersService.getFiltersOptions()
+      .map(filtersData => new filters.LoadInstrumentListSuccessAction(filtersData))
       // .catch(error => Observable.of(getPostsFail(error)))
     );
 

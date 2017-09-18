@@ -1,22 +1,41 @@
 import { Quarter } from '../models/quarter';
-import * as filters from '../actions/filters';
+import * as quarters from '../actions/quarters';
 
-export type  State = Quarter[];
+export interface State {
+  entities: Quarter[];
+  selectedQuarter: Quarter;
+}
 
-const initialState: State = [{
-  quarter_id: 0,
-  year: '',
-  month: '',
-}];
+const initialState: State = {
+  entities: [{
+    quarter_id: 0,
+    year: '',
+    month: '',
+  }],
+  selectedQuarter: {
+    quarter_id: 0,
+    year: '',
+    month: '',
+  },
+};
 
-export function reducer(state = initialState, action: filters.Actions): State {
+export function reducer(state = initialState, action: quarters.Actions): State {
   switch (action.type) {
-    case filters.LOAD_QUARTERS: {
+    case quarters.LOAD_QUARTERS: {
       return initialState;
     }
 
-    case filters.LOAD_QUARTERS_SUCCESS: {
-      return action.payload;
+    case quarters.LOAD_QUARTERS_SUCCESS: {
+      const newEntits = { entities: action.payload };
+
+      return Object.assign({}, state, newEntits);
+    }
+
+    case quarters.SELECT_NEW_QUARTER_ACTION: {
+      const selectedQuarter = state.entities.filter((field) => `${field.year}-${field.month}` === action.payload);
+      const newSelectedQuarters = { selectedQuarter: selectedQuarter[0] };
+
+      return Object.assign({}, state, newSelectedQuarters);
     }
 
     default: {
@@ -24,3 +43,7 @@ export function reducer(state = initialState, action: filters.Actions): State {
     }
   }
 }
+
+export const getEntities = (state: State) => state.entities;
+
+export const getselectedQuarter = (state: State) => state.selectedQuarter;

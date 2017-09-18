@@ -42,29 +42,6 @@ describe('FiltersEffects', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('loadQuarters$ should work', () => {
-    const quarter1 = {
-      quarter_id: 111,
-      year: '2018',
-      month: '03',
-    } as Quarter;
-    const quarter2 = {
-      quarter_id: 222,
-      year: '2017',
-      month: '02',
-    } as Quarter;
-    const quarters = [quarter1, quarter2];
-
-    const action = new filtersAction.LoadQuartersAction();
-    const completion = new filtersAction.LoadQuarterSuccessAction(quarters);
-    const someAction = new ReplaySubject(1);
-    someAction.next(action);
-
-    effects.loadQuarters$.subscribe(result => {
-        expect(result).toBe(completion);
-      });
-  });
-
   it('loadFilters$ should work', () => {
     const filter1 = {
       fields_to_show: 'foo',
@@ -83,7 +60,7 @@ describe('FiltersEffects', () => {
     const someAction = new ReplaySubject(1);
     someAction.next(action);
 
-    effects.loadQuarters$.subscribe(result => {
+    effects.loadFilters$.subscribe(result => {
         expect(result).toBe(completion);
       });
   });

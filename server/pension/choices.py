@@ -58,6 +58,7 @@ INSTRUMENT_TYPES = (
 )
 
 INSTRUMENT_FIELDS = (
+    ('base', 'Base'),
     ('currency', 'Currency'),
     ('informer', 'Informer'),
     ('activity_industry', 'Activity Industry'),
