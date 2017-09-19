@@ -53,6 +53,7 @@ export class FiltersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectedFilter = '+ הוספה';
     if (!this.selectedFilters.length) {
       this.store.dispatch(new filtersAction.LoadInstrumentListAction());
     }
@@ -66,7 +67,9 @@ export class FiltersComponent implements OnInit {
   }
 
   selectNewFilter() {
-    this.store.dispatch(new filtersAction.SelectNewFilterAction(this.selectedFilter));
+    if (this.selectedFilter !== '+ הוספה') {
+      this.store.dispatch(new filtersAction.SelectNewFilterAction(this.selectedFilter));
+    }
   }
 
   private onDropModel(args) {
