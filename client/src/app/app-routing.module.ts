@@ -8,7 +8,7 @@ import { ContactComponent } from './components/contact/contact.component';
 const routes: Routes = [
   { path: '', redirectTo: 'pai', pathMatch: 'full' },
   { path: 'pai', component: PaiComponent },
-  { path: 'about/:page', component: AboutComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'blog', loadChildren: 'app/modules/blog/blog.module#BlogModule' },
 ];
