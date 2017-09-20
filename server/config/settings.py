@@ -34,6 +34,7 @@ CORS_ORIGIN_REGEX_WHITELIST = (
 # Application definition
 INSTALLED_APPS = [
     'modeltranslation',
+    'contact',
     'pension',
     'blog',
     'ckeditor',
@@ -188,6 +189,13 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     }
 }
+
+# Email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'hasadna.openpension@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', '')
+EMAIL_PORT = 587
 
 
 # Importing local settings if exists.

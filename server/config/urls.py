@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 
 from blog.views import PostViewSet
 from blog.models import Tags
+from contact.views import ContactViewSet
 from pension.views import QuarterViewSet, InstrumentViewSet, GetPaiDataByFilters, InstrumentFieldsViewSet
 
 router = DefaultRouter()
@@ -30,6 +31,7 @@ router.register(r'posts', PostViewSet, base_name='posts')
 router.register(r'quarter', QuarterViewSet, base_name='quarter')
 router.register(r'instrument', InstrumentViewSet, base_name='instrument')
 router.register(r'instrument-fields', InstrumentFieldsViewSet, base_name='instrument-fields')
+router.register(r'contact', ContactViewSet, base_name='contact')
 
 # URLs that shouldn't be translated.
 urlpatterns = [
