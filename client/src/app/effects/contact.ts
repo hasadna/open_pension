@@ -19,7 +19,7 @@ export class ContactEffects {
     .ofType(contactAction.SEND_NEW_CONTACT)
     .map(toPayload)
     .switchMap(contactData => this.contactService.postNewContact(contactData)
-      .map(contactData => new contactAction.SendNewContactSuccessAction(contactData))
+      .map(savedContactData => new contactAction.SendNewContactSuccessAction(savedContactData))
       // .catch(error => Observable.of(getPostsFail(error)))
     );
 

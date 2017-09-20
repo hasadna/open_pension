@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
-import { ContactEffects } from './filters';
+import { ContactEffects } from './contact';
 import { Contact } from '../models/contact';
 import * as contactAction from '../actions/contact';
 import { ContactService } from '../services/contact.service';
