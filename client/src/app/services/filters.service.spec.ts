@@ -4,7 +4,6 @@ import { MockBackend } from '@angular/http/testing';
 
 import { FiltersService } from './filters.service';
 import { Filter } from '../models/filter';
-import { Quarter } from '../models/quarter';
 
 describe('FiltersService', () => {
   beforeEach(() => {
@@ -27,36 +26,6 @@ describe('FiltersService', () => {
 
   it('should create the service', inject([FiltersService], (service: FiltersService) => {
     expect(service).toBeTruthy();
-  }));
-
-  it('should GET all the filter options',
-  inject([FiltersService, MockBackend], (service: FiltersService, mockBackend: MockBackend) => {
-    const quarter1 = {
-      quarter_id: 4,
-      year: '2012',
-      month: '3',
-    } as Quarter;
-    const quarter2 = {
-      quarter_id: 3,
-      year: '2015',
-      month: '1',
-    } as Quarter;
-    const mockResponse = [quarter1, quarter2];
-
-    mockBackend.connections.subscribe((connection) => {
-      connection.mockRespond(new Response(new ResponseOptions({
-        body: mockResponse
-      })));
-    });
-
-    service.getQuarters().subscribe(quarters => {
-      expect(quarters[0].quarter_id).toEqual(4);
-      expect(quarters[0].year).toEqual('2012');
-      expect(quarters[0].month).toEqual('3');
-      expect(quarters[1].quarter_id).toEqual(3);
-      expect(quarters[1].year).toEqual('2015');
-      expect(quarters[1].month).toEqual('1');
-    });
   }));
 
   it('should GET all the filter options',

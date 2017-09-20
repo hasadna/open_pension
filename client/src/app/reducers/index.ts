@@ -45,6 +45,15 @@ export const getPaiState = createFeatureSelector<fromPai.State>('pai');
 export const getQuarterState = createFeatureSelector<fromQuarter.State>('quarter');
 export const getFiltersState = createFeatureSelector<fromFilters.State>('filters');
 
+export const getQuartersEntities = createSelector(
+  getQuarterState,
+  fromQuarter.getEntities
+);
+
+export const getSelectedQuarter = createSelector(
+  getQuarterState,
+  fromQuarter.getselectedQuarter
+);
 
 export const getFiltersEntities = createSelector(
   getFiltersState,

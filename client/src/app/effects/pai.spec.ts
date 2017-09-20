@@ -1,11 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-
-import { Http, BaseRequestOptions } from '@angular/http';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { MockBackend } from '@angular/http/testing';
+import { TestBed, inject } from '@angular/core/testing';
+import { Http, BaseRequestOptions } from '@angular/http';
+import { provideMockActions } from '@ngrx/effects/testing';
 
+import { reducers } from '../reducers';
 import { PaiEffects } from './pai';
 import { Pai } from '../models/pai';
 import * as paiAction from '../actions/pai';
@@ -17,6 +18,9 @@ describe('PaiEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot(reducers),
+      ],
       providers: [
         PaiEffects,
         provideMockActions(() => actions),

@@ -5,6 +5,7 @@ import { DebugElement } from '@angular/core';
 import { reducers } from './reducers';
 import { StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { BlogComponent } from './blog.component';
 
@@ -44,9 +45,16 @@ describe('BlogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BlogComponent ],
-      imports: [ StoreModule.forRoot(reducers) ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [
+        BlogComponent,
+      ],
+      imports: [
+        RouterTestingModule,
+        StoreModule.forRoot(reducers),
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA,
+      ]
     })
     .compileComponents();
   }));

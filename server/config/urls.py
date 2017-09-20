@@ -13,18 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from dal import autocomplete
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls import url, include
-from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
-
-from dal import autocomplete
-
-from blog.models import Tags
-from blog.views import PostViewSet
-from pension.views import QuarterViewSet, InstrumentViewSet, InstrumentFieldsViewSet
 from rest_framework.routers import DefaultRouter
+from django.conf.urls.static import static
+
+from blog.views import PostViewSet
+from blog.models import Tags
+from pension.views import QuarterViewSet, InstrumentViewSet, GetPaiDataByFilters, InstrumentFieldsViewSet
 from contact.views import ContactViewSet
 
 router = DefaultRouter()
@@ -37,6 +36,7 @@ router.register(r'contact', ContactViewSet, base_name='contact')
 # URLs that shouldn't be translated.
 urlpatterns = [
     url(r'^api/', include(router.urls, namespace='api')),
+    url(r'^filter-pai/', GetPaiDataByFilters.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # URLs that should be translated.
