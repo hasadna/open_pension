@@ -16,6 +16,7 @@ import { environment } from '../../environments/environment';
  import * as fromPai from './pai';
  import * as fromQuarter from './quarter';
  import * as fromFilters from './filters';
+ import * as fromContact from './contact';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -25,6 +26,7 @@ export interface State {
   pai: fromPai.State;
   quarter: fromQuarter.State;
   filters: fromFilters.State;
+  contact: fromContact.State;
 }
 
 /**
@@ -36,6 +38,7 @@ export const reducers: ActionReducerMap<State> = {
   pai: fromPai.reducer,
   quarter: fromQuarter.reducer,
   filters: fromFilters.reducer,
+  contact: fromContact.reducer,
 };
 
 /**
@@ -44,6 +47,7 @@ export const reducers: ActionReducerMap<State> = {
 export const getPaiState = createFeatureSelector<fromPai.State>('pai');
 export const getQuarterState = createFeatureSelector<fromQuarter.State>('quarter');
 export const getFiltersState = createFeatureSelector<fromFilters.State>('filters');
+export const getContactState = createFeatureSelector<fromContact.State>('contact');
 
 export const getQuartersEntities = createSelector(
   getQuarterState,

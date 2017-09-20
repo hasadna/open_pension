@@ -190,6 +190,13 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+# Email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'hasadna.openpension@gmail.com'
+EMAIL_HOST_PASSWORD = '<gmail_password>'
+EMAIL_PORT = 587
+
 
 # Importing local settings if exists.
 try:

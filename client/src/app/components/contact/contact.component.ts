@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import * as fromRoot from '../../reducers';
+import * as contactAction from '../../actions/contact';
+import { Contact } from '../../models/contact';
 
 @Component({
   selector: 'op-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent {
   contactForm: FormGroup;
   nameControl;
   emailControl;
@@ -17,10 +21,9 @@ export class ContactComponent implements OnInit {
   ContentError = false;
 
   constructor(
-    private formBuilder: FormBuilder
-  ) {}
-
-  ngOnInit() {
+    private formBuilder: FormBuilder,
+    private store: Store<fromRoot.State>,
+  ) {
     this.contactForm = this.formBuilder.group({
       name: this.formBuilder.control(null, [Validators.minLength(2), Validators.required]),
       // tslint:disable-next-line
@@ -31,6 +34,18 @@ export class ContactComponent implements OnInit {
     this.nameControl = this.contactForm.get('name');
     this.emailControl = this.contactForm.get('email');
     this.contentControl = this.contactForm.get('content');
+
+    this.store.select(fromRoot.getContactState).subscribe(
+      res => {
+        this.contactForm.reset();
+        this.NameError = false;
+        this.EmailError = false;
+        this.ContentError = false;
+        this.nameControl.setValue(res.name);
+        this.emailControl.setValue(res.email);
+        this.contentControl.setValue(res.content);
+      }
+    );
   }
 
   checkError(event) {
@@ -57,6 +72,11 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    const formModel = this.contactForm.value;
+    const formModel = {
+      name: this.contactForm.value.name,
+      email: this.contactForm.value.email,
+      content: this.contactForm.value.content,
+    } as Contact;
+    this.store.dispatch(new contactAction.SendNewContactAction(formModel));
   }
 }
