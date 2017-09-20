@@ -1,10 +1,10 @@
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from django.core.mail import send_mail
 from rest_framework.response import Response
-from rest_framework import status
 
 from contact.models import ContactRequest
 from contact.serializers import ContactRequestSerializer
+
 
 mail_templete = '''
 Name: {name}
