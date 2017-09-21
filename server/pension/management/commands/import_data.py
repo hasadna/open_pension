@@ -490,7 +490,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
 
 def read_xls_file(filename):
     print('filename', filename)
-    xls_file = pd.ExcelFile('/Users/nirgalon/Downloads/{filename}'.format(filename=filename))
+    xls_file = pd.ExcelFile('/Users/davidbronfen/Downloads/{filename}'.format(filename=filename))
     split_filename = filename.split('.')[0].split('_')
 
     quarter = Quarter.objects.get_or_create(
@@ -511,7 +511,7 @@ class Command(BaseCommand):
         print('Importing..')
 
         # Go over all the xls files in that directory
-        os.chdir('/Users/nirgalon/Downloads')
+        os.chdir('/Users/davidbronfen/Downloads')
         for file in glob.glob('*.xls*'):
             read_xls_file(file)
 
