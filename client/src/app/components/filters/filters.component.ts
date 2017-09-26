@@ -26,12 +26,23 @@ export class FiltersComponent implements OnInit {
     private store: Store<fromRoot.State>,
   ) {
     this.filters$ = this.store.select(fromRoot.getFiltersEntities);
-    this.store.select(fromRoot.getQuartersEntities).subscribe(
-      res => {
-        this.quarters = res;
-        this.selectedQuarter = `${this.quarters[0].year}-${this.quarters[0].month}`;
-        this.store.dispatch(new quartersAction.SelectNewQuarterAction(this.selectedQuarter));
-    });
+    this.store.select(fromRoot.getSelectedQuarter).subscribe(
+        selectedQuarterRes => {
+          if (selectedQuarterRes.quarter_id) {
+            this.selectedQuarter = `${selectedQuarterRes.year}-${selectedQuarterRes.month}`;
+            this.store.dispatch(new quartersAction.SelectNewQuarterAction(this.selectedQuarter));
+          }
+          this.store.select(fromRoot.getQuartersEntities).subscribe(
+            res => {
+              this.quarters = res;
+              if (!selectedQuarterRes.quarter_id) {
+                this.selectedQuarter = `${this.quarters[0].year}-${this.quarters[0].month}`;
+                this.store.dispatch(new quartersAction.SelectNewQuarterAction(this.selectedQuarter));
+              }
+            }
+          );
+        }
+    );
     this.store.select(fromRoot.getSelectedFilters).subscribe(
       res => this.selectedFilters = res
     );
@@ -42,8 +53,13 @@ export class FiltersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new quartersAction.LoadQuartersAction());
-    this.store.dispatch(new filtersAction.LoadInstrumentListAction());
+    this.selectedFilter = '+ הוספה';
+    if (!this.selectedFilters.length) {
+      this.store.dispatch(new filtersAction.LoadInstrumentListAction());
+    }
+    if (this.quarters.length < 2) {
+      this.store.dispatch(new quartersAction.LoadQuartersAction());
+    }
   }
 
   selectNewQuarter() {
@@ -51,7 +67,9 @@ export class FiltersComponent implements OnInit {
   }
 
   selectNewFilter() {
-    this.store.dispatch(new filtersAction.SelectNewFilterAction(this.selectedFilter));
+    if (this.selectedFilter !== '+ הוספה') {
+      this.store.dispatch(new filtersAction.SelectNewFilterAction(this.selectedFilter));
+    }
   }
 
   private onDropModel(args) {

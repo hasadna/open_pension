@@ -31,10 +31,12 @@ import { ContactComponent } from './components/contact/contact.component';
 import { PaiEffects } from './effects/pai';
 import { FiltersEffects } from './effects/filters';
 import { QuartersEffects } from './effects/quarters';
+import { ContactEffects } from './effects/contact';
 
 import { PaiService } from './services/pai.service';
 import { FiltersService } from './services/filters.service';
 import { QuartersService } from './services/quarters.service';
+import { ContactService } from './services/contact.service';
 
 import { environment } from '../environments/environment';
 
@@ -74,6 +76,7 @@ import { environment } from '../environments/environment';
       PaiEffects,
       FiltersEffects,
       QuartersEffects,
+      ContactEffects,
     ]),
     FlexLayoutModule
   ],
@@ -81,6 +84,7 @@ import { environment } from '../environments/environment';
     PaiService,
     FiltersService,
     QuartersService,
+    ContactService,
     // { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   bootstrap: [OpComponent]

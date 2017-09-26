@@ -64,21 +64,6 @@ Not yet..
 
 To make new strings for translation use the command
 
-```shell
-python manage.py makemessages -l he
-python manage.py compilemessages -l he
-```
-
-## Translation
-
-**Client**
-
-Not yet..
-
-**Server**
-
-To make new strings for translation use the command
-
 ```
 python manage.py makemessages -l he
 python manage.py compilemessages -l he

@@ -1,8 +1,9 @@
-/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { reducers } from '../../reducers';
+import { StoreModule } from '@ngrx/store';
 
 import { ContactComponent } from './contact.component';
 
@@ -14,8 +15,13 @@ describe('ContactComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule ],
-      declarations: [ ContactComponent ],
+      imports: [
+        StoreModule.forRoot(reducers),
+        ReactiveFormsModule,
+      ],
+      declarations: [
+        ContactComponent,
+      ],
     })
     .compileComponents();
   }));
