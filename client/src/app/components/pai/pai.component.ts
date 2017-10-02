@@ -152,7 +152,7 @@ export class PaiComponent implements OnInit {
       .attr('width', '100%')
       .attr('height', '100%')
       .attr('viewBox', `0 0 ${minDimension} ${minDimension}`)
-      .attr('preserveAspectRatio','xMinYMin')
+      .attr('preserveAspectRatio', 'xMinYMin')
       .append('g')
       .attr('transform', 'translate(' + this.dimensions.width / 2 + ',' + (this.dimensions.height / 2) + ')');
   }
