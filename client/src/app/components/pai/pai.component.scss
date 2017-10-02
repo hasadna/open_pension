@@ -5,6 +5,8 @@
   // We account for that with the rule below.
   transform: translate(3%, 0);
   @include aspectRatio(1,1);
+  width: 40%;
+  display: inline-block;
 }
 
 /deep/ path {

@@ -38,6 +38,7 @@ export class PaiComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.paiContainer);
     this.store.dispatch(new paiAction.LoadPaiAction());
     this.store.select(fromRoot.getPaiState).subscribe(
       res => {
@@ -143,11 +144,15 @@ export class PaiComponent implements OnInit {
   private initPai() {
     selection.select('svg').remove();
 
+    const { width, height } = this.dimensions;
+    const minDimension = Math.min(width, height);
     this.paiElement = selection
       .select(this.paiContainer.nativeElement)
       .append('svg')
-      .attr('width', this.dimensions.width)
-      .attr('height', this.dimensions.height)
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', `0 0 ${minDimension} ${minDimension}`)
+      .attr('preserveAspectRatio','xMinYMin')
       .append('g')
       .attr('transform', 'translate(' + this.dimensions.width / 2 + ',' + (this.dimensions.height / 2) + ')');
   }
