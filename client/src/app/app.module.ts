@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -76,6 +77,7 @@ import { environment } from '../environments/environment';
       QuartersEffects,
       ContactEffects,
     ]),
+    FlexLayoutModule
   ],
   providers: [
     PaiService,

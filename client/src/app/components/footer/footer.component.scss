@@ -4,12 +4,13 @@ footer {
   border-top: 1px solid #E2E2E2;
   width: 100vw;
   padding: 10px 0;
+  position: absolute;
+  bottom: 0;
 }
 
 .container {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
+  width: 80%;
+  margin: 0 auto;
 }
 
 div {
