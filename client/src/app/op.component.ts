@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
       width: 80%;
       margin: auto;
     }
-    `]
-  })
-  export class OpComponent {
-  }
+  `]
+})
+export class OpComponent {
+}

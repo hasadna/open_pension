@@ -38,7 +38,6 @@ export class PaiComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.paiContainer);
     this.store.dispatch(new paiAction.LoadPaiAction());
     this.store.select(fromRoot.getPaiState).subscribe(
       res => {

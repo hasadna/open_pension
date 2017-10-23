@@ -1,4 +1,11 @@
 @import "../../../assets/sass/vars.scss";
+
+.container {
+  width: 55%;
+  margin: 0 auto;
+  padding-left: 45%;
+}
+
 form {
   input,
   textarea {
@@ -41,7 +48,7 @@ p {
   font-size: $text-size;
 }
 
-.errors{
+.errors {
   flex: 0;
   font-size: 0.8rem;
   color: red;
