@@ -27,7 +27,7 @@ services:
     build: ../server
     ports:
       - "8000:8000"
-    command: bash -c "/home/app/server/entrypoint.sh && gunicorn config.wsgi -b 0.0.0.0:8000"
+    command: bash -c "gunicorn config.wsgi -b 0.0.0.0:8000"
     depends_on:
       - database
 
