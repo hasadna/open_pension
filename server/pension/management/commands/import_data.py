@@ -105,17 +105,15 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
     sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated, parse_cols=40)
 
     sheet.columns = sheet.columns.str.strip()
-    # print(sheet.columns.tolist())
-    # print(sheet)
+
     # Read the content of the sheet
     try:
         current_sh = sheet['שם המנפיק/שם נייר ערך']
     except KeyError as ke:
-        # print('+1 on rows')
-        # print(sheet_name)
         # sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
         # sheet.columns = sheet.columns.str.strip()
         # print(sheet.columns.tolist())
+
         try:
             current_sh = sheet['שם נייר ערך']
         except KeyError as ke2:
@@ -130,8 +128,8 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                     except KeyError as ke6:
                         current_sh = sheet['אופי הנכס']
 
-    # print('current_sh:%s' % current_sh)
     for index, col_title in enumerate(current_sh):
+
         cleaned_sheet_name = str(sheet_name).strip().replace('-', ' - ').replace('  ', ' ')
 
         if col_title == 'nan':
@@ -156,8 +154,6 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
         itps = cleaned_sheet_name
         cell = is_title_per_sheet[itps]
 
-        # print('index row no178:%s' % str(index))
-        # print('cell  row no178:%s' % str(cell))
         try:
             str(sheet[cell][index])
         except KeyError as ke4:
@@ -296,7 +292,6 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             activity_industry = ''
 
         try:
-            # print('type:%s|value:%s' % (type(sheet['תאריך שערוך אחרון'][index]), sheet['תאריך שערוך אחרון'][index]))
             if type(sheet['תאריך שערוך אחרון'][index]) is str:
                 if len(sheet['תאריך שערוך אחרון'][index]) > 3:
                     date_of_revaluation = dateutil.parser.parse(sheet['תאריך שערוך אחרון'][index])
@@ -332,20 +327,21 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             liabilities = 0.0
 
         try:
-
-            if type(sheet['תאריך סיום ההתחייבות'][index]) is str:
-                if 'מועד' in str(sheet['תאריך סיום ההתחייבות'][index]):
+            ex_date_of_lia_golmi = sheet['תאריך סיום ההתחייבות'][index]
+            if type(ex_date_of_lia_golmi) is str:
+                if 'מועד' in str(ex_date_of_lia_golmi):
                     expiry_date_of_liabilities_pre = None
                 else:
 
                     try:
-                        expiry_date_of_liabilities_pre = dateutil.parser.parse(sheet['תאריך סיום ההתחייבות'][index], fuzzy=True)
+                        expiry_date_of_liabilities_pre = dateutil.parser.parse(ex_date_of_lia_golmi, fuzzy=True)
                     except ValueError as ve:
-                        # print(sheet['תאריך סיום ההתחייבות'][index])
                         expiry_date_of_liabilities_pre = None
-                        # expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
+
+            elif (isinstance(ex_date_of_lia_golmi, int)):
+                expiry_date_of_liabilities_pre = pd.to_datetime('1899-12-30') + pd.to_timedelta(ex_date_of_lia_golmi, 'D')
             else:
-                expiry_date_of_liabilities_pre = sheet['תאריך סיום ההתחייבות'][index]
+                expiry_date_of_liabilities_pre = ex_date_of_lia_golmi
 
 
             expiry_date_of_liabilities = expiry_date_of_liabilities_pre
@@ -435,13 +431,11 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
                 geographical_location=context,
                 instrument_sub_type=instrument_dict[cleaned_sheet_name],
 
-                quarter=quarter[0],
+                quarter=quarter,
                 # defaults={
                 #     'birthday': date(1940, 10, 9)
                 # },
             )
-
-            #print('created', instrument, created)
 
         except ValueError as e:
             print('index', index)
@@ -479,19 +473,12 @@ def read_sheet(xls_file, sheet_name, rows_to_skip, managing_body, quarter):
             print('--------------------')
             raise(ValueError)
 
-    # print('Finish with {sheet_name}'.format(sheet_name=sheet_name))
-
 def calc_rows_to_skip(xls_file, sheet_name):
     rows_to_skip_calculated = 0
     is_table_head = False
     while not is_table_head and rows_to_skip_calculated < 10:
         pre_sheet = xls_file.parse(sheet_name, skiprows=rows_to_skip_calculated)
-        # print(' ')
-        # print('+++++++++++++++++++++++++++++++++++++++++++++')
-        # print(len(pre_sheet.columns))
-        # print('type pre_sheet:%s' % pre_sheet.columns)
-        # print('type pre_sheet:%s' % type(pre_sheet.columns))
-        # print('---------------------------------------------')
+
         if len(pre_sheet.columns) > 0:
             pre_sheet_columns = pre_sheet.columns.str.strip()
         else:
@@ -508,7 +495,6 @@ def calc_rows_to_skip(xls_file, sheet_name):
         else:
             rows_to_skip_calculated += 1
 
-    # print('rows_to_skip_calculated:%s' % rows_to_skip_calculated)
     return rows_to_skip_calculated
 
 def read_xls_file(filename):
@@ -518,7 +504,7 @@ def read_xls_file(filename):
     quarter = Quarter.objects.get_or_create(
         year=split_filename[1],
         month=split_filename[2],
-    )
+    )[0]
 
     # Loop over all the sheets in the file
     for sheet_name in xls_file.sheet_names:
@@ -527,17 +513,28 @@ def read_xls_file(filename):
             try:
                 read_sheet(xls_file, sheet_name, rows_to_skip, split_filename[0], quarter)
             except Exception as e:
+                print(str(e))
                 print(sheet_name)
+                os.rename(os.path.join('/Users/infinity/op_input/', filename), os.path.join("/Users/infinity/op_input/notpassed", filename))
     #print('Finish with {filename}'.format(filename=filename))
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+
+        # clear db - only for tests
+        # Instrument.objects.all().delete()
+
+
         print('Importing..')
 
         # Go over all the xls files in that directory
         inputs_dir = "/Users/infinity/op_input"
         os.chdir(inputs_dir)
+
+        # ensure folder for badfiles
+        if not os.path.exists(os.path.join(inputs_dir, "notpassed")):
+            os.makedirs(os.path.join(inputs_dir, "notpassed"))
 
         for file in glob.glob("*.xls*"):
             print(str(file))
@@ -545,5 +542,6 @@ class Command(BaseCommand):
                 read_xls_file(file)
             except Exception as e:
                 # faults move to badfiles dir
-                os.rename(os.path.join(inputs_dir,file), os.path.join(os.path.join(inputs_dir, "notpassed"),file))
+                print(str(e))
+                # os.rename(os.path.join(inputs_dir,file), os.path.join(os.path.join(inputs_dir, "notpassed"),file))
         print('Import completed successfully.')
