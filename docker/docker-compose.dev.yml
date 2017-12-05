@@ -10,6 +10,8 @@ services:
   database:
     volumes:
       - db-data:/var/lib/postgresql/db-data
+    ports:
+      - 5432:5432
     env_file:
       - .env.dev
 
@@ -20,5 +22,7 @@ services:
       - .env.dev
 
   server:
+    volumes:
+        - ../server:/home/app/server
     env_file:
       - .env.dev

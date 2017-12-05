@@ -3,7 +3,9 @@
 # Get project root folder.
 PROJECT_ROOT=$(git rev-parse --show-toplevel)
 
-DOCKER_COMPOSE="docker-compose -f docker/docker-compose.common.yml -f docker/docker-compose.dev.yml"
+cd ${PROJECT_ROOT}
+
+DOCKER_COMPOSE="docker-compose -p open_pension -f docker/docker-compose.common.yml -f docker/docker-compose.dev.yml"
 
 # Build and run the containers.
 ${DOCKER_COMPOSE} up -d
