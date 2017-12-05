@@ -55,11 +55,12 @@ describe('PostService', () => {
     });
 
     service.getPosts().subscribe(posts => {
-      expect(posts[0].unique_id).toEqual('12345');
-      expect(posts[0].title).toEqual('Post Title!');
-      expect(posts[0].body).toEqual('This is the post body, it should longer..');
-      expect(posts[0].author).toEqual('Nir');
-      expect(posts[0].tags[0].name).toEqual('Financial');
+      expect(posts.count).toEqual(1);
+      expect(posts.results[0].unique_id).toEqual('12345');
+      expect(posts.results[0].title).toEqual('Post Title!');
+      expect(posts.results[0].body).toEqual('This is the post body, it should longer..');
+      expect(posts.results[0].author).toEqual('Nir');
+      expect(posts.results[0].tags[0].name).toEqual('Financial');
     });
   }));
 

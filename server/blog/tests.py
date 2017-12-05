@@ -1,10 +1,10 @@
-from rest_framework import status
-from django.test import TestCase, Client
-from django.utils import timezone
+from django.test import Client, TestCase
 from django.urls import reverse
+from django.utils import timezone
+from rest_framework import status
 
-from blog.serializers import PostsSerializer
 from blog.models import Post, Tags
+from blog.serializers import PostsSerializer
 
 # initialize the APIClient app
 client = Client()

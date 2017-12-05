@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-from django.utils.translation import ugettext_lazy as _
 import os
-import raven
+
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', True)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_REGEX_WHITELIST = (
     '^(localhost:)*',
 )
@@ -34,11 +34,13 @@ CORS_ORIGIN_REGEX_WHITELIST = (
 # Application definition
 INSTALLED_APPS = [
     'modeltranslation',
+    'contact',
     'pension',
     'blog',
     'ckeditor',
     'dal',
     'dal_select2',
+    'colorful',
     'flat_responsive',
     'raven.contrib.django.raven_compat',
     'django.contrib.admin',
@@ -188,9 +190,16 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+# Email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'hasadna.openpension@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', '')
+EMAIL_PORT = 587
+
 
 # Importing local settings if exists.
 try:
-    from .local_settings import *
+    from .local_settings import *  # noqa: F401, F403
 except ImportError:
     pass

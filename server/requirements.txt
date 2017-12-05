@@ -9,6 +9,7 @@ gunicorn==19.7.1
 django-flat-responsive==1.4.1
 django-ckeditor==5.3.0
 django-autocomplete-light==3.2.9
+django-colorful==1.2
 
 # Security
 django-admin-honeypot==1.0.0

@@ -1,13 +1,13 @@
 <nav>
-  <div class="container">
-    <a id="logo" [routerLink]="['/']">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+    <a id="logo" fxFlex="30" [routerLink]="['/']">
       <img src="/assets/logo.svg" alt="Open Pension Logo">
     </a>
-    <div>
+    <div fxFlex="40" fxLayout="column">
       <div class="links">
-        <ul>
+        <ul fxLayout="row" fxLayoutAlign="space-between">
           <li>
-            <a [routerLink]="['/blog']">
+            <a [routerLink]="['/blog/1']">
               <i class="fa fa-list" aria-hidden="true"></i>
               בלוג
             </a>

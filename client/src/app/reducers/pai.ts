@@ -18,6 +18,10 @@ export function reducer(state = initialState, action: pai.Actions): State {
       return action.payload;
     }
 
+    case pai.LOAD_PAI_AFTER_NEW_FILTER_SUCCESS: {
+      return action.payload;
+    }
+
     default: {
       return state;
     }

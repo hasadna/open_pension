@@ -1,8 +1,9 @@
 from django.db import models
+from colorful.fields import RGBColorField
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES, INSTRUMENT_FIELDS
+from pension.choices import YEARS, MONTHS, MANAGING_BODIES, INSTRUMENT_TYPES, INSTRUMENT_FIELDS, GEOGRAPHICAL_LOCATION
 
 
 def validate_percentage(value):
@@ -20,6 +21,10 @@ class Quarter(models.Model):
 
     def __str__(self):
         return '{year} - {month}'.format(year=self.year, month=self.month)
+
+    class Meta:
+        verbose_name = _('Quarter')
+        verbose_name_plural = _('Quarters')
 
 
 class Instrument(models.Model):
@@ -74,7 +79,15 @@ class Instrument(models.Model):
     instrument_sub_type = models.CharField('Instrument Sub Type', max_length=255, choices=INSTRUMENT_TYPES)
     quarter = models.ForeignKey(Quarter, related_name='instrument_quarter')
 
+    class Meta:
+        verbose_name = _('Instrument')
+        verbose_name_plural = _('Instruments')
+
 
 class InstrumentFields(models.Model):
     fields_to_show = models.CharField(_('Fields To Show'), max_length=255, choices=INSTRUMENT_FIELDS)
-    color = models.CharField(_('Color'), max_length=255)
+    color = RGBColorField()
+
+    class Meta:
+        verbose_name = _('Instrument Field')
+        verbose_name_plural = _('Instruments Fields')

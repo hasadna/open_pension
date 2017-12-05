@@ -7,7 +7,7 @@ import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { PostEffects } from './post';
-import { Post } from '../models/post';
+import { Post, PostResponse } from '../models/post';
 import * as postAction from '../actions/post';
 import { PostService } from '../services/post.service';
 
@@ -60,7 +60,12 @@ describe('PostEffects', () => {
       publish: 'somePublish',
       tags: [{name: 'someName'}]
     } as Post;
-    const posts = [post1, post2];
+    const posts = {
+      count: 2,
+      next: null,
+      previous: null,
+      results: [post1, post2],
+    } as PostResponse;
 
     const action = new postAction.LoadPostsAction();
     const completion = new postAction.LoadPostsSuccessAction(posts);

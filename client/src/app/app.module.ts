@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -28,9 +29,13 @@ import { ContactComponent } from './components/contact/contact.component';
 
 import { PaiEffects } from './effects/pai';
 import { FiltersEffects } from './effects/filters';
+import { QuartersEffects } from './effects/quarters';
+import { ContactEffects } from './effects/contact';
 
 import { PaiService } from './services/pai.service';
 import { FiltersService } from './services/filters.service';
+import { QuartersService } from './services/quarters.service';
+import { ContactService } from './services/contact.service';
 
 import { environment } from '../environments/environment';
 
@@ -69,11 +74,16 @@ import { environment } from '../environments/environment';
     EffectsModule.forRoot([
       PaiEffects,
       FiltersEffects,
+      QuartersEffects,
+      ContactEffects,
     ]),
+    FlexLayoutModule
   ],
   providers: [
     PaiService,
     FiltersService,
+    QuartersService,
+    ContactService,
     // { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   bootstrap: [OpComponent]
