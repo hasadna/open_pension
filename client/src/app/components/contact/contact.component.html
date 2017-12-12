@@ -46,32 +46,4 @@
     <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
 
   </form>
-
-
-  <!-- <form
-    [formGroup]="contactForm"
-    (ngSubmit)="onSubmit()"
-    fxLayout="column"
-    fxLayoutAlign="space-between">
-
-    <input type="text" autofocus="true" placeholder="שם" formControlName="name">
-
-    <input type="email" placeholder="אימייל" formControlName="email">
-    <div class="errors mail-errors" [style.visibility]="(emailControl.dirty && emailControl.errors) ? 'visible': 'hidden'">
-      <span [style.visibility]="(emailControl.dirty && emailControl.errors && emailControl.errors.required) ? 'visible': 'hidden'">נדרש</span>
-      <span class="warn" [style.visibility]="(emailControl.dirty && emailControl.errors && emailControl.errors.pattern) ? 'visible': 'hidden'">חייב להיות אימייל תקף</span>
-    </div>
-    <ng-template #elseBlock>
-      <span style="visibility: hidden">נדרש</span>
-    </ng-template>
-
-    <textarea name="name" rows="8" cols="30" placeholder="תוכן" formControlName="content"></textarea>
-    <div class="errors" [style.visibility]="(contentControl.errors && contentControl.dirty) ? 'visible' : 'hidden'">
-      <span>נדרש</span>
-    </div>
-
-    <span>
-      <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
-    </span>
-  </form> -->
 </section>
