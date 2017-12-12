@@ -8,27 +8,70 @@
     fxLayout="column"
     fxLayoutAlign="space-between">
 
-    <input type="text" autofocus="true" placeholder="שם" formControlName="name" (keyup)="checkError($event)">
-    <div class="errors" [style.visibility]="(nameControl.errors && NameError) ? 'visible' : 'hidden'">
-      <span>נדרש</span>
+    <input class="form-control" type="text" [formControl]="name" autofocus="true" placeholder="שם">
+
+    <div *ngIf="name.invalid && (name.dirty || name.touched)"
+         class="alert alert-danger">
+
+      <div *ngIf="name.errors.required">
+        שדה חובה.
+      </div>
+      <div *ngIf="name.errors.minlength">
+        השם חייב להיות באורך לפחות 2 תווים.
+      </div>
     </div>
 
-    <input type="email" placeholder="אימייל" formControlName="email" (keyup)="checkError($event)">
-    <div class="errors" *ngIf="emailControl.errors; else elseBlock" [style.visibility]="(emailControl.errors && EmailError) ? 'visible' : 'hidden'">
-      <span *ngIf="emailControl.errors.required">נדרש</span>
-      <span class="warn" *ngIf="emailControl.errors.pattern">חייב להיות אימייל תקף</span>
+    <input type="email" placeholder="אימייל" [formControl]="email">
+
+    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+         class="alert alert-danger">
+
+      <div *ngIf="email.errors.required">
+        שדה חובה.
+      </div>
+      <div *ngIf="email.errors.pattern">
+        חייבת להיות כתובת דוא״ל חוקית.
+      </div>
+    </div>
+
+    <textarea name="name" rows="8" cols="30" placeholder="תוכן" formControlName="content"></textarea>
+    <div *ngIf="content.invalid && (content.dirty || content.touched)"
+         class="alert alert-danger">
+
+      <div *ngIf="content.errors.required">
+        שדה חובה.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
+
+  </form>
+
+
+  <!-- <form
+    [formGroup]="contactForm"
+    (ngSubmit)="onSubmit()"
+    fxLayout="column"
+    fxLayoutAlign="space-between">
+
+    <input type="text" autofocus="true" placeholder="שם" formControlName="name">
+
+    <input type="email" placeholder="אימייל" formControlName="email">
+    <div class="errors mail-errors" [style.visibility]="(emailControl.dirty && emailControl.errors) ? 'visible': 'hidden'">
+      <span [style.visibility]="(emailControl.dirty && emailControl.errors && emailControl.errors.required) ? 'visible': 'hidden'">נדרש</span>
+      <span class="warn" [style.visibility]="(emailControl.dirty && emailControl.errors && emailControl.errors.pattern) ? 'visible': 'hidden'">חייב להיות אימייל תקף</span>
     </div>
     <ng-template #elseBlock>
       <span style="visibility: hidden">נדרש</span>
     </ng-template>
 
-    <textarea name="name" rows="8" cols="30" placeholder="תוכן" formControlName="content" (keyup)="checkError($event)"></textarea>
-    <div class="errors" [style.visibility]="(contentControl.errors && ContentError) ? 'visible' : 'hidden'">
+    <textarea name="name" rows="8" cols="30" placeholder="תוכן" formControlName="content"></textarea>
+    <div class="errors" [style.visibility]="(contentControl.errors && contentControl.dirty) ? 'visible' : 'hidden'">
       <span>נדרש</span>
     </div>
 
     <span>
       <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
     </span>
-  </form>
+  </form> -->
 </section>
