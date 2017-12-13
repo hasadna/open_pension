@@ -1,6 +1,6 @@
 @import "../../../assets/sass/vars.scss";
 
-.container {
+.form-container {
   width: 55%;
   margin: 0 auto;
   padding-left: 45%;
@@ -17,6 +17,7 @@
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
+    box-sizing: border-box;
   }
 
   input.ng-valid[required], input.ng-valid,
@@ -28,14 +29,14 @@
     border-left: 5px solid #a94442;
   }
 
-  input {
+  input, textarea {
     margin-bottom: 1rem;
+    box-sizing: border-box;
   }
 
   textarea {
     max-width: 100%;
     max-height: 136px;
-    margin-bottom: 1rem;
   }
 
   button {
