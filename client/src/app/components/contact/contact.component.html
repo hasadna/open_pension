@@ -1,4 +1,4 @@
-<section class="container">
+<section class="form-container" [hidden]="formSubmited">
   <h4>יצירת קשר</h4>
   <p>מוזמנים</p>
 
@@ -6,7 +6,7 @@
     [formGroup]="contactForm"
     (ngSubmit)="onSubmit()"
     fxLayout="column"
-    fxLayoutAlign="space-between">
+    fxLayoutAlign="space-between stretch">
 
     <input class="form-control" type="text" [formControl]="name" autofocus="true" placeholder="שם">
 
@@ -17,7 +17,7 @@
         שדה חובה.
       </div>
       <div *ngIf="name.errors.minlength">
-        השם חייב להיות באורך לפחות 2 תווים.
+        השם חייב להיות באורך של לפחות 2 תווים.
       </div>
     </div>
 
@@ -46,4 +46,13 @@
     <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
 
   </form>
+</section>
+
+<section class="message-wrapper" [hidden]="!formSubmited">
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+    <p
+    class="message-container">
+      some message!
+    </p>
+  </div>
 </section>

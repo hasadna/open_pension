@@ -16,6 +16,7 @@ import { Contact } from '../../models/contact';
 export class ContactComponent implements OnInit {
 
   contactForm: FormGroup;
+  formSubmited: boolean = false;
 
   constructor(private store: Store<fromRoot.State>) {
 
@@ -50,5 +51,12 @@ export class ContactComponent implements OnInit {
       content: this.contactForm.value.content,
     } as Contact;
     this.store.dispatch(new contactAction.SendNewContactAction(formModel));
+
+    this.formSubmited = true;
+    this.contactForm.reset();
+
+    setTimeout(() => {
+      this.formSubmited = false;
+    }, 5000);
   }
 }
