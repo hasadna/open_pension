@@ -1,34 +1,42 @@
 @import "../../../assets/sass/vars.scss";
 
-.container {
+.form-container {
   width: 55%;
   margin: 0 auto;
   padding-left: 45%;
-}
 
-form {
-  input,
-  textarea {
-    border-radius: 4px;
-    border: 1px solid #97b4c2;
-    font-size: 14px;
-    font-weight: 200;
-    padding: 8px;
+  .alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    width: 100%;
   }
 
-  input {
-    height: 1.6rem;
+  .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input.ng-valid[required], input.ng-valid,
+  textarea.ng-valid[required], textarea.ng-valid,  {
+    border-left: 5px solid #42A948;
+  }
+
+  .ng-invalid:not(form)  {
+    border-left: 5px solid #a94442;
+  }
+
+  input, textarea {
     margin-bottom: 1rem;
+    box-sizing: border-box;
   }
 
   textarea {
     max-width: 100%;
     max-height: 136px;
-  }
-
-  input.ng-touched.ng-dirty.ng-invalid,
-  textarea.ng-touched.ng-dirty.ng-invalid {
-    border: 2px solid red;
   }
 
   button {
@@ -37,19 +45,29 @@ form {
     font-size: $text-size;
     padding: 10px 20px;
     border: none;
+
+    &:disabled {
+      background: #DFE5E8;
+    }
   }
 
-  button:disabled {
-    background: #DFE5E8;
+  p {
+    font-size: $text-size;
   }
 }
 
-p {
-  font-size: $text-size;
-}
-
-.errors {
-  flex: 0;
-  font-size: 0.8rem;
-  color: red;
+.message-wrapper {
+  div {
+    height: 30vh;
+  }
+  .message-container {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(66, 170, 73, 0.51);
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #3c763d;
+    background-color: #dff0d8;
+    width: 100%;
+  }
 }
