@@ -17,5 +17,6 @@ RUN chown -R $APP_USER:$APP_USER $HOME/*
 USER $APP_USER
 WORKDIR $APP_DIR
 
-RUN chmod +x /home/app/server/entrypoint.sh
+RUN chmod +x entrypoint.sh
+
 EXPOSE 8000
