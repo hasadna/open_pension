@@ -141,19 +141,14 @@ class Command(BaseCommand):
                 month=data_csv['report_qurater'][index],
             )
 
-            if data_csv['liquidity'][index] == 'סחיר':
-                negotiable = 1
-            else:
-                negotiable = 0
-
             if str(data_csv['date_of_revaluation'][index]) == 'nan':
-                date_of_revaluation = timezone.now()
+                date_of_revaluation = ''
             else:
                 date_of_revaluation = data_csv['date_of_revaluation'][index]
 
             try:
                 rating = rating_dict[data_csv['rating'][index]]
-            except TypeError:
+            except (KeyError, TypeError):
                 rating = 'לא דווח'
 
             if str(data_csv['underlying_asset'][index]) == 'nan':
@@ -179,43 +174,43 @@ class Command(BaseCommand):
             instrument, created = Instrument.objects.get_or_create(
                 instrument_type=instrument_type_dict[data_csv['instrument_type'][index]],
                 instrument_sub_type=instrument_sub_type,
-                # instrument_id='============',
+                # instrument_id='',
                 fund_name=data_csv['fund_name'][index],
                 fund_id=data_csv['fund'][index],
-                issuer_id=data_csv['instrument_id'][index],
+                issuer_id=data_csv['instrument_id'][index],  # regex from Oded. and replace to instrument_sub_type.
                 issuer_name=data_csv['instrument_name'][index],
                 rating=rating,
                 rating_agency=data_csv['rating_agency'][index],
                 currency=data_csv['currency'][index],
                 interest_rate=data_csv['intrest_rate'][index],
                 yield_to_maturity=data_csv['yield'][index],
-                # par_value='============',
-                market_cap=float(data_csv['market_cap'][index]),
-                # rate_of_investment_channel='============',
+                par_value=data_csv['par_value'][index],  # fair value
+                # market_cap=''  # estimated_value = fair_value = market_cap
+                # rate_of_investment_channel='',
                 rate_of_fund=data_csv['rate_of_fund'][index],
-                # trading_floor='============',
+                # trading_floor='',
                 date_of_purchase=date_of_purchase,
                 average_of_duration=data_csv['average_of_duration'][index],
                 rate=data_csv['rate'][index],
                 rate_of_ipo=data_csv['rate_of_ipo'][index],
-                # informer='============',
+                # informer='',
                 fair_value=data_csv['fair_value'][index],
                 activity_industry=data_csv['activity_industry'][index],
                 date_of_revaluation=date_of_revaluation,
                 type_of_asset=type_of_asset,
-                # rate_of_return_during_period='============',
-                # return_on_equity='============',
-                # liabilities='============',
-                expiry_date_of_liabilities=timezone.now(),
-                # effective_rate='============',
-                # coordinated_cost='============',
+                # rate_of_return_during_period='',
+                # return_on_equity='',
+                # liabilities='',
+                # expiry_date_of_liabilities='',
+                # effective_rate='',
+                # coordinated_cost='',
                 underlying_asset=underlying_asset,
-                consortium=False,
-                # average_rate='============',
-                estimated_value=data_csv['par_value'][index],
+                # consortium='',
+                # average_rate='',
+                # estimated_value='',  # estimated_value = fair_value = market_cap
                 managing_body=managing_body_dict[managing_body],
-                geographical_location='IL',
-                negotiable=negotiable,
+                # geographical_location='',
+                # negotiable='',
                 quarter=quarter[0],
             )
             print('Finish to import {index} row!'.format(index=index))

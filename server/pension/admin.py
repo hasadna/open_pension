@@ -5,8 +5,8 @@ from pension.models import Quarter, Instrument, InstrumentFields
 
 class InstrumentAdmin(admin.ModelAdmin):
     model = Instrument
-    list_display = ('instrument_id', 'issuer_id',)
-    search_fields = ['instrument_id']
+    list_display = ('issuer_id', 'issuer_name',)
+    search_fields = ['issuer_id']
 
 
 class QuarterAdmin(admin.ModelAdmin):

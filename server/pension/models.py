@@ -2,7 +2,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES, INSTRUMENT_FIELDS, INSTRUMENT_SUB_TYPES, RATING
+from pension.choices import YEARS, MONTHS, MANAGING_BODIES, GEOGRAPHICAL_LOCATION, INSTRUMENT_TYPES, \
+    INSTRUMENT_FIELDS, INSTRUMENT_SUB_TYPES, RATING
 
 
 def validate_percentage(value):
@@ -53,18 +54,18 @@ class Instrument(models.Model):
                                                      max_digits=50, decimal_places=3, null=True)
     rate_of_fund = models.DecimalField(_('Rate Of Fund'), help_text="This is a percentage value.",
                                        validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
-    trading_floor = models.CharField(_('Trading Floor'), max_length=255, blank=True)
-    date_of_purchase = models.CharField(_('Date Of Purchase'), max_length=255, blank=True)
+    trading_floor = models.CharField(_('Trading Floor'), max_length=255, null=True, blank=True)
+    date_of_purchase = models.CharField(_('Date Of Purchase'), max_length=255, null=True, blank=True)
     average_of_duration = models.DecimalField(_('Average Of Duration'), max_digits=50, decimal_places=3, null=True)
     rate = models.DecimalField(_('Rate'), max_digits=50, decimal_places=3, null=True)
     rate_of_ipo = models.DecimalField(_('Rate Of IPO'), help_text="This is a percentage value.",
                                       validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
-    informer = models.CharField(_('Informer'), max_length=255, blank=True)
+    informer = models.CharField(_('Informer'), max_length=255, null=True, blank=True)
     fair_value = models.DecimalField(_('Fair Value'), help_text="Value is in thousands.", max_digits=50,
                                      decimal_places=3, null=True)
-    activity_industry = models.CharField(_('Activity Industry'), max_length=255, blank=True)
-    date_of_revaluation = models.DateField(_('Date Of Revaluation'))
-    type_of_asset = models.CharField(_('Type Of Asset'), max_length=255, blank=True)
+    activity_industry = models.CharField(_('Activity Industry'), max_length=255, null=True, blank=True)
+    date_of_revaluation = models.DateField(_('Date Of Revaluation'), null=True, blank=True)
+    type_of_asset = models.CharField(_('Type Of Asset'), max_length=255, null=True, blank=True)
     rate_of_return_during_period = models.DecimalField(_('Rate of Return During Period'), max_digits=50,
                                                        decimal_places=3, null=True)
     return_on_equity = models.DecimalField(_('Return On Equity'), help_text="This is a percentage value.",
@@ -72,12 +73,12 @@ class Instrument(models.Model):
                                            null=True)
     liabilities = models.DecimalField(_('Liabilities'), help_text="Value is in thousands.", max_digits=50,
                                       decimal_places=3, null=True)
-    expiry_date_of_liabilities = models.DateField(_('Expiry Date Of Liabilities'), null=True)
+    expiry_date_of_liabilities = models.DateField(_('Expiry Date Of Liabilities'), null=True, blank=True)
     effective_rate = models.DecimalField(_('Effective Rate'), help_text="This is a percentage value.",
                                          validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
     coordinated_cost = models.DecimalField(_('Coordinated Cost'), help_text="Value is in thousands.",
                                            max_digits=50, decimal_places=3, null=True)
-    underlying_asset = models.CharField(_('Underlying Asset'), max_length=255, blank=True)
+    underlying_asset = models.CharField(_('Underlying Asset'), max_length=255, null=True, blank=True)
     consortium = models.NullBooleanField(_('Consortium'))
     average_rate = models.DecimalField(_('Average Rate'), help_text="This is a percentage value.",
                                        validators=[validate_percentage], max_digits=50, decimal_places=3, null=True)
