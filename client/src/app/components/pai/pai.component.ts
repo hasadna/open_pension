@@ -2,10 +2,6 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
-import * as paiAction from '../../actions/pai';
-import { Filter } from '../../models/filter';
-
 import * as scale from 'd3-scale';
 import * as selection from 'd3-selection';
 import { hierarchy as d3hierarchy, partition as d3partition } from 'd3-hierarchy';
@@ -13,10 +9,14 @@ import { interpolate as d3interpolate } from 'd3-interpolate';
 import * as d3Shape from 'd3-shape';
 import 'd3-transition';
 
+import * as fromRoot from '../../reducers';
+import { LoadPaiAction } from '../../actions/pai.actions';
+import { Filter } from '../../models/filter.model';
+
 @Component({
   selector: 'op-pai',
   templateUrl: './pai.component.html',
-  styleUrls: ['./pai.component.scss'],
+  styleUrls: ['./pai.component.scss']
 })
 export class PaiComponent implements OnInit {
   @ViewChild('pai')paiContainer: ElementRef;
@@ -38,7 +38,7 @@ export class PaiComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new paiAction.LoadPaiAction());
+    this.store.dispatch(new LoadPaiAction());
     this.store.select(fromRoot.getPaiState).subscribe(
       res => {
         if (res.children.length) {
