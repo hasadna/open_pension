@@ -4,10 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 import * as fromRoot from '../../reducers';
-import * as filtersAction from '../../actions/filters';
-import * as quartersAction from '../../actions/quarters';
-import { Quarter } from '../../models/quarter';
-import { Filter } from '../../models/filter';
+import { LoadInstrumentListAction, SelectNewFilterAction, ChangeLayerOfFilterAction } from '../../actions/filters.actions';
+import { SelectNewQuarterAction, LoadQuartersAction } from '../../actions/quarter.actions';
+import { Quarter } from '../../models/quarter.model';
+import { Filter } from '../../models/filter.model';
 
 @Component({
   selector: 'op-filters',
@@ -30,14 +30,14 @@ export class FiltersComponent implements OnInit {
         selectedQuarterRes => {
           if (selectedQuarterRes.quarter_id) {
             this.selectedQuarter = `${selectedQuarterRes.year}-${selectedQuarterRes.month}`;
-            this.store.dispatch(new quartersAction.SelectNewQuarterAction(this.selectedQuarter));
+            this.store.dispatch(new SelectNewQuarterAction(this.selectedQuarter));
           }
           this.store.select(fromRoot.getQuartersEntities).subscribe(
             res => {
               this.quarters = res;
               if (!selectedQuarterRes.quarter_id) {
                 this.selectedQuarter = `${this.quarters[0].year}-${this.quarters[0].month}`;
-                this.store.dispatch(new quartersAction.SelectNewQuarterAction(this.selectedQuarter));
+                this.store.dispatch(new SelectNewQuarterAction(this.selectedQuarter));
               }
             }
           );
@@ -55,25 +55,24 @@ export class FiltersComponent implements OnInit {
   ngOnInit() {
     this.selectedFilter = '+ הוספה';
     if (!this.selectedFilters.length) {
-      this.store.dispatch(new filtersAction.LoadInstrumentListAction());
+      this.store.dispatch(new LoadInstrumentListAction());
     }
     if (this.quarters.length < 2) {
-      this.store.dispatch(new quartersAction.LoadQuartersAction());
+      this.store.dispatch(new LoadQuartersAction());
     }
   }
 
   selectNewQuarter() {
-    this.store.dispatch(new quartersAction.SelectNewQuarterAction(this.selectedQuarter));
+    this.store.dispatch(new SelectNewQuarterAction(this.selectedQuarter));
   }
 
   selectNewFilter() {
     if (this.selectedFilter !== '+ הוספה') {
-      this.store.dispatch(new filtersAction.SelectNewFilterAction(this.selectedFilter));
+      this.store.dispatch(new SelectNewFilterAction(this.selectedFilter));
     }
   }
 
   private onDropModel(args) {
-    this.store.dispatch(new filtersAction.ChangeLayerOfFilterAction());
+    this.store.dispatch(new ChangeLayerOfFilterAction());
   }
-
 }

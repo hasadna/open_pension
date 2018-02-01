@@ -1,26 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
-import { Quarter } from '../models/quarter';
-
+import { Quarter } from '../models/quarter.model';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class QuartersService {
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
   ) { }
 
   getQuarters(): Observable<Quarter[]> {
-    return this.http.get(`${environment.backend}/api/quarter`)
-      .map(res => res.json())
-      .catch(this.handleError);
+    return this.http.get<Quarter[]>(`${environment.backend}/api/quarter`);
   }
-
-  private handleError(error: Response) {
-    return Observable.throw(error.json().error || 'Server error');
-  }
-
 }

@@ -12,8 +12,7 @@ import { environment } from '../../../../environments/environment';
  * the state of the reducer plus any selector functions. The `* as`
  * notation packages up all of the exports into a single object.
  */
-
- import * as fromPosts from './posts';
+import * as fromPosts from './posts.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means

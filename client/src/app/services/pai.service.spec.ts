@@ -1,34 +1,30 @@
-import { StoreModule } from '@ngrx/store';
-import { TestBed, inject } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { TestBed, getTestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { reducers } from '../reducers';
 import { PaiService } from './pai.service';
+import { environment } from '../../environments/environment';
 
 describe('PaiService', () => {
+  let injector: TestBed;
+  let service: PaiService;
+  let httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpModule,
-        StoreModule.forRoot(reducers),
-      ],
-      providers: [
-        PaiService,
-        {
-          provide: Http,
-          useFactory: (mockBackend, options) => {
-            return new Http(mockBackend, options);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        MockBackend,
-        BaseRequestOptions,
-      ]
+      imports: [ HttpClientTestingModule ],
+      providers: [ PaiService ],
     });
+
+    injector = getTestBed();
+    service = injector.get(PaiService);
+    httpMock = injector.get(HttpTestingController);
   });
 
-  it('should ...', inject([PaiService], (service: PaiService) => {
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 });
