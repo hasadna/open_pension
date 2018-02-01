@@ -7,15 +7,20 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { PostEffect } from './post.effect';
+import { PostService } from '../services/post.service';
 
 describe('PostEffect', () => {
-  const avatarServiceStub = {};
+  const postServiceStub = {};
   let effects: PostEffect;
   let actions: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ PostEffect ],
+      providers: [
+        { provide: PostService, useValue: postServiceStub },
+        PostEffect,
+        provideMockActions(() => actions),
+      ],
     });
 
     effects = TestBed.get(PostEffect);

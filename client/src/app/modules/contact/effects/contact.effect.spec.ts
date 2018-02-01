@@ -7,15 +7,20 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { ContactEffect } from './contact.effect';
+import { ContactService } from '../services/contact.service';
 
 describe('ContactEffect', () => {
-  const avatarServiceStub = {};
+  const contactServiceStub = {};
   let effects: ContactEffect;
   let actions: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ ContactEffect ],
+      providers: [
+        { provide: ContactService, useValue: contactServiceStub },
+        ContactEffect,
+        provideMockActions(() => actions),
+      ],
     });
 
     effects = TestBed.get(ContactEffect);

@@ -7,15 +7,20 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { PaiEffect } from './pai.effect';
+import { PaiService } from '../services/pai.service';
 
 describe('PaiEffect', () => {
-  const avatarServiceStub = {};
+  const paiServiceStub = {};
   let effects: PaiEffect;
   let actions: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ PaiEffect ],
+      providers: [
+        { provide: PaiService, useValue: paiServiceStub },
+        PaiEffect,
+        provideMockActions(() => actions),
+      ],
     });
 
     effects = TestBed.get(PaiEffect);

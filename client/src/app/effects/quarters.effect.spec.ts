@@ -7,15 +7,23 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { QuartersEffect } from './quarters.effect';
+import { PaiService } from '../services/pai.service';
+import { QuartersService } from '../services/quarters.service';
 
 describe('QuartersEffect', () => {
-  const avatarServiceStub = {};
+  const quartersServiceStub = {};
+  const paiServiceStub = {};
   let effects: QuartersEffect;
   let actions: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ QuartersEffect ],
+      providers: [
+        { provide: QuartersService, useValue: quartersServiceStub },
+        { provide: PaiService, useValue: paiServiceStub },
+        QuartersEffect,
+        provideMockActions(() => actions),
+      ],
     });
 
     effects = TestBed.get(QuartersEffect);

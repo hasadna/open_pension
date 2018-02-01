@@ -7,15 +7,20 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { FiltersEffect } from './filters.effect';
+import { FiltersService } from '../services/filters.service';
 
 describe('FiltersEffect', () => {
-  const avatarServiceStub = {};
+  const filtersServiceStub = {};
   let effects: FiltersEffect;
   let actions: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ FiltersEffect ],
+      providers: [
+        { provide: FiltersService, useValue: filtersServiceStub },
+        FiltersEffect,
+        provideMockActions(() => actions),
+      ],
     });
 
     effects = TestBed.get(FiltersEffect);

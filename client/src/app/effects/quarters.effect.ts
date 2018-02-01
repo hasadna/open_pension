@@ -7,8 +7,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
 
-import { QuartersService } from '../services/quarters.service';
 import { PaiService } from '../services/pai.service';
+import { QuartersService } from '../services/quarters.service';
 import {
   QuarterActionTypes,
   LoadQuartersAction,
