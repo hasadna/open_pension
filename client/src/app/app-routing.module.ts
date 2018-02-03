@@ -6,6 +6,7 @@ import { PaiComponent } from './components/pai/pai.component';
 const routes: Routes = [
   { path: '', redirectTo: 'pai', pathMatch: 'full' },
   { path: 'pai', component: PaiComponent },
+  { path: 'detail-pai', loadChildren: 'app/modules/detail-pai/detail-pai.module#DetailPaiModule' },
   { path: 'about', loadChildren: 'app/modules/about/about.module#AboutModule' },
   { path: 'contact', loadChildren: 'app/modules/contact/contact.module#ContactModule' },
   { path: 'blog', loadChildren: 'app/modules/blog/blog.module#BlogModule' },
