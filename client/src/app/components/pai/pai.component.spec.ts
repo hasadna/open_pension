@@ -1,5 +1,8 @@
+import { StoreModule } from '@ngrx/store';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { reducers } from '../../reducers';
 import { PaiComponent } from './pai.component';
 
 describe('PaiComponent', () => {
@@ -8,7 +11,9 @@ describe('PaiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaiComponent ]
+      declarations: [ PaiComponent ],
+      imports: [ StoreModule.forRoot(reducers) ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

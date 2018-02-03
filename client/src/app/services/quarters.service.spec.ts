@@ -27,4 +27,20 @@ describe('QuartersService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should return an Observable<Pai> from getPai', () => {
+    const response = [{
+      quarter_id: 1,
+      year: '2016',
+      month: '1'
+    }];
+
+    service.getQuarters().subscribe(serviceResponse => {
+      expect(serviceResponse).toEqual(response);
+    });
+
+    const req = httpMock.expectOne(`${environment.backend}/api/quarter`);
+    expect(req.request.method).toBe('GET');
+    req.flush(response);
+  });
 });
