@@ -40,7 +40,9 @@ export class DetailPaiComponent implements OnInit {
       d.frequency = +d.frequency;
       return d;
     }, function(error, data: [{ letter: string, frequency: number}]) {
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       x.domain(data.map((d) => d.letter));
       y.domain(d3.extent(data, (d) => d.frequency));
