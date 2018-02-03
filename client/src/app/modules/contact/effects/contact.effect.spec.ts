@@ -8,6 +8,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { ContactEffect } from './contact.effect';
 import { ContactService } from '../services/contact.service';
+import { SendNewContactAction, SendNewContactSuccessAction } from '../actions/contact.actions';
 
 describe('ContactEffect', () => {
   const contactServiceStub = {};
@@ -29,4 +30,29 @@ describe('ContactEffect', () => {
   it('should be created', () => {
     expect(effects).toBeTruthy();
   });
+
+  it('should dispatch SendNewContactSuccessAction when SendNewContactAction dispatched', () => {
+    const response = {
+      name: 'nir galon',
+      email: 'nir@example.com',
+      content: 'hi!',
+    };
+
+    actions = hot('--a-', { a: new SendNewContactAction(response) });
+    const expected = cold('--b', {b: new SendNewContactSuccessAction(response)});
+    const service = createServiceStub(response);
+    const effectsAction = new ContactEffect(new Actions(actions), service);
+
+    expect(effectsAction.sendContact$).toBeObservable(expected);
+  });
 });
+
+function createServiceStub(response: any) {
+  const service = jasmine.createSpyObj('service', [ 'postNewContact' ]);
+
+  const isError = response instanceof Error;
+  const serviceResponse = isError ? Observable.throw(response) : Observable.of(response);
+
+  service.postNewContact.and.returnValue(serviceResponse);
+  return service;
+}

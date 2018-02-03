@@ -32,4 +32,41 @@ describe('PaiService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should return an Observable<Pai> from getPai', () => {
+    const response = {
+      name: 'base',
+      children: [{
+        name: 'base',
+        size: 1160959.768,
+      }],
+    };
+
+    service.getPai().subscribe(serviceResponse => {
+      expect(serviceResponse).toEqual(response);
+    });
+
+    const req = httpMock.expectOne(`${environment.backend}/filter-pai`);
+    expect(req.request.method).toBe('GET');
+    req.flush(response);
+  });
+
+  it('should return an Observable<Pai> from getPaiWithFilters', () => {
+    const response = {
+      name: 'base',
+      children: [{
+        name: 'base',
+        size: 1160959.768,
+      }],
+    };
+
+    service.getPaiWithFilters().subscribe(serviceResponse => {
+      expect(serviceResponse).toEqual(response);
+    });
+
+    const query = '&quarter=0';
+    const req = httpMock.expectOne(`${environment.backend}/filter-pai?${query}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(response);
+  });
 });
