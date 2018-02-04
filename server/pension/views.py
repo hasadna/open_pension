@@ -185,3 +185,14 @@ def build_five_layers(pai, filter_one, filter_two, filter_three, filter_four, qu
             })
 
     return pai
+
+
+class SearchBar(APIView):
+    """
+    A custom endpoint for GET Trend Game request.
+    """
+    def get(self, request):
+        query = self.request.query_params.get('query', None)
+        print('query', query)
+
+        return Response('foo')

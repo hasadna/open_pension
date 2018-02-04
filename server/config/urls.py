@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 from blog.views import PostViewSet
 from blog.models import Tags
 from contact.views import ContactViewSet
-from pension.views import QuarterViewSet, InstrumentViewSet, GetPaiDataByFilters, InstrumentFieldsViewSet
+from pension.views import QuarterViewSet, InstrumentViewSet, GetPaiDataByFilters, InstrumentFieldsViewSet, SearchBar
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, base_name='posts')
@@ -37,6 +37,7 @@ router.register(r'contact', ContactViewSet, base_name='contact')
 urlpatterns = [
     url(r'^api/', include(router.urls, namespace='api')),
     url(r'^filter-pai/', GetPaiDataByFilters.as_view()),
+    url(r'^search-bar/', SearchBar.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # URLs that should be translated.
