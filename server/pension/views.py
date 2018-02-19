@@ -1,5 +1,7 @@
+from django.core import serializers
 from rest_framework import viewsets
-from django.db.models import F, Sum
+from django.http import HttpResponse
+from django.db.models import Q, F, Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -185,3 +187,28 @@ def build_five_layers(pai, filter_one, filter_two, filter_three, filter_four, qu
             })
 
     return pai
+
+
+class Search(APIView):
+    """
+    A custom endpoint for GET Trend Game request.
+    """
+    def get(self, request):
+        query = self.request.query_params.get('query', None)
+        search_resaults = Instrument.objects.filter(
+            Q(activity_industry__contains=query) |
+            Q(type_of_asset__contains=query) |
+            Q(currency__contains=query) |
+            Q(instrument_id__contains=query) |
+            Q(instrument_sub_type__contains=query) |
+            Q(issuer_id__contains=query) |
+            Q(instrument_sub_type__contains=query) |
+            Q(type_of_asset__contains=query) |
+            Q(underlying_asset__contains=query) |
+            Q(rating__contains=query) |
+            Q(rating_agency__contains=query) |
+            Q(managing_body__contains=query)
+        )
+
+        data = serializers.serialize('json', search_resaults)
+        return HttpResponse(data, content_type="application/json")
