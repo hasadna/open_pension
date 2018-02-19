@@ -29,11 +29,6 @@ MANAGING_BODIES = (
     ('XNS', 'Excellence'),
 )
 
-GEOGRAPHICAL_LOCATION = (
-    ('IL', 'Israel'),
-    ('ABR', 'Abroad')
-)
-
 INSTRUMENT_SUB_TYPES = (
     ('GDC', 'Government Debt Certificates'),
     ('CDC', 'Commercial Debt Certificates'),
