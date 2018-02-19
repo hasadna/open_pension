@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
-import { PostResponse, Post } from '../models/post';
-
+import { PostResponse, Post } from '../models/post.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable()
@@ -11,30 +10,24 @@ export class PostService {
   private headers;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
   ) {
-    this.headers = new Headers();
+    this.headers = new HttpHeaders();
     this.headers.append('Accept-Language', 'he');
   }
 
-  getPosts(): Observable<Post[]> {
-    const options = new RequestOptions({ headers: this.headers });
-
-    return this.http.get(`${environment.backend}/api/posts`, options)
-      .map(res => res.json())
-      .map(body => body.results)
-      .catch(this.handleError);
+  getPosts(): Observable<PostResponse> {
+    const options = { headers: this.headers };
+    return this.http.get<PostResponse>(`${environment.backend}/api/posts`, options);
   }
 
-  getPostById(postId): Observable<Post> {
-    const options = new RequestOptions({ headers: this.headers });
-
-    return this.http.get(`${environment.backend}/api/posts/${postId}`, options)
-      .map(res => res.json())
-      .catch(this.handleError);
+  getPostsByPageNumber(pageNumber: string): Observable<PostResponse> {
+    const options = { headers: this.headers };
+    return this.http.get<PostResponse>(`${environment.backend}/api/posts?page=${pageNumber}`, options);
   }
 
-  private handleError(error: Response) {
-    return Observable.throw(error.json().error || 'Server error');
+  getPostById(postId: string): Observable<Post> {
+    const options = { headers: this.headers };
+    return this.http.get<Post>(`${environment.backend}/api/posts/${postId}`, options);
   }
 }

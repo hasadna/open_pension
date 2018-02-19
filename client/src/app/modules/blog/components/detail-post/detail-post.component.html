@@ -1,7 +1,7 @@
 <section>
   <div class="header">
     <h2>{{ post$.title }}</h2>
-    <a [routerLink]="['/blog']">חזרה לבלוג >></a>
+    <a [routerLink]="['/blog/1']">חזרה לבלוג >></a>
   </div>
 
   <div class="meta-data">
@@ -24,13 +24,10 @@
   <div class="share-wrapper">
     <div class="share">שיתוף:</div>
     <share-buttons
-      [url]="shareUrl"
-      [description]="post$.title"
-
-      [pinterest]="false"
-      [tumblr]="false"
-      [reddit]="false"
-      [stumbleUpOn]="false"
+    [exclude]="['pinterest','reddit','tumblr','telegram','vk','stumble','copy','print']"
+    [show]="14"
+    [url]="shareUrl"
+    [description]="post$.title"
     ></share-buttons>
   </div>
 

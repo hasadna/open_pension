@@ -4,10 +4,7 @@
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
     "module": "es2015",
-    "types": [
-      "hammerjs",
-      "d3"
-    ]
+    "types": []
   },
   "exclude": [
     "test.ts",

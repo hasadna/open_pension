@@ -1,34 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
-import { Instrument } from '../models/instrument';
-import { Quarter } from '../models/quarter';
-import { Filter } from '../models/filter';
-
+import { Filter } from '../models/filter.model';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class FiltersService {
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
   ) { }
 
-  getQuarters(): Observable<Quarter[]> {
-    return this.http.get(`${environment.backend}/api/quarter`)
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-
   getFiltersOptions(): Observable<Filter[]> {
-    return this.http.get(`${environment.backend}/api/instrument-fields`)
-      .map(res => res.json())
-      .catch(this.handleError);
+    return this.http.get<Filter[]>(`${environment.backend}/api/instrument-fields`);
   }
-
-  private handleError(error: Response) {
-    return Observable.throw(error.json().error || 'Server error');
-  }
-
 }

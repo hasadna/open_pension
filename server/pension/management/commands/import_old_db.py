@@ -1,5 +1,4 @@
 import pandas as pd
-from django.utils import timezone
 
 from django.core.management import BaseCommand
 from pension.models import Quarter, Instrument

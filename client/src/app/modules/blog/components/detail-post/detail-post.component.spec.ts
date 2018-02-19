@@ -1,16 +1,18 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { reducers, metaReducers } from '../../reducers';
 import { StoreModule } from '@ngrx/store';
+import { DebugElement } from '@angular/core';
+import { ShareButtons } from '@ngx-share/core';
+import { By } from '@angular/platform-browser';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DetailPostComponent } from './detail-post.component';
+import { reducers } from '../../reducers';
+import { Post } from '../../models/post.model';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
-import { Post } from '../../models/post';
+import { DetailPostComponent } from './detail-post.component';
 
 describe('DetailPostComponent', () => {
+  const shareButtonsStub = {};
   let component: DetailPostComponent;
   let fixture: ComponentFixture<DetailPostComponent>;
   let element: HTMLElement;
@@ -31,14 +33,17 @@ describe('DetailPostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        DetailPostComponent,
         SafeHtmlPipe,
+        DetailPostComponent,
       ],
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot(reducers, { metaReducers }),
+        StoreModule.forRoot(reducers),
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      providers: [
+        { provide: ShareButtons, useValue: shareButtonsStub },
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ],
     })
     .compileComponents();
   }));

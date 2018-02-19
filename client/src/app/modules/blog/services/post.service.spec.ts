@@ -1,94 +1,134 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { PostService } from './post.service';
-import { PostResponse, Post } from '../models/post';
+import { environment } from '../../../../environments/environment';
 
 describe('PostService', () => {
+  let injector: TestBed;
+  let service: PostService;
+  let httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpModule ],
-      providers: [
-        PostService,
-        {
-          provide: Http,
-          useFactory: (mockBackend, options) => {
-            return new Http(mockBackend, options);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        MockBackend,
-        BaseRequestOptions,
-      ]
+      imports: [ HttpClientTestingModule ],
+      providers: [ PostService ],
     });
+
+    injector = getTestBed();
+    service = injector.get(PostService);
+    httpMock = injector.get(HttpTestingController);
   });
 
-  it('should create the server', inject([PostService], (service: PostService) => {
-    expect(service).toBeTruthy();
-  }));
+  afterEach(() => {
+    httpMock.verify();
+  });
 
-  it('should GET all the posts',
-  inject([PostService, MockBackend], (service: PostService, mockBackend: MockBackend) => {
-    const post = {
-      unique_id: '12345',
-      title: 'Post Title!',
-      body: 'This is the post body, it should longer..',
-      author: 'Nir',
-      created_at: '2017-08-15T07:56:52.591178Z',
-      publish: '2017-08-15T07:56:52.588385Z',
-      tags: [{
-        'name': 'Financial'
-      }],
-    } as Post;
-    const mockResponse: PostResponse = {
-      count: 1,
-      next: null,
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should return an PostResponse from getPosts', () => {
+    const response = {
+      count: 39,
+      next: 'http://localhost:8000/api/posts/?page=2',
       previous: null,
-      results: [post],
+      results: [{
+        unique_id: '4e791c2b-380d-4898-8cf7-cd0c4a4c6293',
+        title: 'השקעות מוסדיים ואגח אפריקה ישראל',
+        body: 'יש המון גרסאות זמינות לפסקאות שללעולם לא יכיל',
+        author: 'ניר גלאון',
+        created_at: '2018-01-31T22:13:19.846509Z',
+        publish: '2018-01-31T22:13:19.843591Z',
+        tags: [{
+          name: 'פננסים'
+        }]
+      }, {
+        unique_id: '13c49374-2453-45d1-9066-cfaac512327c',
+        title: 'ניהול פאסיבי מול ניהול אקטיבי בתיק נכסי הפנסיה',
+        body: 'לורם איפסום הוא פשוט טקסטגולמי של תעשיית ההדפם.',
+        author: 'מערכת פנסיה פתוחה',
+        created_at: '2018-01-31T22:13:19.857478Z',
+        publish: '2018-01-31T22:13:19.855427Z',
+        tags: [{
+          name: 'פננסים'
+        }, {
+          name: 'אנליטיקה'
+        }]
+      }]
     };
 
-    mockBackend.connections.subscribe((connection) => {
-      connection.mockRespond(new Response(new ResponseOptions({
-        body: mockResponse
-      })));
+    service.getPosts().subscribe(serviceResponse => {
+      expect(serviceResponse).toEqual(response);
     });
 
-    service.getPosts().subscribe(posts => {
-      expect(posts[0].unique_id).toEqual('12345');
-      expect(posts[0].title).toEqual('Post Title!');
-      expect(posts[0].body).toEqual('This is the post body, it should longer..');
-      expect(posts[0].author).toEqual('Nir');
-      expect(posts[0].tags[0].name).toEqual('Financial');
-    });
-  }));
+    const req = httpMock.expectOne(`${environment.backend}/api/posts`);
+    expect(req.request.method).toBe('GET');
+    req.flush(response);
+  });
 
-  it('should GET a post by id',
-  inject([PostService, MockBackend], (service: PostService, mockBackend: MockBackend) => {
-    const mockResponse = {
-      unique_id: 'a1b2c3d4e5',
-      title: 'Post Title!',
-      body: 'This is the post body, it should longer..',
-      author: 'Nir',
-      created_at: '2017-08-15T07:56:52.591178Z',
-      publish: '2017-08-15T07:56:52.588385Z',
+  it('should return an PostResponse from getPostsByPageNumber', () => {
+    const response = {
+      count: 39,
+      next: 'http://localhost:8000/api/posts/?page=2',
+      previous: null,
+      results: [{
+        unique_id: '4e791c2b-380d-4898-8cf7-cd0c4a4c6293',
+        title: 'השקעות מוסדיים ואגח אפריקה ישראל',
+        body: 'יש המון גרסאות זמינות לפסקאות שללעולם לא יכיל',
+        author: 'ניר גלאון',
+        created_at: '2018-01-31T22:13:19.846509Z',
+        publish: '2018-01-31T22:13:19.843591Z',
+        tags: [{
+          name: 'פננסים'
+        }]
+      }, {
+        unique_id: '13c49374-2453-45d1-9066-cfaac512327c',
+        title: 'ניהול פאסיבי מול ניהול אקטיבי בתיק נכסי הפנסיה',
+        body: 'לורם איפסום הוא פשוט טקסטגולמי של תעשיית ההדפם.',
+        author: 'מערכת פנסיה פתוחה',
+        created_at: '2018-01-31T22:13:19.857478Z',
+        publish: '2018-01-31T22:13:19.855427Z',
+        tags: [{
+          name: 'פננסים'
+        }, {
+          name: 'אנליטיקה'
+        }]
+      }]
+    };
+
+    const pageNumber = '2';
+    service.getPostsByPageNumber(pageNumber).subscribe(serviceResponse => {
+      expect(serviceResponse).toEqual(response);
+    });
+
+    const req = httpMock.expectOne(`${environment.backend}/api/posts?page=${pageNumber}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(response);
+  });
+
+  it('should return an PostResponse from getPostById', () => {
+    const response = {
+      unique_id: '13c49374-2453-45d1-9066-cfaac512327c',
+      title: 'ניהול פאסיבי מול ניהול אקטיבי בתיק נכסי הפנסיה',
+      body: 'לורם איפסום הוא פשוט טקסטגולמי של תעשיית ההדפם.',
+      author: 'מערכת פנסיה פתוחה',
+      created_at: '2018-01-31T22:13:19.857478Z',
+      publish: '2018-01-31T22:13:19.855427Z',
       tags: [{
-        'name': 'Financial'
-      }],
-    } as Post;
+        name: 'פננסים'
+      }, {
+        name: 'אנליטיקה'
+      }]
+    };
 
-    mockBackend.connections.subscribe((connection) => {
-      connection.mockRespond(new Response(new ResponseOptions({
-        body: mockResponse
-      })));
+    const postId = '13c49374-2453-45d1-9066-cfaac512327c';
+    service.getPostById(postId).subscribe(serviceResponse => {
+      expect(serviceResponse).toEqual(response);
     });
 
-    service.getPostById('a1b2c3d4e5').subscribe(post => {
-      expect(post.unique_id).toEqual('a1b2c3d4e5');
-      expect(post.title).toEqual('Post Title!');
-      expect(post.body).toEqual('This is the post body, it should longer..');
-      expect(post.author).toEqual('Nir');
-      expect(post.tags[0].name).toEqual('Financial');
-    });
-  }));
+    const req = httpMock.expectOne(`${environment.backend}/api/posts/${postId}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(response);
+  });
 });

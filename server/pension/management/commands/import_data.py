@@ -1,10 +1,11 @@
 import os
 import glob
+
 import pandas as pd
 import dateutil.parser
 from django.utils import timezone
-
 from django.core.management import BaseCommand
+
 from pension.models import Quarter, Instrument
 
 managing_body_dict = {

@@ -2,15 +2,16 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
-import * as paiAction from '../../actions/pai';
-
 import * as scale from 'd3-scale';
 import * as selection from 'd3-selection';
 import { hierarchy as d3hierarchy, partition as d3partition } from 'd3-hierarchy';
 import { interpolate as d3interpolate } from 'd3-interpolate';
 import * as d3Shape from 'd3-shape';
 import 'd3-transition';
+
+import * as fromRoot from '../../reducers';
+import { LoadPaiAction } from '../../actions/pai.actions';
+import { Filter } from '../../models/filter.model';
 
 @Component({
   selector: 'op-pai',
@@ -20,26 +21,24 @@ import 'd3-transition';
 export class PaiComponent implements OnInit {
   @ViewChild('pai')paiContainer: ElementRef;
   private arcGenerator: any;
-  private mainAxes: {
-    x: any,
-    y: any
-  };
+  private mainAxes: { x: any, y: any };
   private dimensions: any;
   private paiElement: any;
   private colorScale: any;
+  public selectedFilters: Filter[];
 
   constructor(
     private store: Store<fromRoot.State>,
   ) {
-    this.mainAxes = {
-      x: 0,
-      y: 0
-    };
+    this.mainAxes = { x: 0, y: 0 };
     this.dimensions = {};
+    this.store.select(fromRoot.getSelectedFilters).subscribe(
+      res => this.selectedFilters = res
+    );
   }
 
   ngOnInit() {
-    this.store.dispatch(new paiAction.LoadPaiAction());
+    this.store.dispatch(new LoadPaiAction());
     this.store.select(fromRoot.getPaiState).subscribe(
       res => {
         if (res.children.length) {
@@ -48,6 +47,8 @@ export class PaiComponent implements OnInit {
           this.initArcGenerator();
           this.initPai();
           this.loadData(res);
+        } else {
+          selection.select('svg').remove();
         }
     });
   }
@@ -57,8 +58,7 @@ export class PaiComponent implements OnInit {
     const y = this.mainAxes.y;
     const radius = this.dimensions.radius;
     const arc = this.arcGenerator;
-    this
-      .paiElement
+    this.paiElement
       .transition()
       .duration(750)
       .tween('scale', () => {
@@ -85,20 +85,24 @@ export class PaiComponent implements OnInit {
     root.sum(function (d) {
       return d.size;
     });
-    this
-      .paiElement
+    this.paiElement
       .selectAll('path')
       .data(partition(root).descendants())
       .enter()
       .append('path')
       .attr('d', this.arcGenerator)
-      .style('fill', function (d: any) {
-        return color((d.children ? d : d.parent).data.name);
+      .style('fill', (d: any) => {
+        const colorNode = this.selectedFilters.filter((node, index) => (d.depth) === index);
+        if (colorNode.length) {
+          return colorNode[0].color;
+        }
+
+        return '#ffffff';
       })
       .on('click', this.zoomToNode.bind(this))
       .append('title')
-      .text(function (d: any) {
-        return d.data.name + '\n' + d.value;
+      .text((d: any) => {
+        return `${d.data.name}\n${d.value}`;
       });
   }
 
@@ -121,8 +125,7 @@ export class PaiComponent implements OnInit {
     const x = this.mainAxes.x;
     const y = this.mainAxes.y;
     this.arcGenerator = d3Shape.arc();
-    this
-      .arcGenerator
+    this.arcGenerator
       .startAngle((d: any) => {
         return Math.max(0, Math.min(2 * Math.PI, x(d.x0)));
       })
@@ -138,11 +141,17 @@ export class PaiComponent implements OnInit {
   }
 
   private initPai() {
+    selection.select('svg').remove();
+
+    const { width, height } = this.dimensions;
+    const minDimension = Math.min(width, height);
     this.paiElement = selection
       .select(this.paiContainer.nativeElement)
       .append('svg')
-      .attr('width', this.dimensions.width)
-      .attr('height', this.dimensions.height)
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', `0 0 ${minDimension} ${minDimension}`)
+      .attr('preserveAspectRatio', 'xMinYMin')
       .append('g')
       .attr('transform', 'translate(' + this.dimensions.width / 2 + ',' + (this.dimensions.height / 2) + ')');
   }

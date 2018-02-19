@@ -12,8 +12,7 @@ import { environment } from '../../../../environments/environment';
  * the state of the reducer plus any selector functions. The `* as`
  * notation packages up all of the exports into a single object.
  */
-
- import * as fromPosts from './posts';
+import * as fromPosts from './posts.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -33,15 +32,6 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 /**
- * By default, @ngrx/store uses combineReducers with the reducer map to compose
- * the root meta-reducer. To add more meta-reducers, provide an array of meta-reducers
- * that will be composed to form the root meta-reducer.
- */
-export const metaReducers: ActionReducer<any, any>[] = !environment.production
-  ? []
-  : [];
-
-/**
  * Layout Reducers
  */
 export const getPostsState = createFeatureSelector<fromPosts.State>('posts');
@@ -49,6 +39,21 @@ export const getPostsState = createFeatureSelector<fromPosts.State>('posts');
 export const getPostsEntities = createSelector(
   getPostsState,
   fromPosts.getEntities
+);
+
+export const getPostsCount = createSelector(
+  getPostsState,
+  fromPosts.getCount
+);
+
+export const getPostsNext = createSelector(
+  getPostsState,
+  fromPosts.getNext
+);
+
+export const getPostsPrevious = createSelector(
+  getPostsState,
+  fromPosts.getPrevious
 );
 
 export const getSelectedPost = createSelector(

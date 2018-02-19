@@ -1,7 +1,9 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { reducers } from '../../reducers';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -10,9 +12,12 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule ],
       declarations: [ HeaderComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      imports: [
+        RouterTestingModule,
+        StoreModule.forRoot(reducers),
+      ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

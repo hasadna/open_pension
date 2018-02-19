@@ -1,8 +1,8 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { reducers, metaReducers } from '../../reducers';
 import { StoreModule } from '@ngrx/store';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { reducers } from '../../reducers';
 import { PaiComponent } from './pai.component';
 
 describe('PaiComponent', () => {
@@ -11,9 +11,9 @@ describe('PaiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ StoreModule.forRoot(reducers, { metaReducers }) ],
       declarations: [ PaiComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      imports: [ StoreModule.forRoot(reducers) ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

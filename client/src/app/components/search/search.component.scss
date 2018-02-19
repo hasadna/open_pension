@@ -7,14 +7,16 @@ form {
 i {
   color: #FFF;
   position: absolute;
-  top: 4px;
-  left: -11px;
-  font-size: 29px;
+  top: 8px;
+  left: 4px;
+  font-size: 22px;
 }
 
 input {
+  box-sizing: border-box;
   text-align: right;
   width: 100%;
+  color: #FFFFFF;
   padding: 8px 8px;
   font-size: 16px;
   font-family: 'Alef', sans-serif;;

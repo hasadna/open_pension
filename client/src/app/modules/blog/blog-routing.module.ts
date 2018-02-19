@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { BlogComponent } from './blog.component';
+import { BlogComponent } from './components/blog/blog.component';
 import { DetailPostComponent } from './components/detail-post/detail-post.component';
 
 const routes: Routes = [
-  { path: '', component: BlogComponent },
-  { path: ':postId', component: DetailPostComponent },
+  { path: '', redirectTo: '1', pathMatch: 'full' },
+  { path: ':pageNumber', component: BlogComponent },
+  { path: 'post/:postId', component: DetailPostComponent },
+  { path: '**' , redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: []
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
-export class BlogRoutingModule { }
+export class BlogRoutingModule {}

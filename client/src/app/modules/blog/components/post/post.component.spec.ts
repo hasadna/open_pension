@@ -1,7 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PostComponent } from './post.component';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
@@ -27,12 +27,10 @@ describe('PostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PostComponent,
         SafeHtmlPipe,
+        PostComponent,
       ],
-      imports: [
-        RouterTestingModule,
-      ],
+      imports: [ RouterTestingModule ],
     })
     .compileComponents();
   }));
