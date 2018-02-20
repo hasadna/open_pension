@@ -179,18 +179,25 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
 
         try:
 
-            issuer_id = sheet['מספר ני"ע'][index]
-            if str(issuer_id) == 'nan':
+            instrument_id = sheet['מספר ני"ע'][index]
+            if str(instrument_id) == 'nan':
                 raise(KeyError)
         except KeyError as e:
             try:
-                issuer_id = sheet['מספר הנייר'][index]
-                if str(issuer_id) == 'nan':
+                instrument_id = sheet['מספר הנייר'][index]
+                if str(instrument_id) == 'nan':
                     raise(KeyError)
             except KeyError as e:
-                issuer_id = sheet_name
+                instrument_id = sheet_name
 
-            issuer_id = sheet_name
+            instrument_id = sheet_name
+
+        try:
+            issuer_id = sheet['מספר מנפיק'][index]
+            if str(issuer_id) == 'nan':
+                raise(KeyError)
+        except KeyError as e:
+            issuer_id = ''
 
         try:
             rating = sheet['דירוג'][index]
@@ -226,6 +233,13 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
                 raise(KeyError)
         except KeyError as e:
             yield_to_maturity = 0.0
+
+        try:
+            par_value = sheet['ערך נקוב'][index]
+            if str(par_value) == 'nan':
+                raise(KeyError)
+        except KeyError as e:
+            par_value = 0.0
 
         try:
             market_cap = sheet['שווי שוק'][index]
@@ -326,6 +340,13 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
             type_of_asset = ''
 
         try:
+            rate_of_return_during_period = sheet['שעור תשואה במהלך התקופה'][index]
+            if str(rate_of_return_during_period) == 'nan':
+                raise(KeyError)
+        except KeyError as e:
+            rate_of_return_during_period = ''
+
+        try:
             return_on_equity = sheet[''][index]
             if str(return_on_equity) == 'nan':
                 raise(KeyError)
@@ -403,21 +424,25 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
             average_rate = 0.0
 
         try:
-            par_value = sheet['שווי משוערך'][index]
-            if str(par_value) == 'nan':
+            estimated_value = sheet['שווי משוערך'][index]
+            if str(estimated_value) == 'nan':
                 raise(KeyError)
         except KeyError as e:
-            par_value = 0.0
+            estimated_value = 0.0
 
         try:
 
             instrument, created = Instrument.objects.get_or_create(
+                instrument_id=instrument_id,
+                fund_name='',
+                fund_id='',
                 issuer_id=issuer_id,
                 rating=rating,
                 rating_agency=rating_agency,
                 currency=currency,
                 interest_rate=interest_rate,
                 yield_to_maturity=yield_to_maturity,
+                par_value=par_value,
                 market_cap=market_cap,
                 rate_of_investment_channel=rate_of_investment_channel,
                 rate_of_fund=rate_of_fund,
@@ -431,6 +456,7 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
                 activity_industry=activity_industry,
                 date_of_revaluation=date_of_revaluation,
                 type_of_asset=type_of_asset,
+                rate_of_return_during_period=rate_of_return_during_period,
                 return_on_equity=return_on_equity,
                 liabilities=liabilities,
                 expiry_date_of_liabilities=expiry_date_of_liabilities,
@@ -439,11 +465,10 @@ def read_sheet(xls_file, sheet_name, managing_body, quarter):
                 underlying_asset=underlying_asset,
                 consortium=consortium,
                 average_rate=average_rate,
-                par_value=par_value,
+                estimated_value=estimated_value,
                 managing_body=managing_body_dict[managing_body],
                 geographical_location=context,
                 instrument_sub_type=instrument_dict[sheet_name],
-
                 quarter=quarter[0],
             )
 
