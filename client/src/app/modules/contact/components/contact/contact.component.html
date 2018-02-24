@@ -49,10 +49,16 @@
 </section>
 
 <section class="message-wrapper" [hidden]="!formSubmited">
-  <div fxLayout="column" fxLayoutAlign="space-around center">
-    <p
-    class="message-container">
-      some message!
-    </p>
+  <div *ngIf="contactSubmitionState;else submition_failed">
+      <p class="message-container success">
+        שליחת הנתונים בוצע בהצלחה!
+      </p>
   </div>
+
+  <ng-template #submition_failed>
+    <p class="message-container failed">
+      שליחת הנתונים נכשלה, נסה שנית מאוחר יותר!
+    </p>
+  </ng-template>
+
 </section>
