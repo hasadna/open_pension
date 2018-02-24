@@ -32,6 +32,16 @@ export function reducer(state = initialState, action: ContactActions): State {
       } as Contact;
     }
 
+    case ContactActionTypes.SEND_NEW_CONTACT_FAILED: {
+      console.log("here-> -> -> ", action.payload.content);
+      return {
+        name: action.payload.name,
+        email: action.payload.email,
+        content: action.payload.content,
+        feedbackMsg: 'Something went wrong, please try again later.'
+      } as Contact;
+    };
+
     default: {
       return state;
     }
