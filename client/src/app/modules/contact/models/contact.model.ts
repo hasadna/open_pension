@@ -2,5 +2,5 @@ export class Contact {
   name: string;
   email: string;
   content: string;
-  feedbackMsg?: string
+  feedbackMsg?: string;
 }
