@@ -23,7 +23,7 @@ export class SendNewContactSuccessAction implements Action {
 export class SendNewContactFailedAction implements Action {
   readonly type = ContactActionTypes.SEND_NEW_CONTACT_FAILED;
 
-  constructor() { }
+  constructor(public payload: Contact) { }
 }
 
 export type ContactActions
