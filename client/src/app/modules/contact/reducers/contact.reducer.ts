@@ -7,7 +7,6 @@ const initialState: State = {
   name: '',
   email: '',
   content: '',
-  feedbackMsg: '',
 };
 
 
@@ -30,7 +29,7 @@ export function reducer(state = initialState, action: ContactActions): State {
         name: action.payload.name,
         email: action.payload.email,
         content: action.payload.content,
-        feedbackMsg: 'הצלחה!'
+        submitionState: true
       } as Contact;
     }
 
@@ -39,7 +38,7 @@ export function reducer(state = initialState, action: ContactActions): State {
         name: action.payload.name,
         email: action.payload.email,
         content: action.payload.content,
-        feedbackMsg: 'שגיאה!'
+        submitionState: false
       } as Contact;
     }
 
@@ -49,4 +48,4 @@ export function reducer(state = initialState, action: ContactActions): State {
   }
 }
 
-export const getFeedbackMsg = (state: State) => state.feedbackMsg;
+export const getSubmitionState = (state: State) => state.submitionState;

@@ -15,10 +15,15 @@ import { Contact } from '../../models/contact.model';
 export class ContactComponent implements OnInit {
   contactForm: FormGroup;
   formSubmited = false;
+  contactSubmitionState: boolean;
 
   constructor(
     private store: Store<fromRoot.State>
-  ) { }
+  ) {
+    store.select(fromRoot.getContactSubmitionState).subscribe(
+      res => this.contactSubmitionState = res
+    );
+  }
 
   ngOnInit() {
     this.contactForm = new FormGroup({
