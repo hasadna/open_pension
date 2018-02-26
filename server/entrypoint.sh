@@ -7,7 +7,7 @@ echo "[run] Migrate DB"
 python manage.py migrate
 
 echo "[run] Collect static files"
-python manage.py collectstatic --noinput -v 0
+python manage.py collectstatic --noinput
 
 echo "[run] create superuser"
 echo "from django.contrib.auth.models import User
