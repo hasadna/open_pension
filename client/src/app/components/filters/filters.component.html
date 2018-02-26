@@ -7,9 +7,9 @@
     </select>
   </div>
   <div>
-    <input id="quarterly" type="radio" name="time-display" value="quarterly"/>
+    <input id="quarterly" type="radio" name="time-display" value="quarterly" checked/>
     <label class="filters-label" for="quarterly">רבעוני</label>
-    <input id="month" type="radio" name="time-display" value="month"/>
+    <input id="month" type="radio" name="time-display" value="month" />
     <label class="filters-label" for="month">חודשי</label>
   </div>
   <div class="filters-parameters-div">
@@ -20,6 +20,7 @@
       <div [dragula]='"another-bag"' [dragulaModel]='selectedFilters'>
         <div *ngFor="let filter of selectedFilters" class="filters-button" [style.background]=filter.color>
           {{ filter.fields_to_show_name }}
+          <span (click)="removeFilter(filter)">X</span>
         </div>
       </div>
     </div>
