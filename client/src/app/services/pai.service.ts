@@ -1,25 +1,22 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
-import { Pai } from '../models/pai';
 import * as fromRoot from '../reducers';
-
+import { Pai } from '../models/pai.model';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PaiService {
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private store: Store<fromRoot.State>,
   ) { }
 
   getPai(): Observable<Pai> {
-    return this.http.get('http://localhost:8000/filter-pai')
-      .map(res => res.json())
-      .catch(this.handleError);
+    return this.http.get<Pai>(`${environment.backend}/filter-pai`);
   }
 
   getPaiWithFilters(): Observable<Pai> {
@@ -38,12 +35,6 @@ export class PaiService {
       res => query += `&quarter=${res.quarter_id}`
     );
 
-    return this.http.get(`http://localhost:8000/filter-pai?${query}`)
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-
-  private handleError(error: Response) {
-    return Observable.throw(error.json().error || 'Server error');
+    return this.http.get<Pai>(`${environment.backend}/filter-pai?${query}`);
   }
 }

@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Alef:400,700');
 @import '~@angular/material/theming';
-// Plus imports for other components in your app.
+@import '~font-awesome/css/font-awesome.min.css';
+@import "~@ngx-share/button/styles/share-buttons";
+@import "~@ngx-share/button/styles/themes/default/default-theme";
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.

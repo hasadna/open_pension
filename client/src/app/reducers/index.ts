@@ -13,20 +13,18 @@ import { environment } from '../../environments/environment';
  * notation packages up all of the exports into a single object.
  */
 
- import * as fromPai from './pai';
- import * as fromQuarter from './quarter';
- import * as fromFilters from './filters';
- import * as fromContact from './contact';
+ import * as fromFilters from './filters.reducer';
+ import * as fromQuarter from './quarter.reducer';
+ import * as fromPai from './pai.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  pai: fromPai.State;
-  quarter: fromQuarter.State;
   filters: fromFilters.State;
-  contact: fromContact.State;
+  quarters: fromQuarter.State;
+  pai: fromPai.State;
 }
 
 /**
@@ -35,29 +33,17 @@ export interface State {
  * and the current or initial state and return a new immutable state.
  */
 export const reducers: ActionReducerMap<State> = {
-  pai: fromPai.reducer,
-  quarter: fromQuarter.reducer,
   filters: fromFilters.reducer,
-  contact: fromContact.reducer,
+  quarters: fromQuarter.reducer,
+  pai: fromPai.reducer,
 };
 
 /**
  * Layout Reducers
  */
 export const getPaiState = createFeatureSelector<fromPai.State>('pai');
-export const getQuarterState = createFeatureSelector<fromQuarter.State>('quarter');
 export const getFiltersState = createFeatureSelector<fromFilters.State>('filters');
-export const getContactState = createFeatureSelector<fromContact.State>('contact');
-
-export const getQuartersEntities = createSelector(
-  getQuarterState,
-  fromQuarter.getEntities
-);
-
-export const getSelectedQuarter = createSelector(
-  getQuarterState,
-  fromQuarter.getselectedQuarter
-);
+export const getQuartersState = createFeatureSelector<fromQuarter.State>('quarters');
 
 export const getFiltersEntities = createSelector(
   getFiltersState,
@@ -67,4 +53,14 @@ export const getFiltersEntities = createSelector(
 export const getSelectedFilters = createSelector(
   getFiltersState,
   fromFilters.getSelectedFilters
+);
+
+export const getQuartersEntities = createSelector(
+  getQuartersState,
+  fromQuarter.getEntities
+);
+
+export const getSelectedQuarter = createSelector(
+  getQuartersState,
+  fromQuarter.getselectedQuarter
 );

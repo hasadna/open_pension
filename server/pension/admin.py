@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from pension.models import Quarter, Instrument, InstrumentFields
+from pension.models import Quarter, Fund, FilterFields
 
 
-class InstrumentAdmin(admin.ModelAdmin):
-    model = Instrument
-    list_display = ('instrument_id', 'issuer_id',)
-    search_fields = ['instrument_id']
+class FundAdmin(admin.ModelAdmin):
+    model = Fund
+    list_display = ('fund', 'fund_name',)
+    search_fields = ['fund', 'fund_name', 'issuer']
 
 
 class QuarterAdmin(admin.ModelAdmin):
@@ -14,11 +14,11 @@ class QuarterAdmin(admin.ModelAdmin):
     list_display = ('year', 'month',)
 
 
-class InstrumentFieldsAdmin(admin.ModelAdmin):
-    model = InstrumentFields
+class FilterFieldsAdmin(admin.ModelAdmin):
+    model = FilterFields
     list_display = ('fields_to_show', 'color')
 
 
-admin.site.register(Instrument, InstrumentAdmin)
+admin.site.register(Fund, FundAdmin)
 admin.site.register(Quarter, QuarterAdmin)
-admin.site.register(InstrumentFields, InstrumentFieldsAdmin)
+admin.site.register(FilterFields, FilterFieldsAdmin)

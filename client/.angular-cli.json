@@ -9,8 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        "data"
+        "favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -19,17 +18,10 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "op",
-      "serviceWorker": true,
       "styles": [
-        "styles.scss",
-        "../node_modules/dragula/dist/dragula.min.css",
-        "../node_modules/intro.js/minified/introjs.min.css",
-        "../node_modules/intro.js/minified/introjs-rtl.min.css",
-        "../node_modules/intro.js/themes/introjs-modern.css"
+        "styles.scss"
       ],
-      "scripts": [
-        "../node_modules/intro.js/minified/intro.min.js"
-      ],
+      "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
