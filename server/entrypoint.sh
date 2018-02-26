@@ -14,3 +14,6 @@ echo "from django.contrib.auth.models import User
 if not User.objects.filter(username='admin').count():
     User.objects.create_superuser('admin', 'admin@example.com', 'pass')
 " | python manage.py shell
+
+echo "[run] Starting Up server Django at 8000"
+gunicorn config.wsgi -b 0.0.0.0:8000
