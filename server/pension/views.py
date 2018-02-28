@@ -1,11 +1,11 @@
 from django.core import serializers
-from rest_framework import viewsets
 from django.http import HttpResponse
-from django.db.models import Q, F, Sum
+from rest_framework import viewsets
+from django.db.models import F, Q, Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from pension.models import Quarter, Fund, FilterFields
+from pension.models import Fund, Quarter, FilterFields
 from pension.serializers import QuartersSerializer, InstrumentsSerializer, InstrumentFieldsSerializer
 
 

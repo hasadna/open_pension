@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from pension.models import Quarter, Fund, FilterFields
+from pension.models import Fund, Quarter, FilterFields
 
 
 class QuartersSerializer(serializers.HyperlinkedModelSerializer):
