@@ -7,6 +7,7 @@ const initialState: State = {
   name: '',
   email: '',
   content: '',
+  formSubmitted: false,
 };
 
 
@@ -17,11 +18,12 @@ export function reducer(state = initialState, action: ContactActions): State {
     }
 
     case ContactActionTypes.SEND_NEW_CONTACT_SUCCESS: {
-      if (action.payload.email) {
+      if (!action.payload.email) {
         return {
           name: '',
           email: '',
           content: '',
+          formSubmitted: true,
         } as Contact;
       }
 
@@ -29,7 +31,8 @@ export function reducer(state = initialState, action: ContactActions): State {
         name: action.payload.name,
         email: action.payload.email,
         content: action.payload.content,
-        submitionState: true
+        submittedSuccessfully: true,
+        formSubmitted: true,
       } as Contact;
     }
 
@@ -38,8 +41,13 @@ export function reducer(state = initialState, action: ContactActions): State {
         name: action.payload.name,
         email: action.payload.email,
         content: action.payload.content,
-        submitionState: false
+        formSubmitted: true,
+        submittedSuccessfully: false,
       } as Contact;
+    }
+
+    case ContactActionTypes.RESET_FORM_SUBMITION: {
+      state.formSubmitted = false;
     }
 
     default: {
@@ -47,5 +55,3 @@ export function reducer(state = initialState, action: ContactActions): State {
     }
   }
 }
-
-export const getSubmitionState = (state: State) => state.submitionState;
