@@ -2,5 +2,6 @@ export class Contact {
   name: string;
   email: string;
   content: string;
-  submitionState?: boolean;
+  formSubmitted?: boolean;
+  submittedSuccessfully?: boolean;
 }
