@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
-import { SendNewContactAction } from '../../actions/contact.actions';
+import { SendNewContactAction, ResetFormSubmitionStatus } from '../../actions/contact.actions';
 import { Contact } from '../../models/contact.model';
 
 @Component({
@@ -14,14 +14,13 @@ import { Contact } from '../../models/contact.model';
 
 export class ContactComponent implements OnInit {
   contactForm: FormGroup;
-  formSubmited = false;
-  contactSubmitionState: boolean;
+  contact: Contact;
 
   constructor(
     private store: Store<fromRoot.State>
   ) {
-    store.select(fromRoot.getContactSubmitionState).subscribe(
-      res => this.contactSubmitionState = res
+    store.select(fromRoot.getContactState).subscribe(
+      contactState => this.contact = contactState
     );
   }
 
@@ -63,11 +62,10 @@ export class ContactComponent implements OnInit {
     } as Contact;
     this.store.dispatch(new SendNewContactAction(formModel));
 
-    this.formSubmited = true;
     this.contactForm.reset();
 
     setTimeout(() => {
-      this.formSubmited = false;
+      this.store.dispatch(new ResetFormSubmitionStatus());
     }, 5000);
   }
 }

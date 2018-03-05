@@ -1,4 +1,4 @@
-<section class="form-container" [hidden]="formSubmited">
+<section class="form-container" [hidden]="contact.formSubmitted">
   <h4>יצירת קשר</h4>
   <p>מוזמנים</p>
 
@@ -41,6 +41,9 @@
       <div *ngIf="content.errors.required">
         שדה חובה.
       </div>
+      <div *ngIf="content.errors.minlength">
+        השם חייב להיות באורך של לפחות 2 תווים.
+      </div>
     </div>
 
     <button type="submit" [disabled]="!contactForm.valid">שליחה</button>
@@ -48,8 +51,8 @@
   </form>
 </section>
 
-<section class="message-wrapper" [hidden]="!formSubmited">
-  <div *ngIf="contactSubmitionState;else submition_failed">
+<section class="message-wrapper" [hidden]="!contact.formSubmitted">
+  <div *ngIf="contact.submittedSuccessfully;else submition_failed">
       <p class="message-container success">
         שליחת הנתונים בוצע בהצלחה!
       </p>
