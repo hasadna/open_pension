@@ -86,11 +86,21 @@ input, textarea {
   .message-container {
     padding: 15px;
     margin-bottom: 20px;
-    border: 1px solid rgba(66, 170, 73, 0.51);
     border-radius: 4px;
     box-sizing: border-box;
+    width: 100%;
+    border: 1px solid;
+  }
+
+  .success {
+    border-color: rgba(66, 170, 73, 0.51);
     color: #3c763d;
     background-color: #dff0d8;
-    width: 100%;
+  }
+
+  .failed{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
   }
 }
