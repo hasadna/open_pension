@@ -1,8 +1,9 @@
-import pandas as pd
 from os import path
 
+import pandas as pd
 from django.core.management import BaseCommand
-from pension.models import Quarter, Fund
+
+from pension.models import Fund, Quarter
 
 managing_body_dict = {
     'amitim': 'AMT',

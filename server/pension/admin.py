@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from pension.models import Quarter, Fund, FilterFields
+from pension.models import Fund, Quarter, FilterFields
 
 
 class FundAdmin(admin.ModelAdmin):

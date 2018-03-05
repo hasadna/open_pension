@@ -4,7 +4,12 @@ import { Component, OnInit } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 import * as fromRoot from '../../reducers';
-import { LoadInstrumentListAction, SelectNewFilterAction, RemoveSelectedFilterAction, ChangeLayerOfFilterAction } from '../../actions/filters.actions';
+import {
+  LoadInstrumentListAction,
+  SelectNewFilterAction,
+  RemoveSelectedFilterAction,
+  ChangeLayerOfFilterAction
+} from '../../actions/filters.actions';
 import { SelectNewQuarterAction, LoadQuartersAction } from '../../actions/quarter.actions';
 import { Quarter } from '../../models/quarter.model';
 import { Filter } from '../../models/filter.model';
