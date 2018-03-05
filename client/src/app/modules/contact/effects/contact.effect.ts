@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-
 import { ContactService } from '../services/contact.service';
 import {
   ContactActionTypes,
@@ -28,10 +27,10 @@ export class ContactEffect {
     map(action => action.payload),
     switchMap(contactData => {
       return this.contactService.postNewContact(contactData)
-      .pipe(
-        map((savedContactData) => new SendNewContactSuccessAction(savedContactData)),
-        catchError(err => of(new SendNewContactFailedAction(err)))
-      );
+        .pipe(
+          map((savedContactData) => new SendNewContactSuccessAction(savedContactData)),
+          catchError(err => of(new SendNewContactFailedAction(err)))
+        );
     })
   );
 }
