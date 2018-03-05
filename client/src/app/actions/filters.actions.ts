@@ -7,6 +7,7 @@ export enum FiltersActionTypes {
   LOAD_INSTRUMENT_LIST_SUCCESS = '[Instrument] Load Instrument List Success',
   LOAD_INSTRUMENT_LIST_FAILED = '[Instrument] Load Instrument List Failed',
   SELECT_NEW_FILTER_ACTION = '[Filters] Select New Filter',
+  REMOVE_SELECTED_FILTER_ACTION = '[Filters] Remvoe Selected Filter',
   CHANGE_LAYER_OF_FILTER_ACTION = '[Filters] Change Layer Of Filter',
 }
 
@@ -34,6 +35,12 @@ export class SelectNewFilterAction implements Action {
   constructor(public payload: string) { }
 }
 
+export class RemoveSelectedFilterAction implements Action {
+  readonly type = FiltersActionTypes.REMOVE_SELECTED_FILTER_ACTION;
+
+  constructor(public payload: Filter) { }
+}
+
 export class ChangeLayerOfFilterAction implements Action {
   readonly type = FiltersActionTypes.CHANGE_LAYER_OF_FILTER_ACTION;
 
@@ -42,6 +49,7 @@ export class ChangeLayerOfFilterAction implements Action {
 
 export type FiltersActions
   = SelectNewFilterAction
+  | RemoveSelectedFilterAction
   | ChangeLayerOfFilterAction
   | LoadInstrumentListAction
   | LoadInstrumentListSuccessAction

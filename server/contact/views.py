@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from contact.models import ContactRequest
 from contact.serializers import ContactRequestSerializer
 
-
 mail_templete = '''
 Name: {name}
 Email: {email}

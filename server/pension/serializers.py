@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from pension.models import Quarter, Instrument, InstrumentFields
+from pension.models import Fund, Quarter, FilterFields
 
 
 class QuartersSerializer(serializers.HyperlinkedModelSerializer):
@@ -14,27 +14,22 @@ class InstrumentsSerializer(serializers.HyperlinkedModelSerializer):
     quarter_year = serializers.CharField(source='quarter.year')
     quarter_month = serializers.CharField(source='quarter.month')
     managing_body_name = serializers.SerializerMethodField()
-    geographical_location_name = serializers.SerializerMethodField()
     instrument_sub_type_name = serializers.SerializerMethodField()
 
     class Meta:
-        model = Instrument
-        fields = ('instrument_id', 'issuer_id', 'rating', 'rating_agency', 'currency', 'interest_rate',
-                  'yield_to_maturity', 'market_cap', 'rate_of_investment_channel', 'rate_of_fund',
-                  'trading_floor', 'date_of_purchase', 'average_of_duration', 'rate', 'rate_of_ipo',
-                  'informer', 'fair_value', 'activity_industry', 'date_of_revaluation', 'type_of_asset',
-                  'return_on_equity', 'liabilities', 'expiry_date_of_liabilities', 'effective_rate',
-                  'coordinated_cost', 'underlying_asset', 'consortium', 'average_rate', 'par_value',
-                  'managing_body', 'managing_body_name', 'geographical_location', 'geographical_location_name',
-                  'instrument_sub_type', 'instrument_sub_type_name', 'quarter_id', 'quarter_year', 'quarter_month', )
+        model = Fund
+        fields = ('managing_body_name', 'fund', 'fund_name', 'quarter_id', 'quarter_year', 'quarter_month',
+                  'instrument_type', 'instrument_sub_type_name', 'instrument_id', 'orig_instrument_id', 'issuer',
+                  'instrument_name', 'activity_industry', 'currency', 'fair_value', 'market_cap', 'rate_of_fund',
+                  'rating_agency', 'reference_index', 'intrest_rate', 'date_of_purchase', 'average_of_duration',
+                  'date_of_revaluation', 'rate', 'yield_to_maturity', 'rating', 'par_value', 'underlying_asset',
+                  'type_of_asset', 'rate_of_ipo', 'liquidity', 'asset_type', 'row_cleansing_time', 'issuer_number',
+                  'owner_option', 'original_issuer_number', 'isin', 'instrument_symbol', 'movil', 'dual_trade',
+                  'sector', 'cleansing_action')
 
     @classmethod
     def get_managing_body_name(cls, obj):
         return obj.get_managing_body_display()
-
-    @classmethod
-    def get_geographical_location_name(cls, obj):
-        return obj.get_geographical_location_display()
 
     @classmethod
     def get_instrument_sub_type_name(cls, obj):
@@ -45,7 +40,7 @@ class InstrumentFieldsSerializer(serializers.HyperlinkedModelSerializer):
     fields_to_show_name = serializers.SerializerMethodField()
 
     class Meta:
-        model = InstrumentFields
+        model = FilterFields
         fields = ('fields_to_show', 'fields_to_show_name', 'color', )
 
     @classmethod
