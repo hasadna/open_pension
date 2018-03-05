@@ -36,7 +36,3 @@ export const reducers: ActionReducerMap<State> = {
  * Layout Reducers
  */
 export const getContactState = createFeatureSelector<fromContact.State>('contact');
-export const getContactSubmitionState = createSelector(
-  getContactState,
-  fromContact.getSubmitionState,
-);
