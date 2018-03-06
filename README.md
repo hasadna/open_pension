@@ -35,11 +35,11 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 
 **Server**
 
-  1. `cd server/config` then `cp local_settings.template local_settings.py` and modify it by your local settings.
-  2. Install requirements with `pip install -r requirements.txt` (located under `server` directory).
-  3. Migrate the data with `python manage.py migrate`.
-  4. Import the dummy data with `python manage.py import_data`.
-  5. Run the server with `python manage.py runserver`.
+  1. `cd server/config` then `cp local_settings.template local_settings.py` and modify it by your local postgres (database) settings.
+  2. Install requirements with `pipenv install --dev` (located under `server` directory, you must have [pipenv](https://github.com/pypa/pipenv) installed).
+  3. Migrate the data with `python3 manage.py migrate`.
+  4. Create a superuser `python3 manage.py createsuperuser` and follow the instructions.
+  5. Run the server with `python3 manage.py runserver`.
   6. Open the browser at [http://localhost:8000](http://localhost:8000).
 
 ## Tests
@@ -52,7 +52,9 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 
 **Server**
 
-  * Not yet.
+  * Run `pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .` to check for lint mistakes.
+  * Run `isort . --recursive --check-only` to check for import mistakes.
+  * Run `python manage.py test` to run the unit tetst.
 
 ## Translation
 
@@ -73,17 +75,13 @@ python manage.py compilemessages -l he
 
 If you need the data itself use the `--recursive` flag when you `git clone` this repo.
 
-In order to transform bad CSVs to good:
-```bash
-python manage.py parse_csv --source=PATH_OF_FOLDER --destination=csv/
-```
+### Old Database
 
-In order to transform only one:
-```bash
-python manage.py parse_csv --source=PATH_OF_FOLDER --plugin=PLUGIN --destination=csv/
-```
+To import the old database, first go to `server/data` directory, and open the `pension_data_all.csv.gz` file. Then run `python3 manage.py import_old_db` which search for `pension_data_all.csv` file in the `server/data` directory and import the csv file to our current database.
 
-Plugin ID can be achieved from `server/pension/management/commands/plugins.json`
+### Dummy Blog Posts
+
+To create dummy blog posts just run `python3 manage.py create_blog_dummy_data`.
 
 ## Logging
 
@@ -93,15 +91,7 @@ To see the log ask the team leader an access to the openPension email account.
 
 ## Deployment
 
-1. In client directory run `docker build -t client .` to build the Docker image.
-2. In server directory run `docker build -t server .` to build the Docker image.
-3. To create a swarm docker swarm init.
-4. Download all docker images:
-    * `docker pull dockercloud/haproxy`  
-    * `docker pull postgres`  
-5. Run `docker stack deploy --compose-file=docker-compose.yml prod`
-6. Open the browser at [http://localhost](http://localhost) to see your Angular (client) app.
-7. Open the browser at [http://localhost:8000](http://localhost:8000) to see your Django (server) app.
+Not yet..
 
 ## Contribute
 
