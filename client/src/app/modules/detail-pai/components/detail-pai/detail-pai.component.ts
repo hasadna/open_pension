@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { scaleBand, scaleLinear } from 'd3-scale';
 import * as selection from 'd3-selection';
@@ -14,11 +15,15 @@ import * as d3 from 'd3';
   styleUrls: ['./detail-pai.component.scss']
 })
 export class DetailPaiComponent implements OnInit {
+  title: string;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
     this.initBarGraph();
+    this.route.url.subscribe(params => this.title = params[0].path);
   }
 
   initBarGraph() {

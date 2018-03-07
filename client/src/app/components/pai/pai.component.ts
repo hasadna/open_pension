@@ -82,7 +82,6 @@ export class PaiComponent implements OnInit {
   loadData(root) {
     const partition = d3partition();
     const color = scale.scaleOrdinal(scale.schemeCategory20);
-    // const div = d3.select('body').append('div')
     const div = selection.select('body').append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
