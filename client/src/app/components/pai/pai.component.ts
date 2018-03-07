@@ -105,10 +105,10 @@ export class PaiComponent implements OnInit {
         return '#ffffff';
       })
       .on('click', this.zoomToNode.bind(this))
-      .on("mouseover", (d) => {
+      .on('mouseover', (d) => {
          div.transition()
            .duration(200)
-           .style("opacity", .9);
+           .style('opacity', .9);
          div.html(`<a href= "detail-pai/${d.data.name}">${d.data.name}</a>`)
           .style('left', `${d3.event.pageX}px`)
           .style('top', `${d3.event.pageY - 28}px`);
