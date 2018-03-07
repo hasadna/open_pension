@@ -114,11 +114,6 @@ export class PaiComponent implements OnInit {
           .style('left', `${d3.event.pageX}px`)
           .style('top', `${d3.event.pageY - 28}px`);
        });
-      // .append('title')
-      // .text((d: any) => {
-      //   console.log('d.data', d.data.name);
-      //   return `${d.data.name}\n${d.value}`;
-      // });
   }
 
   private initDimensions() {
