@@ -109,7 +109,7 @@ export class PaiComponent implements OnInit {
          div.transition()
            .duration(200)
            .style('opacity', .9);
-         div.html(`<a href= "detail-pai/${d.data.name}">${d.data.name}</a>`)
+         div.html(`<h3>${d.data.name}</h3><hr><a href= "detail-pai/${d.data.name}">למידע נוסף >></a>`)
           .style('left', `${d3.event.pageX}px`)
           .style('top', `${d3.event.pageY - 28}px`);
        });
