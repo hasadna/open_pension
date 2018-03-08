@@ -201,7 +201,7 @@ class Search(APIView):
             Q(currency__contains=query) |
             Q(instrument_id__contains=query) |
             Q(instrument_sub_type__contains=query) |
-            Q(issuer_id__contains=query) |
+            Q(issuer__contains=query) |
             Q(instrument_sub_type__contains=query) |
             Q(type_of_asset__contains=query) |
             Q(underlying_asset__contains=query) |
