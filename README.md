@@ -77,7 +77,9 @@ If you need the data itself use the `--recursive` flag when you `git clone` this
 
 ### Old Database
 
-To import the old database, first go to `server/data` directory, and open the `pension_data_all.csv.gz` file. Then run `python3 manage.py import_old_db` which search for `pension_data_all.csv` file in the `server/data` directory and import the csv file to our current database.
+To import the old database, [first download it from](https://drive.google.com/file/d/1iMbWcn1rEbaO9YpVSaOSq2f0qkKnbTOw/view?usp=sharing) and then put it in `server/data` directory, open the `pension_data_all.csv.gz` file (extract the `pension_data_all.csv` from it). Then run `python3 manage.py import_old_db`.
+
+This script will search for `pension_data_all.csv` file in the `server/data` directory and import the csv file to our current database.
 
 ### Dummy Blog Posts
 
