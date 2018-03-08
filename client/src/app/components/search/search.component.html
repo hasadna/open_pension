@@ -1,4 +1,7 @@
-<form>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <i class="fa fa-search" aria-hidden="true"></i>
-  <input type="text" placeholder="חיפוש (למשל פועלים)">
+  <input
+    type="search"
+    formControlName="searchInput"
+    placeholder="חיפוש (למשל פועלים)">
 </form>
