@@ -2,15 +2,9 @@
   <div class="filters-date-select-div">
     <select class="filters-date-select" [(ngModel)]="selectedQuarter" (ngModelChange)="selectNewQuarter()">
       <option *ngFor="let quarter of quarters" value="{{ quarter.year }}-{{ quarter.month }}">
-        {{ quarter.year }} - {{ quarter.month }}
+        {{ quarter.year }} - רבעון {{ quarter.month }}
       </option>
     </select>
-  </div>
-  <div>
-    <input id="quarterly" type="radio" name="time-display" value="quarterly" checked/>
-    <label class="filters-label" for="quarterly">רבעוני</label>
-    <input id="month" type="radio" name="time-display" value="month" />
-    <label class="filters-label" for="month">חודשי</label>
   </div>
   <div class="filters-parameters-div">
     <h2>פרמטרים</h2>

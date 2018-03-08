@@ -12,6 +12,9 @@ language: python
 python:
   - 3.6
 
+git:
+  lfs_skip_smudge: true
+
 services:
   - postgresql
 
