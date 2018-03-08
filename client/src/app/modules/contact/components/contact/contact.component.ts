@@ -32,7 +32,7 @@ export class ContactComponent implements OnInit {
       ]),
       'email': new FormControl('', [
         // tslint:disable-next-line
-        Validators.pattern(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/),
+        Validators.pattern(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]{2,63}(?:[a-z0-9-]*[a-z0-9])?/),
         Validators.required
       ]),
       'content': new FormControl('', [
