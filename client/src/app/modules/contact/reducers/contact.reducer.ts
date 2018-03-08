@@ -47,8 +47,12 @@ export function reducer(state = initialState, action: ContactActions): State {
     }
 
     case ContactActionTypes.RESET_FORM_SUBMITION: {
-      state.formSubmitted = false;
-      break;
+      return {
+        name: '',
+        email: '',
+        content: '',
+        formSubmitted: false,
+      } as Contact;
     }
 
     default: {
