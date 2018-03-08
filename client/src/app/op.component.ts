@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
     #app-wrapper {
       width: 80%;
       margin: auto;
+      min-height: calc(100vh - (43px + 120px + 22px));
     }
   `],
 })
