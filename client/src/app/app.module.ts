@@ -25,10 +25,12 @@ import { PaiComponent } from './components/pai/pai.component';
 import { PaiEffect } from './effects/pai.effect';
 import { FiltersEffect } from './effects/filters.effect';
 import { QuartersEffect } from './effects/quarters.effect';
+import { SearchEffects } from './effects/search.effect';
 
 import { PaiService } from './services/pai.service';
 import { FiltersService } from './services/filters.service';
 import { QuartersService } from './services/quarters.service';
+import { SearchService } from './services/search.service';
 
 import { environment } from '../environments/environment';
 
@@ -56,12 +58,14 @@ import { environment } from '../environments/environment';
       PaiEffect,
       FiltersEffect,
       QuartersEffect,
+      SearchEffects,
     ]),
   ],
   providers: [
     PaiService,
     FiltersService,
     QuartersService,
+    SearchService,
   ],
   bootstrap: [OpComponent]
 })
