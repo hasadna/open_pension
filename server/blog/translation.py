@@ -11,5 +11,5 @@ class TagsTranslation(TranslationOptions):
 
 @register(Post)
 class PostTranslation(TranslationOptions):
-    fields = ('title', 'author', 'body')
+    fields = ('title', 'author', 'body', 'share_image')
     required_languages = ('he',)
