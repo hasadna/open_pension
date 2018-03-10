@@ -13,6 +13,6 @@ export class SearchService {
   ) { }
 
   searchTerm(term): Observable<SearchResult[]> {
-    return this.http.get<SearchResult[]>(`${environment.backend}/api/search?query=${term}`);
+    return this.http.get<SearchResult[]>(`${environment.backend}/search?query=${term}`);
   }
 }
