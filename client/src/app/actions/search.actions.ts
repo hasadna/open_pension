@@ -17,7 +17,7 @@ export class SearchAction implements Action {
 export class SearchSuccessAction implements Action {
   readonly type = SearchActionTypes.SEARCH_SUCCESS;
 
-  constructor(public payload: SearchResult) { }
+  constructor(public payload: SearchResult[]) { }
 }
 
 export class SearchFailedAction implements Action {
@@ -26,7 +26,7 @@ export class SearchFailedAction implements Action {
   constructor(public payload: any) { }
 }
 
-export type ProxiesActions
+export type SearchActions
   = SearchAction
   | SearchSuccessAction
   | SearchFailedAction;
