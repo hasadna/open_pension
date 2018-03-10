@@ -1,6 +1,6 @@
 export interface SearchResult {
-  model: string,
-  pk: number,
+  model: string;
+  pk: number;
   fields: {
     managing_body: string;
     fund: number | null;
@@ -42,5 +42,5 @@ export interface SearchResult {
     sector: string | null;
     dual_trade: boolean;
     cleansing_action: number | null;
-  }
+  };
 }

@@ -1,7 +1,7 @@
 import { SearchResult } from '../models/search.model';
 import { SearchActionTypes, SearchActions } from '../actions/search.actions';
 
-export type State = SearchResult[]
+export type State = SearchResult[];
 
 const initialState: State = [{
   model: '',
@@ -48,7 +48,7 @@ const initialState: State = [{
     dual_trade: true,
     cleansing_action: null,
   },
-}]
+}];
 
 export function reducer(state = initialState, action: SearchActions): State {
   switch (action.type) {

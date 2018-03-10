@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../reducers';
-import { SearchResult } from '../../models/search.model'
+import { SearchResult } from '../../models/search.model';
 import { SearchAction } from '../../actions/search.actions';
 
 
@@ -19,7 +19,7 @@ export class SearchComponent implements OnInit {
   public searchResult$: Observable<SearchResult[]>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.searchResult$ = store.select(fromRoot.getSearchState)
+    this.searchResult$ = store.select(fromRoot.getSearchState);
   }
 
   ngOnInit() {
