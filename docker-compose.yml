@@ -19,6 +19,8 @@ services:
       - "80:80"
     environment:
       - SERVICE_PORTS=80
+    depends_on:
+      - server
 
   server:
     image: hasadna/open-pension-server
