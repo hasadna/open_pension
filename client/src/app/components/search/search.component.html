@@ -1,7 +1,11 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <i class="fa fa-search" aria-hidden="true"></i>
   <input
-    type="search"
+    (keyup)="checkValue($event.target.value)"
     formControlName="searchInput"
     placeholder="חיפוש (למשל פועלים)">
 </form>
+
+<div class="result-box" *ngIf="searchSubmitted">
+  <p class="result-item" *ngFor="let result of searchResults | slice:0:10">{{result.fields.fund_name}}</p>
+</div>

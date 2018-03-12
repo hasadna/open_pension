@@ -34,22 +34,26 @@ ul {
   }
 }
 
-.links {
-  margin: 10px 0;
+.search-wrapper{
+  position: relative;
+  
+  .links {
+    margin: 10px 0;
 
-  a {
-    margin: 0 10px;
-    float: left;
-    color: $header-text-color;
-    cursor: pointer;
-    font-size: 18px;
+    a {
+      margin: 0 10px;
+      float: left;
+      color: $header-text-color;
+      cursor: pointer;
+      font-size: 18px;
 
-    i {
-      vertical-align:middle;
+      i {
+        vertical-align:middle;
+      }
     }
   }
-}
 
-op-search {
-  justify-content: flex-start;
+  op-search {
+    justify-content: flex-start;
+  }
 }

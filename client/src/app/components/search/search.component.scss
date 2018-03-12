@@ -20,10 +20,23 @@ input {
   padding: 8px 8px;
   font-size: 16px;
   font-family: 'Alef', sans-serif;;
-  background-color: #4D6571;
+  background-color: $input-background;
   border-style: none;
 }
 
 input::placeholder {
   color: #FFFFFF;
+}
+
+.result-box {
+  background-color: $input-background;
+  position: absolute;
+  width: 100%;
+
+  .result-item {
+    padding: 5px;
+    border-bottom: 1px solid #ffffff;
+    color: #ffffff;
+    margin: 0;
+  }
 }
