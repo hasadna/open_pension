@@ -15,17 +15,13 @@ services:
 
   client:
     image: hasadna/open-pension-client
-    build: ./client
     ports:
-      - "4200:80"
+      - "80:80"
     environment:
-      - SERVICE_PORTS=4200
+      - SERVICE_PORTS=80
 
   server:
     image: hasadna/open-pension-server
-    build: ./server
-    ports:
-      - "8000:8000"
     command: /bin/sh entrypoint.sh
     depends_on:
       - database
