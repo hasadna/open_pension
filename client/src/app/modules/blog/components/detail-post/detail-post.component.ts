@@ -26,7 +26,9 @@ export class DetailPostComponent implements OnInit {
     this.store.select(fromRoot.getSelectedPost).subscribe(
       res => {
         res.tags.map(tag => {
-          if (tag.name != '') this.postTags += `${tag.name} `;
+          if (tag.name !== '') {
+            this.postTags += `${tag.name} `;
+          }
         });
         return this.post$ = res;
     });
