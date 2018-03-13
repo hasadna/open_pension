@@ -19,7 +19,7 @@ import { Filter } from '../../models/filter.model';
   templateUrl: './pai.component.html',
   styleUrls: ['./pai.component.scss']
 })
-export class PaiComponent implements OnInit {
+export class PaiComponent implements OnInit, OnDestroy {
   @ViewChild('pai')paiContainer: ElementRef;
   private arcGenerator: any;
   private mainAxes: { x: any, y: any };
@@ -29,7 +29,7 @@ export class PaiComponent implements OnInit {
   public selectedFilters: Filter[];
   private div = selection.select('body').append('div')
     .attr('class', 'tooltip')
-    .style('opacity', 0);;
+    .style('opacity', 0);
 
   constructor(
     private store: Store<fromRoot.State>,

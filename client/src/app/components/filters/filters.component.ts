@@ -72,9 +72,7 @@ export class FiltersComponent implements OnInit {
   }
 
   selectNewFilter() {
-    if (this.selectedFilter !== '+ הוספה') {
-      this.store.dispatch(new SelectNewFilterAction(this.selectedFilter));
-    }
+    this.store.dispatch(new SelectNewFilterAction(this.selectedFilter));
   }
 
   removeFilter(filter) {

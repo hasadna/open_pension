@@ -20,8 +20,8 @@
     </div>
 
     <select class="filters-button add-button" [(ngModel)]="selectedFilter" (ngModelChange)="selectNewFilter()">
-      <option>+ הוספה</option>
-      <option *ngFor="let filter of filters$ | async" [value]="filter.fields_to_show">
+      <option value="+ הוספה" selected hidden disabled>+ הוספה</option>
+      <option *ngFor="let filter of filters$ | async" value="{{filter.fields_to_show}}">
         {{ filter.fields_to_show_name }}
       </option>
     </select>
