@@ -1,5 +1,7 @@
 FROM python:alpine
 
+LABEL maintainer="http://www.hasadna.org.il/"
+
 ENV APP_NAME "server"
 ENV APP_USER "app"
 ENV HOME /home/$APP_USER
