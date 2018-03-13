@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -27,6 +27,9 @@ export class PaiComponent implements OnInit {
   private paiElement: any;
   private colorScale: any;
   public selectedFilters: Filter[];
+  private div = selection.select('body').append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);;
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -82,7 +85,7 @@ export class PaiComponent implements OnInit {
   loadData(root) {
     const partition = d3partition();
     const color = scale.scaleOrdinal(scale.schemeCategory20);
-    const div = selection.select('body').append('div')
+    this.div = selection.select('body').append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
@@ -105,13 +108,13 @@ export class PaiComponent implements OnInit {
         return '#ffffff';
       })
       .on('click', this.zoomToNode.bind(this))
-      .on('mouseover', (d) => {
-         div.transition()
+      .on('mousemove', (d, i) => {
+         this.div.transition()
            .duration(200)
            .style('opacity', .9);
-         div.html(`<h3>${d.data.name}</h3><hr><a href= "detail-pai/${d.data.name}">למידע נוסף >></a>`)
-          .style('left', `${d3.event.pageX}px`)
-          .style('top', `${d3.event.pageY - 28}px`);
+         this.div.html(`<h3>${d.data.name}</h3><hr><a href= "detail-pai/${d.data.name}">למידע נוסף >></a>`)
+          .style('left', `${d3.event.pageX + 15}px`)
+          .style('top', `${d3.event.pageY + 15}px`);
        });
   }
 
@@ -164,5 +167,15 @@ export class PaiComponent implements OnInit {
       .attr('preserveAspectRatio', 'xMinYMin')
       .append('g')
       .attr('transform', 'translate(' + this.dimensions.width / 2 + ',' + (this.dimensions.height / 2) + ')');
+  }
+
+  ngOnDestroy() {
+    selection.select('div.tooltip').remove();
+  }
+
+  mouseLeaveSvg(event: MouseEvent) {
+    this.div.transition()
+      .duration(200)
+      .style('opacity', .0);
   }
 }
