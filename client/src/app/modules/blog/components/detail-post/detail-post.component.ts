@@ -16,6 +16,7 @@ import { LoadPostByIdAction } from '../../actions/post.actions';
 export class DetailPostComponent implements OnInit {
   public post$: Post;
   public shareUrl: String;
+  public postTags = '';
 
   constructor(
     public share: ShareButtons,
@@ -23,8 +24,14 @@ export class DetailPostComponent implements OnInit {
     private store: Store<fromRoot.State>,
   ) {
     this.store.select(fromRoot.getSelectedPost).subscribe(
-      res => this.post$ = res
-    );
+      res => {
+        res.tags.map(tag => {
+          if (tag.name !== '') {
+            this.postTags += `${tag.name} `;
+          }
+        });
+        return this.post$ = res;
+    });
   }
 
   ngOnInit() {
