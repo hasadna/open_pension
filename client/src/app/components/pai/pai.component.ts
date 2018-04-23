@@ -27,7 +27,7 @@ export class PaiComponent implements OnInit, OnDestroy {
   private paiElement: any;
   private colorScale: any;
   public selectedFilters: Filter[];
-  private div = selection.select('body').append('div')
+  private div = selection.select('div.pai').append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0);
 
@@ -108,7 +108,7 @@ export class PaiComponent implements OnInit, OnDestroy {
         return '#ffffff';
       })
       .on('click', this.zoomToNode.bind(this))
-      .on('mousemove', (d, i) => {
+      .on('mouseover', (d, i) => {
          this.div.transition()
            .duration(200)
            .style('opacity', .9);
@@ -171,11 +171,5 @@ export class PaiComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     selection.select('div.tooltip').remove();
-  }
-
-  mouseLeaveSvg(event: MouseEvent) {
-    this.div.transition()
-      .duration(200)
-      .style('opacity', .0);
   }
 }
