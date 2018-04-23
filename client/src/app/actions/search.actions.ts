@@ -6,6 +6,7 @@ export enum SearchActionTypes {
   SEARCH = '[Search] Search',
   SEARCH_SUCCESS = '[Search] Search Success',
   SEARCH_FAILED = '[Search] Search Failed',
+  SELECT_SEARCHED_ITEM = '[Search] Select Searched Item',
 }
 
 export class SearchAction implements Action {
@@ -26,7 +27,14 @@ export class SearchFailedAction implements Action {
   constructor(public payload: any) { }
 }
 
+export class SelectSearchedItemAction implements Action {
+  readonly type = SearchActionTypes.SELECT_SEARCHED_ITEM;
+
+  constructor(public payload: SearchResult) { }
+}
+
 export type SearchActions
   = SearchAction
   | SearchSuccessAction
-  | SearchFailedAction;
+  | SearchFailedAction
+  | SelectSearchedItemAction;
