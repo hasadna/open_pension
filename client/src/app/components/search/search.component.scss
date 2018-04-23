@@ -41,13 +41,17 @@ input::placeholder {
 
   .result-item {
     padding: 10px 5px;
-    border-bottom: 1px solid #647b89;
+    border-top: 1px solid #647b89;
     color: #ffffff;
     margin: 0;
 
     &:hover {
       background: #647b89;
       cursor: pointer;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid #647b89;
     }
   }
 }
