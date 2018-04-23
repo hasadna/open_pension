@@ -7,5 +7,5 @@
 </form>
 
 <div class="result-box" *ngIf="searchSubmitted">
-  <p class="result-item" *ngFor="let result of searchResults | slice:0:10">{{result.fields.fund_name}}</p>
+  <p (click)="selectSearchedItem(result)" class="result-item" *ngFor="let result of searchResults | slice:0:10">{{result.fields.fund_name}}</p>
 </div>

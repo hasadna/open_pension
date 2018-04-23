@@ -17,13 +17,15 @@ import * as d3 from 'd3';
 export class DetailPaiComponent implements OnInit {
   title: string;
 
+  // TODO subscribe to the searched item store.
+
   constructor(
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.initBarGraph();
-    this.route.url.subscribe(params => this.title = params[0].path);
+    this.route.url.subscribe(params => this.title = decodeURI(params[0].path));
   }
 
   initBarGraph() {

@@ -68,3 +68,13 @@ export const getSelectedQuarter = createSelector(
   getQuartersState,
   fromQuarter.getselectedQuarter
 );
+
+export const getSearchedEntities = createSelector(
+  getSearchState,
+  fromSearch.getSearchedEntities
+);
+
+export const getSelectedSearchedItem = createSelector(
+  getSearchState,
+  fromSearch.getSelectedSearchedItem
+);

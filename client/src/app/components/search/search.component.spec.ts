@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SearchComponent } from './search.component';
 import { reducers } from '../../reducers';
@@ -15,7 +16,9 @@ describe('SearchComponent', () => {
       imports: [
         ReactiveFormsModule,
         StoreModule.forRoot(reducers),
+        RouterTestingModule,
       ],
+
     })
     .compileComponents();
   }));
