@@ -122,7 +122,6 @@ export function reducer(state = initialState, action: SearchActions): State {
       break;
     }
 
-
     default: {
       return state;
     }

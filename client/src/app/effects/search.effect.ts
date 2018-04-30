@@ -1,4 +1,3 @@
-
 import { Action } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';
@@ -19,7 +18,7 @@ import {
 export class SearchEffects {
   constructor(
     private actions$: Actions,
-    private searchService: SearchService
+    private searchService: SearchService,
   ) {}
 
   @Effect()
