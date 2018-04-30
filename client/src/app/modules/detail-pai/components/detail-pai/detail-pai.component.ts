@@ -22,8 +22,9 @@ export class DetailPaiComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // TODO subscribe to the searched item store.
     this.initBarGraph();
-    this.route.url.subscribe(params => this.title = params[0].path);
+    this.route.url.subscribe(params => this.title = decodeURI(params[0].path));
   }
 
   initBarGraph() {
