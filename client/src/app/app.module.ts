@@ -12,6 +12,8 @@ import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 import { reducers } from './reducers';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -49,6 +51,7 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
     AppRoutingModule,
     FlexLayoutModule,
     DragulaModule,
