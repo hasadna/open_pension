@@ -10,4 +10,5 @@
 
 <div class="result-box" *ngIf="searchSubmitted">
   <p (click)="selectSearchedItem(result)" class="result-item" *ngFor="let result of searchResults | slice:0:10">{{result.fields.fund_name}}</p>
+  <button mat-raised-button type="button" class="all-results">לכל התוצאות >></button>
 </div>
