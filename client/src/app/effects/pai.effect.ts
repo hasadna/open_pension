@@ -18,6 +18,7 @@ import {
   FiltersActionTypes,
   SelectNewFilterAction,
   ChangeLayerOfFilterAction,
+  RemoveSelectedFilterAction,
 } from '../actions/filters.actions';
 
 @Injectable()
@@ -39,6 +40,14 @@ export class PaiEffect {
   @Effect()
   loadPaiAfterNewFilter$: Observable<Action> = this.actions$
     .ofType<SelectNewFilterAction>(FiltersActionTypes.SELECT_NEW_FILTER_ACTION)
+    .switchMap(_ => this.paiService.getPaiWithFilters()
+      .map(paiData => new LoadPaiAfterNewFilterSuccessAction(paiData))
+      .catch(() => of({ type: 'LOAD_PAI_AFTER_NEW_FILTER_FAILED' }))
+    );
+
+  @Effect()
+  loadPaiAfterRemoveFilter$: Observable<Action> = this.actions$
+    .ofType<RemoveSelectedFilterAction>(FiltersActionTypes.REMOVE_SELECTED_FILTER_ACTION)
     .switchMap(_ => this.paiService.getPaiWithFilters()
       .map(paiData => new LoadPaiAfterNewFilterSuccessAction(paiData))
       .catch(() => of({ type: 'LOAD_PAI_AFTER_NEW_FILTER_FAILED' }))

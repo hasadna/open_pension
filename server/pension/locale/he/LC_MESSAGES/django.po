@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-14 20:08+0200\n"
+"POT-Creation-Date: 2018-03-06 16:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,49 +18,250 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: config/settings.py:139
-msgid "Hebrew"
-msgstr "עברית"
-
-#: config/settings.py:140
-msgid "English"
-msgstr "אנגלית"
-
-#: pension/forms.py:15
+#: blog/forms.py:14
 msgid "Select Tags"
 msgstr "בחר תגיות"
 
-#: pension/models.py:9
+#: blog/models.py:9
 msgid "tag"
 msgstr "תג"
 
-#: pension/models.py:15
+#: blog/models.py:15
 msgid "Tag"
 msgstr "תג"
 
-#: pension/models.py:16
+#: blog/models.py:16
 msgid "Tags"
 msgstr "תגיות"
 
-#: pension/models.py:24
+#: blog/models.py:24
 msgid "title"
 msgstr "כותרת"
 
-#: pension/models.py:25
+#: blog/models.py:25
 msgid "body"
 msgstr "תוכן"
 
-#: pension/models.py:26
+#: blog/models.py:26
 msgid "author"
 msgstr "מחבר"
 
-#: pension/models.py:28
+#: blog/models.py:28
 msgid "publish"
 msgstr "פרסום"
 
-#: pension/models.py:29
+#: blog/models.py:29
 msgid "tags"
 msgstr "תגיות"
+
+#: blog/models.py:33
+msgid "Post"
+msgstr "פוסט"
+
+#: blog/models.py:34
+msgid "Posts"
+msgstr "פוסטים"
+
+#: config/settings.py:151
+msgid "Hebrew"
+msgstr "עברית"
+
+#: config/settings.py:152
+msgid "English"
+msgstr "אנגלית"
+
+#: pension/models.py:20
+#, python-format
+msgid "%(value)s is not a percentage (less then 0 or more then 1)"
+msgstr ""
+
+#: pension/models.py:27
+msgid "Year"
+msgstr "שנה"
+
+#: pension/models.py:28
+msgid "Month"
+msgstr "חודש"
+
+#: pension/models.py:34
+msgid "Quarter"
+msgstr "רבעון"
+
+#: pension/models.py:35
+msgid "Quarters"
+msgstr "רבעונים"
+
+#: pension/models.py:39
+msgid "Managing Body"
+msgstr "גוף מנהל"
+
+#: pension/models.py:40 pension/models.py:89
+msgid "Fund"
+msgstr "קרן"
+
+#: pension/models.py:41
+msgid "Fund Name"
+msgstr "שם קרן"
+
+#: pension/models.py:43
+msgid "Instrument Type"
+msgstr ""
+
+#: pension/models.py:44
+msgid "Instrument Sub Type"
+msgstr ""
+
+#: pension/models.py:45
+msgid "Instrument Id"
+msgstr ""
+
+#: pension/models.py:46
+msgid "Original Instrument Id"
+msgstr ""
+
+#: pension/models.py:47
+msgid "Instrument Name"
+msgstr ""
+
+#: pension/models.py:48
+msgid "Issuer"
+msgstr "מנפיק"
+
+#: pension/models.py:49
+msgid "Activity Industry"
+msgstr ""
+
+#: pension/models.py:50
+msgid "Currency"
+msgstr "מטבע"
+
+#: pension/models.py:51
+msgid "Fair Value"
+msgstr ""
+
+#: pension/models.py:53
+msgid "Market Cap"
+msgstr ""
+
+#: pension/models.py:55
+msgid "Rate Of Fund"
+msgstr ""
+
+#: pension/models.py:57
+msgid "Rating Agency"
+msgstr ""
+
+#: pension/models.py:58
+msgid "Reference Index"
+msgstr ""
+
+#: pension/models.py:59
+msgid "Intrest Rate"
+msgstr ""
+
+#: pension/models.py:61
+msgid "Date Of Purchase"
+msgstr ""
+
+#: pension/models.py:62
+msgid "Average Of Duration"
+msgstr ""
+
+#: pension/models.py:64
+msgid "Date Of Revaluation"
+msgstr ""
+
+#: pension/models.py:65
+msgid "Rate"
+msgstr ""
+
+#: pension/models.py:66
+msgid "Yield To Maturity"
+msgstr ""
+
+#: pension/models.py:68
+msgid "Rating"
+msgstr ""
+
+#: pension/models.py:69
+msgid "Par Value"
+msgstr ""
+
+#: pension/models.py:71
+msgid "Underlying Asset"
+msgstr ""
+
+#: pension/models.py:72
+msgid "Type Of Asset"
+msgstr ""
+
+#: pension/models.py:73
+msgid "Rate Of IPO"
+msgstr ""
+
+#: pension/models.py:75
+msgid "Liquidity"
+msgstr ""
+
+#: pension/models.py:76
+msgid "Asset Type"
+msgstr ""
+
+#: pension/models.py:77
+msgid "Row Cleansing Time"
+msgstr ""
+
+#: pension/models.py:78
+msgid "Issuer Number"
+msgstr ""
+
+#: pension/models.py:79
+msgid "Owner Option"
+msgstr ""
+
+#: pension/models.py:80
+msgid "Original Issuer Number"
+msgstr ""
+
+#: pension/models.py:81
+msgid "ISIN"
+msgstr ""
+
+#: pension/models.py:82
+msgid "Instrument Symbol"
+msgstr ""
+
+#: pension/models.py:83
+msgid "Movil"
+msgstr ""
+
+#: pension/models.py:84
+msgid "Sector"
+msgstr ""
+
+#: pension/models.py:85
+msgid "Dual Trade"
+msgstr ""
+
+#: pension/models.py:86
+msgid "Cleansing Action"
+msgstr ""
+
+#: pension/models.py:90
+msgid "Funds"
+msgstr "קרנות"
+
+#: pension/models.py:94
+msgid "Fields To Show"
+msgstr "שדות להראות"
+
+#: pension/models.py:98
+msgid "Filter Field"
+msgstr "שדה פילטר"
+
+#: pension/models.py:99
+msgid "Filters Fields"
+msgstr "שדות פילטרים"
 
 #: pension/templates/admin/base_site.html:3
 msgid "Django site admin"

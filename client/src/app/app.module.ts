@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -11,6 +11,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { reducers } from './reducers';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,10 +27,12 @@ import { PaiComponent } from './components/pai/pai.component';
 import { PaiEffect } from './effects/pai.effect';
 import { FiltersEffect } from './effects/filters.effect';
 import { QuartersEffect } from './effects/quarters.effect';
+import { SearchEffects } from './effects/search.effect';
 
 import { PaiService } from './services/pai.service';
 import { FiltersService } from './services/filters.service';
 import { QuartersService } from './services/quarters.service';
+import { SearchService } from './services/search.service';
 
 import { environment } from '../environments/environment';
 
@@ -46,6 +50,8 @@ import { environment } from '../environments/environment';
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatProgressBarModule,
     AppRoutingModule,
     FlexLayoutModule,
     DragulaModule,
@@ -55,12 +61,14 @@ import { environment } from '../environments/environment';
       PaiEffect,
       FiltersEffect,
       QuartersEffect,
+      SearchEffects,
     ]),
   ],
   providers: [
     PaiService,
     FiltersService,
     QuartersService,
+    SearchService,
   ],
   bootstrap: [OpComponent]
 })

@@ -4,7 +4,12 @@ import { Component, OnInit } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 import * as fromRoot from '../../reducers';
-import { LoadInstrumentListAction, SelectNewFilterAction, ChangeLayerOfFilterAction } from '../../actions/filters.actions';
+import {
+  LoadInstrumentListAction,
+  SelectNewFilterAction,
+  RemoveSelectedFilterAction,
+  ChangeLayerOfFilterAction
+} from '../../actions/filters.actions';
 import { SelectNewQuarterAction, LoadQuartersAction } from '../../actions/quarter.actions';
 import { Quarter } from '../../models/quarter.model';
 import { Filter } from '../../models/filter.model';
@@ -67,9 +72,11 @@ export class FiltersComponent implements OnInit {
   }
 
   selectNewFilter() {
-    if (this.selectedFilter !== '+ הוספה') {
-      this.store.dispatch(new SelectNewFilterAction(this.selectedFilter));
-    }
+    this.store.dispatch(new SelectNewFilterAction(this.selectedFilter));
+  }
+
+  removeFilter(filter) {
+    this.store.dispatch(new RemoveSelectedFilterAction(filter));
   }
 
   private onDropModel(args) {

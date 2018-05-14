@@ -14,4 +14,4 @@ class PostsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('unique_id', 'title', 'body', 'author', 'created_at', 'publish', 'tags')
+        fields = ('unique_id', 'title', 'body', 'share_image', 'author', 'created_at', 'publish', 'tags')

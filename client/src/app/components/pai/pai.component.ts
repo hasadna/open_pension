@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -8,6 +8,7 @@ import { hierarchy as d3hierarchy, partition as d3partition } from 'd3-hierarchy
 import { interpolate as d3interpolate } from 'd3-interpolate';
 import * as d3Shape from 'd3-shape';
 import 'd3-transition';
+import * as d3 from 'd3';
 
 import * as fromRoot from '../../reducers';
 import { LoadPaiAction } from '../../actions/pai.actions';
@@ -18,7 +19,7 @@ import { Filter } from '../../models/filter.model';
   templateUrl: './pai.component.html',
   styleUrls: ['./pai.component.scss']
 })
-export class PaiComponent implements OnInit {
+export class PaiComponent implements OnInit, OnDestroy {
   @ViewChild('pai')paiContainer: ElementRef;
   private arcGenerator: any;
   private mainAxes: { x: any, y: any };
@@ -26,6 +27,9 @@ export class PaiComponent implements OnInit {
   private paiElement: any;
   private colorScale: any;
   public selectedFilters: Filter[];
+  private div = selection.select('div.pai').append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -81,6 +85,10 @@ export class PaiComponent implements OnInit {
   loadData(root) {
     const partition = d3partition();
     const color = scale.scaleOrdinal(scale.schemeCategory20);
+    this.div = selection.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
     root = d3hierarchy(root);
     root.sum(function (d) {
       return d.size;
@@ -100,10 +108,14 @@ export class PaiComponent implements OnInit {
         return '#ffffff';
       })
       .on('click', this.zoomToNode.bind(this))
-      .append('title')
-      .text((d: any) => {
-        return `${d.data.name}\n${d.value}`;
-      });
+      .on('mouseover', (d, i) => {
+         this.div.transition()
+           .duration(200)
+           .style('opacity', .9);
+         this.div.html(`<h3>${d.data.name}</h3><hr><a href= "detail-pai/${d.data.name}">למידע נוסף >></a>`)
+          .style('left', `${d3.event.pageX + 15}px`)
+          .style('top', `${d3.event.pageY + 15}px`);
+       });
   }
 
   private initDimensions() {
@@ -142,6 +154,7 @@ export class PaiComponent implements OnInit {
 
   private initPai() {
     selection.select('svg').remove();
+    selection.select('div.tooltip').remove();
 
     const { width, height } = this.dimensions;
     const minDimension = Math.min(width, height);
@@ -154,5 +167,9 @@ export class PaiComponent implements OnInit {
       .attr('preserveAspectRatio', 'xMinYMin')
       .append('g')
       .attr('transform', 'translate(' + this.dimensions.width / 2 + ',' + (this.dimensions.height / 2) + ')');
+  }
+
+  ngOnDestroy() {
+    selection.select('div.tooltip').remove();
   }
 }

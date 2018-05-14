@@ -1,11 +1,11 @@
 from django.core import serializers
-from rest_framework import viewsets
 from django.http import HttpResponse
-from django.db.models import Q, F, Sum
+from rest_framework import viewsets
+from django.db.models import F, Q, Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from pension.models import Quarter, Fund, FilterFields
+from pension.models import Fund, Quarter, FilterFields
 from pension.serializers import QuartersSerializer, InstrumentsSerializer, InstrumentFieldsSerializer
 
 
@@ -66,16 +66,16 @@ class GetPaiDataByFilters(APIView):
             requested_quarter = Quarter.objects.filter(quarter_id=requested_quarter)
 
         if first_filter_name:
-            queryset1 = Fund.objects.filter(quarter=requested_quarter).aggregate(Sum('market_cap'))
+            queryset1 = Fund.objects.filter(quarter=requested_quarter).aggregate(Sum('fair_value'))
 
         if second_filter_name:
-            queryset2 = Fund.objects.values(str(second_filter_name)).annotate(Sum('market_cap'))
+            queryset2 = Fund.objects.values(str(second_filter_name)).annotate(Sum('fair_value'))
 
         if three_filter_name:
-            queryset3 = Fund.objects.values(str(three_filter_name)).annotate(Sum('market_cap'))
+            queryset3 = Fund.objects.values(str(three_filter_name)).annotate(Sum('fair_value'))
 
         if four_filter_name:
-            queryset4 = Fund.objects.values(str(four_filter_name)).annotate(Sum('market_cap'))
+            queryset4 = Fund.objects.values(str(four_filter_name)).annotate(Sum('fair_value'))
 
         # Build the pai by the number of layers.
         if second_filter_name and three_filter_name and four_filter_name and five_filter_name:
@@ -94,16 +94,16 @@ class GetPaiDataByFilters(APIView):
             new_pai = build_two_layer(pai, second_filter_name, requested_quarter)
             return Response(new_pai)
         elif first_filter_name:
-            if queryset1['market_cap__sum']:
-                pai['children'] = [{'name': 'base', 'size': queryset1['market_cap__sum']}]
+            if queryset1['fair_value__sum']:
+                pai['children'] = [{'name': 'base', 'size': queryset1['fair_value__sum']}]
             return Response(pai)
 
 
 def build_two_layer(pai, filter_one, requested_quarter):
     queryset = Fund.objects.filter(quarter=requested_quarter).values(filter_one) \
-                .annotate(Sum('market_cap')) \
+                .annotate(Sum('fair_value')) \
                 .annotate(name=F(filter_one)) \
-                .annotate(size=F('market_cap__sum')) \
+                .annotate(size=F('fair_value__sum')) \
                 .values('name', 'size')
     pai['children'] = queryset
 
@@ -115,9 +115,9 @@ def build_three_layers(pai, filter_one, filter_two, queryset1, requested_quarter
         queryset = Fund.objects.filter(quarter=requested_quarter, **{
                 filter_one: query_filter[filter_one],
             }) \
-            .values(filter_two).annotate(Sum('market_cap')) \
+            .values(filter_two).annotate(Sum('fair_value')) \
             .annotate(name=F(filter_two)) \
-            .annotate(size=F('market_cap__sum')) \
+            .annotate(size=F('fair_value__sum')) \
             .values('name', 'size')
         if queryset:
             pai['children'].append({
@@ -136,9 +136,9 @@ def build_four_layers(pai, filter_one, filter_two, filter_three, queryset1, quer
                             filter_one: outter_filter[filter_one],
                             filter_two: inner_filter[filter_two],
                         }) \
-                        .values(filter_three).annotate(Sum('market_cap')) \
+                        .values(filter_three).annotate(Sum('fair_value')) \
                         .annotate(name=F(filter_three)) \
-                        .annotate(size=F('market_cap__sum')) \
+                        .annotate(size=F('fair_value__sum')) \
                         .values('name', 'size')
             if queryset:
                 inner_pai.append({
@@ -166,9 +166,9 @@ def build_five_layers(pai, filter_one, filter_two, filter_three, filter_four, qu
                                 filter_two: middle_filter[filter_two],
                                 filter_three: inner_filter[filter_three],
                             }) \
-                            .values(filter_four).annotate(Sum('market_cap')) \
+                            .values(filter_four).annotate(Sum('fair_value')) \
                             .annotate(name=F(filter_four)) \
-                            .annotate(size=F('market_cap__sum')) \
+                            .annotate(size=F('fair_value__sum')) \
                             .values('name', 'size')
                 if queryset:
                     inner_pai.append({
@@ -201,7 +201,7 @@ class Search(APIView):
             Q(currency__contains=query) |
             Q(instrument_id__contains=query) |
             Q(instrument_sub_type__contains=query) |
-            Q(issuer_id__contains=query) |
+            Q(issuer__contains=query) |
             Q(instrument_sub_type__contains=query) |
             Q(type_of_asset__contains=query) |
             Q(underlying_asset__contains=query) |

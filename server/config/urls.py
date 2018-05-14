@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 from blog.views import PostViewSet
 from blog.models import Tags
 from contact.views import ContactViewSet
-from pension.views import QuarterViewSet, InstrumentViewSet, GetPaiDataByFilters, InstrumentFieldsViewSet, Search
+from pension.views import Search, QuarterViewSet, InstrumentViewSet, GetPaiDataByFilters, InstrumentFieldsViewSet
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, base_name='posts')

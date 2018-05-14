@@ -39,6 +39,17 @@ export function reducer(state = initialState, action: FiltersActions): State {
       return state;
     }
 
+    case FiltersActionTypes.REMOVE_SELECTED_FILTER_ACTION: {
+      const newEntities = { entities: [...state.entities, action.payload] };
+      const newSelectedFilters = {
+        selectedFilters: state.selectedFilters.filter(
+          (filter) => filter.fields_to_show !== action.payload.fields_to_show
+        )
+      };
+
+      return Object.assign({}, state, newSelectedFilters, newEntities);
+    }
+
     default: {
       return state;
     }
