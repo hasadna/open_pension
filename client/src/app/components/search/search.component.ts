@@ -61,4 +61,9 @@ export class SearchComponent implements OnInit {
     this.searchSubmitted = false;
     this.showProgressBar = false;
   }
+
+  showAllResult() {
+    this.router.navigate(['/search-result']);
+    this.searchSubmitted = false;
+  }
 }

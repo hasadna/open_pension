@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'about', loadChildren: 'app/modules/about/about.module#AboutModule' },
   { path: 'contact', loadChildren: 'app/modules/contact/contact.module#ContactModule' },
   { path: 'blog', loadChildren: 'app/modules/blog/blog.module#BlogModule' },
+  { path: 'search-result', loadChildren: 'app/modules/search-result/search-result.module#SearchResultModule' },
   { path: '**' , redirectTo: 'pai', pathMatch: 'full' },
 ];
 
