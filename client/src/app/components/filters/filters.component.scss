@@ -1,3 +1,5 @@
+@import "../../../assets/sass/vars.scss";
+
 .filters {
   margin-top: 10%;
 }
@@ -25,6 +27,34 @@
   span {
     float: left;
   }
+}
+
+.base-button {
+  height: 50px;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: right;
+  background: $header-background;
+  color: #d1d8dc;
+  margin-bottom: 10px;
+
+  p {
+    width: 100%;
+    margin: 0;
+  }
+
+  h3 {
+    margin: 0;
+
+    span {
+      text-align: left;
+      font-weight: 500;
+    }
+  }
+}
+
+.divider {
+  border: .5px dashed $header-background;
 }
 
 .add-button {
