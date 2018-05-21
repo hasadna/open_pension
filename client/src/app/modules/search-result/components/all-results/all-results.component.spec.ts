@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import { AllResultsComponent } from './all-results.component';
+import { reducers } from '../../../../reducers';
+
 
 describe('AllResultsComponent', () => {
   let component: AllResultsComponent;
@@ -8,7 +12,11 @@ describe('AllResultsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AllResultsComponent ]
+      imports: [
+        StoreModule.forRoot(reducers),
+      ],
+      declarations: [ AllResultsComponent ],
+      providers: [{ provide: Router, useValue: {}, }]
     })
     .compileComponents();
   }));
