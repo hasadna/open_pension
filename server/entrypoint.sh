@@ -3,6 +3,14 @@
 echo "[run] go to project folder"
 cd /home/app/server
 
+# TODO - better to have a more robust way to do this
+echo "Waiting for DB connection"
+while ! echo exit | nc database 5432;
+do
+    echo "DB still off-line....";
+    sleep 10;
+done
+
 echo "[run] Migrate DB"
 python manage.py migrate
 
