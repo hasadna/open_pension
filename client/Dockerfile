@@ -1,5 +1,11 @@
-FROM nginx:1.13.8-alpine
-MAINTAINER Nir Galon <nir@galon.io>
-WORKDIR /usr/share/nginx/html
+FROM node:latest as builder
+WORKDIR /home/app
+COPY package.json package-lock.json ./
+RUN npm i
+COPY . .
+RUN npm run build
 
-COPY dist /usr/share/nginx/html
+FROM nginx:alpine
+LABEL maintainer="http://www.hasadna.org.il/"
+COPY --from=builder /home/app/dist /usr/share/nginx/html/
+COPY nginx/ /etc/nginx/

@@ -40,7 +40,9 @@ install:
   - cd client && npm install
 
   # Server
-  - cd ../server && pip install coverage pycodestyle flake8 isort
+  - cd ../server && pwd && ls -la
+  - mkdir logs && touch logs/django.log
+  - pip install coverage pycodestyle flake8 isort
   - pip install -r requirements.txt
   - psql -c 'create database server;' -U postgres
 

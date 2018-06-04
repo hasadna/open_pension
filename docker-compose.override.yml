@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  database:
+    env_file:
+      - .env
+
+  client:
+    volumes:
+      - ./client/dist:/usr/share/nginx/html/
+    env_file:
+      - .env
+
+  server:
+    volumes:
+      - ./server/:/home/app/server
+    env_file:
+      - .env

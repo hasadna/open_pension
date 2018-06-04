@@ -1,83 +1,31 @@
 version: "3"
 
-services:
-  proxy:
-    image: dockercloud/haproxy
-    environment:
-      - BALANCE=leastconn
-      - EXTRA_GLOBAL_SETTINGS=debug
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 80:80
-    networks:
-      - openpension
-    deploy:
-      placement:
-        constraints: [node.role == manager]
+volumes:
+  db-data:
+    external: false
 
+services:
   database:
     image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Zaq12345
-      - POSTGRES_DB=openpension
     volumes:
+      - db-data:/var/lib/postgresql/db-data
       - ./database:/etc/cron.daily
-      - /var/backups:/var/backups
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-        window: 20s
-    networks:
-      - openpension
 
   client:
-    image: client
+    image: hasadna/open-pension-client
+    volumes:
+      - ./logs/nginx:/var/log/nginx
     ports:
-      - "4200:4200"
+      - "80:80"
     environment:
-      - SERVICE_PORTS=4200
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 2
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-        window: 120s
-    networks:
-      - openpension
+      - SERVICE_PORTS=80
+    depends_on:
+      - server
 
   server:
-    image: server
-    ports:
-      - "8000:8000"
-    environment:
-      - DEBUG=False
-      - DB_HOST=database
-      - DB_NAME=openpension
-      - DB_USER=postgres
-      - DB_PASS=Zaq12345
-      - SECRET_KEY=-#&29$$6a5n)za$$%q-9di^$$lxu5bvo!so=0e$$anel3o7^3oscz6
-    command: bash -c "/home/app/server/entrypoint.sh && gunicorn config.wsgi -b 0.0.0.0:8000"
-    deploy:
-      replicas: 2
-      update_config:
-        parallelism: 2
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-        max_attempts: 10
-        window: 120s
+    image: hasadna/open-pension-server
+    command: /bin/sh entrypoint.sh
+    volumes:
+      - ./logs/django:/home/app/server/logs
     depends_on:
       - database
-    networks:
-      - openpension
-
-networks:
-  openpension:
-    driver: overlay
