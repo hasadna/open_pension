@@ -42,7 +42,7 @@ install:
   # Server
   - cd ../server && pwd && ls -la
   - mkdir logs && touch logs/django.log
-  - cd pip install coverage pycodestyle flake8 isort
+  - pip install coverage pycodestyle flake8 isort
   - pip install -r requirements.txt
   - psql -c 'create database server;' -U postgres
 
