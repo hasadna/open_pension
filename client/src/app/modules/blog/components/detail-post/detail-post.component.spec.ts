@@ -1,6 +1,5 @@
 import { StoreModule } from '@ngrx/store';
 import { DebugElement } from '@angular/core';
-import { ShareButtons } from '@ngx-share/core';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';

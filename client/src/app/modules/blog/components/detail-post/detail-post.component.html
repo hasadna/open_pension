@@ -21,14 +21,6 @@
 
   <div class="share-wrapper">
     <div class="share">שיתוף:</div>
-    <share-buttons
-    [exclude]="['pinterest','reddit','tumblr','telegram','vk','stumble','copy','print']"
-    [show]="14"
-    [url]="shareUrl"
-    [title]="post$.title"
-    [description]="post$.title"
-    [tags]="postTags"
-    ></share-buttons>
   </div>
 
   <disqus [identifier]="post$.unique_id" [lang]="'he'"></disqus>
