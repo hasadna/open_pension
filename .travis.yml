@@ -1,6 +1,11 @@
 sudo: required
 dist: trusty
 
+cache:
+  directories:
+    - /home/travis/build/hasadna/open_pension/server/data/OpenPensionCSV
+    - /home/travis/build/hasadna/open_pension/client/node_modules
+
 addons:
   apt:
     sources:
