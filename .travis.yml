@@ -46,6 +46,7 @@ install:
   # Client
   - cd client && npm install
 
+
   # Server
   - cd ../server && pwd && ls -la
   - pip install coverage pycodestyle flake8 isort
