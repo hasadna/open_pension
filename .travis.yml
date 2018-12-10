@@ -35,6 +35,10 @@ env:
 
 
 before_install:
+  - cd /home/travis/build/hasadna/open_pension/server/config
+  - rm settings.py
+  - mv settings.travis.py settings.py
+  - cd -
   - mkdir -p /home/travis/build/hasadna/open_pension/server/logs
   - touch /home/travis/build/hasadna/open_pension/server/logs/django.log
   - npm install -g npm@latest local-web-server codecov

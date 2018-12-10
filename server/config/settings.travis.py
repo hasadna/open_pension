@@ -131,7 +131,7 @@ LOGGING = {
         'file': {
             'level': LOG_LEVEL,
             'class': 'logging.FileHandler',
-            'filename': '/home/app/server/logs/django.log',
+            'filename': '/home/travis/build/hasadna/open_pension/server/logs/django.log',
         },
     },
     'loggers': {
