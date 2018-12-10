@@ -35,8 +35,8 @@ env:
 
 
 before_install:
-  - mkdir -p /home/app/server/logs
-  - touch /home/app/server/logs/django.log
+  - mkdir -p /home/travis/build/hasadna/open_pension/server/logs
+  - touch /home/travis/build/hasadna/open_pension/server/logs/django.log
   - npm install -g npm@latest local-web-server codecov
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
