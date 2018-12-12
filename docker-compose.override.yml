@@ -7,7 +7,7 @@ services:
 
   client:
     volumes:
-      - ./client/dist:/usr/share/nginx/html/
+      - ./client/:/home/app/client
     env_file:
       - .env
 

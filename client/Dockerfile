@@ -1,9 +1,16 @@
-FROM node:latest as builder
-WORKDIR /home/app
-COPY package.json package-lock.json ./
-RUN npm i
-COPY . .
+FROM node:8
+
+ENV APP_NAME "client"
+ENV APP_USER "app"
+ENV HOME /home/$APP_USER
+ENV APP_DIR $HOME/$APP_NAME
+
+WORKDIR $APP_DIR
+
+RUN npm install
 RUN npm run build
+
+COPY . $APP_DIR
 
 FROM nginx:alpine
 LABEL maintainer="http://www.hasadna.org.il/"
