@@ -7,10 +7,10 @@ ENV APP_DIR $HOME/$APP_NAME
 
 WORKDIR $APP_DIR
 
+COPY . $APP_DIR
+
 RUN npm install
 RUN npm run build
-
-COPY . $APP_DIR
 
 FROM nginx:alpine
 LABEL maintainer="http://www.hasadna.org.il/"
