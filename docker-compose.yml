@@ -12,7 +12,6 @@ services:
       - ./database:/etc/cron.daily
 
   client:
-    build: ./client
     image: hasadna/open-pension-client
     volumes:
       - ./logs/nginx:/var/log/nginx
