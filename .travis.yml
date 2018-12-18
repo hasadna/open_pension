@@ -54,6 +54,7 @@ script:
   - npm run e2e
 
   # Server
+  - cd /home/travis/build/hasadna/open_pension/
   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server coverage run --source='.' manage.py test
   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server coverage xml
   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
