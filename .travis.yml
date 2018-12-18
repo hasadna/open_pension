@@ -1,11 +1,6 @@
 sudo: required
 dist: trusty
 
-cache:
-  directories:
-    - /home/travis/build/hasadna/open_pension/server/data/OpenPensionCSV
-    - /home/travis/build/hasadna/open_pension/client/node_modules
-
 addons:
   apt:
     sources:
@@ -35,10 +30,6 @@ env:
 
 
 before_install:
-  - cd /home/travis/build/hasadna/open_pension/server/config
-  - rm settings.py
-  - mv settings.travis.py settings.py
-  - cd -
   - mkdir -p /home/travis/build/hasadna/open_pension/server/logs
   - touch /home/travis/build/hasadna/open_pension/server/logs/django.log
   - npm install -g npm@latest local-web-server codecov
@@ -49,7 +40,6 @@ before_install:
 install:
   # Client
   - cd client && npm install
-
 
   # Server
   - cd ../server && pwd && ls -la
