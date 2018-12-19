@@ -1,10 +1,6 @@
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
 import { Action } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of ,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { PaiService } from '../services/pai.service';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ShareButtons } from '@ngx-share/core';
-import { Observable } from 'rxjs/Observable';
+import { ShareService } from '@ngx-share/core';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
