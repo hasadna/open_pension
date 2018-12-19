@@ -84,7 +84,8 @@ export class PaiComponent implements OnInit, OnDestroy {
 
   loadData(root) {
     const partition = d3partition();
-    const color = scale.scaleOrdinal(scale.schemeCategory20);
+    // TODO Change the schemeCategory20 to the new
+    // const color = scale.scaleOrdinal(scale.schemeCategory20);
     this.div = selection.select('body').append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
@@ -102,7 +103,9 @@ export class PaiComponent implements OnInit, OnDestroy {
       .style('fill', (d: any) => {
         const colorNode = this.selectedFilters.filter((node, index) => (d.depth) === index);
         if (colorNode.length) {
-          return colorNode[0].color;
+          // Old return based on schemeCategory20 colors that is deprecated in this d3 version
+          // return colorNode[0].color;
+          return colorNode[0];
         }
 
         return '#ffffff';
