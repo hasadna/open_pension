@@ -38,7 +38,7 @@ import { environment } from '../../../environments/environment';
     HttpClientModule,
     BlogRoutingModule,
     DisqusModule.forRoot('openpension'),
-    ShareButtonsModule.forRoot(),
+    ShareButtonsModule,
     MatButtonModule,
     StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

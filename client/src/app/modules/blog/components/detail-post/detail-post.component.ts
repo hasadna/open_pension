@@ -19,7 +19,7 @@ export class DetailPostComponent implements OnInit {
   public postTags = '';
 
   constructor(
-    public share: ShareButtons,
+    public share: ShareService,
     private route: ActivatedRoute,
     private store: Store<fromRoot.State>,
   ) {
