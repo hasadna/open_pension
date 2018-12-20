@@ -1,6 +1,12 @@
 sudo: required
 dist: trusty
 
+cache:
+  npm: true
+  directories:
+    - /home/travis/build/hasadna/open_pension/server/data/OpenPensionCSV
+    - /home/travis/build/hasadna/open_pension/client/node_modules
+
 addons:
   apt:
     sources:
@@ -16,12 +22,7 @@ git:
   lfs_skip_smudge: true
 
 services:
-  - postgresql
-
-cache:
-  npm: true
-  directories:
-    - client/node_modules
+  - docker
 
 env:
   global:
@@ -30,35 +31,34 @@ env:
 
 
 before_install:
-  - npm install -g npm@latest local-web-server codecov
+  - npm install -g npm@latest codecov
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - cd /home/travis/build/hasadna/open_pension/client
+  - docker build -t hasadna/open-pension-client .
+  - cd /home/travis/build/hasadna/open_pension/server
+  - docker build -t hasadna/open-pension-server .
+  - cd /home/travis/build/hasadna/open_pension/
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 install:
-  # Client
-  - cd client && npm install
-
   # Server
-  - cd ../server && pwd && ls -la
-  - mkdir logs && touch logs/django.log
-  - pip install coverage pycodestyle flake8 isort
-  - pip install -r requirements.txt
-  - psql -c 'create database server;' -U postgres
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server pip install coverage pycodestyle flake8 isort
 
 script:
   # Client
-  - cd ../client && npm run lint
+  - cd /home/travis/build/hasadna/open_pension/client
+  - npm run lint
   - npm run test
-  - npm run build
-  - cd dist && ws --port 4200&
   - npm run e2e
 
   # Server
-  - cd ../server && coverage run --source='.' manage.py test
-  - coverage xml
-  - pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
-  - isort . --recursive --check-only
+  - cd /home/travis/build/hasadna/open_pension/
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server coverage run --source='.' manage.py test
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server coverage xml
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server isort . --recursive --check-only
 
 after_script:
-  - cd .. && codecov -t 4e44efc7-43b7-42e3-a122-4042d83e19ff
+  - cd /home/travis/build/hasadna/open_pension && codecov -t 4e44efc7-43b7-42e3-a122-4042d83e19ff
