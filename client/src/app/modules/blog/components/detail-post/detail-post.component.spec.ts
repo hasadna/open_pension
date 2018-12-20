@@ -1,6 +1,6 @@
 import { StoreModule } from '@ngrx/store';
 import { DebugElement } from '@angular/core';
-import { ShareButtons } from '@ngx-share/core';
+import { ShareService } from '@ngx-share/core';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -41,7 +41,7 @@ describe('DetailPostComponent', () => {
         StoreModule.forRoot(reducers),
       ],
       providers: [
-        { provide: ShareButtons, useValue: shareButtonsStub },
+        { provide: ShareService, useValue: shareButtonsStub },
       ],
       schemas: [ NO_ERRORS_SCHEMA ],
     })
