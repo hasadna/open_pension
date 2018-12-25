@@ -1,4 +1,3 @@
-import 'rxjs/add/observable/of';
 import { Actions } from '@ngrx/effects';
 import { hot, cold } from 'jasmine-marbles';
 import { of, Observable, throwError, ReplaySubject } from 'rxjs';
