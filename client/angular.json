@@ -28,7 +28,7 @@
               "includePaths": [
                 "./src"
               ]
-            },
+            }
           },
           "configurations": {
             "production": {
