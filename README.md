@@ -18,29 +18,21 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
   * [Angular Material](https://material.angular.io/)
   * [ngrx](https://github.com/ngrx)
 
-## Pre Requirements
+## Install project locally
 
-  1. Make sure you have [Python 3.x](https://www.python.org/) and [pip](https://pypi.python.org/pypi/pip) installed.
-  2. [NodeJS](nodejs.org)
-  3. [Angular CLI](https://github.com/angular/angular-cli)
-  4. [PostgreSQL](http://www.postgresql.org/)
+### Pre requirements:
 
-## Installation
+  1. Install Docker (make sure you have docker compose).
 
-**Client**
+### Installation:
 
-  1. Install requirements with `npm install` (located under `client` directory).
-  2. Run the server with `npm start`.
-  3. Open the browser at [http://localhost:4200](http://localhost:4200).
+  1. Run `docker-compose up -d`.
 
-**Server**
+### If you are a front-ender:
 
-  1. `cd server/config` then `cp local_settings.template local_settings.py` and modify it by your local postgres (database) settings.
-  2. Install requirements with `pipenv install --dev` (located under `server` directory, you must have [pipenv](https://github.com/pypa/pipenv) installed).
-  3. Migrate the data with `python3 manage.py migrate`.
-  4. Create a superuser `python3 manage.py createsuperuser` and follow the instructions.
-  5. Run the server with `python3 manage.py runserver`.
-  6. Open the browser at [http://localhost:8000](http://localhost:8000).
+  1. Make sure you have [NodeJS](nodejs.org)
+  2. [Angular CLI](https://github.com/angular/angular-cli)
+
 
 ## Tests
 
@@ -51,6 +43,8 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
   * Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 **Server**
+
+### In order to execute any python commands you have to do it inside the service container `docker-compose exec [service-name] /bin/sh` this will open the shell inside the container
 
   * Run `pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .` to check for lint mistakes.
   * Run `isort . --recursive --check-only` to check for import mistakes.
