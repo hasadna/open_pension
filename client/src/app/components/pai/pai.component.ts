@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as scale from 'd3-scale';
+import * as d3ScaleChromatic from 'd3-scale-chromatic'
 import * as selection from 'd3-selection';
 import { hierarchy as d3hierarchy, partition as d3partition } from 'd3-hierarchy';
 import { interpolate as d3interpolate } from 'd3-interpolate';
@@ -84,8 +85,7 @@ export class PaiComponent implements OnInit, OnDestroy {
 
   loadData(root) {
     const partition = d3partition();
-    // TODO Change the schemeCategory20 to the new
-    // const color = scale.scaleOrdinal(scale.schemeCategory20);
+    const color = scale.scaleOrdinal(d3ScaleChromatic.schemeCategory10);
     this.div = selection.select('body').append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
@@ -103,8 +103,7 @@ export class PaiComponent implements OnInit, OnDestroy {
       .style('fill', (d: any) => {
         const colorNode = this.selectedFilters.filter((node, index) => (d.depth) === index);
         if (colorNode.length) {
-          // Old return based on schemeCategory20 colors that is deprecated in this d3 version
-          // return colorNode[0].color;
+          return colorNode[0].color;
           return colorNode[0];
         }
 
