@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as scale from 'd3-scale';
-import * as d3ScaleChromatic from 'd3-scale-chromatic'
+import * as d3ScaleChromatic from 'd3-scale-chromatic';
 import * as selection from 'd3-selection';
 import { hierarchy as d3hierarchy, partition as d3partition } from 'd3-hierarchy';
 import { interpolate as d3interpolate } from 'd3-interpolate';
