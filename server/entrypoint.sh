@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "[run] go to project folder"
 cd /home/app/server
