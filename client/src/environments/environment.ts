@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  backend: window.location.origin,
+  backend: 'http://localhost',
 };

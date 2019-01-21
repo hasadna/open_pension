@@ -1,8 +1,6 @@
-import 'rxjs/add/observable/of';
 import { Actions } from '@ngrx/effects';
 import { hot, cold } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { of, Observable, throwError, ReplaySubject } from 'rxjs';
 import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
@@ -55,7 +53,7 @@ function createServiceStub(response: any) {
   const service = jasmine.createSpyObj('service', [ 'getFiltersOptions' ]);
 
   const isError = response instanceof Error;
-  const serviceResponse = isError ? Observable.throw(response) : Observable.of(response);
+  const serviceResponse = isError ? throwError(response) : of(response);
 
   service.getFiltersOptions.and.returnValue(serviceResponse);
   return service;

@@ -36,9 +36,11 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - cd /home/travis/build/hasadna/open_pension/client
-  - docker build -t hasadna/open-pension-client .
+  - docker pull hasadna/open-pension-client
+  - docker build -t hasadna/open-pension-client --cache-from hasadna/open-pension-client .
   - cd /home/travis/build/hasadna/open_pension/server
-  - docker build -t hasadna/open-pension-server .
+  - docker pull hasadna/open-pension-server
+  - docker build -t hasadna/open-pension-server --cache-from hasadna/open-pension-server .
   - cd /home/travis/build/hasadna/open_pension/
   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
