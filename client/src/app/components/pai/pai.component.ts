@@ -104,7 +104,6 @@ export class PaiComponent implements OnInit, OnDestroy {
         const colorNode = this.selectedFilters.filter((node, index) => (d.depth) === index);
         if (colorNode.length) {
           return colorNode[0].color;
-          return colorNode[0];
         }
 
         return '#ffffff';
