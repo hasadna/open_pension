@@ -20,3 +20,4 @@ COPY . $APP_DIR
 RUN chmod +x entrypoint.sh
 
 EXPOSE 80
+CMD ["/home/app/server/entrypoint.sh"]
