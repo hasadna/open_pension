@@ -1,11 +1,8 @@
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
 import { Action } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of , Observable } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { FiltersService } from '../services/filters.service';
 import {
@@ -23,10 +20,13 @@ export class FiltersEffect {
   ) { }
 
   @Effect()
-  loadFilters$: Observable<Action> = this.actions$
-    .ofType<LoadInstrumentListAction>(FiltersActionTypes.LOAD_INSTRUMENT_LIST)
-    .switchMap(_ => this.filtersService.getFiltersOptions()
-      .map(filtersData => new LoadInstrumentListSuccessAction(filtersData))
-      .catch(() => of({ type: 'LOAD_INSTRUMENT_LIST_FAILED' }))
-    );
+  loadFilters$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadInstrumentListAction>(FiltersActionTypes.LOAD_INSTRUMENT_LIST),
+    switchMap(_ => this.filtersService.getFiltersOptions()
+      .pipe(
+        map(filtersData => new LoadInstrumentListSuccessAction(filtersData)),
+        catchError(() => of({ type: 'LOAD_INSTRUMENT_LIST_FAILED' }))
+      )
+    )
+  );
 }

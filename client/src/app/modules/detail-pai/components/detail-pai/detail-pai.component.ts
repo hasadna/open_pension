@@ -42,7 +42,7 @@ export class DetailPaiComponent implements OnInit {
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
     // uses sample data from https://bl.ocks.org/mbostock/3885304
-    (d3 as any).tsv('/assets/data.tsv', function(d) {
+    (d3 as any).tsv('/assets/data.tsv').then(function(d) {
       d.frequency = +d.frequency;
       return d;
     }, function(error, data: [{ letter: string, frequency: number}]) {

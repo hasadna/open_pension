@@ -1,11 +1,8 @@
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
 import { Action } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of ,  Observable } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { PostService } from '../services/post.service';
 import {
@@ -27,26 +24,35 @@ export class PostEffect {
   ) { }
 
   @Effect()
-  loadPosts$: Observable<Action> = this.actions$
-    .ofType<LoadPostsAction>(PostActionTypes.LOAD_POSTS)
-    .switchMap(_ => this.postService.getPosts()
-      .map(posts => new LoadPostsSuccessAction(posts))
-      .catch(() => of({ type: '' }))
-    );
+  loadPosts$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadPostsAction>(PostActionTypes.LOAD_POSTS),
+    switchMap(_ => this.postService.getPosts()
+      .pipe(
+        map(posts => new LoadPostsSuccessAction(posts)),
+        catchError(() => of({ type: '' }))
+      )
+    )
+  );
 
   @Effect()
-  loadPostById$: Observable<Action> = this.actions$
-    .ofType<LoadPostByIdAction>(PostActionTypes.LOAD_POST_BY_ID)
-    .switchMap(postId => this.postService.getPostById(postId.payload)
-      .map(postData => new LoadPostByIdSuccessAction(postData))
-      .catch(() => of({ type: '' }))
-    );
+  loadPostById$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadPostByIdAction>(PostActionTypes.LOAD_POST_BY_ID),
+    switchMap(postId => this.postService.getPostById(postId.payload)
+      .pipe(
+        map(postData => new LoadPostByIdSuccessAction(postData)),
+        catchError(() => of({ type: '' }))
+      )
+    )
+  );
 
   @Effect()
-  loadPostByPageNumber$: Observable<Action> = this.actions$
-    .ofType<LoadPostsByPageNumberAction>(PostActionTypes.LOAD_POSTS_BY_PAGE_NUMBER)
-    .switchMap(pageNumber => this.postService.getPostsByPageNumber(pageNumber.payload)
-      .map(postData => new LoadPostsByPageNumberSuccessAction(postData))
-      .catch(() => of({ type: '' }))
-    );
+  loadPostByPageNumber$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadPostsByPageNumberAction>(PostActionTypes.LOAD_POSTS_BY_PAGE_NUMBER),
+    switchMap(pageNumber => this.postService.getPostsByPageNumber(pageNumber.payload)
+      .pipe(
+        map(postData => new LoadPostsByPageNumberSuccessAction(postData)),
+        catchError(() => of({ type: '' }))
+      )
+    )
+  );
 }
