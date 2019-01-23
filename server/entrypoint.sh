@@ -1,7 +1,10 @@
 #!/bin/sh
 
-echo "[run] go to project folder"
-cd /home/app/server
+if [[ "$(pwd)" != "$APP_DIR" ]]
+then
+    echo "Navigating to project folder"
+    cd $APP_DIR
+fi
 
 echo "Waiting for DB connection"
 while ! echo exit | nc $POSTGRES_HOST 5432;
@@ -10,17 +13,17 @@ do
     sleep 10;
 done
 
-echo "[run] Migrate DB"
+echo "Running Django Migration"
 python manage.py migrate
 
-echo "[run] Collect static files"
+echo "Collecting static files"
 python manage.py collectstatic --noinput
 
-echo "[run] create superuser"
+echo "Creating superuser"
 echo "from django.contrib.auth.models import User
 if not User.objects.filter(username='admin').count():
     User.objects.create_superuser('admin', 'admin@example.com', 'pass')
 " | python manage.py shell
 
-echo "[run] Starting Up server Django at 80"
+echo "Starting Up server Django at 80"
 gunicorn config.wsgi -b 0.0.0.0:80
