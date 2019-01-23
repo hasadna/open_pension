@@ -3,9 +3,8 @@
 echo "[run] go to project folder"
 cd /home/app/server
 
-# TODO - better to have a more robust way to do this
 echo "Waiting for DB connection"
-while ! echo exit | nc database 5432;
+while ! echo exit | nc $POSTGRES_HOST 5432;
 do
     echo "DB still off-line....";
     sleep 10;
