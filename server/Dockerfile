@@ -9,7 +9,7 @@ ENV APP_DIR $HOME/$APP_NAME
 
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps \
-		postgresql-dev build-base
+		postgresql-dev build-base py3-numpy@community
 
 WORKDIR $APP_DIR
 COPY requirements.txt $APP_DIR/requirements.txt
