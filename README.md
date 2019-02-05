@@ -28,7 +28,7 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 
   1. Run `docker-compose up -d`.
   2. Make sure you have [NodeJS](nodejs.org)
-  3. [Angular CLI](https://github.com/angular/angular-cli)
+  3. Install [Angular CLI](https://github.com/angular/angular-cli)
   4. run: `npm i`
   5. run: `npm run build -- --watch`
 
