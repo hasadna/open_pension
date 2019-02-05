@@ -46,7 +46,11 @@ before_install:
 
 install:
   # Server
+  - cd /home/travis/build/hasadna/open_pension/server
   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server pip install coverage pycodestyle flake8 isort
+
+  # Client
+  - cd /home/travis/build/hasadna/open_pension/client
   - npm ci
 
 script:
