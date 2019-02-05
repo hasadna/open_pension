@@ -123,24 +123,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Logging
-LOG_LEVEL = 'DEBUG' if os.environ.get("ENV") == "DEV" else "ERROR"
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': LOG_LEVEL,
-            'class': 'logging.FileHandler',
-            'filename': '/home/app/server/logs/django.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': LOG_LEVEL,
-            'propagate': True,
-        },
-    },
+    'handlers': {},
+    'loggers': {},
 }
 
 RAVEN_CONFIG = {
