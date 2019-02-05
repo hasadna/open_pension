@@ -12,6 +12,8 @@ RUN set -ex \
 		postgresql-dev build-base
 
 WORKDIR $APP_DIR
+RUN mkdir "logs"
+RUN touch "logs/django.log"
 COPY requirements.txt $APP_DIR/requirements.txt
 RUN pip --no-cache-dir install -r requirements.txt
 
