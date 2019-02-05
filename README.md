@@ -32,6 +32,8 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 
   1. Make sure you have [NodeJS](nodejs.org)
   2. [Angular CLI](https://github.com/angular/angular-cli)
+  3. run: `npm i`
+  4. run: `npm run build -- --watch`
 
 
 ## Tests
