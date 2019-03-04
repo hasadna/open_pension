@@ -11,6 +11,11 @@ services:
       - db-data:/var/lib/postgresql/db-data
       - ./database:/etc/cron.daily
 
+  gateway:
+    build: ./gateway
+    ports:
+      - "3000:3000"
+
   client:
     image: hasadna/open-pension-client
     volumes:
