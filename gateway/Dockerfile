@@ -10,5 +10,6 @@ COPY package*.json ./
 RUN npm i
 
 COPY . $APP_DIR
+RUN npm run build
 
 CMD ["npm start"]
