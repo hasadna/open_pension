@@ -8,7 +8,7 @@ export default class GeneralController extends BaseController {
      */
     public routes() {
         this.router.get("/", async (req: express.Request, res: express.Response) => {
-            res.status(200).send({status: "working"});
+            res.status(200).send({status: "working sd"});
         });
     }
 }

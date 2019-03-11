@@ -18,3 +18,7 @@ services:
       - ./server/:/home/app/server
     env_file:
       - .env
+
+  gateway:
+    volumes:
+      - ./gateway/:/home/app/gateway
