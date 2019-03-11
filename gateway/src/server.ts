@@ -1,8 +1,9 @@
 import app from "./app";
-import Settings from "./Base/Settings";
 
-app.listen(Settings.get().PORT, () => {
-    console.log("Express server listening on port " + Settings.get().PORT);
+// This `listen` method launches a web-server.  Existing apps
+// can utilize middleware options, which we'll discuss later.
+app.listen().then(({url}) => {
+    console.log(`🚀  Server ready at ${url}`);
 });
 
 process.on("SIGINT", async () => {
