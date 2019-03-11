@@ -3,6 +3,8 @@ import * as cors from "cors";
 import * as express from "express";
 import GeneralController from "./Controllers/GeneralController";
 
+const port = process.env.PORT || "80";
+
 class App {
 
     public app: express.Application;
