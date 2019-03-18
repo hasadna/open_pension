@@ -22,3 +22,7 @@ services:
   gateway:
     volumes:
       - ./gateway/:/home/app/gateway
+
+  blog:
+    volumes:
+      - ./blog/:/home/app/server

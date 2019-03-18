@@ -14,7 +14,7 @@ services:
   gateway:
     build: ./gateway
     ports:
-      - "3000:3000"
+      - "4000:80"
 
   client:
     image: hasadna/open-pension-client
@@ -34,3 +34,6 @@ services:
       - ./logs/django:/home/app/server/logs
     depends_on:
       - database
+
+  blog:
+    build: ./blog
