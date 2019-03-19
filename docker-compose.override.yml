@@ -22,6 +22,7 @@ services:
   gateway:
     volumes:
       - ./gateway/:/home/app/gateway
+    command: ["npm", "run", "dev"]
     ports:
       - "4000:80"
 
