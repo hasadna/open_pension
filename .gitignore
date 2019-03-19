@@ -257,4 +257,4 @@ server/static/
 server/data/pension_data_all.csv
 
 
-gateway/node_modules
+node_modules
