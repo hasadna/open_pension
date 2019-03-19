@@ -11,7 +11,7 @@
     "alwaysStrict": true
   },
   "include": [
-    "server/src/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
