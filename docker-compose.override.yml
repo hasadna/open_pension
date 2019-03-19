@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  database:
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+
+  client:
+    volumes:
+      - ./client/dist:/usr/share/nginx/html/
+    env_file:
+      - .env
+
+  server:
+    volumes:
+      - ./server/:/home/app/server
+    env_file:
+      - .env
+
+  gateway:
+    volumes:
+      - ./gateway/:/home/app/gateway
+
+  blog:
+    volumes:
+      - ./blog/:/home/app/server

@@ -10,15 +10,9 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/db-data
       - ./database:/etc/cron.daily
-    env_file:
-      - .env
-    ports:
-      - 5432:5432
 
   gateway:
     build: ./gateway
-    volumes:
-      - ./gateway/:/home/app/gateway
     ports:
       - "4000:80"
 
@@ -26,28 +20,20 @@ services:
     image: hasadna/open-pension-client
     volumes:
       - ./logs/nginx:/var/log/nginx
-      - ./client/dist:/usr/share/nginx/html/
     ports:
       - "80:80"
     environment:
       - SERVICE_PORTS=80
     depends_on:
       - server
-    env_file:
-      - .env
 
   server:
     image: hasadna/open-pension-server
     command: /bin/sh entrypoint.sh
     volumes:
       - ./logs/django:/home/app/server/logs
-      - ./server/:/home/app/server
     depends_on:
       - database
-    env_file:
-      - .env
 
   blog:
     build: ./blog
-    volumes:
-      - ./blog/:/home/app/server
