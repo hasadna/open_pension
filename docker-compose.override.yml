@@ -22,6 +22,8 @@ services:
   gateway:
     volumes:
       - ./gateway/:/home/app/gateway
+    ports:
+      - "4000:80"
 
   blog:
     volumes:
