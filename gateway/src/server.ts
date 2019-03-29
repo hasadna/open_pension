@@ -1,9 +1,6 @@
-import app from "./app";
-import Settings from "./Base/Settings";
+import { createApolloServer } from "./app";
 
-app.listen(Settings.get().PORT, () => {
-    console.log("Express server listening on port " + Settings.get().PORT);
-});
+createApolloServer();
 
 process.on("SIGINT", async () => {
     console.log("Disconnecting");

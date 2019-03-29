@@ -1,25 +1,17 @@
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
-import * as express from "express";
-import GeneralController from "./Controllers/GeneralController";
+import { ApolloServer } from "apollo-server";
+import { createAndMergeRemoteSchemas } from "./schema-stitching";
 
-class App {
+export async function createApolloServer() {
+    try {
+        const app = new ApolloServer({schema: await createAndMergeRemoteSchemas()});
 
-    public app: express.Application;
-
-    constructor() {
-        this.app = express();
-        this.setUp();
-    }
-
-    private setUp(): void {
-        this.app.use(cors());
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-
-        // Adding productSchema routes.
-        this.app.use("/", new GeneralController().router);
+        // This `listen` method launches a web-server.  Existing apps
+        // can utilize middleware options, which we'll discuss later.
+        app.listen({ port: 80 }).then(({url}) => {
+            console.log(`Apollo Server ready at ${url} 🚀`);
+        });
+    } catch (error) {
+        console.log("️Can't launch ApolloServer for some reason: 🤦");
+        console.log(error);
     }
 }
-
-export default new App().app;
