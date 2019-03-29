@@ -28,7 +28,7 @@ services:
       # Expose graphql-playground localhost:4000
       - "4000:80"
 
-  blog:
+  cms:
     volumes:
       - /home/app/server/node_modules
-      - ./blog/:/home/app/server
+      - ./cms/:/home/app/server

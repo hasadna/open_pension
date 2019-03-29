@@ -33,5 +33,5 @@ services:
     depends_on:
       - database
 
-  blog:
-    build: ./blog
+  cms:
+    build: ./cms
