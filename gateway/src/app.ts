@@ -1,4 +1,8 @@
-import { ApolloServer, introspectSchema, makeExecutableSchema, makeRemoteExecutableSchema, mergeSchemas } from "apollo-server";
+import {
+    ApolloServer,
+    introspectSchema,
+    makeRemoteExecutableSchema,
+    mergeSchemas } from "apollo-server";
 
 import { HttpLink } from "apollo-link-http";
 import fetch from "node-fetch";
