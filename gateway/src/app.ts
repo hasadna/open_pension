@@ -3,10 +3,12 @@ import { ApolloServer, introspectSchema, makeRemoteExecutableSchema, mergeSchema
 import { HttpLink } from "apollo-link-http";
 import fetch from "node-fetch";
 
+import { retry } from "./utils/asyncUtils";
+
 async function createRemoteSchema(serviceName) {
     const link = new HttpLink({uri: `http://${serviceName}`, fetch});
 
-    const schema = await introspectSchema(link);
+    const schema = await retry(() => introspectSchema(link), 5);
 
     return makeRemoteExecutableSchema({
         schema,
