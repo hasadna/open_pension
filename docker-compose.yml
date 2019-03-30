@@ -11,6 +11,9 @@ services:
       - db-data:/var/lib/postgresql/db-data
       - ./database:/etc/cron.daily
 
+  gateway:
+    build: ./gateway
+
   client:
     image: hasadna/open-pension-client
     volumes:
@@ -29,3 +32,6 @@ services:
       - ./logs/django:/home/app/server/logs
     depends_on:
       - database
+
+  cms:
+    build: ./cms
