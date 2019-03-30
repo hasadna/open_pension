@@ -14,6 +14,11 @@ services:
   gateway:
     build: ./gateway
 
+  blop:
+   build: ./blop
+   depends_on:
+     - database
+
   client:
     image: hasadna/open-pension-client
     volumes:
