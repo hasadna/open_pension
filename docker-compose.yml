@@ -12,7 +12,7 @@ services:
       - ./database:/etc/cron.daily
 
   client:
-    image: versys650/open-pension-client:handle-routes-ngnix1
+    image: hasadna/open-pension-client
     volumes:
       - ./logs/nginx:/var/log/nginx
     ports:
