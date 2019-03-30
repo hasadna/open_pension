@@ -1,15 +1,22 @@
-import * as express from "express";
+import * as mongoose from "mongoose";
 import { Client } from "pg";
+import app from "./app";
 
-const server = express();
 const client = new Client();
 
-const PORT = 3000;
+client.connect()
+    .then(() => {
+        app.listen("3000", () => {
+            console.log("Express server listening on port 3000");
+        });
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 
-client.connect();
+process.on("SIGINT", async () => {
+    await mongoose.disconnect();
+    console.log("Disconnecting");
+    process.exit();
+});
 
-// pg.connect("postgres://postgres:password@database:5432/blop");
-
-server.listen(PORT, () => console.log(`Server running on ${PORT}`));
-
-server.get("/", (req, res) => res.status(200).send("hello"));
