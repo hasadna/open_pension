@@ -18,6 +18,8 @@ services:
    build: ./blop
    depends_on:
      - database
+   env_file:
+     - .env
 
   client:
     image: hasadna/open-pension-client

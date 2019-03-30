@@ -17,6 +17,7 @@ services:
     volumes:
       - /home/app/blop/node_modules
       - ./blop:/home/app/blop
+    command: ["npm", "run", "dev"]
 
   server:
     volumes:
