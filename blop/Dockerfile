@@ -9,7 +9,7 @@ WORKDIR $APP_DIR
 COPY package*.json ./
 RUN npm i
 
-COPY graphql $APP_DIR
+COPY . $APP_DIR
 RUN npm run build
 
 CMD ["npm", "start"]

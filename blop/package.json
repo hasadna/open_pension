@@ -1,12 +1,12 @@
 {
   "name": "gateway",
   "version": "1.0.0",
-  "description": "API Gateway for open pension platform",
+  "description": "BLOP for open pension platform",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "nodemon -L",
-    "start": "node ./dist/server.js",
+    "start": "node ./dist/index.js",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "lint-fix": "tslint -c tslint.json 'src/**/*.ts' --fix",
     "test": "jest"
