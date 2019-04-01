@@ -16,7 +16,6 @@
   "dependencies": {
     "apollo-link-http": "^1.5.14",
     "apollo-server": "^2.4.8",
-    "express": "^4.16.4",
     "graphql": "^14.1.1",
     "pg": "^7.9.0",
     "sequelize": "^5.2.7",
