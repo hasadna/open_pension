@@ -1,18 +1,17 @@
 from flask import Flask
-from parser_report import ExcelParser
-from loggers.logger import Logger
-import os
-from flask import jsonify
+from flask_graphql import GraphQLView
+from app.schema import schema
 
 app = Flask(__name__)
 
-
-@app.route('/')
-def hello_world():
-    parser = ExcelParser(logger=Logger)
-    parsed = parser.parse_file(file_path=os.path.join(os.getcwd(), "assets", "513026484_gs.xlsx"))
-    return jsonify({'results': parsed})
-
+app.add_url_rule(
+    '/graphql',
+    view_func=GraphQLView.as_view(
+        'graphql',
+        schema=schema,
+        graphiql=True
+    )
+)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0', port=80)

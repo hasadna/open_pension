@@ -32,3 +32,9 @@ services:
     volumes:
       - /home/app/server/node_modules
       - ./cms/:/home/app/server
+
+  processor:
+    volumes:
+      - ./processor/:/app
+    ports:
+      - "5000:80"
