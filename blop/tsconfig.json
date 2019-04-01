@@ -12,7 +12,7 @@
     "alwaysStrict": true
   },
   "include": [
-    "graphql/src/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
