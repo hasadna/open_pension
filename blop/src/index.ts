@@ -1,50 +1,10 @@
-import {ApolloServer, gql} from "apollo-server";
-import { Sequelize } from "sequelize";
+import { createApolloServer } from "./graphql";
+import { initSequelize } from "./sequelize";
 
-const sequelize = new Sequelize(process.env.POSTGRES_DB, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
-    host: process.env.POSTGRES_HOST,
-    dialect: "postgres",
-});
+initSequelize();
+const apolloServer = createApolloServer();
 
-sequelize
-    .authenticate()
-    .then(() => {
-        console.log("Connection has been established successfully.");
-    })
-    .catch((err) => {
-        console.error("Unable to connect to the database:", err);
-    });
-
-const books = [
-    {
-        title: "Harry Potter and the Chamber of Secrets",
-        author: "J.K. Rowling",
-    },
-    {
-        title: "Jurassic Park",
-        author: "Michael Crichton",
-    },
-];
-
-const typeDefs = gql`
-    type Book {
-        title: String
-        author: String
-    }
-
-    type Query {
-        books: [Book]
-    }
-`;
-
-const resolvers = {
-    Query: {
-        books: () => books,
-    },
-};
-const server = new ApolloServer({typeDefs, resolvers});
-
-server.listen({ port: 80 }).then(({url}) => {
+apolloServer.listen({ port: 80 }).then(({url}) => {
     console.log(`🚀  Server ready at ${url}`);
 });
 
