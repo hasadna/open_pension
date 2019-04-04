@@ -12,7 +12,6 @@ async function createRemoteSchema(serviceName) {
         schema = await retry(() => introspectSchema(link), 5);
         return makeRemoteExecutableSchema({schema, link});
     } catch (err) {
-        console.error("didn't succeed", err)
         return undefined;
     }
 }
