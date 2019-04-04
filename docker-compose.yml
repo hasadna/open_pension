@@ -17,6 +17,13 @@ services:
   processor:
     build: ./processor
 
+  blop:
+   build: ./blop
+   depends_on:
+     - database
+   env_file:
+     - .env
+
   client:
     image: hasadna/open-pension-client
     volumes:

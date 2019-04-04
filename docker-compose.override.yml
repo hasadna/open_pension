@@ -13,6 +13,12 @@ services:
     env_file:
       - .env
 
+  blop:
+    volumes:
+      - ./blop:/home/app/blop
+      - /home/app/blop/node_modules
+    command: ["npm", "run", "dev"]
+
   server:
     volumes:
       - ./server/:/home/app/server
