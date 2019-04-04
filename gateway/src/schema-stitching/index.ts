@@ -13,7 +13,6 @@ async function createRemoteSchema(serviceName) {
         return makeRemoteExecutableSchema({schema, link});
     } catch (err) {
         console.error("didn't succeed", err)
-        console.log(`http://${serviceName}`)
         return undefined;
     }
 }
