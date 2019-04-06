@@ -14,6 +14,9 @@ services:
   gateway:
     build: ./gateway
 
+  processor:
+    build: ./processor
+
   blop:
    build: ./blop
    depends_on:
