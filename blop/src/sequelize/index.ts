@@ -1,6 +1,8 @@
 import { Sequelize } from "sequelize";
 import { InstrumentsModel } from "../components/instruments";
-import { NoDbParamsError } from "./errors";
+import { retry } from "../utils/asyncUtils";
+import { DBConnectionError, MigrationError, NoDbParamsError } from "./errors";
+import { migrateDB } from "./utils/migrateDB";
 
 const db = process.env.POSTGRES_DB || "";
 const user = process.env.POSTGRES_USER || "";
@@ -23,11 +25,16 @@ export async function initSequelize() {
     });
 
     try {
-        await sequelize.authenticate();
+        await retry(async () => sequelize.authenticate(), 5, 2000);
         console.log("Database Connection has been established successfully.");
     } catch (err) {
-        console.error("Unable to connect to the database:", err);
+        const dbErr = new DBConnectionError("Unable to connect to the database:");
+        console.error(dbErr, err);
+        throw dbErr;
     }
+
+    // DB migration.
+    await migrateDB();
 
     // Initialize models.
     for (const model of models) {
