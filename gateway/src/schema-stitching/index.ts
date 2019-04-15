@@ -17,7 +17,7 @@ async function createRemoteSchema(serviceName) {
 }
 
 export async function createAndMergeRemoteSchemas() {
-    const schemas = await Promise.all(["cms", "processor"].map(createRemoteSchema));
+    const schemas = await Promise.all(["cms"].map(createRemoteSchema));
     const filteredSchemas = schemas.filter((schema) => schema !== undefined);
     if (filteredSchemas.length) {
         return mergeSchemas({schemas: filteredSchemas});
