@@ -1,4 +1,4 @@
-FROM node:latest as builder
+FROM node:11 as builder
 WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm i
