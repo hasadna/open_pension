@@ -33,7 +33,7 @@ env:
     - secure: "Famq0u90Cfn+ABRTZgB0lvLFhtj0THc3Saj44+R0nLZkSGAXECNsa5+LZeCyCD0wOMa5CwqcVfmJ96v9P8uGpIdSWytowDbDcLBi4bGXwrQN7or0XVzkJLADfm1BPq8XzhtvK9g1gKGyNhikYvyWgj0bRmP70cMh2PjD+CHfu4uhw680n9Okra3U2IJjF9jOgA9G+YAi+7QhV13Vopml/3tX/fjs1rWtdxS42QYwEMQm1TND6OKLhO0mJX2LrdgRMPAPwl1rv5IEmh2O+tGmNFSFPvCmkuYX3HYIVUtMDc3tJFQzXDaOwyVD4LPkriijhwlASz2btZw4rx4WLocLjJVnt6JgUYYiptGs8Q3hAx9065E3ivFcA66r7/xm/n5SoesYBrDL9fbev9jnuGU4dTnEVZIIYbkTI0QDbaL7IoXcwS3kZPq6IxvQ2rsHwYMRZ3Kc9p6UIt7BLG6vDWhfKkOonJvojIbFecUZZS2rydCVXW+IOeYRrFlYOvhbvVDQcG0N5dzEDY3FPxOI3JJru+W5QNa/kejqPkukjq0waHnvF4n6Fn8TVw6I1qr3ui80e1s4LiOdj4okNIQHTqNsx7bd+aMag2b9OfCtYDzunVpKWPWH8jgTnHKSrkiMoJs6R7eCnuCW4KI1uUMIc/xjHvOB7nhWdiN4A1qejYbaZJU="
 
 before_install:
-  - npm install -g npm@10.15.0 codecov
+  - npm install -g npm@6.4.1 codecov
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
