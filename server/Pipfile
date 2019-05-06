@@ -25,6 +25,4 @@ django-modeltranslation = "==0.12"
 
 [dev-packages]
 
-pandas = "==0.20.2"
-numpy = "==1.13.0"
 xlrd = "==1.0.0"
