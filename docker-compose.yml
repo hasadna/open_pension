@@ -3,6 +3,8 @@ version: "3"
 volumes:
   db-data:
     external: false
+  cms-db:
+    driver: local
 
 services:
   database:
@@ -70,22 +72,4 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./db:/data/db
-    restart: always
-
-#  cms:
-#    build: ./cms
-#    ports:
-#      - 1337:1337
-#    depends_on:
-#      - cms_db
-#
-#  cms_db:
-#    image: mongo
-#    environment:
-#      - MONGO_INITDB_DATABASE=strapi
-#    ports:
-#      - 27017:27017
-#    volumes:
-#      - ./db:/data/db
-#    restart: always
+      - cms-db:/data/db

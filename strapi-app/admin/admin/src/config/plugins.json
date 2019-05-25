@@ -1,0 +1,26 @@
+[
+  {
+    "id": "content-manager",
+    "source": {
+      "development": "/content-manager/main.js",
+      "production": "/content-manager/main.js",
+      "staging": "/content-manager/main.js"
+    }
+  },
+  {
+    "id": "content-type-builder",
+    "source": {
+      "development": "/content-type-builder/main.js",
+      "production": "/content-type-builder/main.js",
+      "staging": "/content-type-builder/main.js"
+    }
+  },
+  {
+    "id": "settings-manager",
+    "source": {
+      "development": "/settings-manager/main.js",
+      "production": "/settings-manager/main.js",
+      "staging": "/settings-manager/main.js"
+    }
+  }
+]
