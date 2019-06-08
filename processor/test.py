@@ -1,40 +1,35 @@
 from parser_report import ExcelParser
 from loggers.fake_logger import FakeLogger
+import os
+import json
 
+main_dir = "/Applications/MAMP/htdocs/open_pension/processor/source_files"
+output_folder = "/Applications/MAMP/htdocs/open_pension/processor/output_folder"
 
-path = "C:\\Users\\roy.DM\\Projects\\open_processor\\assets\\513026484_gs.xlsx"
+passed = ["foo", "bar"]
+failed = [{"file": "foo", "error": "bar"}]
 
-parser = ExcelParser(logger=FakeLogger)
-parsed = parser.parse_file(file_path=path)
+i = 0
+for root, subfolder, files in os.walk(main_dir):
 
-print(parsed)
+    for file_path in files:
+        full_path = root + "/" + file_path
 
-# if __name__ == '__main__':
-#     logger = Logger(logger_name="parser_report")
-#     DB_NAME = "2018Q1"
-#     mongo = mongo_adapter.MongoAdapter(server_address="127.0.0.1", server_port=27017, logger=logger)
-#     if not mongo.is_connection:
-#         logger.error("Failed to connect mongodb server")
-#         sys.exit(1)
-#
-#     if not mongo.is_db(db_name=DB_NAME):
-#         logger.error("db not exist in mongodb server")
-#         sys.exit(1)
-#
-#     process_xl = ExcelParser(logger=logger)
-#
-#     for root, dirs, files in os.walk("/home/user/Documents/2018Q1-2", followlinks=False):
-#         for file in files:
-#             file_path = os.path.join(root, file)
-#             investment_house = os.path.basename(root)
-#             logger = Logger(logger_name=investment_house)
-#             logger.info(msg="Start working on {0} investment house: {1}".format(file_path, investment_house))
-#             for sheet_data in process_xl.parse_file(file_path=file_path):
-#                 if not sheet_data:
-#                     logger.warn("Not get data from sheet")
-#                     continue
-#
-#                 for data in sheet_data:
-#                     if not mongo.insert_document(db_name=DB_NAME, collection_name=investment_house, data=data):
-#                         print("Failed to insert document to mongodb")
-#             logger.info("Done with {0}".format(file))
+        print(f"processing {full_path}")
+
+        try:
+            parser = ExcelParser(logger=FakeLogger)
+            parsed = parser.parse_file(file_path=full_path)
+            passed.append(full_path)
+
+            f = open(f"{output_folder}/{i}-{file_path}.json", "a")
+            f.write(json.dumps(parsed))
+            f.close()
+            i = i + 1
+        except Exception as ex:
+            failed.append({'file': full_path, 'error': ex})
+
+print("Passed:")
+print(passed)
+print("failed:")
+print(failed)
