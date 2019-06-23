@@ -42,3 +42,8 @@ services:
 
   cms:
     build: ./cms
+    ports:
+      - 8080:80
+    volumes:
+      - ./cms:/var/www/html/
+    restart: always

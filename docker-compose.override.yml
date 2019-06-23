@@ -33,8 +33,3 @@ services:
     ports:
       # Expose graphql-playground localhost:4000
       - "4000:80"
-
-  cms:
-    volumes:
-      - /home/app/server/node_modules
-      - ./cms/:/home/app/server
