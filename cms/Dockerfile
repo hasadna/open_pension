@@ -1,6 +1,6 @@
-FROM php:7.3.6-apache-stretch
+FROM drupal:8.7.3-apache
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/drupal
 
 # Install composer.
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -8,4 +8,11 @@ RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '48e3236262b34d309
 RUN php composer-setup.php --install-dir=/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
-RUN cp 000-default.conf /etc/apache2/sites-available/000-default.conf
+# Install git
+#RUN apt-get install git-scm
+
+# Install composer the pakcages.
+RUN composer install
+
+# Install drupal
+RUN ./vendor/bin/drupal site:install  standard  mysql://user:password@cms_db/db --account-name="admin" --account-pass="admin"
