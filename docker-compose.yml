@@ -40,6 +40,7 @@ services:
       - ./logs/django:/home/app/server/logs
     depends_on:
       - database
+      - cms
 
   cms:
     build: ./cms

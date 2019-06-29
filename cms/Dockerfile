@@ -8,4 +8,4 @@ WORKDIR /var/www/html
 #RUN apt-get install git-scm
 
 # Install composer the pakcages.
-CMD ["bash", "install.sh"]
+#CMD ["bash", "start.sh"]
