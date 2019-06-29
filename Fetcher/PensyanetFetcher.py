@@ -4,9 +4,18 @@ import os
 from urllib.parse import unquote
 from urllib.parse import quote
 import json
-from pprint import pprint
+import glob
 import urllib3
+
 # TEST
+try:
+    # IF linux and XVFB installed (apt-get), you have to use pvd
+    from pyvirtualdisplay import Display
+
+    display = Display(visible=0, size=(1366, 768))
+    display.start()
+except Exception as e:
+    pass
 try:
     import requests
 except ModuleNotFoundError:
@@ -15,6 +24,7 @@ except ModuleNotFoundError:
 try:
     from selenium import webdriver
     from selenium.common.exceptions import WebDriverException
+    from selenium.webdriver.support.ui import Select as HTML_Select
 except ModuleNotFoundError:
     print("Please Install 'selenium' module using 'pip install selenium'")
     exit(1)
@@ -32,13 +42,19 @@ except WebDriverException:
 class PensyanetFetcher:
     MAIN_URL = 'https://pensyanet.cma.gov.il/Parameters/Index'
     XML_URL = 'https://pensyanet.cma.gov.il/Parameters/ExportToXML'
-    BITUACH_MAIN_URL = 'https://bituachnet.cma.gov.il/bituachTsuotUI/' \
-                       'Tsuot/UI/bituachTsuotUI.aspx'
-    BITUACH_XML_URL = 'https://bituachnet.cma.gov.il/bituachTsuotUI/' \
-                      'Tsuot/UI/horadatXMLMain.aspx'
-    TYPE_DICT = {"maslul_perut": "0", "maslul_rashi": "1", "maslul_sahir": "2",
-                 "kranot_perut": "3", "kranot_rashi": "4", "kranot_sahir": "5",
-                 "kranot_klali": "6", "maslul_klali": "7"}
+    BITUACH_MAIN_URL = \
+        'https://bituachnet.cma.gov.il/' \
+        'bituachTsuotUI/Tsuot/UI/bituachTsuotUI.aspx'
+    BITUACH_XML_URL = \
+        'https://bituachnet.cma.gov.il/' \
+        'bituachTsuotUI/Tsuot/UI/horadatXMLMain.aspx'
+    BITUACH_XML_URL_FINAL = \
+        'https://bituachnet.cma.gov.il/bituachTsuotUI/Tsuot/UI/horadatXML.aspx'
+    PENSYA_TYPE_DICT = {"maslul_perut": "0", "maslul_rashi": "1",
+                        "maslul_sahir": "2",
+                        "kranot_perut": "3", "kranot_rashi": "4",
+                        "kranot_sahir": "5",
+                        "kranot_klali": "6", "maslul_klali": "7"}
 
     def __init__(self, output_path=os.getcwd()):
         self.output_path = output_path
@@ -71,7 +87,7 @@ class PensyanetFetcher:
         fetch the needed cookies for the future xml export.
         :return dict: cs
         """
-        self.logger.info("Getting cookies for Pensyanet")
+        self.logger.info("Getting cookies... " + cookie_site)
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
         driver = webdriver.Chrome(options=options)
@@ -85,11 +101,13 @@ class PensyanetFetcher:
             self.cookies = final_cookie_jar
         elif cookie_site == self.BITUACH_MAIN_URL:
             self.cookies_bituach = final_cookie_jar
+            for k, v in final_cookie_jar.items():
+                print(k + '=' + v + ';')
 
     @classmethod
     def generate_post_data(cls, month="01", year="2018",
                            fetch_type="maslul_perut"):
-        with open(f"post_data_template{cls.TYPE_DICT[fetch_type]}.txt",
+        with open(f"post_data_template{cls.PENSYA_TYPE_DICT[fetch_type]}.txt",
                   "r") as f:
             post_data_template = f.read()
         json_string_template = unquote(post_data_template)[3:]
@@ -107,15 +125,6 @@ class PensyanetFetcher:
             .replace("/", "%2F")
         return send_data
 
-    @classmethod
-    def generate_post_data_bituach(cls, month="01", year="2018",
-                                   fetch_type="maslul_perut"):
-        with open(f"post_data_template{cls.TYPE_DICT[fetch_type]}.txt",
-                  "r") as f:
-            pass
-        # BLA BLA BLA
-        return send_data
-
     @staticmethod
     def generate_headers(post_data_len):
         headers = {"Host": "pensyanet.cma.gov.il",
@@ -131,27 +140,6 @@ class PensyanetFetcher:
                    "Accept": "text/html,application/xhtml+xml,application/xml;"
                              "q=0.9,image/webp,image/apng,*/*;q=0.8",
                    "Referer": "https://pensyanet.cma.gov.il/Parameters/Index",
-                   "Accept-Encoding": "gzip, deflate, br",
-                   "Accept-Language": "en-US,en;q=0.9"}
-        return headers
-
-    @staticmethod
-    def generate_headers_bituach(post_data_len):
-        headers = {"Host": "bituachnet.cma.gov.il",
-                   "Connection": "keep-alive",
-                   "Content-Length": str(post_data_len),
-                   "Origin": "https://bituachnet.cma.gov.il",
-                   "X-Requested-With": "XMLHttpRequest",
-                   "Cache-Control": "no-cache",
-                   "X-MicrosoftAjax": "Delta=true",
-                   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-                                 " AppleWebKit/537.36 (KHTML, like Gecko)"
-                                 " Chrome/71.0.3578.98 Safari/537.36",
-                   "Content-Type": "application/x-www-form-urlencoded;"
-                                   " charset=UTF-8",
-                   "Accept": "*/*",
-                   "Referer": "https://bituachnet.cma.gov.il/bituachTsuotUI"
-                              "/Tsuot/UI/horadatXMLMain.aspx",
                    "Accept-Encoding": "gzip, deflate, br",
                    "Accept-Language": "en-US,en;q=0.9"}
         return headers
@@ -190,42 +178,8 @@ class PensyanetFetcher:
                         f"Error {e} Occurred on {file_name}, "
                         f"GIVING UP.")
 
-    def get_xml_bituach(self, month="01",
-                        year="2018", fetch_type="maslul_perut"):
-        data = self.generate_post_data_bituach(month, year, fetch_type)
-        headers = self.generate_headers_bituach(len(data))
-        if self.cookies_bituach == {}:
-            self.get_cookies(cookie_site=self.BITUACH_MAIN_URL)
-        cookies = self.cookies
-        self.logger.info(
-            f"Downloading Pensyanet {year}_{month}_{fetch_type}")
-        file_name = f"pensyanet_{year}_{month}_{fetch_type}.xml"
-        attempts = 0
-        r = None
-        while r is None and attempts < 5:
-            try:
-                r = requests.post(self.XML_URL,
-                                  verify=False,
-                                  cookies=cookies,
-                                  headers=headers,
-                                  data=data,
-                                  stream=True)
-                file_path = os.path.join(self.output_path, file_name)
-                self.write_file(r, file_path)
-            except Exception as e:
-                if attempts < 4:
-                    self.logger.error(
-                        f"Error {e} Occurred on {file_name}, "
-                        f"attempt {attempts}")
-                    attempts += 1
-                    time.sleep(3)
-                else:
-                    self.logger.error(
-                        f"Error {e} Occurred on {file_name}, "
-                        f"GIVING UP.")
-
     def get_all_xml_types(self, month="01", year="2018"):
-        for fetch_type in self.TYPE_DICT.keys():
+        for fetch_type in self.PENSYA_TYPE_DICT.keys():
             self.get_xml(month=month, year=year, fetch_type=fetch_type)
 
     def get_all_xml_ever(self):
@@ -288,32 +242,75 @@ class PensyanetFetcher:
                             f"Error {e} Occurred on {file_name}, "
                             f"GIVING UP.")
 
+    def get_xml_bituach_sel(self, month="01", year="2018", download_type='0'):
+        self.logger.info(f"Downloading bituachnet_{year}_{month}_type"
+                         f"{download_type}.xml")
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("prefs", {
+            "download.default_directory": self.output_path,
+            "download.prompt_for_download": False,
+            "download.directory_upgrade": True,
+            "safebrowsing.enabled": True
+        })
+        # options.add_argument('headless')
+        driver = webdriver.Chrome(options=options)
+        driver.get(self.BITUACH_MAIN_URL)
+        bituach_xpaths = \
+            {
+                "select_all_xpath": "//*[@id=\"output\"]/option[1]",
+                "move_select_all_xpath": "//*[@id=\"addone\"]",
+                "open_xml_xpath": "//*[@id=\"cbXML\"]"
+            }
+        for path in bituach_xpaths.values():
+            driver.find_element_by_xpath(path).click()
+            time.sleep(4)
+        xml_window = driver.window_handles[1]
+        time.sleep(1)
+        # print("Original Window:", driver.current_url, driver.title)
+        driver.switch_to.window(xml_window)
+        # print("Switched to: ", driver.current_url, driver.title)
+        # Select From Month
+        sel = HTML_Select(driver.find_element_by_id("hodashme"))
+        sel.select_by_value(month[1])
+        # Select From Year
+        sel = HTML_Select(driver.find_element_by_id("shanimme"))
+        sel.select_by_value(year)
+        # Select To Month
+        sel = HTML_Select(driver.find_element_by_id("hodashad"))
+        sel.select_by_value(month[1])
+        # Select To Year
+        sel = HTML_Select(driver.find_element_by_id("shanimad"))
+        sel.select_by_value(year)
+        driver.find_element_by_id(f'rdl_{download_type}').click()
+        # Download
+        time.sleep(2)
+        driver.find_element_by_id('cbBatzea').click()
+        time.sleep(4)
+        driver.close()
+        time.sleep(4)
+        new_name = f'bituachnet_{year}_{month}_type{download_type}.xml'
+        list_of_files = glob.glob(os.path.join(self.output_path, '*'))
+        latest_file = max(list_of_files, key=os.path.getctime)
+        try:
+            os.rename(latest_file, os.path.join(os.path.dirname(latest_file),
+                                                new_name))
+        except FileExistsError:
+            pass
+
+    def get_all_types_bituach(self, month, year):
+        for i in range(4):
+            self.get_xml_bituach_sel(month, year, download_type=str(i))
+
+    def get_all_by_month(self, month='01', year='2019'):
+        self.get_all_types_bituach(month, year)
+        self.get_gemelnet_xml(month, year)
+        self.get_all_xml_types(month, year)
+
 
 def main():
     fetcher = PensyanetFetcher(output_path=r"D:\data\hasadna\generals")
-    # fetcher.get_all_xml_types(month='02', year='2019')
-    fetcher.get_xml_bituach(month='02', year='2019')
-
-    # os.system("shutdown /h")
-    # fetcher.get_gemelnet_xml(month="09", year="2017")
-    # fetcher.get_all_xml_types(month="05", year="2018")
+    fetcher.get_all_by_month(month='01', year='2019')
 
 
 if __name__ == "__main__":
     main()
-
-    """
-    ++++++++
-    1. fix download retries
-    2. parse to json
-    3. see log
-    
-    ++++++++
-    Todo:
-    Implement the get all xml ever method.
-    Add logging
-    Finish documentation!
-    Add Multi-threaded (not that necessary)
-    DOWNLOAD BITUACHNET
-    ++++++++
-    """
