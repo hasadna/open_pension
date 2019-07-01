@@ -53,6 +53,7 @@ install:
 
   # Profile custom modules.
   - open_pension_blog
+  - open_pension_files
 themes:
   - bartik
   - seven

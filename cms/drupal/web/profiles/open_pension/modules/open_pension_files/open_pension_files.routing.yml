@@ -1,0 +1,15 @@
+open_pension_files.upload_files_to_process_controller_upload_files:
+  path: '/admin/open_pension_files/upload_files'
+  defaults:
+    _controller: '\Drupal\open_pension_files\Controller\UploadFilesToProcessController::upload_files'
+    _title: 'Upload files'
+  requirements:
+    _permission: 'access content'
+
+open_pension_files.open_pension_files_index_controller_router:
+  path: '/admin/open_pension'
+  defaults:
+    _controller: '\Drupal\open_pension_files\Controller\OpenPensionFilesIndexController::router'
+    _title: 'router'
+  requirements:
+    _permission: 'access content'

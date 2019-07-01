@@ -1,0 +1,5 @@
+name: 'Open Pension Files'
+type: module
+description: 'Publishing files for processing'
+core: 8.x
+package: 'Open Pension'
