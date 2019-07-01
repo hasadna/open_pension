@@ -3,6 +3,7 @@ type: profile
 description: 'Open Pension profile'
 core: 8.x
 install:
+  # Standart modules.
   - node
   - history
   - block
@@ -38,6 +39,20 @@ install:
   - views_ui
   - tour
   - automated_cron
+
+  # Contrib modules
+  - media
+  - media_library
+  - inline_entity_form
+  - entity_browser
+  - entity_browser_entity_form
+  - media_entity_browser
+  - grpahql
+  - graphql_core
+  - features_ui
+
+  # Profile custom modules.
+  - open_pension_blog
 themes:
   - bartik
   - seven
