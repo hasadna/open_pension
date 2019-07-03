@@ -58,8 +58,11 @@ class OpenPensionFilesUploader extends FormBase {
      * {@inheritDoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-        $file = \Drupal::entityTypeManager()->getStorage('file');
-        dpm($file->loadMultiple($form_state->getValue('selected_files')));
-        return [];
+        $files = $form_state->getValue('selected_files');
+
+//        $file = \Drupal::entityTypeManager()->getStorage('file');
+//        dpm($file->loadMultiple($files));
+
+        \Drupal::messenger()->addMessage(t('@files-length has been proccessed', ['@files-length' => count($files)]));
     }
 }

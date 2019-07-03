@@ -25,6 +25,16 @@ class OpenPensionCoreAdminIndex extends ControllerBase
                 'description' => t('Uploading files for process by the processor'),
                 'url' => Url::fromRoute('open_pension_files.upload'),
             ],
+            [
+                'title' => t('Watch logs'),
+                'description' => t('Watch logs from Kafka'),
+                'url' => Url::fromRoute('open_pension_files.upload'),
+            ],
+            [
+                'title' => t('Watch uploaded files'),
+                'description' => t('Browse uploaded files'),
+                'url' => Url::fromRoute('open_pension_files.upload'),
+            ],
         ];
 
         return [
