@@ -52,6 +52,7 @@ install:
   - features_ui
 
   # Profile custom modules.
+  - open_pension_core
   - open_pension_blog
   - open_pension_files
 themes:

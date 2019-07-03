@@ -9,3 +9,4 @@ dependencies:
   - path
   - text
   - user
+  - open_pension_core
