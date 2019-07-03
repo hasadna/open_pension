@@ -1,7 +1,7 @@
 open_pension_files.upload:
   path: '/admin/open_pension/upload_files'
   defaults:
-    _controller: '\Drupal\open_pension_files\Controller\OpenPensionFilesUploader::main'
+    _form: '\Drupal\open_pension_files\Form\OpenPensionFilesUploader'
     _title: 'Upload files'
   requirements:
     _permission: 'upload files'
