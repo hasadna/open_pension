@@ -4,4 +4,11 @@ description: 'Uploading files for processing'
 core: 8.x
 package: 'Open Pension'
 dependencies:
+  - field
+  - file
+  - media
   - open_pension_core
+  - options
+  - path
+  - user
+  - views

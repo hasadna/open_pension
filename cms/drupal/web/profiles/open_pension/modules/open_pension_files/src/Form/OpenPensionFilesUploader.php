@@ -6,12 +6,37 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Controller\FormController;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
+use Drupal\open_pension_files\OpenPensionFilesFileProcess;
+use GuzzleHttp\Client;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class OpenPensionFilesUploader.
  */
-class OpenPensionFilesUploader extends FormBase {
+class OpenPensionFilesUploader extends FormBase
+{
 
+    /**
+     * @var \Drupal\Core\Entity\EntityStorageInterface
+     */
+    protected $fileStorage;
+
+    /**
+     * OpenPensionFilesUploader constructor.
+     */
+    public function __construct(\Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager) {
+        $this->fileStorage = $entity_manager->getStorage('file');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function create(ContainerInterface $container) {
+        return new static($container->get('entity_type.manager'));
+    }
 
     /**
      * {@inheritDoc}
@@ -38,9 +63,7 @@ class OpenPensionFilesUploader extends FormBase {
             '#type' => 'managed_file',
             '#upload_location' => 'public://open_pension_processor/',
             '#multiple' => TRUE,
-            '#upload_validators' => array(
-                'file_validate_extensions' => array('xls xlsx'),
-            ),
+            '#upload_validators' => array('file_validate_extensions' => array('xls xlsx'),),
         ];
 
         $form['actions'] = [
@@ -58,11 +81,26 @@ class OpenPensionFilesUploader extends FormBase {
      * {@inheritDoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-        $files = $form_state->getValue('selected_files');
+        // todo: set this as a batch operation.
+        $files = $this->fileStorage->loadMultiple($form_state->getValue('selected_files'));
 
-//        $file = \Drupal::entityTypeManager()->getStorage('file');
-//        dpm($file->loadMultiple($files));
+        foreach ($files as $file) {
+            // todo: check if the file was already uploaded.
 
-        \Drupal::messenger()->addMessage(t('@files-length has been proccessed', ['@files-length' => count($files)]));
+            // Setting the file as permanent.
+            $file->setPermanent();
+            $file->save();
+
+            // Create a media file so we could manage it later on.
+            $media = Media::create(['bundle' => 'file']);
+
+            $media->set('field_media_file', $file->id());
+            $media->set('field_open_pension_file', true);
+            $media->save();
+        }
+
+        \Drupal::messenger()->addMessage(t('@file-number has been uploaded.', ['@file-number' => count($files)]));
+
+        $form_state->setRedirectUrl(Url::fromRoute('view.open_pension_uploaded_files.page_1'));
     }
 }
