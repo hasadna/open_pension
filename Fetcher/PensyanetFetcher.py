@@ -5,6 +5,7 @@ from urllib.parse import unquote
 from urllib.parse import quote
 import json
 import glob
+from multiprocessing.dummy import Pool as ThreadPool
 import urllib3
 
 # TEST
@@ -33,6 +34,7 @@ try:
     opt.add_argument('headless')
     d = webdriver.Chrome(options=opt)
     d.close()
+    d.quit()
 except WebDriverException:
     site = "https://sites.google.com/a/chromium.org/chromedriver/home"
     print(f"Please download 'chromedriver' from {site} and/or add to PATH")
@@ -302,16 +304,32 @@ class PensyanetFetcher:
         time.sleep(4)
 
     def get_all_by_month(self, month='01', year='2019'):
-        self.get_xml_bituach_sel(month, year)
-        self.get_gemelnet_xml(month, year)
-        self.get_all_xml_types(month, year)
+        try:
+            self.get_xml_bituach_sel(month, year)
+        except:
+            self.logger.error(f'Problem with bituach {month}/{year}')
+        try:
+            self.get_gemelnet_xml(month, year)
+        except:
+            self.logger.error(f'Problem with gemel {month}/{year}')
+        try:
+            self.get_all_xml_types(month, year)
+        except:
+            self.logger.error(f'Problem with pensya {month}/{year}')
+
+    def get_all_year(self, year='2018'):
+        arr = [f"{x:02d}" for x in range(1, 13)]
+        for m in arr:
+            self.get_all_by_month(year=year, month=m)
 
 
 def main():
     fetcher = PensyanetFetcher(output_path=r"D:\data\hasadna\generals")
     start_time = time.time()
-    fetcher.get_all_by_month(month='01', year='2019')
+    for y in range(2000, 2020):
+        fetcher.get_all_year(year=str(y))
     print("--- %s seconds ---" % (time.time() - start_time))
+
 
 if __name__ == "__main__":
     main()
