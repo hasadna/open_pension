@@ -94,6 +94,7 @@ class PensyanetFetcher:
         driver.get(cookie_site)
         selenium_cookies = driver.get_cookies()
         driver.close()
+        driver.quit()
         final_cookie_jar = {}
         for cookie in selenium_cookies:
             final_cookie_jar[cookie["name"]] = cookie["value"]
@@ -242,9 +243,7 @@ class PensyanetFetcher:
                             f"Error {e} Occurred on {file_name}, "
                             f"GIVING UP.")
 
-    def get_xml_bituach_sel(self, month="01", year="2018", download_type='0'):
-        self.logger.info(f"Downloading bituachnet_{year}_{month}_type"
-                         f"{download_type}.xml")
+    def get_xml_bituach_sel(self, month="01", year="2018"):
         options = webdriver.ChromeOptions()
         options.add_experimental_option("prefs", {
             "download.default_directory": self.output_path,
@@ -267,50 +266,52 @@ class PensyanetFetcher:
         xml_window = driver.window_handles[1]
         time.sleep(1)
         # print("Original Window:", driver.current_url, driver.title)
-        driver.switch_to.window(xml_window)
-        # print("Switched to: ", driver.current_url, driver.title)
-        # Select From Month
-        sel = HTML_Select(driver.find_element_by_id("hodashme"))
-        sel.select_by_value(month[1])
-        # Select From Year
-        sel = HTML_Select(driver.find_element_by_id("shanimme"))
-        sel.select_by_value(year)
-        # Select To Month
-        sel = HTML_Select(driver.find_element_by_id("hodashad"))
-        sel.select_by_value(month[1])
-        # Select To Year
-        sel = HTML_Select(driver.find_element_by_id("shanimad"))
-        sel.select_by_value(year)
-        driver.find_element_by_id(f'rdl_{download_type}').click()
-        # Download
-        time.sleep(2)
-        driver.find_element_by_id('cbBatzea').click()
-        time.sleep(4)
+        for download_type in range(4):
+            self.logger.info(f"Downloading bituachnet_{year}_{month}_type"
+                             f"{str(download_type)}.xml")
+            driver.switch_to.window(xml_window)
+            # print("Switched to: ", driver.current_url, driver.title)
+            # Select From Month
+            sel = HTML_Select(driver.find_element_by_id("hodashme"))
+            sel.select_by_value(month[1])
+            # Select From Year
+            sel = HTML_Select(driver.find_element_by_id("shanimme"))
+            sel.select_by_value(year)
+            # Select To Month
+            sel = HTML_Select(driver.find_element_by_id("hodashad"))
+            sel.select_by_value(month[1])
+            # Select To Year
+            sel = HTML_Select(driver.find_element_by_id("shanimad"))
+            sel.select_by_value(year)
+            driver.find_element_by_id(f'rdl_{str(download_type)}').click()
+            # Download
+            time.sleep(2)
+            driver.find_element_by_id('cbBatzea').click()
+            time.sleep(4)
+            new_name = f'bituachnet_{year}_{month}_type{download_type}.xml'
+            list_of_files = glob.glob(os.path.join(self.output_path, '*'))
+            latest_file = max(list_of_files, key=os.path.getctime)
+            try:
+                os.rename(latest_file,
+                          os.path.join(os.path.dirname(latest_file),
+                                       new_name))
+            except FileExistsError:
+                pass
         driver.close()
+        driver.quit()
         time.sleep(4)
-        new_name = f'bituachnet_{year}_{month}_type{download_type}.xml'
-        list_of_files = glob.glob(os.path.join(self.output_path, '*'))
-        latest_file = max(list_of_files, key=os.path.getctime)
-        try:
-            os.rename(latest_file, os.path.join(os.path.dirname(latest_file),
-                                                new_name))
-        except FileExistsError:
-            pass
-
-    def get_all_types_bituach(self, month, year):
-        for i in range(4):
-            self.get_xml_bituach_sel(month, year, download_type=str(i))
 
     def get_all_by_month(self, month='01', year='2019'):
-        self.get_all_types_bituach(month, year)
+        self.get_xml_bituach_sel(month, year)
         self.get_gemelnet_xml(month, year)
         self.get_all_xml_types(month, year)
 
 
 def main():
     fetcher = PensyanetFetcher(output_path=r"D:\data\hasadna\generals")
+    start_time = time.time()
     fetcher.get_all_by_month(month='01', year='2019')
-
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == "__main__":
     main()
