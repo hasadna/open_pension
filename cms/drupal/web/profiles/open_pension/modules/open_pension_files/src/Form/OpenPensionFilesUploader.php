@@ -92,10 +92,9 @@ class OpenPensionFilesUploader extends FormBase
             $file->save();
 
             // Create a media file so we could manage it later on.
-            $media = Media::create(['bundle' => 'file']);
+            $media = Media::create(['bundle' => 'open_pension_file']);
 
             $media->set('field_media_file', $file->id());
-            $media->set('field_open_pension_file', true);
             $media->save();
         }
 

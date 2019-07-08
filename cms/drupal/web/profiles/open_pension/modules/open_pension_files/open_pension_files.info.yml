@@ -6,8 +6,10 @@ package: 'Open Pension'
 dependencies:
   - field
   - file
+  - image
   - media
   - open_pension_core
+  - open_pension_files
   - options
   - path
   - user

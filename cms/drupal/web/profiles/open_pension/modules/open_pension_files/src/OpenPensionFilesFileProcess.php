@@ -2,10 +2,9 @@
 
 namespace Drupal\open_pension_files;
 
-use Drupal\Core\Executable\ExecutableException;
 use Drupal\Core\Logger\LoggerChannel;
+use Drupal\file\Entity\File;
 use GuzzleHttp\ClientInterface;
-use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * Class OpenPensionFilesFileProcess.
@@ -31,9 +30,9 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
     protected $fileStorage;
 
     /**
-     * @var \Drupal\file\Entity\File[]
+     * @var string[]
      */
-    protected $files = [];
+    protected $trackingLogs = [];
 
     /**
      * Constructs a new OpenPensionFilesFileProcess object.
@@ -52,14 +51,89 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
     }
 
     /**
-     * @param array $fids
+     * @return ClientInterface
+     */
+    public function getHttpClient(): ClientInterface {
+        return $this->httpClient;
+    }
+
+    /**
+     * @param ClientInterface $httpClient
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function loadFiles(array $fids) {
-        $this->files = $this->fileStorage->loadMultiple($fids);
-        $this->logger->log('info', 'Files were loaded from DB');
+    public function setHttpClient(ClientInterface $httpClient) {
+        $this->httpClient = $httpClient;
+        return $this;
+    }
 
+    /**
+     * @return LoggerChannel
+     */
+    public function getLogger(): LoggerChannel {
+        return $this->logger;
+    }
+
+    /**
+     * @param LoggerChannel $logger
+     *
+     * @return OpenPensionFilesFileProcess
+     */
+    public function setLogger(LoggerChannel $logger) {
+        $this->logger = $logger;
+
+        return $this;
+    }
+
+    /**
+     * @return \Drupal\Core\Entity\EntityStorageInterface
+     */
+    public function getFileStorage(): \Drupal\Core\Entity\EntityStorageInterface {
+        return $this->fileStorage;
+    }
+
+    /**
+     * @param \Drupal\Core\Entity\EntityStorageInterface $fileStorage
+     *
+     * @return OpenPensionFilesFileProcess
+     */
+    public function setFileStorage(\Drupal\Core\Entity\EntityStorageInterface $fileStorage) {
+        $this->fileStorage = $fileStorage;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTrackingLogs(): array {
+        return $this->trackingLogs;
+    }
+
+    /**
+     * @param string[] $trackingLogs
+     *
+     * @return OpenPensionFilesFileProcess
+     */
+    public function setTrackingLogs(array $trackingLogs) {
+        $this->trackingLogs = $trackingLogs;
+
+        return $this;
+    }
+
+    /**
+     * Logging what happens - to the watchdog and to the logs property.
+     *
+     * @param string $log
+     *  The message to log.
+     * @param string $status
+     *  A logger level.
+     *
+     * @return $this
+     */
+    public function log(string $log, string $status = 'info') {
+        $this->trackingLogs[] = $log;
+        $this->logger->log($status, $log);
         return $this;
     }
 
@@ -73,21 +147,25 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function processFile($file): bool {
-        dpm($this->fileStorage->load($file));
-        return false;
-        $file = $this->files[$file_id];
+    public function processFile($file_id): bool {
+        /** @var File $file */
+        $file = $this->fileStorage->load($file_id);
 
-        $this->logger->log('info', t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
+        if (!$file) {
+            $this->log(t('Could not load a file with the ID @id', ['@id' => $file_id]));
+            return false;
+        }
+
+        $this->log(t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
 
         $results = $this->httpClient->request('get', 'http://google.com');
 
         if ($results->getStatusCode() == 200) {
-            $this->logger->log('info', t('The processor processed the file successfully', ['@id' => $file_id]));
+            $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
             return true;
         }
 
-        $this->logger->log('error', t('The file @id has failed in the process', ['@id' => $file_id]));
+        $this->log(t('The file @file-name was not able to process', ['@file-name' => $file->getFilename()]), 'error');
         return false;
     }
 

@@ -3,8 +3,8 @@ status: true
 dependencies:
   module:
     - media
-id: media.field_open_pension_file
-field_name: field_open_pension_file
+id: media.field_processed
+field_name: field_processed
 entity_type: media
 type: boolean
 settings: {  }
