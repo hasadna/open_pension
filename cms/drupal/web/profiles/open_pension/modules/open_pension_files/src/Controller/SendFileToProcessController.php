@@ -74,6 +74,7 @@ class SendFileToProcessController extends ControllerBase
         // Saving file.
         $media->save();
 
+        // todo: Change the proccessed in the view and update the history files.
         $response = new AjaxResponse();
         $response->addCommand(new AlertCommand('DOGS ARE GREAT!'));
         return $response;
