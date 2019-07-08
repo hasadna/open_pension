@@ -1,3 +1,1 @@
-excluded:
-  - field.storage.media.field_open_pension_file
 required: true

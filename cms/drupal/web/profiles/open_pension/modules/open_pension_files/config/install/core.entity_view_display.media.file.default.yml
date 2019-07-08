@@ -2,49 +2,21 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.file.field_history
     - field.field.media.file.field_media_file
-    - field.field.media.file.field_open_pension_file
-    - field.field.media.file.field_reference_in_other_service
     - media.type.file
   module:
     - file
-    - options
 id: media.file.default
 targetEntityType: media
 bundle: file
 mode: default
 content:
-  field_history:
-    weight: 3
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
-    region: content
   field_media_file:
     label: visually_hidden
     settings: {  }
     third_party_settings: {  }
     type: file_default
     weight: 1
-    region: content
-  field_open_pension_file:
-    weight: 2
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    type: boolean
-    region: content
-  field_reference_in_other_service:
-    weight: 4
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
     region: content
 hidden:
   created: true
