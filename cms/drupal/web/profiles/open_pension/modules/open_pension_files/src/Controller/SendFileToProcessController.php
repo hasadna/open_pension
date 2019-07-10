@@ -3,6 +3,9 @@
 namespace Drupal\open_pension_files\Controller;
 
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\media\Entity\Media;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -52,10 +55,12 @@ class SendFileToProcessController extends ControllerBase
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function handle_file(Media $media) {
+
         if ($media->bundle() != 'open_pension_file') {
             // todo: log.
             return;
         }
+
         if (!$file_field = $media->get('field_media_file')->first()) {
             // todo: log here.
             return;
@@ -74,9 +79,25 @@ class SendFileToProcessController extends ControllerBase
         // Saving file.
         $media->save();
 
-        // todo: Change the proccessed in the view and update the history files.
+        // Process the tests.
+        $text = $media->field_processed ? t('Yes') : t('No');
+
+        $items = [];
+        array_map(function ($item) use(&$items) {
+            $items[] = ['#markup' => $item['value']];
+        }, array_slice($media->field_history->getValue(), -3, 2, true));
+
+        $order_list = array(
+            '#theme' => 'item_list',
+            '#list_type' => 'ol',
+            '#items' => $items,
+        );
+
+        // Return the Ajax response and make stuff move magically on the screen.
         $response = new AjaxResponse();
-        $response->addCommand(new AlertCommand('DOGS ARE GREAT!'));
+        $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .processed', '<td>' . $text . '</td>'));
+        $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) .'</div></td>'));
+
         return $response;
     }
 
