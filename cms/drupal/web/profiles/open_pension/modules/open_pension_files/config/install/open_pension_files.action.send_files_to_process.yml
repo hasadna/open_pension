@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: send_files_to_process
+label: 'Send files to the process service'
+type: media
+plugin: send_files_to_process
+configuration: {  }
