@@ -24,7 +24,8 @@ PENSION_HEB_TO_ENG = {
     'סחירות':'Tradable',
     'ארץ':'Country',
     'סוג מטבע':'Currency',
-    'שם מנפיק':'Issuer Mane',
+    'שם מנפיק':'Issuer Name',
+    'שם המנפיק/שם נייר ערך': "Issuer Name",
     'מספר מנפיק':'Issuer Nunber',
     'יעודיות':'Designated Bond',
     'סוג קרן':'Investmnet Fund Type',
@@ -44,6 +45,7 @@ PENSION_HEB_TO_ENG = {
     'מח"מ':'Duration',
     'מספר מנפיק':'Issuer Number',
     'מספר ני"ע':'Instrument Number',
+    'מספר נייר ערך':'Instrument Number',
     'ערך נקוב':'Nominal Value',
     'קונסורציום כן/לא':'Consortium',
     'שיעור ריבית':'Rate',
@@ -53,7 +55,22 @@ PENSION_HEB_TO_ENG = {
     'שעור מסך נכסי השקעה':'Rafe of Funde Holding',
     'שעור מערך נקוב מונפק':'Rafe of Register',
     'שער':'Price',
-    'תשואה לפידיון':'yield'
+    'תשואה לפידיון':'yield',
+    'תאריך הדיווח': 'Report date',
+    'החברה המדווחת': 'Company',
+    'שווי שוק': 'market value',
+    'שם מסלול/קרן/קופה': 'fund',
+    'תאריך רכישה':'purchase date',
+    'זירת מסחר': 'Market Place',
+    'פדיון/ ריבית לקבל': 'Interest receivable',
+    'ענף מסחר': 'Trade branch',
+    'שם מדרג':'Scaling name',
+    'ספק מידע':'information Provider',
+    'ספק המידע':'information Provider',
+    'שווי הוגן':'Fair value',
+    'ריבית אפקטיבית':'effective rate of interest',
+    'שיעור הריבית': 'interest rate'
+
 }
 
 

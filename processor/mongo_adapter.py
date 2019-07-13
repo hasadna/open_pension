@@ -72,6 +72,9 @@ class MongoAdapter():
         #     self._logger.error("Failed to connect MongoDB - unexpected error - {0}".format(ex))
         #     return None
 
+    def get_documents(self, db_name, collection_name, filter=None):
+        for document in  self._mongo_connection[db_name][collection_name].find(filter=filter):
+            yield document
 
 # TODO: add logger
 class FakeLogger:
@@ -88,7 +91,9 @@ class FakeLogger:
 if __name__ == '__main__':
     # debug
     logger = FakeLogger()
-    mongo = MongoAdapter(server_address="127.0.0.1", server_port=27017, logger=logger)
+    mongo = MongoAdapter(server_address="35.233.115.43", server_port=30847, user="openpension", password="eayfqV0PYg7xkmuLE84A", logger=logger)
+    for doc in mongo.get_documents(db_name="2018Q1", collection_name="menora"):
+        print(doc)
     # print(mongo.is_connection)
     # print(mongo.is_collection(db_name="config",collection_name="bla"))
     # mongo.create_collection(db_name="config", collection_name="dada")

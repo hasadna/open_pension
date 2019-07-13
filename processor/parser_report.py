@@ -76,7 +76,12 @@ class ExcelParser:
             if current_cell:
                 metadata = self._get_metadata(data=row_data)
                 if metadata:
-                    sheet_metadata[metadata[0]] = metadata[1]
+                    translated_metadata = translate_from_hebrew(word=metadata[0])
+                    if translated_metadata:
+                        metadata_field = translated_metadata
+                    else:
+                        metadata_field = 'item_{0}'.format(metadata[0])
+                    sheet_metadata[metadata_field] = metadata[1]
 
             current_row += 1
             row_data = self._workbook.get_entire_row(sheet_name=sheet_name,
@@ -100,15 +105,15 @@ class ExcelParser:
 
             fields_len = len(fields_name_hebrew)
 
-            fields_name_translated = []
+            fields_name = []
             for field in fields_name_hebrew:
-                translated = translate_from_hebrew(word=str(field))
+                translated = translate_from_hebrew(word=str(field).strip().replace("*", ""))
                 if not translated:
                     # If failed to translate append the hebrew name
-                    self._logger.warn("Failed to translate {0} from hebrew")
-                    fields_name_translated.append(field)
+                    self._logger.warn("Failed to translate {0} from hebrew".format(field))
+                    fields_name.append(field)
                 else:
-                    fields_name_translated.append(translated)
+                    fields_name.append(translated)
 
         empty_len = 0
         current_cell = ""
@@ -140,9 +145,9 @@ class ExcelParser:
                 continue
             else:
                 row = {
-                    'שייכות למדד': self._total_data,
-                    "ישראל": self._is_israel,
-                    "שורה בקובץ": current_row
+                    'Index': self._total_data,
+                    "Israel": self._is_israel,
+                    "Line in file": current_row
                 }
 
                 # if another row is empty continue
@@ -155,12 +160,11 @@ class ExcelParser:
                     except IndexError as ex:
                         self._logger.error("Failed {0} {1}".format(ex, fields_name))
 
-                # check if stock name not empty
-                # if row[first_field_table]:
-                # Add metadata
-                row.update(sheet_metadata)
-                # Add row data to data list
-                data.append(row)
+                if "Instrument Number" in row and row["Instrument Number"]:
+                    # Add metadata
+                    row.update(sheet_metadata)
+                    # Add row data to data list
+                    data.append(row)
 
         return data
 
@@ -245,11 +249,13 @@ if __name__ == '__main__':
 
     process_xl = ExcelParser(logger=logger)
 
-    for root, dirs, files in os.walk("/home/user/Documents/2018Q1-2", followlinks=False):
+    for root, dirs, files in os.walk("/home/user/Documents/2018Q1-2/infinity", followlinks=False):
         for file in files:
             file_path = os.path.join(root, file)
 
             investment_house = os.path.basename(root)
+            if investment_house == "menora" or investment_house == "migdal" and investment_house == "harel":
+                continue
             logger.add_extra(info=investment_house)
             logger.info(msg="Start working on {0} investment house: {1}".format(file_path, investment_house))
             for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
