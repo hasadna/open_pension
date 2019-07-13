@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import os
 import excel_adapter
 import mongo_adapter
 from logger import Logger
@@ -111,7 +112,7 @@ class ExcelParser:
                 if not translated:
                     # If failed to translate append the hebrew name
                     self._logger.warn("Failed to translate {0} from hebrew".format(field))
-                    fields_name.append(field)
+                    fields_name.append("item_{0}".format(field))
                 else:
                     fields_name.append(translated)
 
@@ -233,7 +234,32 @@ def save_to_json_file(path, file_name, data):
 
 if __name__ == '__main__':
     logger = Logger(logger_name="parser_report")
-    DB_NAME = "2018Q1"
+
+    import argparse
+    parser = argparse.ArgumentParser(description='Process pension reports.')
+    parser.add_argument('--quarter', type=str,
+                        help='Quarter Reports Date EX:2018Q1')
+    parser.add_argument('--investment_house', type=str)
+    parser.add_argument('--dir', type=str)
+
+    args = parser.parse_args()
+    quarter = args.quarter
+    if not quarter:
+        raise ValueError("quarter argument missing")
+
+    investment_house = args.investment_house
+    if not investment_house:
+        raise ValueError("investment_house argument missing")
+
+    dir_path = args.dir
+    if not dir_path:
+        raise ValueError("dir_path argument missing")
+
+    if not os.path.exists(dir_path):
+        raise ValueError("Dir not exists")
+
+    db_name = "reports_{0}".format(quarter)
+
     mongo = mongo_adapter.MongoAdapter(server_address = config.MONGO_SERVER_ADDRESS,
                                        server_port = config.MONGO_SERVER_PORT,
                                        user = config.MONGO_SERVER_USERNAME,
@@ -243,19 +269,16 @@ if __name__ == '__main__':
         logger.error("Failed to connect mongodb server")
         sys.exit(1)
 
-    if not mongo.is_db(db_name=DB_NAME):
+    if not mongo.is_db(db_name=db_name):
         logger.error("db not exist in mongodb server")
         sys.exit(1)
 
     process_xl = ExcelParser(logger=logger)
 
-    for root, dirs, files in os.walk("/home/user/Documents/2018Q1-2/infinity", followlinks=False):
+    for root, dirs, files in os.walk(dir_path, followlinks=False):
         for file in files:
             file_path = os.path.join(root, file)
 
-            investment_house = os.path.basename(root)
-            if investment_house == "menora" or investment_house == "migdal" and investment_house == "harel":
-                continue
             logger.add_extra(info=investment_house)
             logger.info(msg="Start working on {0} investment house: {1}".format(file_path, investment_house))
             for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
@@ -268,23 +291,9 @@ if __name__ == '__main__':
                     if 'מספר ני"ע' in data and not data['מספר ני"ע']:
                         c += 1
                         continue
-                    if not mongo.insert_document(db_name=DB_NAME,
+                    if not mongo.insert_document(db_name=db_name,
                                                  collection_name=investment_house,
                                                  data=data):
                         print("Failed to insert document to mongodb")
-                # if c > 5:
-                #     logger.warn(msg="number of empty stock number is bigger than 5 - "
-                #                     "{0} - sheet name: {1}".format(c, sheet_name))
 
             logger.info("Done with {0}".format(file))
-
-    """  
-        
-    for sheet_data in process_xl.parse_file(file_path="test.xlsx"):
-        # print(sheet_data)
-        # try:
-        # save_to_json_file(path="/tmp", file_name=sheet_data["metadata"]['אפיק השקעה'], data=sheet_data)
-        mongo.insert_document(db_name="reports_raw2", collection_name=sheet_data["metadata"]['אפיק השקעה'], data=sheet_data)
-        # except Exception as ex:
-        #     logger.error("{0} - Failed to write json file {1}".format(sheet_data["metadata"]['אפיק השקעה'], ex))
-"""

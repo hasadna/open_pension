@@ -97,10 +97,4 @@ class FakeLogger:
 
 if __name__ == '__main__':
     # debug
-    logger = FakeLogger()
-    mongo = MongoAdapter(server_address="35.233.115.43", server_port=30847, user="openpension", password="eayfqV0PYg7xkmuLE84A", logger=logger)
-    for doc in mongo.get_documents(db_name="2018Q1", collection_name="menora"):
-        print(doc)
-    # print(mongo.is_connection)
-    # print(mongo.is_collection(db_name="config",collection_name="bla"))
-    # mongo.create_collection(db_name="config", collection_name="dada")
+    pass
