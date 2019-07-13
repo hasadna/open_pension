@@ -5,6 +5,7 @@ import excel_adapter
 import mongo_adapter
 from logger import Logger
 import config
+from translator import translate_from_hebrew
 
 
 class ExcelParser:
@@ -29,7 +30,7 @@ class ExcelParser:
         try:
             self._workbook = excel_adapter.ExcelLoader(file_path=file_path, logger=self._logger)
         except Exception as ex:
-                self._logger.error("!Failed to load {0}, {1}".format(ex, file_path))
+                self._logger.error("Failed to load {0}, {1}".format(ex, file_path))
                 return False
 
         if not self._workbook:
@@ -42,7 +43,7 @@ class ExcelParser:
                 # :todo: need parse this sheet ?
                 continue
             # Parse sheet
-            sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=file_path)
+            sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=os.path.basename(file_path))
             if not sheet_data:
                 self._logger.warn("Not got data from this sheet. maybe is empty.. {0} {1}".format(sheet_name,
                                                                                                   file_path))
@@ -92,16 +93,27 @@ class ExcelParser:
                 self._logger.error("Failed to parser sheet. max metadata rows in {0}/{1}".format(orig_file, sheet_name))
                 return None
         else:
-            first_field_table = current_cell
             # Get fields name
-            fields_name = self._workbook.get_entire_row(sheet_name=sheet_name,
+            fields_name_hebrew = self._workbook.get_entire_row(sheet_name=sheet_name,
                                                         row=current_row,
                                                         min_column=start_column)
 
-            fields_len = len(fields_name)
+            fields_len = len(fields_name_hebrew)
+
+            fields_name_translated = []
+            for field in fields_name_hebrew:
+                translated = translate_from_hebrew(word=str(field))
+                if not translated:
+                    # If failed to translate append the hebrew name
+                    self._logger.warn("Failed to translate {0} from hebrew")
+                    fields_name_translated.append(field)
+                else:
+                    fields_name_translated.append(translated)
 
         empty_len = 0
         current_cell = ""
+
+        # Parsing until find the end of excel sheet
         while current_cell not in ['* בעל ענין/צד קשור','בהתאם לשיטה שיושמה בדוח הכספי **']:
 
             if empty_len > 5:
@@ -155,7 +167,7 @@ class ExcelParser:
     def _get_metadata(self, data):
         """
         Parse metadata data
-        :param data: list of data
+        :param data: list of data   
         :return:
         """
         first_cell = data[0]
@@ -238,8 +250,6 @@ if __name__ == '__main__':
             file_path = os.path.join(root, file)
 
             investment_house = os.path.basename(root)
-            # if investment_house == "menora": # todo: for testing TO DELETE!
-            #     continue
             logger.add_extra(info=investment_house)
             logger.info(msg="Start working on {0} investment house: {1}".format(file_path, investment_house))
             for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
