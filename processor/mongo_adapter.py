@@ -72,8 +72,15 @@ class MongoAdapter():
         #     self._logger.error("Failed to connect MongoDB - unexpected error - {0}".format(ex))
         #     return None
 
+    @property
+    def database_names(self):
+        return self._mongo_connection.list_database_names()
+
+    def get_collection_names(self, database_name):
+        return self._mongo_connection[database_name].collection_names()
+
     def get_documents(self, db_name, collection_name, filter=None):
-        for document in  self._mongo_connection[db_name][collection_name].find(filter=filter):
+        for document in self._mongo_connection[db_name][collection_name].find(filter, {'_id': 0}):
             yield document
 
 # TODO: add logger
