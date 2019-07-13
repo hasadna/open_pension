@@ -32,6 +32,10 @@ us to communicate with the other services.
     * Manage downloaded files, manually upload files for processing 
     * Watch logs from other services
     * Fix uploaded files
+* Kafka - give us the option to notify services of events that occurred in other 
+services.
+* Logs - Allow us to log events which occurred in service: a file has been 
+processed, file downloaded.
 
 
 ### Pre requirements:
