@@ -25,6 +25,6 @@ composer install
   --account-mail="admin@example.com"  \
   --account-pass="admin" \
   --no-interaction
-#./vendor/bin/drush si open_pension --db-url=mysql://user:password@cms_db/db --account-name=admin --account-pass=admin -y
+
+# Install modules which cannot be installed as dependencies of the profile.
 ./vendor/bin/drush en open_pension_blog open_pension_files
-echo "Completed\n"
