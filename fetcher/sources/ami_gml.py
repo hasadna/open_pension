@@ -1,7 +1,6 @@
-import os
 import re
+from urllib.parse import urljoin
 
-import requests
 from bs4 import BeautifulSoup
 
 from logger import get_logger, init_logger
@@ -9,9 +8,8 @@ from source_interface import SourceInterface
 
 LOGGER = get_logger()
 
-base_url = "http://ami-gml.co.il"
-
-reports_relative_url = "%d7%a8%d7%a9%d7%99%d7%9e%d7%aa-%d7%a0%d7%9b%d7%a1%d7%99%d7%9d-%d7%93%d7%95%d7%97%d7%95%d7%aa-%d7%9e%d7%90%d7%95%d7%97%d7%93%d7%99%d7%9d-{year}"
+BASE_URL = "http://ami-gml.co.il"
+REPORTS_RELATIVE_URL = "%d7%a8%d7%a9%d7%99%d7%9e%d7%aa-%d7%a0%d7%9b%d7%a1%d7%99%d7%9d-%d7%93%d7%95%d7%97%d7%95%d7%aa-%d7%9e%d7%90%d7%95%d7%97%d7%93%d7%99%d7%9d-{year}"
 
 
 class AmiGmlSource(SourceInterface):
@@ -21,16 +19,15 @@ class AmiGmlSource(SourceInterface):
     PENSION_NAME = 'Ami Gemel'
 
     def get_quarterly(self, year: int):
+        base_url_yearly = urljoin(BASE_URL, REPORTS_RELATIVE_URL.format(year=year))
+        reports_page = self.download_page(base_url_yearly)
+
         for quarter in range(1, 5):
-            self.get_quarterly_by_quarter(year, quarter)
+            self._download_quarterly_report(year, quarter, reports_page)
 
-    def get_quarterly_by_quarter(self, year: int, quarter: int):
-        base_url_yearly = base_url + '/' + reports_relative_url.format(year=year)
-        r = requests.get(base_url_yearly)
-        parsed_html = BeautifulSoup(r.content, "html.parser")
-
+    def _download_quarterly_report(self, year: int, quarter: int, reports_page: BeautifulSoup) -> None:
         # it's either p118 or 0118, cause they suck.
-        items = parsed_html.find_all(href=re.compile(f'.*gsum_[p0]{quarter}{str(year)[-2:]}.*'))
+        items = reports_page.find_all(href=re.compile(f'.*gsum_[p0]{quarter}{str(year)[-2:]}.*'))
         if not items:
             LOGGER.error(f"Failed finding report for {year}-{quarter} - could not find item")
             return
@@ -41,12 +38,7 @@ class AmiGmlSource(SourceInterface):
             LOGGER.error(f"Failed finding report for {year}-{quarter} - could not find href")
             return
 
-        d = requests.get(base_url + '/' + href)
-
-        file_path = os.path.join(self._output_path, f'{year}-{quarter}.xls')
-        with open(file_path, 'wb') as f:
-            f.write(d.content)
-            LOGGER.info(f'Saved file {href} to {file_path}')
+        self.download_to_file(urljoin(BASE_URL, href))
 
 
 if __name__ == '__main__':

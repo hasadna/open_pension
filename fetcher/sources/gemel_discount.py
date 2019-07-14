@@ -9,16 +9,16 @@ from source_interface import SourceInterface
 LOGGER = get_logger()
 
 
-BASE_URL = 'https://www.kereni.co.il'
-REPORTS_URL = '%d7%94%d7%a9%d7%a7%d7%a2%d7%95%d7%aa/%d7%a0%d7%9b%d7%a1%d7%99-%d7%94%d7%a7%d7%95%d7%a4%d7%94/%d7%a8%d7%a9%d7%99%d7%9e%d7%aa-%d7%a0%d7%9b%d7%a1%d7%99%d7%9d-%d7%91%d7%a8%d7%9e%d7%aa-%d7%94%d7%a0%d7%9b%d7%a1-%d7%94%d7%91%d7%95%d7%93%d7%93-%d7%9e%d7%90%d7%95%d7%97%d7%93/'
+BASE_URL = 'https://www.badal.co.il'
+REPORTS_URL = 'private/Financial_Info/Quarterly_Assets'
 BASE_TEXT_TO_SEARCH = 'רשימת נכסים ברמת הנכס הבודד – עגור מאוחד'
 
 
-class Agur(SourceInterface):
+class GemelDiscount(SourceInterface):
     """
-    עגור חברה לניהול קופות גמל וקרנות השתלמות בע"מ
+    החברה לניהול קופות גמל של עובדי בנק דיסקונט בע"מ
     """
-    PENSION_NAME = 'Agur'
+    PENSION_NAME = 'Gemel Discount'
 
     def get_quarterly(self, year: int):
         reports_page = self.download_page(urljoin(BASE_URL, REPORTS_URL))
@@ -26,17 +26,14 @@ class Agur(SourceInterface):
             self._download_quarterly_report(year, quarter, reports_page)
 
     def _download_quarterly_report(self, year: int, quarter: int, reports_page: BeautifulSoup) -> None:
-        month = 3 * quarter
-
-        text_to_search = f'{BASE_TEXT_TO_SEARCH} {month:02}.{year}'
-        items = reports_page.find_all(text=re.compile('.*' + text_to_search + '.*'))
+        href_to_search = f'_{quarter:02}{str(year)[-2:]}.xlsx'
+        items = reports_page.find_all(href=re.compile('.*' + href_to_search + '.*'))
         if not items:
-            LOGGER.error(f"Failed finding report for {year}-{quarter} - find to find item by text")
+            LOGGER.error(f"Failed finding report for {year}-{quarter} - find to find item by href")
             return
 
         item = items[0]
-        parent = item.findParent('a')
-        href = parent.get('href')
+        href = item.get('href')
         if not href:
             LOGGER.error(f"Failed finding report for {year}-{quarter} - failed to find href")
             return
@@ -45,6 +42,6 @@ class Agur(SourceInterface):
 
 
 if __name__ == '__main__':
-    save_path = '/tmp/reports'
+    save_path = '/tmp/reports/test'
     init_logger()
-    Agur(save_path).get_quarterly(2017)
+    GemelDiscount(save_path).get_quarterly(2017)

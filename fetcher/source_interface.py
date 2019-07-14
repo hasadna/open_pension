@@ -1,11 +1,11 @@
 import os
 import sys
-import requests
-from bs4 import BeautifulSoup
+from abc import ABCMeta, abstractmethod
 from http import HTTPStatus
 from urllib.parse import urlsplit
 
-from abc import ABCMeta, abstractmethod
+import requests
+from bs4 import BeautifulSoup
 
 from logger import get_logger
 
@@ -77,3 +77,12 @@ class SourceInterface(metaclass=ABCMeta):
     @abstractmethod
     def get_quarterly(self, year: int):
         pass
+
+    def download_to_file(self, url):
+        response = requests.get(url)
+
+        basename = os.path.basename(urlsplit(url).path)
+        file_path = os.path.join(self._output_path, basename)
+        with open(file_path, 'wb') as f:
+            f.write(response.content)
+            LOGGER.info(f'Saved file {url} to {file_path}')
