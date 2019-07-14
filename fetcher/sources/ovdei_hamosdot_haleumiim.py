@@ -10,7 +10,7 @@ LOGGER = get_logger()
 
 class OvdeiHamosdotHaleumiim(SourceInterface):
     PENSION_NAME = "Ovdei Hamosdot Haleumiim"
-    
+
     BASE_URL = "http://kupa.gemeljazo.org.il/"
     TOP_URL = urllib.parse.urljoin(BASE_URL, "GemelWeb/Screens/JazoOpenPage.aspx")
     ASSETS_STRUCTURE_TEXT = b'\xd7\x94\xd7\xa8\xd7\x9b\xd7\x91 \xd7\xa0\xd7\x9b\xd7\xa1\xd7\x99\xd7\x9d'  # herkev nechasim
