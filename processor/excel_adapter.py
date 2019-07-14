@@ -1,4 +1,5 @@
 import openpyxl
+import xlrd
 import os
 import datetime
 
@@ -22,13 +23,20 @@ class ExcelLoader:
         if not os.path.exists(file_path):
             self._logger.error("File not exists {0}".format(file_path))
             return False
-        try:
-
-            # Load in the workbook file
-            self._workbook = openpyxl.load_workbook(filename=file_path)
-        except Exception as ex:
-            self._logger.error("Failed to load excel file -  {0}, {1} ".format(ex, file_path))
-            return False
+        if os.path.splitext(file_path)[1].lower() == '.xlsx':
+            try:
+                # Load in the workbook file
+                self._workbook = openpyxl.load_workbook(filename=file_path)
+            except Exception as ex:
+                self._logger.error("Failed to load xlsx file -  {0}, {1} ".format(ex, file_path))
+                return False
+        elif os.path.splitext(file_path)[1].lower() == '.xls':
+            try:
+                self._workbook = xlrd.open_workbook(filename=file_path)
+                # TODO: adjust code to work with xlrd
+            except Exception as ex:
+                self._logger.error("Failed to load xls file -  {0}, {1} ".format(ex, file_path))
+                return False
 
         if not self._workbook:
             self._logger("Failed to load excel file {0}".format(file_path))
