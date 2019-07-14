@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Tuple
+from typing import Tuple, Dict
 
 import excel_adapter
 from logger import Logger
@@ -9,8 +9,15 @@ from logger import Logger
 class ExcelSheetParsingError(Exception):
     def __init__(self, *args, **kwargs):
         super(ExcelSheetParsingError, self).__init__()
-        self.parse_error = kwargs['parse_errors']
+        self.parse_error = kwargs['parse_error']
         self.sheet_name = kwargs['sheet_name']
+
+
+class ExcelWorkbookParsingError(Exception):
+    def __init__(self, *args, **kwargs):
+        super(ExcelWorkbookParsingError, self).__init__()
+        self.parse_error = kwargs['parse_error']
+        self.file_name = kwargs['file_name']
 
 
 class ExcelParser:
@@ -34,9 +41,10 @@ class ExcelParser:
         # Load in the workbook file
         try:
             self._workbook = excel_adapter.ExcelLoader(file_path=file_path, logger=self._logger)
-        except Exception as ex:
-                self._logger.error("!Failed to load {0}, {1}".format(ex, file_path))
-                return False
+        except Exception as e:
+            self._logger.error(f'Failed to parse {file_path}')
+            errors = str(e) if str(e) else 'Workbook loading error'
+            raise ExcelWorkbookParsingError(parse_error=errors, file_name=file_path)
 
         if not self._workbook:
             self._logger.error("Failed to load excel file")
@@ -45,21 +53,25 @@ class ExcelParser:
         # Move over the all sheets
         for sheet_name in self._workbook.sheet_names:
             if sheet_name == 'סכום נכסי הקרן':
-                # :todo: need parse this sheet ?
                 continue
             # Parse sheet
             try:
                 sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=file_path)
             except Exception as e:
                 self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
-                raise ExcelSheetParsingError(parse_errors=str(e), sheet_name=sheet_name)
+                raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
             if not sheet_data:
                 self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
                 continue
 
             yield sheet_name, sheet_data
 
-    def test_parse_file(self, file_path: str):
+    def test_parse_file(self, file_path: str) -> Dict[str, Dict[str, list]]:
+        """
+        This function is inteded to try and find all the current parsing problems
+        :param file_path: the file which we want to try and parse
+        :return: the results of the test -> dict(successful={...}, error={...})
+        """
         result = dict(successful=dict(), error=dict())
         processed_sheets_generator = self.parse_file(file_path=file_path)
         while True:
@@ -69,17 +81,23 @@ class ExcelParser:
                     result['successful'][file_path] = dict()
                 if not result['successful'][file_path].get(sheet_name):
                     result['successful'][file_path][sheet_name] = processed_sheet
-                result['successful'][sheet_name] = (processed_sheet)
+                result['successful'][file_path][sheet_name] = processed_sheet
             except StopIteration:
                 break
             except ExcelSheetParsingError as e:
                 self._logger.error(f'Failed to parse sheet "{e.sheet_name}": {e.parse_error}')
                 if not result['error'].get(e.parse_error):
-                    result['error'][e.parse_error] = dict()
-                result['error'][e.parse_error]['sheet_name'] = e.sheet_name
-                result['error'][e.parse_error]['file_name'] = file_path
+                    result['error'][e.parse_error] = list()
+                result['error'][e.parse_error].append(dict(sheet_name=e.sheet_name,
+                                                           file_name=file_path))
+            except ExcelWorkbookParsingError as e:
+                # TODO this is not working - only the last error is overriden
+                if not result['error'].get(e.parse_error):
+                    result['error'][e.parse_error] = list()
+                result['error'][e.parse_error].append(file_path)
+
             except Exception as e:
-                self._logger.error('Failed to parse sheet ')
+                self._logger.error(f'Failed to parse sheet {e}')
 
         return result
 
@@ -248,6 +266,8 @@ def save_to_json_file(path, file_name, data):
         raise ValueError("Failed to write json file {0}".format(ex))
 
 
+# TODO - to run i.e. do: python3 parser_report.py --root <input_files>
+# TODO                   -t --investment_house <name> --test_file <test_output>
 if __name__ == '__main__':
     import argparse
 
@@ -265,7 +285,7 @@ if __name__ == '__main__':
     logger = Logger(logger_name="parser_report")
     DB_NAME = "parsed_reports"
 
-    # TODO initialize MongoDB connection
+    # TODO initialize MongoDB connection - no need to an adapter - just use pymongo
     # mongo = mongo_adapter.MongoAdapter(server_address=config.MONGO_SERVER_ADDRESS,
     #                                    server_port=27017,
     #                                    user=config.MONGO_SERVER_USERNAME,
