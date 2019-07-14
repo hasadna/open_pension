@@ -1,7 +1,7 @@
 import os
 import re
 import requests
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse, unquote
 
 from bs4 import BeautifulSoup
 
@@ -9,7 +9,7 @@ from source_interface import SourceInterface
 
 
 def get_filename_from_url(url):
-    return os.path.basename(urlparse(url).path)
+    return unquote(os.path.basename(urlparse(url).path))
 
 HEBREW = {
         "RIVON": b"\xd7\xa8\xd7\x91\xd7\xa2\xd7\x95\xd7\x9f".decode("utf-8"),
@@ -60,7 +60,7 @@ class TLVFetcher(SourceInterface):
 
 
 def main():
-    f = TLVFetcher("/tmp/infinity")
+    f = TLVFetcher("/tmp/tlv")
     f.get_quarterly(2018)
 
 if __name__ == "__main__":
