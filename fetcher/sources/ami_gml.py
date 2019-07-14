@@ -15,8 +15,7 @@ class AmiGmlSource(SourceInterface):
     """
     עמ"י - חברה לניהול קופות גמל ענפיות בע"מ
     """
-    def get_annual(self, year: int):
-        pass
+    PENSION_NAME = 'Ami Gemel'
 
     def get_quarterly(self, year: int):
         for quarter in range(1, 5):
@@ -40,7 +39,7 @@ class AmiGmlSource(SourceInterface):
 
         d = requests.get(base_url + '/' + href)
 
-        file_path = os.path.join(self.output_path, f'{year}-{quarter}.xls')
+        file_path = os.path.join(self._output_path, f'{year}-{quarter}.xls')
         with open(file_path, 'wb') as f:
             f.write(d.content)
             print(f'Saved file {href} to {file_path}')

@@ -15,8 +15,7 @@ class InfinityKHRSource(SourceInterface):
     """
     ק.ה.ר - קרן השתלמות לרוקחים בע"מ
     """
-    def get_annual(self, year: int):
-        pass
+    PENSION_NAME = 'KHR'
 
     def get_quarterly(self, year: int):
         for quarter in range(1, 5):
@@ -41,7 +40,7 @@ class InfinityKHRSource(SourceInterface):
 
         d = requests.get(href)
 
-        file_path = os.path.join(self.output_path, f'{year}-{quarter}.xls')
+        file_path = os.path.join(self._output_path, f'{year}-{quarter}.xls')
         with open(file_path, 'wb') as f:
             f.write(d.content)
             print(f'Saved file {href} to {file_path}')
