@@ -11,7 +11,7 @@ from source_interface import SourceInterface
 URL_PREFIX = b"\xd7\xa8\xd7\xa9\xd7\x99\xd7\x9e\xd7\xaa\x20\xd7\xa0\xd7\x9b\xd7\xa1\xd7\x99\xd7\x9d\x20\xd7\xa8\xd7\x91\xd7\xa2\xd7\x95\xd7\xa0\xd7\x99\xd7\xaa\x20\xd7\xa8\xd7\x91\xd7\xa2\xd7\x95\xd7\x9f".decode("utf-8")
 
 def get_filename_from_url(url):
-    return os.path.basename(urlsplit(url).path)
+    return os.path.basename(urlsplit(url).query)
 
 
 class IAIFetcher(SourceInterface):
@@ -41,7 +41,7 @@ class IAIFetcher(SourceInterface):
         for file_url in file_urls:
             self.logger.info(f"Downloading {file_url}")
             res = requests.get(file_url)
-            with open(os.path.join(year_base_dir, get_filename_from_url(res.url)), "wb") as f:
+            with open(os.path.join(year_base_dir, get_filename_from_url(file_url)), "wb") as f:
                 f.write(res.content)
 
 
