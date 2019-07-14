@@ -40,7 +40,7 @@ class KerenHishtalmutLeMishpatanim(SourceInterface):
             LOGGER.error(f"Failed finding report for {year}-{quarter} - failed to find href")
             return
 
-        self.download_href_to_file(urljoin(BASE_URL, href))
+        self.download_to_file(urljoin(BASE_URL, href))
 
 
 if __name__ == '__main__':

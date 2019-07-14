@@ -70,7 +70,7 @@ class SourceInterface(metaclass=ABCMeta):
     def get_quarterly(self, year: int):
         pass
 
-    def download_href_to_file(self, url):
+    def download_to_file(self, url):
         response = requests.get(url)
 
         basename = os.path.basename(urlsplit(url).path)
