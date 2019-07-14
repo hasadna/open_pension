@@ -1,7 +1,7 @@
 import os
 import re
 import urllib
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, unquote
 
 import requests
 
@@ -9,7 +9,7 @@ from source_interface import SourceInterface
 
 
 def get_filename_from_url(url):
-    return os.path.basename(urlsplit(url).path)
+    return unquote(os.path.basename(urlsplit(url).path))
 
 
 class AltshulerFetcher(SourceInterface):
@@ -34,8 +34,7 @@ class AltshulerFetcher(SourceInterface):
     def get_pension_types(self, menu_page):
         pension_types_urls = []
         for pension in menu_page.find_all('table')[0].find_all('a'):
-            pension_name = pension.text.strip()
-            pension_types_urls.append((pension_name, AltshulerFetcher.join_url(pension.get('href'))))
+            pension_types_urls.append(AltshulerFetcher.join_url(pension.get('href')))
         return pension_types_urls
 
     def get_assets_structure_url(self, pension_url):
@@ -51,28 +50,23 @@ class AltshulerFetcher(SourceInterface):
     def get_quarterly(self, year: int):
         root_menu_page = self.get_root_menu_page()
         pension_urls = self.get_pension_types(root_menu_page)
-        assets_by_pension = {}
-        for pension_name, pension_url in pension_urls:
-            assets_by_pension[pension_name] = self.get_assets_structure_url(SourceInterface.download_page(pension_url))
+        all_assets = []
+        for pension_url in pension_urls:
+            all_assets.extend(self.get_assets_structure_url(SourceInterface.download_page(pension_url)))
 
-        for pension_name, assets in assets_by_pension.items():
-            filtered_asset_urls = [asset for asset in assets if not year or str(year) in asset.text]
-            for asset in filtered_asset_urls:
-                file_url = self.join_url(asset.attrs['href'])
-                res = requests.get(file_url)
-                downloaded_file_name = get_filename_from_url(res.url)
-                file_name = f"{pension_name} - {asset.text}{os.path.splitext(downloaded_file_name)[1]}".replace('\"',
-                                                                                                                '')
-                with open(os.path.join(self._output_path, file_name), "wb") as f:
-                    f.write(res.content)
+        filtered_asset_urls = [asset for asset in all_assets if not year or str(year) in asset.text]
+        for asset in filtered_asset_urls:
+            file_url = self.join_url(asset.attrs['href'])
+            res = requests.get(file_url)
+            downloaded_file_name = get_filename_from_url(res.url)
+            with open(os.path.join(self._output_path, downloaded_file_name), "wb") as f:
+                f.write(res.content)
 
 
 def main():
-    f = AltshulerFetcher("c:\\temp\\Altshuler")
+    f = AltshulerFetcher("C:\\temp\\Pensions\\Altshuler Shaham")
     f.get_quarterly(2018)
 
 
 if __name__ == "__main__":
     main()
-
-

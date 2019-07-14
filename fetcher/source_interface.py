@@ -55,13 +55,22 @@ class SourceInterface(metaclass=ABCMeta):
         if not os.path.isfile(chrome_driver_path):
             raise SourceFetchError("Missing 'chromedriver.exe' (expected under %s)", chrome_driver_path)
 
-        return webdriver.Chrome(chrome_driver_path)
+        options = webdriver.ChromeOptions()
+        options.add_argument('--ignore-certificate-errors')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--profile-directory=Default')
+        options.add_argument("--incognito")
+        options.add_argument("--disable-plugins-discovery")
+
+        driver = webdriver.Chrome(chrome_driver_path, chrome_options=options)
+        driver.delete_all_cookies()
+        return driver
 
     @staticmethod
-    def download_page(url, parse=True):
+    def download_page(url, parse=True, **kwargs):
         LOGGER.debug("Downloading URL: %s", url)
 
-        top_url_page = requests.get(url)
+        top_url_page = requests.get(url, **kwargs)
         if HTTPStatus.OK != top_url_page.status_code:
             raise SourceFetchError("Error downloading top URL page: %s", url)
 
