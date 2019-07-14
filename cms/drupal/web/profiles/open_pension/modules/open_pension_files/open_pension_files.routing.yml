@@ -9,12 +9,12 @@ open_pension_files.upload:
 open_pension_files.send_file_to_process_controller_handle_file:
   path: '/admin/open_pension/process_file/{media}'
   defaults:
-    _controller: '\Drupal\open_pension_files\Controller\SendFileToProcessController::handle_file'
-    _title: 'handleFile'
+    _controller: '\Drupal\open_pension_files\Controller\SendFileToProcessController::sendFile'
+    _title: 'Send file'
   options:
     parameters:
       media:
         type: entity:media
   requirements:
-    _permission: 'access content'
+    _permission: 'manage file'
     media: \d+

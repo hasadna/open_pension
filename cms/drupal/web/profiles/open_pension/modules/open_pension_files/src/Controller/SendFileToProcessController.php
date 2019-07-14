@@ -7,7 +7,10 @@ use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\media\Entity\Media;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Drupal\Core\Ajax\AlertCommand;
@@ -22,13 +25,15 @@ class SendFileToProcessController extends ControllerBase
     /**
      * Drupal\open_pension_files\OpenPensionFilesProcessInterface definition.
      *
-     * @var \Drupal\open_pension_files\OpenPensionFilesProcessInterface
+     * @var OpenPensionFilesProcessInterface
      */
     protected $openPensionFilesFileProcess;
 
 
     /**
      * Constructs a new SendFileToProcessController object.
+     *
+     * @param OpenPensionFilesProcessInterface $open_pension_files_file_process
      */
     public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process) {
         $this->openPensionFilesFileProcess = $open_pension_files_file_process;
@@ -50,11 +55,10 @@ class SendFileToProcessController extends ControllerBase
      * @return AjaxResponse|void Array of markup.
      *    Array of markup.
      *
-     * @throws \Drupal\Core\Entity\EntityStorageException
-     * @throws \Drupal\Core\TypedData\Exception\MissingDataException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws MissingDataException
+     * @throws GuzzleException
      */
-    public function handle_file(Media $media) {
+    public function sendFile(Media $media) {
 
         if ($media->bundle() != 'open_pension_file') {
             // todo: log.

@@ -4,4 +4,4 @@ open_pension_logs.view:
     _controller: '\Drupal\open_pension_logs\Controller\OpenPensionLogsController::viewLogs'
     _title: 'View logs'
   requirements:
-    _permission: 'access content'
+    _permission: 'view logs'
