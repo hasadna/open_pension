@@ -4,6 +4,7 @@ namespace Drupal\open_pension_files;
 
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
 use GuzzleHttp\ClientInterface;
 
 /**
@@ -35,6 +36,11 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
     protected $trackingLogs = [];
 
     /**
+     * @var bool
+     */
+    protected $processed = FALSE;
+
+    /**
      * Constructs a new OpenPensionFilesFileProcess object.
      *
      * @param ClientInterface $http_client
@@ -62,7 +68,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setHttpClient(ClientInterface $httpClient) {
+    public function setHttpClient(ClientInterface $httpClient): OpenPensionFilesProcessInterface {
         $this->httpClient = $httpClient;
         return $this;
     }
@@ -79,7 +85,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setLogger(LoggerChannel $logger) {
+    public function setLogger(LoggerChannel $logger): OpenPensionFilesProcessInterface {
         $this->logger = $logger;
 
         return $this;
@@ -97,7 +103,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setFileStorage(\Drupal\Core\Entity\EntityStorageInterface $fileStorage) {
+    public function setFileStorage(\Drupal\Core\Entity\EntityStorageInterface $fileStorage): OpenPensionFilesProcessInterface {
         $this->fileStorage = $fileStorage;
 
         return $this;
@@ -115,7 +121,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setTrackingLogs(array $trackingLogs) {
+    public function setTrackingLogs(array $trackingLogs): OpenPensionFilesProcessInterface {
         $this->trackingLogs = $trackingLogs;
 
         return $this;
@@ -131,7 +137,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
      *
      * @return $this
      */
-    public function log(string $log, string $status = 'info') {
+    public function log(string $log, string $status = 'info'): OpenPensionFilesProcessInterface {
         $this->trackingLogs[] = $log;
         $this->logger->log($status, $log);
         return $this;
@@ -143,17 +149,18 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
      * @param $file_id
      *  The file ID.
      *
-     * @return bool
+     * @return self
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function processFile($file_id): bool {
+    public function processFile($file_id): OpenPensionFilesProcessInterface {
         /** @var File $file */
         $file = $this->fileStorage->load($file_id);
 
         if (!$file) {
             $this->log(t('Could not load a file with the ID @id', ['@id' => $file_id]));
-            return false;
+            $this->processed = FALSE;
+            return $this;
         }
 
         $this->log(t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
@@ -162,11 +169,33 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface
 
         if ($results->getStatusCode() == 200) {
             $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
-            return true;
+            $this->processed = TRUE;
+            return $this;
         }
 
         $this->log(t('The file @file-name was not able to process', ['@file-name' => $file->getFilename()]), 'error');
-        return false;
+        $this->processed = FALSE;
+        return $this;
+    }
+
+    /**
+     * Updating the media entity which holds the file refrence.
+     *
+     * @param Media $media
+     *  The file object.
+     *
+     * @throws \Drupal\Core\Entity\EntityStorageException
+     */
+    public function updateEntity(Media $media) {
+        $media->field_processed = $this->processed;
+
+        // Add the history to the file.
+        foreach ($this->getTrackingLogs() as $log) {
+            $media->field_history->appendItem($log);
+        }
+
+        // Saving file.
+        $media->save();
     }
 
 }

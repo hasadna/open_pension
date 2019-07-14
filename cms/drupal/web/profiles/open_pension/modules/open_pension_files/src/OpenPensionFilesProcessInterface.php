@@ -4,6 +4,7 @@ namespace Drupal\open_pension_files;
 
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
 use GuzzleHttp\ClientInterface;
 
 /**
@@ -17,18 +18,18 @@ interface OpenPensionFilesProcessInterface {
      * @param $file_id
      *  The file ID.
      *
-     * @return bool
+     * @return self
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function processFile($file_id): bool;
+    public function processFile($file_id): OpenPensionFilesProcessInterface;
 
     /**
      * @param ClientInterface $httpClient
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setHttpClient(ClientInterface $httpClient);
+    public function setHttpClient(ClientInterface $httpClient): OpenPensionFilesProcessInterface;
 
     /**
      * @return \Drupal\Core\Entity\EntityStorageInterface
@@ -52,21 +53,21 @@ interface OpenPensionFilesProcessInterface {
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setFileStorage(\Drupal\Core\Entity\EntityStorageInterface $fileStorage);
+    public function setFileStorage(\Drupal\Core\Entity\EntityStorageInterface $fileStorage): OpenPensionFilesProcessInterface;
 
     /**
      * @param string[] $trackingLogs
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setTrackingLogs(array $trackingLogs);
+    public function setTrackingLogs(array $trackingLogs): OpenPensionFilesProcessInterface;
 
     /**
      * @param LoggerChannel $logger
      *
      * @return OpenPensionFilesFileProcess
      */
-    public function setLogger(LoggerChannel $logger);
+    public function setLogger(LoggerChannel $logger): OpenPensionFilesProcessInterface;
 
     /**
      * @return LoggerChannel
@@ -82,4 +83,12 @@ interface OpenPensionFilesProcessInterface {
      * @return string[]
      */
     public function getTrackingLogs(): array;
+
+    /**
+     * Updating the media entity which holds the file refrence.
+     *
+     * @param Media $media
+     *  The file object.
+     */
+    public function updateEntity(Media $media);
 }

@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file open_pension_files.module
+ */
+
+/**
+ * Implements hook_cron().
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+ * @throws \GuzzleHttp\Exception\GuzzleException
+ */
+function open_pension_files_cron() {
+    /** @var  \Drupal\open_pension_files\OpenPensionFilesProcessInterface $processor */
+    $processor = \Drupal::getContainer()->get('open_pension_files.file_process');
+
+    // Get the files which not processed by the processor yet.
+    $results = \Drupal::entityQuery('media')
+        ->condition('bundle', 'open_pension_file')
+        ->condition('field_processed', FALSE)
+        ->execute();
+
+    /** @var \Drupal\media\Entity\Media[] $files */
+    $files = \Drupal::entityTypeManager()
+        ->getStorage('media')
+        ->loadMultiple(array_keys($results));
+
+    if (!$files) {
+        // todo: log.
+        return;
+    }
+
+    foreach ($files as $file) {
+
+        if (!$file_field = $file->get('field_media_file')->first()) {
+            // todo: log here.
+            continue;
+        }
+
+        $field_value = $file_field->getValue();
+        $processor->processFile($field_value['target_id'])->updateEntity($file);
+    }
+}

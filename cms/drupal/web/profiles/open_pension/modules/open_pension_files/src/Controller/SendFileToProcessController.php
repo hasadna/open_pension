@@ -69,15 +69,10 @@ class SendFileToProcessController extends ControllerBase
         $field_value = $file_field->getValue();
 
         // Update about the processing results.
-        $media->field_processed = $this->openPensionFilesFileProcess->processFile($field_value['target_id']);
-
-        // Add the history to the file.
-        foreach ($this->openPensionFilesFileProcess->getTrackingLogs() as $log) {
-            $media->field_history->appendItem($log);
-        }
-
-        // Saving file.
-        $media->save();
+        $this
+            ->openPensionFilesFileProcess
+            ->processFile($field_value['target_id'])
+            ->updateEntity($media);
 
         // Process the tests.
         $text = $media->field_processed ? t('Yes') : t('No');

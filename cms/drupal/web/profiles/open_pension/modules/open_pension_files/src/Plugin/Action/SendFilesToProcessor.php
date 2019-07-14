@@ -80,15 +80,10 @@ class SendFilesToProcessor extends ConfigurableActionBase implements ContainerFa
         $field_value = $file_field->getValue();
 
         // Update about the processing results.
-        $entity->field_processed = $this->openPensionFilesFileProcess->processFile($field_value['target_id']);
-
-        // Add the history to the file.
-        foreach ($this->openPensionFilesFileProcess->getTrackingLogs() as $log) {
-            $entity->field_history->appendItem($log);
-        }
-
-        // Saving file.
-        $entity->save();
+        $this
+            ->openPensionFilesFileProcess
+            ->processFile($field_value['target_id'])
+            ->updateEntity($entity);
     }
 
     /**
