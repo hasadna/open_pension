@@ -7,7 +7,6 @@ dependencies:
     - image.style.thumbnail
     - media.type.image
   module:
-    - file
     - image
     - path
 id: media.image.default
@@ -21,13 +20,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_media_file:
-    weight: 101
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
-    region: content
   field_media_image:
     settings:
       progress_indicator: throbber
@@ -59,4 +51,5 @@ content:
     region: content
     third_party_settings: {  }
 hidden:
+  field_media_file: true
   name: true
