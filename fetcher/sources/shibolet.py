@@ -53,12 +53,7 @@ class ShiboletParser(SourceInterface):
             if 'sal.pl' in file_url:
                 continue
             res = requests.get(file_url)
-            if 'gemel' in file_url:
-                filename = get_filename_from_url(file_url)
-            else:
-                quarter_name = file_href.string[len(self.SEARCH_STRING) + 1:].replace('.',
-                                                                                      '_')
-                filename = self.PENSION_NAME_FILE + "_" + quarter_name + '.xlsx'
+            filename = get_filename_from_url(file_url)
 
             with open(os.path.join(year_base_dir, filename), "wb") as f:
                 f.write(res.content)
