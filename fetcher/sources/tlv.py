@@ -18,6 +18,8 @@ HEBREW = {
 
 
 class TLVFetcher(SourceInterface):
+    PENSION_NAME = "tlv"
+
     FILE_LIST_URLS = [
             ("http://tag.tagmulimta.co.il/AssetsCompositionByQuarters.aspx", "{RIVON}.*{year}.*"),
             ("http://www.shhak.tagmulimta.co.il/AssetsCompositionByQuarters.aspx", "{RESHIMAT_NECHASIM}.*{year}"),
