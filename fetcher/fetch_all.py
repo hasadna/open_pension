@@ -35,20 +35,18 @@ class FetcherRunner:
 
         return fetcher_source_classes
 
-    def _ensure_output_path(self):
-        os.makedirs(self.output_path, exist_ok=True)
-
     def run_all_fetchers(self, year: Optional[int] = None):
-        self._ensure_output_path()
         fetcher_classes = self._load_all_fetchers()
         for fetcher_class in fetcher_classes:
-            fetcher = fetcher_class(output_path=self.output_path)
+            pansion_output_path = os.path.join(self.output_path, fetcher_class.PENSION_NAME)
+            os.makedirs(pansion_output_path, exist_ok=True)
+            fetcher = fetcher_class(output_path=pansion_output_path)
             self.logger.info(f"Fetching for {fetcher_class.__name__}")
             if year:
-                fetcher.get_annual(year)
+                fetcher.get_quarterly(year)
             else:
                 for year in range(*DEFAULT_YEARS_RANGE):
-                    fetcher.get_annual(year)
+                    fetcher.get_quarterly(year)
 
 
 def main():
