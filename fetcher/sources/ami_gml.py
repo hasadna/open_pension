@@ -4,7 +4,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-from Fetcher.source_interface import SourceInterface
+from fetcher.source_interface import SourceInterface
 
 base_url = "http://ami-gml.co.il"
 
@@ -18,17 +18,25 @@ class AmiGmlSource(SourceInterface):
     def get_annual(self, year: int):
         pass
 
-    def get_quarterly(self, year: int, quarter: int):
+    def get_quarterly(self, year: int):
+        for quarter in range(1, 5):
+            self.get_quarterly_by_quarter(year, quarter)
+
+    def get_quarterly_by_quarter(self, year: int, quarter: int):
         base_url_yearly = base_url + '/' + reports_relative_url.format(year=year)
         r = requests.get(base_url_yearly)
         parsed_html = BeautifulSoup(r.content)
 
-        items = parsed_html.find_all(href=re.compile(f'.*gsum_{quarter:02}{str(year)[-2:]}.*'))
+        items = parsed_html.find_all(href=re.compile(f'.*gsum_(p|0){quarter}{str(year)[-2:]}.*'))
         if not items:
             print(f"Failed finding report for {year}-{quarter}")
             return
 
-        href = items[0]['href']
+        item = items[0]
+        href = item.get('href')
+        if not href:
+            print(f"Failed finding report for {year}-{quarter}")
+            return
 
         d = requests.get(base_url + '/' + href)
 
@@ -40,4 +48,4 @@ class AmiGmlSource(SourceInterface):
 
 if __name__ == '__main__':
     save_path = '/tmp/reports'
-    AmiGmlSource(save_path).get_quarterly(2018, 1)
+    AmiGmlSource(save_path).get_quarterly(2018)

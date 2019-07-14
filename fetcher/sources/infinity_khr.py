@@ -2,7 +2,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-from Fetcher.source_interface import SourceInterface
+from fetcher.source_interface import SourceInterface
 
 base_url = "http://infinity.co.il/nihulkupot/Kahar/%D7%A7-%D7%94-%D7%A8-%D7%A0%D7%9B%D7%A1%D7%99-%D7%94%D7%A7%D7%95%D7%A4%D7%94-%D7%95%D7%AA%D7%A9%D7%95%D7%90%D7%95%D7%AA/%D7%A7-%D7%94-%D7%A8-%D7%A8%D7%A9%D7%99%D7%9E%D7%AA-%D7%A0%D7%9B%D7%A1%D7%99%D7%9D-%D7%A8%D7%91%D7%A2%D7%95%D7%A0%D7%99%D7%AA/"
 
@@ -18,7 +18,11 @@ class InfinityKHRSource(SourceInterface):
     def get_annual(self, year: int):
         pass
 
-    def get_quarterly(self, year: int, quarter: int):
+    def get_quarterly(self, year: int):
+        for quarter in range(1, 5):
+            self.get_quarterly_by_quarter(year, quarter)
+
+    def get_quarterly_by_quarter(self, year: int, quarter: int):
         r = requests.get(base_url)
         parsed_html = BeautifulSoup(r.content)
         report_text_by_year_month = report_text_template.format(base=report_text_base,
@@ -30,7 +34,10 @@ class InfinityKHRSource(SourceInterface):
             return
 
         p = items[0].parent
-        href = p['href']
+        href = p.get('href')
+        if not href:
+            print(f"Failed finding report for {year}-{quarter}")
+            return
 
         d = requests.get(href)
 
@@ -42,7 +49,7 @@ class InfinityKHRSource(SourceInterface):
 
 if __name__ == '__main__':
     save_path = '/tmp/reports'
-    InfinityKHRSource(save_path).get_quarterly(2017, 4)
+    InfinityKHRSource(save_path).get_quarterly(2017)
 
 
 
