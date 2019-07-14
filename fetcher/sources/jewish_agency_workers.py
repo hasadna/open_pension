@@ -53,7 +53,7 @@ class JewishAgencyWorkers(SourceInterface):
                 if not str(year) in re.findall('(19|20\\d{2})', tag.string):
                     continue
                 download_url = self.BASE_URL + href
-                output_folder = Path(self._output_path).joinpath(str(year)).joinpath('quarterly')
+                output_folder = Path(self._output_path).joinpath(str(year))
                 output_folder.mkdir(parents=True, exist_ok=True)
                 output_file = download_url.split('/')[-1]
                 download_url = parse_link(self.BASE_URL + href)
