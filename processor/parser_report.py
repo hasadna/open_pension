@@ -1,13 +1,9 @@
-import os
-import sys
 import json
-from collections import defaultdict
+import os
 from typing import Tuple
 
 import excel_adapter
-import mongo_adapter
 from logger import Logger
-import config
 
 
 class ExcelSheetParsingError(Exception):
@@ -55,6 +51,7 @@ class ExcelParser:
             try:
                 sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=file_path)
             except Exception as e:
+                self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
                 raise ExcelSheetParsingError(parse_errors=str(e), sheet_name=sheet_name)
             if not sheet_data:
                 self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
@@ -63,17 +60,24 @@ class ExcelParser:
             yield sheet_name, sheet_data
 
     def test_parse_file(self, file_path: str):
-        result = dict(successful=defaultdict(list), error=defaultdict(list))
+        result = dict(successful=dict(), error=dict())
         processed_sheets_generator = self.parse_file(file_path=file_path)
         while True:
             try:
                 sheet_name, processed_sheet = next(processed_sheets_generator)
-                result['successful'][sheet_name].append(processed_sheet)
+                if not result['successful'].get(file_path):
+                    result['successful'][file_path] = dict()
+                if not result['successful'][file_path].get(sheet_name):
+                    result['successful'][file_path][sheet_name] = processed_sheet
+                result['successful'][sheet_name] = (processed_sheet)
             except StopIteration:
                 break
             except ExcelSheetParsingError as e:
                 self._logger.error(f'Failed to parse sheet "{e.sheet_name}": {e.parse_error}')
-                result['error'][e.sheet_name].append(e.parse_error)
+                if not result['error'].get(e.parse_error):
+                    result['error'][e.parse_error] = dict()
+                result['error'][e.parse_error]['sheet_name'] = e.sheet_name
+                result['error'][e.parse_error]['file_name'] = file_path
             except Exception as e:
                 self._logger.error('Failed to parse sheet ')
 
@@ -251,9 +255,11 @@ if __name__ == '__main__':
     parser.add_argument('--root', type=str, help='The excels root paths')
     parser.add_argument('--investment_house', type=str, help='the related investment house')
     parser.add_argument('--test', '-t', action='store_true')
+    parser.add_argument('--test_file', type=str)
     args = parser.parse_args()
     root_path = args.root
     test_parsing = args.test
+    test_file = args.test_file
     investment_house = args.investment_house
 
     logger = Logger(logger_name="parser_report")
@@ -283,7 +289,9 @@ if __name__ == '__main__':
             logger.info(msg=f'Start working on {file_path} investment house: {investment_house}')
 
             if test_parsing:
-                excel_parser.test_parse_file(file_path=file_path)
+                result = excel_parser.test_parse_file(file_path=file_path)
+                with open(test_file, 'w+') as test_result:
+                    test_result.write(json.dumps(result, indent=4))
             else:
                 for sheet_name, sheet_data in excel_parser.parse_file(file_path=file_path):
                     for data in sheet_data:
