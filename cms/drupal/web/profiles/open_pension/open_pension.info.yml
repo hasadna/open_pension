@@ -47,7 +47,7 @@ install:
   - entity_browser
   - entity_browser_entity_form
   - media_entity_browser
-  - grpahql
+  - graphql
   - graphql_core
   - features_ui
 

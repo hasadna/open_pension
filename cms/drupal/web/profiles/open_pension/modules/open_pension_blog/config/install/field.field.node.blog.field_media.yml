@@ -6,6 +6,7 @@ dependencies:
     - media.type.audio
     - media.type.file
     - media.type.image
+    - media.type.open_pension_file
     - media.type.remote_video
     - media.type.video
     - node.type.blog
@@ -26,6 +27,7 @@ settings:
       audio: audio
       file: file
       image: image
+      open_pension_file: open_pension_file
       remote_video: remote_video
       video: video
     sort:
