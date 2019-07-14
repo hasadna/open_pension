@@ -7,11 +7,7 @@ from urllib.parse import urlsplit
 
 from bs4 import BeautifulSoup
 
-from source_interface import SourceInterface
-
-
-def get_filename_from_url(url):
-    return os.path.basename(urlsplit(url).path)
+from source_interface import SourceInterface, get_filename_from_url
 
 
 class ShiboletParser(SourceInterface):
