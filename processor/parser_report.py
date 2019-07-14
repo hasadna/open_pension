@@ -68,10 +68,11 @@ class ExcelParser:
         while True:
             try:
                 sheet_name, processed_sheet = next(processed_sheets_generator)
-                result['successful'][sheet_name].append(sheet_data)
+                result['successful'][sheet_name].append(processed_sheet)
             except StopIteration:
                 break
             except ExcelSheetParsingError as e:
+                self._logger.error(f'Failed to parse sheet "{e.sheet_name}": {e.parse_error}')
                 result['error'][e.sheet_name].append(e.parse_error)
             except Exception as e:
                 self._logger.error('Failed to parse sheet ')
@@ -244,57 +245,56 @@ def save_to_json_file(path, file_name, data):
 
 
 if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--root', type=str, help='The excels root paths')
+    parser.add_argument('--investment_house', type=str, help='the related investment house')
+    parser.add_argument('--test', '-t', action='store_true')
+    args = parser.parse_args()
+    root_path = args.root
+    test_parsing = args.test
+    investment_house = args.investment_house
+
     logger = Logger(logger_name="parser_report")
-    DB_NAME = "2018Q1"
-    mongo = mongo_adapter.MongoAdapter(server_address = config.MONGO_SERVER_ADDRESS,
-                                       server_port = config.MONGO_SERVER_PORT,
-                                       user = config.MONGO_SERVER_USERNAME,
-                                       password = config.MONGO_SERVER_PASSWORD,
-                                       logger=logger)
-    if not mongo.is_connection:
-        logger.error("Failed to connect mongodb server")
-        sys.exit(1)
+    DB_NAME = "parsed_reports"
 
-    if not mongo.is_db(db_name=DB_NAME):
-        logger.error("db not exist in mongodb server")
-        sys.exit(1)
+    # TODO initialize MongoDB connection
+    # mongo = mongo_adapter.MongoAdapter(server_address=config.MONGO_SERVER_ADDRESS,
+    #                                    server_port=27017,
+    #                                    user=config.MONGO_SERVER_USERNAME,
+    #                                    password=config.MONGO_SERVER_PASSWORD,
+    #                                    logger=logger)
+    # if not mongo.is_connection:
+    #     logger.error("Failed to connect mongodb server")
+    #     sys.exit(1)
+    #
+    # if not mongo.is_db(db_name=DB_NAME):
+    #     logger.error("db not exist in mongodb server")
+    #     sys.exit(1)
 
-    process_xl = ExcelParser(logger=logger)
+    excel_parser = ExcelParser(logger=logger)
 
-    for root, dirs, files in os.walk("/home/user/Documents/2018Q1-2", followlinks=False):
+    for root, dirs, files in os.walk(root_path, followlinks=False):
         for file in files:
             file_path = os.path.join(root, file)
 
-            investment_house = os.path.basename(root)
             logger.add_extra(info=investment_house)
-            logger.info(msg="Start working on {0} investment house: {1}".format(file_path, investment_house))
-            for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
-                if not sheet_data:
-                    logger.warn("Not got data from sheet")
-                    continue
+            logger.info(msg=f'Start working on {file_path} investment house: {investment_house}')
 
-                c = 0
-                for data in sheet_data:
-                    if 'מספר ני"ע' in data and not data['מספר ני"ע']:
-                        c += 1
-                        continue
-                    if not mongo.insert_document(db_name=DB_NAME,
-                                                 collection_name=investment_house,
-                                                 data=data):
-                        print("Failed to insert document to mongodb")
-                # if c > 5:
-                #     logger.warn(msg="number of empty stock number is bigger than 5 - "
-                #                     "{0} - sheet name: {1}".format(c, sheet_name))
+            if test_parsing:
+                excel_parser.test_parse_file(file_path=file_path)
+            else:
+                for sheet_name, sheet_data in excel_parser.parse_file(file_path=file_path):
+                    for data in sheet_data:
+                        if 'מספר ני"ע' in data and not data['מספר ני"ע']:
+                            continue
+                        # TODO aggregate insert operations for later bulk insert
+                        # if not mongo.insert_document(db_name=DB_NAME,
+                        #                              collection_name=investment_house,
+                        #                              data=data):
+                        #     print("Failed to insert document to mongodb")
 
-            logger.info("Done with {0}".format(file))
+            # TODO bulk insert into MongoDB
 
-    """  
-        
-    for sheet_data in process_xl.parse_file(file_path="test.xlsx"):
-        # print(sheet_data)
-        # try:
-        # save_to_json_file(path="/tmp", file_name=sheet_data["metadata"]['אפיק השקעה'], data=sheet_data)
-        mongo.insert_document(db_name="reports_raw2", collection_name=sheet_data["metadata"]['אפיק השקעה'], data=sheet_data)
-        # except Exception as ex:
-        #     logger.error("{0} - Failed to write json file {1}".format(sheet_data["metadata"]['אפיק השקעה'], ex))
-"""
+            logger.info(f'Done with {file}')
