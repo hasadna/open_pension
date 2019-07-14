@@ -40,5 +40,11 @@ services:
     depends_on:
       - database
 
+  processor:
+    build: ./processor
+    command: /bin/sh entrypoint.sh
+    volumes:
+    - ./logs/processor:/home/app/processor/logs
+
   cms:
     build: ./cms
