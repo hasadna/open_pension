@@ -1,12 +1,11 @@
-from fetcher.logger import get_logger
-from fetcher.source_interface import SourceInterface
-
-LOGGER = get_logger()
+from source_interface import SourceInterface
 
 
 class ExampleSource(SourceInterface):
+    PENSION_NAME = 'Example Pension'
+
     def get_annual(self, year: int):
-        LOGGER.info("Getting annually")
+        self.logger.info(f"Getting annually for {year}")
 
     def get_quarterly(self, year: int):
-        LOGGER.info("Getting quarterly")
+        self.logger.info(f"Getting quarterly for {year}")

@@ -5,6 +5,8 @@ from http import HTTPStatus
 
 from abc import ABCMeta, abstractmethod
 
+from logger import get_logger
+
 
 class SourceFetchError(Exception):
     def __init__(self, msg, *args):
@@ -12,8 +14,11 @@ class SourceFetchError(Exception):
 
 
 class SourceInterface(metaclass=ABCMeta):
+    PENSION_NAME = None
+
     def __init__(self, output_path: str):
-        self.output_path = output_path
+        self._output_path = output_path
+        self.logger = get_logger()
 
     @staticmethod
     def download_page(url, parse=True):

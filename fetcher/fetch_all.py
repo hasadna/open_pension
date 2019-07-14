@@ -2,16 +2,16 @@ import argparse
 import glob
 import importlib
 import inspect
-from typing import List, Type
+from typing import List, Type, Optional
 
-from fetcher import sources
+import sources
 import os
 
-from fetcher.logger import init_logger, get_logger
-from fetcher.source_interface import SourceInterface
+from logger import init_logger, get_logger
+from source_interface import SourceInterface
 
 IGNORE_MODULE_FILES = ["__init__.py"]
-SOURCES_PACKAGE = 'fetcher.sources'
+SOURCES_PACKAGE = 'sources'
 DEFAULT_YEARS_RANGE = (2000, 2018)
 
 
@@ -35,22 +35,26 @@ class FetcherRunner:
 
         return fetcher_source_classes
 
-    def run_all_fetchers(self):
+    def run_all_fetchers(self, year: Optional[int] = None):
         fetcher_classes = self.load_all_fetchers()
         for fetcher_class in fetcher_classes:
             fetcher = fetcher_class(output_path=self.output_path)
             self.logger.info(f"Fetching for {fetcher_class.__name__}")
-            for year in range(*DEFAULT_YEARS_RANGE):
+            if year:
                 fetcher.get_annual(year)
+            else:
+                for year in range(*DEFAULT_YEARS_RANGE):
+                    fetcher.get_annual(year)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-o', '--output_dir', dest='output_dir', help='Fetched XMLs output path', type=str)
+    parser.add_argument('--year', dest='year', help='Specific year', type=int, default=None)
     args = parser.parse_args()
 
     init_logger()
-    FetcherRunner(output_path=args.output_dir).run_all_fetchers()
+    FetcherRunner(output_path=args.output_dir).run_all_fetchers(year=args.year)
 
 
 if __name__ == '__main__':
