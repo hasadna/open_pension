@@ -7,6 +7,8 @@ from abc import ABCMeta, abstractmethod
 
 from logger import get_logger
 
+LOGGER = get_logger()
+
 
 class SourceFetchError(Exception):
     def __init__(self, msg, *args):
@@ -22,6 +24,8 @@ class SourceInterface(metaclass=ABCMeta):
 
     @staticmethod
     def download_page(url, parse=True):
+        LOGGER.debug("Downloading URL: %s", url)
+
         top_url_page = requests.get(url)
         if HTTPStatus.OK != top_url_page.status_code:
             raise SourceFetchError("Error downloading top URL page: %s", url)
