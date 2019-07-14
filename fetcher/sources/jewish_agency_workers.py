@@ -1,9 +1,8 @@
-import os
 import re
 import urllib.request
 
 from urllib import parse
-from urllib.parse import urlsplit, urljoin
+from urllib.parse import urljoin
 from pathlib import Path
 
 from logger import get_logger
@@ -14,10 +13,6 @@ from source_interface import SourceInterface
 LOGGER = get_logger()
 
 
-def get_filename_from_url(url):
-    return os.path.basename(urlsplit(url).path)
-
-
 def parse_link(link):
     scheme, netloc, path, query, fragment = parse.urlsplit(link)
     path = parse.quote(path)
@@ -25,15 +20,15 @@ def parse_link(link):
 
 
 def file_is_relevant(href):
-        if not href:
-            return False
-        file = href.split('/')[-1]
-        if '?' in file:
-            return False
-        file_extention = file.split('.')[-1]
-        if file_extention not in ('xls', 'xlsx'):
-            return False
-        return True
+    if not href:
+        return False
+    file = href.split('/')[-1]
+    if '?' in file:
+        return False
+    file_extention = file.split('.')[-1]
+    if file_extention not in ('xls', 'xlsx'):
+        return False
+    return True
 
 
 class JewishAgencyWorkers(SourceInterface):
@@ -50,10 +45,10 @@ class JewishAgencyWorkers(SourceInterface):
         for tag in self._base_page.findAll("a"):
             href = tag.attrs.get("href")
             if file_is_relevant(href):
-                if not str(year) in re.findall('(19|20\\d{2})', tag.string):
+                if not str(year) in re.findall(r'(19|20\d{2})', tag.string):
                     continue
                 download_url = self.BASE_URL + href
-                output_folder = Path(self._output_path).joinpath(str(year)).joinpath('quarterly')
+                output_folder = Path(self._output_path).joinpath(str(year))
                 output_folder.mkdir(parents=True, exist_ok=True)
                 output_file = download_url.split('/')[-1]
                 download_url = parse_link(self.BASE_URL + href)
