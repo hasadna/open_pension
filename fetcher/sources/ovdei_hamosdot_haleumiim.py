@@ -43,9 +43,6 @@ class OvdeiHamosdotHaleumiim(SourceInterface):
 
         return sorted(reports)
 
-    def get_annual(self, year: int):
-        LOGGER.info("Ovder Hamosdot Haleumiim don't support annual")
-
     def get_quarterly(self, year: int):
         root_menu_page = self.get_root_menu_page()
         menu_page = SourceInterface.download_page(root_menu_page.a.get('href'))
@@ -59,7 +56,7 @@ class OvdeiHamosdotHaleumiim(SourceInterface):
                 fname = "report_%d_%d.%s" % (year, index, ext)
                 LOGGER.info("Downloading quarterly report '%s': %s", title, fname)
 
-                with open(os.path.join(self.output_path, fname), "wb") as fp:
+                with open(os.path.join(self._output_path, fname), "wb") as fp:
                     fp.write(self.download_page(url, parse=False))
 
                 index += 1
