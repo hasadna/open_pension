@@ -13,10 +13,13 @@ def get_filename_from_url(url):
 
 
 class InfinityFetcher(SourceInterface):
+    PENSION_NAME = 'Infinity'
+
     BASE_URL = "http://infinity.co.il/%D7%A7%D7%95%D7%A4%D7%95%D7%AA-%D7%92%D7%9E%D7%9C/%D7%90%D7%99%D7%A0%D7%A4%D7%99%D7%A0%D7%99%D7%98%D7%99-%D7%A0%D7%99%D7%94%D7%95%D7%9C-%D7%94%D7%A9%D7%AA%D7%9C%D7%9E%D7%95%D7%AA-%D7%95%D7%92%D7%9E%D7%9C-%D7%94%D7%97%D7%91%D7%A8%D7%94-%D7%94%D7%9E%D7%A0%D7%94%D7%9C%D7%AA/%D7%90%D7%99%D7%A0%D7%A4%D7%99%D7%A0%D7%99%D7%98%D7%99-%D7%A0%D7%99%D7%94%D7%95%D7%9C-%D7%94%D7%A9%D7%AA%D7%9C%D7%9E%D7%95%D7%AA-%D7%95%D7%92%D7%9E%D7%9C-%D7%9E%D7%99%D7%93%D7%A2-%D7%9B%D7%9C%D7%9C%D7%99-%D7%95%D7%93%D7%95%D7%97%D7%95%D7%AA/%D7%A8%D7%A9%D7%99%D7%9E%D7%AA-%D7%A0%D7%9B%D7%A1%D7%99%D7%9D-3/"
+
     def __init__(self, output_path: str):
+        super().__init__(output_path)
         self._base_page = None
-        self._output_path = output_path
 
     def get_year_url(self, year):
         if self._base_page is None:
