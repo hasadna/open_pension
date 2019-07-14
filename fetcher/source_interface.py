@@ -1,15 +1,19 @@
-
 import os
 import sys
+from abc import ABCMeta, abstractmethod
+from http import HTTPStatus
+from urllib.parse import urlsplit
+
 import requests
 from bs4 import BeautifulSoup
-from http import HTTPStatus
-
-from abc import ABCMeta, abstractmethod
 
 from logger import get_logger
 
 LOGGER = get_logger()
+
+
+def get_filename_from_url(url):
+    return os.path.basename(urlsplit(url).path)
 
 
 class SourceFetchError(Exception):
@@ -62,9 +66,23 @@ class SourceInterface(metaclass=ABCMeta):
             raise SourceFetchError("Error downloading top URL page: %s", url)
 
         if parse:
-            return BeautifulSoup(top_url_page.content, 'html.parser')
+            charset_location = top_url_page.headers['Content-Type'].find('charset=')
+            if charset_location != 1:
+                charset = top_url_page.headers['Content-Type'][charset_location + len('charset='):]
+            else:
+                charset = 'utf-8'
+            return BeautifulSoup(top_url_page.content, 'html.parser', from_encoding=charset)
         return top_url_page.content
 
     @abstractmethod
     def get_quarterly(self, year: int):
         pass
+
+    def download_to_file(self, url):
+        response = requests.get(url)
+
+        basename = os.path.basename(urlsplit(url).path)
+        file_path = os.path.join(self._output_path, basename)
+        with open(file_path, 'wb') as f:
+            f.write(response.content)
+            LOGGER.info(f'Saved file {url} to {file_path}')
