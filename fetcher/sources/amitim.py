@@ -27,7 +27,7 @@ class AmitimKagam(AmitimPension):
     def get_quarterly(self, year: int):
         root_menu_page = self.get_root_page_url()
         for url in root_menu_page.find_all('a'):
-            print(url)
+            self.logger.info(url)
 
 
 if __name__ == '__main__':

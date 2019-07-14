@@ -39,7 +39,7 @@ class IAIFetcher(SourceInterface):
             os.mkdir(year_base_dir)
 
         for file_url in file_urls:
-            print("Downloading ", file_url)
+            self.logger.info(f"Downloading {file_url}")
             res = requests.get(file_url)
             with open(os.path.join(year_base_dir, get_filename_from_url(file_url)), "wb") as f:
                 f.write(res.content)

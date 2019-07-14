@@ -42,7 +42,7 @@ class InfinityKHRSource(SourceInterface):
             LOGGER.error(f"Failed finding report for {year}-{quarter} - failed to find href")
             return
 
-        self.download_to_file(href)
+        self._download_to_file(href)
 
 
 if __name__ == '__main__':

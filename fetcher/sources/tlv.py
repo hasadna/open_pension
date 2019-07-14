@@ -55,7 +55,7 @@ class TLVFetcher(SourceInterface):
         for file_url in file_urls:
             res = requests.get(file_url)
             with open(os.path.join(year_base_dir, get_filename_from_url(res.url)), "wb") as f:
-                print("Downloading: ", file_url)
+                self.logger.info(f"Downloading: {file_url}")
                 f.write(res.content)
 
 
