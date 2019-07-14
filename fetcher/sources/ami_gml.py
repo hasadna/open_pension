@@ -4,7 +4,10 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+from logger import get_logger, init_logger
 from source_interface import SourceInterface
+
+LOGGER = get_logger()
 
 base_url = "http://ami-gml.co.il"
 
@@ -24,17 +27,18 @@ class AmiGmlSource(SourceInterface):
     def get_quarterly_by_quarter(self, year: int, quarter: int):
         base_url_yearly = base_url + '/' + reports_relative_url.format(year=year)
         r = requests.get(base_url_yearly)
-        parsed_html = BeautifulSoup(r.content)
+        parsed_html = BeautifulSoup(r.content, "html.parser")
 
-        items = parsed_html.find_all(href=re.compile(f'.*gsum_(p|0){quarter}{str(year)[-2:]}.*'))
+        # it's either p118 or 0118, cause they suck.
+        items = parsed_html.find_all(href=re.compile(f'.*gsum_[p0]{quarter}{str(year)[-2:]}.*'))
         if not items:
-            print(f"Failed finding report for {year}-{quarter}")
+            LOGGER.error(f"Failed finding report for {year}-{quarter} - could not find item")
             return
 
         item = items[0]
         href = item.get('href')
         if not href:
-            print(f"Failed finding report for {year}-{quarter}")
+            LOGGER.error(f"Failed finding report for {year}-{quarter} - could not find href")
             return
 
         d = requests.get(base_url + '/' + href)
@@ -42,9 +46,10 @@ class AmiGmlSource(SourceInterface):
         file_path = os.path.join(self._output_path, f'{year}-{quarter}.xls')
         with open(file_path, 'wb') as f:
             f.write(d.content)
-            print(f'Saved file {href} to {file_path}')
+            LOGGER.info(f'Saved file {href} to {file_path}')
 
 
 if __name__ == '__main__':
     save_path = '/tmp/reports'
+    init_logger()
     AmiGmlSource(save_path).get_quarterly(2018)
