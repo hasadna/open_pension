@@ -1,16 +1,15 @@
-import os
+from urllib.parse import urljoin
 
-import requests
 from bs4 import BeautifulSoup
 
 from logger import init_logger, get_logger
 from source_interface import SourceInterface
 
-
 LOGGER = get_logger()
 
 
-base_url = 'http://www.keren-shoftim.org.il'
+BASE_URL = 'http://www.keren-shoftim.org.il'
+REPORTS_URL = 'GemelWeb/Templates/DownloadForms.aspx?menuItem=701&subMenuItem=1712'
 
 
 class KerenHishtalmutLeShoftim(SourceInterface):
@@ -20,16 +19,14 @@ class KerenHishtalmutLeShoftim(SourceInterface):
     PENSION_NAME = 'Keren Hishtalmut LeShoftim'
 
     def get_quarterly(self, year: int):
+        reports_page = self.download_page(urljoin(BASE_URL, REPORTS_URL))
         for quarter in range(1, 5):
-            self.get_quarterly_by_quarter(year, quarter)
+            self._download_quarterly_report(year, quarter, reports_page)
 
-    def get_quarterly_by_quarter(self, year: int, quarter: int):
-        r = requests.get(f"{base_url}/GemelWeb/Templates/DownloadForms.aspx?menuItem=701&subMenuItem=1712")
-        parsed_html = BeautifulSoup(r.content, "html.parser")
-
+    def _download_quarterly_report(self, year: int, quarter: int, reports_page: BeautifulSoup) -> None:
         month = 3*quarter
         text_to_search = f'רשימת נכסים {month:02}.{year}'
-        items = parsed_html.find_all(text=text_to_search)
+        items = reports_page.find_all(text=text_to_search)
         if not items:
             LOGGER.error(f"Failed finding report for {year}-{quarter} - find to find item")
             return
@@ -41,12 +38,7 @@ class KerenHishtalmutLeShoftim(SourceInterface):
             LOGGER.error(f"Failed finding report for {year}-{quarter} - failed to find href")
             return
 
-        d = requests.get(base_url + '/' + href)
-
-        file_path = os.path.join(self._output_path, f'{year}-{quarter}.xls')
-        with open(file_path, 'wb') as f:
-            f.write(d.content)
-            LOGGER.info(f'Saved file {href} to {file_path}')
+        self.download_href_to_file(urljoin(BASE_URL, href))
 
 
 if __name__ == '__main__':
