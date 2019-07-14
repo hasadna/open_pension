@@ -28,8 +28,7 @@ class TLVFetcher(SourceInterface):
         self._base_page = None
         self._output_path = output_path
 
-    def get_annual(self, year: int):
-        pass
+        super().__init__(output_path)
 
     def get_quarterly(self, year: int):
         file_urls = []

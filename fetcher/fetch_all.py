@@ -8,7 +8,7 @@ import sources
 import os
 
 from logger import init_logger, get_logger
-from source_interface import SourceInterface
+from source_interface import SourceInterface, IGNORE_SOURCE_ATTR
 
 IGNORE_MODULE_FILES = ["__init__.py"]
 SOURCES_PACKAGE = 'sources'
@@ -31,6 +31,9 @@ class FetcherRunner:
             module = importlib.import_module(f'{SOURCES_PACKAGE}.{module_name}')
             for name, obj in inspect.getmembers(module):
                 if inspect.isclass(obj) and issubclass(obj, SourceInterface) and obj != SourceInterface:
+                    if getattr(obj, IGNORE_SOURCE_ATTR, False):
+                        continue
+
                     fetcher_source_classes.append(obj)
 
         return fetcher_source_classes
