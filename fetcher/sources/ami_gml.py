@@ -4,7 +4,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-from fetcher.source_interface import SourceInterface
+from source_interface import SourceInterface
 
 base_url = "http://ami-gml.co.il"
 
