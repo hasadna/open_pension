@@ -27,4 +27,4 @@ composer install
   --no-interaction
 
 # Install modules which cannot be installed as dependencies of the profile.
-./vendor/bin/drush en open_pension_blog open_pension_files
+./vendor/bin/drush en open_pension_blog open_pension_files open_pension_logs

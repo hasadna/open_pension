@@ -33,7 +33,7 @@ class OpenPensionCoreAdminIndex extends ControllerBase
             [
                 'title' => t('Watch logs'),
                 'description' => t('Watch logs from Kafka'),
-                'url' => Url::fromRoute('open_pension_files.upload'),
+                'url' => Url::fromRoute('open_pension_logs.view'),
             ],
         ];
 

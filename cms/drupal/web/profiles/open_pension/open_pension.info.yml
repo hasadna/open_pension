@@ -50,11 +50,13 @@ install:
   - graphql
   - graphql_core
   - features_ui
+  - vuejs
 
   # Profile custom modules.
   - open_pension_core
 #  - open_pension_files
 #  - open_pension_blog
+#  - open_pension_logs
 themes:
   - bartik
   - seven

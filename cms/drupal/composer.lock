@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f34d41594568e523e506cd481e4fad2",
+    "content-hash": "5c756545c4a5494616f23ec8f2cbe17d",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3167,6 +3167,61 @@
             "homepage": "https://www.drupal.org/project/media_entity_browser",
             "support": {
                 "source": "https://git.drupalcode.org/project/media_entity_browser"
+            }
+        },
+        {
+            "name": "drupal/vuejs",
+            "version": "1.0.0-rc2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/vuejs.git",
+                "reference": "8.x-1.0-rc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/vuejs-8.x-1.0-rc2.zip",
+                "reference": "8.x-1.0-rc2",
+                "shasum": "62f72d0119623fd6ddc1d02dcb6d183eee8cde23"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-rc2",
+                    "datestamp": "1547227084",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Chi",
+                    "homepage": "https://www.drupal.org/user/556138"
+                },
+                {
+                    "name": "adubovskoy",
+                    "homepage": "https://www.drupal.org/user/168427"
+                },
+                {
+                    "name": "hgoto",
+                    "homepage": "https://www.drupal.org/user/2844385"
+                }
+            ],
+            "description": "Provides a bridge between Drupal and Vue.js framework.",
+            "homepage": "https://www.drupal.org/project/vuejs",
+            "support": {
+                "source": "https://git.drupalcode.org/project/vuejs"
             }
         },
         {
@@ -9083,7 +9138,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/graphql": 5
+        "drupal/graphql": 5,
+        "drupal/vuejs": 5
     },
     "prefer-stable": true,
     "prefer-lowest": false,
