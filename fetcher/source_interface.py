@@ -30,5 +30,5 @@ class SourceInterface(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get_quarterly(self, year: int, quarter: int):
+    def get_quarterly(self, year: int):
         pass
