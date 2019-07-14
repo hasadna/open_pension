@@ -7,7 +7,7 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
 revealing the secrets behind the Israeli pension market.
 
 ### Project structure
-![diagram](assets/diagram.png)
+![diagram-improved](assets/diagram-new.png)
 
 We use docker, with docker compose, to manage all the services we use. There are
 three main services that help us to get the data properly:
