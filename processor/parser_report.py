@@ -1,10 +1,20 @@
 import os
 import sys
 import json
+from collections import defaultdict
+from typing import Tuple
+
 import excel_adapter
 import mongo_adapter
 from logger import Logger
 import config
+
+
+class ExcelSheetParsingError(Exception):
+    def __init__(self, *args, **kwargs):
+        super(ExcelSheetParsingError, self).__init__()
+        self.parse_error = kwargs['parse_errors']
+        self.sheet_name = kwargs['sheet_name']
 
 
 class ExcelParser:
@@ -18,7 +28,7 @@ class ExcelParser:
         self._logger = logger
         self._is_israel = None
 
-    def parse_file(self, file_path):
+    def parse_file(self, file_path) -> Tuple[str, dict]:
         """
         Get pension report excel file and parse data by sheet
         Move over all excel data sheet and parse
@@ -42,13 +52,31 @@ class ExcelParser:
                 # :todo: need parse this sheet ?
                 continue
             # Parse sheet
-            sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=file_path)
+            try:
+                sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=file_path)
+            except Exception as e:
+                raise ExcelSheetParsingError(parse_errors=str(e), sheet_name=sheet_name)
             if not sheet_data:
-                self._logger.warn("Not got data from this sheet. maybe is empty.. {0} {1}".format(sheet_name,
-                                                                                                  file_path))
+                self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
                 continue
 
             yield sheet_name, sheet_data
+
+    def test_parse_file(self, file_path: str):
+        result = dict(successful=defaultdict(list), error=defaultdict(list))
+        processed_sheets_generator = self.parse_file(file_path=file_path)
+        while True:
+            try:
+                sheet_name, processed_sheet = next(processed_sheets_generator)
+                result['successful'][sheet_name].append(sheet_data)
+            except StopIteration:
+                break
+            except ExcelSheetParsingError as e:
+                result['error'][e.sheet_name].append(e.parse_error)
+            except Exception as e:
+                self._logger.error('Failed to parse sheet ')
+
+        return result
 
     def _parse_sheet(self, sheet_name, orig_file="", start_row=0, start_column=2):
         """
@@ -238,8 +266,6 @@ if __name__ == '__main__':
             file_path = os.path.join(root, file)
 
             investment_house = os.path.basename(root)
-            # if investment_house == "menora": # todo: for testing TO DELETE!
-            #     continue
             logger.add_extra(info=investment_house)
             logger.info(msg="Start working on {0} investment house: {1}".format(file_path, investment_house))
             for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
