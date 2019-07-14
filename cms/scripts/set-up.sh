@@ -12,7 +12,7 @@ apt-get update
 apt-get install git-core --assume-yes
 
 # Go Drupal directory and install the dependacies.
-cd drupal
+cd ../drupal
 
 composer install
 
