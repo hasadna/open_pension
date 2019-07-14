@@ -36,6 +36,8 @@ class ShiboletParser(SourceInterface):
     }
 
     def get_quarterly(self, year: int):
+        if year not in self.urls:
+            raise ValueError("No support")
         url = self.urls[year]
 
         page = BeautifulSoup(requests.get(url).text, "html.parser")
