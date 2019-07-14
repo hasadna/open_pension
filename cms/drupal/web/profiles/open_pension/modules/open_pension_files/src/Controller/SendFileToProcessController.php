@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\media\Entity\Media;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Drupal\Core\Ajax\AlertCommand;
@@ -61,12 +62,14 @@ class SendFileToProcessController extends ControllerBase
     public function sendFile(Media $media) {
 
         if ($media->bundle() != 'open_pension_file') {
-            // todo: log.
+            $text = t('The media @id is not a valid open pension file', ['@id' => $media->id()]);
+            $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
             return;
         }
 
         if (!$file_field = $media->get('field_media_file')->first()) {
-            // todo: log here.
+            $text = t('The media @id has no file which can be process.', ['@id' => $media->id()]);
+            $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
             return;
         }
 

@@ -8,6 +8,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\media\Entity\Media;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
+use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -68,12 +69,14 @@ class SendFilesToProcessor extends ConfigurableActionBase implements ContainerFa
      */
     public function execute(Media $entity = NULL) {
         if ($entity->bundle() != 'open_pension_file') {
-            // todo: log.
+            $text = t('The media @id is not a valid open pension file', ['@id' => $entity->id()]);
+            $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
             return;
         }
 
         if (!$file_field = $entity->get('field_media_file')->first()) {
-            // todo: log here.
+            $text = t('The media @id has no file which can be process.', ['@id' => $entity->id()]);
+            $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
             return;
         }
 
@@ -96,16 +99,13 @@ class SendFilesToProcessor extends ConfigurableActionBase implements ContainerFa
     /**
      * {@inheritdoc}
      */
-    public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
-        $this->configuration['owner_uid'] = $form_state->getValue('owner_uid');
-    }
+    public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {}
 
     /**
      * {@inheritdoc}
      */
     public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
-        // todo: get the proper permissions.
-        return true;
+        return $account->hasPermission('manage file');
     }
 
 }

@@ -81,7 +81,6 @@ class OpenPensionFilesUploader extends FormBase
      * {@inheritDoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-        // todo: set this as a batch operation.
         $files = $this->fileStorage->loadMultiple($form_state->getValue('selected_files'));
 
         foreach ($files as $file) {

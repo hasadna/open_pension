@@ -4,6 +4,8 @@
  * @file open_pension_files.module
  */
 
+use Psr\Log\LogLevel;
+
 /**
  * Implements hook_cron().
  *
@@ -28,14 +30,16 @@ function open_pension_files_cron() {
         ->loadMultiple(array_keys($results));
 
     if (!$files) {
-        // todo: log.
+        $text = t('The cron operation for sending files for processing did not find any files');
+        $processor->getLogger()->log(LogLevel::INFO, $text);
         return;
     }
 
     foreach ($files as $file) {
 
         if (!$file_field = $file->get('field_media_file')->first()) {
-            // todo: log here.
+            $text = t('The media @id has no file which can be process.', ['@id' => $file->id()]);
+            $processor->getLogger()->log(LogLevel::INFO, $text);
             continue;
         }
 
