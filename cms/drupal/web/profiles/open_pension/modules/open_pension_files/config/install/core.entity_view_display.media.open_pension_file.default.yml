@@ -4,7 +4,6 @@ dependencies:
   config:
     - field.field.media.open_pension_file.field_history
     - field.field.media.open_pension_file.field_media_file
-    - field.field.media.open_pension_file.field_media_file_1
     - field.field.media.open_pension_file.field_processed
     - field.field.media.open_pension_file.field_reference_in_other_service
     - image.style.thumbnail
@@ -38,14 +37,6 @@ content:
     region: content
   field_media_file:
     weight: 7
-    label: above
-    settings:
-      use_description_as_link_text: true
-    third_party_settings: {  }
-    type: file_default
-    region: content
-  field_media_file_1:
-    weight: 6
     label: above
     settings:
       use_description_as_link_text: true

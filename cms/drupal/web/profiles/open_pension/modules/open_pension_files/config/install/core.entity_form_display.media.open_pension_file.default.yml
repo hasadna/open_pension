@@ -4,7 +4,6 @@ dependencies:
   config:
     - field.field.media.open_pension_file.field_history
     - field.field.media.open_pension_file.field_media_file
-    - field.field.media.open_pension_file.field_media_file_1
     - field.field.media.open_pension_file.field_processed
     - field.field.media.open_pension_file.field_reference_in_other_service
     - media.type.open_pension_file
@@ -30,13 +29,6 @@ content:
     region: content
   field_media_file:
     weight: 101
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
-    region: content
-  field_media_file_1:
-    weight: 0
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
