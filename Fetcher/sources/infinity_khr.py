@@ -39,9 +39,6 @@ def get_khr_quarterly(year, quarter):
         print(f'Saved file {href} to {file_path}')
 
 
-    print(items)
-
-
 if __name__ == '__main__':
     get_khr_quarterly(2017, 4)
 
