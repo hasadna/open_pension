@@ -21,7 +21,7 @@ class FetcherRunner:
         self.source_path = os.path.join(os.path.dirname(sources.__file__), '*.py')
         self.logger = get_logger()
 
-    def load_all_fetchers(self) -> List[Type[SourceInterface]]:
+    def _load_all_fetchers(self) -> List[Type[SourceInterface]]:
         fetcher_source_classes = []
         for file_path in glob.glob(self.source_path):
             filename = os.path.basename(file_path)
@@ -35,8 +35,12 @@ class FetcherRunner:
 
         return fetcher_source_classes
 
+    def _ensure_output_path(self):
+        os.makedirs(self.output_path, exist_ok=True)
+
     def run_all_fetchers(self, year: Optional[int] = None):
-        fetcher_classes = self.load_all_fetchers()
+        self._ensure_output_path()
+        fetcher_classes = self._load_all_fetchers()
         for fetcher_class in fetcher_classes:
             fetcher = fetcher_class(output_path=self.output_path)
             self.logger.info(f"Fetching for {fetcher_class.__name__}")
