@@ -31,9 +31,5 @@ class SourceInterface(metaclass=ABCMeta):
         return top_url_page.content
 
     @abstractmethod
-    def get_annual(self, year: int):
-        pass
-
-    @abstractmethod
     def get_quarterly(self, year: int):
         pass

@@ -29,9 +29,6 @@ class InfinityFetcher(SourceInterface):
         # TODO: Catch errors
         return self._base_page.find("a", string=re.compile(f"{year}")).attrs['href']
 
-    def get_annual(self, year: int):
-        pass
-
     def get_quarterly(self, year: int):
         url = self.get_year_url(year)
 

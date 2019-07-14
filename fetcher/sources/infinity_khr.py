@@ -15,9 +15,6 @@ class InfinityKHRSource(SourceInterface):
     """
     ק.ה.ר - קרן השתלמות לרוקחים בע"מ
     """
-    def get_annual(self, year: int):
-        pass
-
     def get_quarterly(self, year: int):
         for quarter in range(1, 5):
             self.get_quarterly_by_quarter(year, quarter)
