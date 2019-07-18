@@ -4,6 +4,7 @@ namespace Drupal\Tests\open_pension_blog\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
+use Drupal\node\Entity\NodeType;
 use Drupal\Tests\graphql\Traits\HttpRequestTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\user\Entity\Role;
@@ -17,10 +18,25 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Modules to enable.
+   *
+   * @var array
    */
-  public static $modules = ['open_pension_blog', 'node', 'user', 'graphql', 'graphql_core'];
+  public static $modules = [
+    'user',
+    'system',
+    'field',
+    'node',
+    'text',
+    'filter',
+    'open_pension_blog',
+    'graphql',
+    'graphql_core',
+  ];
 
+  /**
+   * @var Node[]
+   */
   public $nodes;
 
   /**
@@ -31,15 +47,15 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp() {
     parent::setUp();
 
-    // Create the needed entity types.
-    $this->installEntitySchema('node');
+    // Necessary for module uninstall.
     $this->installEntitySchema('user');
+    $this->installEntitySchema('node');
+    $this->installConfig(['node']);
 
-    $this->createContentType(['type' => 'blog']);
-
+    NodeType::create(['name' => 'Blog', 'type' => 'blog']);
 
     // Create list of blogs
     $templates = [
@@ -61,48 +77,47 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
 
     $this->httpClient = $this->container->get('http_client');
 
-    print_r(Role::loadMultiple());
-
     // Grant access to anonymous users.
-    $role = Role::create(['id' => Role::ANONYMOUS_ID, 'label' => 'anonymous user'])
-      ->grantPermission('execute graphql requests');
-
-    $role->save();
-
-    //execute graphql requests
-
+    Role::create(['id' => Role::ANONYMOUS_ID, 'label' => 'anonymous user'])
+      ->grantPermission('execute graphql requests')
+      ->grantPermission('access content')
+      ->save();
   }
 
   /**
    * Testing graphql for getting all the blogs in the system.
    */
   function testListOfBlogs() {
-    $query = " {
+    $query = <<<GQL
+     query {
       nodeQuery {
         count
         entities {
-          entityLabel
-            ... on NodeArticle {
-            body {
-              value
-            }
-          }
+          entityId
+				  entityLabel
         }
       }
-    }";
+    } 
+GQL;
+
 
     // Query the graphql as an anonymous user.
-    $foo = $this->query($query);
-    var_dump($foo);
+    $output = json_decode($this->query($query)->getContent(), TRUE);
+    $query_results = $output['data']['nodeQuery'];
+
+    // Check the count is correct.
+    $this->assertEquals($query_results, [
+      'count' => 2,
+      'entities' => [
+        [
+          'entityId' => $this->nodes[0]->id(),
+          'entityLabel' => $this->nodes[0]->label(),
+        ],
+        [
+          'entityId' => $this->nodes[1]->id(),
+          'entityLabel' => $this->nodes[1]->label(),
+        ],
+      ],
+    ]);
   }
-
-  /**
-   * Testing when asking for a single blog entry.
-   */
-  function _testSingleBlogRetrieve() {
-    // Create a blog.
-
-    //  Query as an anonymous user.
-  }
-
 }
