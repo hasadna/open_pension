@@ -14,7 +14,6 @@ dependencies:
   - media_entity_browser
   - media_library
   - open_pension_core
-  - open_pension_files
   - options
   - path
   - system
