@@ -5,6 +5,7 @@ namespace Drupal\open_pension_files;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannel;
+use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use GuzzleHttp\ClientInterface;
 
@@ -154,7 +155,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
     $this->log(t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
 
-    $results = $this->httpClient->request('get', 'http://google.com');
+    $results = $this->sendFileToServer($file);
 
     if ($results->getStatusCode() == 200) {
       $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
@@ -165,6 +166,13 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     $this->log(t('The file @file-name was not able to process', ['@file-name' => $file->getFilename()]), 'error');
     $this->processed = FALSE;
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function sendFileToServer(File $file) {
+    return $this->httpClient->request('get', 'http://google.com');
   }
 
   /**

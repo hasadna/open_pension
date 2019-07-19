@@ -45,7 +45,7 @@ class SendFileToProcessController extends ControllerBase {
    * @param \Drupal\media\Entity\Media $media
    *   The media object.
    *
-   * @return \Drupal\Core\Ajax\AjaxResponse|null
+   * @return \Drupal\Core\Ajax\AjaxResponse|\Symfony\Component\HttpFoundation\
    *   Array of markup.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
@@ -88,11 +88,16 @@ class SendFileToProcessController extends ControllerBase {
     ];
 
     // Return the Ajax response and make stuff move magically on the screen.
-    $response = new AjaxResponse();
-    $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .processed', '<td>' . $text . '</td>'));
-    $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) . '</div></td>'));
+    if (\Drupal::request()->request->get('js')) {
+      $response = new AjaxResponse();
+      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .processed', '<td>' . $text . '</td>'));
+      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) . '</div></td>'));
 
-    return $response;
+      return $response;
+    }
+
+    return $this->redirect('view.open_pension_uploaded_files.page_1');
+
   }
 
 }

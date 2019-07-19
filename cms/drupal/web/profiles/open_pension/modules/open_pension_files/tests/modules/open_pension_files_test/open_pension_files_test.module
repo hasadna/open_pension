@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains open_pension_files_test.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function open_pension_files_test_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the open_pension_files_test module.
+    case 'help.page.open_pension_files_test':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Testing for the open pension files module') . '</p>';
+      return $output;
+
+    default:
+  }
+}

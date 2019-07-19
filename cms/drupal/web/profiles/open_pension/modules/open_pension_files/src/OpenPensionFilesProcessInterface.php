@@ -4,6 +4,7 @@ namespace Drupal\open_pension_files;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Logger\LoggerChannel;
+use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use GuzzleHttp\ClientInterface;
 
@@ -121,5 +122,11 @@ interface OpenPensionFilesProcessInterface {
    *   The file object.
    */
   public function updateEntity(Media $media);
+
+  /**
+   * @param File $file
+   * @return mixed
+   */
+  public function sendFileToServer(File $file);
 
 }

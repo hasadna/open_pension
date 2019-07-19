@@ -8,7 +8,6 @@ dependencies:
   - menu_ui
   - node
   - open_pension_core
-  - open_pension_files
   - path
   - text
   - user
