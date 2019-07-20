@@ -4,7 +4,6 @@ namespace Drupal\Tests\open_pension_files\Kernel;
 
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
-use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\user\Entity\User;
 

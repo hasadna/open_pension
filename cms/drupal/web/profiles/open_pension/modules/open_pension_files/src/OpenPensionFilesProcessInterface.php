@@ -125,8 +125,9 @@ interface OpenPensionFilesProcessInterface {
 
   /**
    * @param File $file
-   * @return mixed
+   *
+   * @return \Psr\Http\Message\ResponseInterface
    */
-  public function sendFileToServer(File $file);
+  public function sendFileToServer(File $file): \Psr\Http\Message\ResponseInterface;
 
 }

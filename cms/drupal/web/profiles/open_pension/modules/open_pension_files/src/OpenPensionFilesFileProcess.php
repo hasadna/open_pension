@@ -171,7 +171,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   /**
    * {@inheritdoc}
    */
-  public function sendFileToServer(File $file) {
+  public function sendFileToServer(File $file): \Psr\Http\Message\ResponseInterface {
     return $this->httpClient->request('get', 'http://google.com');
   }
 
