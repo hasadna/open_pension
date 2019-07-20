@@ -22,8 +22,6 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
     'open_pension_files_test',
     'views',
     'features',
-    'devel',
-    'kint'
   ];
 
   /**
@@ -128,6 +126,20 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
     // Check we have two files.
     $this->assertText($this->files[0]);
     $this->assertText($this->files[1]);
+
+    // Check the first file was not processed yet.
+    $xpath = "//tr[@class='media-{$this->mediaObjects[0]->id()}']//td[contains(@class, 'processed') and contains(., 'No')]";
+
+    if (!$this->getSession()->getPage()->find("xpath", $xpath)) {
+      $this->fail("The file {$this->mediaObjects[0]->getName()} is processed before the related operation triggered.");
+    }
+
+    // Check the second file was not processed yet.
+    $xpath = "//tr[@class='media-{$this->mediaObjects[1]->id()}']//td[contains(@class, 'processed') and contains(., 'No')]";
+
+    if (!$this->getSession()->getPage()->find("xpath", $xpath)) {
+      $this->fail("The file {$this->mediaObjects[1]->getName()} is processed before the related operation triggered.");
+    }
   }
 
   /**
@@ -135,50 +147,29 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
    */
   public function testViewFiles() {
     $this->commonFlow();
-    $this->firstFileFlowTests();
-    $this->secondFileFlowTests();
+    $this->sendSingleFileToProcess(0, 'Yes');
+    $this->sendSingleFileToProcess(1, 'No');
   }
 
   /**
-   * Helper function to contain all the logic for the first file.
+   * Helper function to send file for processing and validations.
+   *
+   * @param $file_delta
+   *   The delta of the file from the media objects.
+   * @param $after_process_text
+   *   The text in the process field need to show.
    */
-  final protected function firstFileFlowTests() {
-    // Check the fist file was not processed yet.
-    $xpath = "//tr[@class='media-{$this->mediaObjects[0]->id()}']//td[contains(@class, 'processed') and contains(., 'No')]";
-
-    if (!$this->getSession()->getPage()->find("xpath", $xpath)) {
-      $this->fail('The file has been processed before the process ever committed');
-    }
+  final protected function sendSingleFileToProcess($file_delta, $after_process_text) {
+    $media_object = $this->mediaObjects[$file_delta];
 
     // Send the first file to process.
-    $xpath = "//tr[@class='media-{$this->mediaObjects[0]->id()}']//a[.='Send to process']";
+    $xpath = "//tr[@class='media-{$media_object->id()}']//a[.='Send to process']";
     $this->getSession()->getPage()->find("xpath", $xpath)->click();
 
     // Check the file has been processed.
-    $xpath = "//tr[@class='media-{$this->mediaObjects[0]->id()}']//td[contains(@class, 'processed') and contains(., 'Yes')]";
+    $xpath = "//tr[@class='media-{$media_object->id()}']//td[contains(@class, 'processed') and contains(., '{$after_process_text}')]";
     if (!$this->getSession()->getPage()->find("xpath", $xpath)) {
-      $this->fail('it seems the the file has been processed.');
-    }
-  }
-
-  /**
-   * The function holds logic of the second file flow.
-   */
-  final protected function secondFileFlowTests() {
-    // Make sure the second file was not processed yet.
-    $xpath = "//tr[@class='media-{$this->mediaObjects[1]->id()}']//td[contains(@class, 'processed') and contains(., 'No')]";
-
-    if (!$this->getSession()->getPage()->find("xpath", $xpath)) {
-      $this->fail('The file has been processed before the process ever committed');
-    }
-
-    // Now, process the second file.
-    $xpath = "//tr[@class='media-{$this->mediaObjects[1]->id()}']//a[.='Send to process']";
-    $this->getSession()->getPage()->find("xpath", $xpath)->click();
-
-    $xpath = "//tr[@class='media-{$this->mediaObjects[1]->id()}']//td[contains(@class, 'processed') and contains(., 'No')]";
-    if (!$this->getSession()->getPage()->find("xpath", $xpath)) {
-      $this->fail('It seems the file has been processed while it was not suppose to.');
+      $this->fail("The processed status for {$media_object->getName()} need to be {$after_process_text} but it's not");
     }
   }
 
