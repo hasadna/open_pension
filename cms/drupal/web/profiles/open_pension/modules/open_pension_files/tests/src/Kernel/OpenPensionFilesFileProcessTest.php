@@ -2,13 +2,13 @@
 
 namespace Drupal\Tests\open_pension_files\Kernel;
 
-use Drupal\file\Entity\File;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Psr\Log\LogLevel;
 
 class OpenPensionFilesFileProcessTest extends KernelTestBase {
 
@@ -33,9 +33,13 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
     parent::setUp();
     $this->installEntitySchema('file');
     $this->installEntitySchema('user');
+    $logger = new OpenPensionFilesLoggerChannel('testing');
 
     $this->openPensionFilesProcess = $this->container->get('open_pension_files.file_process');
-    $this->openPensionFilesProcess->setHttpClient($this->getMockHttpClient());
+
+    $this->openPensionFilesProcess
+      ->setHttpClient($this->getMockHttpClient())
+      ->setLogger($logger);
   }
 
   /**
@@ -57,8 +61,17 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
    * Testing the log method.
    */
   public function testLog() {
-    print_r($this->openPensionFilesProcess->sendFileToServer(File::create())->getStatusCode());
-    print_r($this->openPensionFilesProcess->sendFileToServer(File::create())->getStatusCode());
+    $this->openPensionFilesProcess->log('This is a logging message', LogLevel::INFO);
+
+    $this->assertEquals(
+      $this->openPensionFilesProcess->getTrackingLogs(),
+      ['This is a logging message']
+    );
+
+    $this->assertEquals(
+      $this->openPensionFilesProcess->getLogger()->logs,
+      [['level' => LogLevel::INFO, 'message' => 'This is a logging message']]
+    );
   }
 
   /**
