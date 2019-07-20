@@ -155,16 +155,25 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
     $this->log(t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
 
-    $results = $this->sendFileToServer($file);
+    try {
+      $results = $this->sendFileToServer($file);
 
-    if ($results->getStatusCode() == 200) {
-      $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
-      $this->processed = TRUE;
-      return $this;
+      if ($results->getStatusCode() == 200) {
+        $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
+        $this->processed = TRUE;
+        return $this;
+      }
+
+      $this->log(t('The file @file-name was not able to process', ['@file-name' => $file->getFilename()]), 'error');
+      $this->processed = FALSE;
+    } catch (\Exception $e) {
+      $params = [
+        '@file-name' => $file->getFilename(),
+        '@error' => $e->getMessage(),
+      ];
+      $this->log(t('The file @file-name was not able to process due to @error', $params), 'error');
     }
 
-    $this->log(t('The file @file-name was not able to process', ['@file-name' => $file->getFilename()]), 'error');
-    $this->processed = FALSE;
     return $this;
   }
 
