@@ -213,17 +213,29 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
   /**
    * Testing the action for sending the files to process on the files.
    */
-  public function _testActionForMultipleFiles() {
+  public function testActionForMultipleFiles() {
     // Start with the normal stuff.
     $this->commonFlow();
 
     // Checking the check boxes.
+    $this->getSession()->getPage()->find('xpath', "//input[@name='media_bulk_form[0]']")->check();
+    $this->getSession()->getPage()->find('xpath', "//input[@name='media_bulk_form[1]']")->check();
 
     // Selecting the "send files for processing" option from the list.
+    $this
+      ->getSession()
+      ->getPage()
+      ->find('xpath', "//select[@name='action']")
+      ->selectOption('Send files to the process service');
 
     // Clicking on the submit button.
+    $this->getSession()->getPage()->find('xpath', '//input[@id="edit-submit"]')->click();
+
+    // Make sure the message exists.
+    $this->assertText('Send files to the process service was applied to 2 items');
 
     // Make sure we get the same results as the previous test.
-
+    $this->checkProcessResults('dummy-xsl-file.xlsx');
+    $this->checkProcessResults('dummy-xsl-file-2.xlsx');
   }
 }
