@@ -17,4 +17,5 @@ class OpenPensionFilesTestServiceProvider extends ServiceProviderBase {
     $definition = $container->getDefinition('open_pension_files.file_process');
     $definition->setClass('Drupal\open_pension_files_test\OpenPensionFilesTestFileProcess');
   }
+
 }

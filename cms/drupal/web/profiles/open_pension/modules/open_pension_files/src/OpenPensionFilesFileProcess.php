@@ -8,6 +8,7 @@ use Drupal\Core\Logger\LoggerChannel;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use GuzzleHttp\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class OpenPensionFilesFileProcess.
@@ -166,7 +167,8 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
       $this->log(t('The file @file-name was not able to process', ['@file-name' => $file->getFilename()]), 'error');
       $this->processed = FALSE;
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $params = [
         '@file-name' => $file->getFilename(),
         '@error' => $e->getMessage(),
@@ -180,7 +182,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   /**
    * {@inheritdoc}
    */
-  public function sendFileToServer(File $file): \Psr\Http\Message\ResponseInterface {
+  public function sendFileToServer(File $file): ResponseInterface {
     return $this->httpClient->request('get', 'http://google.com');
   }
 

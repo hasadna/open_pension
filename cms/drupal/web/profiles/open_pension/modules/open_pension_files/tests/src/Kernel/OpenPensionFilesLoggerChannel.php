@@ -2,10 +2,16 @@
 
 namespace Drupal\Tests\open_pension_files\Kernel;
 
+use Drupal\Core\Logger\LoggerChannel;
 
-class OpenPensionFilesLoggerChannel extends \Drupal\Core\Logger\LoggerChannel {
+/**
+ * Logger channel for tests.
+ */
+class OpenPensionFilesLoggerChannel extends LoggerChannel {
 
   /**
+   * List of logs.
+   *
    * @var string[]
    */
   public $logs;

@@ -5,13 +5,17 @@ namespace Drupal\open_pension_files_test;
 use Drupal\file\Entity\File;
 use Drupal\open_pension_files\OpenPensionFilesFileProcess;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 
+/**
+ * File process mocking object.
+ */
 class OpenPensionFilesTestFileProcess extends OpenPensionFilesFileProcess {
 
   /**
    * {@inheritdoc}
    */
-  public function sendFileToServer(File $file) {
+  public function sendFileToServer(File $file): ResponseInterface {
 
     // We can't mock responses for both the file handling so we going to return
     // a response base on the name. Why we can't mock responses for two files

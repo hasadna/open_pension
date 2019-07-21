@@ -7,6 +7,7 @@ use Drupal\Core\Logger\LoggerChannel;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use GuzzleHttp\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Interface OpenPensionFilesProcessInterface.
@@ -124,10 +125,14 @@ interface OpenPensionFilesProcessInterface {
   public function updateEntity(Media $media);
 
   /**
-   * @param File $file
+   * Sending file for processing.
+   *
+   * @param \Drupal\file\Entity\File $file
+   *   The file object.
    *
    * @return \Psr\Http\Message\ResponseInterface
+   *   A response object.
    */
-  public function sendFileToServer(File $file): \Psr\Http\Message\ResponseInterface;
+  public function sendFileToServer(File $file): ResponseInterface;
 
 }

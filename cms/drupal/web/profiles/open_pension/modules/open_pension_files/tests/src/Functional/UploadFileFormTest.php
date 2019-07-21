@@ -3,8 +3,10 @@
 namespace Drupal\Tests\open_pension_files\Kernel;
 
 use Drupal\Tests\BrowserTestBase;
-use Drupal\user\Entity\User;
 
+/**
+ * Testing the form test.
+ */
 class UploadFileFormTest extends BrowserTestBase {
 
   /**
@@ -17,17 +19,21 @@ class UploadFileFormTest extends BrowserTestBase {
     'system',
     'open_pension_files',
     'views',
-    'features'
+    'features',
   ];
 
   public $profile = 'open_pension';
 
   /**
-   * @var User
+   * The account object.
+   *
+   * @var \Drupal\user\Entity\User
    */
   protected $account;
 
   /**
+   * The file system service.
+   *
    * @var \Drupal\Core\File\FileSystem
    */
   protected $fileSystem;

@@ -5,8 +5,10 @@ namespace Drupal\Tests\open_pension_files\Kernel;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\BrowserTestBase;
-use Drupal\user\Entity\User;
 
+/**
+ * Testing the view fo the files.
+ */
 class ManageUploadedFilesViewTest extends BrowserTestBase {
 
   /**
@@ -33,26 +35,34 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
   /**
    * The account object.
    *
-   * @var User
+   * @var \Drupal\user\Entity\User
    */
   protected $account;
 
   /**
+   * Client service.
+   *
    * @var \GuzzleHttp\Client
    */
   protected $client;
 
   /**
+   * Filesystem service.
+   *
    * @var \Drupal\Core\File\FileSystem
    */
   protected $fileSystem;
 
   /**
-   * @var Media[]
+   * Media objects.
+   *
+   * @var \Drupal\media\Entity\Media[]
    */
   protected $mediaObjects;
 
   /**
+   * Metadata of the testing files.
+   *
    * @var array
    */
   protected $files = [
@@ -71,7 +81,7 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
         "The file dummy-xsl-file-2.xlsx was not able to process",
         "Starting to process the file dummy-xsl-file-2.xlsx",
       ],
-    ]
+    ],
   ];
 
   /**
@@ -112,7 +122,7 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
       // Creating a matching media entity.
       $media = Media::create([
         'bundle' => 'open_pension_file',
-        'field_media_file' => $file_object->id()
+        'field_media_file' => $file_object->id(),
       ]);
       $media->save();
 
@@ -163,7 +173,7 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
   /**
    * Helper function to send file for processing and validations.
    *
-   * @param $file_name
+   * @param mixed $file_name
    *   The matching file name from the file lists.
    *
    * @return ManageUploadedFilesViewTest
@@ -181,7 +191,7 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
   /**
    * Checking the process results.
    *
-   * @param $file_name
+   * @param mixed $file_name
    *   The matching file name from the file lists.
    */
   protected function checkProcessResults($file_name) {
@@ -200,7 +210,7 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
 
     // Checking the process logs texts.
     foreach ($process_logs as $process_log) {
-      $xpath =  "//tr[@class='media-{$media_object->id()}']" .
+      $xpath = "//tr[@class='media-{$media_object->id()}']" .
         "//td[contains(@class, 'views-field-field-history') and contains(., '{$process_log}')]";
 
       if (!$this->getSession()->getPage()->find("xpath", $xpath)) {
@@ -237,4 +247,5 @@ class ManageUploadedFilesViewTest extends BrowserTestBase {
     $this->checkProcessResults('dummy-xsl-file.xlsx');
     $this->checkProcessResults('dummy-xsl-file-2.xlsx');
   }
+
 }

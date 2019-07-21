@@ -2,23 +2,24 @@
 
 namespace Drupal\Tests\open_pension_files\Kernel;
 
-use Drupal\Core\Field\Plugin\DataType\FieldItem;
 use Drupal\file\Entity\File;
 use Drupal\file\FileStorage;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\media\Entity\Media;
-use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LogLevel;
 
+/**
+ * Testing the open pension file process test.
+ */
 class OpenPensionFilesFileProcessTest extends KernelTestBase {
 
   /**
    * Modules to enable.
+   *
+   * @var array
    */
   public static $modules = [
     'file',
@@ -33,11 +34,15 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
   ];
 
   /**
-   * @var OpenPensionFilesProcessInterface
+   * Open pension file process service.
+   *
+   * @var \Drupal\open_pension_files\OpenPensionFilesProcessInterface
    */
   protected $openPensionFilesProcess;
 
   /**
+   * File system service.
+   *
    * @var \Drupal\Core\File\FileSystem
    */
   protected $fileSystem;
@@ -64,7 +69,8 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
   /**
    * Get an dummy object.
    *
-   * @return Client
+   * @return \GuzzleHttp\Client
+   *   A mocked client object.
    */
   protected function getMockHttpClient(): Client {
 
@@ -110,7 +116,7 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
     );
 
     // Replace the file service with a dummy service.
-    /** @var MockObject|FileStorage $file_mock */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|FileStorage $file_mock */
     $file_mock = $this
       ->getMockBuilder(FileStorage::class)
       ->disableOriginalConstructor()

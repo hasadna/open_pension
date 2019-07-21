@@ -45,7 +45,7 @@ class SendFileToProcessController extends ControllerBase {
    * @param \Drupal\media\Entity\Media $media
    *   The media object.
    *
-   * @return \Drupal\Core\Ajax\AjaxResponse|\Symfony\Component\HttpFoundation\
+   * @return mixed
    *   Array of markup.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException

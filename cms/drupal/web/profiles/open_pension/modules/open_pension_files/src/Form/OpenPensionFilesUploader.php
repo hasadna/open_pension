@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -79,7 +78,7 @@ class OpenPensionFilesUploader extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    /** @var File[] $files */
+    /** @var \Drupal\file\Entity\File[] $files */
     $files = $this->fileStorage->loadMultiple($form_state->getValue('selected_files'));
 
     foreach ($files as $file) {

@@ -16,7 +16,7 @@ use Psr\Log\LogLevel;
  * @throws \GuzzleHttp\Exception\GuzzleException
  */
 function open_pension_files_cron() {
-  /** @var  \Drupal\open_pension_files\OpenPensionFilesProcessInterface $processor */
+  /** @var \Drupal\open_pension_files\OpenPensionFilesProcessInterface $processor */
   $processor = \Drupal::getContainer()->get('open_pension_files.file_process');
 
   // Get the files which not processed by the processor yet.

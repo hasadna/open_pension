@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "731f37a2c686aade3b5363acc33ac43e",
+    "content-hash": "cf35a2ef0c162e2e9015af3ef356efb4",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -124,16 +124,16 @@
         },
         {
             "name": "brumann/polyfill-unserialize",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dbrumann/polyfill-unserialize.git",
-                "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b"
+                "reference": "8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
-                "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
+                "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008",
+                "reference": "8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008",
                 "shasum": ""
             },
             "require": {
@@ -156,20 +156,20 @@
                 }
             ],
             "description": "Backports unserialize options introduced in PHP 7.0 to older PHP versions.",
-            "time": "2017-02-03T09:55:47+00:00"
+            "time": "2019-07-14T23:16:24+00:00"
         },
         {
             "name": "chi-teck/drupal-code-generator",
-            "version": "1.30.2",
+            "version": "1.30.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Chi-teck/drupal-code-generator.git",
-                "reference": "0f9737b2140013257b337bcccc87ec35efb0dd96"
+                "reference": "1da9f06843b6bf2b0e7d28fea4b6c1d79aead197"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Chi-teck/drupal-code-generator/zipball/0f9737b2140013257b337bcccc87ec35efb0dd96",
-                "reference": "0f9737b2140013257b337bcccc87ec35efb0dd96",
+                "url": "https://api.github.com/repos/Chi-teck/drupal-code-generator/zipball/1da9f06843b6bf2b0e7d28fea4b6c1d79aead197",
+                "reference": "1da9f06843b6bf2b0e7d28fea4b6c1d79aead197",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +177,7 @@
                 "php": ">=5.5.9",
                 "symfony/console": "^3.4 || ^4.0",
                 "symfony/filesystem": "^2.7 || ^3.4 || ^4.0",
-                "twig/twig": "^1.39 || ^2.10"
+                "twig/twig": "^1.38.2 || ^2.10"
             },
             "bin": [
                 "bin/dcg"
@@ -201,7 +201,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal code generator",
-            "time": "2019-06-29T08:18:13+00:00"
+            "time": "2019-06-29T10:29:45+00:00"
         },
         {
             "name": "composer/installers",
@@ -2135,6 +2135,67 @@
             "time": "2019-06-14T15:06:06+00:00"
         },
         {
+            "name": "drupal/config_inspector",
+            "version": "1.0.0-beta2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/config_inspector.git",
+                "reference": "8.x-1.0-beta2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/config_inspector-8.x-1.0-beta2.zip",
+                "reference": "8.x-1.0-beta2",
+                "shasum": "1f7b27c4b1c800a605a6d6583d0b1d120794658e"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-beta2",
+                    "datestamp": "1537879680",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Beta releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Gábor Hojtsy",
+                    "homepage": "https://www.drupal.org/user/4166"
+                },
+                {
+                    "name": "Jose Reyero",
+                    "homepage": "https://www.drupal.org/user/4299"
+                },
+                {
+                    "name": "aspilicious",
+                    "homepage": "https://www.drupal.org/user/172527"
+                },
+                {
+                    "name": "vijaycs85",
+                    "homepage": "https://www.drupal.org/user/93488"
+                }
+            ],
+            "description": "Provides a configuration data and structure inspector tool",
+            "homepage": "https://drupal.org/project/config_inspector",
+            "support": {
+                "source": "https://cgit.drupalcode.org/config_inspector",
+                "issues": "https://drupal.org/project/issues/config_inspector",
+                "irc": "irc://irc.freenode.org/drupal-contribute"
+            }
+        },
+        {
             "name": "drupal/config_update",
             "version": "1.6.0",
             "source": {
@@ -2443,16 +2504,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "8.7.3",
+            "version": "8.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "b8ca92d4274048aff6bb020c329596c0e9b91269"
+                "reference": "a6d447d41545323f54c5034e551fb43b8050eca9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/b8ca92d4274048aff6bb020c329596c0e9b91269",
-                "reference": "b8ca92d4274048aff6bb020c329596c0e9b91269",
+                "url": "https://api.github.com/repos/drupal/core/zipball/a6d447d41545323f54c5034e551fb43b8050eca9",
+                "reference": "a6d447d41545323f54c5034e551fb43b8050eca9",
                 "shasum": ""
             },
             "require": {
@@ -2683,7 +2744,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2019-06-05T19:21:30+00:00"
+            "time": "2019-07-04T07:26:51+00:00"
         },
         {
             "name": "drupal/devel",
@@ -2772,35 +2833,37 @@
         },
         {
             "name": "drupal/entity_browser",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/entity_browser.git",
-                "reference": "8.x-2.1"
+                "reference": "8.x-2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/entity_browser-8.x-2.1.zip",
-                "reference": "8.x-2.1",
-                "shasum": "56cf190f3ea3fc0af71becbc44af5954a71f216b"
+                "url": "https://ftp.drupal.org/files/projects/entity_browser-8.x-2.2.zip",
+                "reference": "8.x-2.2",
+                "shasum": "083a21040ad7bcb9aef25d8b4a0e702d02574261"
             },
             "require": {
-                "drupal/core": "~8.0"
+                "drupal/core": "~8.4"
             },
             "require-dev": {
-                "drupal/inline_entity_form": "*",
-                "drupal/paragraphs": "*",
-                "drupal/token": "*"
+                "drupal/embed": "~1.0",
+                "drupal/entity_embed": "~1.0",
+                "drupal/entityqueue": "~1.0",
+                "drupal/inline_entity_form": "~1.0",
+                "drupal/paragraphs": "~1.0",
+                "drupal/token": "~1.0"
             },
             "type": "drupal-module",
             "extra": {
                 "branch-alias": {
-                    "dev-2.x": "2.x-dev",
-                    "dev-8.x-1.x": "8.1.x-dev"
+                    "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.1",
-                    "datestamp": "1550237365",
+                    "version": "8.x-2.2",
+                    "datestamp": "1562240585",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2855,14 +2918,14 @@
             "description": "Entity browsing and selecting component.",
             "homepage": "http://drupal.org/project/entity_browser",
             "support": {
-                "source": "http://cgit.drupalcode.org/entity_browser",
-                "issues": "http://drupal.org/project/issues/entity_browser",
+                "source": "https://git.drupalcode.org/project/entity_browser",
+                "issues": "https://www.drupal.org/project/issues/entity_browser",
                 "irc": "irc://irc.freenode.org/drupal-contribute"
             }
         },
         {
             "name": "drupal/entity_browser_entity_form",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "require": {
                 "drupal/core": "~8.0",
                 "drupal/entity_browser": "self.version",
@@ -2874,8 +2937,8 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.1",
-                    "datestamp": "1550237365",
+                    "version": "8.x-2.2",
+                    "datestamp": "1562240585",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3746,33 +3809,37 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.5.2",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115"
+                "reference": "239400de7a173fe9901b9ac7c06497751f00727a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/9f83dded91781a01c63574e387eaa769be769115",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/239400de7a173fe9901b9ac7c06497751f00727a",
+                "reference": "239400de7a173fe9901b9ac7c06497751f00727a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
                 "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5"
+                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
             },
             "provide": {
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
+                "ext-zlib": "*",
                 "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+            },
+            "suggest": {
+                "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "1.6-dev"
                 }
             },
             "autoload": {
@@ -3809,7 +3876,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-12-04T20:46:45+00:00"
+            "time": "2019-07-01T23:21:34+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -4561,24 +4628,24 @@
         },
         {
             "name": "ralouphie/getallheaders",
-            "version": "2.0.5",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ralouphie/getallheaders.git",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+                "reference": "120b605dfeb996808c31b6477290a714d356e822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7.0",
-                "satooshi/php-coveralls": ">=1.0"
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5 || ^6.5"
             },
             "type": "library",
             "autoload": {
@@ -4597,7 +4664,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2016-02-11T07:05:27+00:00"
+            "time": "2019-03-08T08:55:37+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -6997,12 +7064,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "6d637f7af4816c26ad8a943da2e3f7eef1231bea"
+                "reference": "a534fe7dac9525e8e10ca68e737c3d7e5058ec83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/6d637f7af4816c26ad8a943da2e3f7eef1231bea",
-                "reference": "6d637f7af4816c26ad8a943da2e3f7eef1231bea",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/a534fe7dac9525e8e10ca68e737c3d7e5058ec83",
+                "reference": "a534fe7dac9525e8e10ca68e737c3d7e5058ec83",
                 "shasum": ""
             },
             "require": {
@@ -7010,7 +7077,7 @@
                 "symfony/css-selector": "^2.7|^3.0|^4.0"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^3.3|^4.0"
+                "symfony/phpunit-bridge": "^4.2"
             },
             "suggest": {
                 "behat/mink-browserkit-driver": "extremely fast headless driver for Symfony\\Kernel-based apps (Sf2, Silex)",
@@ -7048,7 +7115,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2019-05-14T09:56:49+00:00"
+            "time": "2019-07-15T12:45:29+00:00"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -9102,16 +9169,16 @@
         },
         {
             "name": "webflo/drupal-core-require-dev",
-            "version": "8.7.3",
+            "version": "8.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webflo/drupal-core-require-dev.git",
-                "reference": "75d11db587237934914a1cd150e81462665a19aa"
+                "reference": "6ab0d5c54addc3000ed7797bbcddec105d5f4dd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webflo/drupal-core-require-dev/zipball/75d11db587237934914a1cd150e81462665a19aa",
-                "reference": "75d11db587237934914a1cd150e81462665a19aa",
+                "url": "https://api.github.com/repos/webflo/drupal-core-require-dev/zipball/6ab0d5c54addc3000ed7797bbcddec105d5f4dd9",
+                "reference": "6ab0d5c54addc3000ed7797bbcddec105d5f4dd9",
                 "shasum": ""
             },
             "require": {
@@ -9119,7 +9186,7 @@
                 "behat/mink-goutte-driver": "^1.2",
                 "behat/mink-selenium2-driver": "1.3.x-dev",
                 "drupal/coder": "^8.3.1",
-                "drupal/core": "8.7.3",
+                "drupal/core": "8.7.4",
                 "jcalderonzumba/gastonjs": "^1.0.2",
                 "jcalderonzumba/mink-phantomjs-driver": "^0.3.1",
                 "justinrainbow/json-schema": "^5.2",
@@ -9136,12 +9203,13 @@
                 "GPL-2.0-or-later"
             ],
             "description": "require-dev dependencies from drupal/core",
-            "time": "2019-06-05T19:31:46+00:00"
+            "time": "2019-07-04T08:01:42+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/config_inspector": 10,
         "drupal/graphql": 5,
         "drupal/vuejs": 5
     },

@@ -9,6 +9,9 @@ use Drupal\Tests\graphql\Traits\HttpRequestTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\user\Entity\Role;
 
+/**
+ * Testing the graphql endpoint for guests.
+ */
 class GraphQlBlogEndpointTest extends KernelTestBase {
 
   use HttpRequestTrait;
@@ -35,11 +38,15 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
   ];
 
   /**
-   * @var Node[]
+   * List of nodes.
+   *
+   * @var \Drupal\node\Entity\Node[]
    */
   public $nodes;
 
   /**
+   * The http client.
+   *
    * @var \GuzzleHttp\Client
    */
   protected $httpClient;
@@ -57,7 +64,7 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
 
     NodeType::create(['name' => 'Blog', 'type' => 'blog']);
 
-    // Create list of blogs
+    // Create list of blogs.
     $templates = [
       [
         'type' => 'blog',
@@ -66,7 +73,7 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
       [
         'type' => 'blog',
         'title' => 'Second blog',
-      ]
+      ],
     ];
 
     foreach ($templates as $template) {
@@ -87,7 +94,7 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
   /**
    * Testing graphql for getting all the blogs in the system.
    */
-  function testListOfBlogs() {
+  public function testListOfBlogs() {
     $query = <<<GQL
      query {
       nodeQuery {
@@ -99,7 +106,6 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
       }
     } 
 GQL;
-
 
     // Query the graphql as an anonymous user.
     $output = json_decode($this->query($query)->getContent(), TRUE);
@@ -120,4 +126,5 @@ GQL;
       ],
     ]);
   }
+
 }
