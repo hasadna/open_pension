@@ -151,45 +151,4 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
     $this->assertEquals($error[4]['message'], $message);
   }
 
-  /**
-   * Testing the update media method.
-   */
-  public function testUpdateEntity() {
-    /** @var MockObject|FileStorage $file_mock */
-    $file_mock = $this
-      ->getMockBuilder(FileStorage::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    $file_mock
-      ->method('load')
-      ->willReturn(File::create(['bundle' => 'foo', 'filename' => 'foo']));
-
-    /** @var MockObject|Media $media_mock */
-    $media_mock = $this
-      ->getMockBuilder(Media::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    $media_mock
-      ->method('save')
-      ->willReturn(TRUE);
-
-    $field_mock = $this
-      ->getMockBuilder(FieldItem::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    $field_mock->method('appendItem')->will($this->returnSelf());
-
-    $this
-      ->openPensionFilesProcess
-      ->setFileStorage($file_mock)
-      ->processFile(1)
-      ->updateEntity($media_mock);
-
-    print_r($media_mock);
-
-  }
-
 }
