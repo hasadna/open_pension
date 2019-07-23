@@ -8,3 +8,11 @@ services:
   server:
     env_file:
       - .env.prod
+
+  cms:
+    env_file:
+      - .env.prod
+
+  cms_db:
+    env_file:
+      - .env.prod
