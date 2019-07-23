@@ -3,7 +3,8 @@ version: "3"
 volumes:
   db-data:
     external: false
-  my-db:
+  cms-db-data:
+    external: false
 
 services:
   database:
@@ -40,10 +41,11 @@ services:
       - ./logs/django:/home/app/server/logs
     depends_on:
       - database
-      - cms
 
   cms:
     build: ./cms
+    depends_on:
+      - cms_db
 
   cms_db:
     image: mysql:5.7
