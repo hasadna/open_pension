@@ -33,3 +33,24 @@ services:
     ports:
       # Expose graphql-playground localhost:4000
       - "4000:80"
+
+  cms:
+    ports:
+      - "8080:80"
+    volumes:
+      - ./cms/drupal:/var/www/html/
+    restart: always
+    env_file:
+      - .env
+
+  cms_db:
+    restart: always
+    env_file:
+      - .env
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3307:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
