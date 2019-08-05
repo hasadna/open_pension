@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo "Starting zookeeper..."
+echo "Starting Zookeeper..."
 bin/zookeeper-server-start.sh config/zookeeper.properties &
 
 echo "Starting kafka server..."
