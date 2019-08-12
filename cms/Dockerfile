@@ -5,6 +5,13 @@ RUN apt-get update && \
     apt-get install git-core --assume-yes
 
 WORKDIR /var/www/html
+COPY ./entrypoint.sh .
+
+RUN chmod +x entrypoint.sh
+
+
+RUN ls -al
+RUN pwd
 
 # Install composer.
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
@@ -16,9 +23,5 @@ COPY ./drupal .
 
 # Install composer dependacies.
 RUN composer install
-
-COPY entrypoint.sh .
-
-RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["/var/www/html/entrypoint.sh"]
