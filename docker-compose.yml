@@ -14,7 +14,7 @@ services:
   mongodb:
     image: mongo
     volumes:
-      - /home/app/data:/data/db
+      - ./processor-db:/data/db
 
   gateway:
     build: ./gateway
