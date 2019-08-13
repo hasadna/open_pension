@@ -8,7 +8,7 @@ services:
   database:
     image: postgres
     volumes:
-      - db-data:/var/lib/postgresql/db-data
+      - db-data:/var/lib/postgresql/data
       - ./database:/etc/cron.daily
 
   gateway:
