@@ -1,12 +1,24 @@
-import os
-import sys
 import json
 import os
+from typing import Tuple, Dict
 import excel_adapter
-import mongo_adapter
 from logger import Logger
 import config
 from translator import translate_from_hebrew
+
+
+class ExcelSheetParsingError(Exception):
+    def __init__(self, *args, **kwargs):
+        super(ExcelSheetParsingError, self).__init__()
+        self.parse_error = kwargs['parse_error']
+        self.sheet_name = kwargs['sheet_name']
+
+
+class ExcelWorkbookParsingError(Exception):
+    def __init__(self, *args, **kwargs):
+        super(ExcelWorkbookParsingError, self).__init__()
+        self.parse_error = kwargs['parse_error']
+        self.file_name = kwargs['file_name']
 
 
 class ExcelParser:
@@ -20,7 +32,7 @@ class ExcelParser:
         self._logger = logger
         self._is_israel = None
 
-    def parse_file(self, file_path):
+    def parse_file(self, file_path) -> Tuple[str, dict]:
         """
         Get pension report excel file and parse data by sheet
         Move over all excel data sheet and parse
@@ -30,9 +42,11 @@ class ExcelParser:
         # Load in the workbook file
         try:
             self._workbook = excel_adapter.ExcelLoader(file_path=file_path, logger=self._logger)
-        except Exception as ex:
-                self._logger.error("Failed to load {0}, {1}".format(ex, file_path))
-                return False
+
+        except Exception as e:
+            self._logger.error(f'Failed to parse {file_path}')
+            errors = str(e) if str(e) else 'Workbook loading error'
+            raise ExcelWorkbookParsingError(parse_error=errors, file_name=file_path)
 
         if not self._workbook:
             self._logger.error("Failed to load excel file")
@@ -41,16 +55,54 @@ class ExcelParser:
         # Move over the all sheets
         for sheet_name in self._workbook.sheet_names:
             if sheet_name == 'סכום נכסי הקרן':
-                # :todo: need parse this sheet ?
                 continue
             # Parse sheet
-            sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=os.path.basename(file_path))
+
+            try:
+                sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=file_path)
+            except Exception as e:
+                self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
+                raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
             if not sheet_data:
-                self._logger.warn("Not got data from this sheet. maybe is empty.. {0} {1}".format(sheet_name,
-                                                                                                  file_path))
+                self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
                 continue
 
             yield sheet_name, sheet_data
+
+    def test_parse_file(self, file_path: str) -> Dict[str, Dict[str, list]]:
+        """
+        This function is inteded to try and find all the current parsing problems
+        :param file_path: the file which we want to try and parse
+        :return: the results of the test -> dict(successful={...}, error={...})
+        """
+        result = dict(successful=dict(), error=dict())
+        processed_sheets_generator = self.parse_file(file_path=file_path)
+        while True:
+            try:
+                sheet_name, processed_sheet = next(processed_sheets_generator)
+                if not result['successful'].get(file_path):
+                    result['successful'][file_path] = dict()
+                if not result['successful'][file_path].get(sheet_name):
+                    result['successful'][file_path][sheet_name] = processed_sheet
+                result['successful'][file_path][sheet_name] = processed_sheet
+            except StopIteration:
+                break
+            except ExcelSheetParsingError as e:
+                self._logger.error(f'Failed to parse sheet "{e.sheet_name}": {e.parse_error}')
+                if not result['error'].get(e.parse_error):
+                    result['error'][e.parse_error] = list()
+                result['error'][e.parse_error].append(dict(sheet_name=e.sheet_name,
+                                                           file_name=file_path))
+            except ExcelWorkbookParsingError as e:
+                # TODO this is not working - only the last error is overriden
+                if not result['error'].get(e.parse_error):
+                    result['error'][e.parse_error] = list()
+                result['error'][e.parse_error].append(file_path)
+
+            except Exception as e:
+                self._logger.error(f'Failed to parse sheet {e}')
+
+        return result
 
     def _parse_sheet(self, sheet_name, orig_file="", start_row=0, start_column=2):
         """
@@ -232,54 +284,44 @@ def save_to_json_file(path, file_name, data):
         raise ValueError("Failed to write json file {0}".format(ex))
 
 
+# TODO - to run i.e. do: python3 parser_report.py --root <input_files>
+# TODO                   -t --investment_house <name> --test_file <test_output>
 if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--root', type=str, help='The excels root paths')
+    parser.add_argument('--investment_house', type=str, help='the related investment house')
+    parser.add_argument('--test', '-t', action='store_true')
+    parser.add_argument('--test_file', type=str)
+    args = parser.parse_args()
+    root_path = args.root
+    test_parsing = args.test
+    test_file = args.test_file
+    investment_house = args.investment_house
+
     logger = Logger(logger_name="parser_report")
 
-    import argparse
-    parser = argparse.ArgumentParser(description='Process pension reports.')
-    parser.add_argument('--quarter', type=str,
-                        help='Quarter Reports Date EX:2018Q1')
-    parser.add_argument('--investment_house', type=str)
-    parser.add_argument('--dir', type=str)
+    DB_NAME = "parsed_reports"
 
-    args = parser.parse_args()
-    quarter = args.quarter
-    if not quarter:
-        raise ValueError("quarter argument missing")
+    # TODO initialize MongoDB connection - no need to an adapter - just use pymongo
+    # mongo = mongo_adapter.MongoAdapter(server_address=config.MONGO_SERVER_ADDRESS,
+    #                                    server_port=27017,
+    #                                    user=config.MONGO_SERVER_USERNAME,
+    #                                    password=config.MONGO_SERVER_PASSWORD,
+    #                                    logger=logger)
+    # if not mongo.is_connection:
+    #     logger.error("Failed to connect mongodb server")
+    #     sys.exit(1)
+    #
+    # if not mongo.is_db(db_name=DB_NAME):
+    #     logger.error("db not exist in mongodb server")
+    #     sys.exit(1)
 
-    investment_house = args.investment_house
-    if not investment_house:
-        raise ValueError("investment_house argument missing")
+    excel_parser = ExcelParser(logger=logger)
 
-    dir_path = args.dir
-    if not dir_path:
-        raise ValueError("dir_path argument missing")
+    for root, dirs, files in os.walk(root_path, followlinks=False):
 
-    if not os.path.exists(dir_path):
-        raise ValueError("Dir not exists")
-
-    db_name = "reports_{0}".format(quarter)
-
-    mongo = mongo_adapter.MongoAdapter(server_address = config.MONGO_SERVER_ADDRESS,
-                                       server_port = config.MONGO_SERVER_PORT,
-                                       user = config.MONGO_SERVER_USERNAME,
-                                       password = config.MONGO_SERVER_PASSWORD,
-                                       logger=logger)
-    if not mongo.is_connection:
-        logger.error("Failed to connect mongodb server")
-        sys.exit(1)
-
-    if not mongo.is_db(db_name=db_name):
-        logger.error("db not exist in mongodb server")
-        sys.exit(1)
-
-    process_xl = ExcelParser(logger=logger)
-
-    for root, dirs, files in os.walk(dir_path, followlinks=False):
-        for file in files:
-            file_path = os.path.join(root, file)
-
-            logger.add_extra(info=investment_house)
             logger.info(msg="Start working on {0} investment house: {1}".format(file_path, investment_house))
             for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
                 if not sheet_data:
@@ -297,3 +339,23 @@ if __name__ == '__main__':
                         print("Failed to insert document to mongodb")
 
             logger.info("Done with {0}".format(file))
+            logger.info(msg=f'Start working on {file_path} investment house: {investment_house}')
+
+            if test_parsing:
+                result = excel_parser.test_parse_file(file_path=file_path)
+                with open(test_file, 'w+') as test_result:
+                    test_result.write(json.dumps(result, indent=4))
+            else:
+                for sheet_name, sheet_data in excel_parser.parse_file(file_path=file_path):
+                    for data in sheet_data:
+                        if 'מספר ני"ע' in data and not data['מספר ני"ע']:
+                            continue
+                        # TODO aggregate insert operations for later bulk insert
+                        # if not mongo.insert_document(db_name=DB_NAME,
+                        #                              collection_name=investment_house,
+                        #                              data=data):
+                        #     print("Failed to insert document to mongodb")
+
+            # TODO bulk insert into MongoDB
+
+            logger.info(f'Done with {file}')

@@ -1,0 +1,5 @@
+# Install with: `pip install -r requirements.txt`
+
+openpyxl==2.6.2
+pymongo==3.8.0
+xlrd==1.2.0

@@ -11,6 +11,11 @@ services:
       - db-data:/var/lib/postgresql/db-data
       - ./database:/etc/cron.daily
 
+  mongodb:
+    image: mongo
+    volumes:
+      - ./processor-db:/data/db
+
   gateway:
     build: ./gateway
 
@@ -39,6 +44,16 @@ services:
       - ./logs/django:/home/app/server/logs
     depends_on:
       - database
+
+  processor:
+    build: ./processor
+    command: /bin/sh entrypoint.sh
+    volumes:
+    - ./logs/processor:/home/app/processor/logs
+    ports:
+      - "9999:27107"
+    depends_on:
+    - mongodb
 
   cms:
     build: ./cms
