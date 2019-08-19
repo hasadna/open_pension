@@ -28,6 +28,7 @@ class ExcelParser:
     FIRST_FIELD_TABLE = ['שם נ"ע', 'שם המנפיק/שם נייר ערך']
     MAX_METADATA_ROWS = 10
     SHEETS_TO_SKIP = ['סכום נכסי הקרן']
+    CELLS_TO_SKIP = ['* בעל ענין/צד קשור', 'בהתאם לשיטה שיושמה בדוח הכספי **']
 
     def __init__(self, logger):
         self._logger = logger
@@ -194,7 +195,7 @@ class ExcelParser:
         current_cell = ""
 
         # Parsing until find the end of excel sheet.
-        while current_cell not in ['* בעל ענין/צד קשור', 'בהתאם לשיטה שיושמה בדוח הכספי **']:
+        while current_cell not in self.CELLS_TO_SKIP:
 
             if empty_len > 5:
                 break
@@ -242,7 +243,7 @@ class ExcelParser:
         """
         Parse metadata data.
 
-        :param data: list of data   
+        :param data: list of data
 
         :return:
         """
@@ -354,6 +355,7 @@ if __name__ == '__main__':
     for root, dirs, files in os.walk(root_path, followlinks=False):
 
         logger.info(msg=f"Start working on {file_path} investment house: {investment_house}")
+        number_of_fund = 'מספר ני"ע'
         for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
 
             if not sheet_data:
@@ -363,7 +365,7 @@ if __name__ == '__main__':
             c = 0
             for data in sheet_data:
 
-                if 'מספר ני"ע' in data and not data['מספר ני"ע']:
+                if number_of_fund in data and not data[number_of_fund]:
                     c += 1
                     continue
 
@@ -382,7 +384,7 @@ if __name__ == '__main__':
             for sheet_name, sheet_data in excel_parser.parse_file(file_path=file_path):
                 for data in sheet_data:
 
-                    if 'מספר ני"ע' in data and not data['מספר ני"ע']:
+                    if number_of_fund in data and not data[number_of_fund]:
                         continue
 
                     # TODO aggregate insert operations for later bulk insert
