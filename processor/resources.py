@@ -41,3 +41,25 @@ class Reports(Resource):
 
         reports = self._mongo.get_documents(db_name=quarter, collection_name=investment_house)
         return json_response(data=list(reports))
+
+
+class UploadFile(Resource):
+    def __init__(self, mongo):
+        self._mongo = mongo
+
+    def post(self):
+        """
+        Uploading a file to the system for processing.
+        """
+        return json_response(data={'message': 'Uploading files'})
+
+
+class ProcessFile(Resource):
+    def __init__(self, mongo):
+        self._mongo = mongo
+
+    def post(self):
+        """
+        Start to process file.
+        """
+        return json_response(data={'message': 'processing files'})

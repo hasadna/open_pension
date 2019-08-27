@@ -13,7 +13,7 @@ RUN pip --no-cache-dir install -r requirements.txt
 
 COPY . $APP_DIR
 
-RUN chmod +x entrypoint.sh
-
-EXPOSE 80
-CMD ["/home/app/processor/entrypoint.sh"]
+#RUN chmod +x entrypoint.sh
+#
+#EXPOSE 80
+#CMD ["/home/app/processor/entrypoint.sh"]
