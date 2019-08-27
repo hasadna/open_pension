@@ -52,6 +52,7 @@ services:
     - ./logs/processor:/home/app/processor/logs
     ports:
       - "9999:27107"
+      - "1000:5000"
     depends_on:
     - mongodb
 
