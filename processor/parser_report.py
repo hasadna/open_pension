@@ -3,7 +3,6 @@ import os
 from typing import Tuple, Dict
 import excel_adapter
 from logger import Logger
-import config
 from translator import translate_from_hebrew
 
 
@@ -42,7 +41,7 @@ class ExcelParser:
         :param file_path: Full file path.
 
         :return: parsed data :type: dictionary
-            """
+        """
         # Load in the workbook file
         try:
             self._workbook = excel_adapter.ExcelLoader(file_path=file_path, logger=self._logger)
@@ -56,7 +55,7 @@ class ExcelParser:
             self._logger.error("Failed to load excel file")
             return False
 
-        # Move over the all sheets
+        # Move over the all sheets.
         for sheet_name in self._workbook.sheet_names:
 
             if sheet_name in self.SHEETS_TO_SKIP:

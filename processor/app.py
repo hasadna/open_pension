@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api
-from flask_json import FlaskJSON, JsonError, json_response, as_json
+from flask_json import FlaskJSON
 from logger import Logger
-
 import mongo_adapter
 import config
 from resources import QuarterReport, InvestmentHouseList, Reports, UploadFile, ProcessFile

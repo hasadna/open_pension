@@ -4,8 +4,15 @@ import os
 
 
 class ExcelLoader:
+
     def __init__(self, file_path, logger):
-        self._logger = logger
+        """
+        Init the function.
+
+        :param file_path: The path of the file to process.
+        :param logger: The logger object.
+        """
+        self.logger = logger
         self._file_path = file_path
         self.sheet_names = []
 
@@ -21,7 +28,7 @@ class ExcelLoader:
         :return:
         """
         if not os.path.exists(file_path):
-            self._logger.error(f"File not exists {file_path}")
+            self.logger.error(f"File not exists {file_path}")
             return False
 
         if os.path.splitext(file_path)[1].lower() == '.xlsx':
@@ -29,18 +36,18 @@ class ExcelLoader:
                 # Load in the workbook file.
                 self._workbook = openpyxl.load_workbook(filename=file_path)
             except Exception as ex:
-                self._logger.error(f"Failed to load xlsx file - {ex}, {file_path}")
+                self.logger.error(f"Failed to load xlsx file - {ex}, {file_path}")
                 return False
         elif os.path.splitext(file_path)[1].lower() == '.xls':
             try:
                 self._workbook = xlrd.open_workbook(filename=file_path)
                 # TODO: adjust code to work with xlrd
             except Exception as ex:
-                self._logger.error("Failed to load xls file -  {0}, {1} ".format(ex, file_path))
+                self.logger.error("Failed to load xls file -  {0}, {1} ".format(ex, file_path))
                 return False
 
         if not self._workbook:
-            self._logger("Failed to load excel file {0}".format(file_path))
+            self.logger("Failed to load excel file {0}".format(file_path))
             return False
 
         self.sheet_names = self._workbook.sheetnames
@@ -59,13 +66,10 @@ class ExcelLoader:
         """
         try:
             if sheet_name not in self.sheet_names:
-                self._logger.warn("sheet name not exists in excel")
+                self.logger.warn("sheet name not exists in excel")
                 return None
 
             row = self._workbook[sheet_name].cell(row=row, column=column).value
-
-            # if isinstance(row, datetime.datetime):
-            #     return str(row)
 
             if not row:
                 return None
@@ -92,7 +96,7 @@ class ExcelLoader:
         """
 
         if sheet_name not in self.sheet_names:
-            self._logger.warn("sheet name not exists in excel")
+            self.logger.warn("sheet name not exists in excel")
             return None
 
         cell_data = None
@@ -100,6 +104,7 @@ class ExcelLoader:
         column = min_column
 
         # lambdas function.
+        # todo: remove lambadas.
         data_exists = lambda: True if cell_data else False
         is_not_max_column = lambda: not(max_column == column)
 
@@ -120,20 +125,3 @@ class ExcelLoader:
 
         return row_data
 
-#
-# if __name__ == '__main__':
-#     # For debug only
-#     class FakeLogger:
-#         def error(self, msg):
-#             print("error {0}".format(msg))
-#
-#         def info(self, msg):
-#             print("info {0}".format(msg))
-#
-#         def warn(self, msg):
-#             print("warring {0}".format(msg))
-#
-#     logger = FakeLogger()
-#
-#     excel = ExcelLoader(file_path="/tmp/s1.xlsx", logger=logger)
-#     print(excel.get_entire_row(sheet_name="מניות", row=1, min_column=2))
