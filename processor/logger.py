@@ -9,7 +9,7 @@ class Logger:
         self._logger.setLevel(logging.DEBUG)
 
         # Create file handler which logs even debug messages.
-        fh = logging.FileHandler('{0}.log'.format(logger_name))
+        fh = logging.FileHandler(f'{logger_name}.log')
         fh.setLevel(logging.DEBUG)
 
         # Create console handler with a higher log level.

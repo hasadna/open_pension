@@ -44,7 +44,7 @@ class ExcelParser:
         """
         # Load in the workbook file
         try:
-            self._workbook = excel_adapter.ExcelLoader(file_path=file_path, logger=self._logger)
+            self._workbook = excel_adapter.ExcelProcessor(file_path=file_path, logger=self._logger)
 
         except Exception as e:
             self._logger.error(f'Failed to parse {file_path}')
@@ -116,7 +116,7 @@ class ExcelParser:
                 result['error'][e.parse_error].append(file_path)
 
             except Exception as e:
-                self._logger.error(f'Failed to parse sheet {e}')
+                self._logger.error(f'Failed to parse sheet {str(e)}')
 
         return result
 
@@ -153,7 +153,7 @@ class ExcelParser:
                     if translated_metadata:
                         metadata_field = translated_metadata
                     else:
-                        metadata_field = 'item_{0}'.format(metadata[0])
+                        metadata_field = f'item_{metadata[0]}'
 
                     sheet_metadata[metadata_field] = metadata[1]
 
@@ -229,7 +229,7 @@ class ExcelParser:
                     try:
                         row[fields_name[i].strip()] = data_row[i]
                     except IndexError as ex:
-                        self._logger.error("Failed {0} {1}".format(ex, fields_name))
+                        self._logger.error(f"Failed {ex} {fields_name}")
 
                 if "Instrument Number" in row and row["Instrument Number"]:
                     # Add metadata and add row data to data list.
@@ -274,18 +274,26 @@ class ExcelParser:
         # strip 'סה"כ' word
         self._total_data = data.strip('סה"כ')
 
-        # lambda warp for string find function
-        # Finder return True/False , instead of number in find function
-        # Check if search word in self._total_data
-        finder = lambda search_word: False if self._total_data.find(search_word) == -1 else True
-
-        # Get words list and use finder lambda and filter function to check if one or more of word_list in data string
-        recursive_finder = lambda words_list: True if len(list(filter(finder, words_list))) else False
-
-        if recursive_finder(words_list=self.ISRAEL_WORDS):
+        if self.__recursive_finder(words_list=self.ISRAEL_WORDS):
             self._is_israel = True
-        elif recursive_finder(words_list=self.NOT_ISRAEL_WORDS):
+        elif self.__recursive_finder(words_list=self.NOT_ISRAEL_WORDS):
             self._is_israel = False
+
+    def __finder(self, search_word):
+        """
+        return True/False , instead of number in find function.
+
+        :param search_word:
+        """
+        return self._total_data.find(search_word) == -1
+
+    def __recursive_finder(self, words_list):
+        """
+        Get words list and use finder lambda and filter function to check if one or more of word_list in data string.
+
+        :param words_list:
+        """
+        return len(list(filter(self.__finder, words_list)))
 
 
 def save_to_json_file(path, file_name, data):
@@ -309,89 +317,4 @@ def save_to_json_file(path, file_name, data):
         return True
 
     except Exception as ex:
-        raise ValueError("Failed to write json file {0}".format(ex))
-
-
-# TODO - to run i.e. do: python3 parser_report.py --root <input_files>
-# TODO                   -t --investment_house <name> --test_file <test_output>
-if __name__ == '__main__':
-    import argparse
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--root', type=str, help='The excels root paths')
-    parser.add_argument('--investment_house', type=str, help='the related investment house')
-    parser.add_argument('--test', '-t', action='store_true')
-    parser.add_argument('--test_file', type=str)
-
-    args = parser.parse_args()
-
-    root_path = args.root
-    test_parsing = args.test
-    test_file = args.test_file
-    investment_house = args.investment_house
-
-    logger = Logger(logger_name="parser_report")
-
-    DB_NAME = "parsed_reports"
-
-    # TODO initialize MongoDB connection - no need to an adapter - just use pymongo
-    # mongo = mongo_adapter.MongoAdapter(server_address=config.MONGO_SERVER_ADDRESS,
-    #                                    server_port=27017,
-    #                                    user=config.MONGO_SERVER_USERNAME,
-    #                                    password=config.MONGO_SERVER_PASSWORD,
-    #                                    logger=logger)
-    # if not mongo.is_connection:
-    #     logger.error("Failed to connect mongodb server")
-    #     sys.exit(1)
-    #
-    # if not mongo.is_db(db_name=DB_NAME):
-    #     logger.error("db not exist in mongodb server")
-    #     sys.exit(1)
-
-    excel_parser = ExcelParser(logger=logger)
-
-    for root, dirs, files in os.walk(root_path, followlinks=False):
-
-        logger.info(msg=f"Start working on {file_path} investment house: {investment_house}")
-        number_of_fund = 'מספר ני"ע'
-        for sheet_name, sheet_data in process_xl.parse_file(file_path=file_path):
-
-            if not sheet_data:
-                logger.warn("Not got data from sheet")
-                continue
-
-            c = 0
-            for data in sheet_data:
-
-                if number_of_fund in data and not data[number_of_fund]:
-                    c += 1
-                    continue
-
-                if not mongo.insert_document(db_name=db_name, collection_name=investment_house, data=data):
-                    print("Failed to insert document to mongodb")
-
-        logger.info(f"Done with {file}")
-        logger.info(msg=f'Start working on {file_path} investment house: {investment_house}')
-
-        if test_parsing:
-            result = excel_parser.test_parse_file(file_path=file_path)
-
-            with open(test_file, 'w+') as test_result:
-                test_result.write(json.dumps(result, indent=4))
-        else:
-            for sheet_name, sheet_data in excel_parser.parse_file(file_path=file_path):
-                for data in sheet_data:
-
-                    if number_of_fund in data and not data[number_of_fund]:
-                        continue
-
-                    # TODO aggregate insert operations for later bulk insert
-                    # if not mongo.insert_document(db_name=DB_NAME,
-                    #                              collection_name=investment_house,
-                    #                              data=data):
-                    #     print("Failed to insert document to mongodb")
-
-        # TODO bulk insert into MongoDB
-
-        logger.info(f'Done with {file}')
+        raise ValueError(f"Failed to write json file {ex}")

@@ -3,7 +3,10 @@ import xlrd
 import os
 
 
-class ExcelLoader:
+class ExcelProcessor:
+    """
+    Processing an excel file.
+    """
 
     def __init__(self, file_path, logger):
         """
@@ -31,24 +34,27 @@ class ExcelLoader:
             self.logger.error(f"File not exists {file_path}")
             return False
 
-        if os.path.splitext(file_path)[1].lower() == '.xlsx':
+        filename, extension = os.path.splitext(file_path)
+
+        if extension.lower() == '.xlsx':
 
             try:
                 # Load in the workbook file.
                 self._workbook = openpyxl.load_workbook(filename=file_path)
-            except Exception as ex:
-                self.logger.error(f"Failed to load xlsx file - {ex}, {file_path}")
+            except Exception as e:
+                self.logger.error(f"Failed to load xlsx file - {str(e)}, {file_path}")
                 return False
-        elif os.path.splitext(file_path)[1].lower() == '.xls':
+
+        elif extension.lower() == '.xls':
 
             try:
                 self._workbook = xlrd.open_workbook(filename=file_path)
-            except Exception as ex:
-                self.logger.error("Failed to load xls file -  {0}, {1} ".format(ex, file_path))
+            except Exception as e:
+                self.logger.error(f"Failed to load xls file -  {str(e)}, {file_path}")
                 return False
 
         if not self._workbook:
-            self.logger("Failed to load excel file {0}".format(file_path))
+            self.logger(f"Failed to load excel file {file_path}")
             return False
 
         self.sheet_names = self._workbook.sheetnames
@@ -97,7 +103,7 @@ class ExcelLoader:
         """
 
         if sheet_name not in self.sheet_names:
-            self.logger.warn("sheet name not exists in excel")
+            self.logger.warn(f"sheet name, {sheet_name}, does not exists")
             return None
 
         row_data = []
@@ -106,23 +112,23 @@ class ExcelLoader:
         # Get cell data.
         cell_data = self.get_cell(sheet_name=sheet_name, column=column, row=row)
 
-        while self.should_iterate_columns(max_column, column, cell_data):
+        while self._should_iterate_columns(max_column, column, cell_data):
             row_data.append(cell_data)
             column += 1
             cell_data = self.get_cell(sheet_name=sheet_name, column=column, row=row)
 
         return row_data
 
-    def should_iterate_columns(self, max_column, column, cell_data):
+    def _should_iterate_columns(self, max_column, column, cell_data):
         """
         If max column than use is_not_max_column lambda to check if is the max column. If max column is None, use
         data_exists lambda to check if cell data exists.
 
-        :param max_column:
-        :param column:
-        :param cell_data:
+        :param max_column: Maximum columns we have.
+        :param column: The current column indicator.
+        :param cell_data: The data of the cell.
 
-        :return:
+        :return: Rather we need to iterate over the current column or not.
         """
         if max_column:
             return not(max_column == column)
