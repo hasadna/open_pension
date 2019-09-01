@@ -2,22 +2,8 @@ import json
 import os
 from typing import Tuple, Dict
 import excel_adapter
-from logger import Logger
 from translator import translate_from_hebrew
-
-
-class ExcelSheetParsingError(Exception):
-    def __init__(self, *args, **kwargs):
-        super(ExcelSheetParsingError, self).__init__()
-        self.parse_error = kwargs['parse_error']
-        self.sheet_name = kwargs['sheet_name']
-
-
-class ExcelWorkbookParsingError(Exception):
-    def __init__(self, *args, **kwargs):
-        super(ExcelWorkbookParsingError, self).__init__()
-        self.parse_error = kwargs['parse_error']
-        self.file_name = kwargs['file_name']
+from exceptions import ExcelWorkbookParsingError, ExcelSheetParsingError
 
 
 class ExcelParser:
@@ -34,7 +20,7 @@ class ExcelParser:
         self._is_israel = None
         self._workbook = None
 
-    def parse_file(self, file_path) -> Tuple[str, dict]:
+    def parse(self, file_path):
         """
         Get pension report excel file and parse data by sheet. Move over all excel data sheet and parse.
 
@@ -42,7 +28,8 @@ class ExcelParser:
 
         :return: parsed data :type: dictionary
         """
-        # Load in the workbook file
+        # Load in the workbook file.
+        # todo: check if the file is real file or not.
         try:
             self._workbook = excel_adapter.ExcelProcessor(file_path=file_path, logger=self._logger)
 
@@ -72,9 +59,9 @@ class ExcelParser:
                 self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
                 continue
 
-            yield sheet_name, sheet_data
+            return sheet_name, sheet_data
 
-    def test_parse_file(self, file_path: str) -> Dict[str, Dict[str, list]]:
+    def test_parse_file(self, file_path: str):
         """
         This function is designed to try and find all the current parsing problems.
 
@@ -83,7 +70,7 @@ class ExcelParser:
         :return: The results of the test -> dict(successful={...}, error={...})
         """
         result = dict(successful=dict(), error=dict())
-        processed_sheets_generator = self.parse_file(file_path=file_path)
+        processed_sheets_generator = self.parse(file_path=file_path)
 
         while True:
             try:
