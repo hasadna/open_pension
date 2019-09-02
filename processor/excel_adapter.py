@@ -1,6 +1,7 @@
 import openpyxl
 import xlrd
 import os
+from exceptions import FailToLoadFile
 
 
 class ExcelProcessor:
@@ -21,7 +22,7 @@ class ExcelProcessor:
 
         # Load file.
         if not self._load_excel(file_path=self._file_path):
-            raise Exception("Failed to load excel file")
+            raise FailToLoadFile(f"Failed to load excel file - {self._file_path}")
 
     def _load_excel(self, file_path):
         """

@@ -2,6 +2,7 @@ import argparse
 from parser import ExcelParser
 from logger import Logger
 import json
+import os
 
 
 class Handler:
@@ -41,11 +42,29 @@ class Handler:
         return self.handle_file(self.path)
 
     def recursive_handler(self):
-        # Open folder.
-        # Go over sub folders.
-        # Collect files in sub folders.
-        # Process them.
-        pass
+
+        paths = []
+        self._collect_paths(self.path, paths)
+
+        results = []
+        for file_path in paths:
+            results.append(self.handle_file(file_path))
+
+        return results
+
+    def _collect_paths(self, path, folders):
+        """
+        Recursive walker over a path and collect all files.
+
+        :param path: The main path.
+        :param folders: List of files to append path of files.
+        """
+        for inner_path in os.listdir(path):
+            full_path = os.path.join(path, inner_path)
+            if os.path.isfile(full_path):
+                folders.append(full_path)
+            else:
+                self._collect_paths(full_path, folders)
 
     def handle_file(self, file):
         """
@@ -55,7 +74,6 @@ class Handler:
 
         :return: A processed file object.
         """
-        #todo: change the output of the file.
         return self.parser.parse(file)
 
 

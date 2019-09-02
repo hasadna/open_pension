@@ -34,15 +34,17 @@ class ExcelParser:
             self._workbook = excel_adapter.ExcelProcessor(file_path=file_path, logger=self._logger)
 
         except Exception as e:
-            self._logger.error(f'Failed to parse {file_path}')
+            self._logger.error(f'Failed to parse {file_path}: {str(e)}')
             errors = str(e) if str(e) else 'Workbook loading error'
             raise ExcelWorkbookParsingError(parse_error=errors, file_name=file_path)
 
         if not self._workbook:
-            self._logger.error("Failed to load excel file")
+            self._logger.error(f"Failed to load excel file - {file_path}")
             return False
 
         # Move over the all sheets.
+        parsed_file = dict()
+
         for sheet_name in self._workbook.sheet_names:
 
             if sheet_name in self.SHEETS_TO_SKIP:
@@ -59,7 +61,9 @@ class ExcelParser:
                 self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
                 continue
 
-            return sheet_name, sheet_data
+            parsed_file[sheet_name] = sheet_data
+
+        return parsed_file
 
     def test_parse_file(self, file_path: str):
         """
