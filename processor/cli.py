@@ -1,4 +1,5 @@
 import argparse
+from exceptions import ExcelWorkbookParsingError
 from parser import ExcelParser
 from logger import Logger
 import json
@@ -10,7 +11,7 @@ class Handler:
     @staticmethod
     def trigger():
         handler = Handler()
-        return handler.process()
+        print(json.dumps(handler.process()))
 
     def __init__(self):
         """
@@ -23,10 +24,10 @@ class Handler:
                             help='Determine if the given path is a folder or not')
 
         args = parser.parse_args()
-        logger = Logger("cli")
+        self.logger = Logger("cli")
 
         self.path, self.folder = args.path, args.folder
-        self.parser = ExcelParser(logger=logger)
+        self.parser = ExcelParser(logger=self.logger)
 
     def process(self):
         """
@@ -34,10 +35,7 @@ class Handler:
         """
         # First, we need to check if it's a folder of a path to to the file.
         if self.folder:
-            results = []
-
-            self.recursive_handler()
-            return results
+            return self.recursive_handler()
 
         return self.handle_file(self.path)
 
@@ -47,8 +45,18 @@ class Handler:
         self._collect_paths(self.path, paths)
 
         results = []
+
         for file_path in paths:
-            results.append(self.handle_file(file_path))
+            try:
+                parsed = self.handle_file(file_path)
+
+                if not parsed:
+                    # Nothing to return.
+                    continue
+
+                results.append(parsed)
+            except ExcelWorkbookParsingError as e:
+                self.logger.error(f"Cannot parse the file {file_path} due to to: {str(e)}")
 
         return results
 
@@ -76,5 +84,4 @@ class Handler:
         """
         return self.parser.parse(file)
 
-
-print(json.dumps(Handler.trigger()))
+Handler.trigger()
