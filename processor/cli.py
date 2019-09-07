@@ -84,4 +84,5 @@ class Handler:
         """
         return self.parser.parse(file)
 
+
 Handler.trigger()
