@@ -42,3 +42,6 @@ services:
 
   cms:
     build: ./cms
+
+  kafka:
+    build: ./kafka
