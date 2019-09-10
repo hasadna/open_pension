@@ -1,12 +1,14 @@
 import json
 import os
-from typing import Tuple, Dict
 import excel_adapter
 from translator import translate_from_hebrew
 from exceptions import ExcelWorkbookParsingError, ExcelSheetParsingError
 
 
 class ExcelParser:
+    """
+    This class receive a file, process that file and return an object representing the file.
+    """
     FIRST_TABLE = None
     NOT_ISRAEL_WORDS = ['מט"ח', 'חוץ לארץ', 'חו"ל']
     ISRAEL_WORDS = ['ישראל', 'בארץ']
@@ -28,8 +30,6 @@ class ExcelParser:
 
         :return: parsed data :type: dictionary
         """
-        # Load in the workbook file.
-        # todo: check if the file is real file or not.
         try:
             self._workbook = excel_adapter.ExcelProcessor(file_path=file_path, logger=self._logger)
 
@@ -262,7 +262,7 @@ class ExcelParser:
 
         :return:
         """
-        # strip 'סה"כ' word
+        # strip 'סה"כ' word.
         self._total_data = data.strip('סה"כ')
 
         if self.__recursive_finder(words_list=self.ISRAEL_WORDS):

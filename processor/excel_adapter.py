@@ -6,7 +6,9 @@ from exceptions import FailToLoadFile
 
 class ExcelProcessor:
     """
-    Processing an excel file.
+    The class holds API function for processing and handling an excel file.
+
+    todo: find a better name or try to merge it into the the parser class.
     """
 
     def __init__(self, file_path, logger):
