@@ -4,6 +4,9 @@ from flask_restful import reqparse
 from werkzeug import secure_filename, datastructures
 import os
 from datetime import datetime
+from mongodb import Mongo
+from parser import ExcelParser
+from logger import Logger
 
 
 class UploadFile(Resource):
@@ -24,6 +27,7 @@ class UploadFile(Resource):
 
         args = parser.parse_args()
         files = args['files']
+        mongo = Mongo()
 
         saved_files = {}
         for file in files:
@@ -34,14 +38,19 @@ class UploadFile(Resource):
                 filename, extension = file.filename.split('.')
                 file.filename = f'{filename}_{int(datetime.now().timestamp())}.{extension}'
 
-            # todo: save to DB.
             saved_path = os.path.join(path, file.filename)
             file.save(saved_path)
+
+            # Saving data to the DB.
+            mongo_results = mongo.insert({
+                'path': saved_path,
+                'status': 'new',
+            })
 
             # Appending data to info array.
             saved_files[file.filename] = {
                 'path': saved_path,
-                'id': '',
+                'id': str(mongo_results.inserted_id),
             }
 
         return json_response(
@@ -55,8 +64,24 @@ class UploadFile(Resource):
 
 class ProcessFile(Resource):
 
-    def post(self):
+    def post(self, id):
         """
         Start to process file.
         """
-        return json_response(data={'message': 'processing files'})
+        logger = Logger("cli")
+        parser = ExcelParser(logger=logger)
+        mongo = Mongo()
+
+        process_item = mongo.load(id)
+        results = parser.parse(process_item['path'])
+
+        return json_response(data={'results': results})
+
+
+class ProcessingStatus(Resource):
+
+    def get(self, id):
+        """
+        Start to process file.
+        """
+        return json_response(data={'id': id})

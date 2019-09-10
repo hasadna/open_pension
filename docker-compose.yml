@@ -11,11 +11,6 @@ services:
       - db-data:/var/lib/postgresql/db-data
       - ./database:/etc/cron.daily
 
-  mongodb:
-    image: mongo
-    volumes:
-      - ./processor-db:/data/db
-
   gateway:
     build: ./gateway
 
@@ -51,10 +46,16 @@ services:
     volumes:
     - ./logs/processor:/home/app/processor/logs
     ports:
-      - "9999:27107"
       - "1000:5000"
     depends_on:
-    - mongodb
+    - processor_db
+
+  processor_db:
+    image: mongo
+    ports:
+      - "27107:27107"
+    volumes:
+      - ./processor-db:/data/db
 
   cms:
     build: ./cms
