@@ -64,7 +64,14 @@ class UploadFile(Resource):
 
 class ProcessFile(Resource):
 
-    def post(self, id):
+    def get(self, object_id):
+        mongo = Mongo()
+
+        process_item = mongo.load(object_id)
+        del process_item['_id']
+        return json_response(data={'item': process_item})
+
+    def patch(self, object_id):
         """
         Start to process file.
         """
@@ -72,16 +79,9 @@ class ProcessFile(Resource):
         parser = ExcelParser(logger=logger)
         mongo = Mongo()
 
-        process_item = mongo.load(id)
+        process_item = mongo.load(object_id)
         results = parser.parse(process_item['path'])
 
+        mongo.update(object_id, {"processed": results, "status": "processed"})
+        del process_item['_id']
         return json_response(data={'results': results})
-
-
-class ProcessingStatus(Resource):
-
-    def get(self, id):
-        """
-        Start to process file.
-        """
-        return json_response(data={'id': id})

@@ -12,5 +12,8 @@ class Mongo:
     def insert(self, item):
         return self.db['results'].insert_one(item)
 
-    def load(self, _id):
-        return self.db['results'].find_one({"_id": ObjectId(_id)})
+    def load(self, object_id):
+        return self.db['results'].find_one({"_id": ObjectId(object_id)})
+
+    def update(self, object_id, values):
+        return self.db['results'].update_one({"_id": ObjectId(object_id)}, {"$set": values})
