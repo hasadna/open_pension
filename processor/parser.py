@@ -129,7 +129,7 @@ class ExcelParser:
         data = []
         sheet_metadata = {
             "Investment": sheet_name,
-            "orig_file": orig_file
+            "file_name": orig_file.split('/')[-1]
         }
 
         # Parse metadata, stop when find the first table field or until max metadata.
@@ -177,7 +177,7 @@ class ExcelParser:
                 if not translated:
                     # If failed to translate append the hebrew name.
                     self._logger.warn(f"Failed to translate {field} from hebrew")
-                    fields_name.append(f"item_{field}")
+                    fields_name.append(f"item_fooo_{field}")
                 else:
                     fields_name.append(translated)
 
@@ -211,9 +211,9 @@ class ExcelParser:
                 continue
             else:
                 row = {
-                    'Index': self._total_data,
-                    "Israel": self._is_israel,
-                    "Line in file": current_row
+                    'index': self._total_data,
+                    "israel": self._is_israel,
+                    "line_in_file": current_row
                 }
 
                 for i in range(0, fields_len):

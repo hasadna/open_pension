@@ -53,6 +53,17 @@ PENSION_HEB_TO_ENG = {
     "תעודות חוב מסחריות": "Commercial Debt",
     "תעודות סל": "ETF",
     "תשואה לפידיון": "yield",
+
+    # Custom translations.
+    "תאריך הדיווח": "Date",
+    "החברה המדווחת": "Publishing body",
+    "שם מסלול/קרן/קופה": "Track name",
+    "מספר מסלול/קרן/קופה": "Track number",
+    "1.ד. הלוואות": "1.d loans",
+    "1.ה. פקדונות מעל 3 חודשים": "1.h deposites",
+    "1. ו. זכויות במקרקעין": "1. mekarkein",
+    "1. ז. השקעה בחברות מוחזקות": "1.z investments",
+    "1. ט. יתרות התחייבות להשקעה": "1.t plus",
 }
 
 
