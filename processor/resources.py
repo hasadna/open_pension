@@ -82,6 +82,9 @@ class ProcessFile(Resource):
         process_item = mongo.load(object_id)
         results = parser.parse(process_item['path'])
 
+        # todo: When the error flag from the logger set the status to "with error" and add the errors here.
         mongo.update(object_id, {"processed": results, "status": "processed"})
         del process_item['_id']
+
+        # todo: remove the file path.
         return json_response(data={'results': results})

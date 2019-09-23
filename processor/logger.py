@@ -41,6 +41,7 @@ class Logger:
         :param msg:
         :return:
         """
+        # todo: Set an error flag on.
         self._logger.error(msg=msg, extra={'more_info': self.extra_info})
 
     def debug(self, msg):
@@ -57,6 +58,7 @@ class Logger:
         :param msg:
         :return:
         """
+        # todo: Set an error flag on.
         self._logger.warning(msg=msg, extra={'more_info': self.extra_info})
 
     def add_extra(self, info):

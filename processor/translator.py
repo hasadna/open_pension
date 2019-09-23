@@ -64,9 +64,32 @@ PENSION_HEB_TO_ENG = {
     "1. ו. זכויות במקרקעין": "1. mekarkein",
     "1. ז. השקעה בחברות מוחזקות": "1.z investments",
     "1. ט. יתרות התחייבות להשקעה": "1.t plus",
+    'שם נ"ע': "Instrument name",
+    "שם מדרג": "Rating name",
+    "שיעור מנכסי אפיק ה השקעה": "Total of all holding",
+    "שעור מנכסי השקעה": "Percent from investment",
+    "עלות מתואמת מסגרות אשראי ללווים": "Total value for loans",
+    "שיעור מנכסי אפיק ההשקעה": "Percent from insetments",
+    "עלות מותאמת": "cordinated cost",
+    "ריבית אפקטיבית": "Effective intrests",
+    "תאריך רכישה": "Purcahse date",
+    "ענף מסחר": "Name of branch",
+    'עלות מתואמת אג"ח קונצרני ל.סחיר': "cordinated value for agach",
+    "מנכסי אפיק ההשקעה": "From invesement places",
+    'עלות מתואמת אג"ח קונצרני סחיר': "Value of concern",
+    'תאריך סיום ההתחייבות': "End date",
+    'מנפיק': "Producer",
+    'תאריך שערוך אחרון': "last date",
+    'אופי הנכס': "Value of the holding",
+    'שיעור התשואה במהלך התקופה': "Percent in date",
+    'שווי משוערך': "Unkown value",
+    'ספק מידע': "Information provider",
+    'זירת מסחר': "Place of buying",
 }
 
 
 def translate_from_hebrew(word):
     if word in PENSION_HEB_TO_ENG:
         return PENSION_HEB_TO_ENG[word]
+
+    # Todo: Pulling translation from the back office.
