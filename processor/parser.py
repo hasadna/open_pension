@@ -160,26 +160,13 @@ class ExcelParser:
             if current_row - start_metadata_row > self.MAX_METADATA_ROWS:
                 self._logger.error(f"Failed to parser sheet. max metadata rows in {orig_file}/{sheet_name}")
                 return None
-        else:
+
             # Get fields name.
-            fields_name_hebrew = self._workbook.get_entire_row(
+            fields_len = len(self._workbook.get_entire_row(
                 sheet_name=sheet_name,
                 row=current_row,
                 min_column=start_column
-            )
-
-            fields_len = len(fields_name_hebrew)
-
-            fields_name = []
-            for field in fields_name_hebrew:
-                translated = translate_from_hebrew(word=str(field).strip().replace("*", ""))
-
-                if not translated:
-                    # If failed to translate append the hebrew name.
-                    self._logger.warn(f"Failed to translate {field} from hebrew")
-                    fields_name.append(f"item_fooo_{field}")
-                else:
-                    fields_name.append(translated)
+            ))
 
         empty_len = 0
         current_cell = ""
@@ -211,18 +198,22 @@ class ExcelParser:
                 continue
             else:
                 row = {
-                    'index': self._total_data,
+                    "index": self._total_data,
                     "israel": self._is_israel,
                     "line_in_file": current_row
                 }
 
                 for i in range(0, fields_len):
                     try:
-                        row[fields_name[i].strip()] = data_row[i]
+                        # todo: translate the field name.
+                        row[f"column_{i}"] = data_row[i]
                     except IndexError as ex:
-                        self._logger.error(f"Failed {ex} {fields_name}")
+                        self._logger.error(f"Failed {ex}")
 
-                if "Instrument Number" in row and row["Instrument Number"]:
+                # Get the rel field of column_1. column_1 is the column which determine if the row is qualified or not.
+                column_1_translated_name = "column_1"
+
+                if column_1_translated_name in row and row[column_1_translated_name]:
                     # Add metadata and add row data to data list.
                     row.update(sheet_metadata)
                     data.append(row)
