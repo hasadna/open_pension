@@ -4,8 +4,8 @@ import logging
 class Logger:
 
     def __init__(self, logger_name):
+        self.error = False
         self._logger = logging.getLogger(logger_name)
-
         self._logger.setLevel(logging.DEBUG)
 
         # Create file handler which logs even debug messages.
@@ -41,7 +41,7 @@ class Logger:
         :param msg:
         :return:
         """
-        # todo: Set an error flag on.
+        self.error = True
         self._logger.error(msg=msg, extra={'more_info': self.extra_info})
 
     def debug(self, msg):
@@ -56,9 +56,8 @@ class Logger:
         """
 
         :param msg:
-        :return:
         """
-        # todo: Set an error flag on.
+        self.error = True
         self._logger.warning(msg=msg, extra={'more_info': self.extra_info})
 
     def add_extra(self, info):
@@ -68,5 +67,3 @@ class Logger:
         :return:
         """
         self.extra_info = info
-
-
