@@ -4,7 +4,7 @@ import logging
 class Logger:
 
     def __init__(self, logger_name):
-        self.error = False
+        self.errored = False
         self._logger = logging.getLogger(logger_name)
         self._logger.setLevel(logging.DEBUG)
 
@@ -27,43 +27,19 @@ class Logger:
 
         self.extra_info = ""
 
-    def info(self, msg):
-        """
-
-        :param msg:
-        :return:
-        """
-        self._logger.info(msg=msg, extra={'more_info': self.extra_info})
-
     def error(self, msg):
         """
 
         :param msg:
         :return:
         """
-        self.error = True
+        self.errored = True
         self._logger.error(msg=msg, extra={'more_info': self.extra_info})
-
-    def debug(self, msg):
-        """
-
-        :param msg:
-        :return:
-        """
-        self._logger.debug(msg=msg, extra={'more_info': self.extra_info})
 
     def warn(self, msg):
         """
 
         :param msg:
         """
-        self.error = True
+        self.errored = True
         self._logger.warning(msg=msg, extra={'more_info': self.extra_info})
-
-    def add_extra(self, info):
-        """
-
-        :param info:
-        :return:
-        """
-        self.extra_info = info
