@@ -1,6 +1,6 @@
 import json
 import os
-import excel_adapter
+from excel_adapter import ExcelProcessor
 from translator import translate_from_hebrew
 from exceptions import ExcelWorkbookParsingError, ExcelSheetParsingError
 
@@ -31,7 +31,7 @@ class ExcelParser:
         :return: parsed data :type: dictionary
         """
         try:
-            self._workbook = excel_adapter.ExcelProcessor(file_path=file_path, logger=self._logger)
+            self._workbook = ExcelProcessor(file_path=file_path, logger=self._logger)
 
         except Exception as e:
             self._logger.error(f'Failed to parse {file_path}: {str(e)}')

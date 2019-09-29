@@ -45,18 +45,3 @@ class TestLogger(TestCase):
             "The string 'test - ERROR -  -  Testing the error' should appear in the log but it's not"
 
         assert logger.errored is True, "The error flag should been turned on but it's not."
-
-
-    def test_logger_error(self):
-        """
-        Testing the error logging functionality.
-        """
-        logger = Logger('test')
-        logger.error('Testing the error')
-        log_results = self.log_file_content()
-
-        assert 'test - ERROR -  -  Testing the error' in log_results, \
-            "The string 'test - ERROR -  -  Testing the error' should appear in the log but it's not"
-
-        assert logger.errored is True, "The error flag should been turned on but it's not."
-
