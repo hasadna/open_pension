@@ -22,11 +22,13 @@ class Handler:
         parser.add_argument('path', metavar='path', type=str, help='Path to the file or folder')
         parser.add_argument('--folder', metavar='folder', type=int,
                             help='Determine if the given path is a folder or not')
+        parser.add_argument('--output_folder', metavar='output_folder', type=str,
+                            help='Path to export content of folders')
 
         args = parser.parse_args()
         self.logger = Logger("cli")
 
-        self.path, self.folder = args.path, args.folder
+        self.path, self.folder, self.output_to_folder = args.path, args.folder, args.output_folder
         self.parser = ExcelParser(logger=self.logger)
 
     def process(self):
@@ -54,8 +56,18 @@ class Handler:
                     # Nothing to return.
                     continue
 
-                results.append(parsed)
+                if self.output_to_folder:
+                    filename = file_path.split('/')[-1].split('.')[0]
+                    self.save_to_json_file(
+                        path=self.output_to_folder,
+                        file_name=f"{filename}.json",
+                        data=parsed
+                    )
+                else:
+                    results.append(parsed)
             except ExcelWorkbookParsingError as e:
+                import pdb
+                pdb.set_trace()
                 self.logger.error(f"Cannot parse the file {file_path} due to to: {str(e)}")
 
         return results
@@ -83,6 +95,29 @@ class Handler:
         :return: A processed file object.
         """
         return self.parser.parse(file)
+
+    def save_to_json_file(self, path, file_name, data):
+        """
+        Saving json to file. Probably.
+
+        :param path: The path of the file.
+        :param file_name: The file name.
+        :param data: The data to write.
+        """
+        if not os.path.isdir(path):
+            raise Exception(f"folder not exists {path}")
+
+        full_path = os.path.join(path, file_name)
+
+        try:
+
+            with open(full_path, "w") as outfile:
+                json.dump(data, outfile)
+
+            return True
+
+        except Exception as ex:
+            raise ValueError(f"Failed to write json file {ex}")
 
 
 Handler.trigger()
