@@ -4,12 +4,14 @@ from flask_restful import reqparse
 from werkzeug import secure_filename, datastructures
 import os
 from datetime import datetime
-from mongodb import Mongo
 from parser import ExcelParser
 from logger import Logger
 
 
 class UploadFile(Resource):
+
+    def __init__(self, mongo):
+        self._mongo = mongo
 
     def post(self):
         """
@@ -27,7 +29,6 @@ class UploadFile(Resource):
 
         args = parser.parse_args()
         files = args['files']
-        mongo = Mongo()
 
         saved_files = {}
         for file in files:
@@ -42,7 +43,7 @@ class UploadFile(Resource):
             file.save(saved_path)
 
             # Saving data to the DB.
-            mongo_results = mongo.insert({
+            mongo_results = self._mongo.insert({
                 'path': saved_path,
                 'status': 'new',
             })
@@ -64,10 +65,11 @@ class UploadFile(Resource):
 
 class ProcessFile(Resource):
 
-    def get(self, object_id):
-        mongo = Mongo()
+    def __init__(self, mongo):
+        self._mongo = mongo
 
-        process_item = mongo.load(object_id)
+    def get(self, object_id):
+        process_item = self._mongo.load(object_id)
         del process_item['_id']
         return json_response(data={'item': process_item})
 
@@ -77,14 +79,19 @@ class ProcessFile(Resource):
         """
         logger = Logger("cli")
         parser = ExcelParser(logger=logger)
-        mongo = Mongo()
 
-        process_item = mongo.load(object_id)
+        process_item = self._mongo.load(object_id)
         results = parser.parse(process_item['path'])
 
-        # todo: When the error flag from the logger set the status to "with error" and add the errors here.
-        mongo.update(object_id, {"processed": results, "status": "processed"})
-        del process_item['_id']
+        if logger.errored:
+            status = 'processed with errors'
+        else:
+            status = 'processed'
 
-        # todo: remove the file path.
+        self._mongo.update(object_id, {"processed": results, "status": status})
+
+        # Remove the path and the id. We don't need to expose them.
+        del process_item['_id']
+        del process_item['path']
+
         return json_response(data={'results': results})
