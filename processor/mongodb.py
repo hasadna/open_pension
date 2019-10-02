@@ -6,7 +6,7 @@ from bson.objectid import ObjectId
 class Mongo:
 
     def __init__(self):
-        self.client = pymongo.MongoClient(f"mongodb://{config.MONGO_SERVER_ADDRESS}:{config.MONGO_SERVER_PORT}/")
+        self.client = pymongo.MongoClient(f"mongodb://mongo:27017/")
         self.db = self.client["open_pension_processors"]
 
     def insert(self, item):

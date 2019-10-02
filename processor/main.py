@@ -16,4 +16,4 @@ api.add_resource(UploadFile, '/upload', resource_class_kwargs={"mongo": mongo})
 api.add_resource(ProcessFile, '/process/<object_id>', resource_class_kwargs={"mongo": mongo})
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=True)
