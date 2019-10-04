@@ -1,12 +1,60 @@
+sheets_order = [
+    'סכום נכסי הקרן',
+    'מזומנים',
+    'תעודות התחייבות ממשלתיות',
+    'תעודות חוב מסחריות',
+    'אג"ח קונצרני',
+    'מניות',
+    'תעודות סל',
+    'קרנות נאמנות',
+    'כתבי אופציה',
+    'אופציות',
+    'חוזים עתידיים',
+    'מוצרים מובנים',
+    'לא סחיר - תעודות התחייבות ממשלתי',
+    'לא סחיר - תעודות חוב מסחריות',
+    'לא סחיר - אג"ח קונצרני',
+    'לא סחיר - מניות',
+    'לא סחיר - קרנות השקעה',
+    'לא סחיר - כתבי אופציה',
+    'לא סחיר - אופציות',
+    'לא סחיר - חוזים עתידיים',
+    'לא סחיר - מוצרים מובנים',
+    'הלוואות',
+    'פקדונות מעל 3 חודשים',
+    'זכויות מקרקעין',
+    'השקעה בחברות מוחזקות',
+    'השקעות אחרות',
+    'יתרת התחייבות להשקעה',
+    'עלות מתואמת אג"ח קונצרני סחיר',
+    'עלות מתואמת אג"ח קונצרני ל.סחיר',
+    'עלות מתואמת מסגרות אשראי ללווים'
+]
+
 mapping = {
     'אג"ח קונצרני': {
-        1: 'Instrument Name', 2: 'Instrument Number', 3: 'Market name', 4: 'Information provider',
-        5: 'Issuer Nunber', 6: 'Industry', 7: 'Rating', 8: 'Rating Agencies', 9: 'Purcahse date',
-        10: 'Duration', 11: 'Currency', 12: 'Rate', 13: 'yield to maturity', 14: 'Nominal Value',
+        1: 'Instrument Name',
+        2: 'Instrument Number',
+        3: 'Market name',
+        4: 'Information provider',
+        5: 'Issuer Nunber',
+        6: 'Industry',
+        7: 'Rating',
+        8: 'Rating Agencies',
+        9: 'Purcahse date',
+        10: 'Duration',
+        11: 'Currency',
+        12: 'Rate',
+        13: 'yield to maturity',
+        14: 'Nominal Value',
         15: 'Price',
-        16: 'Rate', 17: 'Market Value', 18: 'Rafe of Register', 19: 'Rate of Instrument Type',
-        20: 'Rafe of Funde Holding'},
-    'אג"ח קונצרני - לא סחיר': {
+        16: 'Rate',
+        17: 'Market Value',
+        18: 'Rafe of Register',
+        19: 'Rate of Instrument Type',
+        20: 'Rafe of Funde Holding'
+    },
+    'לא סחיר - אג"ח קונצרני': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Information provider',
         4: 'Issuer Nunber',
         5: 'Industry', 6: 'Rating', 7: 'Rating Agencies', 8: 'Purcahse date',
@@ -20,7 +68,7 @@ mapping = {
         6: 'Nominal Value', 7: 'Price', 8: 'Market Value', 9: 'Rafe of Register',
         10: 'Rate of Instrument Type',
         11: 'Rafe of Funde Holding'},
-    'אופציות - לא סחיר': {
+    'לא סחיר - אופציות': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Industry', 4: 'Currency',
         5: 'Purcahse date',
         6: 'Nominal Value', 7: 'Price', 8: 'Fair Value', 9: 'Rafe of Register',
@@ -51,17 +99,17 @@ mapping = {
         5: 'Currency',
         6: 'Nominal Value', 7: 'Price', 8: 'Market Value', 9: 'Rate of Instrument Type',
         10: 'Rafe of Funde Holding'},
-    'חוזים עתידיים - לא סחיר': {
+    'לא סחיר - חוזים עתידיים': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Industry', 4: 'Currency',
         5: 'Purcahse date', 6: 'Nominal Value', 7: 'Price', 8: 'Fair Value',
         9: 'Rate of Instrument Type', 10: 'Rafe of Funde Holding'},
-    'יתרות התחייבות להשקעה': {
+    'יתרת התחייבות להשקעה': {
         1: 'Instrument Name', 2: 'total commitment', 3: 'Date of Investment commitments'},
     'כתבי אופציה': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Market name', 4: 'Industry', 5: 'Currency',
         6: 'Nominal Value', 7: 'Price', 8: 'Market Value', 9: 'Rafe of Register',
         10: 'Rate of Instrument Type', 11: 'Rafe of Funde Holding'},
-    'כתבי אופציה - לא סחיר': {
+    'לא סחיר - כתבי אופציה': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Industry', 4: 'Currency',
         5: 'Purcahse date', 6: 'Nominal Value', 7: 'Price', 8: 'Fair Value',
         9: 'Rafe of Register',
@@ -71,7 +119,7 @@ mapping = {
         5: 'Rating Agencies', 6: 'Purcahse date', 7: 'Duration', 8: 'Currency', 9: 'Rate',
         10: 'yield to maturity', 11: 'Nominal Value', 12: 'Price', 13: 'Market Value',
         14: 'Rafe of Register', 15: 'Rate of Instrument Type', 16: 'Rafe of Funde Holding'},
-    'מוצרים מובנים - לא סחיר': {
+    'לא סחיר - מוצרים מובנים': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Underlying asset', 4: 'Rating',
         5: 'Rating Agencies', 6: 'Purcahse date', 7: 'Duration', 8: 'Currency',
         9: 'Rate',
@@ -83,7 +131,7 @@ mapping = {
         5: 'Issuer Nunber', 6: 'Industry', 7: 'Currency', 8: 'Nominal Value', 9: 'Price', 10: 'Rate',
         11: 'Market Value', 12: 'Rafe of Register', 13: 'Rate of Instrument Type',
         14: 'Rafe of Funde Holding'},
-    'מניות - לא סחיר': {
+    'לא סחיר - מניות': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Information provider',
         4: 'Issuer Nunber',
         5: 'Industry', 6: 'Currency', 7: 'Nominal Value', 8: 'Price', 9: 'Fair Value',
@@ -94,11 +142,11 @@ mapping = {
         9: 'yield to maturity',
         10: 'Nominal Value', 11: 'Price', 12: 'Fair Value', 13: 'Rate of Instrument Type',
         14: 'Rafe of Funde Holding'},
-    'קרנות השקעה - לא סחיר': {
+    'לא סחיר - קרנות השקעה': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Currency', 4: 'Purcahse date',
         5: 'Nominal Value', 6: 'Price', 7: 'Fair Value', 8: 'Rafe of Register',
         9: 'Rate of Instrument Type', 10: 'Rafe of Funde Holding'},
-    'תעודות השתתפות בקרנות נאמנות': {
+    'קרנות נאמנות': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Market name',
         4: 'Issuer Nunber',
         5: 'Industry', 6: 'Rating', 7: 'Rating Agencies', 8: 'Currency',
@@ -106,14 +154,23 @@ mapping = {
         10: 'Price', 11: 'Market Value', 12: 'Rafe of Register',
         13: 'Rate of Instrument Type', 14: 'Rafe of Funde Holding'},
     'תעודות התחייבות ממשלתיות': {
-        1: 'Instrument Name', 2: 'Instrument Number', 3: 'Market name', 4: 'Rating',
-        5: 'Rating Agencies', 6: 'Purcahse date', 7: 'Duration', 8: 'Currency',
+        1: 'Instrument Name',
+        2: 'Instrument Number',
+        3: 'Market name',
+        4: 'Rating',
+        5: 'Rating Agencies',
+        6: 'Purcahse date',
+        7: 'Duration',
+        8: 'Currency',
         9: 'Rate',
-        10: 'yield to maturity', 11: 'Nominal Value', 12: 'Price', 13: 'Rate',
+        10: 'yield to maturity',
+        11: 'Nominal Value',
+        12: 'Price',
+        13: 'Rate',
         14: 'Market Value',
         15: 'Rafe of Register', 16: 'Rate of Instrument Type',
         17: 'Rafe of Funde Holding'},
-    'תעודות התחייבות ממשלתיות - לא סחיר': {
+    'לא סחיר - תעודות התחייבות ממשלתי': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Rating',
         4: 'Rating Agencies',
         5: 'Purcahse date', 6: 'Duration', 7: 'Currency', 8: 'Rate',
@@ -131,7 +188,7 @@ mapping = {
         15: 'Price', 16: 'Market Value', 17: 'Rafe of Register',
         18: 'Rate of Instrument Type',
         19: 'Rafe of Funde Holding'},
-    'תעודות חוב מסחריות - לא סחיר': {
+    'לא סחיר - תעודות חוב מסחריות': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Information provider',
         4: 'Issuer Nunber', 5: 'Industry', 6: 'Rating', 7: 'Rating Agencies',
         8: 'Purcahse date', 9: 'Duration', 10: 'Currency', 11: 'Rate',
@@ -144,7 +201,7 @@ mapping = {
                   6: 'Currency', 7: 'Nominal Value', 8: 'Price', 9: 'Rate', 10: 'Market Value',
                   11: 'Rafe of Register',
                   12: 'Rate of Instrument Type', 13: 'Rafe of Funde Holding'},
-    'אג"ח קונצרני לא סחיר - עלות מתואמת': {
+    'עלות מתואמת אג"ח קונצרני ל.סחיר': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Industry',
                                            4: 'Rating',
                                            5: 'Rating Agencies', 6: 'Purcahse date', 7: 'Duration',
@@ -153,7 +210,7 @@ mapping = {
                                            12: 'Fair Value',
                                            13: 'Rafe of Register', 14: 'Rate of Instrument Type',
                                            15: 'Rafe of Funde Holding'},
-    'אג"ח קונצרני סחיר - עלות מתואמת': {
+    'עלות מתואמת אג"ח קונצרני סחיר': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Industry', 4: 'Rating',
                                         5: 'Rating Agencies', 6: 'Purcahse date', 7: 'Duration', 8: 'Currency',
                                         9: 'Rate',
@@ -166,7 +223,7 @@ mapping = {
                 6: 'Currency', 7: 'Rate', 8: 'yield to maturity', 9: 'Market Value',
                 10: 'Rate of Instrument Type',
                 11: 'Rafe of Funde Holding'},
-    'מסגרות אשראי מנוצלות ללווים - עלות מתואמת': {
+    'עלות מתואמת מסגרות אשראי ללווים': {
         1: 'Instrument Name', 2: 'Instrument Number', 3: 'Industry',
                                                   4: 'Rating',
                                                   5: 'Rating Agencies', 6: 'Purcahse date', 7: 'Duration',

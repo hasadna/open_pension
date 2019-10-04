@@ -1,7 +1,7 @@
 from excel_adapter import ExcelProcessor
 from translator import translate_from_hebrew
 from exceptions import ExcelWorkbookParsingError, ExcelSheetParsingError
-from columns_mapping import mapping
+from columns_mapping import mapping, sheets_order
 
 
 class ExcelParser:
@@ -44,7 +44,10 @@ class ExcelParser:
         # Move over the all sheets.
         parsed_file = dict()
 
-        for sheet_index, sheet_name in enumerate(self._workbook.sheet_names):
+        # Not taking the index from self._workbook.sheet_names because there might be more sheets before the first one
+        # we expecting. That's mean we need to keep track of the indexed by our self.
+        sheet_index = 0
+        for sheet_name in self._workbook.sheet_names:
 
             if sheet_name in self.SHEETS_TO_SKIP:
                 # We need to skip this sheet.
@@ -55,6 +58,8 @@ class ExcelParser:
             except Exception as e:
                 self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
                 raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
+
+            sheet_index = sheet_index + 1
 
             if not sheet_data:
                 self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
@@ -205,14 +210,14 @@ class ExcelParser:
 
                 for i in range(0, fields_len):
                     try:
-                        row[mapping[sheet_name.strip()][i+1]] = data_row[i]
+                        row[mapping[sheets_order[sheet_index]][i+1]] = data_row[i]
                     except IndexError as ex:
                         self._logger.error(f"Failed {ex}")
 
                 # Get the rel field of column_1. column_1 is the column which determine if the row is qualified or not.
-                column_1_translated_name = "column_1"
+                second_column_name = mapping[sheets_order[sheet_index]][2]
 
-                if column_1_translated_name in row and row[column_1_translated_name]:
+                if row[second_column_name]:
                     # Add metadata and add row data to data list.
                     row.update(sheet_metadata)
                     data.append(row)
