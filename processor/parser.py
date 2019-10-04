@@ -1,8 +1,7 @@
-import json
-import os
 from excel_adapter import ExcelProcessor
 from translator import translate_from_hebrew
 from exceptions import ExcelWorkbookParsingError, ExcelSheetParsingError
+from columns_mapping import mapping
 
 
 class ExcelParser:
@@ -205,8 +204,7 @@ class ExcelParser:
 
                 for i in range(0, fields_len):
                     try:
-                        # todo: translate the field name.
-                        row[f"column_{i}"] = data_row[i]
+                        row[mapping[sheet_name.strip()][i+1]] = data_row[i]
                     except IndexError as ex:
                         self._logger.error(f"Failed {ex}")
 
