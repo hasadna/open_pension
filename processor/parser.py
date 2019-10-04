@@ -44,14 +44,14 @@ class ExcelParser:
         # Move over the all sheets.
         parsed_file = dict()
 
-        for sheet_name in self._workbook.sheet_names:
+        for sheet_index, sheet_name in enumerate(self._workbook.sheet_names):
 
             if sheet_name in self.SHEETS_TO_SKIP:
                 # We need to skip this sheet.
                 continue
 
             try:
-                sheet_data = self._parse_sheet(sheet_name=sheet_name, orig_file=file_path)
+                sheet_data = self._parse_sheet(sheet_name=sheet_name, sheet_index=sheet_index, orig_file=file_path)
             except Exception as e:
                 self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
                 raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
@@ -110,11 +110,12 @@ class ExcelParser:
 
         return result
 
-    def _parse_sheet(self, sheet_name, orig_file="", start_row=0, start_column=2):
+    def _parse_sheet(self, sheet_name, sheet_index, orig_file="", start_row=0, start_column=2):
         """
         Parse excel pension report sheet.
 
         :param sheet_name: Sheet name
+        :param sheet_index: The index of the sheet.
         :param start_row: Row number to start
         :param start_column: Column number to start
 
