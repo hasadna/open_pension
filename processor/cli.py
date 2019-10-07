@@ -29,7 +29,6 @@ class Handler:
         self.logger = Logger("cli")
 
         self.path, self.folder, self.output_to_folder = args.path, args.folder, args.output_folder
-        self.parser = ExcelParser(logger=self.logger)
 
     def process(self):
         """
@@ -57,7 +56,8 @@ class Handler:
                     continue
 
                 if self.output_to_folder:
-                    filename = file_path.split('/')[-1].split('.')[0]
+                    filename = self.get_filename_from_path(file_path).split('.')[0]
+
                     self.save_to_json_file(
                         path=self.output_to_folder,
                         file_name=f"{filename}.json",
@@ -94,7 +94,19 @@ class Handler:
 
         :return: A processed file object.
         """
-        return self.parser.parse(file)
+        logger = Logger(self.get_filename_from_path(file))
+        parser = ExcelParser(logger=logger)
+        return parser.parse(file)
+
+    def get_filename_from_path(self, file_path):
+        """
+        Getting the filename from a file path.
+
+        :param file_path: The file path.
+
+        :return: The file name.
+        """
+        return file_path.split('/')[-1]
 
     def save_to_json_file(self, path, file_name, data):
         """
