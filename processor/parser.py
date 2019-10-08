@@ -47,19 +47,22 @@ class ExcelParser:
         # Not taking the index from self._workbook.sheet_names because there might be more sheets before the first one
         # we expecting. That's mean we need to keep track of the indexed by our self.
         sheet_index = 0
-        for sheet_name in self._workbook.sheet_names:
+        if not self.clear_unsupported_sheets(self._workbook.sheet_names):
+            self._logger.error(f'The file {file_path} has bad sheets. Check the file and re parse the file.')
+            return parsed_file
 
+        for sheet_name in self._workbook.sheet_names:
             if sheet_name in self.SHEETS_TO_SKIP:
-                # We need to skip this sheet.
+                # We need to skip this sheet or we got a sheet which not exists in the default sheet names.
+                sheet_index = sheet_index + 1
                 continue
 
             try:
                 sheet_data = self._parse_sheet(sheet_name=sheet_name, sheet_index=sheet_index, orig_file=file_path)
+                sheet_index = sheet_index + 1
             except Exception as e:
                 self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
                 raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
-
-            sheet_index = sheet_index + 1
 
             if not sheet_data:
                 self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
@@ -68,6 +71,23 @@ class ExcelParser:
             parsed_file[sheet_name] = sheet_data
 
         return parsed_file
+
+    def clear_unsupported_sheets(self, sheet_names):
+        """
+        Remove form the sheets names, sheet we not supporting.
+
+        :param sheet_names: The sheets name.
+        """
+
+        flattern_names = []
+        for sheet_name in sheets_order:
+            flattern_names.append(sheet_name.replace(' ', ''))
+
+        for sheet_name in sheet_names:
+            if sheet_name.replace(' ', '') not in flattern_names:
+                return False
+
+        return True
 
     def test_parse_file(self, file_path: str):
         """
@@ -210,7 +230,13 @@ class ExcelParser:
 
                 for i in range(0, fields_len):
                     try:
-                        row[mapping[sheets_order[sheet_index]][i+1]] = data_row[i]
+                        key_in_mapping = i + 1
+                        if key_in_mapping not in mapping[sheets_order[sheet_index]]:
+                            error = f"There's no key {key_in_mapping} in the mapping for {sheets_order[sheet_index]}"
+                            self._logger.error(error)
+                            continue
+
+                        row[mapping[sheets_order[sheet_index]][key_in_mapping]] = data_row[i]
                     except IndexError as ex:
                         self._logger.error(f"Failed {ex}")
 
