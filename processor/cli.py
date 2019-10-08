@@ -66,8 +66,6 @@ class Handler:
                 else:
                     results.append(parsed)
             except ExcelWorkbookParsingError as e:
-                import pdb
-                pdb.set_trace()
                 self.logger.error(f"Cannot parse the file {file_path} due to to: {str(e)}")
 
         return results
