@@ -47,30 +47,33 @@ class ExcelParser:
         # Not taking the index from self._workbook.sheet_names because there might be more sheets before the first one
         # we expecting. That's mean we need to keep track of the indexed by our self.
         sheet_index = 0
-        if not self.clear_unsupported_sheets(self._workbook.sheet_names):
-            self._logger.error(f'The file {file_path} has bad sheets. Check the file and re parse the file.')
+        # if not self.clear_unsupported_sheets(self._workbook.sheet_names):
+        #     self._logger.error(f'The file {file_path} has bad sheets. Check the file and re parse the file.')
+        #     return parsed_file
+
+        try:
+            for sheet_name in self._workbook.sheet_names:
+                if sheet_name in self.SHEETS_TO_SKIP:
+                    # We need to skip this sheet or we got a sheet which not exists in the default sheet names.
+                    sheet_index = sheet_index + 1
+                    continue
+
+                try:
+                    sheet_data = self._parse_sheet(sheet_name=sheet_name, sheet_index=sheet_index, orig_file=file_path)
+                    sheet_index = sheet_index + 1
+                except Exception as e:
+                    self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
+                    raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
+
+                if not sheet_data:
+                    self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
+                    continue
+
+                parsed_file[sheet_name] = sheet_data
+
             return parsed_file
-
-        for sheet_name in self._workbook.sheet_names:
-            if sheet_name in self.SHEETS_TO_SKIP:
-                # We need to skip this sheet or we got a sheet which not exists in the default sheet names.
-                sheet_index = sheet_index + 1
-                continue
-
-            try:
-                sheet_data = self._parse_sheet(sheet_name=sheet_name, sheet_index=sheet_index, orig_file=file_path)
-                sheet_index = sheet_index + 1
-            except Exception as e:
-                self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
-                raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
-
-            if not sheet_data:
-                self._logger.warn(f'No sheet data for "{sheet_name}". maybe its empty...')
-                continue
-
-            parsed_file[sheet_name] = sheet_data
-
-        return parsed_file
+        except Exception as e:
+            self._logger.error(f"The file was unable to be process due to {e}")
 
     def clear_unsupported_sheets(self, sheet_names):
         """
@@ -243,7 +246,7 @@ class ExcelParser:
                 # Get the rel field of column_1. column_1 is the column which determine if the row is qualified or not.
                 second_column_name = mapping[sheets_order[sheet_index]][2]
 
-                if row[second_column_name]:
+                if second_column_name in row and row[second_column_name]:
                     # Add metadata and add row data to data list.
                     row.update(sheet_metadata)
                     data.append(row)
