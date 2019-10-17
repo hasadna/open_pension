@@ -25,7 +25,7 @@ class Mongo:
 
         :return: The result of the insert.
         """
-        return self.db['results'].insert_one(item)
+        return self.db['results'].insert(item, check_keys=False)
 
     def insert_multiple(self, items):
         """
@@ -35,7 +35,7 @@ class Mongo:
 
         :return: The results of the insert.
         """
-        return self.db['results'].insert_many(items)
+        return self.db['results'].insert_many(items, bypass_document_validation=False)
 
     def load(self, object_id):
         """
@@ -67,3 +67,6 @@ class Mongo:
         :return: Results of the delete.
         """
         return self.db['results'].delete_many(condition)
+
+    def close(self):
+        self.client.close()

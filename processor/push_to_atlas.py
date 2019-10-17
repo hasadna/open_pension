@@ -13,12 +13,15 @@ print("Start to collect the records")
 items = []
 directory = os.path.join(os.getcwd(), "fdb-output")
 
-for filename in os.listdir(directory):
+files = os.listdir(directory)
+i = 1
+for filename in files:
     if filename.endswith(".json"):
         with open(os.path.join(directory, filename)) as file:
-            items.append(json.load(file))
-            break
+            print(f"{i}/{len(files)}: Pushing {filename} to mongo")
+            mongo.insert(json.load(file))
+            i = i + 1
 
-print(items)
-print("Push to mongo")
-mongo.insert_multiple(items)
+
+print("Done")
+mongo.close()
