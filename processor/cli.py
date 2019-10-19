@@ -45,13 +45,14 @@ class Handler:
         paths = []
         self._collect_paths(self.path, paths)
 
-        results = []
+        results = {}
 
-        for file_path in paths:
+        for file_path in paths[:10]:
             try:
                 parsed = self.handle_file(file_path)
-
+                file_name = self.get_filename_from_path(file_path)
                 if not parsed:
+                    results[file_name] = 'Failed'
                     # Nothing to return.
                     continue
 
@@ -63,8 +64,9 @@ class Handler:
                         file_name=f"{filename}.json",
                         data=parsed
                     )
+                    results[file_name] = 'Passed'
                 else:
-                    results.append(parsed)
+                    results[file_name] = parsed
             except ExcelWorkbookParsingError as e:
                 self.logger.error(f"Cannot parse the file {file_path} due to to: {str(e)}")
 
