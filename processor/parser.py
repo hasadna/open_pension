@@ -182,7 +182,8 @@ class ExcelParser:
                 current_cell = None
 
             if current_row - start_metadata_row > self.MAX_METADATA_ROWS:
-                self._logger.error(f"Failed to parser sheet. max metadata rows in {orig_file}/{sheet_name}")
+                self._logger.error(f"Failed to parser sheet. There was no first column indicator "
+                                   f"for: {orig_file}/{sheet_name}")
                 return None
 
             # Get fields name.
