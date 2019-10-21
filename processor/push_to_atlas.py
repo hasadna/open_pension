@@ -15,11 +15,11 @@ directory = os.path.join(os.getcwd(), "fdb-output")
 
 files = os.listdir(directory)
 i = 1
-for filename in files:
+for filename in files[:10]:
     if filename.endswith(".json"):
         with open(os.path.join(directory, filename)) as file:
             print(f"{i}/{len(files)}: Pushing {filename} to mongo")
-            mongo.insert(json.load(file))
+            mongo.insert({'results': json.load(file)})
             i = i + 1
 
 

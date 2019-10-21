@@ -47,7 +47,7 @@ class Handler:
 
         results = {}
 
-        for file_path in paths[:10]:
+        for file_path in paths:
             try:
                 parsed = self.handle_file(file_path)
                 file_name = self.get_filename_from_path(file_path)

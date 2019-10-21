@@ -13,7 +13,16 @@ class ExcelParser:
     ISRAEL_WORDS = ['ישראל', 'בארץ']
     FIRST_FIELD_TABLE = ['שם נ"ע', 'שם המנפיק/שם נייר ערך']
     MAX_METADATA_ROWS = 10
-    SHEETS_TO_SKIP = ['סכום נכסי הקרן']
+    INCREMENT_SHEETS_COUNT = True
+    DONT_INCREMENT_SHEETS_COUNT = False
+    SHEETS_TO_SKIP = {
+        # This is a sheet we expected and decided to increment the sheet iteration number.
+        'סכום נכסי הקרן': INCREMENT_SHEETS_COUNT,
+        # This is a sheet we did not expected and decided not to increment the iteration number.
+        'Sheet1': DONT_INCREMENT_SHEETS_COUNT,
+        # This is a sheet we did not expected and decided not to increment the iteration number.
+        '{PL}PickLst': DONT_INCREMENT_SHEETS_COUNT,
+    }
     CELLS_TO_SKIP = ['* בעל ענין/צד קשור', 'בהתאם לשיטה שיושמה בדוח הכספי **']
 
     def __init__(self, logger):
@@ -47,14 +56,18 @@ class ExcelParser:
         # Not taking the index from self._workbook.sheet_names because there might be more sheets before the first one
         # we expecting. That's mean we need to keep track of the indexed by our self.
         sheet_index = 0
-        # if not self.clear_unsupported_sheets(self._workbook.sheet_names):
-        #     self._logger.error(f'The file {file_path} has bad sheets. Check the file and re parse the file.')
-        #     return parsed_file
 
         try:
             for sheet_name in self._workbook.sheet_names:
                 if sheet_name in self.SHEETS_TO_SKIP:
                     # We need to skip this sheet or we got a sheet which not exists in the default sheet names.
+                    if self.SHEETS_TO_SKIP[sheet_name] == self.DONT_INCREMENT_SHEETS_COUNT:
+                        # The current sheet a sheet we don't want to iterate over but as we skipping it, we don't want
+                        # to increment the sheet index indicator. If we incremented then sheet at position 29, which is
+                        # OK, would consider 30 and that out of range of us.
+                        self._logger.error(f"The sheet {sheet_name} was un-expected. ")
+                        continue
+
                     sheet_index = sheet_index + 1
                     continue
 
@@ -74,23 +87,6 @@ class ExcelParser:
             return parsed_file
         except Exception as e:
             self._logger.error(f"The file was unable to be process due to {e}")
-
-    def clear_unsupported_sheets(self, sheet_names):
-        """
-        Remove form the sheets names, sheet we not supporting.
-
-        :param sheet_names: The sheets name.
-        """
-
-        flattern_names = []
-        for sheet_name in sheets_order:
-            flattern_names.append(sheet_name.replace(' ', ''))
-
-        for sheet_name in sheet_names:
-            if sheet_name.replace(' ', '') not in flattern_names:
-                return False
-
-        return True
 
     def test_parse_file(self, file_path: str):
         """
