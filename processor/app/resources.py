@@ -4,8 +4,8 @@ from flask_restful import reqparse
 from werkzeug import secure_filename, datastructures
 import os
 from datetime import datetime
-from parser import ExcelParser
-from logger import Logger
+from .parser import ExcelParser
+from .logger import Logger
 
 
 class UploadFile(Resource):
@@ -17,6 +17,7 @@ class UploadFile(Resource):
         """
         Uploading a file to the system for processing.
         """
+        print("got request")
         parser = reqparse.RequestParser()
         parser.add_argument(
             'files',
@@ -27,7 +28,9 @@ class UploadFile(Resource):
             action='append'
         )
 
+        print("parsing arguments")
         args = parser.parse_args()
+        print("arguments parsed")
         files = args['files']
 
         saved_files = {}

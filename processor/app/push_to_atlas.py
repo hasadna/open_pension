@@ -1,4 +1,4 @@
-from mongodb import Mongo
+from .mongodb import Mongo
 import os
 import json
 

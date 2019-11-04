@@ -1,7 +1,7 @@
 import argparse
-from exceptions import ExcelWorkbookParsingError
-from parser import ExcelParser
-from logger import Logger
+from .exceptions import ExcelWorkbookParsingError
+from .parser import ExcelParser
+from .logger import Logger
 import json
 import os
 

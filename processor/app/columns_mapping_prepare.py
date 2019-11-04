@@ -1,5 +1,5 @@
-from excel_adapter import ExcelProcessor
-from logger import Logger
+from .excel_adapter import ExcelProcessor
+from .logger import Logger
 
 logger = Logger('fo')
 ep = ExcelProcessor(file_path='./columns_mapping_prepare.xlsx', logger=logger)
