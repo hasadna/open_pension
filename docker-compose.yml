@@ -35,7 +35,7 @@ services:
       - server
 
   server:
-    image: hasadna/open-pension-server`
+    image: hasadna/open-pension-server
     command: /bin/sh entrypoint.sh
     volumes:
       - ./logs/django:/home/app/server/logs
