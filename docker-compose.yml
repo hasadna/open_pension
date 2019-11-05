@@ -3,6 +3,8 @@ version: "3"
 volumes:
   db-data:
     external: false
+  processor-db:
+    external: false
 
 services:
   database:
@@ -33,7 +35,7 @@ services:
       - server
 
   server:
-    image: hasadna/open-pension-server
+    image: hasadna/open-pension-server`
     command: /bin/sh entrypoint.sh
     volumes:
       - ./logs/django:/home/app/server/logs
@@ -57,7 +59,7 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - ./processor-db:/data/db
+      - processor-db:/data/db
 
   cms:
     build: ./cms

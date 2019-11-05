@@ -41,4 +41,4 @@ services:
 
   processor:
     volumes:
-      - ./processor/app:/app/app
+      - ./processor/src/app:/app/app

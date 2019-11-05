@@ -8,6 +8,9 @@ from .parser import ExcelParser
 from .logger import Logger
 
 
+def p_print(string):
+    return print("========= " + string + " =========")
+
 class UploadFile(Resource):
 
     def __init__(self, mongo):
@@ -17,7 +20,7 @@ class UploadFile(Resource):
         """
         Uploading a file to the system for processing.
         """
-        print("got request")
+        p_print("got request")
         parser = reqparse.RequestParser()
         parser.add_argument(
             'files',
@@ -28,30 +31,33 @@ class UploadFile(Resource):
             action='append'
         )
 
-        print("parsing arguments")
+        p_print("parsing arguments")
         args = parser.parse_args()
-        print("arguments parsed")
+        p_print("arguments parsed")
         files = args['files']
 
         saved_files = {}
         for file in files:
-            path = os.path.join(os.getcwd(), 'files', 'uploaded')
+            path = os.path.join(os.getcwd(), 'app', 'files', 'uploaded')
 
             if os.path.exists(os.path.join(path, file.filename)):
                 # Set the file filename as a unique file since we already got this one.
                 filename, extension = file.filename.split('.')
                 file.filename = f'{filename}_{int(datetime.now().timestamp())}.{extension}'
 
+            p_print("saving file: {}".format(file.filename))
             saved_path = os.path.join(path, file.filename)
             file.save(saved_path)
 
             # Saving data to the DB.
+            p_print("saving file path to mongo")
             mongo_results = self._mongo.insert({
                 'path': saved_path,
                 'status': 'new',
             })
 
             # Appending data to info array.
+            p_print("saving file path to mongo")
             saved_files[file.filename] = {
                 'path': saved_path,
                 'id': str(mongo_results.inserted_id),
