@@ -12,7 +12,7 @@ class ExcelParser:
     NOT_ISRAEL_WORDS = ['מט"ח', 'חוץ לארץ', 'חו"ל']
     ISRAEL_WORDS = ['ישראל', 'בארץ']
     FIRST_FIELD_TABLE = ['שם נ"ע', 'שם המנפיק/שם נייר ערך']
-    MAX_METADATA_ROWS = 10
+    MAX_METADATA_ROWS = 12
     INCREMENT_SHEETS_COUNT = True
     DONT_INCREMENT_SHEETS_COUNT = False
     SHEETS_TO_SKIP = {
@@ -22,6 +22,10 @@ class ExcelParser:
         'Sheet1': DONT_INCREMENT_SHEETS_COUNT,
         # This is a sheet we did not expected and decided not to increment the iteration number.
         '{PL}PickLst': DONT_INCREMENT_SHEETS_COUNT,
+        # This is a sheet we did not expected and decided not to increment the iteration number.
+        'סקירת רוח מבקר': DONT_INCREMENT_SHEETS_COUNT,
+        # This is a sheet we did not expected and decided not to increment the iteration number.
+        'אישור רוח': DONT_INCREMENT_SHEETS_COUNT,
     }
     CELLS_TO_SKIP = ['* בעל ענין/צד קשור', 'בהתאם לשיטה שיושמה בדוח הכספי **']
 
@@ -76,6 +80,7 @@ class ExcelParser:
                     sheet_index = sheet_index + 1
                 except Exception as e:
                     self._logger.error(f'Failed to parse {sheet_name} in {file_path}')
+                    continue
                     raise ExcelSheetParsingError(parse_error=str(e), sheet_name=sheet_name)
 
                 if not sheet_data:
