@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 from .parser import ExcelParser
 from .logger import Logger
+from .mongodb import Mongo
 
 
 def p_print(string):
@@ -13,8 +14,8 @@ def p_print(string):
 
 class UploadFile(Resource):
 
-    def __init__(self, mongo):
-        self._mongo = mongo
+    def __init__(self):
+        self._mongo = Mongo()
 
     def post(self):
         """
@@ -74,8 +75,8 @@ class UploadFile(Resource):
 
 class ProcessFile(Resource):
 
-    def __init__(self, mongo):
-        self._mongo = mongo
+    def __init__(self):
+        self._mongo = Mongo()
 
     def get(self, object_id):
         process_item = self._mongo.load(object_id)
