@@ -25,7 +25,7 @@ class Mongo:
 
         :return: The result of the insert.
         """
-        return self.db.results.insert(item, check_keys=False)
+        return self.db.results.insert_one(item)
 
     def insert_multiple(self, items):
         """
