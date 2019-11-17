@@ -1,11 +1,12 @@
 import pymongo
 from bson.objectid import ObjectId
+from os import getenv
 
 
 class Mongo:
 
     def __init__(self):
-        self.client = pymongo.MongoClient(f"mongodb://mongo:27017/")
+        self.client = pymongo.MongoClient(getenv('MONGO_URL'))
         self.db = self.client["open_pension_processors"]
 
     def set_client(self, address):
