@@ -22,11 +22,12 @@ Boilerplate is [Create React App](https://github.com/facebook/create-react-app)
 * `npm run lint`
 
 ## Docker
-	`sudo docker build -t client:dev .`
-	`sudo docker run -v ${PWD}:/app -v /app/node_modules -p 3001:3000 --rm client:dev` [http://localhost:3001](http://localhost:3001)
+	sudo docker build -t client:dev .
+	sudo docker run -v ${PWD}:/app -v /app/node_modules -p 3001:3000 --rm client:dev 
+[http://localhost:3001](http://localhost:3001)
 TODO: maybe use docker compose / add docker-compose.yml?
 
-	`
+	
 
 ## vesrions used for dev env
 	docker 18.06.1-ce
