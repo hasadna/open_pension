@@ -10,10 +10,6 @@ const REPORTS_ROUTE = "/GetPublicReports";
 const DOWNLOAD_ROUTE = "/downloadFiles";
 const DOWNLOAD_EXTENSTION = "xlsx";
 
-const log = console.log.bind(console);
-
-export const mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
 export default class CmaGovApiClient {
   private api: AxiosInstance;
 
@@ -23,29 +19,21 @@ export default class CmaGovApiClient {
     });
   }
 
-  // NOT USED (yet?)
-  // async getReportsMetadata() {
-  //   log("Getting metadata");
-  //   const response = await this.api.get(METADATA_ROUTE);
-  //   return response.data;
-  // }
+  async getReportsMetadata() {
+    console.log("Getting metadata");
+    const response = await this.api.get(METADATA_ROUTE);
+    return response.data;
+  }
 
-  async getReports(): Promise<ReportRow[]> {
-    log("Getting reports list");
-    const query: ReportQuery = {
-      fromQuarter: 3,
-      fromYear: 2019,
-      toQuarter: 3,
-      toYear: 2019,
-      statusReport: 1 // הוגש
-    };
+  async getReports(query: ReportQuery): Promise<ReportRow[]> {
+    console.log("Getting reports list");    
     const response = await this.api.post(REPORTS_ROUTE, query);
-    log(`Got ${response.data.length} reports`);
+    console.log(`Got ${response.data.length} reports`);
     return response.data;
   }
 
   async downloadDocument(report: ReportRow): Promise<ReadStream> {
-    log("Downloading document", report.DocumentId);
+    console.log("Downloading document", report.DocumentId);
     const response = await this.api.get(DOWNLOAD_ROUTE, {
       params: {
         IdDoc: report.DocumentId,
