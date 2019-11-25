@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from "axios";
-import fs, { ReadStream } from "fs";
+import { ReadStream } from "fs";
 
-import { ReportRow } from "./types/report-row";
-import { ReportQuery } from "./types/report-query";
+import { ReportRow } from "../types/report-row";
+import { ReportQuery } from "../types/report-query";
 
 const BASE_URL = "https://employersinfocmp.cma.gov.il/api/PublicReporting";
 const METADATA_ROUTE = "/GetPublicReportsSearchData";
