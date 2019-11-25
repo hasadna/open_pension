@@ -41,5 +41,10 @@
       "src/**/*.spec.ts"
     ],
     "exec": "ts-node -r tsconfig-paths/register ./src/server.ts"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "moduleDirectories": ["node_modules", "src"]
   }
 }
