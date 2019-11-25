@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import { ReadStream } from "fs";
 
-import { ReportRow } from "../types/report-row";
-import { ReportQuery } from "../types/report-query";
+import { ReportRow } from "types/report-row";
+import { ReportQuery } from "types/report-query";
 
 const BASE_URL = "https://employersinfocmp.cma.gov.il/api/PublicReporting";
 const METADATA_ROUTE = "/GetPublicReportsSearchData";
@@ -26,7 +26,7 @@ export default class CmaGovApiClient {
   }
 
   async getReports(query: ReportQuery): Promise<ReportRow[]> {
-    console.log("Getting reports list");    
+    console.log("Getting reports list");
     const response = await this.api.post(REPORTS_ROUTE, query);
     console.log(`Got ${response.data.length} reports`);
     return response.data;

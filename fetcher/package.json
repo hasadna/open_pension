@@ -4,7 +4,7 @@
   "description": "Fetcher for open pension platform",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -r tsconfig-paths/register",
     "dev": "nodemon -L",
     "start": "node ./dist/server.js",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
@@ -28,6 +28,8 @@
     "nodemon": "^1.18.10",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.9.0",
+    "tslint": "^5.20.1",
     "typescript": "^3.3.3333"
   },
   "nodemonConfig": {
@@ -38,6 +40,6 @@
     "ignore": [
       "src/**/*.spec.ts"
     ],
-    "exec": "ts-node ./src/server.ts"
+    "exec": "ts-node -r tsconfig-paths/register ./src/server.ts"
   }
 }

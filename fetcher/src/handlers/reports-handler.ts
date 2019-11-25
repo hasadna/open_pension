@@ -1,6 +1,6 @@
 
-import CmaGovApiClient from "../clients/cma-api-client";
-import { streamToS3 } from "../clients/s3-client";
+import CmaGovApiClient from "clients/cma-api-client";
+import { streamToS3 } from "clients/s3-client";
 import { ReportQuery } from "types/report-query";
 
 const cmaClient = new CmaGovApiClient();
