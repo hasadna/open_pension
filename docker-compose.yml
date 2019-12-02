@@ -3,6 +3,8 @@ version: "3"
 volumes:
   db-data:
     external: false
+  processor-db:
+    external: false
 
 services:
   database:
@@ -39,6 +41,25 @@ services:
       - ./logs/django:/home/app/server/logs
     depends_on:
       - database
+
+  processor:
+    build: ./processor
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/
+      - PYTHONUNBUFFERED=true
+    ports:
+      - "1000:80"
+    depends_on:
+      - mongo
+    links:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - processor-db:/data/db
 
   cms:
     build: ./cms
