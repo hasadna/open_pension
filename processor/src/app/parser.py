@@ -1,7 +1,7 @@
-from excel_adapter import ExcelProcessor
-from translator import translate_from_hebrew
-from exceptions import ExcelWorkbookParsingError, ExcelSheetParsingError
-from columns_mapping import mapping, sheets_order
+from .excel_adapter import ExcelProcessor
+from .translator import translate_from_hebrew
+from .exceptions import ExcelWorkbookParsingError, ExcelSheetParsingError
+from .columns_mapping import mapping, sheets_order
 
 
 class ExcelParser:

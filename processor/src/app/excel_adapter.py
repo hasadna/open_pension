@@ -1,7 +1,7 @@
 import openpyxl
 import xlrd
 import os
-from exceptions import FailToLoadFile
+from .exceptions import FailToLoadFile
 
 
 class ExcelProcessor:

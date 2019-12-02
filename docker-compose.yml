@@ -3,6 +3,8 @@ version: "3"
 volumes:
   db-data:
     external: false
+  processor-db:
+    external: false
 
 services:
   database:
@@ -45,8 +47,6 @@ services:
     environment:
       - MONGO_URL=mongodb://mongo:27017/
       - PYTHONUNBUFFERED=true
-    volumes:
-      - ./logs/processor:/home/app/processor/logs
     ports:
       - "1000:80"
     depends_on:
@@ -59,7 +59,7 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - ./processor-db:/data/db
+      - processor-db:/data/db
 
   cms:
     build: ./cms

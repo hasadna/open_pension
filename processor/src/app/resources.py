@@ -4,14 +4,15 @@ from flask_restful import reqparse
 from werkzeug import secure_filename, datastructures
 import os
 from datetime import datetime
-from parser import ExcelParser
-from logger import Logger
+from .parser import ExcelParser
+from .logger import Logger
+from .mongodb import Mongo
 
 
 class UploadFile(Resource):
 
-    def __init__(self, mongo):
-        self._mongo = mongo
+    def __init__(self):
+        self._mongo = Mongo()
 
     def post(self):
         """
@@ -32,7 +33,7 @@ class UploadFile(Resource):
 
         saved_files = {}
         for file in files:
-            path = os.path.join(os.getcwd(), 'files', 'uploaded')
+            path = os.path.join(os.getcwd(), 'app', 'files', 'uploaded')
 
             if os.path.exists(os.path.join(path, file.filename)):
                 # Set the file filename as a unique file since we already got this one.
@@ -65,8 +66,8 @@ class UploadFile(Resource):
 
 class ProcessFile(Resource):
 
-    def __init__(self, mongo):
-        self._mongo = mongo
+    def __init__(self):
+        self._mongo = Mongo()
 
     def get(self, object_id):
         process_item = self._mongo.load(object_id)
