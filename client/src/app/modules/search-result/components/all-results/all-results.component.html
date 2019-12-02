@@ -1,6 +1,0 @@
-<div *ngIf="searchResults[0].pk !== 0">
-  <p
-    *ngFor="let result of searchResults"
-    class="result-item"
-    (click)="selectItem(result)">{{result.fields.fund_name}}</p>
-</div>

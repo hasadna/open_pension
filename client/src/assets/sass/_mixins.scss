@@ -1,9 +1,0 @@
-@mixin aspectRatio($w, $h) {
-
-  &:before {
-    content: '';
-    display: inline-block;
-    width: 0;
-    padding-bottom: ($h / $w) * 100%;
-  }
-}

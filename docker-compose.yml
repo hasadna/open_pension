@@ -17,18 +17,18 @@ services:
     build: ./gateway
 
   blop:
-   build: ./blop
-   depends_on:
-     - database
-   env_file:
-     - .env
+    build: ./blop
+    depends_on:
+      - database
+    env_file:
+      - .env
 
   client:
     image: hasadna/open-pension-client
     volumes:
       - ./logs/nginx:/var/log/nginx
     ports:
-      - "80:80"
+      - "8080:80"
     environment:
       - SERVICE_PORTS=80
     depends_on:
