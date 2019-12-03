@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 
-Django = "==1.11.10"
+Django = "==1.11.23"
 "psycopg2" = "==2.7.1"
 django-extensions = "==1.8.1"
 gunicorn = "==19.7.1"
