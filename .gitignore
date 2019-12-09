@@ -255,6 +255,7 @@ local_settings.py
 server/csv
 server/static/
 server/data/pension_data_all.csv
+
 my-db/*
 cms/drupal/vendor
-processor
+processor/files/uploaded/*.xlsx

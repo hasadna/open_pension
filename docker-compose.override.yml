@@ -9,7 +9,7 @@ services:
 
   client:
     volumes:
-      - ./client/dist:/usr/share/nginx/html/
+      - ./client/build:/usr/share/nginx/html/
     env_file:
       - .env
 
@@ -53,4 +53,7 @@ services:
     expose:
       # Opens port 3306 on the container
       - '3306'
-      # Where our data will be persisted
+
+  processor:
+    volumes:
+      - ./processor/src/app:/app/app

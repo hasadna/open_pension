@@ -5,6 +5,8 @@ volumes:
     external: false
   cms-db-data:
     external: false
+  processor-db:
+    external: false
 
 services:
   database:
@@ -17,18 +19,18 @@ services:
     build: ./gateway
 
   blop:
-   build: ./blop
-   depends_on:
-     - database
-   env_file:
-     - .env
+    build: ./blop
+    depends_on:
+      - database
+    env_file:
+      - .env
 
   client:
     image: hasadna/open-pension-client
     volumes:
       - ./logs/nginx:/var/log/nginx
     ports:
-      - "80:80"
+      - "8080:80"
     environment:
       - SERVICE_PORTS=80
     depends_on:
@@ -42,6 +44,25 @@ services:
     depends_on:
       - database
 
+  processor:
+    build: ./processor
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/
+      - PYTHONUNBUFFERED=true
+    ports:
+      - "1000:80"
+    depends_on:
+      - mongo
+    links:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - processor-db:/data/db
+
   cms:
     build: ./cms
     depends_on:
@@ -53,3 +74,6 @@ services:
     image: mysql:5.7
     volumes:
       - cms-db-data:/var/lib/mysql
+
+  kafka:
+    build: ./kafka
