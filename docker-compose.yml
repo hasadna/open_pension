@@ -1,44 +1,44 @@
 version: "3"
 
 volumes:
-  db-data:
-    external: false
+    db-data:
+        external: false
 
 services:
-  database:
-    image: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/db-data
-      - ./database:/etc/cron.daily
+    database:
+        image: postgres
+        volumes:
+            - db-data:/var/lib/postgresql/db-data
+            - ./database:/etc/cron.daily
 
-  gateway:
-    build: ./gateway
+    gateway:
+        build: ./gateway
 
-  blop:
-   build: ./blop
-   depends_on:
-     - database
-   env_file:
-     - .env
+    application:
+        build: ./blop
+        depends_on:
+            - database
+        env_file:
+            - .env
 
-  client:
-    image: hasadna/open-pension-client
-    volumes:
-      - ./logs/nginx:/var/log/nginx
-    ports:
-      - "80:80"
-    environment:
-      - SERVICE_PORTS=80
-    depends_on:
-      - server
+    client:
+        image: hasadna/open-pension-client
+        volumes:
+            - ./logs/nginx:/var/log/nginx
+        ports:
+            - "80:80"
+        environment:
+            - SERVICE_PORTS=80
+        depends_on:
+            - server
 
-  server:
-    image: hasadna/open-pension-server
-    command: /bin/sh entrypoint.sh
-    volumes:
-      - ./logs/django:/home/app/server/logs
-    depends_on:
-      - database
+    server:
+        image: hasadna/open-pension-server
+        command: /bin/sh entrypoint.sh
+        volumes:
+            - ./logs/django:/home/app/server/logs
+        depends_on:
+            - database
 
-  cms:
-    build: ./cms
+    cms:
+        build: ./cms

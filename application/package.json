@@ -1,7 +1,7 @@
 {
-  "name": "gateway",
+  "name": "application",
   "version": "1.0.0",
-  "description": "BLOP for open pension platform",
+  "description": "Open pension application. Holds the business logic.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
