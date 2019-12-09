@@ -4,15 +4,14 @@ import { ReportRow } from "types/report-row";
 
 const Bucket = process.env.S3_BUCKET;
 const s3 = new AWS.S3();
-
-const extensionsToMimeTypes = {
-  xlsx: "application/vnd.ms-excel"
-};
+const ContentType = "application/vnd.ms-excel";
 
 export async function streamToS3(
   row: ReportRow,
   fileStream: ReadStream
 ): Promise<string> {
+  if (!Bucket) throw new Error("Bucket must be defined");
+
   const Key = row.DocumentId + "." + row.fileExt;
   const params = { Bucket, Key };
   const downloadLink = `https://${Bucket}.s3-eu-west-1.amazonaws.com/${Key}`;
@@ -30,7 +29,7 @@ export async function streamToS3(
     .upload({
       ...params,
       Body: fileStream,
-      ContentType: extensionsToMimeTypes[row.fileExt],
+      ContentType,
       ACL: "public-read"
     })
     .promise();

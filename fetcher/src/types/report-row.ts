@@ -27,7 +27,7 @@ export type ReportRow = {
   StatusDate?: string;
   SystemCode?: number;
   SystemName?: string;
-  fileExt?: string;
+  fileExt: string;
   
   // TODO: not sure about these types
   DateFinish?: any;
