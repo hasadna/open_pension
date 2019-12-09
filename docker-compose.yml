@@ -67,8 +67,6 @@ services:
     build: ./cms
     depends_on:
       - cms_db
-    entrypoint:
-      - "/var/www/html/entrypoint.sh"
 
   cms_db:
     image: mysql:5.7
