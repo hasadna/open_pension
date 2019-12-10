@@ -8,7 +8,8 @@
         "no-console": false,
         "interface-name" : [true, "never-prefix"],
         "object-literal-sort-keys": false,
-        "whitespace": [true, "check-module"]
+        "whitespace": [true, "check-module"],
+        "max-classes-per-file": false
     },
     "rulesDirectory": []
 }
