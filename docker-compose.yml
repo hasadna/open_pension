@@ -3,8 +3,8 @@ version: "3"
 volumes:
     db-data:
         external: false
-  processor-db:
-    external: false
+    processor-db:
+        external: false
 
 services:
     database:
@@ -45,22 +45,22 @@ services:
     processor:
     build: ./processor
     environment:
-      - MONGO_URL=mongodb://mongo:27017/
-      - PYTHONUNBUFFERED=true
+        - MONGO_URL=mongodb://mongo:27017/
+        - PYTHONUNBUFFERED=true
     ports:
-      - "1000:80"
+        - "1000:80"
     depends_on:
-      - mongo
+        - mongo
     links:
-      - mongo
+        - mongo
 
-  mongo:
-    image: mongo
-    ports:
-      - '27017:27017'
-    volumes:
-      - processor-db:/data/dbcms:
-        build: ./cms
+    mongo:
+        image: mongo
+        ports:
+            - '27017:27017'
+        volumes:
+            - processor-db:/data/dbcms:
+              build: ./cms
 
-  kafka:
-    build: ./kafka
+    kafka:
+        build: ./kafka
