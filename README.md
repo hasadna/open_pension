@@ -3,22 +3,40 @@
 [![license][license-image]][license-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][dependency-image]][dependency-url] [![codecov][codecov-image]][codecov-url] [![Contributors][contributors-image]][contributors-url] [![Gitter][gitter-image]][gitter-url]
 
 > The repo contains the server & the client parts of the Open Pension project.
-Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to revealing the secrets behind the Israeli pension market.
+Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to 
+revealing the secrets behind the Israeli pension market.
 
-## Our Stack
+### Project structure
+![diagram-improved](assets/diagram-new.png)
 
-  * [Angular](https://angular.io/)
-  * [Django](https://www.djangoproject.com/)
-  * [PostgreSQL](http://www.postgresql.org/)
-  * [Docker](https://www.docker.com/)
+We use docker, with docker compose, to manage all the services we use. There are
+three main services that help us to get the data properly:
+* Fetcher - The fetcher service download for us all the source files from the 
+pension companies.
+* Processor - After we got the files we need convert them into JSON object which
+can be use for processing.
+* Enrichment - The JSON objects we got from the fetcher used don't have fully
+qualified value. Each company can have various way to be represented - Teva,
+T.E.V.A, teva, tv25 etc. etc. etc. The service takes those variations and 
+converts them to a unify texts.
 
-**Tools we use**
+The other services are peripheral services:
 
-  * [Angular Cli](https://github.com/angular/angular-cli)
-  * [Angular Material](https://material.angular.io/)
-  * [ngrx](https://github.com/ngrx)
+* BLOP - The data go into the `BLOP` service which is a `postgress` and `Flask` 
+that holds the data in a SQL tables.
+* Gateway - The gateway service provides a single graphql endpoint which allow 
+us to communicate with the other services.
+* Front - A `vuejs` app that serves all the data from the blop service.
+* Backoffice - Gives us dashboard for managing other services:
+    * Content such as blogs, enrichment tables, user authentication and more
+    * Manage downloaded files, manually upload files for processing 
+    * Watch logs from other services
+    * Fix uploaded files
+* Kafka - give us the option to notify services of events that occurred in other 
+services.
+* Logs - Allow us to log events which occurred in service: a file has been 
+processed, file downloaded.
 
-## Install project locally
 
 ### Pre requirements:
 
@@ -32,7 +50,6 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
   4. move to client directory: `cd client`
   5. run: `npm i`
   6. run: `npm run build -- --watch`
-
 
 ## Tests
 
@@ -49,49 +66,6 @@ Open Pension is [a "Hasadna" project](http://www.hasadna.org.il/), that aimed to
   * Run `pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .` to check for lint mistakes.
   * Run `isort . --recursive --check-only` to check for import mistakes.
   * Run `python manage.py test` to run the unit tetst.
-
-## Translation
-
-**Client**
-
-Not yet..
-
-**Server**
-
-To make new strings for translation use the command
-
-```
-python manage.py makemessages -l he
-python manage.py compilemessages -l he
-```
-
-## Data
-
-If you need the data itself use the `--recursive` flag when you `git clone` this repo.
-
-**Old Database**
-
-To import the old database, [first download it](https://drive.google.com/file/d/1iMbWcn1rEbaO9YpVSaOSq2f0qkKnbTOw/view?usp=sharing) and then put it in `server/data` directory, open the `pension_data_all.csv.gz` file (extract the `pension_data_all.csv` from it). Then run `python3 manage.py import_old_db`.
-
-This script will search for `pension_data_all.csv` file in the `server/data` directory and import the csv file to our current database.
-
-**Dummy Blog Posts**
-
-To create dummy blog posts just run `python3 manage.py create_blog_dummy_data`.
-
-## Logging
-
-Logging is done using [sentry.io](https://sentry.io/hasadna).
-
-To see the log ask the team leader an access to the openPension email account.
-
-## Deployment
-
-Not yet..
-
-## Contribute
-
-Just fork and do a pull request (;
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: https://github.com/hasadna/open_pension/blob/master/LICENSE

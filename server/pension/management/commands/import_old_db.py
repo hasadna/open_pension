@@ -1,6 +1,5 @@
 from os import path
 
-import pandas as pd
 from django.core.management import BaseCommand
 
 from pension.models import Fund, Quarter
