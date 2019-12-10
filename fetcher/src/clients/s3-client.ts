@@ -10,7 +10,9 @@ export async function streamToS3(
   row: ReportRow,
   fileStream: ReadStream
 ): Promise<string> {
-  if (!Bucket) throw new Error("Bucket must be defined");
+  if (!Bucket) {
+    throw new Error("Bucket must be defined");
+  }
 
   const Key = row.DocumentId + "." + row.fileExt;
   const params = { Bucket, Key };
