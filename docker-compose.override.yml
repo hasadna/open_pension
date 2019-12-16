@@ -9,7 +9,7 @@ services:
 
   client:
     volumes:
-      - ./client/dist:/usr/share/nginx/html/
+      - ./client/build:/usr/share/nginx/html/
     env_file:
       - .env
 
@@ -38,3 +38,7 @@ services:
     volumes:
       - /home/app/server/node_modules
       - ./cms/:/home/app/server
+
+  processor:
+    volumes:
+      - ./processor/src/app:/app/app
