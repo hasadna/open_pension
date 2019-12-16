@@ -1,21 +1,36 @@
 require("dotenv").config();
-const { ENV, PORT, GOOGLE_STORAGE_BUCKET } = process.env;
 
-export function isDev() {
-  return ENV !== "prod" && ENV !== "staging";
+function safeGet(keyName: string) {
+  const value = process.env[keyName];
+  if (!value) {
+    throw new Error(`${keyName} must be defined`);
+  }
+  return value;
 }
 
 export function getPort() {
+  const { PORT } = process.env;
   return parseInt(PORT || "3000");
 }
 
 export function getEnv() {
+  const { ENV } = process.env;
   return ENV || "dev";
 }
 
+export function isDev() {
+  const env = getEnv();
+  return env !== "prod" && env !== "staging";
+}
+
 export function getStorageBucket() {
-    if (!GOOGLE_STORAGE_BUCKET) {
-        throw new Error("GOOGLE_STORAGE_BUCKET must be defined");
-    }
-    return GOOGLE_STORAGE_BUCKET;
+  return safeGet('GOOGLE_STORAGE_BUCKET');
+}
+
+export function getKafkaHost() {
+  return safeGet('KAFKA_HOST');
+}
+
+export function getKafkaTopic() {
+  return safeGet('KAFKA_TOPIC');
 }

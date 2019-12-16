@@ -20,6 +20,7 @@
     "express": "~4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
+    "kafka-node": "^5.0.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^0.17.5"
   },
