@@ -1,66 +1,68 @@
 version: "3"
 
 volumes:
-    db-data:
-        external: false
-    processor-db:
-        external: false
+  db-data:
+    external: false
+  processor-db:
+    external: false
 
 services:
-    database:
-        image: postgres
-        volumes:
-            - db-data:/var/lib/postgresql/db-data
-            - ./database:/etc/cron.daily
+  database:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/db-data
+      - ./database:/etc/cron.daily
 
-    gateway:
-        build: ./gateway
+  gateway:
+    build: ./gateway
 
-    application:
-        build: ./blop
-        depends_on:
-            - database
-        env_file:
-            - .env
+  application:
+    build: ./application
+    depends_on:
+      - database
+    env_file:
+      - .env
 
-    client:
-        image: hasadna/open-pension-client
-        volumes:
-            - ./logs/nginx:/var/log/nginx
-        ports:
-            - "80:80"
-        environment:
-            - SERVICE_PORTS=80
-        depends_on:
-            - server
+  client:
+    image: hasadna/open-pension-client
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+    ports:
+      - "80:80"
+    environment:
+      - SERVICE_PORTS=80
+    depends_on:
+      - server
 
-    server:
-        image: hasadna/open-pension-server
-        command: /bin/sh entrypoint.sh
-        volumes:
-            - ./logs/django:/home/app/server/logs
-        depends_on:
-            - database
+  server:
+    image: hasadna/open-pension-server
+    command: /bin/sh entrypoint.sh
+    volumes:
+      - ./logs/django:/home/app/server/logs
+    depends_on:
+      - database
 
-    processor:
+  processor:
     build: ./processor
     environment:
-        - MONGO_URL=mongodb://mongo:27017/
-        - PYTHONUNBUFFERED=true
+      - MONGO_URL=mongodb://mongo:27017/
+      - PYTHONUNBUFFERED=true
     ports:
-        - "1000:80"
+      - "1000:80"
     depends_on:
-        - mongo
+      - mongo
     links:
-        - mongo
+      - mongo
 
-    mongo:
-        image: mongo
-        ports:
-            - '27017:27017'
-        volumes:
-            - processor-db:/data/dbcms:
-              build: ./cms
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - processor-db:/data/db
 
-    kafka:
-        build: ./kafka
+  cms:
+    build: ./cms
+
+  kafka:
+    build: ./kafka

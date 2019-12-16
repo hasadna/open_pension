@@ -13,10 +13,9 @@ services:
     env_file:
       - .env
 
-  blop:
+  application:
     volumes:
-      - ./blop:/home/app/blop
-      - /home/app/blop/node_modules
+      - ./application/src:/app/src
     command: ["npm", "run", "dev"]
 
   server:

@@ -1,15 +1,11 @@
 FROM node:11
 
-LABEL maintainer="http://www.hasadna.org.il/"
-
-ENV APP_DIR /home/app/blop
-
-WORKDIR $APP_DIR
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm i
 
-COPY . $APP_DIR
+COPY . .
 RUN npm run build
 
 CMD ["npm", "start"]
