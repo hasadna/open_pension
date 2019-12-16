@@ -1,4 +1,4 @@
-export type ReportRow = {
+type ReportRow = {
   DocumentId: number;
   
   CodeFile?: number;
@@ -35,3 +35,5 @@ export type ReportRow = {
   EntityName?: any;
   ParentCorpEntlId?: any;
 };
+
+export default ReportRow;

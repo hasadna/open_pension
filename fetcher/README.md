@@ -2,8 +2,8 @@
 - WORK IN PROGRESS
 - Should download files from the CMA API that is used here - https://employersinfocmp.cma.gov.il/#/publicreports
 
-- Currently uses the S3 Bucket defined in .env - !!! Public bucket !!!
-  - The bucket is IP limited so it won't work
+- Currently uses the Google Storage Bucket defined in .env - !!! Public bucket !!!
+- Only uses the bucket if ENV=prod or staging
 
 - Exposes a Graphql endpoint (http://localhost:3000/graphql)
 - Usage graphql query example - 

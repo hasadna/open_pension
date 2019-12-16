@@ -1,8 +1,10 @@
 import axios, { AxiosInstance } from "axios";
-import { ReadStream } from "fs";
+import fs from "fs";
+import os from "os";
+import path from "path";
 
-import { ReportRow } from "types/report-row";
-import { ReportQuery } from "types/report-query";
+import ReportRow from "types/report-row";
+import ReportQuery from "types/report-query";
 
 const BASE_URL = "https://employersinfocmp.cma.gov.il/api/PublicReporting";
 const METADATA_ROUTE = "/GetPublicReportsSearchData";
@@ -32,7 +34,7 @@ export default class CmaGovApiClient {
     return response.data;
   }
 
-  async downloadDocument(report: ReportRow): Promise<ReadStream> {
+  async downloadDocument(report: ReportRow): Promise<string> {
     console.log("Downloading document", report.DocumentId);
     const response = await this.api.get(DOWNLOAD_ROUTE, {
       params: {
@@ -42,6 +44,14 @@ export default class CmaGovApiClient {
       responseType: "stream"
     });
 
-    return response.data;
+    return new Promise((resolve, reject) => {
+      const downloadStream = response.data;
+      const filename = report.DocumentId + "." + report.fileExt;
+      const destination = path.join(os.tmpdir(), filename);
+      downloadStream
+        .on("end", () => resolve(destination))
+        .on("error", reject)
+        .pipe(fs.createWriteStream(destination));
+    });
   }
 }

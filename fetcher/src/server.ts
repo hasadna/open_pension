@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express from "express";
 import graphqlHTTP from "express-graphql";
 import { buildSchema } from "type-graphql";
-require("dotenv").config();
+import { getPort, getEnv } from "services/config-service";
 
 async function bootstrap() {
   const schema = await buildSchema({
@@ -19,9 +19,9 @@ async function bootstrap() {
     })
   );
 
-  const port = parseInt(process.env.PORT || "3000");
-
-  app.listen(port, () => console.log(`Fetcher listening on port ${port}!`));
+  const port = getPort();
+  const env = getEnv();
+  app.listen(port, () => console.log(`Fetcher listening on port ${port}, environment ${env}`));
 }
 
 bootstrap()
