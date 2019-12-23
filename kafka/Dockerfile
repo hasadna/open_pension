@@ -8,10 +8,13 @@ RUN apt-get -q update && \
     apt-get install -y \
     wget \
     openjdk-8-jdk \
-    gettext-base
+    gettext-base \
+    # clean apt-get cache
+    && rm -rf /var/lib/apt/lists/*
 
-RUN wget http://apache.mivzakim.net/kafka/2.3.0/kafka_2.12-2.3.0.tgz \
-    && tar -xvf kafka_2.12-2.3.0.tgz --strip 1
+RUN wget http://apache.mivzakim.net/kafka/2.3.0/kafka_2.12-2.3.0.tgz && \
+    tar -xvf kafka_2.12-2.3.0.tgz --strip 1 &&\
+    rm kafka_2.12-2.3.0.tgz
 
 COPY entrypoint.sh server.properties.template ./
 
