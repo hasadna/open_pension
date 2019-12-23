@@ -66,3 +66,13 @@ services:
 
   kafka:
     build: ./kafka
+    environment: 
+      - BROKER_ID=1
+
+  kafka2:
+    build: ./kafka
+    environment: 
+      - BROKER_ID=2
+
+  zookeeper: 
+    image: zookeeper:3.5
