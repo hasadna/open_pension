@@ -1,24 +1,31 @@
-FROM drupal:8.7.3-apache
+# todo: create a docker image from here.
+FROM php:7.4.1-apache
 
-# Install git for composer packages.
-RUN apt-get update && \
-    apt-get install git-core netcat --assume-yes && \
-    rm -rf /var/lib/apt/lists/*
+# Copy the directory.
+COPY src/ /var/www/html/
 
-WORKDIR /var/www/html
+# install the PHP extensions we need.
+RUN set -eux;
+RUN bash setup.sh
 
-# Install composer.
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"  && \
-    php composer-setup.php && \
-    php -r "unlink('composer-setup.php');"
+RUN apt update
+RUN apt install git --yes
+
+# Copu the PHP ini.
+COPY src/php.ini /usr/local/etc/php/
+
+# todo: create a docker image to here.
+
+# Installing composer realted stuff.
+RUN mv composer.phar /usr/local/bin/composer
+RUN composer self-update
+RUN composer global require hirak/prestissimo
+
+RUN composer install
 
 
-# Install composer dependencies.
-RUN php composer.phar global require hirak/prestissimo && \
-    php composer.phar install
+COPY profiles /var/www/html/web/profiles
 
-COPY ./entrypoint.sh .
-
-RUN chmod +x entrypoint.sh
-
-CMD ["/var/www/html/entrypoint.sh"]
+# Exposing the port.
+EXPOSE 80
+# vendor/bin/drush si --db-url=mysql://user:password@cms_db/db -y -v

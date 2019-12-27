@@ -259,3 +259,7 @@ server/data/pension_data_all.csv
 my-db/*
 cms/drupal/vendor
 processor/files/uploaded/*.xlsx
+
+cms/src/console
+cms/src/vendor
+cms/src/web
