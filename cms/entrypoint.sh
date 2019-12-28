@@ -9,14 +9,4 @@ do
 done
 
 # Install drupal if not already installed
-../vendor/drupal site:install open_pension mysql://user:password@cms_db/db \
-  --langcode="en" \
-  --site-name="Drupal 8" \
-  --site-mail="admin@example.com" \
-  --account-name="admin" \
-  --account-mail="admin@example.com" \
-  --account-pass="admin" \
-  --no-interaction
-
-## Install modules which cannot be installed as dependencies of the profile.
-../vendor/drush en open_pension_blog open_pension_files open_pension_logs
+vendor/bin/drush si open_pension --db-url=mysql://user:password@cms_db/db_new --account-pass="admin" --account-name="admin" -y -v

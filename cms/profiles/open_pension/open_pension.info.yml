@@ -39,10 +39,10 @@ install:
   - views_ui
   - tour
   - automated_cron
-
-  # Contrib modules
   - media
   - media_library
+
+  # Contrib modules
   - entity_browser
   - entity_browser_entity_form
   - graphql

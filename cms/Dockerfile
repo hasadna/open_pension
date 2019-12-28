@@ -11,6 +11,8 @@ RUN bash setup.sh
 RUN apt update
 RUN apt install git --yes
 
+RUN apt install mariadb-server
+
 # Copu the PHP ini.
 COPY src/php.ini /usr/local/etc/php/
 
@@ -20,12 +22,15 @@ COPY src/php.ini /usr/local/etc/php/
 RUN mv composer.phar /usr/local/bin/composer
 RUN composer self-update
 RUN composer global require hirak/prestissimo
-
 RUN composer install
 
-
+# Copy the profiles.
 COPY profiles /var/www/html/web/profiles
 
 # Exposing the port.
 EXPOSE 80
-# vendor/bin/drush si --db-url=mysql://user:password@cms_db/db -y -v
+
+# Running the entry point.
+COPY entrypoint.sh /var/www/html
+RUN chmod +x /var/www/html/entrypoint.sh
+#ENTRYPOINT [ "/var/www/html/entrypoint.sh" ]

@@ -5,6 +5,7 @@ dependencies:
   - ckeditor
   - editor
   - field
+  - file
   - filter
   - media
   - media_library

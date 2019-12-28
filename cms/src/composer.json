@@ -27,7 +27,7 @@
         "drupal/features": "^3.8",
         "drupal/graphql": "^3.0@RC",
         "drupal/vuejs": "^1.0@RC",
-        "drush/drush": "9.7.0"
+        "drush/drush": "^10.1"
     },
     "require-dev": {
     },
