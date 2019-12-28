@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.node.blog.body
-    - field.field.node.blog.field_media
     - node.type.blog
   module:
     - text
@@ -18,15 +17,6 @@ content:
     type: text_default
     weight: 101
     settings: {  }
-    third_party_settings: {  }
-    region: content
-  field_media:
-    type: entity_reference_entity_view
-    weight: 102
-    label: above
-    settings:
-      view_mode: default
-      link: false
     third_party_settings: {  }
     region: content
   links:

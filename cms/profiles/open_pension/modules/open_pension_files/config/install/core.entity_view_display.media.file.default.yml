@@ -2,7 +2,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.file.field_history
     - field.field.media.file.field_media_file
+    - field.field.media.file.field_reference_in_other_service
     - media.type.file
   module:
     - file
@@ -20,6 +22,8 @@ content:
     region: content
 hidden:
   created: true
+  field_history: true
+  field_reference_in_other_service: true
   name: true
   thumbnail: true
   uid: true

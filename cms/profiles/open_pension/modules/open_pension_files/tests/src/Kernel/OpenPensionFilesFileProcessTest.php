@@ -27,7 +27,6 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
     'open_pension_files',
     'system',
     'media',
-    'media_entity_browser',
     'media_library',
     'views',
     'image',

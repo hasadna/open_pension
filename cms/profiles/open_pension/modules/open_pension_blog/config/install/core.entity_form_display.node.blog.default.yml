@@ -3,10 +3,8 @@ status: true
 dependencies:
   config:
     - field.field.node.blog.body
-    - field.field.node.blog.field_media
     - node.type.blog
   module:
-    - media_library
     - path
     - text
 id: node.blog.default
@@ -29,13 +27,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_media:
-    type: media_library_widget
-    weight: 122
-    settings:
-      media_types: {  }
-    third_party_settings: {  }
-    region: content
   path:
     type: path
     weight: 30
@@ -78,6 +69,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     region: content
     third_party_settings: {  }
 hidden: {  }

@@ -16,6 +16,7 @@
     ],
     "require": {
         "composer/installers": "^1.2",
+        "cweagans/composer-patches": "^1.6",
         "drupal/coder": "^8.3",
         "drupal/config_inspector": "^1.0@beta",
         "drupal/console": "1.9.0",
@@ -23,11 +24,8 @@
         "drupal/core-project-message": "^8.8",
         "drupal/core-recommended": "^8.8",
         "drupal/devel": "^2.1",
-        "drupal/entity_browser": "^2.2",
         "drupal/features": "^3.8",
         "drupal/graphql": "^3.0@RC",
-        "drupal/inline_entity_form": "^1.0@RC",
-        "drupal/media_entity_browser": "^2.0",
         "drupal/vuejs": "^1.0@RC",
         "drush/drush": "9.7.0"
     },
@@ -56,6 +54,12 @@
             "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
             "web/modules/custom/{$name}": ["type:drupal-custom-module"],
             "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
+        },
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "drupal/core": {
+                "Make Drupal 8.8 compatible with PHP 7.4": "https://www.drupal.org/files/issues/2019-12-14/3086374-155.patch"
+            }
         },
         "drupal-core-project-message": {
             "include-keys": ["homepage", "support"],
