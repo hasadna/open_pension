@@ -9,4 +9,4 @@ do
 done
 
 # Install drupal if not already installed
-vendor/bin/drush si open_pension --db-url=mysql://user:password@cms_db/db_new --account-pass="admin" --account-name="admin" -y -v
+vendor/bin/drush si open_pension --db-url=mysql://user:password@cms_db/db --account-pass="admin" --account-name="admin" -y -v
