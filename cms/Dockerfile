@@ -9,12 +9,16 @@ RUN set -eux;
 RUN bash setup.sh
 
 RUN apt update
-RUN apt install git --yes
+RUN apt install git mariadb-server --yes
 
 RUN apt install mariadb-server
 
-# Copu the PHP ini.
+# Copy the PHP ini.
 COPY src/php.ini /usr/local/etc/php/
+
+# Copy the apche's sites default file.
+COPY src/000-default.conf /etc/apache2/sites-available
+RUN services apache2 restart
 
 # todo: create a docker image to here.
 
