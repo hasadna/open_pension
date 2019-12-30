@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: open_pension_manager
-label: 'Open Pension Manager'
-weight: 3
-is_admin: null

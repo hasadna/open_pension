@@ -1,7 +1,0 @@
-open_pension_core.main:
-  path: '/admin/open_pension'
-  defaults:
-    _controller: '\Drupal\open_pension_core\Controller\OpenPensionCoreAdminIndex::index'
-    _title: 'Open Pension'
-  requirements:
-    _permission: 'access open pension core'
