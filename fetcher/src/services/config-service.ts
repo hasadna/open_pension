@@ -24,13 +24,17 @@ export function isDev() {
 }
 
 export function getStorageBucket() {
-  return safeGet('GOOGLE_STORAGE_BUCKET');
+  return safeGet("GOOGLE_STORAGE_BUCKET");
 }
 
 export function getKafkaHost() {
-  return safeGet('KAFKA_HOST');
+  return safeGet("KAFKA_HOST");
 }
 
 export function getKafkaTopic() {
-  return safeGet('KAFKA_TOPIC');
+  return safeGet("KAFKA_TOPIC");
+}
+
+export function getProcesserUrl() {
+  return "http://localhost:1000";
 }
