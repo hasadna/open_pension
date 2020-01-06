@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_reference_in_other_service
+    - media.type.open_pension_file
+  module:
+    - options
+id: media.open_pension_file.field_reference_in_other_service
+field_name: field_reference_in_other_service
+entity_type: media
+bundle: open_pension_file
+label: 'Reference in other services'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
