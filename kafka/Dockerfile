@@ -1,20 +1,16 @@
-FROM ubuntu:19.04
+FROM alpine:3.11.2
 
 WORKDIR /app
 
 LABEL maintainer="https://www.hasadna.org.il/"
 
-RUN apt-get -q update && \
-    apt-get install -y \
-    wget \
-    openjdk-8-jdk \
-    gettext-base \
-    # clean apt-get cache
-    && rm -rf /var/lib/apt/lists/*
-
+RUN apk -q update && apk add \
+    openjdk8 \
+    gettext
+    
 RUN wget http://apache.mivzakim.net/kafka/2.3.0/kafka_2.12-2.3.0.tgz && \
     tar -xvf kafka_2.12-2.3.0.tgz --strip 1 &&\
-    rm kafka_2.12-2.3.0.tgz
+   rm kafka_2.12-2.3.0.tgz
 
 COPY entrypoint.sh server.properties.template ./
 
