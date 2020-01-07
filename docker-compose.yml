@@ -65,11 +65,8 @@ services:
 
   cms:
     build: ./cms
-    ports:
-      - "2000:80"
     volumes:
-      - ./cms/src:/var/www/html
-      - ./cms/profiles:/var/www/html/web/profiles
+      - ./cms/src/web/profiles:/var/www/html/web/profiles
     depends_on:
       - cms_db
 

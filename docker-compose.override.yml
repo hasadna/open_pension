@@ -37,9 +37,6 @@ services:
   cms:
     ports:
       - "8080:80"
-    volumes:
-      - ./cms/drupal:/var/www/html/drupal
-    restart: always
     env_file:
       - .env
 

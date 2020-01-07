@@ -1,40 +1,50 @@
-# todo: create a docker image from here.
 FROM php:7.4.1-apache
 
-# Copy the directory.
-COPY src/ /var/www/html/
+WORKDIR /var/www/html
+
+RUN apt update && apt install --yes --no-install-recommends \
+    git \
+    mariadb-server \
+    libfreetype6-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libpq-dev \
+    netcat \
+    libzip-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # install the PHP extensions we need.
-RUN set -eux;
-RUN bash setup.sh
+RUN set -eux && \
+    savedAptMark="$(apt-mark showmanual)"  && \
+    docker-php-ext-configure gd \
+      --with-freetype \
+      --with-jpeg && \
+    docker-php-ext-install -j "$(nproc)" \
+            gd \
+            opcache \
+            pdo_mysql \
+            pdo_pgsql \
+            zip
 
-RUN apt update
-RUN apt install git mariadb-server --yes
+# Copy the PHP ini and set up apache.
+COPY build-tools /tmp/build-tools
+RUN mv /tmp/build-tools/php.ini /usr/local/etc/php/ && \
+    a2enmod rewrite && \
+    mv /tmp/build-tools/000-default.conf /etc/apache2/sites-available
 
-RUN apt install mariadb-server
+# Composer install
+COPY src/composer.* ./
+RUN mv /tmp/build-tools/composer.phar /usr/local/bin/composer && \
+    composer self-update && \
+    composer global require hirak/prestissimo && \
+    composer install
 
-# Copy the PHP ini.
-COPY src/php.ini /usr/local/etc/php/
-
-# Copy the apche's sites default file.
-COPY src/000-default.conf /etc/apache2/sites-available
-RUN services apache2 restart
-
-# todo: create a docker image to here.
-
-# Installing composer realted stuff.
-RUN mv composer.phar /usr/local/bin/composer
-RUN composer self-update
-RUN composer global require hirak/prestissimo
-RUN composer install
-
-# Copy the profiles.
-COPY profiles /var/www/html/web/profiles
+COPY src .
 
 # Exposing the port.
 EXPOSE 80
 
 # Running the entry point.
-COPY entrypoint.sh /var/www/html
 RUN chmod +x /var/www/html/entrypoint.sh
-#ENTRYPOINT [ "/var/www/html/entrypoint.sh" ]
+CMD [ "/var/www/html/entrypoint.sh" ]
+
