@@ -12,4 +12,5 @@ echo "DB is online"
 # Install drupal if not already installed
 vendor/bin/drush si open_pension --db-url=mysql://user:password@cms_db/db --account-pass="admin" --account-name="admin" -y -v
 
+# Start the apache process.
 exec apache2-foreground
