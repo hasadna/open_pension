@@ -30,7 +30,7 @@ services:
     volumes:
       - ./logs/nginx:/var/log/nginx
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       - SERVICE_PORTS=80
     depends_on:
@@ -65,8 +65,6 @@ services:
 
   cms:
     build: ./cms
-    volumes:
-      - ./cms/src/web/profiles:/var/www/html/web/profiles
     depends_on:
       - cms_db
 
