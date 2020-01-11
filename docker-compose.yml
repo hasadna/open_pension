@@ -30,7 +30,7 @@ services:
   application_db:
     image: postgres
     volumes:
-      - application-db:/var/lib/postgresql/db-data:latest
+      - application-db:/var/lib/postgresql/db-data
 
   client:
     image: hasadna/open-pension-client:latest
