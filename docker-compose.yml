@@ -1,6 +1,8 @@
 version: "3"
 
 volumes:
+  application-db:
+    external: false
   processor-db:
     external: false
 
@@ -8,12 +10,18 @@ services:
   gateway:
     build: ./gateway
 
-  blop:
-    build: ./blop
+  application:
+    image: hasadna/open-pension-application
+    build: ./application
     depends_on:
-      - database
+      - application_db
     env_file:
-      - .env
+      - ./application/.env
+
+  application_db:
+    image: postgres
+    volumes:
+      - application-db:/var/lib/postgresql/db-data
 
   client:
     image: hasadna/open-pension-client

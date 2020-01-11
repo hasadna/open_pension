@@ -7,7 +7,7 @@ Dockerfile @ItamarGronich
 docker-compose.* @ItamarGronich
 /client/ @ItamarGronich
 /gateway/ @ItamarGronich
-/blop/ @ItamarGronich
+/application/ @ItamarGronich
 /kafka/ @ItamarGronich
 .travis* @ItamarGronich
 /.github/ @ItamarGronich

@@ -7,10 +7,10 @@ services:
     env_file:
       - .env
 
-  blop:
+  application:
     volumes:
-      - ./blop:/home/app/blop
-      - /home/app/blop/node_modules
+      - ./application:/home/app
+      - /home/app/node_modules
     command: ["npm", "run", "dev"]
 
   gateway:

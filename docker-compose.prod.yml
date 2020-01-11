@@ -1,6 +1,6 @@
 version: "3"
 
 services:
-  blop:
+  application:
     env_file:
-      - .env.prod
+      - ./application/.env.prod
