@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 volumes:
   application-db:
@@ -8,12 +8,20 @@ volumes:
 
 services:
   gateway:
-    image: hasadna/open-pension-gateway
-    build: ./gateway
+    image: hasadna/open-pension-gateway:latest
+    build:
+      context: ./gateway
+      cache_from:
+        - node:11
+        - hasadna/open-pension-gateway:latest
 
   application:
-    image: hasadna/open-pension-application
-    build: ./application
+    image: hasadna/open-pension-application:latest
+    build:
+      context: ./application
+      cache_from:
+        - node:11
+        - hasadna/open-pension-application:latest
     depends_on:
       - application_db
     env_file:
@@ -22,11 +30,15 @@ services:
   application_db:
     image: postgres
     volumes:
-      - application-db:/var/lib/postgresql/db-data
+      - application-db:/var/lib/postgresql/db-data:latest
 
   client:
-    image: hasadna/open-pension-client
-    build: ./client
+    image: hasadna/open-pension-client:latest
+    build:
+      context: ./client
+      cache_from:
+        - node:11
+        - hasadna/open-pension-client:latest
     ports:
       - "80:80"
     environment:
@@ -35,8 +47,12 @@ services:
       - gateway
 
   processor:
-    image: hasadna/open-pension-processor
-    build: ./processor
+    image: hasadna/open-pension-processor:latest
+    build:
+      context: ./processor
+      cache_from:
+        - node:11
+        - hasadna/open-pension-processor:latest
     environment:
       - MONGO_URL=mongodb://processor_db:27017/
       - PYTHONUNBUFFERED=true
@@ -49,19 +65,27 @@ services:
       - processor-db:/data/db
 
   cms:
-    image: hasadna/open-pension-cms
-    build: ./cms
+    image: hasadna/open-pension-cms:latest
+    build:
+      context: ./cms
+      cache_from:
+        - node:11
+        - hasadna/open-pension-cms:latest
 
   kafka:
-    image: hasadna/open-pension-kafka
-    build: ./kafka
+    image: hasadna/open-pension-kafka:latest
+    build:
+      context: ./kafka
+      cache_from:
+        - ubuntu:19.04
+        - hasadna/open-pension-kafka:latest
     environment: 
       - BROKER_ID=1
     depends_on: 
       - zookeeper
 
   kafka2:
-    image: hasadna/open-pension-kafka
+    image: hasadna/open-pension-kafka:latest
     environment: 
       - BROKER_ID=2
     depends_on:
