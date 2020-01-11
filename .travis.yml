@@ -57,7 +57,10 @@ before_install:
   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
 
 before_cache:
+  - cd /home/travis/build/hasadna/open_pension
+  - mkdir -p docker_images
   - docker save -o docker_images/images.tar $(docker images -a -q)
+  - cd -
 
 install:
   # Build images
@@ -76,7 +79,8 @@ script:
 
   # run client tests
   - cd /home/travis/build/hasadna/open_pension/client
-  - npm test
+  - npm ci && npm test
+  - cd -
 
 after_script:
   - cd /home/travis/build/hasadna/open_pension && codecov -t 4e44efc7-43b7-42e3-a122-4042d83e19ff
