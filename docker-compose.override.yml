@@ -1,12 +1,6 @@
 version: "3"
 
 services:
-  database:
-    env_file:
-      - .env
-    ports:
-      - 5432:5432
-
   client:
     volumes:
       - ./client/build:/usr/share/nginx/html/
@@ -18,12 +12,6 @@ services:
       - ./blop:/home/app/blop
       - /home/app/blop/node_modules
     command: ["npm", "run", "dev"]
-
-  server:
-    volumes:
-      - ./server/:/home/app/server
-    env_file:
-      - .env
 
   gateway:
     volumes:
@@ -42,3 +30,9 @@ services:
   processor:
     volumes:
       - ./processor/src/app:/app/app
+    ports:
+      - "1000:80"
+
+  processor_db:
+    ports:
+      - '27017:27017'

@@ -1,10 +1,6 @@
 version: "3"
 
 services:
-  database:
-    env_file:
-      - .env.prod
-
-  server:
+  blop:
     env_file:
       - .env.prod

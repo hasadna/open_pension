@@ -1,18 +1,10 @@
 version: "3"
 
 volumes:
-  db-data:
-    external: false
   processor-db:
     external: false
 
 services:
-  database:
-    image: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/db-data
-      - ./database:/etc/cron.daily
-
   gateway:
     build: ./gateway
 
@@ -25,39 +17,21 @@ services:
 
   client:
     image: hasadna/open-pension-client
-    volumes:
-      - ./logs/nginx:/var/log/nginx
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       - SERVICE_PORTS=80
-    depends_on:
-      - server
-
-  server:
-    image: hasadna/open-pension-server
-    command: /bin/sh entrypoint.sh
-    volumes:
-      - ./logs/django:/home/app/server/logs
-    depends_on:
-      - database
 
   processor:
     build: ./processor
     environment:
-      - MONGO_URL=mongodb://mongo:27017/
+      - MONGO_URL=mongodb://processor_db:27017/
       - PYTHONUNBUFFERED=true
-    ports:
-      - "1000:80"
     depends_on:
-      - mongo
-    links:
-      - mongo
+      - processor_db
 
-  mongo:
+  processor_db:
     image: mongo
-    ports:
-      - '27017:27017'
     volumes:
       - processor-db:/data/db
 
