@@ -4,8 +4,6 @@ services:
   client:
     volumes:
       - ./client/build:/usr/share/nginx/html/
-    env_file:
-      - .env
 
   application:
     volumes:

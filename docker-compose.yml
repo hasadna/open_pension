@@ -8,6 +8,7 @@ volumes:
 
 services:
   gateway:
+    image: hasadna/open-pension-gateway
     build: ./gateway
 
   application:
@@ -25,12 +26,16 @@ services:
 
   client:
     image: hasadna/open-pension-client
+    build: ./client
     ports:
       - "80:80"
     environment:
       - SERVICE_PORTS=80
+    depends_on:
+      - gateway
 
   processor:
+    image: hasadna/open-pension-processor
     build: ./processor
     environment:
       - MONGO_URL=mongodb://processor_db:27017/
@@ -44,9 +49,11 @@ services:
       - processor-db:/data/db
 
   cms:
+    image: hasadna/open-pension-cms
     build: ./cms
 
   kafka:
+    image: hasadna/open-pension-kafka
     build: ./kafka
     environment: 
       - BROKER_ID=1
@@ -54,10 +61,10 @@ services:
       - zookeeper
 
   kafka2:
-    build: ./kafka
+    image: hasadna/open-pension-kafka
     environment: 
       - BROKER_ID=2
-    depends_on: 
+    depends_on:
       - zookeeper
 
   zookeeper: 

@@ -26,7 +26,7 @@ The other services are peripheral services:
 that holds the data in a SQL tables.
 * Gateway - The gateway service provides a single graphql endpoint which allow 
 us to communicate with the other services.
-* Front - A `vuejs` app that serves all the data from the blop service.
+* Client - A `react` app that serves all the data.
 * Backoffice - Gives us dashboard for managing other services:
     * Content such as blogs, enrichment tables, user authentication and more
     * Manage downloaded files, manually upload files for processing 
