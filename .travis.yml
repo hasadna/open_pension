@@ -5,7 +5,6 @@ cache:
   npm: true
   directories:
     - "$HOME/.npm"
-    - docker_images
 
 addons:
   apt:
