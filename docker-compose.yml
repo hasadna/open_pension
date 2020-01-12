@@ -12,7 +12,6 @@ services:
     build:
       context: ./gateway
       cache_from:
-        - node:11
         - hasadna/open-pension-gateway:latest
 
   application:
@@ -20,7 +19,6 @@ services:
     build:
       context: ./application
       cache_from:
-        - node:11
         - hasadna/open-pension-application:latest
     depends_on:
       - application_db
@@ -28,7 +26,7 @@ services:
       - ./application/.env
 
   application_db:
-    image: postgres
+    image: postgres:12.1-alpine
     volumes:
       - application-db:/var/lib/postgresql/db-data
 
@@ -37,7 +35,6 @@ services:
     build:
       context: ./client
       cache_from:
-        - node:11
         - hasadna/open-pension-client:latest
     ports:
       - "80:80"
@@ -51,7 +48,6 @@ services:
     build:
       context: ./processor
       cache_from:
-        - node:11
         - hasadna/open-pension-processor:latest
     environment:
       - MONGO_URL=mongodb://processor_db:27017/
@@ -69,7 +65,6 @@ services:
     build:
       context: ./cms
       cache_from:
-        - node:11
         - hasadna/open-pension-cms:latest
 
   kafka:
@@ -77,7 +72,6 @@ services:
     build:
       context: ./kafka
       cache_from:
-        - ubuntu:19.04
         - hasadna/open-pension-kafka:latest
     environment: 
       - BROKER_ID=1

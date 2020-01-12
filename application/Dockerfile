@@ -1,4 +1,4 @@
-FROM node:11
+FROM node:12.14.1-alpine3.11
 
 LABEL maintainer="http://www.hasadna.org.il/"
 
