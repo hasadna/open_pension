@@ -57,14 +57,14 @@ function generateUpdatesJSON(services, images) {
 
 async function main() {
     try {
-        // await executeShellCommand("docker-compose push")
+        await executeShellCommand("docker-compose push")
         await tagDockerImages()
         let [taggedImages, services] = await Promise.all([
             getDockerImagesByString(gitTag),
             getServices()
         ]);
         taggedImages = taggedImages.map(image => `${image}:${gitTag}`)
-        // await pushTaggedImages(taggedImages)
+        await pushTaggedImages(taggedImages)
         const updatesJson = generateUpdatesJSON(services, taggedImages)
         console.log(JSON.stringify(updatesJson))
         process.exit(0)
