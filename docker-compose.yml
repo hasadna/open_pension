@@ -65,6 +65,8 @@ services:
 
   cms:
     build: ./cms
+    ports:
+      - "2000:80"
     depends_on:
       - cms_db
 
