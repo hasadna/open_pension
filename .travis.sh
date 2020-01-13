@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 if [ "${1}" == "deploy" ]; then
+    echo "Starting Deploy"
+    echo "pushing docker images"
     cd /home/travis/build/hasadna/open_pension || true && \
     AUTO_UPDATED="$(node ./service-json-generator)" && \
     echo &&\
