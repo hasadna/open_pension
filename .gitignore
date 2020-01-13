@@ -251,9 +251,14 @@ $RECYCLE.BIN/
 
 
 ### Custom ###
-local_settings.py
 server/csv
 server/static/
 server/data/pension_data_all.csv
 
 processor/files/uploaded/*.xlsx
+processor-db
+processor/out/*.json
+
+cms/src/vendor
+cms/src/console
+cms/src/web/*
