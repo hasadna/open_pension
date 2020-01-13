@@ -9,7 +9,7 @@ function executeShellCommand(command) {
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout, stderr) => {
             if (error || stderr) {
-                reject(error || stdout);
+                reject(error || stderr);
             } else {
                 resolve(stdout);
             }
