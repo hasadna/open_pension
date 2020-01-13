@@ -4,7 +4,6 @@ dist: trusty
 cache:
   npm: true
   directories:
-    - /home/travis/build/hasadna/open_pension/server/data/OpenPensionCSV
     - "$HOME/.npm"
 
 addons:
@@ -26,6 +25,7 @@ services:
 
 env:
   global:
+    - DOCKER_COMPOSE_VERSION=1.25.1
     - PIPENV_VENV_IN_PROJECT=1
     - PIPENV_IGNORE_VIRTUALENVS=1
     - TRAVIS_CI_OPERATOR=1
@@ -33,27 +33,25 @@ env:
     - secure: "Famq0u90Cfn+ABRTZgB0lvLFhtj0THc3Saj44+R0nLZkSGAXECNsa5+LZeCyCD0wOMa5CwqcVfmJ96v9P8uGpIdSWytowDbDcLBi4bGXwrQN7or0XVzkJLADfm1BPq8XzhtvK9g1gKGyNhikYvyWgj0bRmP70cMh2PjD+CHfu4uhw680n9Okra3U2IJjF9jOgA9G+YAi+7QhV13Vopml/3tX/fjs1rWtdxS42QYwEMQm1TND6OKLhO0mJX2LrdgRMPAPwl1rv5IEmh2O+tGmNFSFPvCmkuYX3HYIVUtMDc3tJFQzXDaOwyVD4LPkriijhwlASz2btZw4rx4WLocLjJVnt6JgUYYiptGs8Q3hAx9065E3ivFcA66r7/xm/n5SoesYBrDL9fbev9jnuGU4dTnEVZIIYbkTI0QDbaL7IoXcwS3kZPq6IxvQ2rsHwYMRZ3Kc9p6UIt7BLG6vDWhfKkOonJvojIbFecUZZS2rydCVXW+IOeYRrFlYOvhbvVDQcG0N5dzEDY3FPxOI3JJru+W5QNa/kejqPkukjq0waHnvF4n6Fn8TVw6I1qr3ui80e1s4LiOdj4okNIQHTqNsx7bd+aMag2b9OfCtYDzunVpKWPWH8jgTnHKSrkiMoJs6R7eCnuCW4KI1uUMIc/xjHvOB7nhWdiN4A1qejYbaZJU="
 
 before_install:
+  # Install specific docker-compose version
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose version
+
+  - docker-compose pull
+
+  # install codecov (code coverage tool)
   - npm install -g npm@latest codecov
+
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - cd /home/travis/build/hasadna/open_pension/client
-  - docker pull hasadna/open-pension-client
-  - docker build -t hasadna/open-pension-client --cache-from hasadna/open-pension-client .
-  - cd /home/travis/build/hasadna/open_pension/server
-  - docker pull hasadna/open-pension-server
-  - docker build -t hasadna/open-pension-server --cache-from hasadna/open-pension-server .
-  - cd /home/travis/build/hasadna/open_pension/
-  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 install:
-  # Server
-  - cd /home/travis/build/hasadna/open_pension/
-  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server pip install coverage pycodestyle flake8 isort
-
-  # Client
-  - cd /home/travis/build/hasadna/open_pension/client
-  - npm ci
+  # Build images
+  - docker-compose build --parallel
 
   # travis-ci-operator
   - python2 -m pip install pyyaml
@@ -63,16 +61,13 @@ install:
   - travis_ci_operator.sh docker-login
 
 script:
-  # Client
-  - cd /home/travis/build/hasadna/open_pension/client
-  - npm test
+  # Launch cluster
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
-  # Server
-  - cd /home/travis/build/hasadna/open_pension/
-  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server coverage run --source='.' manage.py test
-  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server coverage xml
-  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .
-  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec server isort . --recursive --check-only
+  # run client tests
+  - cd /home/travis/build/hasadna/open_pension/client
+  - npm ci && npm test
+  - cd -
 
 after_script:
   - cd /home/travis/build/hasadna/open_pension && codecov -t 4e44efc7-43b7-42e3-a122-4042d83e19ff
