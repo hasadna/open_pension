@@ -17,6 +17,10 @@ function executeShellCommand(command) {
     });
 }
 
+function print(str) {
+    console.log(`===== ${str} =====`)
+}
+
 async function getDockerImagesByString(tag="latest") {
     const name = "hasadna/"
     const imagesString = await executeShellCommand(`docker images | grep ${tag} | awk '{print $1}' | grep ${name}`)
@@ -57,16 +61,27 @@ function generateUpdatesJSON(services, images) {
 
 async function main() {
     try {
+        print("Running docker compose push")
         await executeShellCommand("docker-compose push")
+        print("Finished Running docker compose push")
+        print("Tagging images")
         await tagDockerImages()
+        print("Done tagging images")
         let [taggedImages, services] = await Promise.all([
             getDockerImagesByString(gitTag),
             getServices()
         ]);
         taggedImages = taggedImages.map(image => `${image}:${gitTag}`)
+        print("Pushing tagged images")
         await pushTaggedImages(taggedImages)
-        const updatesJson = generateUpdatesJSON(services, taggedImages)
-        console.log(JSON.stringify(updatesJson))
+        print("Done pushing tagged images")
+        print("Generating JSON")
+        const updatesJson = JSON.stringify(generateUpdatesJSON(services, taggedImages))
+        print("Done generating JSON:")
+        print(`\n ${updatesJson} \n`)
+        print("Setting env var")
+        await executeShellCommand(`export AUTO_UPDATED=${updatesJson}`)
+        print("Done setting env var")
         process.exit(0)
     } catch (e) {
         console.error(e);
