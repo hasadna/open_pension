@@ -1,4 +1,4 @@
-const { exec } = require("child_process")
+const { spawn } = require("child_process")
 
 const { TRAVIS_COMMIT: gitTag } = process.env;
 const ACTIVE_SERVICES = [
@@ -7,13 +7,26 @@ const ACTIVE_SERVICES = [
 
 function executeShellCommand(command) {
     return new Promise((resolve, reject) => {
-        exec(command, (error, stdout, stderr) => {
-            if (error || stderr) {
-                reject(error || stderr);
-            } else {
-                resolve(stdout);
-            }
-        });
+        let out = ''
+        const cmd = spawn(`bash`, ['-c', command])
+
+        cmd.stdout.on("data", data => {
+            console.log(`stdout: ${data}`)
+            out = out + data
+        })
+
+        cmd.stderr.on("data", data => console.log(`stderr: ${data}`))
+
+        cmd.on("error", error => {
+            console.log(`error:`)
+            console.log(error)
+            reject(error)
+        })
+
+        cmd.on("close", code => {
+            console.log(`command: ${command} exited with status - ${code}`)
+            resolve(out)
+        })
     });
 }
 
@@ -62,7 +75,7 @@ function generateUpdatesJSON(services, images) {
 async function main() {
     try {
         print("Running docker compose push")
-        await executeShellCommand("docker-compose push")
+        // await executeShellCommand("docker-compose push")
         print("Finished Running docker compose push")
         print("Tagging images")
         await tagDockerImages()
@@ -73,7 +86,7 @@ async function main() {
         ]);
         taggedImages = taggedImages.map(image => `${image}:${gitTag}`)
         print("Pushing tagged images")
-        await pushTaggedImages(taggedImages)
+        // await pushTaggedImages(taggedImages)
         print("Done pushing tagged images")
         print("Generating JSON")
         const updatesJson = JSON.stringify(generateUpdatesJSON(services, taggedImages))
