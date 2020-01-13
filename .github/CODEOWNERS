@@ -5,7 +5,7 @@
 # Itamar Gronich
 Dockerfile @ItamarGronich
 docker-compose.* @ItamarGronich
-/client/ @ItamarGronich
+/client/ @ItamarGronich @RoySegall
 /gateway/ @ItamarGronich
 /application/ @ItamarGronich
 /kafka/ @ItamarGronich
