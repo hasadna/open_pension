@@ -39,6 +39,7 @@ RUN mv /tmp/build-tools/composer.phar /usr/local/bin/composer && \
     composer global require hirak/prestissimo && \
     composer install
 
+
 COPY src .
 
 # Exposing the port.
