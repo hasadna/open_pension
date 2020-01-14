@@ -6,6 +6,7 @@ if [ "${1}" == "deploy" ]; then
     cd /home/travis/build/hasadna/open_pension || true && \
     node ./service-json-generator && \
     echo &&\
+    AUTO_UPDATED="$(cat ./auto-updated.json)"
     echo "AUTO_UPDATED: " &&\
     echo $AUTO_UPDATED &&\
     echo &&\

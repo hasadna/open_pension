@@ -1,4 +1,5 @@
 const { spawn } = require("child_process")
+const { writeFile } = require("fs")
 
 const { TRAVIS_COMMIT: gitTag } = process.env;
 const ACTIVE_SERVICES = [
@@ -28,6 +29,18 @@ function executeShellCommand(command) {
             resolve(out)
         })
     });
+}
+
+function writeToFile(filename, content) {
+    return new Promise((resolve, reject) => {
+        writeFile(filename, content, (err) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(true)
+            }
+        })
+    })
 }
 
 function print(str) {
@@ -92,9 +105,10 @@ async function main() {
         const updatesJson = JSON.stringify(generateUpdatesJSON(services, taggedImages))
         print("Done generating JSON:")
         print(`\n ${updatesJson} \n`)
-        print("Setting env var")
-        await executeShellCommand(`export AUTO_UPDATED=${updatesJson}`)
-        print("Done setting env var")
+        const fileName = 'auto-updates.json'
+        print(`Saving JSON to file : ${fileName}`)
+        await writeToFile(fileName, updatesJson)
+        print("Done saving JSON")
         process.exit(0)
     } catch (e) {
         console.error(e);
