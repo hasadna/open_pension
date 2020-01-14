@@ -75,7 +75,7 @@ function generateUpdatesJSON(services, images) {
 async function main() {
     try {
         print("Running docker compose push")
-        // await executeShellCommand("docker-compose push")
+        await executeShellCommand("docker-compose push")
         print("Finished Running docker compose push")
         print("Tagging images")
         await tagDockerImages()
@@ -86,7 +86,7 @@ async function main() {
         ]);
         taggedImages = taggedImages.map(image => `${image}:${gitTag}`)
         print("Pushing tagged images")
-        // await pushTaggedImages(taggedImages)
+        await pushTaggedImages(taggedImages)
         print("Done pushing tagged images")
         print("Generating JSON")
         const updatesJson = JSON.stringify(generateUpdatesJSON(services, taggedImages))
