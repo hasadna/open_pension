@@ -38,7 +38,7 @@ services:
     volumes:
       - ./cms/src/web/profiles:/var/www/html/web/profiles
     env_file:
-      - .env
+      - ./cms/.env
 
   cms_db:
     restart: always
