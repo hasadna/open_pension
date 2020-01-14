@@ -81,7 +81,7 @@ function generateUpdatesJSON(services, images) {
         return acc;
     }, {})
     return {
-        opnepension: servicesJSON
+        openpension: servicesJSON
     }
 }
 
