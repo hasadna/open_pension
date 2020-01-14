@@ -48,4 +48,3 @@ EXPOSE 80
 # Running the entry point.
 RUN chmod +x /var/www/html/entrypoint.sh
 CMD [ "/var/www/html/entrypoint.sh" ]
-

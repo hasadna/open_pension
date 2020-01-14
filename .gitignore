@@ -101,10 +101,6 @@ jspm_packages
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-
-
 ### OSX ###
 *.DS_Store
 .AppleDouble
@@ -186,9 +182,6 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
-local_settings.py
-
 # Flask stuff:
 instance/
 .webassets-cache
@@ -251,10 +244,6 @@ $RECYCLE.BIN/
 
 
 ### Custom ###
-server/csv
-server/static/
-server/data/pension_data_all.csv
-
 processor/files/uploaded/*.xlsx
 processor-db
 processor/out/*.json
