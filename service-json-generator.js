@@ -105,7 +105,7 @@ async function main() {
         const updatesJson = JSON.stringify(generateUpdatesJSON(services, taggedImages))
         print("Done generating JSON:")
         print(`\n ${updatesJson} \n`)
-        const fileName = 'auto-updates.json'
+        const fileName = 'auto-updated.json'
         print(`Saving JSON to file : ${fileName}`)
         await writeToFile(fileName, updatesJson)
         print("Done saving JSON")
