@@ -25,13 +25,12 @@ services:
       - ./cms/src/web/profiles:/var/www/html/web/profiles
     env_file:
       - ./cms/.env
+    ports:
+      - '2000:80'
 
   cms_db:
     restart: always
-    env_file:
-      - ./cms/.env
     ports:
-      # <Port exposed> : < MySQL Port running inside container>
       - '3307:3306'
 
   processor:

@@ -64,6 +64,8 @@ services:
 
   cms:
     image: hasadna/open-pension-cms:latest
+    depends_on:
+      - cms_db
     build:
       context: ./cms
       cache_from:
