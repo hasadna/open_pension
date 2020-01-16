@@ -104,7 +104,7 @@ class GraphQlBlogEndpointTest extends KernelTestBase {
 				  entityLabel
         }
       }
-    } 
+    }
 GQL;
 
     // Query the graphql as an anonymous user.
