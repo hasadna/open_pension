@@ -42,26 +42,16 @@ class OpenPensionCoreCommands extends DrushCommands {
       $this->setSiteAliasManager($manager);
     }
 
-    if ($this->module_handler->moduleExists('system')) {
-      $this->logger()->info('System is running, updating DB');
-
-      $process = $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'updb');
-      $process->mustRun();
-
-      $this->logger()->success('All things are done!');
+    if (!$this->module_handler->moduleExists('system')) {
+      // The system is not installed. Skipping.
+      return;
     }
-    else {
-      list($MYSQL_USER,$MYSQL_PASSWORD,$MYSQL_HOST,$MYSQL_DATABASE,$ACCOUNT_PASS,$ACCOUNT_NAME) = [
-        getenv('MYSQL_USER'),
-        getenv('MYSQL_PASSWORD'),
-        getenv('MYSQL_HOST'),
-        getenv('MYSQL_DATABASE'),
-        getenv('ACCOUNT_PASS'),
-        getenv('ACCOUNT_NAME'),
-      ];
-      $process = $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'si', "open_pension --db-url=\"mysql://{$MYSQL_USER}:{$MYSQL_PASSWORD}@{$MYSQL_HOST}/{$MYSQL_DATABASE}\" --account-pass=\"{$ACCOUNT_PASS}\" --account-name=\"{$ACCOUNT_NAME}\"");
-      $process->mustRun();
-      $this->logger()->info('Installing system');
-    }
+
+    $this->logger()->info('System is running, updating DB');
+
+    $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'updb', '-y')->mustRun();
+    $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'fra', '-y')->mustRun();
+
+    $this->logger()->success('All things are done!');
   }
 }

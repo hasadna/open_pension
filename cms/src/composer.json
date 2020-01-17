@@ -59,7 +59,10 @@
         "patches": {
             "drupal/core": {
                 "Make Drupal 8.8 compatible with PHP 7.4": "https://www.drupal.org/files/issues/2019-12-14/3086374-155.patch"
-            }
+            },
+	        "drupal/features": {
+		        "fix fr": "https://www.drupal.org/files/issues/2019-10-30/features-3.8-issue-3091278.patch"
+	        }
         },
         "drupal-core-project-message": {
             "include-keys": ["homepage", "support"],

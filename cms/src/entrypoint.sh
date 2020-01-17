@@ -13,7 +13,6 @@ echo "DB is online"
 # Create a drush commnand for checking if drupal installed or not - if so just run updb.
 
 cd web
-
 if ../vendor/bin/drush orchestrate --verbose; then
     echo "success"
     cd -
@@ -21,7 +20,6 @@ else
   cd -
   vendor/bin/drush si open_pension --db-url="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}" --account-pass="${ACCOUNT_PASS}" --account-name="${ACCOUNT_NAME}" -y -v
 fi
-
 
 # Clear cache for css and js issues.
 chmod 777 -R web/sites/default/files/
