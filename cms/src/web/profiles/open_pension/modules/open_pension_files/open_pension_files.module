@@ -45,6 +45,6 @@ function open_pension_files_cron() {
     }
 
     $field_value = $file_field->getValue();
-    $processor->processFile($field_value['target_id'])->updateEntity($file);
+    $processor->sendToProcessor($field_value['target_id'])->updateEntity($file);
   }
 }

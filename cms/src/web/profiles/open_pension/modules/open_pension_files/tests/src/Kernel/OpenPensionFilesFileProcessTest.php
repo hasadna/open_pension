@@ -107,7 +107,7 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
    */
   public function testProcessFile() {
     // Send the file for processing.
-    $this->openPensionFilesProcess->processFile(1);
+    $this->openPensionFilesProcess->sendToProcessor(1);
 
     $this->assertEquals(
       $this->openPensionFilesProcess->getLogger()->logs,
@@ -129,7 +129,7 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
     $this
       ->openPensionFilesProcess
       ->setFileStorage($file_mock)
-      ->processFile(1);
+      ->sendToProcessor(1);
 
     $this->assertTrue(
       $this->openPensionFilesProcess->getLogger()->logs,
@@ -145,7 +145,7 @@ class OpenPensionFilesFileProcessTest extends KernelTestBase {
     $this
       ->openPensionFilesProcess
       ->setFileStorage($file_mock)
-      ->processFile(1);
+      ->sendToProcessor(1);
 
     $error = $this->openPensionFilesProcess->getLogger()->logs;
 

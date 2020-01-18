@@ -70,7 +70,7 @@ class SendFileToProcessController extends ControllerBase {
     // Update about the processing results.
     $this
       ->openPensionFilesFileProcess
-      ->processFile($field_value['target_id'])
+      ->sendToProcessor($field_value['target_id'])
       ->updateEntity($media);
 
     // Process the tests.

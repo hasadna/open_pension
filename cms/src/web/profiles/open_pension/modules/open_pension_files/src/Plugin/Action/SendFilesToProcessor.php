@@ -84,7 +84,7 @@ class SendFilesToProcessor extends ConfigurableActionBase implements ContainerFa
     // Update about the processing results.
     $this
       ->openPensionFilesFileProcess
-      ->processFile($field_value['target_id'])
+      ->sendToProcessor($field_value['target_id'])
       ->updateEntity($entity);
   }
 

@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 interface OpenPensionFilesProcessInterface {
 
   /**
-   * Processing a file.
+   * Sending a file to the process.
    *
    * @param mixed $file_id
    *   The file ID.
@@ -25,7 +25,7 @@ interface OpenPensionFilesProcessInterface {
    *
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
-  public function processFile($file_id): OpenPensionFilesProcessInterface;
+  public function sendToProcessor($file_id): OpenPensionFilesProcessInterface;
 
   /**
    * Setting the http client.

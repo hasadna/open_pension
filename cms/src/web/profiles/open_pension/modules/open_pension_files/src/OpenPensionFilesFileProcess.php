@@ -7,8 +7,10 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
+use Drupal\views\Plugin\views\area\HTTPStatusCode;
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class OpenPensionFilesFileProcess.
@@ -149,9 +151,28 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   }
 
   /**
+   * Get the media related to the file.
+   *
+   * @param $file
+   *  The file object.
+   */
+  protected function getMediaFromFile(File $file) {
+    $media = \Drupal::entityQuery('media')
+      ->condition('bundle', 'open_pension_file')
+      ->condition('field_media_file', $file->id())
+      ->execute();
+
+    if (!$media) {
+      return;
+    }
+
+    return Media::load(reset($media));
+  }
+
+  /**
    * {@inheritdoc}
    */
-  public function processFile($file_id): OpenPensionFilesProcessInterface {
+  public function sendToProcessor($file_id): OpenPensionFilesProcessInterface {
     /** @var \Drupal\file\Entity\File $file */
     $file = $this->fileStorage->load($file_id);
 
@@ -162,17 +183,13 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     }
 
     $this->log(t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
-
     try {
       $results = $this->sendFileToServer($file);
 
-      // todo: In case there's an ID from the processor send a request to
-      //  process the file.
-
-      if ($results->getStatusCode() == 201) {
+      if ($results->getStatusCode() == Response::HTTP_CREATED) {
         $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
         $this->processedId = reset(json_decode($results->getBody(), true)['data']['files'])['id'];
-        $this->processed = TRUE;
+        $this->sentToProcessed = TRUE;
         return $this;
       }
 
@@ -206,12 +223,40 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   }
 
   /**
+   * Sending a patch process to the file in the processor.
+   *
+   * @param File $file
+   *  The file object.
+   *
+   * @return ResponseInterface
+   *  The results objects.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function processFile(File $file) {
+    $this->log(t('Sending the file @file to the process service for processing.', ['@file' => $file->label()]));
+    if (!$other_service = $this->getMediaFromFile($file)->field_reference_in_other_service) {
+      $this->log(t('No media referenced to the file @file', ['@file' => $file->label()]));
+      return;
+    }
+
+    return $this->httpClient->request('patch', "http://processor/process/{$other_service->value}",
+      [
+        'multipart' => [
+          [
+            'name'     => 'files',
+            'contents' => fopen(\Drupal::service('file_system')->realpath($file->getFileUri()), 'r'),
+          ],
+        ],
+      ]);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function updateEntity(Media $media) {
     $media->field_processed = $this->processed;
 
-    // todo: add a status from the processor.
     // todo: add a way to download processed JSON files.
     if ($this->processedId) {
       $media->field_reference_in_other_service = $this->processedId;

@@ -5,6 +5,7 @@ dependencies:
     - field.field.media.open_pension_file.field_history
     - field.field.media.open_pension_file.field_media_file
     - field.field.media.open_pension_file.field_processed
+    - field.field.media.open_pension_file.field_processing_status
     - field.field.media.open_pension_file.field_reference_in_other_service
     - media.type.open_pension_file
   module:
@@ -41,11 +42,13 @@ content:
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
-  field_reference_in_other_service:
-    weight: 103
-    settings: {  }
+  field_processing_status:
+    weight: 106
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: options_select
+    type: string_textfield
     region: content
   name:
     type: string_textfield
@@ -78,4 +81,5 @@ content:
       match_limit: 10
     region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_reference_in_other_service: true

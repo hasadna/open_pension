@@ -5,6 +5,7 @@ dependencies:
     - field.field.media.open_pension_file.field_history
     - field.field.media.open_pension_file.field_media_file
     - field.field.media.open_pension_file.field_processed
+    - field.field.media.open_pension_file.field_processing_status
     - field.field.media.open_pension_file.field_reference_in_other_service
     - image.style.thumbnail
     - media.type.open_pension_file
@@ -53,12 +54,13 @@ content:
     third_party_settings: {  }
     type: boolean
     region: content
-  field_reference_in_other_service:
-    weight: 9
+  field_processing_status:
+    weight: 12
     label: above
-    settings: {  }
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
-    type: list_default
+    type: string
     region: content
   thumbnail:
     type: image
@@ -77,4 +79,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_reference_in_other_service: true
   name: true
