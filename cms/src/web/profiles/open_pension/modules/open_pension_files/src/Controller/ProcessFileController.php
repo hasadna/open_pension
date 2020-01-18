@@ -91,25 +91,10 @@ class ProcessFileController extends ControllerBase {
     $field_value = $file_field->getValue();
 
     // Update about the processing results.
-    try {
-      $media->field_history->appendItem('Triggering processing');
-      $this
-        ->openPensionFilesFileProcess
-        ->processFile($field_value['target_id'])
-        ->updateEntity($media);
-    } catch (RequestException $e) {
-      $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $e->getMessage());
-    }
-
-    $response = $this->httpClient->request('get', "http://processor/process/{$media->field_reference_in_other_service->value}");
-    $parsed = json_decode($response->getBody()->getContents());
-
-    if ($parsed->status == Response::HTTP_OK) {
-      $media->field_history->appendItem(t('Processing results: @results', ['@results' => $parsed->data->item->status]));
-      $media->field_processing_status = ucfirst($parsed->data->item->status);
-    }
-
-    $media->save();
+    $this
+      ->openPensionFilesFileProcess
+      ->processFile($field_value['target_id'])
+      ->updateEntity($media);
 
     $items = [];
     array_map(function ($item) use (&$items) {
@@ -125,7 +110,7 @@ class ProcessFileController extends ControllerBase {
     // Return the Ajax response and make stuff move magically on the screen.
     if (\Drupal::request()->request->get('js')) {
       $response = new AjaxResponse();
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-processing-status', '<td class="views-field views-field-field-processing-status">' . ucfirst($parsed->data->item->status) . '</td>'));
+      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-processing-status', '<td class="views-field views-field-field-processing-status">' . $media->field_processing_status->value . '</td>'));
       $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) . '</div></td>'));
       return $response;
     }

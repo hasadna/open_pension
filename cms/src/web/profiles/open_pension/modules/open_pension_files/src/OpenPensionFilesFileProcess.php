@@ -9,6 +9,7 @@ use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Drupal\views\Plugin\views\area\HTTPStatusCode;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -51,6 +52,13 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * @var bool
    */
   protected $sentToProcessed = FALSE;
+
+  /**
+   * The process status.
+   *
+   * @var string
+   */
+  protected $processStatus = '';
 
   /**
    * The ID of the processed file from the service.
@@ -235,15 +243,32 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
       return $this;
     }
 
-    $this->httpClient->request('patch', "http://processor/process/{$other_service->value}",
-      [
-        'multipart' => [
-          [
-            'name'     => 'files',
-            'contents' => fopen(\Drupal::service('file_system')->realpath($file->getFileUri()), 'r'),
+    try {
+      $this->httpClient->request('patch', "http://processor/process/{$other_service->value}",
+        [
+          'multipart' => [
+            [
+              'name'     => 'files',
+              'contents' => fopen(\Drupal::service('file_system')->realpath($file->getFileUri()), 'r'),
+            ],
           ],
-        ],
-      ]);
+        ]);
+    } catch (RequestException $e) {
+      $params = [
+        '@file-name' => $file->getFilename(),
+        '@error' => $e->getMessage(),
+      ];
+      $this->log(t('The file @file-name was not able to process due to @error', $params), 'error');
+    }
+
+    $this->sentToProcessed = TRUE;
+    $response = $this->httpClient->request('get', "http://processor/process/{$other_service->value}");
+    $parsed = json_decode($response->getBody()->getContents());
+
+    if ($parsed->status == Response::HTTP_OK) {
+      $this->log(t('Processing results: @results', ['@results' => $parsed->data->item->status]));
+      $this->processStatus = ucfirst($parsed->data->item->status);
+    }
 
     return $this;
   }
@@ -254,9 +279,12 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   public function updateEntity(Media $media) {
     $media->field_processed = $this->sentToProcessed;
 
-    // todo: add a way to download processed JSON files.
     if ($this->processedId) {
       $media->field_reference_in_other_service = $this->processedId;
+    }
+
+    if ($this->processStatus) {
+      $media->field_processing_status = $this->processStatus;
     }
 
     // Add the history to the file.
