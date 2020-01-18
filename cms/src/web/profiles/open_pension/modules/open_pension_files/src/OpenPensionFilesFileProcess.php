@@ -50,7 +50,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    *
    * @var bool
    */
-  protected $processed = FALSE;
+  protected $sentToProcessed = FALSE;
 
   /**
    * The ID of the processed file from the service.
@@ -178,7 +178,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
     if (!$file) {
       $this->log(t('Could not load a file with the ID @id', ['@id' => $file_id]));
-      $this->processed = FALSE;
+      $this->sentToProcessed = FALSE;
       return $this;
     }
 
@@ -194,7 +194,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
       }
 
       $this->log(t('The file @file-name was not able to process', ['@file-name' => $file->getFilename()]), 'error');
-      $this->processed = FALSE;
+      $this->sentToProcessed = FALSE;
     }
     catch (\Exception $e) {
       $params = [
@@ -223,20 +223,15 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   }
 
   /**
-   * Sending a patch process to the file in the processor.
-   *
-   * @param File $file
-   *  The file object.
-   *
-   * @return ResponseInterface
-   *  The results objects.
-   *
-   * @throws \GuzzleHttp\Exception\GuzzleException
+   * {{@inheritDoc}}
    */
-  public function processFile(File $file) {
+  public function processFile($file_id) {
+    $file = $this->fileStorage->load($file_id);
+
     $this->log(t('Sending the file @file to the process service for processing.', ['@file' => $file->label()]));
+
     if (!$other_service = $this->getMediaFromFile($file)->field_reference_in_other_service) {
-      $this->log(t('No media referenced to the file @file', ['@file' => $file->label()]));
+      $this->log(t('No media referenced to the file @file', ['@file' => $file->label()]), 'error');
       return;
     }
 
@@ -255,7 +250,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * {@inheritdoc}
    */
   public function updateEntity(Media $media) {
-    $media->field_processed = $this->processed;
+    $media->field_processed = $this->sentToProcessed;
 
     // todo: add a way to download processed JSON files.
     if ($this->processedId) {

@@ -160,6 +160,55 @@ display:
       row:
         type: fields
       fields:
+        process_file_field:
+          id: process_file_field
+          table: views
+          field: process_file_field
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Process file'
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: process_file_field
         media_bulk_form:
           id: media_bulk_form
           table: media
@@ -661,7 +710,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ edit_media }} | {{ send_file_to_processor_field }}'
+            text: '{{ edit_media }} | {{ send_file_to_processor_field }} | {{ process_file_field }}'
             make_link: false
             path: ''
             absolute: false

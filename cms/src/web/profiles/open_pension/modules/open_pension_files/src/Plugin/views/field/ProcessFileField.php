@@ -11,9 +11,9 @@ use Drupal\views\ResultRow;
  *
  * @ingroup views_field_handlers
  *
- * @ViewsField("send_file_to_processor_field")
+ * @ViewsField("process_file_field")
  */
-class SendFileToProcessorField extends FieldPluginBase {
+class ProcessFileField extends FieldPluginBase {
 
   /**
    * {@inheritdoc}
@@ -53,8 +53,8 @@ class SendFileToProcessorField extends FieldPluginBase {
 
     $link_array = [
       '#type' => 'link',
-      '#title' => t('Send to process'),
-      '#url' => Url::fromRoute('open_pension_files.send_file_to_process_controller_handle_file', ['media' => $entity->id()]),
+      '#title' => t('Trigger file process'),
+      '#url' => Url::fromRoute('open_pension_files.process_file', ['media' => $entity->id()]),
       '#attributes' => [
         'class' => ['use-ajax'],
         'data-dialog-type' => 'dialog',

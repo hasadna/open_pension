@@ -23,5 +23,12 @@ function open_pension_files_views_data() {
       'id' => 'send_file_to_processor_field',
     ],
   ];
+  $data['views']['process_file_field'] = [
+    'title' => t('Process file'),
+    'help' => t('Trigger a process file'),
+    'field' => [
+      'id' => 'process_file_field',
+    ],
+  ];
   return $data;
 }

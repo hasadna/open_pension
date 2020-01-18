@@ -135,4 +135,17 @@ interface OpenPensionFilesProcessInterface {
    */
   public function sendFileToServer(File $file): ResponseInterface;
 
+  /**
+   * Sending a patch process to the file in the processor.
+   *
+   * @param $file_id
+   *  The file ID.
+   *
+   * @return ResponseInterface
+   *  The results objects.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function processFile($file_id);
+
 }
