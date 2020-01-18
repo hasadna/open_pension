@@ -92,6 +92,7 @@ class SendFileToProcessController extends ControllerBase {
       $response = new AjaxResponse();
       $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .processed', '<td>' . $text . '</td>'));
       $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) . '</div></td>'));
+      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-reference-in-other-service', '<td class="views-field views-field-field-reference-in-other-service">' . (string)$media->field_reference_in_other_service->value . '</td>'));
 
       return $response;
     }

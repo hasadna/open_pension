@@ -82,7 +82,6 @@ class OpenPensionFilesUploader extends FormBase {
     $files = $this->fileStorage->loadMultiple($form_state->getValue('selected_files'));
 
     foreach ($files as $file) {
-      // todo: check if the file was already uploaded.
       // Setting the file as permanent.
       $file->setPermanent();
       $file->save();

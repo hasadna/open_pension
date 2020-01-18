@@ -51,6 +51,13 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   protected $processed = FALSE;
 
   /**
+   * The ID of the processed file from the service.
+   *
+   * @var string
+   */
+  protected $processedId;
+
+  /**
    * Constructs a new OpenPensionFilesFileProcess object.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
@@ -159,8 +166,12 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     try {
       $results = $this->sendFileToServer($file);
 
-      if ($results->getStatusCode() == 200) {
+      // todo: In case there's an ID from the processor send a request to
+      //  process the file.
+
+      if ($results->getStatusCode() == 201) {
         $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
+        $this->processedId = reset(json_decode($results->getBody(), true)['data']['files'])['id'];
         $this->processed = TRUE;
         return $this;
       }
@@ -183,7 +194,15 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * {@inheritdoc}
    */
   public function sendFileToServer(File $file): ResponseInterface {
-    return $this->httpClient->request('get', 'http://google.com');
+    return $this->httpClient->request('post', 'http://processor/upload',
+      [
+        'multipart' => [
+          [
+            'name'     => 'files',
+            'contents' => fopen(\Drupal::service('file_system')->realpath($file->getFileUri()), 'r'),
+          ],
+        ],
+      ]);
   }
 
   /**
@@ -191,6 +210,12 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    */
   public function updateEntity(Media $media) {
     $media->field_processed = $this->processed;
+
+    // todo: add a status from the processor.
+    // todo: add a way to download processed JSON files.
+    if ($this->processedId) {
+      $media->field_reference_in_other_service = $this->processedId;
+    }
 
     // Add the history to the file.
     foreach ($this->getTrackingLogs() as $log) {
