@@ -37,5 +37,12 @@ function open_pension_files_views_data() {
       'id' => 'trigger_file_processor',
     ],
   ];
+  $data['views']['download_processed_files'] = [
+    'title' => t('Download multiple processed files'),
+    'help' => t('Trigger a process file'),
+    'field' => [
+      'id' => 'download_processed_files',
+    ],
+  ];
   return $data;
 }

@@ -211,6 +211,7 @@ display:
           action_title: Action
           include_exclude: include
           selected_actions:
+            - download_processed_files
             - media_delete_action
             - send_files_to_process
             - trigger_file_processor
