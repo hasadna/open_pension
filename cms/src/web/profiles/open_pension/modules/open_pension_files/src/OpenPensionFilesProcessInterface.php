@@ -141,11 +141,11 @@ interface OpenPensionFilesProcessInterface {
    * @param $file_id
    *  The file ID.
    *
-   * @return ResponseInterface
+   * @return OpenPensionFilesProcessInterface
    *  The results objects.
    *
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
-  public function processFile($file_id);
+  public function processFile($file_id): OpenPensionFilesProcessInterface;
 
 }

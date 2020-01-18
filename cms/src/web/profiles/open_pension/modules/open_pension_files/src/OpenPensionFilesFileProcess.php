@@ -225,17 +225,17 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   /**
    * {{@inheritDoc}}
    */
-  public function processFile($file_id) {
+  public function processFile($file_id): OpenPensionFilesProcessInterface {
     $file = $this->fileStorage->load($file_id);
 
     $this->log(t('Sending the file @file to the process service for processing.', ['@file' => $file->label()]));
 
     if (!$other_service = $this->getMediaFromFile($file)->field_reference_in_other_service) {
       $this->log(t('No media referenced to the file @file', ['@file' => $file->label()]), 'error');
-      return;
+      return $this;
     }
 
-    return $this->httpClient->request('patch', "http://processor/process/{$other_service->value}",
+    $this->httpClient->request('patch', "http://processor/process/{$other_service->value}",
       [
         'multipart' => [
           [
@@ -244,6 +244,8 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
           ],
         ],
       ]);
+
+    return $this;
   }
 
   /**

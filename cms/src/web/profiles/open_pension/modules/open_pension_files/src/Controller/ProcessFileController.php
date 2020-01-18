@@ -6,9 +6,13 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\media\Entity\Media;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use Masterminds\HTML5\Exception;
 use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * class ProcessFileController.
@@ -23,20 +27,33 @@ class ProcessFileController extends ControllerBase {
   protected $openPensionFilesFileProcess;
 
   /**
+   * GuzzleHttp\ClientInterface definition.
+   *
+   * @var \GuzzleHttp\ClientInterface
+   */
+  protected $httpClient;
+
+  /**
    * Constructs a new SendFileToProcessController object.
    *
    * @param \Drupal\open_pension_files\OpenPensionFilesProcessInterface $open_pension_files_file_process
    *   The open pension file processor service.
+   * @param ClientInterface $http_client
+   *  The HTTP service.
    */
-  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process) {
+  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process, ClientInterface $http_client) {
     $this->openPensionFilesFileProcess = $open_pension_files_file_process;
+    $this->httpClient = $http_client;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('open_pension_files.file_process'));
+    return new static(
+      $container->get('open_pension_files.file_process'),
+      $container->get('http_client')
+    );
   }
 
   /**
@@ -68,18 +85,29 @@ class ProcessFileController extends ControllerBase {
     $field_value = $file_field->getValue();
 
     // Update about the processing results.
-    $foo = $this
-      ->openPensionFilesFileProcess
-      ->processFile($field_value['target_id']);
+    try {
+      $media->field_history->appendItem('Triggering processing');
+      $this
+        ->openPensionFilesFileProcess
+        ->processFile($field_value['target_id'])
+        ->updateEntity($media);
+    } catch (RequestException $e) {
+      $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $e->getMessage());
+    }
 
-    return;
+    $response = $this->httpClient->request('get', "http://processor/process/{$media->field_reference_in_other_service->value}");
+    $parsed = json_decode($response->getBody()->getContents());
 
-    // Process the tests.
-    $text = $media->field_processed ? t('Yes') : t('No');
+    if ($parsed->status == Response::HTTP_OK) {
+      $media->field_history->appendItem(t('Processing results: @results', ['@results' => $parsed->data->item->status]));
+      $media->field_processing_status = ucfirst($parsed->data->item->status);
+    }
+
+    $media->save();
 
     $items = [];
     array_map(function ($item) use (&$items) {
-        $items[] = ['#markup' => $item['value']];
+      $items[] = ['#markup' => $item['value']];
     }, array_slice($media->field_history->getValue(), -3, 2, TRUE));
 
     $order_list = [
@@ -91,10 +119,8 @@ class ProcessFileController extends ControllerBase {
     // Return the Ajax response and make stuff move magically on the screen.
     if (\Drupal::request()->request->get('js')) {
       $response = new AjaxResponse();
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .processed', '<td>' . $text . '</td>'));
+      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-processing-status', '<td class="views-field views-field-field-processing-status">' . ucfirst($parsed->data->item->status) . '</td>'));
       $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) . '</div></td>'));
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-reference-in-other-service', '<td class="views-field views-field-field-reference-in-other-service">' . (string)$media->field_reference_in_other_service->value . '</td>'));
-
       return $response;
     }
 
