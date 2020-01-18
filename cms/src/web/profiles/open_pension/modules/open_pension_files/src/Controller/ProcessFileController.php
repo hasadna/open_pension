@@ -82,6 +82,12 @@ class ProcessFileController extends ControllerBase {
       return;
     }
 
+    if (!$media->field_reference_in_other_service->value) {
+      $text = t('The media @id has no process ID.', ['@id' => $media->id()]);
+      $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
+      return;
+    }
+
     $field_value = $file_field->getValue();
 
     // Update about the processing results.
