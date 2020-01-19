@@ -59,39 +59,24 @@ class TriggerFileProcessor extends ConfigurableActionBase implements ContainerFa
       );
   }
 
-  public function executeMultiple(array $entities) {
-    $operations = [];
-
-    foreach ($entities as $entity) {
-      $operations[] = [
-        array(
-          [get_class($this), 'executeSingle'],
-          [$entity]
-        ),
-      ];
-    }
-
-    if ($operations) {
-      $batch = [
-        'operations' => $operations,
-        'finished' => [get_class($this), 'finishBatch'],
-      ];
-      batch_set($batch);
-    }
-  }
-
   /**
-   * Finish batch.
-   *
-   * @param bool $success
-   *   Indicates whether the batch process was successful.
-   * @param array $results
-   *   Results information passed from the processing callback.
+   * {@inheritDoc}
    */
-  public static function finishBatch($success, $results) {
-    \Drupal::messenger()->addMessage(
-      \Drupal::translation()->formatPlural($results['processed'], 'One item has been processed.', '@count items have been processed.')
+  public function executeMultiple(array $entities) {
+
+    $batch = array(
+      'title' => t('Sending files to process'),
+      'operations' => [],
     );
+
+    $operations = [];
+    foreach ($entities as $entity) {
+      $operations[] = [[$this, 'executeSingle'], [$entity]];
+    }
+
+    $batch['operations'] = $operations;
+
+    batch_set($batch);
   }
 
   /**
@@ -101,20 +86,7 @@ class TriggerFileProcessor extends ConfigurableActionBase implements ContainerFa
    * @throws \GuzzleHttp\Exception\GuzzleException
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function execute(Media $entity = NULL) {
-    $this->executeMultiple([$entity]);
-  }
-
-  /**
-   * Process single item.
-   *
-   * @param Media $entity
-   *  The entity object.
-   *
-   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   */
-  public function executeSingle(Media $entity) {
+  public function executeSingle(Media $entity = NULL) {
     if ($entity->bundle() != 'open_pension_file') {
       $text = t('The media @id is not a valid open pension file', ['@id' => $entity->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
