@@ -80,6 +80,13 @@ class TriggerFileProcessor extends ConfigurableActionBase implements ContainerFa
   }
 
   /**
+   * {@inheritDoc}
+   */
+  public function execute(Media $entity = NULL) {
+    $this->executeSingle($entity);
+  }
+
+  /**
    * {@inheritdoc}
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException

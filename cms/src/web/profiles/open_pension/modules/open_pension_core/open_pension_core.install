@@ -12,11 +12,7 @@ use \Drupal\Core\Config\ImmutableConfig;
  * Implements hook_install().
  */
 function open_pension_core_install()  {
-  /** @var ThemeInstallerInterface $theme_installer */
-  $theme_installer = \Drupal::getContainer()->get('theme_installer');
-  $theme_installer->install('claro');
-
   /** @var ImmutableConfig $config */
-  $config = \Drupal::config('system.theme');
+  $config = \Drupal::configFactory()->getEditable('system.theme');
   $config->set('admin', 'claro')->save();
 }

@@ -43,8 +43,6 @@ install:
   - media_library
 
   # Contrib modules
-  - entity_browser
-  - entity_browser_entity_form
   - graphql
   - graphql_core
   - features_ui
@@ -56,5 +54,6 @@ install:
   - open_pension_blog
   - open_pension_logs
 themes:
+  - claro
   - bartik
   - seven
