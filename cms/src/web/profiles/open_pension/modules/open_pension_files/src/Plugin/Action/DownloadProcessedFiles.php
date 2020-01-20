@@ -30,6 +30,13 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   protected $openPensionFilesFileProcess;
 
   /**
+   * Collecting a list of files.
+   *
+   * @var string[]
+   */
+  protected $collectedFiles;
+
+  /**
    * Constructs a new SendFilesToProcessor action.
    *
    * @param array $configuration
@@ -59,63 +66,42 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
       );
   }
 
-  public function executeMultiple(array $entities) {
-    $operations = [];
-
-    foreach ($entities as $entity) {
-      $operations[] = [
-        array(
-          [get_class($this), 'executeSingle'],
-          [$entity]
-        ),
-      ];
-    }
-
-    if ($operations) {
-      $batch = [
-        'operations' => $operations,
-        'finished' => [get_class($this), 'finishBatch'],
-      ];
-      batch_set($batch);
-    }
-  }
-
   /**
-   * Finish batch.
-   *
-   * @param bool $success
-   *   Indicates whether the batch process was successful.
-   * @param array $results
-   *   Results information passed from the processing callback.
+   * {@inheritDoc}
    */
-  public static function finishBatch($success, $results) {
-    \Drupal::messenger()->addMessage(
-      \Drupal::translation()->formatPlural($results['processed'], 'One item has been processed.', '@count items have been processed.')
+  public function executeMultiple(array $entities) {
+
+    $batch = array(
+      'title' => t('Compressing files'),
+      'operations' => [],
     );
+
+    $operations = [];
+    foreach ($entities as $entity) {
+      $operations[] = [[$this, 'acquireJsonFile'], [$entity]];
+    }
+
+//    $operations[] = [[$this, 'downloadFiles']];
+
+    $batch['operations'] = $operations;
+
+    batch_set($batch);
   }
 
   /**
-   * {@inheritdoc}
-   *
-   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   * @throws \Drupal\Core\Entity\EntityStorageException
+   * {@inheritDoc}
    */
   public function execute(Media $entity = NULL) {
-    $this->executeMultiple([$entity]);
+    $this->acquireJsonFile($entity);
   }
 
-  /**
-   * Process single item.
-   *
-   * @param Media $entity
-   *  The entity object.
-   *
-   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   */
-  public function executeSingle(Media $entity) {
-    exit('a');
+  public function acquireJsonFile(Media $entity = NULL) {
+   $this->collectedFiles[] = $entity->id();
+  }
+
+  public function downloadFiles() {
+//    drupal_set_message('Download files');
+//    drupal_set_message($this->collectedFiles);
   }
 
   /**
