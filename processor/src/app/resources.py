@@ -95,4 +95,5 @@ class ProcessFile(Resource):
         del process_item['_id']
         del process_item['path']
 
+        # todo: fire event of processing.
         return json_response(data={'results': results})
