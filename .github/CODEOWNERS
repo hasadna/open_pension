@@ -1,0 +1,17 @@
+# This file is where we define who owns what code.
+# No code can be merged without the specified code owners approval on the CR.
+
+
+# Itamar Gronich
+Dockerfile @ItamarGronich
+docker-compose.* @ItamarGronich
+/client/ @ItamarGronich @RoySegall
+/gateway/ @ItamarGronich
+/application/ @ItamarGronich
+/kafka/ @ItamarGronich
+.travis* @ItamarGronich
+/.github/ @ItamarGronich
+
+#Roy Segall
+/cms/ @RoySegall
+/processor/ @RoySegall

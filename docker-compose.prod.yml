@@ -1,10 +1,6 @@
-version: "3"
+version: "3.7"
 
 services:
-  database:
+  application:
     env_file:
-      - .env.prod
-
-  server:
-    env_file:
-      - .env.prod
+      - ./application/.env.prod
