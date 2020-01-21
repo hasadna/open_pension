@@ -81,7 +81,7 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
       $operations[] = [[$this, 'acquireJsonFile'], [$entity]];
     }
 
-//    $operations[] = [[$this, 'downloadFiles']];
+    $operations[] = [[$this, 'downloadFiles']];
 
     $batch['operations'] = $operations;
 
@@ -96,12 +96,11 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   }
 
   public function acquireJsonFile(Media $entity = NULL) {
-   $this->collectedFiles[] = $entity->id();
+   $this->collectedFiles[] = $entity;
   }
 
   public function downloadFiles() {
-//    drupal_set_message('Download files');
-//    drupal_set_message($this->collectedFiles);
+    drupal_set_message('Download files');
   }
 
   /**
