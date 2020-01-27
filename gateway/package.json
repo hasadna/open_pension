@@ -14,20 +14,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-link-http": "^1.5.14",
-    "apollo-server": "^2.4.8",
-    "graphql": "^14.1.1"
+    "apollo-link-http": "^1.5.16",
+    "apollo-server": "^2.9.16",
+    "graphql": "^14.6.0"
   },
   "devDependencies": {
-    "@types/express": "^4.16.0",
-    "@types/graphql": "^14.0.7",
+    "@types/express": "^4.17.2",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^23.3.14",
-    "@types/mongodb": "^3.1.19",
-    "@types/mongoose": "^5.3.8",
+    "@types/mongodb": "^3.3.14",
+    "@types/mongoose": "^5.5.43",
     "jest": "^23.6.0",
-    "nodemon": "^1.18.10",
+    "nodemon": "^1.19.4",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.7.5"
   }
 }
