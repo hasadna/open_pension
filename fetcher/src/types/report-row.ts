@@ -1,6 +1,6 @@
 type ReportRow = {
   DocumentId: number;
-  
+
   CodeFile?: number;
   DocStatus?: number;
   DocumentCode?: number;
@@ -28,12 +28,6 @@ type ReportRow = {
   SystemCode?: number;
   SystemName?: string;
   fileExt: string;
-  
-  // TODO: not sure about these types
-  DateFinish?: any;
-  DateStart?: any;
-  EntityName?: any;
-  ParentCorpEntlId?: any;
 };
 
 export default ReportRow;

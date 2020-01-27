@@ -12,11 +12,4 @@ export default class ReportQuery {
   toYear: number;
   @Field(type => Int)
   statusReport: number;
-
-  // TODO: not sure about these types
-  // corporation?: any;
-  // investmentName?: any;
-  // reportFromDate?: any;
-  // reportToDate?: any;
-  // reportType?: any;
 }
