@@ -10,7 +10,7 @@ RUN apk -q update && apk add \
     
 RUN wget http://apache.mivzakim.net/kafka/2.3.0/kafka_2.12-2.3.0.tgz && \
     tar -xvf kafka_2.12-2.3.0.tgz --strip 1 &&\
-   rm kafka_2.12-2.3.0.tgz
+    rm kafka_2.12-2.3.0.tgz
 
 COPY entrypoint.sh server.properties.template ./
 
