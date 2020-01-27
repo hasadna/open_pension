@@ -12,21 +12,26 @@ const cmaClient = new CmaGovApiClient();
 const kafkaClient = new KafkaClient();
 const processorClient = new ProcessorClient();
 
-export async function downloadReports(query: ReportQuery): Promise<DownloadLinks> {
+export async function downloadReports(
+  query: ReportQuery
+): Promise<DownloadLinks> {
   try {
-    const reports = await cmaClient.getReports(query);
-    const links = await Promise.all(
-      reports
-        .slice(0, 1) // only taking 1 row for testing
-        .map(async row => {
-          const localFile = await cmaClient.downloadDocument(row);
-          // if (isDev()) {
-          //   return `file://${localFile}`;
-          // }
+    let reports = await cmaClient.getReports(query);
 
-          return processorClient.sendFile(localFile);
-          // return uploadFile(localFile);
-        })
+    if (isDev()) {
+      reports = reports.slice(0, 1);
+    }
+
+    const links = await Promise.all(
+      reports.map(async row => {
+        const localFile = await cmaClient.downloadDocument(row);
+        if (isDev()) {
+          return `file://${localFile}`;
+        }
+
+        return processorClient.sendFile(localFile);
+        // return uploadFile(localFile);
+      })
     );
 
     // await kafkaClient.sendMessage(links);

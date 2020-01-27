@@ -10,7 +10,7 @@ const BASE_URL = "https://employersinfocmp.cma.gov.il/api/PublicReporting";
 const METADATA_ROUTE = "/GetPublicReportsSearchData";
 const REPORTS_ROUTE = "/GetPublicReports";
 const DOWNLOAD_ROUTE = "/downloadFiles";
-const DOWNLOAD_EXTENSTION = "xlsx";
+const DOWNLOAD_EXTENSION = "xlsx";
 
 export default class CmaGovApiClient {
   private api: AxiosInstance;
@@ -39,7 +39,7 @@ export default class CmaGovApiClient {
     const response = await this.api.get(DOWNLOAD_ROUTE, {
       params: {
         IdDoc: report.DocumentId,
-        extention: DOWNLOAD_EXTENSTION
+        extention: DOWNLOAD_EXTENSION
       },
       responseType: "stream"
     });
