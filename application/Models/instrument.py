@@ -1,4 +1,4 @@
-from orator import Model
+from connection import Model
 
 
 class Instrument(Model):
