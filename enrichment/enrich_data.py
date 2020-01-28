@@ -26,7 +26,8 @@ def isin_enrichment(df):
     df["en_instrument_number_isin"] = df["Instrument number"].apply(lambda x: return_isin_or_none(x))
 
     # Convert TASE numbers into ISIN numbers and store in new column ("instrument_number_en_isin")
-    # tase_isin_numbers_df = pd.DataFrame(columns=["Instrument number", "en_instrument_number_isin"])
+    # Only use instruments from the ISIN_INSTRUMENTS_LIST
+    tase_isin_numbers_df = pd.DataFrame(columns=["Instrument number", "en_instrument_number_isin"])
     # if "Market name" in df.columns and not df.loc[df["Market name"] == "TASE"].empty:
     #     tase_isin_numbers_df = tase_to_isin(df)
     # df = pd.merge(left=df, right=tase_isin_numbers_df, on="Instrument number", how="left")

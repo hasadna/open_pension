@@ -1,5 +1,9 @@
+import os
+
 from .consts import ISIN_PATTERN
 import pandas as pd
+
+REJECT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "rejected_listings")
 
 def return_isin_or_none(isin):
     return isin if pd.notna(isin) and check_isin_validity(isin) else None
@@ -62,6 +66,11 @@ def add_luhn_checksum(num):
 def create_il_isin(num):
     temp_isin = add_luhn_checksum(base36_decode_isin("IL" + num.zfill(9)))
     return "IL" + temp_isin[-10:]
+
+
+def reject_listings(df, file_name):
+    # export listing as json and save locally
+    df.to_json(os.path.join(REJECT_PATH, file_name))
 
 
 if __name__ == "__main__":

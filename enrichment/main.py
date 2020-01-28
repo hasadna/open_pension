@@ -47,4 +47,6 @@ if __name__ == '__main__':
     # Append data from this instrument to general DataFrame
     new_df = new_df.append(normalized_df)
 
+    # Save data to new JSON file
+
     print(new_df)
