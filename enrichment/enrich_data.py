@@ -1,6 +1,6 @@
 import pandas as pd
-from enrichment.lookups.consts import TASE_STOCK_MASK_TYPES
-from enrichment.lookups.utils import create_il_isin, return_isin_or_none
+from lookups.consts import TASE_STOCK_MASK_TYPES
+from lookups.utils import create_il_isin, return_isin_or_none
 
 
 def tase_to_isin(df):

@@ -3,7 +3,7 @@ import os
 from .consts import ISIN_PATTERN
 import pandas as pd
 
-REJECT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "rejected_listings")
+REJECT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "rejected")
 
 def return_isin_or_none(isin):
     return isin if pd.notna(isin) and check_isin_validity(isin) else None
@@ -70,7 +70,7 @@ def create_il_isin(num):
 
 def reject_listings(df, file_name):
     # export listing as json and save locally
-    df.to_json(os.path.join(REJECT_PATH, file_name))
+    df.to_json(os.path.join(REJECT_PATH, file_name), orient="records")
 
 
 if __name__ == "__main__":

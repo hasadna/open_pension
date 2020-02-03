@@ -1,19 +1,10 @@
 import json
 import pandas as pd
 
-from enrichment.enrich_data import isin_enrichment
-from enrichment.normalize_data import normalize_data
+from enrich_data import isin_enrichment
+from normalize_data import normalize_data
 
-PATH = r"C:\Hasadna\drive-download-20191202T182023Z-001\510773922_gsum_0118.json"
-
-
-# Stages:
-# Load JSON
-# Create DFs to Test
-    # ISIN format Mask -> ISIN
-    # TASE and all nums -> ISIN ;
-# Add "Instrument number (en) - ISIN"
-# Create JSON from DF and save local (new file)
+PATH = r"C:\Hasadna\files\511751513_psum_0319.json"
 
 
 def load_json_from_file(json_file_path):
