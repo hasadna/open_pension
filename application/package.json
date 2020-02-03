@@ -18,7 +18,7 @@
     "apollo-server": "^2.4.8",
     "graphql": "^14.1.1",
     "pg": "^7.9.0",
-    "sequelize": "^5.2.7",
+    "sequelize": "^5.15.1",
     "sequelize-cli": "^5.4.0"
   },
   "devDependencies": {
