@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - open_pension_files
+id: download_processed_files
+label: 'Download processed file'
+type: media
+plugin: download_processed_files
+configuration: {  }

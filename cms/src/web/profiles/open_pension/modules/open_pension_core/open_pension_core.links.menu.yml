@@ -1,0 +1,6 @@
+open_pension_core.main:
+  title: Open Pension
+  description: 'Reference for usage, configuration, and modules.'
+  route_name: open_pension_core.main
+  weight: 9
+  parent: system.admin
