@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_history
+    - media.type.open_pension_file
+  module:
+    - options
+id: media.open_pension_file.field_history
+field_name: field_history
+entity_type: media
+bundle: open_pension_file
+label: History
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

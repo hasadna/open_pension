@@ -17,7 +17,7 @@ async function createRemoteSchema(serviceName) {
 }
 
 export async function createAndMergeRemoteSchemas() {
-    const schemas = await Promise.all(["cms"].map(createRemoteSchema));
+    const schemas = await Promise.all(["cms/drupal/web/graphql"].map(createRemoteSchema));
     const filteredSchemas = schemas.filter((schema) => schema !== undefined);
     if (filteredSchemas.length) {
         return mergeSchemas({schemas: filteredSchemas});

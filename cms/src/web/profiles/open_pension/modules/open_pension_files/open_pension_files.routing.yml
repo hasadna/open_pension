@@ -1,0 +1,33 @@
+open_pension_files.upload:
+  path: '/admin/open_pension/upload_files'
+  defaults:
+    _form: '\Drupal\open_pension_files\Form\OpenPensionFilesUploader'
+    _title: 'Upload files'
+  requirements:
+    _permission: 'upload files'
+
+open_pension_files.send_file_to_process_controller_handle_file:
+  path: '/admin/open_pension/send_file_to_processor/{media}'
+  defaults:
+    _controller: '\Drupal\open_pension_files\Controller\SendFileToProcessController::sendFile'
+    _title: 'Send file'
+  options:
+    parameters:
+      media:
+        type: entity:media
+  requirements:
+    _permission: 'manage file'
+    media: \d+
+
+open_pension_files.process_file:
+  path: '/admin/open_pension/process_file/{media}'
+  defaults:
+    _controller: '\Drupal\open_pension_files\Controller\ProcessFileController::processFile'
+    _title: 'Process file'
+  options:
+    parameters:
+      media:
+        type: entity:media
+  requirements:
+    _permission: 'manage file'
+    media: \d+
