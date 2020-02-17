@@ -1,68 +1,98 @@
-version: "3"
+version: "3.7"
 
 volumes:
-  db-data:
+  application-db:
+    external: false
+  cms-db-data:
     external: false
   processor-db:
     external: false
 
 services:
-  database:
-    image: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/db-data
-      - ./database:/etc/cron.daily
-
   gateway:
-    build: ./gateway
+    image: hasadna/open-pension-gateway:latest
+    build:
+      context: ./gateway
+      cache_from:
+        - hasadna/open-pension-gateway:latest
 
-  blop:
-    build: ./blop
+  application:
+    image: hasadna/open-pension-application:latest
+    build:
+      context: ./application
+      cache_from:
+        - hasadna/open-pension-application:latest
     depends_on:
-      - database
+      - application_db
     env_file:
-      - .env
+      - ./application/.env
+
+  application_db:
+    image: postgres:12.1-alpine
+    volumes:
+      - application-db:/var/lib/postgresql/db-data
 
   client:
-    image: hasadna/open-pension-client
-    volumes:
-      - ./logs/nginx:/var/log/nginx
+    image: hasadna/open-pension-client:latest
+    build:
+      context: ./client
+      cache_from:
+        - hasadna/open-pension-client:latest
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       - SERVICE_PORTS=80
     depends_on:
-      - server
-
-  server:
-    image: hasadna/open-pension-server
-    command: /bin/sh entrypoint.sh
-    volumes:
-      - ./logs/django:/home/app/server/logs
-    depends_on:
-      - database
+      - gateway
 
   processor:
-    build: ./processor
+    image: hasadna/open-pension-processor:latest
+    build:
+      context: ./processor
+      cache_from:
+        - hasadna/open-pension-processor:latest
     environment:
-      - MONGO_URL=mongodb://mongo:27017/
+      - MONGO_URL=mongodb://processor_db:27017/
       - PYTHONUNBUFFERED=true
-    ports:
-      - "1000:80"
     depends_on:
-      - mongo
-    links:
-      - mongo
+      - processor_db
 
-  mongo:
+  processor_db:
     image: mongo
-    ports:
-      - '27017:27017'
     volumes:
       - processor-db:/data/db
 
   cms:
-    build: ./cms
+    image: hasadna/open-pension-cms:latest
+    depends_on:
+      - cms_db
+    build:
+      context: ./cms
+      cache_from:
+        - hasadna/open-pension-cms:latest
+
+  cms_db:
+    image: mysql:5.7
+    volumes:
+      - cms-db-data:/var/lib/mysql
 
   kafka:
-    build: ./kafka
+    image: hasadna/open-pension-kafka:latest
+    build:
+      context: ./kafka
+      cache_from:
+        - hasadna/open-pension-kafka:latest
+    environment:
+      - BROKER_ID=1
+    depends_on:
+      - zookeeper
+
+  kafka2:
+    image: hasadna/open-pension-kafka:latest
+    environment:
+      - BROKER_ID=2
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: zookeeper:3.5

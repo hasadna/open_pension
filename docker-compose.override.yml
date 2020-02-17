@@ -1,29 +1,15 @@
-version: "3"
+version: "3.7"
 
 services:
-  database:
-    env_file:
-      - .env
-    ports:
-      - 5432:5432
-
   client:
     volumes:
       - ./client/build:/usr/share/nginx/html/
-    env_file:
-      - .env
 
-  blop:
+  application:
     volumes:
-      - ./blop:/home/app/blop
-      - /home/app/blop/node_modules
+      - ./application:/home/app
+      - /home/app/node_modules
     command: ["npm", "run", "dev"]
-
-  server:
-    volumes:
-      - ./server/:/home/app/server
-    env_file:
-      - .env
 
   gateway:
     volumes:
@@ -36,9 +22,23 @@ services:
 
   cms:
     volumes:
-      - /home/app/server/node_modules
-      - ./cms/:/home/app/server
+      - ./cms/src/web/profiles:/var/www/html/web/profiles
+    env_file:
+      - ./cms/.env
+    ports:
+      - '2000:80'
+
+  cms_db:
+    restart: always
+    ports:
+      - '3307:3306'
 
   processor:
     volumes:
       - ./processor/src/app:/app/app
+    ports:
+      - "1000:80"
+
+  processor_db:
+    ports:
+      - '27017:27017'

@@ -1,0 +1,6 @@
+upload files:
+  title: 'Upload files'
+  description: 'Allow to upload files for processing'
+manage file:
+  title: 'Manage files'
+  description: 'Allow to manage uploaded files'

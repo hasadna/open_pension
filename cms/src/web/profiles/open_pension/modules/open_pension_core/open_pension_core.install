@@ -1,0 +1,18 @@
+<?php
+
+/***
+ * @file
+ * open_pension_core.install
+ */
+
+use Drupal\Core\Extension\ThemeInstallerInterface;
+use \Drupal\Core\Config\ImmutableConfig;
+
+/**
+ * Implements hook_install().
+ */
+function open_pension_core_install()  {
+  /** @var ImmutableConfig $config */
+  $config = \Drupal::configFactory()->getEditable('system.theme');
+  $config->set('admin', 'claro')->save();
+}

@@ -1,0 +1,3 @@
+view logs:
+  title: 'View logs'
+  description: 'Allow to user to view logs'
