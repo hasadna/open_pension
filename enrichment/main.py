@@ -1,8 +1,11 @@
 import json
 import pandas as pd
 
-from enrich_data import isin_enrichment
-from normalize_data import normalize_data
+from lookups.consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, CASH
+
+from enrich.enrich_instruments import enrich_gov_bonds
+from lookups.utils import send_enriched_data
+from normalize.instruments_norm import normalize_gov_bonds
 
 PATH = r"C:\Hasadna\files\511751513_psum_0319.json"
 
@@ -25,19 +28,37 @@ def save_df_to_path(df, path):
     pass
 
 
+norm_switcher = {
+    GOVERNMENTAL_BONDS: normalize_gov_bonds
+}
+
+enrich_switcher = {
+    GOVERNMENTAL_BONDS: enrich_gov_bonds
+}
+
+
 if __name__ == '__main__':
     dfs_dict = load_dict_for_enrichment(load_json_from_file(PATH))
     new_df = pd.DataFrame()
 
-    # Normalize data in DataFrame for processing
-    normalized_df = normalize_data(dfs_dict)
+    for instrument in ALL_INSTRUMENT_TYPES:
+        if norm_switcher.get(instrument):
+            df = dfs_dict[instrument]
+            normed_df = norm_switcher[instrument](df)
+            enriched_df = enrich_switcher[instrument](normed_df)
+            send_enriched_data(enriched_df)
 
-    # ISIN enrichment
-    normalized_df = isin_enrichment(normalized_df)
 
-    # Append data from this instrument to general DataFrame
-    new_df = new_df.append(normalized_df)
 
-    # Save data to new JSON file
-
-    print(new_df)
+    # # Normalize data in DataFrame for processing
+    # normalized_df = normalize_data(dfs_dict)
+    #
+    # # ISIN enrichment
+    # normalized_df = isin_enrichment(normalized_df)
+    #
+    # # Append data from this instrument to general DataFrame
+    # new_df = new_df.append(normalized_df)
+    #
+    # # Save data to new JSON file
+    #
+    # print(new_df)
