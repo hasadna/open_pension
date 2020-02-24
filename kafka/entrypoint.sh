@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Rendering Kafka Config..."
 envsubst < server.properties.template > config/server.properties
