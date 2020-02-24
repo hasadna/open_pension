@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 if [ "${1}" == "deploy" ]; then
+    echo "docker login"
+    docker login -u $docker_username -p $docker_password
     echo "Starting Deploy"
     echo "pushing docker images"
     cd /home/travis/build/hasadna/open_pension || true && \

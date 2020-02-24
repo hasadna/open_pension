@@ -1,0 +1,7 @@
+services:
+  logger.channel.open_pension_files:
+    parent: logger.channel_base
+    arguments: ['open_pension_files']
+  open_pension_files.file_process:
+    class: Drupal\open_pension_files\OpenPensionFilesFileProcess
+    arguments: ['@http_client', '@logger.channel.open_pension_files', '@entity_type.manager']
