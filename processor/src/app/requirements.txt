@@ -5,3 +5,5 @@ flask
 flask_restful
 flask_json
 pytest
+kafka-python==1.4.7
+msgpack==0.6.2

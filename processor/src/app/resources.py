@@ -7,6 +7,7 @@ from datetime import datetime
 from .parser import ExcelParser
 from .logger import Logger
 from .mongodb import Mongo
+from .kafkaApi import send_json
 
 
 class UploadFile(Resource):
@@ -55,12 +56,15 @@ class UploadFile(Resource):
                 'id': str(mongo_results.inserted_id),
             }
 
+        data = {
+            'message': 'All the files were uploaded successfully',
+            'files': saved_files,
+        }
+        send_json()
+
         return json_response(
             status_=201,
-            data={
-                'message': 'All the files were uploaded successfully',
-                'files': saved_files,
-            }
+            data=data
         )
 
 
