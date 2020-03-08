@@ -1,5 +1,6 @@
 from openpyxl.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
+import re
 
 
 def process_file(file: Workbook):
@@ -8,8 +9,11 @@ def process_file(file: Workbook):
 
     :param file: The file to process.
     """
+    sheets = {}
     for worksheet in file.worksheets:
-        process_worksheet(worksheet)
+        sheets[worksheet.title] = process_worksheet(worksheet)
+
+    return sheets
 
 
 def process_worksheet(worksheet: Worksheet):
@@ -39,7 +43,17 @@ def get_year(worksheet: Worksheet) -> int:
     """
     Getting the year.
     """
-    pass
+    p = re.compile('[0-9]{4}')
+
+    for row in range(worksheet.max_row):
+        for column in range(worksheet.max_column):
+            cell_value = worksheet.cell(row + 1, column + 1).value
+
+            if cell_value is None:
+                continue
+
+            if p.match(str(cell_value)):
+                return cell_value
 
 
 def get_anchor_cell(worksheet: Worksheet) -> (int, int):
