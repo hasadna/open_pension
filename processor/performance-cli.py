@@ -93,7 +93,9 @@ class Handler:
 
         :return: A processed file object.
         """
-        return process_file(load_workbook(file))
+        data = process_file(load_workbook(file))
+        data['filename'] = file.split('/')[-1]
+        return data
 
     def get_filename_from_path(self, file_path):
         """

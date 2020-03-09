@@ -44,6 +44,8 @@ def process_worksheet(worksheet: Worksheet):
     Once we got our key cell, we can start and run over that row, and process
     each pair of cells. The couples are displaying data for each month which
     means we need to have 24 rows eventually.
+
+    :param worksheet: The sheet object we need to process.
     """
 
     year, processed_data = process_data(worksheet)
@@ -90,8 +92,11 @@ def collect_table(worksheet: Worksheet, row, column) -> object:
                     'שיעור מסך הנכסים': '',
                 }
 
-            cell_value = worksheet.cell\
-                (row=iterated_row, column=iterated_column).value
+            cell_kwargs = {'row': iterated_row, 'column': iterated_column}
+            cell_value = worksheet.cell(**cell_kwargs).value
+
+            if cell_value:
+                cell_value = format(cell_value * 100, '.2f')
 
             # Values in cell with even index number have a label and odd
             # indexed-cell have a different label.
