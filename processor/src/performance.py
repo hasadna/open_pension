@@ -28,32 +28,9 @@ def process_file(file: Workbook):
     """
     sheets = {}
     for worksheet in file.worksheets:
-        sheets[worksheet.title] = process_worksheet(worksheet)
+        sheets[worksheet.title] = process_data(worksheet)
 
     return sheets
-
-
-def process_worksheet(worksheet: Worksheet):
-    """
-    Processing a single worksheet.
-
-    First, we need to get the year which it's represents.
-    Second, we need to find the first appearance of our "key" cell. The key
-    cell is the cell which starts to lay out the data we need to take.
-
-    Once we got our key cell, we can start and run over that row, and process
-    each pair of cells. The couples are displaying data for each month which
-    means we need to have 24 rows eventually.
-
-    :param worksheet: The sheet object we need to process.
-    """
-
-    year, processed_data = process_data(worksheet)
-
-    return {
-        'year': year,
-        'processed_data': processed_data,
-    }
 
 
 def is_year(cell_value) -> bool:
@@ -67,7 +44,7 @@ def is_year(cell_value) -> bool:
     return False
 
 
-def collect_table(worksheet: Worksheet, row, column) -> object:
+def collect_table(worksheet: Worksheet, year: int, fund_name, row: int, column: int) -> object:
     """
     Start to run on the fields and look for the anchor cell which from there
     the data lay out.
@@ -90,6 +67,8 @@ def collect_table(worksheet: Worksheet, row, column) -> object:
                 row_data[month_name] = {
                     'התרומה לתשואה': '',
                     'שיעור מסך הנכסים': '',
+                    'year': year,
+                    'fund': fund_name,
                 }
 
             cell_kwargs = {'row': iterated_row, 'column': iterated_column}
@@ -111,25 +90,59 @@ def collect_table(worksheet: Worksheet, row, column) -> object:
     return data
 
 
+def remove_none_fund_label(optional_labels):
+    needle = None
+    for optional_label in optional_labels:
+
+        if is_year(optional_label):
+            # ￿Skip the year.
+            continue
+
+        if 'ההשקעה לתשואה הכוללת' in optional_label:
+            # This one if not the fund label any way.
+            continue
+
+        needle = optional_label
+
+    return needle
+
+
 def process_data(worksheet: Worksheet) -> (int, object):
+    # Resetting the variables: the year and variables which will help us to
+    # collect the fund name.
     year = 0
+    fund_name = None
+    optional_fund_name = []
+
     for row in range(worksheet.max_row):
+        row_position = row + 1
         for column in range(worksheet.max_column):
             # Bump the row and the column by 1 since the API method which
             # returns the value does not allow 0 as parameters.
-            row, column = row + 1, column + 1
-
-            cell_value = worksheet.cell(row, column).value
+            column_position = column + 1
+            cell_value = worksheet.cell(row_position, column_position).value
 
             if cell_value is None:
                 continue
+
+            if fund_name is None:
+                optional_fund_name.append(cell_value)
 
             # First, let's get the year.
             if is_year(cell_value):
                 year = cell_value
 
+                # We found the year which means some of the items in the
+                # optional_fund_name could be the one. Start by filter the year:
+                fund_name = remove_none_fund_label(optional_fund_name)
+
             # After we got the year, let's look for the anchor cell.
             if cell_value == anchor_cell_value:
-                print('Fond!', row, column)
-
-                return year, collect_table(worksheet, row, column)
+                collect_table_kwargs = {
+                    'worksheet': worksheet,
+                    'year': year,
+                    'fund_name': fund_name,
+                    'row': row_position,
+                    'column': column_position,
+                }
+                return collect_table(**collect_table_kwargs)
