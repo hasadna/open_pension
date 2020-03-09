@@ -55,12 +55,20 @@ def collect_table(worksheet: Worksheet, year: int, fund_name, row: int, column: 
     for iterated_row in range(row, row + 21):
         row_label: str = worksheet.cell(row=iterated_row, column=column).value
 
+        if not row_label:
+            # Some of the years has less than 21 fields which mean we'll fail
+            # with older files. Skipping on an empty row label.
+            continue
+
         row_data = {}
         for iterated_column in range(column + 1, column + 1 + 24):
-
             # Getting the matching month of the current cell and resetting
             # the cell value.
             month_index = int(iterated_column / 2)
+
+            if month_index not in months:
+                continue
+
             month_name = months[month_index]
 
             if month_name not in row_data:
@@ -75,7 +83,8 @@ def collect_table(worksheet: Worksheet, year: int, fund_name, row: int, column: 
             cell_value = worksheet.cell(**cell_kwargs).value
 
             if cell_value:
-                cell_value = format(cell_value * 100, '.2f')
+                if type(cell_value) is not str:
+                    cell_value = format(cell_value * 100, '.2f')
 
             # Values in cell with even index number have a label and odd
             # indexed-cell have a different label.
