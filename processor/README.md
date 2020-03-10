@@ -14,3 +14,8 @@ the files to:
 ```bash
 python single-asset-cli.py --folder=1 --output_folder=OUTPUT_FOLDER_PATH ORIGIN_FOLDER
 ```
+
+For performance you should run 
+```bash
+python performance-cli.py performance/ --output_folder=OUTPUT_FOLDER_PATH ORIGIN_FOLDER
+```
