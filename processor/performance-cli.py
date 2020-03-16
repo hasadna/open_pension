@@ -93,6 +93,7 @@ class Handler:
 
         :return: A processed file object.
         """
+        print(f'Processing {file}')
         return process_file(load_workbook(file))
 
     def get_filename_from_path(self, file_path):
