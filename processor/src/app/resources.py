@@ -37,7 +37,8 @@ class UploadFile(Resource):
             path = os.path.join(os.getcwd(), 'app', 'files', 'uploaded')
 
             if os.path.exists(os.path.join(path, file.filename)):
-                # Set the file filename as a unique file since we already got this one.
+                # Set the file filename as a unique file since we already got
+                # this one.
                 filename, extension = file.filename.split('.')
                 file.filename = f'{filename}_{int(datetime.now().timestamp())}.{extension}'
 
@@ -60,7 +61,7 @@ class UploadFile(Resource):
             'message': 'All the files were uploaded successfully',
             'files': saved_files,
         }
-        send_json()
+        send_json(data, topic='processor:file_saved')
 
         return json_response(
             status_=201,
@@ -98,5 +99,11 @@ class ProcessFile(Resource):
         # Remove the path and the id. We don't need to expose them.
         del process_item['_id']
         del process_item['path']
+
+        data_to_send = {
+            "id": object_id,
+            "results": results,
+        }
+        send_json(data_to_send, topic='processor:file_processed')
 
         return json_response(data={'results': results})
