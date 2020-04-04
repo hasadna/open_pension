@@ -4,7 +4,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/hasadna/open_pension/application/Models"
 	"github.com/hasadna/open_pension/application/api"
-
 )
 
 func main() {
@@ -21,4 +20,6 @@ func main() {
 		Models.InstrumentDateByCompany{},
 		Models.Market{},
 	)
+
+	db.Save(&Models.Company{CompanyName: "a"})
 }
