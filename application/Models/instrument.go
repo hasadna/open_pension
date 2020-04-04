@@ -1,7 +1,15 @@
 package Models
 
+import "github.com/jinzhu/gorm"
+
 type Instrument struct {
-	ID   int64
+	gorm.Model
+	Industry string
+	InstrumentName string
+	InstrumentType string
+	InstrumentNumber string
+	IssuerNumber uint
+	Market uint
 }
 
 func (Instrument) TableName() string {

@@ -1,7 +1,12 @@
 package Models
 
+import "github.com/jinzhu/gorm"
+
 type Market struct {
-    ID   int64
+    gorm.Model
+    MarketName string
+    MarketCode string
+    Country uint
 }
 
 func (Market) TableName() string {

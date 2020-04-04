@@ -1,7 +1,15 @@
 package Models
 
+import "github.com/jinzhu/gorm"
+
 type Company struct {
-	ID   int64
+	gorm.Model
+	CompanyName        string
+	CompanyLocalNumber string
+	CompanyLei         string
+	Country            uint
+	Domain             string
+	CompanyType        string
 }
 
 func (Company) TableName() string {
