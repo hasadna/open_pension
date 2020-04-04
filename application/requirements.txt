@@ -1,2 +1,0 @@
-orator==0.9.9
-mysqlclient==1.4.6
