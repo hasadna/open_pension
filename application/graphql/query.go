@@ -10,7 +10,8 @@ func newQuery(db *gorm.DB) *graphql.Object {
 	return graphql.NewObject(graphql.ObjectConfig{
 		Name: "Query",
 		Fields: graphql.Fields{
-			"Companies": field.Companies(db),
+			"companies": field.Companies(db),
+			"company": field.Company(db),
 		},
 	})
 }

@@ -6,20 +6,20 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var company = graphql.NewObject(
+var companyDescription = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Companies",
 		Fields: graphql.Fields{
-			"id":   &graphql.Field{Type: graphql.ID},
-			"name": &graphql.Field{Type: graphql.String},
+			"id":                   &graphql.Field{Type: graphql.ID},
+			"name":                 &graphql.Field{Type: graphql.String},
 			"company_local_number": &graphql.Field{Type: graphql.String},
-			"company_lei": &graphql.Field{Type: graphql.String},
-			"country": &graphql.Field{Type: graphql.ID},
-			"domain": &graphql.Field{Type: graphql.String},
-			"company_type": &graphql.Field{Type: graphql.String},
-			"created_at": &graphql.Field{Type: graphql.DateTime},
-			"updated_at": &graphql.Field{Type: graphql.DateTime},
-			"deleted_at": &graphql.Field{Type: graphql.DateTime},
+			"company_lei":          &graphql.Field{Type: graphql.String},
+			"country":              &graphql.Field{Type: graphql.ID},
+			"domain":               &graphql.Field{Type: graphql.String},
+			"company_type":         &graphql.Field{Type: graphql.String},
+			"created_at":           &graphql.Field{Type: graphql.DateTime},
+			"updated_at":           &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":           &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Companies data",
 	},
@@ -27,16 +27,39 @@ var company = graphql.NewObject(
 
 func Companies(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
-		Type: graphql.NewList(company),
+		Type: graphql.NewList(companyDescription),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
-			var c []*Models.Company
+			var companies []*Models.Company
 
-			if err := db.Find(&c).Error; err != nil {
+			if err := db.Find(&companies).Error; err != nil {
 				panic(err)
 			}
 
-			return c, nil
+			return companies, nil
 		},
-		Description: "company",
+		Description: "companyDescription",
+	}
+}
+
+func Company(db *gorm.DB) *graphql.Field {
+	return &graphql.Field{
+		Type: companyDescription,
+		Args: graphql.FieldConfigArgument{
+			"id": &graphql.ArgumentConfig{
+				Type: graphql.Int,
+				Description: "Get by ID",
+				DefaultValue: 0,
+			},
+		},
+		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+			company := Models.Company{}
+
+			if err := db.First(&company, p.Args["id"]).Error; err != nil {
+				panic(err)
+			}
+
+			return company, nil
+		},
+		Description: "companyDescription",
 	}
 }
