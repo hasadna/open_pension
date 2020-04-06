@@ -10,7 +10,14 @@ var country = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Country",
 		Fields: graphql.Fields{
-			"id":                   &graphql.Field{Type: graphql.ID},
+			"id":             &graphql.Field{Type: graphql.ID},
+			"name":           &graphql.Field{Type: graphql.String},
+			"iso2code":       &graphql.Field{Type: graphql.String},
+			"iso3code":       &graphql.Field{Type: graphql.String},
+			"continent_name": &graphql.Field{Type: graphql.String},
+			"created_at":     &graphql.Field{Type: graphql.DateTime},
+			"updated_at":     &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":     &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Country fields",
 	},
@@ -37,8 +44,8 @@ func Country(db *gorm.DB) *graphql.Field {
 		Type: country,
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
-				Type: graphql.Int,
-				Description: "Filter country by a given ID",
+				Type:         graphql.Int,
+				Description:  "Filter country by a given ID",
 				DefaultValue: 0,
 			},
 		},

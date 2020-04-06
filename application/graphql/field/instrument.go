@@ -10,7 +10,16 @@ var instrument = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Instrument",
 		Fields: graphql.Fields{
-			"id":                   &graphql.Field{Type: graphql.ID},
+			"id":                &graphql.Field{Type: graphql.ID},
+			"industry":          &graphql.Field{Type: graphql.String},
+			"instrument_name":   &graphql.Field{Type: graphql.String},
+			"instrument_type":   &graphql.Field{Type: graphql.String},
+			"instrument_number": &graphql.Field{Type: graphql.String},
+			"issuer_number":     &graphql.Field{Type: graphql.ID},
+			"market":            &graphql.Field{Type: graphql.ID},
+			"created_at":        &graphql.Field{Type: graphql.DateTime},
+			"updated_at":        &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":        &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Instrument fields",
 	},
@@ -37,8 +46,8 @@ func Instrument(db *gorm.DB) *graphql.Field {
 		Type: instrument,
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
-				Type: graphql.Int,
-				Description: "Filter instrument by a given ID",
+				Type:         graphql.Int,
+				Description:  "Filter instrument by a given ID",
 				DefaultValue: 0,
 			},
 		},

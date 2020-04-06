@@ -10,7 +10,14 @@ var fund = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Fund",
 		Fields: graphql.Fields{
-			"id":                   &graphql.Field{Type: graphql.ID},
+			"id":                &graphql.Field{Type: graphql.ID},
+			"fund_name":         &graphql.Field{Type: graphql.String},
+			"fund_number":       &graphql.Field{Type: graphql.Int},
+			"executive_body_id": &graphql.Field{Type: graphql.ID},
+			"is_active":         &graphql.Field{Type: graphql.Boolean},
+			"created_at":        &graphql.Field{Type: graphql.DateTime},
+			"updated_at":        &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":        &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Fund fields",
 	},
@@ -37,8 +44,8 @@ func Fund(db *gorm.DB) *graphql.Field {
 		Type: fund,
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
-				Type: graphql.Int,
-				Description: "Filter fund by a given ID",
+				Type:         graphql.Int,
+				Description:  "Filter fund by a given ID",
 				DefaultValue: 0,
 			},
 		},

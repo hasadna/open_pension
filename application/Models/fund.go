@@ -10,7 +10,7 @@ type Fund struct {
 	IsActive        bool       `json:"is_active"`
 	CreatedAt       time.Time  `gorm:"primary_key" json:"created_at"`
 	UpdatedAt       time.Time  `gorm:"primary_key" json:"updated_at"`
-	DeletedAt       *time.Time `sql:"index" json:"deleted_t"`
+	DeletedAt       *time.Time `sql:"index" json:"deleted_at"`
 }
 
 func (Fund) TableName() string {

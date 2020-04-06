@@ -3,7 +3,7 @@ package Models
 import "time"
 
 type Instrument struct {
-	ID uint `gorm:"primary_key" json:"id"`
+	ID               uint       `gorm:"primary_key" json:"id"`
 	Industry         string     `json:"industry"`
 	InstrumentName   string     `json:"instrument_name"`
 	InstrumentType   string     `json:"instrument_type"`
