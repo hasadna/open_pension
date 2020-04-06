@@ -6,7 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var companyDescription = graphql.NewObject(
+var company = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Companies",
 		Fields: graphql.Fields{
@@ -21,13 +21,13 @@ var companyDescription = graphql.NewObject(
 			"updated_at":           &graphql.Field{Type: graphql.DateTime},
 			"deleted_at":           &graphql.Field{Type: graphql.DateTime},
 		},
-		Description: "Companies data",
+		Description: "Company fields",
 	},
 )
 
 func Companies(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
-		Type: graphql.NewList(companyDescription),
+		Type: graphql.NewList(company),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			var companies []*Models.Company
 
@@ -37,17 +37,17 @@ func Companies(db *gorm.DB) *graphql.Field {
 
 			return companies, nil
 		},
-		Description: "companyDescription",
+		Description: "A list of companies description",
 	}
 }
 
 func Company(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
-		Type: companyDescription,
+		Type: company,
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
 				Type: graphql.Int,
-				Description: "Get by ID",
+				Description: "Filter company by a given ID",
 				DefaultValue: 0,
 			},
 		},
@@ -60,6 +60,6 @@ func Company(db *gorm.DB) *graphql.Field {
 
 			return company, nil
 		},
-		Description: "companyDescription",
+		Description: "Getting data of a single company entry",
 	}
 }
