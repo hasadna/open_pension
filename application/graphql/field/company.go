@@ -14,7 +14,7 @@ var company = graphql.NewObject(
 			"name":                 &graphql.Field{Type: graphql.String},
 			"company_local_number": &graphql.Field{Type: graphql.String},
 			"company_lei":          &graphql.Field{Type: graphql.String},
-			"country":              &graphql.Field{Type: graphql.ID},
+			"country":              &graphql.Field{},
 			"domain":               &graphql.Field{Type: graphql.String},
 			"company_type":         &graphql.Field{Type: graphql.String},
 			"created_at":           &graphql.Field{Type: graphql.DateTime},
