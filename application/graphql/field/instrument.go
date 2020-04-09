@@ -15,11 +15,21 @@ var instrument = graphql.NewObject(
 			"instrument_name":   &graphql.Field{Type: graphql.String},
 			"instrument_type":   &graphql.Field{Type: graphql.String},
 			"instrument_number": &graphql.Field{Type: graphql.String},
-			"issuer_number":     &graphql.Field{Type: graphql.ID},
-			"market":            &graphql.Field{Type: graphql.ID},
-			"created_at":        &graphql.Field{Type: graphql.DateTime},
-			"updated_at":        &graphql.Field{Type: graphql.DateTime},
-			"deleted_at":        &graphql.Field{Type: graphql.DateTime},
+			"issuer_number": &graphql.Field{
+				Type: company,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return p.Source.(Models.Instrument).IssuerNumber, nil
+				},
+			},
+			"market": &graphql.Field{
+				Type: market,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return p.Source.(Models.Instrument).Market, nil
+				},
+			},
+			"created_at": &graphql.Field{Type: graphql.DateTime},
+			"updated_at": &graphql.Field{Type: graphql.DateTime},
+			"deleted_at": &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Instrument fields",
 	},
@@ -29,9 +39,13 @@ func Instruments(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
 		Type: graphql.NewList(instrument),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
-			var instruments []*Models.Instrument
+			var instruments []Models.Instrument
 
-			if err := db.Find(&instruments).Error; err != nil {
+			if err := db.
+				Preload("IssuerNumber").
+				Preload("Market").
+				Find(&instruments).
+				Error; err != nil {
 				panic(err)
 			}
 
@@ -54,7 +68,11 @@ func Instrument(db *gorm.DB) *graphql.Field {
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			instrument := Models.Instrument{}
 
-			if err := db.First(&instrument, p.Args["id"]).Error; err != nil {
+			if err := db.
+				Preload("IssuerNumber").
+				Preload("Market").
+				First(&instrument, p.Args["id"]).
+				Error; err != nil {
 				panic(err)
 			}
 
