@@ -9,8 +9,8 @@ type Company struct {
 	CompanyName        string     `json:"name"`
 	CompanyLocalNumber string     `json:"company_local_number"`
 	CompanyLei         string     `json:"company_lei"`
-	Country            Country    `json:"Country" gorm:"association_foreignkey:Id"`
-	CountryId          uint       `sql:"index"`
+	Country            Country   `json:"Country" gorm:"foreignkey:CountryId"`
+	CountryId          uint
 	Domain             string     `json:"domain"`
 	CompanyType        string     `json:"company_type"`
 	CreatedAt          time.Time  `json:"created_at"`

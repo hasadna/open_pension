@@ -14,12 +14,17 @@ var company = graphql.NewObject(
 			"name":                 &graphql.Field{Type: graphql.String},
 			"company_local_number": &graphql.Field{Type: graphql.String},
 			"company_lei":          &graphql.Field{Type: graphql.String},
-			"country":              &graphql.Field{},
-			"domain":               &graphql.Field{Type: graphql.String},
-			"company_type":         &graphql.Field{Type: graphql.String},
-			"created_at":           &graphql.Field{Type: graphql.DateTime},
-			"updated_at":           &graphql.Field{Type: graphql.DateTime},
-			"deleted_at":           &graphql.Field{Type: graphql.DateTime},
+			"country": &graphql.Field{
+				Type: graphql.NewList(country),
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return 1, nil // Return the new list.
+				},
+			},
+			"domain":       &graphql.Field{Type: graphql.String},
+			"company_type": &graphql.Field{Type: graphql.String},
+			"created_at":   &graphql.Field{Type: graphql.DateTime},
+			"updated_at":   &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":   &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Company fields",
 	},
@@ -31,7 +36,7 @@ func Companies(db *gorm.DB) *graphql.Field {
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			var companies []*Models.Company
 
-			if err := db.Find(&companies).Error; err != nil {
+			if err := db.Preload("Country").Find(&companies).Error; err != nil {
 				panic(err)
 			}
 
@@ -46,8 +51,8 @@ func Company(db *gorm.DB) *graphql.Field {
 		Type: company,
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
-				Type: graphql.Int,
-				Description: "Filter company by a given ID",
+				Type:         graphql.Int,
+				Description:  "Filter company by a given ID",
 				DefaultValue: 0,
 			},
 		},
