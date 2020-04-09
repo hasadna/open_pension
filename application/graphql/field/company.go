@@ -15,9 +15,9 @@ var company = graphql.NewObject(
 			"company_local_number": &graphql.Field{Type: graphql.String},
 			"company_lei":          &graphql.Field{Type: graphql.String},
 			"country": &graphql.Field{
-				Type: graphql.NewList(country),
+				Type: country,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					return 1, nil // Return the new list.
+					return p.Source.(Models.Company).Country, nil
 				},
 			},
 			"domain":       &graphql.Field{Type: graphql.String},
@@ -34,7 +34,7 @@ func Companies(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
 		Type: graphql.NewList(company),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
-			var companies []*Models.Company
+			var companies []Models.Company
 
 			if err := db.Preload("Country").Find(&companies).Error; err != nil {
 				panic(err)
@@ -59,7 +59,7 @@ func Company(db *gorm.DB) *graphql.Field {
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			company := Models.Company{}
 
-			if err := db.First(&company, p.Args["id"]).Error; err != nil {
+			if err := db.Preload("Country").First(&company, p.Args["id"]).Error; err != nil {
 				panic(err)
 			}
 
