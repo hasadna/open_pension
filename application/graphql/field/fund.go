@@ -10,14 +10,19 @@ var fund = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Fund",
 		Fields: graphql.Fields{
-			"id":                &graphql.Field{Type: graphql.ID},
-			"fund_name":         &graphql.Field{Type: graphql.String},
-			"fund_number":       &graphql.Field{Type: graphql.Int},
-			"executive_body_id": &graphql.Field{Type: graphql.ID},
-			"is_active":         &graphql.Field{Type: graphql.Boolean},
-			"created_at":        &graphql.Field{Type: graphql.DateTime},
-			"updated_at":        &graphql.Field{Type: graphql.DateTime},
-			"deleted_at":        &graphql.Field{Type: graphql.DateTime},
+			"id":             &graphql.Field{Type: graphql.ID},
+			"fund_name":      &graphql.Field{Type: graphql.String},
+			"fund_number":    &graphql.Field{Type: graphql.Int},
+			"executive_body": &graphql.Field{
+				Type: company,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return p.Source.(Models.Fund).ExecutiveBody, nil
+				},
+			},
+			"is_active":      &graphql.Field{Type: graphql.Boolean},
+			"created_at":     &graphql.Field{Type: graphql.DateTime},
+			"updated_at":     &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":     &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Fund fields",
 	},
@@ -27,9 +32,12 @@ func Funds(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
 		Type: graphql.NewList(fund),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
-			var funds []*Models.Fund
+			var funds []Models.Fund
 
-			if err := db.Find(&funds).Error; err != nil {
+			if err := db.
+				Preload("ExecutiveBody").
+				Preload("ExecutiveBody.Country").
+				Find(&funds).Error; err != nil {
 				panic(err)
 			}
 
@@ -52,7 +60,10 @@ func Fund(db *gorm.DB) *graphql.Field {
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			fund := Models.Fund{}
 
-			if err := db.First(&fund, p.Args["id"]).Error; err != nil {
+			if err := db.
+				Preload("ExecutiveBody").
+				Preload("ExecutiveBody.Country").
+				First(&fund, p.Args["id"]).Error; err != nil {
 				panic(err)
 			}
 

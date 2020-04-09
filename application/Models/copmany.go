@@ -9,7 +9,7 @@ type Company struct {
 	CompanyName        string  `json:"name"`
 	CompanyLocalNumber string  `json:"company_local_number"`
 	CompanyLei         string  `json:"company_lei"`
-	Country            Country `json:"Country" gorm:"foreignkey:CountryId"`
+	Country            Country `json:"Country" gorm:"foreignkey:CountryId;PRELOAD:true"`
 	CountryId          uint
 	Domain             string     `json:"domain"`
 	CompanyType        string     `json:"company_type"`
