@@ -10,8 +10,13 @@ var instrumentDateByCompany = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "InstrumentDateByCompany",
 		Fields: graphql.Fields{
-			"id":                           &graphql.Field{Type: graphql.ID},
-			"invest_company":               &graphql.Field{Type: graphql.ID},
+			"id": &graphql.Field{Type: graphql.ID},
+			"invest_company": &graphql.Field{
+				Type: company,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return p.Source.(Models.InstrumentDateByCompany).InvestingCompany, nil
+				},
+			},
 			"currency":                     &graphql.Field{Type: graphql.String},
 			"duration":                     &graphql.Field{Type: graphql.Float},
 			"fair_value":                   &graphql.Field{Type: graphql.Int},
@@ -37,9 +42,12 @@ func InstrumentDateByCompanies(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
 		Type: graphql.NewList(instrumentDateByCompany),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
-			var instrumentDateByCompanies []*Models.InstrumentDateByCompany
+			var instrumentDateByCompanies []Models.InstrumentDateByCompany
 
-			if err := db.Find(&instrumentDateByCompanies).Error; err != nil {
+			if err := db.
+				Preload("InvestingCompany").
+				Find(&instrumentDateByCompanies).
+				Error; err != nil {
 				panic(err)
 			}
 
@@ -62,7 +70,10 @@ func InstrumentDateByCompany(db *gorm.DB) *graphql.Field {
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			instrumentDateByCompany := Models.InstrumentDateByCompany{}
 
-			if err := db.First(&instrumentDateByCompany, p.Args["id"]).Error; err != nil {
+			if err := db.
+				Preload("InvestingCompany").
+				First(&instrumentDateByCompany, p.Args["id"]).
+				Error; err != nil {
 				panic(err)
 			}
 

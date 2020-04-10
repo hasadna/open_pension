@@ -5,13 +5,16 @@ import (
 )
 
 type InstrumentDateByCompany struct {
-	ID                     uint       `gorm:"primary_key" json:"id"`
-	InvestCompany          uint       `json:"invest_company"`
+	ID                     uint    `gorm:"primary_key" json:"id"`
+	InvestingCompany       Company `json:"invest_company" gorm:"foreignkey:InvestingCompanyId"`
+	InvestingCompanyId     uint
 	Currency               string     `json:"currency"`
 	Duration               float64    `json:"duration"`
 	FairValue              int64      `json:"fair_value"`
-	InstrumentNumber       uint       `json:"instrument_number"`
-	FundId                 uint       `json:"fund_id"`
+	InstrumentNumber       Instrument `json:"instrument_number" gorm:"foreignkey:InstrumentNumberId"`
+	InstrumentNumberId     uint
+	Fund                   Fund       `json:"fund_id" gorm:"foreignkey:FundId"`
+	FundId                 uint
 	NominalValue           float64    `json:"nominal_value"`
 	Price                  float64    `json:"price"`
 	PurchaseDate           time.Time  `json:"purchase_date"`
