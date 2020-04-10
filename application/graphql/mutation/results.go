@@ -10,6 +10,9 @@ func Results() *graphql.Object {
 				"data": &graphql.Field{
 					Type: graphql.String,
 				},
+				"error": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		},
 	)
