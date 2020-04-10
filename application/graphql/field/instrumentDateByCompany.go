@@ -17,11 +17,21 @@ var instrumentDateByCompany = graphql.NewObject(
 					return p.Source.(Models.InstrumentDateByCompany).InvestingCompany, nil
 				},
 			},
-			"currency":                     &graphql.Field{Type: graphql.String},
-			"duration":                     &graphql.Field{Type: graphql.Float},
-			"fair_value":                   &graphql.Field{Type: graphql.Int},
-			"instrument_number":            &graphql.Field{Type: graphql.ID},
-			"fund_id":                      &graphql.Field{Type: graphql.ID},
+			"currency":   &graphql.Field{Type: graphql.String},
+			"duration":   &graphql.Field{Type: graphql.Float},
+			"fair_value": &graphql.Field{Type: graphql.Int},
+			"instrument_number": &graphql.Field{
+				Type: instrument,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return p.Source.(Models.InstrumentDateByCompany).InstrumentNumber, nil
+				},
+			},
+			"fund_id": &graphql.Field{
+				Type: fund,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return p.Source.(Models.InstrumentDateByCompany).Fund, nil
+				},
+			},
 			"nominal_value":                &graphql.Field{Type: graphql.Float},
 			"price":                        &graphql.Field{Type: graphql.Float},
 			"purchase_date":                &graphql.Field{Type: graphql.DateTime},
@@ -45,7 +55,11 @@ func InstrumentDateByCompanies(db *gorm.DB) *graphql.Field {
 			var instrumentDateByCompanies []Models.InstrumentDateByCompany
 
 			if err := db.
+				Preload("Fund").
+				Preload("InstrumentNumber").
+				Preload("InstrumentNumber.IssuerNumber").
 				Preload("InvestingCompany").
+				Preload("InvestingCompany.Country").
 				Find(&instrumentDateByCompanies).
 				Error; err != nil {
 				panic(err)
@@ -71,7 +85,11 @@ func InstrumentDateByCompany(db *gorm.DB) *graphql.Field {
 			instrumentDateByCompany := Models.InstrumentDateByCompany{}
 
 			if err := db.
+				Preload("Fund").
+				Preload("InstrumentNumber").
+				Preload("InstrumentNumber.IssuerNumber").
 				Preload("InvestingCompany").
+				Preload("InvestingCompany.Country").
 				First(&instrumentDateByCompany, p.Args["id"]).
 				Error; err != nil {
 				panic(err)
