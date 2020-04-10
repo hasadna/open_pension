@@ -26,4 +26,6 @@ func main() {
 
 	db.Model(&Models.Instrument{}).AddForeignKey("market_id", "market(id)", "CASCADE", "CASCADE")
 	db.Model(&Models.Instrument{}).AddForeignKey("issuer_number_id", "company(id)", "CASCADE", "CASCADE")
+
+	db.Model(&Models.Market{}).AddForeignKey("country_id", "country(id)", "CASCADE", "CASCADE")
 }

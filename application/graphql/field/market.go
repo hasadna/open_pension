@@ -13,10 +13,15 @@ var market = graphql.NewObject(
 			"id":          &graphql.Field{Type: graphql.ID},
 			"market_name": &graphql.Field{Type: graphql.String},
 			"market_code": &graphql.Field{Type: graphql.String},
-			"country":     &graphql.Field{Type: graphql.ID},
-			"created_at":  &graphql.Field{Type: graphql.DateTime},
-			"updated_at":  &graphql.Field{Type: graphql.DateTime},
-			"deleted_at":  &graphql.Field{Type: graphql.DateTime},
+			"country": &graphql.Field{
+				Type: country,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return p.Source.(Models.Market).Country, nil
+				},
+			},
+			"created_at": &graphql.Field{Type: graphql.DateTime},
+			"updated_at": &graphql.Field{Type: graphql.DateTime},
+			"deleted_at": &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Market fields",
 	},
@@ -26,9 +31,9 @@ func Markets(db *gorm.DB) *graphql.Field {
 	return &graphql.Field{
 		Type: graphql.NewList(market),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
-			var market []*Models.Market
+			var market []Models.Market
 
-			if err := db.Find(&market).Error; err != nil {
+			if err := db.Preload("Country").Find(&market).Error; err != nil {
 				panic(err)
 			}
 
@@ -51,7 +56,7 @@ func Market(db *gorm.DB) *graphql.Field {
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			market := Models.Market{}
 
-			if err := db.First(&market, p.Args["id"]).Error; err != nil {
+			if err := db.Preload("Country").First(&market, p.Args["id"]).Error; err != nil {
 				panic(err)
 			}
 
