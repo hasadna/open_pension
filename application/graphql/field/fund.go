@@ -10,19 +10,19 @@ var fund = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Fund",
 		Fields: graphql.Fields{
-			"id":             &graphql.Field{Type: graphql.ID},
-			"fund_name":      &graphql.Field{Type: graphql.String},
-			"fund_number":    &graphql.Field{Type: graphql.Int},
+			"id":          &graphql.Field{Type: graphql.ID},
+			"fund_name":   &graphql.Field{Type: graphql.String},
+			"fund_number": &graphql.Field{Type: graphql.Int},
+			"is_active":   &graphql.Field{Type: graphql.Boolean},
+			"created_at":  &graphql.Field{Type: graphql.DateTime},
+			"updated_at":  &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":  &graphql.Field{Type: graphql.DateTime},
 			"executive_body": &graphql.Field{
 				Type: company,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					return p.Source.(Models.Fund).ExecutiveBody, nil
 				},
 			},
-			"is_active":      &graphql.Field{Type: graphql.Boolean},
-			"created_at":     &graphql.Field{Type: graphql.DateTime},
-			"updated_at":     &graphql.Field{Type: graphql.DateTime},
-			"deleted_at":     &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Fund fields",
 	},

@@ -13,15 +13,15 @@ var market = graphql.NewObject(
 			"id":          &graphql.Field{Type: graphql.ID},
 			"market_name": &graphql.Field{Type: graphql.String},
 			"market_code": &graphql.Field{Type: graphql.String},
+			"created_at":  &graphql.Field{Type: graphql.DateTime},
+			"updated_at":  &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":  &graphql.Field{Type: graphql.DateTime},
 			"country": &graphql.Field{
 				Type: country,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					return p.Source.(Models.Market).Country, nil
 				},
 			},
-			"created_at": &graphql.Field{Type: graphql.DateTime},
-			"updated_at": &graphql.Field{Type: graphql.DateTime},
-			"deleted_at": &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Market fields",
 	},

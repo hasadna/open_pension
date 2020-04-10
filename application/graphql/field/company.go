@@ -14,17 +14,17 @@ var company = graphql.NewObject(
 			"name":                 &graphql.Field{Type: graphql.String},
 			"company_local_number": &graphql.Field{Type: graphql.String},
 			"company_lei":          &graphql.Field{Type: graphql.String},
+			"domain":               &graphql.Field{Type: graphql.String},
+			"company_type":         &graphql.Field{Type: graphql.String},
+			"created_at":           &graphql.Field{Type: graphql.DateTime},
+			"updated_at":           &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":           &graphql.Field{Type: graphql.DateTime},
 			"country": &graphql.Field{
 				Type: country,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					return p.Source.(Models.Company).Country, nil
 				},
 			},
-			"domain":       &graphql.Field{Type: graphql.String},
-			"company_type": &graphql.Field{Type: graphql.String},
-			"created_at":   &graphql.Field{Type: graphql.DateTime},
-			"updated_at":   &graphql.Field{Type: graphql.DateTime},
-			"deleted_at":   &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Company fields",
 	},

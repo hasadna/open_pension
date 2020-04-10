@@ -15,6 +15,9 @@ var instrument = graphql.NewObject(
 			"instrument_name":   &graphql.Field{Type: graphql.String},
 			"instrument_type":   &graphql.Field{Type: graphql.String},
 			"instrument_number": &graphql.Field{Type: graphql.String},
+			"created_at":        &graphql.Field{Type: graphql.DateTime},
+			"updated_at":        &graphql.Field{Type: graphql.DateTime},
+			"deleted_at":        &graphql.Field{Type: graphql.DateTime},
 			"issuer_number": &graphql.Field{
 				Type: company,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -27,9 +30,6 @@ var instrument = graphql.NewObject(
 					return p.Source.(Models.Instrument).Market, nil
 				},
 			},
-			"created_at": &graphql.Field{Type: graphql.DateTime},
-			"updated_at": &graphql.Field{Type: graphql.DateTime},
-			"deleted_at": &graphql.Field{Type: graphql.DateTime},
 		},
 		Description: "Instrument fields",
 	},

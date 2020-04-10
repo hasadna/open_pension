@@ -9,7 +9,8 @@ import (
 func NewHandler(db *gorm.DB) (*handler.Handler, error) {
 	schema, err := graphql.NewSchema(
 		graphql.SchemaConfig{
-			Query: newQuery(db),
+			Query:    newQuery(db),
+			Mutation: Mutation(),
 		},
 	)
 	if err != nil {
