@@ -3,6 +3,7 @@ package graphql
 import (
 	"github.com/graphql-go/graphql"
 	"github.com/graphql-go/handler"
+	"github.com/hasadna/open_pension/application/graphql/mutation"
 	"github.com/jinzhu/gorm"
 )
 
@@ -10,7 +11,7 @@ func NewHandler(db *gorm.DB) (*handler.Handler, error) {
 	schema, err := graphql.NewSchema(
 		graphql.SchemaConfig{
 			Query:    newQuery(db),
-			Mutation: Mutation(),
+			Mutation: mutation.Mutation(),
 		},
 	)
 	if err != nil {
