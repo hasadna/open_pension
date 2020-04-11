@@ -31,18 +31,39 @@ type Payload struct {
 }
 
 type PayloadRecord struct {
-	Index                string `json:"index"`
-	Israel               bool   `json:"israel"`
-	InstrumentName       string `json:"Instrument name"`
-	InstrumentNumber     string `json:"Instrument number"`
-	IssuerNumber         string `json:"Issuer number"`
-	RatingAgencies       string `json:"Rating agencies"`
-	Currency             string `json:"Currency"`
-	Rate                 string `json:"Rate"`
-	YieldToMaturity      string `json:"Yield to maturity"`
-	FairValue            string `json:"Fair value"`
-	RateOfInstrumentType string `json:"Rate of instrument type"`
-	Investment           string `json:"Investment"`
+	Consortium                  string `json:"Consortium"`
+	Coupon                      string `json:"coupon"`
+	Currency                    string `json:"Currency"`
+	DateOfInvestmentCommitments string `json:"Date of investment commitments"`
+	DateOfValuation             string `json:"Date of valuation"`
+	Dividend                    string `json:"dividend"`
+	Duration                    string `json:"Duration"`
+	EffectiveInterest           string `json:"Effective interest"`
+	FairValue                   string `json:"Fair value"`
+	HoldingPeriodReturnYield    string `json:"Holding period return/yield"`
+	Index                       string `json:"index"`
+	Industry                    string `json:"Industry"`
+	InformationProvider         string `json:"Information provider"`
+	InstrumentName              string `json:"Instrument name"`
+	InstrumentNumber            string `json:"Instrument number"`
+	Investment                  string `json:"Investment"`
+	Israel                      bool   `json:"israel"`
+	IssuerNumber                string `json:"Issuer number"`
+	MarketName                  string `json:"Market name"`
+	NominalValue                string `json:"Nominal value"`
+	Price                       string `json:"Price"`
+	PurchaseDate                string `json:"Purchase date"`
+	Rate                        string `json:"Rate"`
+	RateOfFundHolding           string `json:"Rate of fund holding"`
+	RateOfInstrumentType        string `json:"Rate of instrument type"`
+	RateOfRegister              string `json:"Rate of register"`
+	Rating                      string `json:"Rating"`
+	RatingAgencies              string `json:"Rating agencies"`
+	RealEstateAddress           string `json:"Real estate address"`
+	RealEstateType              string `json:"Real estate type"`
+	TotalCommitment             string `json:"total commitment"`
+	UnderlyingAsset             string `json:"Underlying asset"`
+	YieldToMaturity             string `json:"Yield to maturity"`
 }
 
 type Result struct {
