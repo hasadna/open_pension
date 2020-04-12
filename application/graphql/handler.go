@@ -11,7 +11,7 @@ func NewHandler(db *gorm.DB) (*handler.Handler, error) {
 	schema, err := graphql.NewSchema(
 		graphql.SchemaConfig{
 			Query:    newQuery(db),
-			Mutation: mutation.Mutation(),
+			Mutation: mutation.Mutation(db),
 		},
 	)
 	if err != nil {

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/hasadna/open_pension/application/api"
 	"github.com/hasadna/open_pension/application/graphql/mutation"
 	"io/ioutil"
 	"os"
@@ -36,5 +37,7 @@ func main() {
 		fmt.Println("error:", err)
 	}
 
-	fmt.Println(mutation.MigrateProcessedObject(obj))
+	db := api.GetDbConnection()
+
+	fmt.Println(mutation.MigrateProcessedObject(obj, db))
 }

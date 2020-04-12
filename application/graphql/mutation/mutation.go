@@ -3,9 +3,10 @@ package mutation
 import (
 	"fmt"
 	"github.com/graphql-go/graphql"
+	"github.com/jinzhu/gorm"
 )
 
-func Mutation() *graphql.Object {
+func Mutation(db *gorm.DB) *graphql.Object {
 	return graphql.NewObject(graphql.ObjectConfig{
 		Name: "Mutation",
 		Fields: graphql.Fields{
@@ -27,7 +28,7 @@ func Mutation() *graphql.Object {
 						return result, nil
 					}
 
-					return MigrateProcessedObject(parsedPayload), nil
+					return MigrateProcessedObject(parsedPayload, db), nil
 				},
 			},
 		},
