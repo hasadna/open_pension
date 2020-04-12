@@ -126,5 +126,5 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 	//  3. Create fund
 	//  4. Create Markets
 	//  5. Create Instrument
-	//	6. Add the filename, sheet and line in file to the DB
+	// 	6. Add the filename, sheet and line in file to the DB
 }
