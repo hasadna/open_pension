@@ -4,8 +4,8 @@ import time
 
 import requests
 
-from .consts import OPEN_FIGI_LARGE_BULK, OPEN_FIGI_SMALL_BULK
-from .utils import check_isin_validity
+from consts import OPEN_FIGI_LARGE_BULK, OPEN_FIGI_SMALL_BULK
+from utils import check_isin_validity
 
 
 def create_json_for_output(resp, isin_list):
