@@ -36,6 +36,5 @@ func main() {
 		fmt.Println("error:", err)
 	}
 
-
 	fmt.Println(mutation.MigrateProcessedObject(obj))
 }

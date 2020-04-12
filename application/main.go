@@ -20,7 +20,6 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/", api.Welcome())
 	e.POST("/graphql", echo.WrapHandler(h))
 
 	if err := e.Start(":3000"); err != nil {

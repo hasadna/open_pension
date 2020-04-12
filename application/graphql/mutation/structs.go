@@ -1,33 +1,33 @@
 package mutation
 
 type Payload struct {
-	Caches  []PayloadRecord `json:"מזומנים"`
-	Field02 []PayloadRecord `json:"תעודות התחייבות ממשלתיות"`
-	Field03 []PayloadRecord `json:"תעודות חוב מסחריות"`
-	Field04 []PayloadRecord `json:"אג\"ח קונצרני"`
-	Field05 []PayloadRecord `json:"מניות"`
-	Field06 []PayloadRecord `json:"תעודות סל"`
-	Field07 []PayloadRecord `json:"קרנות נאמנות"`
-	Field08 []PayloadRecord `json:"כתבי אופציה"`
-	Field09 []PayloadRecord `json:"מוצרים מובנים"`
-	Field10 []PayloadRecord `json:"לא סחיר - תעודות התחייבות ממשלתי"`
-	Field11 []PayloadRecord `json:"לא סחיר - תעודות חוב מסחריות"`
-	Field12 []PayloadRecord `json:"לא סחיר - אג\"ח קונצרני"`
-	Field13 []PayloadRecord `json:"לא סחיר - מניות"`
-	Field14 []PayloadRecord `json:"לא סחיר - קרנות השקעה"`
-	Field15 []PayloadRecord `json:"לא סחיר - כתבי אופציה"`
-	Field16 []PayloadRecord `json:"לא סחיר - אופציות"`
-	Field17 []PayloadRecord `json:"לא סחיר - חוזים עתידיים"`
-	Field18 []PayloadRecord `json:"לא סחיר - מוצרים מובנים"`
-	Field19 []PayloadRecord `json:"הלוואות"`
-	Field20 []PayloadRecord `json:"פקדונות מעל 3 חודשים"`
-	Field21 []PayloadRecord `json:"זכויות מקרקעין"`
-	Field22 []PayloadRecord `json:"השקעה בחברות מוחזקות"`
-	Field23 []PayloadRecord `json:"השקעות אחרות"`
-	Field24 []PayloadRecord `json:"יתרת התחייבות להשקעה"`
-	Field25 []PayloadRecord `json:"עלות מתואמת אג\"ח קונצרני סחיר"`
-	Field26 []PayloadRecord `json:"עלות מתואמת אג\"ח קונצרני ל.סחיר"`
-	Field27 []PayloadRecord `json:"עלות מתואמת מסגרות אשראי ללווים"`
+	Caches                  []PayloadRecord `json:"מזומנים"`
+	GovernmentBond          []PayloadRecord `json:"תעודות התחייבות ממשלתיות"`
+	CommercialDebt          []PayloadRecord `json:"תעודות חוב מסחריות"`
+	CorporateBond           []PayloadRecord `json:"אג\"ח קונצרני"`
+	Stock                   []PayloadRecord `json:"מניות"`
+	ETF                     []PayloadRecord `json:"תעודות סל"`
+	MutualFund              []PayloadRecord `json:"קרנות נאמנות"`
+	Warrant                 []PayloadRecord `json:"כתבי אופציה"`
+	Structured              []PayloadRecord `json:"מוצרים מובנים"`
+	NotTradedGovernmentBond []PayloadRecord `json:"לא סחיר - תעודות התחייבות ממשלתי"`
+	NotTradedCommercialDebt []PayloadRecord `json:"לא סחיר - תעודות חוב מסחריות"`
+	NotTradedCorporateBond  []PayloadRecord `json:"לא סחיר - אג\"ח קונצרני"`
+	NotTradedStock          []PayloadRecord `json:"לא סחיר - מניות"`
+	NotTradedPrivateEquity  []PayloadRecord `json:"לא סחיר - קרנות השקעה"`
+	NotTradedWarrant        []PayloadRecord `json:"לא סחיר - כתבי אופציה"`
+	NotTradedOption         []PayloadRecord `json:"לא סחיר - אופציות"`
+	NotTradedFuture         []PayloadRecord `json:"לא סחיר - חוזים עתידיים"`
+	NotTradedStructured     []PayloadRecord `json:"לא סחיר - מוצרים מובנים"`
+	NotTradedLoans          []PayloadRecord `json:"הלוואות"`
+	Deposits                []PayloadRecord `json:"פקדונות מעל 3 חודשים"`
+	RealEstate              []PayloadRecord `json:"זכויות מקרקעין"`
+	PortfolioCompanies      []PayloadRecord `json:"השקעה בחברות מוחזקות"`
+	OtherInvestments        []PayloadRecord `json:"השקעות אחרות"`
+	InvestmentCommitments   []PayloadRecord `json:"יתרת התחייבות להשקעה"`
+	FairValue               []PayloadRecord `json:"עלות מתואמת אג\"ח קונצרני סחיר"`
+	NotTradedFairValue      []PayloadRecord `json:"עלות מתואמת אג\"ח קונצרני ל.סחיר"`
+	CreditFairValue         []PayloadRecord `json:"עלות מתואמת מסגרות אשראי ללווים"`
 }
 
 type PayloadRecord struct {
