@@ -12,7 +12,7 @@ var fund = graphql.NewObject(
 		Fields: graphql.Fields{
 			"id":          &graphql.Field{Type: graphql.ID},
 			"fund_name":   &graphql.Field{Type: graphql.String},
-			"fund_number": &graphql.Field{Type: graphql.Int},
+			"fund_number": &graphql.Field{Type: graphql.String},
 			"is_active":   &graphql.Field{Type: graphql.Boolean},
 			"created_at":  &graphql.Field{Type: graphql.DateTime},
 			"updated_at":  &graphql.Field{Type: graphql.DateTime},

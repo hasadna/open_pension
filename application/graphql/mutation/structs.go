@@ -64,7 +64,11 @@ type PayloadRecord struct {
 	TotalCommitment             string `json:"total commitment"`
 	UnderlyingAsset             string `json:"Underlying asset"`
 	YieldToMaturity             string `json:"Yield to maturity"`
-	Date                        string `json:"Date"`
+
+	Date              string `json:"Date"`
+	InstitutionalBody string `json:"Institutional body"`
+	FundName          string `json:"Fund Name"`
+	FundNumber        string `json:"Fund Number"`
 }
 
 type Result struct {

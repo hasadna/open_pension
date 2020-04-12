@@ -63,18 +63,12 @@ func processSheet(PayloadRecords []PayloadRecord, db *gorm.DB) {
 
 func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 
-	//{
-	//	"Purchase date": "Instruments_Data_By_Company.purchase_date",
-	//	"Duration": "Instruments_Data_By_Company.duration",
-	//	"Currency": "Instruments_Data_By_Company.currency",
-	//	"Rate": "Instruments_Data_By_Company.rate",
-	//	"Price": "Instruments_Data_By_Company.price",
-	//	"Fair value": "Instruments_Data_By_Company.fair_value",
-	//	"Rate of register": "Instruments_Data_By_Company.rate_register",
-	//	"Rate of instrument type": "Instruments_Data_By_Company.instrument_type",
-	//	"Rate of fund holding": "Instruments_Data_By_Company.rate_fund_holding",
-	//	"Date": "Instruments_Data_By_Company.report_date",
+	// todo:
+	//  4. Create Markets
+	//  5. Create Instrument
+	// 	6. Add the filename, sheet and line in file to the DB
 
+	//{
 
 	//	"Investment": "Instrument.investment_type",
 	//	"Instrument name": "Instruments.instrument_name",
@@ -84,7 +78,6 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 	//
 	//	"Market name": "Markets.market_code",
 
-	//	"Institutional body": "Funds.fund_name",
 	//
 	//	"Information provider": "",
 	//	"Rating": "",
@@ -100,15 +93,52 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 
 	// Create instrument data by company.
 	instrumentData := Models.InstrumentDateByCompany{}
+	instrumentData.Currency = payloadRecord.Currency
+	//instrumentData.PurchaseDate = FairValue
+	//instrumentData.Duration = ''
+	//instrumentData.Rate = ''
+	//instrumentData.Price = ''
+	//instrumentData.RateRegister = ''
 
-	if payloadRecord.PurchaseDate == "" {
-		// Maybe take the date?
-		parsedDate, _ := time.Parse("02/01/2006", payloadRecord.Date)
-		instrumentData.PurchaseDate = parsedDate
-		instrumentData.ReportDate = parsedDate
+
+	// Other properties which need special logic will be handled in other functions.
+	AttachFairValue(payloadRecord, &instrumentData)
+	AttachDates(payloadRecord, &instrumentData)
+	AttachFund(payloadRecord, db, &instrumentData)
+	AttachMarket(payloadRecord, db, &instrumentData)
+	AttachInstrument(payloadRecord, db, &instrumentData)
+
+	db.Save(&instrumentData)
+}
+
+// Get or create a fund for a given entry record.
+func AttachDates(payloadRecord PayloadRecord, instrumentData *Models.InstrumentDateByCompany) {
+
+	if payloadRecord.PurchaseDate != "" {
+		return
 	}
 
-	instrumentData.Currency = payloadRecord.Currency
+	// Maybe take the date?
+	parsedDate, _ := time.Parse("02/01/2006", payloadRecord.Date)
+	instrumentData.PurchaseDate = parsedDate
+	instrumentData.ReportDate = parsedDate
+}
+
+func AttachFund(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *Models.InstrumentDateByCompany) {
+	fund := Models.Fund{}
+	db.FirstOrCreate(&fund, Models.Fund{FundName: payloadRecord.FundName, FundNumber: payloadRecord.FundNumber})
+	instrumentData.FundId = fund.ID
+}
+
+func AttachMarket(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *Models.InstrumentDateByCompany) {
+	//market := Models.Market{}
+}
+
+func AttachInstrument(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *Models.InstrumentDateByCompany) {
+	//instrument := Models.Instrument{}
+}
+
+func AttachFairValue(payloadRecord PayloadRecord, instrumentData *Models.InstrumentDateByCompany) {
 	FairValue, err := strconv.ParseFloat(payloadRecord.FairValue, 10)
 
 	if err != nil {
@@ -116,15 +146,4 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 	}
 
 	instrumentData.FairValue = FairValue
-
-	db.Save(&instrumentData)
-
-
-	// todo:
-	// 	1. Get the missing fields value: PurchaseDate, duration, rate, price, rate of register
-	//  2. Fix the processor and get the RateOfInstrumentType and RateOfFundHolding properly
-	//  3. Create fund
-	//  4. Create Markets
-	//  5. Create Instrument
-	// 	6. Add the filename, sheet and line in file to the DB
 }
