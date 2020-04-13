@@ -70,11 +70,7 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 
 	//{
 
-	//	"Investment": "Instrument.investment_type",
-	//	"Instrument name": "Instruments.instrument_name",
-	//	"Instrument Number": "Instruments.instrument_number",
 	//	"Issuer number": "Instruments.issuer_number",
-	//	"Industry": "Instruments.industry",
 	//
 	//	"Market name": "Markets.market_code",
 
@@ -94,7 +90,6 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 	// Create instrument data by company.
 	instrumentData := Models.InstrumentDateByCompany{}
 	instrumentData.Currency = payloadRecord.Currency
-	//instrumentData.PurchaseDate = FairValue
 	//instrumentData.Duration = ''
 	//instrumentData.Rate = ''
 	//instrumentData.Price = ''
@@ -104,9 +99,11 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 	// Other properties which need special logic will be handled in other functions.
 	AttachFairValue(payloadRecord, &instrumentData)
 	AttachDates(payloadRecord, &instrumentData)
-	AttachFund(payloadRecord, db, &instrumentData)
-	AttachMarket(payloadRecord, db, &instrumentData)
+
+	// todo: Does fund, instrument and company are unique for each one? If so, is that mean the when crating an
+	// 	instrument we need to attach the issuer reference (company) to the fund and the investing company?
 	AttachInstrument(payloadRecord, db, &instrumentData)
+	AttachFund(payloadRecord, db, &instrumentData)
 
 	db.Save(&instrumentData)
 }
@@ -130,12 +127,22 @@ func AttachFund(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *Models
 	instrumentData.FundId = fund.ID
 }
 
-func AttachMarket(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *Models.InstrumentDateByCompany) {
-	//market := Models.Market{}
-}
-
 func AttachInstrument(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *Models.InstrumentDateByCompany) {
-	//instrument := Models.Instrument{}
+	// todo: ask if an instrument can be shared among several records.
+	instrument := Models.Instrument{}
+
+	// todo: create the issuer (company)
+	// todo: creat ethe market.
+
+
+	db.FirstOrCreate(&instrument, Models.Instrument{
+		InvestmentType: payloadRecord.Investment,
+		InstrumentName: payloadRecord.InstrumentName,
+		InstrumentNumber: payloadRecord.InstrumentNumber,
+		Industry: payloadRecord.Industry,
+	})
+
+	instrumentData.InstrumentNumberId = instrument.ID
 }
 
 func AttachFairValue(payloadRecord PayloadRecord, instrumentData *Models.InstrumentDateByCompany) {
