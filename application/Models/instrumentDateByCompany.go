@@ -17,7 +17,7 @@ type InstrumentDateByCompany struct {
 	FundId                 uint       `sql:"DEFAULT:NULL"`
 	NominalValue           float64    `json:"nominal_value"`
 	Price                  float64    `json:"price"`
-	PurchaseDate           time.Time  `json:"purchase_date"`
+	PurchaseDate           time.Time  `json:"purchase_date" sql:"DEFAULT:NULL"`
 	Rate                   float64    `json:"rate"`
 	RateFundHolding        float64    `json:"fund_rate_holding"`
 	RateFundInstrumentType float64    `json:"rate_funding_instrument_type"`
