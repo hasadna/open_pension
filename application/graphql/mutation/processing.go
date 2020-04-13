@@ -68,25 +68,6 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 	//  5. Create Instrument
 	// 	6. Add the filename, sheet and line in file to the DB
 
-	//{
-
-	//	"Issuer number": "Instruments.issuer_number",
-	//
-	//	"Market name": "Markets.market_code",
-
-	//
-	//	"Information provider": "",
-	//	"Rating": "",
-	//	"Rating agencies": "",
-	//	"Yield to maturity": "",
-	//	"Nominal value": "",
-	//	"Coupon": "",
-	//	"file_name": "",
-	//	"index": "",
-	//	"israel": "",
-	//	"line_in_file": ""
-	//}
-
 	// Create instrument data by company.
 	instrumentData := Models.InstrumentDateByCompany{}
 	instrumentData.Currency = payloadRecord.Currency
@@ -104,6 +85,7 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 	// 	instrument we need to attach the issuer reference (company) to the fund and the investing company?
 	AttachInstrument(payloadRecord, db, &instrumentData)
 	AttachFund(payloadRecord, db, &instrumentData)
+	AttachLooseEnds(payloadRecord, db, &instrumentData)
 
 	db.Save(&instrumentData)
 }
@@ -131,18 +113,31 @@ func AttachInstrument(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *
 	// todo: ask if an instrument can be shared among several records.
 	instrument := Models.Instrument{}
 
-	// todo: create the issuer (company)
-	// todo: creat ethe market.
+	// todo: how to get the country?
+	// todo: what to do when there's no market name? from where to get the market code?
+	market := Models.Market{}
+	db.FirstOrCreate(&market, Models.Market{MarketName: payloadRecord.MarketName})
 
+	// Creating company.
+	// todo: ask moshe - does the CompanyLocalNumber is the what exists in the table?
+	issuer := Models.Company{}
+	db.FirstOrCreate(&issuer, Models.Company{CompanyLocalNumber: payloadRecord.IssuerNumber})
 
+	// Finally, create the instrument.
 	db.FirstOrCreate(&instrument, Models.Instrument{
 		InvestmentType: payloadRecord.Investment,
 		InstrumentName: payloadRecord.InstrumentName,
 		InstrumentNumber: payloadRecord.InstrumentNumber,
+		IssuerNumberId: issuer.ID,
 		Industry: payloadRecord.Industry,
+		MarketId: market.ID,
 	})
 
+	instrument.IssuerNumber = issuer
+	instrument.Market = market
+
 	instrumentData.InstrumentNumberId = instrument.ID
+	instrumentData.InstrumentNumber = instrument
 }
 
 func AttachFairValue(payloadRecord PayloadRecord, instrumentData *Models.InstrumentDateByCompany) {
@@ -153,4 +148,17 @@ func AttachFairValue(payloadRecord PayloadRecord, instrumentData *Models.Instrum
 	}
 
 	instrumentData.FairValue = FairValue
+}
+
+func AttachLooseEnds(payloadRecord PayloadRecord, db *gorm.DB, instrumentData *Models.InstrumentDateByCompany) {
+	// Connect all the entities we created during the parsing.
+	instrumentData.InvestingCompanyId = instrumentData.InstrumentNumber.IssuerNumberId
+
+	//fund := Models.Fund{}
+	//
+	//db.First(&fund, instrumentData.FundId)
+	//fmt.Println(fund.ExecutiveBodyId, fund.ExecutiveBody)
+
+	// Attach the fund to the executive body.
+	db.Model(&Models.Fund{}).Where("id = ?", instrumentData.FundId).Updates(Models.Fund{ExecutiveBodyId:instrumentData.InvestingCompanyId})
 }

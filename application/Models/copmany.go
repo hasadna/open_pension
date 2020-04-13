@@ -5,12 +5,12 @@ import (
 )
 
 type Company struct {
-	ID                 uint    `gorm:"primary_key" json:"id"`
-	CompanyName        string  `json:"name"`
-	CompanyLocalNumber string  `json:"company_local_number"`
-	CompanyLei         string  `json:"company_lei"`
-	Country            Country `json:"Country" gorm:"foreignkey:CountryId"`
-	CountryId          uint
+	ID                 uint       `gorm:"primary_key" json:"id"`
+	CompanyName        string     `json:"name"`
+	CompanyLocalNumber string     `json:"company_local_number"`
+	CompanyLei         string     `json:"company_lei"`
+	Country            Country    `json:"Country" gorm:"foreignkey:CountryId"`
+	CountryId          uint       `sql:"DEFAULT:NULL"`
 	Domain             string     `json:"domain"`
 	CompanyType        string     `json:"company_type"`
 	CreatedAt          time.Time  `json:"created_at"`
