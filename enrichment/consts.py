@@ -114,43 +114,6 @@ DF_COLUMNS = [
     'total commitment'
 ]
 
-TASE_MARKET_SECTORS = [
-    'ביוטכנולוגיה',
-    'מכשור רפואי',
-    'השקעות במדעי החיים',
-    'פארמה',
-    'שירותי מידע',
-    'תוכנה ואינטרנט',
-    'אלקטרוניקה ואופטיקה',
-    'ביטחוניות',
-    'ציוד תקשורת',
-    'מוליכים למחצה',
-    'קלינטק',
-    'השקעות בהיי-טק',
-    'בנקים',
-    'ביטוח',
-    'שירותים פיננסיים',
-    'מסחר',
-    'שירותים',
-    'מלונאות ותיירות',
-    'תקשורת ומדיה',
-    'נדל"ן מניב בישראל',
-    'נדל"ן מניב בחו"ל',
-    'בנייה',
-    'מזון',
-    'אופנה והלבשה',
-    'מתכת ומוצרי בניה',
-    'חשמל',
-    'כימיה, גומי ופלסטיק',
-    'עץ, נייר ודפוס',
-    'השקעה ואחזקות',
-    'חברות מעטפת',
-    'חיפושי נפט וגז',
-    'אנרגיה',
-    'קרנות סל',
-    'אג"ח מובנות'
-]
-
 INSTRUMENT_NAME_COLUMNS = [CASH, GOVERNMENTAL_BONDS, COMMERCIAL_BONDS, COMPANY_BONDS, STOCKS, ETN, MUTUAL_FUNDS,
                            WARRANTS, OPTIONS, FUTURES_CONTRACT, STRUCTURED_PRODUCT, STOCKS_NT, GOVERNMENTAL_BONDS_NT,
                            COMMERCIAL_BONDS_NT, COMPANY_BONDS_NT, MUTUAL_FUNDS_NT, WARRANTS_NT, OPTIONS_NT,

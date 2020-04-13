@@ -1,15 +1,16 @@
 import json
+import os
 
 import pandas as pd
 
-from consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS
+from consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS
 
-from enrich.enrich_instruments import enrich_gov_bonds
-from utils import join_json_strings
-from normalize.instruments_norm import normalize_gov_bonds
+from enrich.enrich_instruments import enrich_gov_bonds, enrich_company_bonds, enrich_stocks
+from utils import join_json_strings, save_data_to_file
+from normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks
 
 PATH = r"C:\Hasadna\0219_all_jsons"
-FILE_NAME = r'512065202_gsum_0219.json'
+FILE_NAME = r'512065202_gsum_0219'
 
 
 def load_json_from_file(json_file_path):
@@ -26,11 +27,15 @@ def load_dict_for_enrichment(en_dict):
 
 
 norm_switcher = {
-    GOVERNMENTAL_BONDS: normalize_gov_bonds
+    GOVERNMENTAL_BONDS: normalize_gov_bonds,
+    COMPANY_BONDS: normalize_company_bonds,
+    STOCKS: normalize_stocks
 }
 
 enrich_switcher = {
-    GOVERNMENTAL_BONDS: enrich_gov_bonds
+    GOVERNMENTAL_BONDS: enrich_gov_bonds,
+    COMPANY_BONDS: enrich_company_bonds,
+    STOCKS: enrich_stocks
 }
 
 
@@ -61,3 +66,8 @@ def process_json(data):
     # save_data_to_file(errors_json, file_name=FILE_NAME, errors=True)
     return processed_json, errors_json
 
+
+if __name__ == "__main__":
+    with open(os.path.join(PATH, "{}.json".format(FILE_NAME)), "rb") as f:
+        json_data = json.load(f)
+    process_json(json_data)

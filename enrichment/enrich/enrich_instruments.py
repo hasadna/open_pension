@@ -13,3 +13,31 @@ def enrich_gov_bonds(df, error_indices_list=list):
     error_indices_list.extend([i for i in origin_df.index if i not in df.index])
 
     return df, error_indices_list
+
+
+def enrich_company_bonds(df, error_indices_list=list):
+    '''
+    - Add row with instrument number as ISIN
+    '''
+
+    origin_df = df
+
+    df["en_instrument_number_isin"] = isin_enrichment(df)
+
+    error_indices_list.extend([i for i in origin_df.index if i not in df.index])
+
+    return df, error_indices_list
+
+
+def enrich_stocks(df, error_indices_list=list):
+    '''
+    - Add row with instrument number as ISIN
+    '''
+
+    origin_df = df
+
+    df["en_instrument_number_isin"] = isin_enrichment(df)
+
+    error_indices_list.extend([i for i in origin_df.index if i not in df.index])
+
+    return df, error_indices_list

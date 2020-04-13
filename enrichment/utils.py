@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 
@@ -6,7 +7,7 @@ from pandas.core.dtypes.common import is_string_dtype
 from consts import ISIN_PATTERN
 import pandas as pd
 
-COMPLETED_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "completed")
+COMPLETED_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "completed")
 
 
 def check_isin_validity(isin):
@@ -81,10 +82,12 @@ def create_il_isin(num):
 
 
 def save_data_to_file(json_string, file_name="", errors=False):
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     if errors:
-        error_file_name = file_name.split(".")
-        error_file_name.insert(-1, "errors")
-        file_name = "{}_{}.{}".format(*error_file_name)
+        file_name = "{}_{}_errors.json".format(file_name, timestamp)
+    else:
+        file_name = "{}_{}.json".format(file_name, timestamp)
 
     full_path = os.path.join(COMPLETED_PATH, file_name)
     with open(full_path, 'w') as f:
@@ -112,7 +115,7 @@ def join_json_strings(json_list):
     ''' Create a single json string from a list of json strings '''
     json_loads_df_list = []
     for json_string in json_list:
-        json_loads_df_list.append(json.loads(json_string))
+        json_loads_df_list.extend(json.loads(json_string))
 
     return json.dumps(json_loads_df_list)
 
