@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/hasadna/open_pension/application/Models"
 	"github.com/hasadna/open_pension/application/api"
+	"github.com/jinzhu/gorm"
 )
 
 func main() {
@@ -11,6 +12,11 @@ func main() {
 	defer db.Close()
 
 	// Migrating the models.
+	Migrate(db)
+
+}
+
+func Migrate(db *gorm.DB) {
 	db.AutoMigrate(
 		Models.Company{},
 		Models.Country{},

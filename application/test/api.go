@@ -6,9 +6,11 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
+const DbFilePath = "./gorm.db"
+
 // Get SQLite connection just for testing. Testing with relation ships will take place against a real DB.
 func GetSqliteConnection() *gorm.DB {
-	db, err := gorm.Open("mysql", "/tmp/data")
+	db, err := gorm.Open("sqlite3", DbFilePath)
 
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect database: %s", err))
