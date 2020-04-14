@@ -3,11 +3,14 @@ import os
 
 import pandas as pd
 
-from consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS
+from consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS, MUTUAL_FUNDS, ETF, WARRANTS, \
+    OPTIONS, FUTURES, STRUCTURED_PRODUCT
 
 from enrich.enrich_instruments import enrich_gov_bonds, enrich_company_bonds, enrich_stocks
 from utils import join_json_strings, save_data_to_file
-from normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks
+from normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks, \
+    normalize_mutual_funds, normalize_etf, normalize_warrants, normalize_options, normalize_futures, \
+    normalize_structured_product
 
 PATH = r"C:\Hasadna\0219_all_jsons"
 FILE_NAME = r'512065202_gsum_0219'
@@ -29,7 +32,13 @@ def load_dict_for_enrichment(en_dict):
 norm_switcher = {
     GOVERNMENTAL_BONDS: normalize_gov_bonds,
     COMPANY_BONDS: normalize_company_bonds,
-    STOCKS: normalize_stocks
+    STOCKS: normalize_stocks,
+    MUTUAL_FUNDS: normalize_mutual_funds,
+    ETF: normalize_etf,
+    WARRANTS: normalize_warrants,
+    OPTIONS: normalize_options,
+    FUTURES: normalize_futures,
+    STRUCTURED_PRODUCT: normalize_structured_product,
 }
 
 enrich_switcher = {
