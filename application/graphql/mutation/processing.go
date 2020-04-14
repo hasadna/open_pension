@@ -23,39 +23,39 @@ func JsonStringParse(JsonString string) (Payload, error) {
 }
 
 func MigrateProcessedObject(parsedPayload Payload, db *gorm.DB) Result {
-	processSheet(parsedPayload.Caches, db)
-	processSheet(parsedPayload.GovernmentBond, db)
-	processSheet(parsedPayload.CommercialDebt, db)
-	processSheet(parsedPayload.CorporateBond, db)
-	processSheet(parsedPayload.Stock, db)
-	processSheet(parsedPayload.ETF, db)
-	processSheet(parsedPayload.MutualFund, db)
-	processSheet(parsedPayload.Warrant, db)
-	processSheet(parsedPayload.Structured, db)
-	processSheet(parsedPayload.NotTradedGovernmentBond, db)
-	processSheet(parsedPayload.NotTradedCommercialDebt, db)
-	processSheet(parsedPayload.NotTradedCorporateBond, db)
-	processSheet(parsedPayload.NotTradedStock, db)
-	processSheet(parsedPayload.NotTradedPrivateEquity, db)
-	processSheet(parsedPayload.NotTradedWarrant, db)
-	processSheet(parsedPayload.NotTradedOption, db)
-	processSheet(parsedPayload.NotTradedFuture, db)
-	processSheet(parsedPayload.NotTradedStructured, db)
-	processSheet(parsedPayload.NotTradedLoans, db)
-	processSheet(parsedPayload.Deposits, db)
-	processSheet(parsedPayload.RealEstate, db)
-	processSheet(parsedPayload.PortfolioCompanies, db)
-	processSheet(parsedPayload.OtherInvestments, db)
-	processSheet(parsedPayload.InvestmentCommitments, db)
-	processSheet(parsedPayload.FairValue, db)
-	processSheet(parsedPayload.NotTradedFairValue, db)
-	processSheet(parsedPayload.CreditFairValue, db)
+	ProcessSheet(parsedPayload.Caches, db)
+	ProcessSheet(parsedPayload.GovernmentBond, db)
+	ProcessSheet(parsedPayload.CommercialDebt, db)
+	ProcessSheet(parsedPayload.CorporateBond, db)
+	ProcessSheet(parsedPayload.Stock, db)
+	ProcessSheet(parsedPayload.ETF, db)
+	ProcessSheet(parsedPayload.MutualFund, db)
+	ProcessSheet(parsedPayload.Warrant, db)
+	ProcessSheet(parsedPayload.Structured, db)
+	ProcessSheet(parsedPayload.NotTradedGovernmentBond, db)
+	ProcessSheet(parsedPayload.NotTradedCommercialDebt, db)
+	ProcessSheet(parsedPayload.NotTradedCorporateBond, db)
+	ProcessSheet(parsedPayload.NotTradedStock, db)
+	ProcessSheet(parsedPayload.NotTradedPrivateEquity, db)
+	ProcessSheet(parsedPayload.NotTradedWarrant, db)
+	ProcessSheet(parsedPayload.NotTradedOption, db)
+	ProcessSheet(parsedPayload.NotTradedFuture, db)
+	ProcessSheet(parsedPayload.NotTradedStructured, db)
+	ProcessSheet(parsedPayload.NotTradedLoans, db)
+	ProcessSheet(parsedPayload.Deposits, db)
+	ProcessSheet(parsedPayload.RealEstate, db)
+	ProcessSheet(parsedPayload.PortfolioCompanies, db)
+	ProcessSheet(parsedPayload.OtherInvestments, db)
+	ProcessSheet(parsedPayload.InvestmentCommitments, db)
+	ProcessSheet(parsedPayload.FairValue, db)
+	ProcessSheet(parsedPayload.NotTradedFairValue, db)
+	ProcessSheet(parsedPayload.CreditFairValue, db)
 
 	result := Result{Data: "Passed", Error: ""}
 	return result
 }
 
-func processSheet(PayloadRecords []PayloadRecord, db *gorm.DB) {
+func ProcessSheet(PayloadRecords []PayloadRecord, db *gorm.DB) {
 	for _, payloadRecord := range PayloadRecords {
 		processRecord(payloadRecord, db)
 	}
@@ -70,8 +70,8 @@ func processRecord(payloadRecord PayloadRecord, db *gorm.DB) {
 		Rate: ConvertStringToFloat(payloadRecord.Rate),
 		Price: ConvertStringToFloat(payloadRecord.Price),
 		RateRegister: ConvertStringToFloat(payloadRecord.RateOfRegister),
-		RateFundHolding: ConvertStringToFloat(payloadRecord.RateOfFundHolding) * 100,
-		RateFundInstrumentType: ConvertStringToFloat(payloadRecord.RateOfInstrumentType) * 100,
+		RateFundHolding: ConvertStringToFloat(payloadRecord.RateOfFundHolding),
+		RateFundInstrumentType: ConvertStringToFloat(payloadRecord.RateOfInstrumentType),
 	}
 
 	AttachDates(payloadRecord, &instrumentData)
