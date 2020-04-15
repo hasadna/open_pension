@@ -17,8 +17,6 @@ func GetDbConnection() *gorm.DB {
 	}
 
 	return db.Set("gorm.auto_preload", true)
-
-	return db
 }
 
 func Migrate(db *gorm.DB) {

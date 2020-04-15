@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/suite"
 	"io/ioutil"
 	"log"
-	"os"
 	"testing"
 )
 
@@ -19,17 +18,12 @@ type ProcessingTestSuite struct {
 }
 
 func (suite *ProcessingTestSuite) SetupTest() {
-	suite.DB = GetSqliteConnection()
+	suite.DB = GetTestingDbConnection()
 	api.Migrate(suite.DB)
 }
 
 func (suite *ProcessingTestSuite) TearDownTest() {
-	err := os.Remove(DbFilePath)
-
-	if err != nil {
-		panic(err)
-	}
-
+	ResetDB(suite.DB)
 	suite.DB.Close()
 }
 
@@ -55,6 +49,7 @@ func (suite *ProcessingTestSuite) TestJsonStringParse() {
 }
 
 func (suite *ProcessingTestSuite) TestMigrateProcessedObject() {
+
 	content, _ := ioutil.ReadFile("./dummy_json.json")
 	text := string(content)
 	payload, _ := mutation.JsonStringParse(text)
@@ -81,7 +76,7 @@ func (suite *ProcessingTestSuite) TestMigrateProcessedObject() {
 	assert.Equal(suite.T(), instrument.InvestingCompany.CompanyLocalNumber, "12")
 
 	assert.Equal(suite.T(), instrument.InstrumentNumber.IssuerNumber.CompanyLocalNumber, instrument.InvestingCompany.CompanyLocalNumber)
-	assert.Equal(suite.T(), instrument.ReportDate.String(), "2019-06-30 00:00:00 +0000 UTC")
+	assert.Equal(suite.T(), instrument.ReportDate.UTC().String(), "2019-06-30 00:00:00 +0000 UTC")
 
 	assert.Equal(suite.T(), result.Data, "Passed")
 }
