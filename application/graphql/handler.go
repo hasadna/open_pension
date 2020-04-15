@@ -7,10 +7,10 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func NewHandler(db *gorm.DB) (*handler.Handler, error) {
+func HandlerGraphQlRequest(db *gorm.DB) (*handler.Handler, error) {
 	schema, err := graphql.NewSchema(
 		graphql.SchemaConfig{
-			Query:    newQuery(db),
+			Query:    Query(db),
 			Mutation: mutation.Mutation(db),
 		},
 	)

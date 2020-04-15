@@ -14,7 +14,7 @@ func main() {
 	defer db.Close()
 	e := echo.New()
 
-	h, err := graphql.NewHandler(db)
+	h, err := graphql.HandlerGraphQlRequest(db)
 	logFatal(err)
 
 	e.Use(middleware.Logger())
