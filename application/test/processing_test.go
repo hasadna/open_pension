@@ -2,9 +2,7 @@ package test
 
 import (
 	"github.com/hasadna/open_pension/application/Models"
-	"github.com/hasadna/open_pension/application/api"
 	"github.com/hasadna/open_pension/application/graphql/mutation"
-	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"io/ioutil"
@@ -13,18 +11,7 @@ import (
 )
 
 type ProcessingTestSuite struct {
-	suite.Suite
-	DB *gorm.DB
-}
-
-func (suite *ProcessingTestSuite) SetupTest() {
-	suite.DB = GetTestingDbConnection()
-	api.Migrate(suite.DB)
-}
-
-func (suite *ProcessingTestSuite) TearDownTest() {
-	ResetDB(suite.DB)
-	suite.DB.Close()
+	DbBasedTestSuite
 }
 
 func (suite *ProcessingTestSuite) TestJsonStringParse() {
@@ -49,7 +36,7 @@ func (suite *ProcessingTestSuite) TestJsonStringParse() {
 }
 
 func (suite *ProcessingTestSuite) TestMigrateProcessedObject() {
-
+	// We won't check here error because we already test the errors in the previous test. YOLO.
 	content, _ := ioutil.ReadFile("./dummy_json.json")
 	text := string(content)
 	payload, _ := mutation.JsonStringParse(text)

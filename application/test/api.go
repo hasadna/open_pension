@@ -2,11 +2,28 @@ package test
 
 import (
 	"fmt"
+	"github.com/hasadna/open_pension/application/api"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/joho/godotenv"
+	"github.com/stretchr/testify/suite"
 	"os"
 )
+
+type DbBasedTestSuite struct {
+	suite.Suite
+	DB *gorm.DB
+}
+
+func (suite *DbBasedTestSuite) SetupTest() {
+	suite.DB = GetTestingDbConnection()
+	api.Migrate(suite.DB)
+}
+
+func (suite *DbBasedTestSuite) TearDownTest() {
+	ResetDB(suite.DB)
+	suite.DB.Close()
+}
 
 func GetTestingDbConnection() *gorm.DB {
 
@@ -33,3 +50,4 @@ func ResetDB(db *gorm.DB) {
 	db.Exec(fmt.Sprintf("drop schema %s;", os.Getenv("TEST_DB_NAME")))
 	db.Exec(fmt.Sprintf("create schema %s;", os.Getenv("TEST_DB_NAME")))
 }
+

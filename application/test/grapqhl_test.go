@@ -1,14 +1,25 @@
 package test
 
 import (
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"testing"
 )
 
-// Testing the DB connection.
-func TestQuery(t *testing.T) {
-	// todo.
+type GraphQlTestSuite struct {
+	DbBasedTestSuite
 }
 
-func TestMutation(t *testing.T) {
-	// todo.
+// Testing the DB connection.
+func (suite *ProcessingTestSuite) TestQuery() {
+	assert.Equal(suite.T(), 1, 1)
 }
+
+func (suite *ProcessingTestSuite) TestMutation() {
+	assert.Equal(suite.T(), 1, 1)
+}
+
+func TestGraphQl(t *testing.T) {
+	suite.Run(t, new(GraphQlTestSuite))
+}
+
