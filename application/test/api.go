@@ -52,4 +52,3 @@ func ResetDB(db *gorm.DB) {
 	db.Exec(fmt.Sprintf("drop schema %s;", os.Getenv("TEST_DB_NAME")))
 	db.Exec(fmt.Sprintf("create schema %s;", os.Getenv("TEST_DB_NAME")))
 }
-

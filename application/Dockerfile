@@ -6,8 +6,6 @@ WORKDIR /app
  
 ADD . /app
 
-RUN rm .env && cp .docker.env .env
-
 RUN go build ./server.go
 
 ENTRYPOINT ["./server"]

@@ -38,7 +38,7 @@ func GetDbConnection() *gorm.DB {
 	}
 
 	// Did not managed to connect to the DB.
-	panic(fmt.Sprintf("failed to connect database after 10 attempts."))
+	panic("failed to connect database after 10 attempts.")
 }
 
 func Migrate(db *gorm.DB) {
