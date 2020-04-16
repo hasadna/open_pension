@@ -5,12 +5,21 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/hasadna/open_pension/application/Models"
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
+	"os"
 )
 
 func GetDbConnection() *gorm.DB {
 
-	// todo: pull from the env data.
-	db, err := gorm.Open("mysql", "root:root@/open_pension_application?charset=utf8&parseTime=True&loc=Local")
+	godotenv.Load("../.env")
+
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		os.Getenv("MYSQL_USER"),
+		os.Getenv("MYSQL_PASSWORD"),
+		os.Getenv("MYSQL_HOST"),
+		os.Getenv("MYSQL_DATABASE"))
+
+	db, err := gorm.Open("mysql", connectionString)
 
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect database: %s", err))

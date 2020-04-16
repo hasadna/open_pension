@@ -27,6 +27,8 @@ func (suite *DbBasedTestSuite) TearDownTest() {
 
 func GetTestingDbConnection() *gorm.DB {
 
+	// Merge this with GetDbConnection.
+
 	godotenv.Load("../.env")
 
 	connectionString := fmt.Sprintf("%s:%s@%s/%s?charset=utf8&parseTime=True&loc=Local",

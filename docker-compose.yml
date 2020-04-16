@@ -25,12 +25,20 @@ services:
     depends_on:
       - application_db
     env_file:
-      - ./application/.env
+      - ./application/.docker.env
 
   application_db:
-    image: postgres:12.1-alpine
+    image: mysql:5.7
+    container_name: full_db_mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: application
+      MYSQL_ROOT_PASSWORD: root
     volumes:
-      - application-db:/var/lib/postgresql/db-data
+      - ./db/data:/var/lib/mysql
 
   client:
     image: hasadna/open-pension-client:latest
