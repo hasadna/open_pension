@@ -14,7 +14,7 @@ services:
   application_db:
     restart: always
     ports:
-      - '3306:3306'
+      - '3308:3306'
 
   gateway:
     volumes:

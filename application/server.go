@@ -38,7 +38,6 @@ func Migrate(db *gorm.DB) {
 
 func main() {
 	db := api.GetDbConnection()
-	defer db.Close()
 
 	// Migrating content.
 	Migrate(db)
@@ -57,6 +56,8 @@ func main() {
 	if err := e.Start(":3000"); err != nil {
 		log.Fatalln(err)
 	}
+
+	defer db.Close()
 
 }
 

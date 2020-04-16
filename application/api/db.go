@@ -6,6 +6,7 @@ import (
 	"github.com/hasadna/open_pension/application/Models"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
+	"github.com/labstack/gommon/log"
 	"os"
 )
 
@@ -13,19 +14,27 @@ func GetDbConnection() *gorm.DB {
 
 	godotenv.Load("../.env")
 
-	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		os.Getenv("MYSQL_USER"),
-		os.Getenv("MYSQL_PASSWORD"),
-		os.Getenv("MYSQL_HOST"),
-		os.Getenv("MYSQL_DATABASE"))
+	var err error
 
-	db, err := gorm.Open("mysql", connectionString)
+	for i := 1; i <= 5; i++ {
+		connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+			os.Getenv("MYSQL_USER"),
+			os.Getenv("MYSQL_PASSWORD"),
+			os.Getenv("MYSQL_HOST"),
+			os.Getenv("MYSQL_DATABASE"))
 
-	if err != nil {
-		panic(fmt.Sprintf("failed to connect database: %s", err))
+		db, err := gorm.Open("mysql", connectionString)
+
+		if db != nil {
+			return db.Set("gorm.auto_preload", true)
+		}
+
+		log.Info(fmt.Sprintf("Failed to connect to the for in iteration No. %s. The reason: %s", i, err))
+
 	}
 
-	return db.Set("gorm.auto_preload", true)
+	// Did not managed to connect to the DB.
+	panic(fmt.Sprintf("failed to connect database after 5 attempts. The reason: %s", err))
 }
 
 func Migrate(db *gorm.DB) {
