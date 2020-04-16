@@ -19,9 +19,8 @@ func GetDbConnection() *gorm.DB {
 		panic(err)
 	}
 
-
-	for i := 1; i <= 5; i++ {
-		connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	for i := 1; i <= 10; i++ {
+		connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local&charset=utf8&collation=utf8_unicode_ci",
 			os.Getenv("MYSQL_USER"),
 			os.Getenv("MYSQL_PASSWORD"),
 			os.Getenv("MYSQL_HOST"),
@@ -30,16 +29,16 @@ func GetDbConnection() *gorm.DB {
 		db, err := gorm.Open("mysql", connectionString)
 
 		if err != nil {
-			log.Info(fmt.Sprintf("Failed to connect to the for in iteration No. %s. The reason: %s", i, err))
+			log.Info(fmt.Sprintf("Failed to connect to the for in iteration No. %d. The reason: %s", i, err.Error()))
 			time.Sleep(time.Second)
 			continue
 		}
 
-		return db.Set("gorm.auto_preload", true)
+		return db.Set("gorm.auto_preload", true).Set("gorm:table_options", "charset=utf8")
 	}
 
 	// Did not managed to connect to the DB.
-	panic(fmt.Sprintf("failed to connect database after 5 attempts. The reason: %s", err))
+	panic(fmt.Sprintf("failed to connect database after 10 attempts."))
 }
 
 func Migrate(db *gorm.DB) {
