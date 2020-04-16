@@ -8,13 +8,17 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/gommon/log"
 	"os"
+	"time"
 )
 
 func GetDbConnection() *gorm.DB {
 
-	godotenv.Load("../.env")
+	err := godotenv.Load(".env")
 
-	var err error
+	if err != nil {
+		panic(err)
+	}
+
 
 	for i := 1; i <= 5; i++ {
 		connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
@@ -25,12 +29,13 @@ func GetDbConnection() *gorm.DB {
 
 		db, err := gorm.Open("mysql", connectionString)
 
-		if db != nil {
-			return db.Set("gorm.auto_preload", true)
+		if err != nil {
+			log.Info(fmt.Sprintf("Failed to connect to the for in iteration No. %s. The reason: %s", i, err))
+			time.Sleep(time.Second)
+			continue
 		}
 
-		log.Info(fmt.Sprintf("Failed to connect to the for in iteration No. %s. The reason: %s", i, err))
-
+		return db.Set("gorm.auto_preload", true)
 	}
 
 	// Did not managed to connect to the DB.
