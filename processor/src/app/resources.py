@@ -9,6 +9,10 @@ from .logger import Logger
 from .mongodb import Mongo
 
 
+class Welcome(Resource):
+    def get(self):
+        return {'status': 200, 'message': 'alive'}
+
 class UploadFile(Resource):
 
     def __init__(self):
