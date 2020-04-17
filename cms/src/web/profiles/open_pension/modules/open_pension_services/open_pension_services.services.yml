@@ -1,0 +1,4 @@
+services:
+  open_pension_services.health_status:
+    class: Drupal\open_pension_services\OpenPensionServicesHealthStatus
+    arguments: ['@http_client']
