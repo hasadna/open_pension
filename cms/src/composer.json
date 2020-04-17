@@ -25,11 +25,13 @@
         "drupal/core-recommended": "^8.8",
         "drupal/devel": "^2.1",
         "drupal/features": "^3.8",
-        "drupal/graphql": "^3.0@RC",
-        "drupal/vuejs": "^1.0@RC",
-        "drush/drush": "^10.1"
+        "drupal/graphql": "^3.0",
+        "drupal/vuejs": "^1.0-rc2",
+        "drush/drush": "^10.2.2"
     },
     "require-dev": {
+        "mikey179/vfsstream": "^1.6",
+        "phpunit/phpunit": "^7"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -57,9 +59,6 @@
         },
         "composer-exit-on-patch-failure": true,
         "patches": {
-            "drupal/core": {
-                "Make Drupal 8.8 compatible with PHP 7.4": "https://www.drupal.org/files/issues/2019-12-14/3086374-155.patch"
-            },
 	        "drupal/features": {
 		        "fix fr": "https://www.drupal.org/files/issues/2019-10-30/features-3.8-issue-3091278.patch"
 	        }
