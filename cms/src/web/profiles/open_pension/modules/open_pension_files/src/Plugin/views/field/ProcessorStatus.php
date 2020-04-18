@@ -2,6 +2,7 @@
 
 namespace Drupal\open_pension_files\Plugin\views\field;
 
+use Drupal\Core\Url;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
 
@@ -37,19 +38,20 @@ class ProcessorStatus extends FieldPluginBase {
     $params = [
       '@process-status' => $status,
       '@process-id' => $other_service_status,
-      '@trigger-link' => '<b>Trigger link</b>',
-      '@download-link' => '<b>Download link</b>',
+      '@upload-link' => Url::fromRoute('open_pension_files.send_file_to_process_controller_handle_file', ['media' => $entity->id()])->toString(),
+      '@process-link' => Url::fromRoute('open_pension_files.process_file', ['media' => $entity->id()])->toString(),
+      '@download-link' => 'fff',
     ];
 
     if ($other_service_status == NULL) {
-      return t('Send to processor: @trigger-link', $params);
+      return t('<a href="@upload-link">Send file for processing</a>', $params);
     }
 
     if ($status == self::STATUS_NEW) {
-      return t('New (@process-status) - Trigger process', $params);
+      return t('New (@process-id) - <a href="@process-link">Trigger processing</a>', $params);
     }
     else {
-      return t('@process-status (@process-id), @download-link', $params);
+      return t('@process-status (@process-id), <a href="@download-link">Download processed file</a>', $params);
     }
   }
 

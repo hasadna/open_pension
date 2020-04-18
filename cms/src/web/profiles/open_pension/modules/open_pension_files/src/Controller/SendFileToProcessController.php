@@ -53,16 +53,27 @@ class SendFileToProcessController extends ControllerBase {
    */
   public function sendFile(Media $media) {
 
+    // todo: check that the processor is alive.
+    //  Add the messenger service.
+
+    $redirect = $this->redirect('view.open_pension_uploaded_files.page_1');
+
     if ($media->bundle() != 'open_pension_file') {
       $text = t('The media @id is not a valid open pension file', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      return;
+
+      \Drupal::messenger()->addError($text);
+
+      return $redirect;
     }
 
     if (!$file_field = $media->get('field_media_file')->first()) {
       $text = t('The media @id has no file which can be process.', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      return;
+
+      \Drupal::messenger()->addError($text);
+
+      return $redirect;
     }
 
     $field_value = $file_field->getValue();
@@ -73,32 +84,7 @@ class SendFileToProcessController extends ControllerBase {
       ->sendToProcessor($field_value['target_id'])
       ->updateEntity($media);
 
-    // Process the tests.
-    $text = $media->field_processed ? t('Yes') : t('No');
-
-    $items = [];
-    array_map(function ($item) use (&$items) {
-        $items[] = ['#markup' => $item['value']];
-    }, array_slice($media->field_history->getValue(), -3, 2, TRUE));
-
-    $order_list = [
-      '#theme' => 'item_list',
-      '#list_type' => 'ol',
-      '#items' => $items,
-    ];
-
-    // Return the Ajax response and make stuff move magically on the screen.
-    if (\Drupal::request()->request->get('js')) {
-      $response = new AjaxResponse();
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .processed', '<td>' . $text . '</td>'));
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) . '</div></td>'));
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-reference-in-other-service', '<td class="views-field views-field-field-reference-in-other-service">' . (string)$media->field_reference_in_other_service->value . '</td>'));
-
-      return $response;
-    }
-
-    return $this->redirect('view.open_pension_uploaded_files.page_1');
-
+    return $redirect;
   }
 
 }
