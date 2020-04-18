@@ -29,6 +29,11 @@ class OpenPensionCoreAdminIndex extends ControllerBase {
         'description' => t('Browse uploaded files'),
         'url' => Url::fromRoute('view.open_pension_uploaded_files.page_1'),
       ],
+      [
+        'title' => t('Services Addresses'),
+        'description' => t('Setting services addresses'),
+        'url' => Url::fromRoute('open_pension_services.services_addresses'),
+      ],
     ];
 
     return [

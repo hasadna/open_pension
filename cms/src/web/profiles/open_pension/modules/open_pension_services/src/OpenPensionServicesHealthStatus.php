@@ -21,13 +21,22 @@ class OpenPensionServicesHealthStatus {
   protected $httpClient;
 
   /**
-   * Constructs an OpenPensionSercicesHealthStatus object.
+   * @var OpenPensionServicesAddresses
+   */
+  protected $openPensionServicesAddresses;
+
+  /**
+   * Constructs an OpenPensionServicesHealthStatus object.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The HTTP client.
+   *
+   * @param OpenPensionServicesAddresses $open_pension_services_addresses
+   *  The services addresses service.
    */
-  public function __construct(ClientInterface $http_client) {
+  public function __construct(ClientInterface $http_client, OpenPensionServicesAddresses $open_pension_services_addresses) {
     $this->httpClient = $http_client;
+    $this->openPensionServicesAddresses = $open_pension_services_addresses;
   }
 
   /**
@@ -41,7 +50,7 @@ class OpenPensionServicesHealthStatus {
 
     try {
       // todo: move service address to a config schema.
-      $this->httpClient->request('POST', 'http://localhost:1000');
+      $this->httpClient->request('POST', $this->openPensionServicesAddresses->getProcessorAddress());
       return self::SERVICE_IS_RESPONDING;
     } catch (RequestException $e) {
       if ($e->getCode() === 0 || $e->getCode() >= 500) {
