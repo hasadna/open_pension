@@ -5,6 +5,7 @@ namespace Drupal\open_pension_files\Controller;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\media\Entity\Media;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -40,10 +41,13 @@ class ProcessFileController extends ControllerBase {
    *   The open pension file processor service.
    * @param ClientInterface $http_client
    *  The HTTP service.
+   * @param MessengerInterface $messenger
+   *  The messenger service.
    */
-  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process, ClientInterface $http_client) {
+  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process, ClientInterface $http_client, MessengerInterface $messenger) {
     $this->openPensionFilesFileProcess = $open_pension_files_file_process;
     $this->httpClient = $http_client;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -52,7 +56,8 @@ class ProcessFileController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('open_pension_files.file_process'),
-      $container->get('http_client')
+      $container->get('http_client'),
+      $container->get('messenger')
     );
   }
 
@@ -76,7 +81,7 @@ class ProcessFileController extends ControllerBase {
     if ($media->bundle() != 'open_pension_file') {
       $text = t('The media @id is not a valid open pension file', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      \Drupal::messenger()->addError($text);
+      $this->messenger->addError($text);
 
       return $redirect;
     }
@@ -84,7 +89,7 @@ class ProcessFileController extends ControllerBase {
     if (!$file_field = $media->get('field_media_file')->first()) {
       $text = t('The media @id has no file which can be process.', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      \Drupal::messenger()->addError($text);
+      $this->messenger->addError($text);
 
       return $redirect;
     }
@@ -92,7 +97,7 @@ class ProcessFileController extends ControllerBase {
     if (!$media->field_reference_in_other_service->value) {
       $text = t('The media @id has no process ID.', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      \Drupal::messenger()->addError($text);
+      $this->messenger->addError($text);
 
       return $redirect;
     }

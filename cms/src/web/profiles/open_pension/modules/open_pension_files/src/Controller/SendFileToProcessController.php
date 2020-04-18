@@ -5,6 +5,7 @@ namespace Drupal\open_pension_files\Controller;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\media\Entity\Media;
 use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,16 +28,21 @@ class SendFileToProcessController extends ControllerBase {
    *
    * @param \Drupal\open_pension_files\OpenPensionFilesProcessInterface $open_pension_files_file_process
    *   The open pension file processor service.
+   * @param MessengerInterface $messenger
    */
-  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process) {
+  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process, MessengerInterface $messenger) {
     $this->openPensionFilesFileProcess = $open_pension_files_file_process;
+    $this->messenger = $messenger;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('open_pension_files.file_process'));
+    return new static(
+      $container->get('open_pension_files.file_process'),
+      $container->get('messenger')
+    );
   }
 
   /**
@@ -61,8 +67,7 @@ class SendFileToProcessController extends ControllerBase {
     if ($media->bundle() != 'open_pension_file') {
       $text = t('The media @id is not a valid open pension file', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-
-      \Drupal::messenger()->addError($text);
+      $this->messenger->addError($text);
 
       return $redirect;
     }
@@ -70,8 +75,7 @@ class SendFileToProcessController extends ControllerBase {
     if (!$file_field = $media->get('field_media_file')->first()) {
       $text = t('The media @id has no file which can be process.', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-
-      \Drupal::messenger()->addError($text);
+      $this->messenger->addError($text);
 
       return $redirect;
     }
