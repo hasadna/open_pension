@@ -16,6 +16,7 @@ function open_pension_files_views_data() {
     '#global' => [],
   ];
 
+  // todo: check if the plugins are in used.
   $data['views']['send_file_to_processor_field'] = [
     'title' => t('Send file to processor field'),
     'help' => t('Sending file for processing in the process service'),
@@ -46,7 +47,7 @@ function open_pension_files_views_data() {
   ];
 
 
-
+  // Plugins for improve view.
   $data['views']['open_pension_files_uploaded_file_label'] = [
     'title' => t('View uploaded file'),
     'help' => t('Link to view the uploaded file'),
@@ -54,5 +55,14 @@ function open_pension_files_views_data() {
       'id' => 'open_pension_files_uploaded_file_label',
     ],
   ];
+
+  $data['views']['open_pension_files_processor_status'] = [
+    'title' => t('Processor status'),
+    'help' => t('Checking the processor status'),
+    'field' => [
+      'id' => 'open_pension_files_processor_status',
+    ],
+  ];
+
   return $data;
 }
