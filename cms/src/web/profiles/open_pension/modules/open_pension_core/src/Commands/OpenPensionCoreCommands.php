@@ -35,9 +35,6 @@ class OpenPensionCoreCommands extends DrushCommands {
   public function commandName($options = ['option-name' => 'default']) {
 
     if (!$this->hasSiteAliasManager()) {
-      // TODO: Provide some way to initialize the alias file loaders, so
-      // that there is some way to specify where alias files may be
-      // loaded from.
       $manager = new SiteAliasManager();
       $this->setSiteAliasManager($manager);
     }

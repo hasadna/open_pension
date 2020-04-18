@@ -108,13 +108,8 @@ class OpenPensionFilesUploader extends FormBase {
       // Create a media file so we could manage it later on.
       $media = Media::create(['bundle' => 'open_pension_file']);
 
-      // Posting the file.
-      $this->fileProcessorService->sendToProcessor($file->id());
-
       $media->set('field_media_file', $file->id());
       $media->save();
-
-      $this->fileProcessorService->updateEntity($media);
     }
 
     $this->messenger->addMessage(t('@file-number has been uploaded.', ['@file-number' => count($files)]));
