@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
+use Drupal\open_pension_services\OpenPensionServicesAddresses;
 use Drupal\views\Plugin\views\area\HTTPStatusCode;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -66,6 +67,10 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * @var string
    */
   protected $processedId;
+  /**
+   * @var OpenPensionServicesAddresses
+   */
+  protected $openPensionServicesAddress;
 
   /**
    * Constructs a new OpenPensionFilesFileProcess object.
@@ -76,14 +81,17 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    *   The logger service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   The entity manager service.
+   * @param OpenPensionServicesAddresses $open_pension_services_addresses
+   *  The services addresses service.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(ClientInterface $http_client, LoggerChannel $logger, EntityTypeManagerInterface $entity_manager) {
+  public function __construct(ClientInterface $http_client, LoggerChannel $logger, EntityTypeManagerInterface $entity_manager, OpenPensionServicesAddresses $open_pension_services_addresses) {
     $this->httpClient = $http_client;
     $this->logger = $logger;
     $this->fileStorage = $entity_manager->getStorage('file');
+    $this->openPensionServicesAddress = $open_pension_services_addresses;
   }
 
   /**
@@ -219,7 +227,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * {@inheritdoc}
    */
   public function sendFileToServer(File $file): ResponseInterface {
-    return $this->httpClient->request('post', 'http://processor/upload',
+    return $this->httpClient->request('post', "{$this->openPensionServicesAddress->getProcessorAddress()}/upload",
       [
         'multipart' => [
           [
@@ -244,7 +252,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     }
 
     try {
-      $this->httpClient->request('patch', "http://processor/process/{$other_service->value}",
+      $this->httpClient->request('patch', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}",
         [
           'multipart' => [
             [
@@ -262,7 +270,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     }
 
     $this->sentToProcessed = TRUE;
-    $response = $this->httpClient->request('get', "http://processor/process/{$other_service->value}");
+    $response = $this->httpClient->request('get', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}");
     $parsed = json_decode($response->getBody()->getContents());
 
     if ($parsed->status == Response::HTTP_OK) {

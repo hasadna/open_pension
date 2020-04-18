@@ -30,7 +30,6 @@ class OpenPensionServicesHealthStatus {
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The HTTP client.
-   *
    * @param OpenPensionServicesAddresses $open_pension_services_addresses
    *  The services addresses service.
    */
@@ -49,7 +48,6 @@ class OpenPensionServicesHealthStatus {
   public function getProcessorState() {
 
     try {
-      // todo: move service address to a config schema.
       $this->httpClient->request('POST', $this->openPensionServicesAddresses->getProcessorAddress());
       return self::SERVICE_IS_RESPONDING;
     } catch (RequestException $e) {
