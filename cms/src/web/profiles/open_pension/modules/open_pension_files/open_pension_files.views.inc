@@ -44,5 +44,15 @@ function open_pension_files_views_data() {
       'id' => 'download_processed_files',
     ],
   ];
+
+
+
+  $data['views']['open_pension_files_uploaded_file_label'] = [
+    'title' => t('View uploaded file'),
+    'help' => t('Link to view the uploaded file'),
+    'field' => [
+      'id' => 'open_pension_files_uploaded_file_label',
+    ],
+  ];
   return $data;
 }
