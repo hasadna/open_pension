@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\media\Entity\Media;
+use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,17 +25,29 @@ class OpenPensionFilesUploader extends FormBase {
 
   // @codingStandardsIgnoreStart
   /**
+   * @var OpenPensionFilesProcessInterface
+   */
+  protected $fileProcessorService;
+
+  /**
    * OpenPensionFilesUploader constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   The entity service.
    *
+   * @param MessengerInterface $messenger
+   * @param OpenPensionFilesProcessInterface $file_processor
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(EntityTypeManagerInterface $entity_manager, MessengerInterface $messenger) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_manager,
+    MessengerInterface $messenger,
+    OpenPensionFilesProcessInterface $file_processor
+  ) {
     $this->fileStorage = $entity_manager->getStorage('file');
     $this->messenger = $messenger;
+    $this->fileProcessorService = $file_processor;
   }
   // @codingStandardsIgnoreEnd
 
@@ -42,7 +55,11 @@ class OpenPensionFilesUploader extends FormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('entity_type.manager'), $container->get('messenger'));
+    return new static(
+      $container->get('entity_type.manager'),
+      $container->get('messenger'),
+      $container->get('open_pension_files.file_process')
+    );
   }
 
   /**
@@ -91,11 +108,13 @@ class OpenPensionFilesUploader extends FormBase {
       // Create a media file so we could manage it later on.
       $media = Media::create(['bundle' => 'open_pension_file']);
 
-      // todo: send the file to the processor already. If it's failed then
-      // never mind.
+      // Posting the file.
+      $this->fileProcessorService->sendToProcessor($file->id());
 
       $media->set('field_media_file', $file->id());
       $media->save();
+
+      $this->fileProcessorService->updateEntity($media);
     }
 
     $this->messenger->addMessage(t('@file-number has been uploaded.', ['@file-number' => count($files)]));

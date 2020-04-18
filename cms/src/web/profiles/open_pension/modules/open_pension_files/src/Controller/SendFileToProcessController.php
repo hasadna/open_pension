@@ -7,6 +7,7 @@ use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\media\Entity\Media;
+use Drupal\open_pension_services\OpenPensionServicesHealthStatus;
 use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
@@ -24,15 +25,25 @@ class SendFileToProcessController extends ControllerBase {
   protected $openPensionFilesFileProcess;
 
   /**
+   * @var OpenPensionServicesHealthStatus
+   */
+  private $serviceHealthStatus;
+
+  /**
    * Constructs a new SendFileToProcessController object.
    *
    * @param \Drupal\open_pension_files\OpenPensionFilesProcessInterface $open_pension_files_file_process
    *   The open pension file processor service.
    * @param MessengerInterface $messenger
    */
-  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process, MessengerInterface $messenger) {
+  public function __construct(
+    OpenPensionFilesProcessInterface $open_pension_files_file_process,
+    MessengerInterface $messenger,
+    OpenPensionServicesHealthStatus $services_health_status
+  ) {
     $this->openPensionFilesFileProcess = $open_pension_files_file_process;
     $this->messenger = $messenger;
+    $this->serviceHealthStatus = $services_health_status;
   }
 
   /**
@@ -41,7 +52,8 @@ class SendFileToProcessController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('open_pension_files.file_process'),
-      $container->get('messenger')
+      $container->get('messenger'),
+      $container->get('open_pension_services.health_status')
     );
   }
 
@@ -58,11 +70,12 @@ class SendFileToProcessController extends ControllerBase {
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
   public function sendFile(Media $media) {
-
-    // todo: check that the processor is alive.
-    //  Add the messenger service.
-
     $redirect = $this->redirect('view.open_pension_uploaded_files.page_1');
+
+    if ($this->serviceHealthStatus->getProcessorState() === OpenPensionServicesHealthStatus::SERVICE_NOT_RESPONDING) {
+      $this->messenger->addError(t('The processor service is not responding. Please check if the service alive.'));
+      return $redirect;
+    }
 
     if ($media->bundle() != 'open_pension_file') {
       $text = t('The media @id is not a valid open pension file', ['@id' => $media->id()]);

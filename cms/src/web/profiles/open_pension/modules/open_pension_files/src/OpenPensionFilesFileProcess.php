@@ -87,7 +87,12 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(ClientInterface $http_client, LoggerChannel $logger, EntityTypeManagerInterface $entity_manager, OpenPensionServicesAddresses $open_pension_services_addresses) {
+  public function __construct(
+    ClientInterface $http_client,
+    LoggerChannel $logger,
+    EntityTypeManagerInterface $entity_manager,
+    OpenPensionServicesAddresses $open_pension_services_addresses
+  ) {
     $this->httpClient = $http_client;
     $this->logger = $logger;
     $this->fileStorage = $entity_manager->getStorage('file');
@@ -227,6 +232,10 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * {@inheritdoc}
    */
   public function sendFileToServer(File $file): ResponseInterface {
+
+    // todo: Inject the file system service.
+    //  Check first if the processor is alive or not and then set an error
+    //  message.
     return $this->httpClient->request('post', "{$this->openPensionServicesAddress->getProcessorAddress()}/upload",
       [
         'multipart' => [
@@ -242,6 +251,9 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * {{@inheritDoc}}
    */
   public function processFile($file_id): OpenPensionFilesProcessInterface {
+    // todo: Inject the file system service.
+    //  Check first if the processor is alive or not and then set an error
+    //  message.
     $file = $this->fileStorage->load($file_id);
 
     $this->log(t('Sending the file @file to the process service for processing.', ['@file' => $file->label()]));
