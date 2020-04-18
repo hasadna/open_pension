@@ -76,7 +76,7 @@ class ProcessFile(Resource):
     def get(self, object_id):
         process_item = self._mongo.load(object_id)
         del process_item['_id']
-        return json_response(data={'item': process_item})
+        return json_response(data=process_item['processed'])
 
     def patch(self, object_id):
         """

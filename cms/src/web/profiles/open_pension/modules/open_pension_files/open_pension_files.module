@@ -6,6 +6,8 @@
  */
 
 use Psr\Log\LogLevel;
+use \Drupal\open_pension_services\OpenPensionServicesAddresses;
+use \Drupal\open_pension_services\OpenPensionServicesHealthStatus;
 
 /**
  * Implements hook_cron().
@@ -47,4 +49,80 @@ function open_pension_files_cron() {
     $field_value = $file_field->getValue();
     $processor->sendToProcessor($field_value['target_id'])->updateEntity($file);
   }
+}
+
+/**
+ * Get the link to the file.
+ *
+ * @param \Drupal\media\Entity\Media $file
+ *  The file object.
+ * @param bool $return_url
+ *  Determine if we need to return the URl it self.
+ * @param null $title
+ *  The string of the title.
+ *
+ * @return string
+ *  The HTML string.
+ */
+function open_pension_get_download_link(\Drupal\media\Entity\Media $file, $return_url=FALSE, $title=NULL): string {
+  /** @var OpenPensionServicesAddresses $services_addresses */
+  $services_addresses = \Drupal::getContainer()->get('open_pension_services.services_addresses');
+
+  if (!$title) {
+    $title = t('Download the file');
+  }
+
+  $url = Drupal\Core\Url::fromUri("{$services_addresses->getProcessorAddress()}/process/{$file->get('field_reference_in_other_service')->value}");
+
+  if ($return_url) {
+    return $url->toString();
+  }
+
+  return \Drupal\Core\Link::fromTextAndUrl($title, $url)->toString();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function open_pension_files_form_media_open_pension_file_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\media\Entity\Media $entity */
+  $entity = $form_state->getBuildInfo()['callback_object']->getEntity();
+
+  /** @var OpenPensionServicesHealthStatus $health_status */
+  $health_status = \Drupal::getContainer()->get('open_pension_services.health_status');
+
+  /** @var OpenPensionServicesAddresses $services_addresses */
+  $services_addresses = \Drupal::getContainer()->get('open_pension_services.services_addresses');
+
+  $form['history'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('History'),
+    'description' => [
+      '#theme' => 'item_list',
+      '#list_type' => 'ul',
+      '#items' => array_map(fn($item) => ['#markup' => $item['value']], $entity->get('field_history')->getValue())
+    ],
+    '#weight' => 10,
+  );
+
+  $form['status'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Status'),
+    'description' => [
+      '#markup' => $entity->get('field_processing_status')->value,
+    ],
+    '#weight' => 11,
+  );
+
+  $download_text = t('Service is not active ');
+  if ($health_status->getProcessorState() === OpenPensionServicesHealthStatus::SERVICE_IS_RESPONDING) {
+    $download_text = open_pension_get_download_link($entity);
+  }
+
+  $form['download'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Download'),
+    'description' => ['#markup' => $download_text],
+    '#weight' => 12,
+  );
 }

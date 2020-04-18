@@ -40,7 +40,7 @@ class ProcessorStatus extends FieldPluginBase {
       '@process-id' => $other_service_status,
       '@upload-link' => Url::fromRoute('open_pension_files.send_file_to_process_controller_handle_file', ['media' => $entity->id()])->toString(),
       '@process-link' => Url::fromRoute('open_pension_files.process_file', ['media' => $entity->id()])->toString(),
-      '@download-link' => 'fff',
+      '@download-link' => open_pension_get_download_link($entity, TRUE),
     ];
 
     if ($other_service_status == NULL) {
