@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\media\Entity\Media;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Drupal\open_pension_services\OpenPensionServicesAddresses;
@@ -66,6 +67,16 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   protected Client $httpClient;
 
   /**
+   * @var array
+   */
+  protected $filesToZip;
+
+  /**
+   * @var \Drupal\Core\TempStore\PrivateTempStore
+   */
+  protected \Drupal\Core\TempStore\PrivateTempStore $privateTempStorage;
+
+  /**
    * Constructs a new SendFilesToProcessor action.
    *
    * @param array $configuration
@@ -81,6 +92,7 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
    * @param OpenPensionServicesAddresses $services_addresses
    * @param Client $client
    * @param MessengerInterface $messenger
+   * @param PrivateTempStoreFactory $temp_store_factory
    */
   public function __construct(
     array $configuration,
@@ -92,7 +104,8 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     OpenPensionServicesHealthStatus $service_health_status,
     OpenPensionServicesAddresses $services_addresses,
     Client $client,
-    MessengerInterface $messenger
+    MessengerInterface $messenger,
+    PrivateTempStoreFactory $temp_store_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -102,6 +115,7 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     $this->serviceAddresses = $services_addresses;
     $this->httpClient = $client;
     $this->messenger = $messenger;
+    $this->privateTempStorage = $temp_store_factory->get('downloadProcessFiles');
   }
 
   /**
@@ -117,7 +131,8 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
       $container->get('open_pension_services.health_status'),
       $container->get('open_pension_services.services_addresses'),
       $container->get('http_client'),
-      $container->get('messenger')
+      $container->get('messenger'),
+      $container->get('tempstore.private')
     );
   }
 
@@ -142,8 +157,8 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     foreach ($entities as $entity) {
       $operations[] = [[$this, 'acquireJsonFile'], [$entity]];
     }
-//
-//    $operations[] = [[$this, 'zipFiles'], []];
+
+    $operations[] = [[$this, 'zipFiles'], []];
 //    $operations[] = [[$this, 'setMessage'], []];
 //
     $batch['operations'] = $operations;
@@ -158,12 +173,15 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     $this->acquireJsonFile($entity);
   }
 
-  public function createFolder() {
-    $this->folderPath = 'public://open_pension/zipped_file/' . time();
-    $this->fileSystem->mkdir('public://open_pension/zipped_file/' . time(), NULL, TRUE);
+  public function createFolder(&$context) {
+    $folder_path = 'public://open_pension/zipped_file/' . time();
+
+    $this->privateTempStorage->set('files_to_zip', []);
+    $this->privateTempStorage->set('folder_path', $folder_path);
+    $this->fileSystem->mkdir($folder_path, NULL, TRUE);
   }
 
-  public function acquireJsonFile(Media $entity = NULL) {
+  public function acquireJsonFile(Media $entity, &$context) {
     // Get the file, process, remove unnecessary data.
     $file_url = open_pension_get_download_link($entity, TRUE);
     $json_body = $this->httpClient->get($file_url)->getBody()->getContents();
@@ -171,13 +189,34 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     list($file_name) = explode('.', $entity->label());
     $file_content = json_encode(json_decode($json_body)->data->item->processed);
 
-    $this
+    // Load the files from the temp storage.
+    $files = $this->privateTempStorage->get('files_to_zip');
+
+    $files[] = $this
       ->fileSystem
-      ->saveData($file_content, "{$this->folderPath}");
+      ->saveData($file_content, "{$this->privateTempStorage->get('folder_path')}/{$file_name}.json");
+
+    $this->privateTempStorage->set('files_to_zip', $files);
   }
 
-  public function zipFiles() {
-    drupal_set_message('Zipping files...');
+  public function zipFiles(&$context) {
+    $files = $this->privateTempStorage->get('files_to_zip');
+    $time = time();
+
+    $zip = new \ZipArchive();
+    $filename = $this->privateTempStorage->get('folder_path') . "/parsed_files_{$time}.zip";
+
+    $this->fileSystem->createFilename("parsed_files_{$time}.zip", 'public://');
+
+    if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
+      exit("cannot open <$filename>\n");
+    }
+
+    foreach ($files as $file) {
+      $zip->addFile($file);
+    }
+
+    $zip->close();
   }
 
   public function setMessage() {
