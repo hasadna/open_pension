@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6af7f8da18d4a3f1d09a09e651440fe",
+    "content-hash": "6cef57f35ca55be363ea14f28b382675",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -121,6 +121,46 @@
                 "stack"
             ],
             "time": "2017-12-20T14:37:45+00:00"
+        },
+        {
+            "name": "chamilo/pclzip",
+            "version": "v2.8.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chamilo/pclzip.git",
+                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chamilo/pclzip/zipball/b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
+                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
+                "shasum": ""
+            },
+            "replace": {
+                "pclzip/pclzip": "^2.8"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "pclzip.lib.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Blavet"
+                }
+            ],
+            "description": "A PHP library that offers compression and extraction functions for Zip formatted archives",
+            "homepage": "https://github.com/chamilo/pclzip",
+            "keywords": [
+                "php",
+                "zip"
+            ],
+            "time": "2017-11-28T22:14:11+00:00"
         },
         {
             "name": "chi-teck/drupal-code-generator",

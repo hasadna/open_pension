@@ -202,21 +202,17 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   public function zipFiles(&$context) {
     $files = $this->privateTempStorage->get('files_to_zip');
     $time = time();
-
-    $zip = new \ZipArchive();
     $filename = $this->privateTempStorage->get('folder_path') . "/parsed_files_{$time}.zip";
 
-    $this->fileSystem->createFilename("parsed_files_{$time}.zip", 'public://');
+    $zip = new \PclZip($this->fileSystem->realpath($filename));
 
-    if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
-      exit("cannot open <$filename>\n");
-    }
-
+    $new_files = [];
     foreach ($files as $file) {
-      $zip->addFile($file);
+      $new_files[] = $this->fileSystem->realpath($file);
     }
 
-    $zip->close();
+    $zip->add($new_files, PCLZIP_OPT_REMOVE_PATH, $this->fileSystem->realpath($filename), PCLZIP_OPT_ADD_PATH, 'myFiles');
+    $zip->privCloseFd();
   }
 
   public function setMessage() {
