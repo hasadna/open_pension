@@ -3,12 +3,16 @@
 namespace Drupal\open_pension_files\Plugin\Action;
 
 use Drupal\Core\Action\ConfigurableActionBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileSystem;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Drupal\open_pension_services\OpenPensionServicesAddresses;
@@ -77,6 +81,11 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   protected \Drupal\Core\TempStore\PrivateTempStore $privateTempStorage;
 
   /**
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected \Drupal\Core\Entity\EntityStorageInterface $fileStorage;
+
+  /**
    * Constructs a new SendFilesToProcessor action.
    *
    * @param array $configuration
@@ -105,7 +114,8 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     OpenPensionServicesAddresses $services_addresses,
     Client $client,
     MessengerInterface $messenger,
-    PrivateTempStoreFactory $temp_store_factory
+    PrivateTempStoreFactory $temp_store_factory,
+    EntityTypeManagerInterface $entity_manager
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -116,6 +126,7 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     $this->httpClient = $client;
     $this->messenger = $messenger;
     $this->privateTempStorage = $temp_store_factory->get('downloadProcessFiles');
+    $this->fileStorage = $entity_manager->getStorage('file');
   }
 
   /**
@@ -132,7 +143,8 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
       $container->get('open_pension_services.services_addresses'),
       $container->get('http_client'),
       $container->get('messenger'),
-      $container->get('tempstore.private')
+      $container->get('tempstore.private'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -159,8 +171,8 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     }
 
     $operations[] = [[$this, 'zipFiles'], []];
-//    $operations[] = [[$this, 'setMessage'], []];
-//
+    $operations[] = [[$this, 'saveFileAndDownload'], []];
+
     $batch['operations'] = $operations;
 
     batch_set($batch);
@@ -178,6 +190,7 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
 
     $this->privateTempStorage->set('files_to_zip', []);
     $this->privateTempStorage->set('folder_path', $folder_path);
+    $this->privateTempStorage->set('file_uri', '');
     $this->fileSystem->mkdir($folder_path, NULL, TRUE);
   }
 
@@ -201,8 +214,8 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
 
   public function zipFiles(&$context) {
     $files = $this->privateTempStorage->get('files_to_zip');
-    $time = time();
-    $filename = $this->privateTempStorage->get('folder_path') . "/parsed_files_{$time}.zip";
+    $date = date('d-m-Y-H-i-s');
+    $filename = $this->privateTempStorage->get('folder_path') . "/parsed_files_{$date}.zip";
 
     $zip = new \PclZip($this->fileSystem->realpath($filename));
 
@@ -211,12 +224,19 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
       $new_files[] = $this->fileSystem->realpath($file);
     }
 
-    $zip->add($new_files, PCLZIP_OPT_REMOVE_PATH, $this->fileSystem->realpath($filename), PCLZIP_OPT_ADD_PATH, 'myFiles');
+    $zip->add($new_files, PCLZIP_OPT_REMOVE_ALL_PATH);
     $zip->privCloseFd();
+
+    $this->privateTempStorage->set('file_uri', $filename);
   }
 
-  public function setMessage() {
-    drupal_set_message('Download files');
+  public function saveFileAndDownload() {
+    $file_uri = $this->privateTempStorage->get('file_uri');
+
+    /** @var File $file */
+    $file = $this->fileStorage->create(['uri' => $file_uri]);
+    $file->save();
+    $this->messenger->addMessage(Link::fromTextAndUrl('Download the processed files', Url::fromUserInput($file->createFileUrl(TRUE))));
   }
 
   /**
