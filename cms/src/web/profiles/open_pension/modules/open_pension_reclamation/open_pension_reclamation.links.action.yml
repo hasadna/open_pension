@@ -1,0 +1,5 @@
+instrument_type_code.add_form:
+  route_name: entity.instrument_type_code.add_form
+  title: 'Add instrument type code'
+  appears_on:
+    - entity.instrument_type_code.collection

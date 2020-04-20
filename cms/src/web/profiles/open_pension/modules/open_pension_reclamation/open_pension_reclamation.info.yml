@@ -1,0 +1,11 @@
+name: 'Open Pension Reclamation'
+type: module
+description: 'Provides an instrument type code entity.'
+package: 'Open Pension'
+core: 8.x
+core_version_requirement: '^8 || ^9'
+dependencies:
+  - migrate
+  - migrate_plus
+  - migrate_tools
+core_incompatible: false

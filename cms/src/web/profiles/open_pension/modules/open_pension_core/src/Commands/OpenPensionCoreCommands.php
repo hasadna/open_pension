@@ -28,33 +28,39 @@ class OpenPensionCoreCommands extends DrushCommands {
   }
 
   /**
-   * Command description here.
+   * Making sure that the Drupal site is alive.
    *
    * @command open_pension_core:orchestrate
    * @aliases orchestrate
    */
-  public function commandName($options = ['option-name' => 'default']) {
+  public function orchestrationValidation($options = ['option-name' => 'default']) {
 
-//    if (!$this->hasSiteAliasManager()) {
-//      $manager = new SiteAliasManager();
-//      $this->setSiteAliasManager($manager);
-//    }
-//
-//    if (!$this->module_handler->moduleExists('system')) {
-//      // The system is not installed. Skipping.
-//      return;
-//    }
-//
-//    $this->logger()->info('System is running, updating DB');
-//
-//    $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'updb', '-y')->mustRun();
-//    $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'fra', '-y')->mustRun();
-//
-//    $this->logger()->success('All things are done!');
+    if (!$this->hasSiteAliasManager()) {
+      $manager = new SiteAliasManager();
+      $this->setSiteAliasManager($manager);
+    }
 
-    /** @var FileSystem $foo */
-    $foo = \Drupal::service('file_system');
+    if (!$this->module_handler->moduleExists('system')) {
+      // The system is not installed. Skipping.
+      return;
+    }
 
-    $foo->saveData('fffff', 'public://open_pension/zipped_file/1587244662/foo.json');
+    $this->logger()->info('System is running, updating DB');
+
+    $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'updb', '-y')->mustRun();
+    $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'fra', '-y')->mustRun();
+
+    $this->logger()->success('All things are done!');
   }
+
+  /**
+   * Sandbox stuff
+   *
+   * @command open_pension_core:sandbox
+   * @aliases sandbox
+   */
+  public function sandbox($options = ['option-name' => 'default']) {
+    kint('a');
+  }
+
 }

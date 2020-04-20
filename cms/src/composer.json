@@ -27,6 +27,7 @@
         "drupal/devel": "^2.1",
         "drupal/features": "^3.8",
         "drupal/graphql": "^3.0",
+        "drupal/migrate_tools": "^4.5",
         "drupal/vuejs": "^1.0-rc2",
         "drush/drush": "^10.2.2"
     },
