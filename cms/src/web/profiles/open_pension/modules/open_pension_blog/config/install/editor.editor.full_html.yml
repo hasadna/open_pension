@@ -21,7 +21,6 @@ settings:
             - Subscript
             - '-'
             - RemoveFormat
-            - Underline
         -
           name: Linking
           items:
@@ -35,9 +34,11 @@ settings:
         -
           name: Media
           items:
+            - power-bi-report
             - Blockquote
-            - DrupalMediaLibrary
+            - DrupalImage
             - Table
+            - DrupalMediaLibrary
             - HorizontalRule
         -
           name: 'Block Formatting'
@@ -48,33 +49,11 @@ settings:
           items:
             - ShowBlocks
             - Source
-      -
-        -
-          name: Alignment
-          items:
-            - Outdent
-            - Indent
-            - JustifyLeft
-            - JustifyBlock
-            - JustifyCenter
-            - JustifyRight
-        -
-          name: Technical
-          items:
-            - PasteText
-            - Paste
-            - Language
-            - SpecialChar
-            - PasteFromWord
-            - Undo
-            - Redo
-            - Cut
-            - Copy
   plugins:
     stylescombo:
       styles: ''
     language:
-      language_list: all
+      language_list: un
 image_upload:
   status: true
   scheme: public
