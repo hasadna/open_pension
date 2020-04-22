@@ -10,31 +10,33 @@ use Drupal\Core\File\FileSystemInterface;
 class OpenPensionReclamationParseSourceFile {
 
   /**
-   * The file system service.
-   *
-   * @var \Drupal\Core\File\FileSystemInterface
-   */
-  protected $fileSystem;
-
-  /**
-   * Constructs an OpenPensionReclamationParseSourceFile object.
-   *
-   * @param \Drupal\Core\File\FileSystemInterface $file_system
-   *   The file system service.
-   */
-  public function __construct(FileSystemInterface $file_system) {
-    $this->fileSystem = $file_system;
-  }
-
-  /**
    * Method description.
    */
-  public function parseFile() {
+  public function getSheetRows($worksheet, callable $iteration_process = null) {
     $xls = \SimpleXLSX::parse(drupal_get_path('module', 'open_pension_reclamation') . '/DIM_PensionFund.xlsx');
-    var_dump($xls->worksheet(0));
+    $sheet_index = array_search($worksheet, $xls->sheetNames());
+    $rows = $xls->rows($sheet_index);
 
+    $headers = [];
+    foreach ($rows as $key => &$row) {
 
-//    var_dump($xsl);
+      if ($key == 0) {
+        $headers = array_map('trim', $row);
+        continue;
+      }
+
+      $row = array_combine($headers, $row);
+
+      if ($iteration_process) {
+        $iteration_process($row);
+      }
+    }
+
+    if ($iteration_process) {
+      return [];
+    }
+
+    return $rows;
   }
 
 }

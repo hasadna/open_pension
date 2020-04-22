@@ -64,7 +64,7 @@ class OpenPensionCoreCommands extends DrushCommands {
     /** @var OpenPensionReclamationParseSourceFile $parse_source_file */
     $parse_source_file = \Drupal::service('open_pension_reclamaion.parse_source_file');
 
-    $parse_source_file->parseFile();
+    $parse_source_file->getSheetRows('foo');
   }
 
 }

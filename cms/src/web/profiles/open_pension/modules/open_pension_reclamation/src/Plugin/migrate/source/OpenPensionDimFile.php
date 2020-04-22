@@ -11,6 +11,7 @@ use Drupal\migrate\Plugin\migrate\source\SourcePluginBase;
 use Drupal\migrate\Plugin\migrate\source\SqlBase;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
+use Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,14 +21,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "dim"
  * )
  */
-class OpenPensionDimFile extends SourcePluginBase {
-
+class OpenPensionDimFile extends SourcePluginBase implements ContainerFactoryPluginInterface, DependentPluginInterface {
   /**
-   * Flag to determine if the iterator has been initialized.
-   *
-   * @var bool
+   * @var OpenPensionReclamationParseSourceFile
    */
-  protected $iteratorIsInitialized = FALSE;
+  protected $sourceFileParser;
 
   /**
    * {@inheritdoc}
@@ -43,6 +41,25 @@ class OpenPensionDimFile extends SourcePluginBase {
       'row_index_column' => NULL,
     ];
   }
+
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, OpenPensionReclamationParseSourceFile $source_file_parser) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $migration);
+    $this->sourceFileParser = $source_file_parser;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $migration,
+      $container->get('open_pension_reclamation.source_file_parser')
+    );
+  }
+
 
   /**
    * {@inheritdoc}
@@ -62,25 +79,25 @@ class OpenPensionDimFile extends SourcePluginBase {
    * {@inheritdoc}
    */
   public function getIds() {
-    $config = $this->getConfiguration();
-
-    return $config['keys'];
+    return ['id' => ['type' => 'integer', 'alias' => 'n',],];
   }
 
   /**
    * {@inheritdoc}
    */
   public function fields() {
-    return ['foo'];
+    return ['id', 'InstrumentType Code', 'Liquidity ', 'InstrumentType'];
   }
 
   /**
    * {@inheritdoc}
    */
   public function initializeIterator() {
-
-    $rows = [];
-    return new \ArrayIterator($rows);
+    var_dump($this->sourceFileParser->getSheetRows('Dim InstrumentType'));
+    return new \ArrayIterator($this->sourceFileParser->getSheetRows('Dim InstrumentType'));
   }
 
+  public function calculateDependencies() {
+    return [];
+  }
 }
