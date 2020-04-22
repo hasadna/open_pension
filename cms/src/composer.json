@@ -19,7 +19,7 @@
         "composer/installers": "^1.2",
         "cweagans/composer-patches": "^1.6",
         "drupal/coder": "^8.3",
-        "drupal/config_inspector": "^1.0@beta",
+        "drupal/config_inspector": "1.0",
         "drupal/console": "1.9.0",
         "drupal/core-composer-scaffold": "^8.8",
         "drupal/core-project-message": "^8.8",
@@ -27,9 +27,10 @@
         "drupal/devel": "^2.1",
         "drupal/features": "^3.8",
         "drupal/graphql": "^3.0",
-        "drupal/migrate_tools": "^4.5",
+        "drupal/migrate_tools": "4.5",
         "drupal/vuejs": "^1.0-rc2",
-        "drush/drush": "^10.2.2"
+        "drush/drush": "^10.2.2",
+        "shuchkin/simplexlsx": "^0.8.14"
     },
     "require-dev": {
         "mikey179/vfsstream": "^1.6",
