@@ -5,6 +5,7 @@ namespace Drupal\open_pension_core\Commands;
 use Consolidation\SiteAlias\SiteAliasManager;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
 use Drupal\Core\File\FileSystem;
+use Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile;
 use Drush\Commands\DrushCommands;
 use Drupal\Core\Extension\ModuleHandler;
 
@@ -60,7 +61,10 @@ class OpenPensionCoreCommands extends DrushCommands {
    * @aliases sandbox
    */
   public function sandbox($options = ['option-name' => 'default']) {
-    kint('a');
+    /** @var OpenPensionReclamationParseSourceFile $parse_source_file */
+    $parse_source_file = \Drupal::service('open_pension_reclamaion.parse_source_file');
+
+    $parse_source_file->parseFile();
   }
 
 }

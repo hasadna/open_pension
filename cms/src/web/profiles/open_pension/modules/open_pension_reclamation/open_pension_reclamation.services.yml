@@ -1,0 +1,4 @@
+services:
+  open_pension_reclamaion.parse_source_file:
+    class: Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile
+    arguments: ['@file_system']

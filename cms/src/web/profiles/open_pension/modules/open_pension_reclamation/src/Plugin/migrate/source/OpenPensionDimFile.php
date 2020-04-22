@@ -2,99 +2,85 @@
 
 namespace Drupal\open_pension_reclamation\Plugin\migrate\source;
 
+use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\DependentPluginInterface;
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\migrate\Plugin\migrate\source\SourcePluginBase;
+use Drupal\migrate\Plugin\migrate\source\SqlBase;
+use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The 'open_pension_dim_file' source plugin.
  *
  * @MigrateSource(
- *   id = "open_pension_dim_file",
- *   source_module = "open_pension_reclamation"
+ *   id = "dim"
  * )
  */
 class OpenPensionDimFile extends SourcePluginBase {
 
   /**
-   * {@inheritdoc}
+   * Flag to determine if the iterator has been initialized.
+   *
+   * @var bool
    */
-  public function __toString() {
-    // @DCG You may return something meaningful here.
-    return '🍕';
-  }
+  protected $iteratorIsInitialized = FALSE;
 
   /**
    * {@inheritdoc}
    */
-  protected function initializeIterator() {
-
-    // @DCG
-    // In this example we return a hardcoded set of records.
-    //
-    // For large sets of data consider using generators like follows:
-    // @code
-    // foreach ($foo->nextRecord() as $record) {
-    //  yield $record;
-    // }
-    // @endcode
-    $records = [
-      [
-        'id' => 1,
-        'name' => 'Alpha',
-        'status' => TRUE,
-      ],
-      [
-        'id' => 2,
-        'name' => 'Beta',
-        'status' => FALSE,
-      ],
-      [
-        'id' => 3,
-        'name' => 'Gamma',
-        'status' => TRUE,
-      ],
-    ];
-
-    return new \ArrayIterator($records);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function fields() {
+  public function defaultConfiguration() {
     return [
-      'id' => $this->t('The record ID.'),
-      'name' => $this->t('The record name.'),
-      'status' => $this->t('The record status'),
+      'file' => NULL,
+      'worksheet' => NULL,
+      'origin' => 'A2',
+      'header_row' => NULL,
+      'columns' => [],
+      'keys' => [],
+      'row_index_column' => NULL,
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setConfiguration(array $configuration) {
+    $this->configuration = NestedArray::mergeDeep(
+      $this->defaultConfiguration(),
+      $configuration
+    );
+  }
+
+  public function __toString() {
+    return $this->configuration['file'] . ':' . $this->configuration['worksheet'];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getIds() {
-    $ids['id']['type'] = [
-      'type' => 'integer',
-      'unsigned' => TRUE,
-      'size' => 'big',
-    ];
-    return $ids;
+    $config = $this->getConfiguration();
+
+    return $config['keys'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function prepareRow(Row $row) {
+  public function fields() {
+    return ['foo'];
+  }
 
-    // @DCG
-    // Extend/modify the row here if needed.
-    //
-    // Example:
-    // @code
-    // $name = $row->getSourceProperty('name');
-    // $row->setSourceProperty('name', Html::escape('$name');
-    // @endcode
-    return parent::prepareRow($row);
+  /**
+   * {@inheritdoc}
+   */
+  public function initializeIterator() {
+
+    $rows = [];
+    return new \ArrayIterator($rows);
   }
 
 }

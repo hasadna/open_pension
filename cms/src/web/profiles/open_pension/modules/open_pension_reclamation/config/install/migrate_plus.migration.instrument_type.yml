@@ -7,8 +7,6 @@ migration_group: null
 label: 'Migrating instrument type'
 source:
   plugin: dim
-  # Enable "track changes" feature.
-  track_changes: true
 process:
   title: _title
 destination:
