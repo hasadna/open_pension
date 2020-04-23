@@ -11,9 +11,9 @@ use Drupal\Core\Routing\RedirectDestinationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a list controller for the instrument type code entity type.
+ * Provides a list controller for the instrument type entity type.
  */
-class InstrumentTypeCodeListBuilder extends EntityListBuilder {
+class InstrumentTypeListBuilder extends EntityListBuilder {
 
   /**
    * The date formatter service.
@@ -30,7 +30,7 @@ class InstrumentTypeCodeListBuilder extends EntityListBuilder {
   protected $redirectDestination;
 
   /**
-   * Constructs a new InstrumentTypeCodeListBuilder object.
+   * Constructs a new InstrumentTypeListBuilder object.
    *
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
    *   The entity type definition.
@@ -70,7 +70,7 @@ class InstrumentTypeCodeListBuilder extends EntityListBuilder {
       ->count()
       ->execute();
 
-    $build['summary']['#markup'] = $this->t('Total instrument type codes: @total', ['@total' => $total]);
+    $build['summary']['#markup'] = $this->t('Total instrument types: @total', ['@total' => $total]);
     return $build;
   }
 
@@ -80,6 +80,8 @@ class InstrumentTypeCodeListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['id'] = $this->t('ID');
     $header['title'] = $this->t('Title');
+    $header['status'] = $this->t('Status');
+    $header['uid'] = $this->t('Author');
     $header['created'] = $this->t('Created');
     $header['changed'] = $this->t('Updated');
     return $header + parent::buildHeader();
@@ -89,9 +91,14 @@ class InstrumentTypeCodeListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\InstrumentTypeCodeInterface */
+    /* @var $entity \Drupal\open_pension_reclamation\InstrumentTypeInterface */
     $row['id'] = $entity->id();
     $row['title'] = $entity->toLink();
+    $row['status'] = $entity->isEnabled() ? $this->t('Enabled') : $this->t('Disabled');
+    $row['uid']['data'] = [
+      '#theme' => 'username',
+      '#account' => $entity->getOwner(),
+    ];
     $row['created'] = $this->dateFormatter->format($entity->getCreatedTime());
     $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
     return $row + parent::buildRow($entity);

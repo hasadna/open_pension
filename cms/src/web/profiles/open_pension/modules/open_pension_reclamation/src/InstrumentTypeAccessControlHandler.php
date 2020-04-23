@@ -8,9 +8,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 
 /**
- * Defines the access control handler for the instrument type code entity type.
+ * Defines the access control handler for the instrument type entity type.
  */
-class InstrumentTypeCodeAccessControlHandler extends EntityAccessControlHandler {
+class InstrumentTypeAccessControlHandler extends EntityAccessControlHandler {
 
   /**
    * {@inheritdoc}
@@ -19,13 +19,13 @@ class InstrumentTypeCodeAccessControlHandler extends EntityAccessControlHandler 
 
     switch ($operation) {
       case 'view':
-        return AccessResult::allowedIfHasPermission($account, 'view instrument type code');
+        return AccessResult::allowedIfHasPermission($account, 'view instrument type');
 
       case 'update':
-        return AccessResult::allowedIfHasPermissions($account, ['edit instrument type code', 'administer instrument type code'], 'OR');
+        return AccessResult::allowedIfHasPermissions($account, ['edit instrument type', 'administer instrument type'], 'OR');
 
       case 'delete':
-        return AccessResult::allowedIfHasPermissions($account, ['delete instrument type code', 'administer instrument type code'], 'OR');
+        return AccessResult::allowedIfHasPermissions($account, ['delete instrument type', 'administer instrument type'], 'OR');
 
       default:
         // No opinion.
@@ -38,7 +38,7 @@ class InstrumentTypeCodeAccessControlHandler extends EntityAccessControlHandler 
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermissions($account, ['create instrument type code', 'administer instrument type code'], 'OR');
+    return AccessResult::allowedIfHasPermissions($account, ['create instrument type', 'administer instrument type'], 'OR');
   }
 
 }

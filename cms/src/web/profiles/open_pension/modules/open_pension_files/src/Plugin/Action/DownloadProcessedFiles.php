@@ -58,17 +58,17 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   /**
    * @var OpenPensionServicesHealthStatus
    */
-  protected OpenPensionServicesHealthStatus $serviceHealthStatus;
+  protected $serviceHealthStatus;
 
   /**
    * @var OpenPensionServicesAddresses
    */
-  protected OpenPensionServicesAddresses $serviceAddresses;
+  protected $serviceAddresses;
 
   /**
    * @var Client
    */
-  protected Client $httpClient;
+  protected $httpClient;
 
   /**
    * @var array
@@ -78,12 +78,12 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   /**
    * @var \Drupal\Core\TempStore\PrivateTempStore
    */
-  protected \Drupal\Core\TempStore\PrivateTempStore $privateTempStorage;
+  protected $privateTempStorage;
 
   /**
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected \Drupal\Core\Entity\EntityStorageInterface $fileStorage;
+  protected $fileStorage;
 
   /**
    * Constructs a new SendFilesToProcessor action.

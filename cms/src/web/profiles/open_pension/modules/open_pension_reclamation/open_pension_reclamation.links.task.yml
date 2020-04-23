@@ -1,0 +1,18 @@
+entity.instrument_type.view:
+  title: View
+  route_name: entity.instrument_type.canonical
+  base_route: entity.instrument_type.canonical
+entity.instrument_type.edit_form:
+  title: Edit
+  route_name: entity.instrument_type.edit_form
+  base_route: entity.instrument_type.canonical
+entity.instrument_type.delete_form:
+  title: Delete
+  route_name: entity.instrument_type.delete_form
+  base_route: entity.instrument_type.canonical
+  weight: 10
+entity.instrument_type.collection:
+  title: Instrument type
+  route_name: entity.instrument_type.collection
+  base_route: system.admin_content
+  weight: 10

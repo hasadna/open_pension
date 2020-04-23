@@ -53,6 +53,7 @@ install:
   - open_pension_files
   - open_pension_blog
   - open_pension_services
+  - open_pension_reclamation
 
 themes:
   - claro

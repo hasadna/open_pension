@@ -1,10 +1,10 @@
-access instrument type code overview:
-  title: 'Access instrument type code overview page'
-delete instrument type code:
-  title: Delete instrument type code
-create instrument type code:
-  title: Create instrument type code
-view instrument type code:
-  title: View instrument type code
-edit instrument type code:
-  title: Edit instrument type code
+access instrument type overview:
+  title: 'Access instrument type overview page'
+delete instrument type:
+  title: Delete instrument type
+create instrument type:
+  title: Create instrument type
+view instrument type:
+  title: View instrument type
+edit instrument type:
+  title: Edit instrument type

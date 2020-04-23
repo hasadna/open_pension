@@ -23,8 +23,11 @@ class OpenPensionReclamationCommands extends DrushCommands {
 
   protected $entities = [
     'instrument' => [
-      'entity_id' => 'open_pension_dim_file',
+      'entity_id' => 'instrument_type',
       'worksheet' => 'Dim InstrumentType',
+      'keys' => [
+        'code', 'liquidity', 'instrument_type',
+      ],
     ],
   ];
 
@@ -46,7 +49,7 @@ class OpenPensionReclamationCommands extends DrushCommands {
   /**
    * Import data from the dim file.
    *
-   * @command open_pension_reclamation:import
+   * @command _open_pension_reclamation:import
    * @option all Determine if we need to migrate all.
    * @aliases opri
    */
@@ -57,7 +60,7 @@ class OpenPensionReclamationCommands extends DrushCommands {
     if ($options['all']) {
       $this->say('Start to migrating all the migrations');
       $this->migrateSheets(array_keys($this->entities));
-//      $this->io()->success('Yay! All have been merged');
+      $this->io()->success('Yay! All have been merged');
       return;
     }
 
@@ -73,21 +76,24 @@ class OpenPensionReclamationCommands extends DrushCommands {
 
   public function migrateSheets($sheets) {
 
-//    $this->io->progressStart(count($this->entities));
+    $this->io->progressStart(count($this->entities));
 
     foreach ($sheets as $sheet) {
       $this->migrateSheet($sheet);
-//      $this->io->progressAdvance(1);
+      $this->io->progressAdvance(1);
+      $this->writeln('');
+      $this->say(dt('The @type sheet has been merged', ['@type' => $sheet]));
     }
 
-//    $this->writeln('');
-//    $this->writeln('');
-//    $this->writeln('');
+    $this->writeln('');
+    $this->writeln('');
+    $this->writeln('');
   }
 
   public function migrateSheet($sheet_name) {
-    $entity = $this->entityTypeManager->getStorage($this->entities[$sheet_name]['entity_id']);
-    $this->parseSourceFile->getSheetRows('Dim InstrumentType', function($row) use ($entity) {
+    $metadata = $this->entities[$sheet_name];
+    $entity = $this->entityTypeManager->getStorage($metadata['entity_id']);
+    $this->parseSourceFile->getSheetRows('Dim InstrumentType', $metadata['keys'], function($row) use ($entity) {
       $entity->create($row)->save();
     });
   }
