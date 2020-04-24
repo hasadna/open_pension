@@ -67,11 +67,9 @@ class InstrumentTypeListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
+    $header['code'] = $this->t('Code');
+    $header['liquidity'] = $this->t('Liquidity');
+    $header['instrument_type'] = $this->t('Instrument type');
     return $header + parent::buildHeader();
   }
 
@@ -82,13 +80,8 @@ class InstrumentTypeListBuilder extends EntityListBuilder {
     /* @var $entity \Drupal\open_pension_reclamation\InstrumentTypeInterface */
     $row['id'] = $entity->id();
     $row['label'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
+    $row['liquidity'] = $entity->get('liquidity')->value;
+    $row['instrument_type'] = $entity->get('instrument_type')->value;
     return $row + parent::buildRow($entity);
   }
 
