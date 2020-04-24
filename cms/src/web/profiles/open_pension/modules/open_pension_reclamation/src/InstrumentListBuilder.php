@@ -14,6 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class InstrumentListBuilder extends EntityListBuilder {
 
+  use ReclamationBuildRowHelperTrait;
+
+  static $fields = ['instrument_name', 'isin', 'issuer_num', 'issuer_id', 'instrument_type', 'liquidity'];
+
   /**
    * The date formatter service.
    *
@@ -67,29 +71,15 @@ class InstrumentListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
-    return $header + parent::buildHeader();
-  }
+    $header['instrument_num'] = $this->t('Instrument num');
+    $header['instrument_name'] = $this->t('Instrument name');
+    $header['isin'] = $this->t('ISIN');
+    $header['issuer_num'] = $this->t('Issuer num');
+    $header['issuer_id'] = $this->t('Issuer IS');
+    $header['instrument_type'] = $this->t('Instrument type');
+    $header['liquidity'] = $this->t('Liquidity');
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\InstrumentInterface */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
-    return $row + parent::buildRow($entity);
+    return $header + parent::buildHeader();
   }
 
 }
