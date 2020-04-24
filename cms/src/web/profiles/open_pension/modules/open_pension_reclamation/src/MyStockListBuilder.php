@@ -14,6 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MyStockListBuilder extends EntityListBuilder {
 
+  use ReclamationBuildRowHelperTrait;
+
+  static $fields = ['issuer_name', 'customer_manager'];
+
   /**
    * The date formatter service.
    *
@@ -67,29 +71,10 @@ class MyStockListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
+    $header['issuer_id'] = $this->t('Issuer ID');
+    $header['issuer_name'] = $this->t('Issuer name');
+    $header['customer_manager'] = $this->t('Customer manager');
     return $header + parent::buildHeader();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\MyStockInterface */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
-    return $row + parent::buildRow($entity);
   }
 
 }
