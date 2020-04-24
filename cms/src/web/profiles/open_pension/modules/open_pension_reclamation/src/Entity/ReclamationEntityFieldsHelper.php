@@ -26,7 +26,6 @@ trait ReclamationEntityFieldsHelper {
     }
   }
 
-
   protected static function getLabelField() {
     throw new \Exception(t('You need to implements this one'));
   }
@@ -35,10 +34,10 @@ trait ReclamationEntityFieldsHelper {
     throw new \Exception(t('You need to implements this one'));
   }
 
-  public static function simpleTextField($label) {
+  public static function simpleTextField($label, $required = TRUE) {
     return BaseFieldDefinition::create('string')
       ->setLabel($label)
-      ->setRequired(TRUE)
+      ->setRequired($required)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
@@ -51,17 +50,6 @@ trait ReclamationEntityFieldsHelper {
         'weight' => -5,
       ])
       ->setDisplayConfigurable('view', TRUE);
-  }
-
-  public static function appendFieldsRowsSimple($keys, ContentEntityInterface $entity) {
-    $fields['id'] = $entity->id();
-    $fields['label'] = $entity->toLink();
-
-    foreach ($keys as $key) {
-      $fields[$key] = $entity->get($key)->value;
-    }
-
-    return $fields;
   }
 
   /**

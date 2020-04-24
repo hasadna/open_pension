@@ -14,6 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class InstrumentSubTypeListBuilder extends EntityListBuilder {
 
+  use ReclamationBuildRowHelperTrait;
+
+  static $fields = ['type', 'stat'];
+
   /**
    * The date formatter service.
    *
@@ -67,27 +71,12 @@ class InstrumentSubTypeListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('ID');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
-    return $header + parent::buildHeader();
-  }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\InstrumentSubTypeInterface */
-    $row['id'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
-    return $row + parent::buildRow($entity);
+    $header['code'] = $this->t('Code');
+    $header['type'] = $this->t('Type');
+    $header['stat'] = $this->t('stat');
+
+    return $header + parent::buildHeader();
   }
 
 }
