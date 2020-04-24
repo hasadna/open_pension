@@ -39,11 +39,11 @@ use Drupal\user\EntityOwnerTrait;
  *     "owner" = "uid"
  *   },
  *   links = {
- *     "add-form" = "/admin/content/mutual-fund/add",
+ *     "add-form" = "/admin/open_pension/reclamations/mutual-fund/add",
  *     "canonical" = "/mutual_fund/{mutual_fund}",
- *     "edit-form" = "/admin/content/mutual-fund/{mutual_fund}/edit",
- *     "delete-form" = "/admin/content/mutual-fund/{mutual_fund}/delete",
- *     "collection" = "/admin/content/mutual-fund"
+ *     "edit-form" = "/admin/open_pension/reclamations/mutual-fund/{mutual_fund}/edit",
+ *     "delete-form" = "/admin/open_pension/reclamations/mutual-fund/{mutual_fund}/delete",
+ *     "collection" = "/admin/open_pension/reclamations/mutual-fund"
  *   },
  * )
  */

@@ -51,11 +51,11 @@ use Drupal\user\UserInterface;
  *     "revision_log_message" = "revision_log"
  *   },
  *   links = {
- *     "add-form" = "/admin/content/instrument-type/add",
+ *     "add-form" = "/admin/open_pension/reclamations/instrument-type/add",
  *     "canonical" = "/instrument_type/{instrument_type}",
- *     "edit-form" = "/admin/content/instrument-type/{instrument_type}/edit",
- *     "delete-form" = "/admin/content/instrument-type/{instrument_type}/delete",
- *     "collection" = "/admin/content/instrument-type"
+ *     "edit-form" = "/admin/open_pension/reclamations/instrument-type/{instrument_type}/edit",
+ *     "delete-form" = "/admin/open_pension/reclamations/instrument-type/{instrument_type}/delete",
+ *     "collection" = "/admin/open_pension/reclamations/instrument-type"
  *   },
  * )
  */

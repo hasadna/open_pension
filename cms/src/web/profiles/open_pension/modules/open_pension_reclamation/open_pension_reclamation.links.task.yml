@@ -14,26 +14,7 @@ entity.instrument_type.delete_form:
 entity.instrument_type.collection:
   title: Instrument type
   route_name: entity.instrument_type.collection
-  base_route: system.admin_content
-  weight: 10
-
-entity.mutual_fund.view:
-  title: View
-  route_name: entity.mutual_fund.canonical
-  base_route: entity.mutual_fund.canonical
-entity.mutual_fund.edit_form:
-  title: Edit
-  route_name: entity.mutual_fund.edit_form
-  base_route: entity.mutual_fund.canonical
-entity.mutual_fund.delete_form:
-  title: Delete
-  route_name: entity.mutual_fund.delete_form
-  base_route: entity.mutual_fund.canonical
-  weight: 10
-entity.mutual_fund.collection:
-  title: Mutual fund
-  route_name: entity.mutual_fund.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.instrument_sub_type.view:
@@ -52,7 +33,7 @@ entity.instrument_sub_type.delete_form:
 entity.instrument_sub_type.collection:
   title: Instrument sub type
   route_name: entity.instrument_sub_type.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.mutual_fund.view:
@@ -71,7 +52,7 @@ entity.mutual_fund.delete_form:
 entity.mutual_fund.collection:
   title: Mutual fund
   route_name: entity.mutual_fund.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.issuer.view:
@@ -90,7 +71,7 @@ entity.issuer.delete_form:
 entity.issuer.collection:
   title: Issuer
   route_name: entity.issuer.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.instrument.view:
@@ -109,7 +90,7 @@ entity.instrument.delete_form:
 entity.instrument.collection:
   title: Instrument
   route_name: entity.instrument.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.my_stock.view:
@@ -128,7 +109,7 @@ entity.my_stock.delete_form:
 entity.my_stock.collection:
   title: My stock
   route_name: entity.my_stock.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.index_manager.view:
@@ -147,7 +128,7 @@ entity.index_manager.delete_form:
 entity.index_manager.collection:
   title: Index manager
   route_name: entity.index_manager.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.manager.view:
@@ -166,7 +147,7 @@ entity.manager.delete_form:
 entity.manager.collection:
   title: Manager
   route_name: entity.manager.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.date.view:
@@ -185,7 +166,7 @@ entity.date.delete_form:
 entity.date.collection:
   title: Date
   route_name: entity.date.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10
 
 entity.market_date.view:
@@ -204,5 +185,5 @@ entity.market_date.delete_form:
 entity.market_date.collection:
   title: Market date
   route_name: entity.market_date.collection
-  base_route: system.admin_content
+  base_route: entity.instrument_type.collection
   weight: 10

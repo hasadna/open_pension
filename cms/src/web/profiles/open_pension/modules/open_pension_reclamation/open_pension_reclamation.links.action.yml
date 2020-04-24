@@ -4,12 +4,6 @@ instrument_type.add_form:
   appears_on:
     - entity.instrument_type.collection
 
-mutual_fund.add_form:
-  route_name: entity.mutual_fund.add_form
-  title: 'Add mutual fund'
-  appears_on:
-    - entity.mutual_fund.collection
-
 instrument_sub_type.add_form:
   route_name: entity.instrument_sub_type.add_form
   title: 'Add instrument sub type'

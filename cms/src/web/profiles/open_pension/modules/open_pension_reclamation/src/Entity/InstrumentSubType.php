@@ -39,11 +39,11 @@ use Drupal\user\EntityOwnerTrait;
  *     "owner" = "uid"
  *   },
  *   links = {
- *     "add-form" = "/admin/content/instrument-sub-type/add",
+ *     "add-form" = "/admin/open_pension/reclamations/instrument-sub-type/add",
  *     "canonical" = "/instrument_sub_type/{instrument_sub_type}",
- *     "edit-form" = "/admin/content/instrument-sub-type/{instrument_sub_type}/edit",
- *     "delete-form" = "/admin/content/instrument-sub-type/{instrument_sub_type}/delete",
- *     "collection" = "/admin/content/instrument-sub-type"
+ *     "edit-form" = "/admin/open_pension/reclamations/instrument-sub-type/{instrument_sub_type}/edit",
+ *     "delete-form" = "/admin/open_pension/reclamations/instrument-sub-type/{instrument_sub_type}/delete",
+ *     "collection" = "/admin/open_pension/reclamations/instrument-sub-type"
  *   },
  * )
  */
