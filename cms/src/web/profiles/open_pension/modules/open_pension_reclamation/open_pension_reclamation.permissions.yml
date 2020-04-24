@@ -8,3 +8,113 @@ view instrument type:
   title: View instrument type
 edit instrument type:
   title: Edit instrument type
+
+access mutual fund overview:
+  title: 'Access mutual fund overview page'
+delete mutual fund:
+  title: Delete mutual fund
+create mutual fund:
+  title: Create mutual fund
+view mutual fund:
+  title: View mutual fund
+edit mutual fund:
+  title: Edit mutual fund
+
+access instrument sub type overview:
+  title: 'Access instrument sub type overview page'
+delete instrument sub type:
+  title: Delete instrument sub type
+create instrument sub type:
+  title: Create instrument sub type
+view instrument sub type:
+  title: View instrument sub type
+edit instrument sub type:
+  title: Edit instrument sub type
+
+access mutual fund overview:
+  title: 'Access mutual fund overview page'
+delete mutual fund:
+  title: Delete mutual fund
+create mutual fund:
+  title: Create mutual fund
+view mutual fund:
+  title: View mutual fund
+edit mutual fund:
+  title: Edit mutual fund
+
+access issuer overview:
+  title: 'Access issuer overview page'
+delete issuer:
+  title: Delete issuer
+create issuer:
+  title: Create issuer
+view issuer:
+  title: View issuer
+edit issuer:
+  title: Edit issuer
+
+access instrument overview:
+  title: 'Access instrument overview page'
+delete instrument:
+  title: Delete instrument
+create instrument:
+  title: Create instrument
+view instrument:
+  title: View instrument
+edit instrument:
+  title: Edit instrument
+
+access my stock overview:
+  title: 'Access my stock overview page'
+delete my stock:
+  title: Delete my stock
+create my stock:
+  title: Create my stock
+view my stock:
+  title: View my stock
+edit my stock:
+  title: Edit my stock
+
+access index manager overview:
+  title: 'Access index manager overview page'
+delete index manager:
+  title: Delete index manager
+create index manager:
+  title: Create index manager
+view index manager:
+  title: View index manager
+edit index manager:
+  title: Edit index manager
+
+access manager overview:
+  title: 'Access manager overview page'
+delete manager:
+  title: Delete manager
+create manager:
+  title: Create manager
+view manager:
+  title: View manager
+edit manager:
+  title: Edit manager
+
+access date overview:
+  title: 'Access date overview page'
+delete date:
+  title: Delete date
+create date:
+  title: Create date
+view date:
+  title: View date
+edit date:
+  title: Edit date
+
+access market date overview:
+  title: 'Access market date overview page'
+delete market date:
+  title: Delete market date
+create market date:
+  title: Create market date
+view market date:
+  title: View market date
+edit market date:
+  title: Edit market date
