@@ -7,12 +7,16 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\open_pension_reclamation\Entity\ReclamationEntityFieldsHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a list controller for the instrument type entity type.
  */
 class InstrumentTypeListBuilder extends EntityListBuilder {
+
+  use ReclamationBuildRowHelperTrait;
+  static $fields = ['liquidity', 'instrument_type'];
 
   /**
    * The date formatter service.
@@ -71,18 +75,6 @@ class InstrumentTypeListBuilder extends EntityListBuilder {
     $header['liquidity'] = $this->t('Liquidity');
     $header['instrument_type'] = $this->t('Instrument type');
     return $header + parent::buildHeader();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\InstrumentTypeInterface */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
-    $row['liquidity'] = $entity->get('liquidity')->value;
-    $row['instrument_type'] = $entity->get('instrument_type')->value;
-    return $row + parent::buildRow($entity);
   }
 
 }

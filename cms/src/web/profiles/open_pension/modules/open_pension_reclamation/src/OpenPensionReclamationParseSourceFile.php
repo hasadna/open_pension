@@ -2,7 +2,6 @@
 
 namespace Drupal\open_pension_reclamation;
 
-use Drupal\Core\File\FileSystemInterface;
 
 /**
  * OpenPensionReclamationParseSourceFile service.

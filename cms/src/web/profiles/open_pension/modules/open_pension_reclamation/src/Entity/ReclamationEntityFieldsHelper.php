@@ -3,10 +3,29 @@
 namespace Drupal\open_pension_reclamation\Entity;
 
 
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\user\EntityOwnerTrait;
 
 trait ReclamationEntityFieldsHelper {
+
+  use EntityChangedTrait;
+  use EntityOwnerTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave(EntityStorageInterface $storage) {
+    parent::preSave($storage);
+    if (!$this->getOwnerId()) {
+      // If no owner has been set explicitly, make the anonymous user the owner.
+      $this->setOwnerId(0);
+    }
+  }
+
 
   protected static function getLabelField() {
     throw new \Exception(t('You need to implements this one'));
@@ -32,6 +51,17 @@ trait ReclamationEntityFieldsHelper {
         'weight' => -5,
       ])
       ->setDisplayConfigurable('view', TRUE);
+  }
+
+  public static function appendFieldsRowsSimple($keys, ContentEntityInterface $entity) {
+    $fields['id'] = $entity->id();
+    $fields['label'] = $entity->toLink();
+
+    foreach ($keys as $key) {
+      $fields[$key] = $entity->get($key)->value;
+    }
+
+    return $fields;
   }
 
   /**

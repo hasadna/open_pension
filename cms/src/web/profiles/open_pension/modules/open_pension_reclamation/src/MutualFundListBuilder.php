@@ -7,12 +7,16 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\open_pension_reclamation\Entity\ReclamationEntityFieldsHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a list controller for the mutual fund entity type.
  */
 class MutualFundListBuilder extends EntityListBuilder {
+
+  use ReclamationBuildRowHelperTrait;
+  static $fields = ['instrument_name', 'category', 'sub_category', 'giografic'];
 
   /**
    * The date formatter service.
@@ -67,29 +71,12 @@ class MutualFundListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
+    $header['instrument_number'] = $this->t('Instrument number');
+    $header['instrument_name'] = $this->t('Instrument name');
+    $header['category'] = $this->t('Category');
+    $header['sub_category'] = $this->t('Sub category');
+    $header['giografic'] = $this->t('Giografic');
     return $header + parent::buildHeader();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\MutualFundInterface */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
-    return $row + parent::buildRow($entity);
   }
 
 }
