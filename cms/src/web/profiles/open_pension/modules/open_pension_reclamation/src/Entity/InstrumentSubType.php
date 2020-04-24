@@ -34,7 +34,7 @@ use Drupal\user\EntityOwnerTrait;
  *   admin_permission = "access instrument sub type overview",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "label",
+ *     "label" = "id",
  *     "uuid" = "uuid",
  *     "owner" = "uid"
  *   },
@@ -70,22 +70,6 @@ class InstrumentSubType extends ContentEntityBase implements InstrumentSubTypeIn
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
-    $fields['label'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Label'))
-      ->setRequired(TRUE)
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => -5,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'hidden',
-        'type' => 'string',
-        'weight' => -5,
-      ])
-      ->setDisplayConfigurable('view', TRUE);
-
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Status'))
       ->setDefaultValue(TRUE)
@@ -105,20 +89,6 @@ class InstrumentSubType extends ContentEntityBase implements InstrumentSubTypeIn
         'settings' => [
           'format' => 'enabled-disabled',
         ],
-      ])
-      ->setDisplayConfigurable('view', TRUE);
-
-    $fields['description'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Description'))
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-        'weight' => 10,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'above',
-        'weight' => 10,
       ])
       ->setDisplayConfigurable('view', TRUE);
 

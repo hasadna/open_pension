@@ -118,3 +118,25 @@ view market date:
   title: View market date
 edit market date:
   title: Edit market date
+
+access instrument sub type overview:
+  title: 'Access instrument sub type overview page'
+delete instrument sub type:
+  title: Delete instrument sub type
+create instrument sub type:
+  title: Create instrument sub type
+view instrument sub type:
+  title: View instrument sub type
+edit instrument sub type:
+  title: Edit instrument sub type
+
+access instrument type overview:
+  title: 'Access instrument type overview page'
+delete instrument type:
+  title: Delete instrument type
+create instrument type:
+  title: Create instrument type
+view instrument type:
+  title: View instrument type
+edit instrument type:
+  title: Edit instrument type
