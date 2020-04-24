@@ -14,6 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class DateListBuilder extends EntityListBuilder {
 
+  use ReclamationBuildRowHelperTrait;
+
+  static $fields = ['date'];
+
   /**
    * The date formatter service.
    *
@@ -67,29 +71,9 @@ class DateListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
+    $header['label'] = $this->t('Date code');
+    $header['date'] = $this->t('Date');
     return $header + parent::buildHeader();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\DateInterface */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
-    return $row + parent::buildRow($entity);
   }
 
 }
