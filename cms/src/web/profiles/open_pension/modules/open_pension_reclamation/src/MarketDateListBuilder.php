@@ -14,6 +14,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MarketDateListBuilder extends EntityListBuilder {
 
+  use ReclamationBuildRowHelperTrait {
+    buildRow as public traitBuildRow;
+  }
+
+  static $fields = ['date_quarter', 'vol_nominal', 'vol_chas', 'price', 'price_qoq', 'price_ave', 'registered_capital', 'price_ave_qoq'];
+
   /**
    * The date formatter service.
    *
@@ -67,29 +73,25 @@ class MarketDateListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
+    $header['instrument_number'] = $this->t('Instrument number');
+    $header['date_quarter'] = $this->t('Date quarter');
+    $header['vol_nominal'] = $this->t('A VolNominal');
+    $header['vol_chas'] = $this->t('A VolChas');
+    $header['price'] = $this->t('price');
+    $header['price_qoq'] = $this->t('Price QoQ');
+    $header['price_ave'] = $this->t('Price Ave');
+    $header['registered_capital'] = $this->t('Registered Capital');
+    $header['price_ave_qoq'] = $this->t('Price Ave - QoQ');
+
     return $header + parent::buildHeader();
   }
 
-  /**
-   * {@inheritdoc}
-   */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\open_pension_reclamation\MarketDateInterface */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
-    return $row + parent::buildRow($entity);
+    $row = $this->traitBuildRow($entity);
+
+    $row['date_quarter'] = $this->dateFormatter->format($entity->get('date_quarter')->value, '', 'd/m/Y');
+
+    return $row;
   }
 
 }

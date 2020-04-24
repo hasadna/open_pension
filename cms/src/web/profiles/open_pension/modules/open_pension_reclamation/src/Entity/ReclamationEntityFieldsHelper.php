@@ -66,6 +66,23 @@ trait ReclamationEntityFieldsHelper {
       ->setDisplayConfigurable('view', TRUE);
   }
 
+  public static function dateField($label, $required = TRUE) {
+    return BaseFieldDefinition::create('created')
+      ->setLabel($label)
+      ->setRequired($required)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'timestamp',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'datetime_timestamp',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+  }
+
   /**
    * {@inheritdoc}
    */
