@@ -26,16 +26,30 @@ trait ReclamationEntityFieldsHelper {
     }
   }
 
-  protected static function getLabelField() {
-    throw new \Exception(t('You need to implements this one'));
-  }
-
   protected static function fieldsMetadata() {
     throw new \Exception(t('You need to implements this one'));
   }
 
-  public static function simpleTextField($label, $required = TRUE) {
+  public static function textField($label, $required = TRUE) {
     return BaseFieldDefinition::create('string')
+      ->setLabel($label)
+      ->setRequired($required)
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'string',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+  }
+
+  public static function numberField($label, $required = TRUE) {
+    return BaseFieldDefinition::create('integer')
       ->setLabel($label)
       ->setRequired($required)
       ->setSetting('max_length', 255)

@@ -54,9 +54,9 @@ class InstrumentSubType extends ContentEntityBase implements InstrumentSubTypeIn
   protected static function fieldsMetadata() {
     $fields = [];
 
-    $fields['code'] = self::simpleTextField(t('Code'));
-    $fields['type'] = self::simpleTextField(t('Type'), FALSE);
-    $fields['stat'] = self::simpleTextField(t('Stat'), FALSE);
+    $fields['code'] = self::textField(t('Code'));
+    $fields['type'] = self::textField(t('Type'), FALSE);
+    $fields['stat'] = self::textField(t('Stat'), FALSE);
 
     return $fields;
   }

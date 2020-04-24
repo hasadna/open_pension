@@ -54,9 +54,9 @@ class InstrumentType extends ContentEntityBase implements InstrumentTypeInterfac
   protected static function fieldsMetadata() {
     $fields = [];
 
-    $fields['code'] = self::simpleTextField(t('Code'));
-    $fields['liquidity'] = self::simpleTextField(t('Liquidity'));
-    $fields['instrument_type'] = self::simpleTextField(t('Instrument type'));
+    $fields['code'] = self::textField(t('Code'));
+    $fields['liquidity'] = self::textField(t('Liquidity'));
+    $fields['instrument_type'] = self::textField(t('Instrument type'));
 
     return $fields;
   }

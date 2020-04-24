@@ -55,11 +55,11 @@ class MutualFund extends ContentEntityBase implements MutualFundInterface {
   protected static function fieldsMetadata() {
     $fields = [];
 
-    $fields['instrument_number'] = self::simpleTextField(t('Instrument number'));
-    $fields['instrument_name'] = self::simpleTextField(t('Instrument name'));
-    $fields['category'] = self::simpleTextField(t('Category'));
-    $fields['sub_category'] = self::simpleTextField(t('Sub category'));
-    $fields['giografic'] = self::simpleTextField(t('Giografic'));
+    $fields['instrument_number'] = self::textField(t('Instrument number'));
+    $fields['instrument_name'] = self::textField(t('Instrument name'));
+    $fields['category'] = self::textField(t('Category'));
+    $fields['sub_category'] = self::textField(t('Sub category'));
+    $fields['giografic'] = self::textField(t('Giografic'));
 
     return $fields;
   }
