@@ -57,6 +57,7 @@ trait ReclamationEntityFieldsHelper {
       ->setLabel($label)
       ->setRequired($required)
       ->setSetting('max_length', 255)
+      ->setSetting('size', 'big')
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
         'weight' => -5,

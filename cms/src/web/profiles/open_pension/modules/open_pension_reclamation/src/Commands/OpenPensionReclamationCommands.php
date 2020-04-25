@@ -25,7 +25,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 class OpenPensionReclamationCommands extends DrushCommands {
 
   protected $entities = [
-    'instrument' => [
+    'instrument_type' => [
       'entity_id' => 'instrument_type',
       'worksheet' => 'Dim InstrumentType',
       'class' => '\Drupal\open_pension_reclamation\Entity\InstrumentType',
@@ -33,12 +33,47 @@ class OpenPensionReclamationCommands extends DrushCommands {
     'mutual_fund' => [
       'entity_id' => 'mutual_fund',
       'worksheet' => 'Dim MutualFund',
-      'class' => '\Drupal\open_pension_reclamation\Entity\InstrumentType',
+      'class' => '\Drupal\open_pension_reclamation\Entity\MutualFund',
     ],
     'instrument_sub_type' => [
       'entity_id' => 'instrument_sub_type',
       'worksheet' => 'Dim InstrumentSubType',
-      'class' => '\Drupal\open_pension_reclamation\Entity\InstrumentType',
+      'class' => '\Drupal\open_pension_reclamation\Entity\InstrumentSubType',
+    ],
+    'issuer' => [
+      'entity_id' => 'issuer',
+      'worksheet' => 'Dim Issuer',
+      'class' => '\Drupal\open_pension_reclamation\Entity\Issuer',
+    ],
+    'instrument' => [
+      'entity_id' => 'instrument',
+      'worksheet' => 'Dim Instrument',
+      'class' => '\Drupal\open_pension_reclamation\Entity\Instrument',
+    ],
+    'my_stock' => [
+      'entity_id' => 'my_stock',
+      'worksheet' => 'MyStock',
+      'class' => '\Drupal\open_pension_reclamation\Entity\MyStock',
+    ],
+    'index_manager' => [
+      'entity_id' => 'index_manager',
+      'worksheet' => 'Dim IndexManager',
+      'class' => '\Drupal\open_pension_reclamation\Entity\IndexManager',
+    ],
+    'manager' => [
+      'entity_id' => 'manager',
+      'worksheet' => 'DimManager',
+      'class' => '\Drupal\open_pension_reclamation\Entity\Manager',
+    ],
+    'date' => [
+      'entity_id' => 'date',
+      'worksheet' => 'DimDate',
+      'class' => '\Drupal\open_pension_reclamation\Entity\Date',
+    ],
+    'market_date' => [
+      'entity_id' => 'market_date',
+      'worksheet' => 'Market Data',
+      'class' => '\Drupal\open_pension_reclamation\Entity\MarketDate',
     ],
   ];
 
