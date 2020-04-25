@@ -29,6 +29,11 @@ class OpenPensionReclamationCommands extends DrushCommands {
         'code', 'liquidity', 'instrument_type',
       ],
     ],
+    'mutual_fund' => [
+      'entity_id' => 'mutual_fund',
+      'worksheet' => 'Dim MutualFund',
+      'keys' => ['instrument_number', 'instrument_name', 'category', 'sub_category', 'giografic'],
+    ],
   ];
 
   /**
@@ -49,18 +54,16 @@ class OpenPensionReclamationCommands extends DrushCommands {
   /**
    * Import data from the dim file.
    *
-   * @command _open_pension_reclamation:import
+   * @command open_pension_reclamation:import
    * @option all Determine if we need to migrate all.
-   * @aliases opri
+   * @aliases reclamation:import
    */
   public function commandName($options = ['all' => false]) {
 
     $this->io()->title('Migrating reclamation records');
 
     if ($options['all']) {
-      $this->say('Start to migrating all the migrations');
       $this->migrateSheets(array_keys($this->entities));
-      $this->io()->success('Yay! All have been merged');
       return;
     }
 
@@ -71,12 +74,14 @@ class OpenPensionReclamationCommands extends DrushCommands {
     );
 
     $question->setMultiselect(true);
-    $types_to_import = $this->io()->askQuestion($question);
+    $this->migrateSheets($this->io()->askQuestion($question));
   }
 
   public function migrateSheets($sheets) {
 
-    $this->io->progressStart(count($this->entities));
+    $this->say('Start to migrating all the migrations');
+
+    $this->io->progressStart(count($sheets));
 
     foreach ($sheets as $sheet) {
       $this->migrateSheet($sheet);
@@ -88,12 +93,14 @@ class OpenPensionReclamationCommands extends DrushCommands {
     $this->writeln('');
     $this->writeln('');
     $this->writeln('');
+
+    $this->io()->success('Yay! All have been merged');
   }
 
-  public function migrateSheet($sheet_name) {
-    $metadata = $this->entities[$sheet_name];
+  public function migrateSheet($selection_identifier) {
+    $metadata = $this->entities[$selection_identifier];
     $entity = $this->entityTypeManager->getStorage($metadata['entity_id']);
-    $this->parseSourceFile->getSheetRows('Dim InstrumentType', $metadata['keys'], function($row) use ($entity) {
+    $this->parseSourceFile->getSheetRows($metadata['worksheet'], $metadata['keys'], function($row) use ($entity) {
       $entity->create($row)->save();
     });
   }
