@@ -51,7 +51,7 @@ class IndexManager extends ContentEntityBase implements IndexManagerInterface {
 
   use ReclamationEntityFieldsHelper;
 
-  static protected function fieldsMetadata() {
+  static public function fieldsMetadata() {
     $fields = [];
 
     $fields['manager_number'] = self::textField('Manager number');

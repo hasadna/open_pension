@@ -51,7 +51,7 @@ class Issuer extends ContentEntityBase implements IssuerInterface {
 
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['issuer_num'] = self::numberField('Issuer num');

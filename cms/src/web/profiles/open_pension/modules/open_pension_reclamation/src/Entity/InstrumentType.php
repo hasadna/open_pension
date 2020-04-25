@@ -51,7 +51,7 @@ class InstrumentType extends ContentEntityBase implements InstrumentTypeInterfac
 
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['code'] = self::textField(t('Code'));

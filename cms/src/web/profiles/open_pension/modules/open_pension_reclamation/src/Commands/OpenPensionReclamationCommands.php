@@ -3,6 +3,8 @@
 namespace Drupal\open_pension_reclamation\Commands;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\node\Entity\Node;
+use Drupal\open_pension_reclamation\Entity\Instrument;
 use Drupal\open_pension_reclamation\Entity\InstrumentTypeCode;
 use Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile;
 use Drush\Commands\DrushCommands;
@@ -26,14 +28,17 @@ class OpenPensionReclamationCommands extends DrushCommands {
     'instrument' => [
       'entity_id' => 'instrument_type',
       'worksheet' => 'Dim InstrumentType',
-      'keys' => [
-        'code', 'liquidity', 'instrument_type',
-      ],
+      'class' => '\Drupal\open_pension_reclamation\Entity\InstrumentType',
     ],
     'mutual_fund' => [
       'entity_id' => 'mutual_fund',
       'worksheet' => 'Dim MutualFund',
-      'keys' => ['instrument_number', 'instrument_name', 'category', 'sub_category', 'giografic'],
+      'class' => '\Drupal\open_pension_reclamation\Entity\InstrumentType',
+    ],
+    'instrument_sub_type' => [
+      'entity_id' => 'instrument_sub_type',
+      'worksheet' => 'Dim InstrumentSubType',
+      'class' => '\Drupal\open_pension_reclamation\Entity\InstrumentType',
     ],
   ];
 
@@ -136,9 +141,11 @@ class OpenPensionReclamationCommands extends DrushCommands {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function migrateSheet($selection_identifier) {
+
     $metadata = $this->entities[$selection_identifier];
     $entity = $this->entityTypeManager->getStorage($metadata['entity_id']);
-    $this->parseSourceFile->getSheetRows($metadata['worksheet'], $metadata['keys'], function($row) use ($entity) {
+
+    $this->parseSourceFile->getSheetRows($metadata['worksheet'], array_keys($metadata['class']::fieldsMetadata()), function($row) use ($entity) {
       $entity->create($row)->save();
     });
   }

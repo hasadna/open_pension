@@ -51,7 +51,7 @@ class Manager extends ContentEntityBase implements ManagerInterface {
 
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['manager_number'] = self::numberField(t('Manager number'));

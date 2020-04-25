@@ -51,7 +51,7 @@ class InstrumentSubType extends ContentEntityBase implements InstrumentSubTypeIn
 
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['code'] = self::textField(t('Code'));

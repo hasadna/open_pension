@@ -51,7 +51,7 @@ class MarketDate extends ContentEntityBase implements MarketDateInterface {
 
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['date_quarter'] = self::dateField(t('Date quarter'));

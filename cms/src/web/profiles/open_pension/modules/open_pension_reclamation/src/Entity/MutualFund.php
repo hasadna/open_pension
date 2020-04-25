@@ -52,7 +52,7 @@ class MutualFund extends ContentEntityBase implements MutualFundInterface {
 
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['instrument_number'] = self::textField(t('Instrument number'));

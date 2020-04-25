@@ -51,7 +51,7 @@ class MyStock extends ContentEntityBase implements MyStockInterface {
 
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['issuer_id'] = self::numberField('Issuer ID');

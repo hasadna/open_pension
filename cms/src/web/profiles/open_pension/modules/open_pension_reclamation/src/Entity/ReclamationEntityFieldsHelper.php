@@ -26,8 +26,12 @@ trait ReclamationEntityFieldsHelper {
     }
   }
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     throw new \Exception(t('You need to implements this one'));
+  }
+
+  public function getFieldsKeys() {
+    var_dump(self::fieldsMetadata());
   }
 
   public static function textField($label, $required = TRUE) {

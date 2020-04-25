@@ -50,7 +50,7 @@ use Drupal\user\EntityOwnerTrait;
 class Date extends ContentEntityBase implements DateInterface {
   use ReclamationEntityFieldsHelper;
 
-  protected static function fieldsMetadata() {
+  public static function fieldsMetadata() {
     $fields = [];
 
     $fields['date_code'] = self::textField(t('Date code'));
