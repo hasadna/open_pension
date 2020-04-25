@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\open_pension_reclamation\Entity\InstrumentTypeCode;
 use Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile;
 use Drush\Commands\DrushCommands;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
 /**
@@ -51,22 +52,11 @@ class OpenPensionReclamationCommands extends DrushCommands {
     $this->parseSourceFile = $parseSourceFile;
   }
 
-  /**
-   * Import data from the dim file.
-   *
-   * @command open_pension_reclamation:import
-   * @option all Determine if we need to migrate all.
-   * @aliases reclamation:import
-   */
-  public function commandName($options = ['all' => false]) {
-
-    $this->io()->title('Migrating reclamation records');
-
-    if ($options['all']) {
-      $this->migrateSheets(array_keys($this->entities));
+  protected function displayListAndInteract($all, $method_name) {
+    if ($all) {
+      call_user_func([$this, $method_name], array_keys($this->entities));
       return;
     }
-
     $question = new ChoiceQuestion(
       dt('Which one would you like to import?'),
       array_keys($this->entities),
@@ -74,16 +64,55 @@ class OpenPensionReclamationCommands extends DrushCommands {
     );
 
     $question->setMultiselect(true);
-    $this->migrateSheets($this->io()->askQuestion($question));
+    call_user_func([$this, $method_name], $this->io()->askQuestion($question));
   }
 
-  public function migrateSheets($sheets) {
+  /**
+   * Migrate data from the dim file.
+   *
+   * @command open_pension_reclamation:import
+   * @option all Determine if we need to migrate all.
+   * @aliases reclamation:import
+   */
+  public function migrate($options = ['all' => false]) {
+
+    $this->io()->title('Migrating reclamation records');
+    $this->displayListAndInteract($options['all'], 'migrateSheets');
+  }
+
+  /**
+   * Rollback entries we migrated.
+   *
+   * @command open_pension_reclamation:rollback
+   * @option all Determine if we need to migrate all.
+   * @aliases reclamation:rollback
+   */
+  public function rollback($options = ['all' => false]) {
+    $this->io()->error('This action will delete all the content - migrated and not migrated');
+
+    if (!$this->io()->confirm(dt('Are you sure?'))) {
+      return;
+    }
+
+    $this->displayListAndInteract($options['all'], 'rollbackImportedSheetData');
+  }
+
+  /**
+   * Migrating all the given sheets.
+   *
+   * @param $selected_sheets_identifier
+   *  List of sheets which the user selected.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function migrateSheets($selected_sheets_identifier) {
 
     $this->say('Start to migrating all the migrations');
 
-    $this->io->progressStart(count($sheets));
+    $this->io->progressStart(count($selected_sheets_identifier));
 
-    foreach ($sheets as $sheet) {
+    foreach ($selected_sheets_identifier as $sheet) {
       $this->migrateSheet($sheet);
       $this->io->progressAdvance(1);
       $this->writeln('');
@@ -97,11 +126,54 @@ class OpenPensionReclamationCommands extends DrushCommands {
     $this->io()->success('Yay! All have been merged');
   }
 
+  /**
+   * Migrate a sheet name by it's identifier from what the user selected.
+   *
+   * @param $selection_identifier
+   *  The sheet identifier.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
   public function migrateSheet($selection_identifier) {
     $metadata = $this->entities[$selection_identifier];
     $entity = $this->entityTypeManager->getStorage($metadata['entity_id']);
     $this->parseSourceFile->getSheetRows($metadata['worksheet'], $metadata['keys'], function($row) use ($entity) {
       $entity->create($row)->save();
     });
+  }
+
+  public function rollbackImportedSheetData($selected_sheets_identifier) {
+    $this->say('Start to rollback all the migrated data');
+
+    $this->io->progressStart(count($selected_sheets_identifier));
+
+    foreach ($selected_sheets_identifier as $sheet_identifier) {
+      $this->rollbackSheetData($sheet_identifier);
+      $this->io->progressAdvance(1);
+      $this->writeln('');
+      $this->say(dt('@type: All the data has been deleted', ['@type' => $sheet_identifier]));
+    }
+
+    $this->writeln('');
+    $this->writeln('');
+    $this->writeln('');
+
+    $this->io()->success('Yay! All the data have been deleted');
+  }
+
+  /**
+   * Rollback and the entities.
+   *
+   * @param $sheet_identifier
+   *  The identifier from the list of entities property.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function rollbackSheetData($sheet_identifier) {
+    $storage = $this->entityTypeManager->getStorage($this->entities[$sheet_identifier]['entity_id']);
+    $storage->delete($storage->loadMultiple());
   }
 }
