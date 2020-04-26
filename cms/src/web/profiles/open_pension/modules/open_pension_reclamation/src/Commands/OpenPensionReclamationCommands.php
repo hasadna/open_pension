@@ -90,6 +90,10 @@ class OpenPensionReclamationCommands extends DrushCommands {
   public function __construct(EntityTypeManagerInterface $entityTypeManager, OpenPensionReclamationParseSourceFile $parseSourceFile) {
     $this->entityTypeManager = $entityTypeManager;
     $this->parseSourceFile = $parseSourceFile;
+
+    $this->entities['market_date']['callback']['date_quarter'] = function ($field_value) {
+      return strtotime($field_value);
+    };
   }
 
   protected function displayListAndInteract($all, $method_name) {
@@ -180,7 +184,14 @@ class OpenPensionReclamationCommands extends DrushCommands {
     $metadata = $this->entities[$selection_identifier];
     $entity = $this->entityTypeManager->getStorage($metadata['entity_id']);
 
-    $this->parseSourceFile->getSheetRows($metadata['worksheet'], array_keys($metadata['class']::fieldsMetadata()), function($row) use ($entity) {
+    $this->parseSourceFile->getSheetRows($metadata['worksheet'], array_keys($metadata['class']::fieldsMetadata()), function($row) use ($entity, $metadata) {
+
+      if (!empty($metadata['callback'])) {
+        foreach ($metadata['callback'] as $field => $callback) {
+          $row[$field] = $callback($row[$field]);
+        }
+      }
+
       $entity->create($row)->save();
     });
   }
