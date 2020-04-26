@@ -1,11 +1,15 @@
-FROM golang:1.13
- 
-RUN mkdir -p /app
- 
-WORKDIR /app
- 
-ADD . /app
+FROM node:12.14.1-alpine3.11
 
-RUN go build ./server.go
+LABEL maintainer="http://www.hasadna.org.il/"
 
-ENTRYPOINT ["./server"]
+ENV APP_DIR /home/app
+
+WORKDIR $APP_DIR
+
+COPY package*.json ./
+RUN npm i
+
+COPY . $APP_DIR
+RUN npm run build
+
+CMD ["npm", "start"]
