@@ -22,7 +22,9 @@ class OpenPensionBlogCommands extends DrushCommands {
 
   protected $entires = [
     'blog' => [
-      ['title' => 'Frist blog', 'file' => 'first.html']
+      ['title' => 'Holding', 'file' => 'holdings.html'],
+      ['title' => 'Allocations', 'file' => 'allocations.html'],
+      ['title' => 'Performance', 'file' => 'performance.html'],
     ],
   ];
 
@@ -70,6 +72,8 @@ class OpenPensionBlogCommands extends DrushCommands {
    */
   public function importBlogs() {
     $entity = $this->entityTypeManager->getStorage('node');
+    $this->io->progressStart(count($this->entires['blog']));
+
     foreach ($this->entires['blog'] as $blog) {
       $file_content = file_get_contents($this->getFilePath("blogs_content/{$blog['file']}"));
 
@@ -82,6 +86,13 @@ class OpenPensionBlogCommands extends DrushCommands {
       ];
 
       $entity->create($values)->save();
+      $this->io->progressAdvance(1);
     }
+
+    $this->writeln('');
+    $this->writeln('');
+    $this->writeln('');
+
+    $this->io()->success('Yay! All have been merged');
   }
 }
