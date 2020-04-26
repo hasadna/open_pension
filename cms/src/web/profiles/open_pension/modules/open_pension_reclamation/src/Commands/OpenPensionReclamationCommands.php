@@ -3,12 +3,8 @@
 namespace Drupal\open_pension_reclamation\Commands;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\node\Entity\Node;
-use Drupal\open_pension_reclamation\Entity\Instrument;
-use Drupal\open_pension_reclamation\Entity\InstrumentTypeCode;
 use Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile;
 use Drush\Commands\DrushCommands;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
 /**
