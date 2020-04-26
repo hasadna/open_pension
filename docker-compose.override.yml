@@ -8,13 +8,8 @@ services:
   application:
     volumes:
       - ./application:/home/app
-    ports:
-      - '3000:3000'
-
-  application_db:
-    restart: always
-    ports:
-      - '3308:3306'
+      - /home/app/node_modules
+    command: ["npm", "run", "dev"]
 
   gateway:
     volumes:
@@ -35,8 +30,6 @@ services:
 
   cms_db:
     restart: always
-    env_file:
-      - ./cms/.env
     ports:
       - '3307:3306'
 
