@@ -35,6 +35,8 @@ services:
 
   cms_db:
     restart: always
+    env_file:
+      - ./cms/.env
     ports:
       - '3307:3306'
 
