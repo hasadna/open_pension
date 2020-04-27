@@ -54,13 +54,13 @@ class Instrument extends ContentEntityBase implements InstrumentInterface {
   public static function fieldsMetadata() {
     $fields = [];
 
-    $fields['instrument_number'] = self::textField('Instrument Num');
-    $fields['instrument_name'] = self::textField('Instrument Num');
-    $fields['isin'] = self::textField('ISIN');
-    $fields['issuer_num'] = self::textField('Issuer num');
-    $fields['issuer_id'] = self::textField('Issuer ID');
-    $fields['instrument_type'] = self::textField('Issuer type');
-    $fields['liquidity'] = self::textField('Liquidity');
+    $fields['instrument_number'] = self::textField(t('Instrument Num'));
+    $fields['instrument_name'] = self::textField(t('Instrument Num'));
+    $fields['isin'] = self::textField(t('ISIN'));
+    $fields['issuer_num'] = self::textField(t('Issuer num'));
+    $fields['issuer_id'] = self::textField(t('Issuer ID'));
+    $fields['instrument_type'] = self::textField(t('Issuer type'));
+    $fields['liquidity'] = self::textField(t('Liquidity'));
 
     return $fields;
   }

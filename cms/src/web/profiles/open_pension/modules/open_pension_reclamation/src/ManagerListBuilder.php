@@ -76,5 +76,4 @@ class ManagerListBuilder extends EntityListBuilder {
     return $header + parent::buildHeader();
   }
 
-
 }

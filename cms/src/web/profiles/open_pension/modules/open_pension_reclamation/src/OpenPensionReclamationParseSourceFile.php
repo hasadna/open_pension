@@ -9,7 +9,7 @@ namespace Drupal\open_pension_reclamation;
 class OpenPensionReclamationParseSourceFile {
 
   /**
-   * Method description.
+   * Get the data from a given sheet in the file of the reclamation tables.
    */
   public function getSheetRows($worksheet, $headers = [], callable $iteration_process = null) {
     $xls = \SimpleXLSX::parse(drupal_get_path('module', 'open_pension_reclamation') . '/DIM_PensionFund.xlsx');
@@ -32,11 +32,7 @@ class OpenPensionReclamationParseSourceFile {
       }
     }
 
-    if ($iteration_process) {
-      return [];
-    }
-
-    return $rows;
+    return $iteration_process ? [] : $rows;
   }
 
 }

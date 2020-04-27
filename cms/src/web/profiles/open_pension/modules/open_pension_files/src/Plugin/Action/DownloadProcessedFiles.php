@@ -236,7 +236,7 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     /** @var File $file */
     $file = $this->fileStorage->create(['uri' => $file_uri]);
     $file->save();
-    $this->messenger->addMessage(Link::fromTextAndUrl('Download the processed files', Url::fromUserInput($file->createFileUrl(TRUE))));
+    $this->messenger->addMessage(Link::fromTextAndUrl(t('Download the processed files'), Url::fromUserInput($file->createFileUrl(TRUE))));
   }
 
   /**

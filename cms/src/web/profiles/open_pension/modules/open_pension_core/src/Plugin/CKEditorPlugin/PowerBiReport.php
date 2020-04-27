@@ -37,7 +37,7 @@ class PowerBiReport extends CKEditorPluginBase {
     $module_path = drupal_get_path('module', 'open_pension_core');
     return [
       'power-bi-report' => [
-        'label' => $this->t('Power BI Report'),
+        'label' => $this->t('Add power BI report'),
         'image' => $module_path . '/js/plugins/power-bi-report/icons/power-bi-report.png',
       ],
     ];

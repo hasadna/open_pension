@@ -54,12 +54,12 @@ class Issuer extends ContentEntityBase implements IssuerInterface {
   public static function fieldsMetadata() {
     $fields = [];
 
-    $fields['issuer_num'] = self::numberField('Issuer num');
-    $fields['issuer_id'] = self::numberField('Issuer ID');
-    $fields['issuer_name'] = self::textField('Issuer name');
-    $fields['sector'] = self::textField('Sector');
-    $fields['sector_stub'] = self::textField('Sector stub');
-    $fields['sector_nisha'] = self::textField('Sector nisha');
+    $fields['issuer_num'] = self::numberField(t('Issuer num'));
+    $fields['issuer_id'] = self::numberField(t('Issuer ID'));
+    $fields['issuer_name'] = self::textField(t('Issuer name'));
+    $fields['sector'] = self::textField(t('Sector'));
+    $fields['sector_stub'] = self::textField(t('Sector stub'));
+    $fields['sector_nisha'] = self::textField(t('Sector nisha'));
 
     return $fields;
   }

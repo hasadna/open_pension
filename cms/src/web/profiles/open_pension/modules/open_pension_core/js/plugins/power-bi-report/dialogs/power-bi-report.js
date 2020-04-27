@@ -13,7 +13,7 @@
     return {
 
       // Basic properties of the dialog window: title, minimum size.
-      title: Drupal.t('Abbreviation properties'),
+      title: Drupal.t('Sheet properties'),
       minWidth: 400,
       minHeight: 150,
 

@@ -54,9 +54,9 @@ class IndexManager extends ContentEntityBase implements IndexManagerInterface {
   static public function fieldsMetadata() {
     $fields = [];
 
-    $fields['manager_number'] = self::textField('Manager number');
-    $fields['manager_name'] = self::textField('Manager name');
-    $fields['channel'] = self::textField('Channel');
+    $fields['manager_number'] = self::textField(t('Manager number'));
+    $fields['manager_name'] = self::textField(t('Manager name'));
+    $fields['channel'] = self::textField(t('Channel'));
 
     return $fields;
   }

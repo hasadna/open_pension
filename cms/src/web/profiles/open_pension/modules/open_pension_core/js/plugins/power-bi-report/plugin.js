@@ -28,7 +28,7 @@
       editor.ui.addButton('power-bi-report', {
 
         // The text part of the button (if available) and the tooltip.
-        label: Drupal.t('Insert abbreviation'),
+        label: Drupal.t('Insert sheet'),
 
         // The command to execute on click.
         command: 'powerBiReport',

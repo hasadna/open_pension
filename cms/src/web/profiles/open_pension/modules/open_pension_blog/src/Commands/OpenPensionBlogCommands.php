@@ -93,6 +93,6 @@ class OpenPensionBlogCommands extends DrushCommands {
     $this->writeln('');
     $this->writeln('');
 
-    $this->io()->success('Yay! All have been merged');
+    $this->io()->success(dt('Yay! All have been merged'));
   }
 }

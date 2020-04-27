@@ -116,7 +116,7 @@ class OpenPensionReclamationCommands extends DrushCommands {
    */
   public function migrate($options = ['all' => false]) {
 
-    $this->io()->title('Migrating reclamation records');
+    $this->io()->title(dt('Migrating reclamation records'));
     $this->displayListAndInteract($options['all'], 'migrateSheets');
   }
 
@@ -128,7 +128,7 @@ class OpenPensionReclamationCommands extends DrushCommands {
    * @aliases reclamation:rollback
    */
   public function rollback($options = ['all' => false]) {
-    $this->io()->error('This action will delete all the content - migrated and not migrated');
+    $this->io()->error(dt('This action will delete all the content - migrated and not migrated'));
 
     if (!$this->io()->confirm(dt('Are you sure?'))) {
       return;
@@ -163,7 +163,7 @@ class OpenPensionReclamationCommands extends DrushCommands {
     $this->writeln('');
     $this->writeln('');
 
-    $this->io()->success('Yay! All have been merged');
+    $this->io()->success(dt('Yay! All have been merged'));
   }
 
   /**
@@ -193,7 +193,7 @@ class OpenPensionReclamationCommands extends DrushCommands {
   }
 
   public function rollbackImportedSheetData($selected_sheets_identifier) {
-    $this->say('Start to rollback all the migrated data');
+    $this->say(dt('Start to rollback all the migrated data'));
 
     $this->io->progressStart(count($selected_sheets_identifier));
 
@@ -208,7 +208,7 @@ class OpenPensionReclamationCommands extends DrushCommands {
     $this->writeln('');
     $this->writeln('');
 
-    $this->io()->success('Yay! All the data have been deleted');
+    $this->io()->success(dt('Yay! All the data have been deleted'));
   }
 
   /**
