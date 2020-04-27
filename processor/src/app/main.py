@@ -1,6 +1,7 @@
 from .app import api, app
-from .resources import UploadFile, ProcessFile
+from .resources import UploadFile, ProcessFile, Welcome
 
+api.add_resource(Welcome, '/')
 api.add_resource(UploadFile, '/upload')
 api.add_resource(ProcessFile, '/process/<object_id>')
 

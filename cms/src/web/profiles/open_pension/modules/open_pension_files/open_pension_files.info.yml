@@ -10,7 +10,7 @@ dependencies:
   - media
   - media_library
   - open_pension_core
-  - open_pension_files
+  - open_pension_services
   - options
   - path
   - system

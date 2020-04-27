@@ -259,3 +259,5 @@ cms/src/web/*.gitignore
 cms/src/web/modules/
 cms/src/web/sites/
 cms/src/web/themes/
+
+db

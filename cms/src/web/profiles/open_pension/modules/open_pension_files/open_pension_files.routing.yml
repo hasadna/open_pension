@@ -31,3 +31,15 @@ open_pension_files.process_file:
   requirements:
     _permission: 'manage file'
     media: \d+
+
+open_pension_files.get_single_file:
+  path: '/open_pension/uploaded_files/get_processes/{media}'
+  defaults:
+    _title: 'Get processed file'
+    _controller: '\Drupal\open_pension_files\Controller\OpenPensionFilesController::getProcessedFile'
+  options:
+    parameters:
+      media:
+        type: entity:media
+  requirements:
+    _permission: 'manage file'

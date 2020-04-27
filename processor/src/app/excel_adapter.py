@@ -43,7 +43,7 @@ class ExcelProcessor:
 
             try:
                 # Load in the workbook file.
-                self._workbook = openpyxl.load_workbook(filename=file_path)
+                self._workbook = openpyxl.load_workbook(filename=file_path, data_only=True)
             except Exception as e:
                 self.logger.error(f"Failed to load xlsx file - {str(e)}, {file_path}")
                 return False

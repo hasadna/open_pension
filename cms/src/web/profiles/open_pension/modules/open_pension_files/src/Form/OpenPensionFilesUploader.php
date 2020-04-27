@@ -5,8 +5,10 @@ namespace Drupal\open_pension_files\Form;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\media\Entity\Media;
+use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -23,16 +25,29 @@ class OpenPensionFilesUploader extends FormBase {
 
   // @codingStandardsIgnoreStart
   /**
+   * @var OpenPensionFilesProcessInterface
+   */
+  protected $fileProcessorService;
+
+  /**
    * OpenPensionFilesUploader constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   The entity service.
    *
+   * @param MessengerInterface $messenger
+   * @param OpenPensionFilesProcessInterface $file_processor
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(EntityTypeManagerInterface $entity_manager) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_manager,
+    MessengerInterface $messenger,
+    OpenPensionFilesProcessInterface $file_processor
+  ) {
     $this->fileStorage = $entity_manager->getStorage('file');
+    $this->messenger = $messenger;
+    $this->fileProcessorService = $file_processor;
   }
   // @codingStandardsIgnoreEnd
 
@@ -40,7 +55,11 @@ class OpenPensionFilesUploader extends FormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('entity_type.manager'));
+    return new static(
+      $container->get('entity_type.manager'),
+      $container->get('messenger'),
+      $container->get('open_pension_files.file_process')
+    );
   }
 
   /**
@@ -93,7 +112,7 @@ class OpenPensionFilesUploader extends FormBase {
       $media->save();
     }
 
-    \Drupal::messenger()->addMessage(t('@file-number has been uploaded.', ['@file-number' => count($files)]));
+    $this->messenger->addMessage(t('@file-number has been uploaded.', ['@file-number' => count($files)]));
 
     $form_state->setRedirectUrl(Url::fromRoute('view.open_pension_uploaded_files.page_1'));
   }
