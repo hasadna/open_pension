@@ -1,7 +1,0 @@
-open_pension_logs.view:
-  path: 'admin/open_pension/logs'
-  defaults:
-    _controller: '\Drupal\open_pension_logs\Controller\OpenPensionLogsController::viewLogs'
-    _title: 'View logs'
-  requirements:
-    _permission: 'view logs'

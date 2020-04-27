@@ -1,5 +1,0 @@
-name: 'Open Pension logs'
-type: module
-description: 'Managing logs from various services'
-core: 8.x
-package: 'Open Pension'

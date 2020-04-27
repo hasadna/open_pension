@@ -1,9 +1,0 @@
-logs.viewer:
-  version: VERSION
-  css:
-    layout:
-      css/node.module.css: {}
-  js:
-    js/logs.js: {}
-  dependencies:
-    - vuejs/vue

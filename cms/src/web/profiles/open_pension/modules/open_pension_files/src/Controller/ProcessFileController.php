@@ -5,7 +5,9 @@ namespace Drupal\open_pension_files\Controller;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\media\Entity\Media;
+use Drupal\open_pension_services\OpenPensionServicesHealthStatus;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Masterminds\HTML5\Exception;
@@ -34,16 +36,31 @@ class ProcessFileController extends ControllerBase {
   protected $httpClient;
 
   /**
+   * @var OpenPensionServicesHealthStatus
+   */
+  private $serviceHealthStatus;
+
+  /**
    * Constructs a new SendFileToProcessController object.
    *
    * @param \Drupal\open_pension_files\OpenPensionFilesProcessInterface $open_pension_files_file_process
    *   The open pension file processor service.
    * @param ClientInterface $http_client
    *  The HTTP service.
+   * @param MessengerInterface $messenger
+   *  The messenger service.
+   * @param OpenPensionServicesHealthStatus $services_health_status
    */
-  public function __construct(OpenPensionFilesProcessInterface $open_pension_files_file_process, ClientInterface $http_client) {
+  public function __construct(
+    OpenPensionFilesProcessInterface $open_pension_files_file_process,
+    ClientInterface $http_client,
+    MessengerInterface $messenger,
+    OpenPensionServicesHealthStatus $services_health_status
+  ) {
     $this->openPensionFilesFileProcess = $open_pension_files_file_process;
     $this->httpClient = $http_client;
+    $this->messenger = $messenger;
+    $this->serviceHealthStatus = $services_health_status;
   }
 
   /**
@@ -52,7 +69,9 @@ class ProcessFileController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('open_pension_files.file_process'),
-      $container->get('http_client')
+      $container->get('http_client'),
+      $container->get('messenger'),
+      $container->get('open_pension_services.health_status')
     );
   }
 
@@ -69,23 +88,35 @@ class ProcessFileController extends ControllerBase {
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
   public function processFile(Media $media) {
+    $redirect = $this->redirect('view.open_pension_uploaded_files.page_1');
+
+    if ($this->serviceHealthStatus->getProcessorState() === OpenPensionServicesHealthStatus::SERVICE_NOT_RESPONDING) {
+      $this->messenger->addError(t('The processor service is not responding. Please check if the service alive.'));
+      return $redirect;
+    }
 
     if ($media->bundle() != 'open_pension_file') {
       $text = t('The media @id is not a valid open pension file', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      return;
+      $this->messenger->addError($text);
+
+      return $redirect;
     }
 
     if (!$file_field = $media->get('field_media_file')->first()) {
       $text = t('The media @id has no file which can be process.', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      return;
+      $this->messenger->addError($text);
+
+      return $redirect;
     }
 
     if (!$media->field_reference_in_other_service->value) {
       $text = t('The media @id has no process ID.', ['@id' => $media->id()]);
       $this->openPensionFilesFileProcess->getLogger()->log(LogLevel::ERROR, $text);
-      return;
+      $this->messenger->addError($text);
+
+      return $redirect;
     }
 
     $field_value = $file_field->getValue();
@@ -96,26 +127,7 @@ class ProcessFileController extends ControllerBase {
       ->processFile($field_value['target_id'])
       ->updateEntity($media);
 
-    $items = [];
-    array_map(function ($item) use (&$items) {
-      $items[] = ['#markup' => $item['value']];
-    }, array_slice($media->field_history->getValue(), -3, 2, TRUE));
-
-    $order_list = [
-      '#theme' => 'item_list',
-      '#list_type' => 'ol',
-      '#items' => $items,
-    ];
-
-    // Return the Ajax response and make stuff move magically on the screen.
-    if (\Drupal::request()->request->get('js')) {
-      $response = new AjaxResponse();
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-processing-status', '<td class="views-field views-field-field-processing-status">' . $media->field_processing_status->value . '</td>'));
-      $response->addCommand(new ReplaceCommand('.media-' . $media->id() . ' .views-field-field-history', '<td><div class="item-list">' . drupal_render($order_list) . '</div></td>'));
-      return $response;
-    }
-
-    return $this->redirect('view.open_pension_uploaded_files.page_1');
+    return $redirect;
 
   }
 

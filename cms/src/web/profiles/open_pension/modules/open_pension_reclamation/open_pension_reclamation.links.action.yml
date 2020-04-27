@@ -1,0 +1,71 @@
+instrument_type.add_form:
+  route_name: entity.instrument_type.add_form
+  title: 'Add instrument type'
+  appears_on:
+    - entity.instrument_type.collection
+
+instrument_sub_type.add_form:
+  route_name: entity.instrument_sub_type.add_form
+  title: 'Add instrument sub type'
+  appears_on:
+    - entity.instrument_sub_type.collection
+
+mutual_fund.add_form:
+  route_name: entity.mutual_fund.add_form
+  title: 'Add mutual fund'
+  appears_on:
+    - entity.mutual_fund.collection
+
+issuer.add_form:
+  route_name: entity.issuer.add_form
+  title: 'Add issuer'
+  appears_on:
+    - entity.issuer.collection
+
+instrument.add_form:
+  route_name: entity.instrument.add_form
+  title: 'Add instrument'
+  appears_on:
+    - entity.instrument.collection
+
+my_stock.add_form:
+  route_name: entity.my_stock.add_form
+  title: 'Add my stock'
+  appears_on:
+    - entity.my_stock.collection
+
+index_manager.add_form:
+  route_name: entity.index_manager.add_form
+  title: 'Add index manager'
+  appears_on:
+    - entity.index_manager.collection
+
+manager.add_form:
+  route_name: entity.manager.add_form
+  title: 'Add manager'
+  appears_on:
+    - entity.manager.collection
+
+date.add_form:
+  route_name: entity.date.add_form
+  title: 'Add date'
+  appears_on:
+    - entity.date.collection
+
+market_date.add_form:
+  route_name: entity.market_date.add_form
+  title: 'Add market date'
+  appears_on:
+    - entity.market_date.collection
+
+instrument_sub_type.add_form:
+  route_name: entity.instrument_sub_type.add_form
+  title: 'Add instrument sub type'
+  appears_on:
+    - entity.instrument_sub_type.collection
+
+instrument_type.add_form:
+  route_name: entity.instrument_type.add_form
+  title: 'Add instrument type'
+  appears_on:
+    - entity.instrument_type.collection

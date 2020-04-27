@@ -4,6 +4,8 @@ namespace Drupal\open_pension_core\Commands;
 
 use Consolidation\SiteAlias\SiteAliasManager;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
+use Drupal\Core\File\FileSystem;
+use Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile;
 use Drush\Commands\DrushCommands;
 use Drupal\Core\Extension\ModuleHandler;
 
@@ -27,17 +29,14 @@ class OpenPensionCoreCommands extends DrushCommands {
   }
 
   /**
-   * Command description here.
+   * Making sure that the Drupal site is alive.
    *
    * @command open_pension_core:orchestrate
    * @aliases orchestrate
    */
-  public function commandName($options = ['option-name' => 'default']) {
+  public function orchestrationValidation($options = ['option-name' => 'default']) {
 
     if (!$this->hasSiteAliasManager()) {
-      // TODO: Provide some way to initialize the alias file loaders, so
-      // that there is some way to specify where alias files may be
-      // loaded from.
       $manager = new SiteAliasManager();
       $this->setSiteAliasManager($manager);
     }
@@ -54,4 +53,18 @@ class OpenPensionCoreCommands extends DrushCommands {
 
     $this->logger()->success('All things are done!');
   }
+
+  /**
+   * Sandbox stuff
+   *
+   * @command open_pension_core:sandbox
+   * @aliases sandbox
+   */
+  public function sandbox($options = ['option-name' => 'default']) {
+    /** @var OpenPensionReclamationParseSourceFile $parse_source_file */
+    $parse_source_file = \Drupal::service('open_pension_reclamaion.parse_source_file');
+
+    $parse_source_file->getSheetRows('foo');
+  }
+
 }
