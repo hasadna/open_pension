@@ -72,7 +72,7 @@ function open_pension_get_download_link(\Drupal\media\Entity\Media $file, $retur
     $title = t('Download the file');
   }
 
-  $url = Drupal\Core\Url::fromUri("{$services_addresses->getProcessorAddress()}/process/{$file->get('field_reference_in_other_service')->value}");
+  $url = Drupal\Core\Url::fromRoute('open_pension_files.get_single_file', ['media' => $file->id()]);
 
   if ($return_url) {
     return $url->toString();
