@@ -96,3 +96,10 @@ services:
 
   zookeeper:
     image: zookeeper:3.5
+
+  fetcher:
+    image: hasadna/open-pension-fetcher:latest
+    build:
+      context: ./fetcher
+      cache_from:
+        - hasadna/open-pension-fetcher:latest

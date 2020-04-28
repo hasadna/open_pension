@@ -1,21 +1,20 @@
-import { Arg, Query, Resolver, Mutation } from "type-graphql";
-
+import {Arg, Query, Resolver, Mutation} from "type-graphql";
 import ReportQuery from "types/report-query";
-import DownloadLinks from "types/download-links";
-
-import { downloadReports } from "services/reports-service";
+import {DownloadLinks, Company} from "types/download-links";
+import {downloadReports} from "services/reports-service";
+import {getCompanies} from "services/query-services";
 
 @Resolver(of => ReportQuery)
 export default class {
-  @Query(returns => String)
-  async test() {
-    return "ok";
-  }
+    @Query(returns => [Company])
+    async companies() {
+        return getCompanies()
+    }
 
-  @Mutation(returns => DownloadLinks)
-  async downloadReports(
-    @Arg("query") query: ReportQuery
-  ): Promise<DownloadLinks> {
-    return downloadReports(query);
-  }
+    @Mutation(returns => DownloadLinks)
+    async downloadReports(
+        @Arg("query") query: ReportQuery
+    ): Promise<DownloadLinks> {
+        return downloadReports(query);
+    }
 }

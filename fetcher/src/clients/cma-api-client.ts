@@ -1,16 +1,10 @@
-import axios, { AxiosInstance } from "axios";
+import axios, {AxiosInstance} from "axios";
 import fs from "fs";
 import os from "os";
 import path from "path";
-
 import ReportRow from "types/report-row";
 import ReportQuery from "types/report-query";
-
-const BASE_URL = "https://employersinfocmp.cma.gov.il/api/PublicReporting";
-const METADATA_ROUTE = "/GetPublicReportsSearchData";
-const REPORTS_ROUTE = "/GetPublicReports";
-const DOWNLOAD_ROUTE = "/downloadFiles";
-const DOWNLOAD_EXTENSION = "xlsx";
+import {BASE_URL, DOWNLOAD_EXTENSION, DOWNLOAD_ROUTE, METADATA_ROUTE, REPORTS_ROUTE} from "consts";
 
 export default class CmaGovApiClient {
   private api: AxiosInstance;
