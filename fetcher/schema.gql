@@ -19,6 +19,7 @@ type Mutation {
 type Query {
   companies: [Company!]!
   systemField: [SystemField!]!
+  reportsType: [ReportType!]!
 }
 
 input ReportQuery {
@@ -27,6 +28,11 @@ input ReportQuery {
   toQuarter: Int!
   toYear: Int!
   statusReport: Int!
+}
+
+type ReportType {
+  Id: String!
+  Label: String!
 }
 
 type SystemField {
