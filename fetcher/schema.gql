@@ -35,11 +35,11 @@ type Query {
 }
 
 input ReportQuery {
-  fromQuarter: Int!
-  fromYear: Int!
-  toQuarter: Int!
-  toYear: Int!
-  statusReport: Int!
+  SystemField: String
+  ReportType: String
+  Company: String
+  FromYearPeriod: YearPeriod
+  ToYearPeriod: YearPeriod
 }
 
 type ReportType {
@@ -50,4 +50,9 @@ type ReportType {
 type SystemField {
   Id: String!
   Label: String!
+}
+
+input YearPeriod {
+  Year: Float!
+  Quarter: String!
 }

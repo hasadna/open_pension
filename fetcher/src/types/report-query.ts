@@ -1,15 +1,30 @@
 import {Field, Int, InputType} from "type-graphql";
 
 @InputType()
-export default class ReportQuery {
-    @Field(type => Int)
-    fromQuarter: number;
-    @Field(type => Int)
-    fromYear: number;
-    @Field(type => Int)
-    toQuarter: number;
-    @Field(type => Int)
-    toYear: number;
-    @Field(type => Int)
-    statusReport: number;
+class YearPeriod {
+    @Field(type => Number)
+    Year: number;
+
+    @Field(type => String)
+    Quarter: string;
 }
+
+@InputType()
+export default class ReportQuery {
+    @Field(type => String, { nullable: true })
+    SystemField: string;
+
+    @Field(type => String, { nullable: true })
+    ReportType: string;
+
+    @Field(type => String, { nullable: true })
+    Company: string;
+
+    @Field(type => YearPeriod, { nullable: true })
+    FromYearPeriod: YearPeriod;
+
+    @Field(type => YearPeriod, { nullable: true })
+    ToYearPeriod: YearPeriod;
+}
+
+

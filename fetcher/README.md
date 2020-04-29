@@ -1,24 +1,61 @@
-# Fetcher for Open Pension project
-- WORK IN PROGRESS
-- Should download files from the CMA API that is used here - https://employersinfocmp.cma.gov.il/#/publicreports
+# Open pension fetcher
 
-- Currently uses the Google Storage Bucket defined in .env - !!! Public bucket !!!
-- Only uses the bucket if ENV=prod or staging
 
-- Exposes a Graphql endpoint (http://localhost:3000/graphql)
-- Usage graphql query example -
+## Setting up
+If you want with Docker you can do, using docker compose:
+```bash
+docker-compose up -d fetcher
 ```
-mutation DownloadReports {
-  downloadReports(query: {fromQuarter: 1, toQuarter: 2, fromYear: 2019, toYear: 2019, statusReport: 1}) {
-    links
+In other case you can just do:
+```bash
+npm i
+npm run dev # Will set up the local server with live reloading.
+```
+
+## Querying
+After you got it work you can go to `localhost:3000/grpahql` or `localhost:5000/grpahql`.
+Here's a full example of an example for query:
+```
+query {
+	systemField {
+    Id, Label
   }
+  reportsType {
+    Id, Label
+  },
+  companies {
+    Id, Label
+  }
+  toYearRange {
+    Years,
+    Quarters {
+      Id,
+      Label
+    }
+  } 
 }
 ```
 
-## Development
-- Running local Kafka docker
+## Get the reports
+In order to get the reports you can do a mutation request which will eventually download the files and store them in 
+out storage (Google cloud storage). Here's an example:
 ```
-docker run --rm -p 2181:2181 -p 3030:3030 -p 8081-8083:8081-8083 \
-  -p 9581-9585:9581-9585 -p 9092:9092 -e ADV_HOST=localhost \
-  landoop/fast-data-dev:latest
-```
+mutation {
+  downloadReports(
+    query: {
+      SystemField: "520042631",
+      ReportType: "71100075",
+      Company: "510927536",
+    	FromYearPeriod: {Year: 2012, Quarter: "1"},
+      ToYearPeriod: {Year: 2020, Quarter: "1"}
+  	}
+  ) {
+    links
+  }
+}
+``` 
+
+## Env file
+The env file should have the next values:
+
+    * foo - bar 
