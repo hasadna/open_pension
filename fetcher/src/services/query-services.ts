@@ -269,3 +269,9 @@ export function getSystemFields() {
         {Id: "300002", Label: "פנסיה"},
     ];
 }
+
+export function getReportsType() {
+    return [
+        {Id: "", Label: "הכל"},
+    ];
+}

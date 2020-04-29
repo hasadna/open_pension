@@ -19,6 +19,15 @@ export class SystemField {
 }
 
 @ObjectType()
+export class ReportType {
+  @Field(type => String)
+  Id: string;
+
+  @Field(type => String)
+  Label: string;
+}
+
+@ObjectType()
 export class DownloadLinks {
   @Field(type => [String])
   links: string[];
