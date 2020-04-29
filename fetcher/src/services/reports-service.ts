@@ -18,9 +18,8 @@ export async function downloadReports(
     try {
         let reports = await cmaClient.getReports(query);
 
-        if (isDev()) {
-            reports = reports.slice(0, 1);
-        }
+        // todo: add validation to the values.
+        //  Should get the amount of downloaded files.
 
         const links = await Promise.all(
             reports.map(async row => {
