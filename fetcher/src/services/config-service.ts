@@ -35,6 +35,6 @@ export function getKafkaTopic() {
     return safeGet("KAFKA_TOPIC");
 }
 
-export function getProcesserUrl() {
+export function getProcessorUrl() {
     return "http://localhost:1000";
 }

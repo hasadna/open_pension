@@ -1,14 +1,19 @@
 import {Arg, Query, Resolver, Mutation} from "type-graphql";
 import ReportQuery from "types/report-query";
-import {DownloadLinks, Company} from "types/download-links";
+import {DownloadLinks, Company, SystemField} from "types/download-links";
 import {downloadReports} from "services/reports-service";
-import {getCompanies} from "services/query-services";
+import {getCompanies, getSystemFields} from "services/query-services";
 
 @Resolver(of => ReportQuery)
 export default class {
     @Query(returns => [Company])
-    async companies() {
-        return getCompanies()
+    companies() {
+        return getCompanies();
+    }
+
+    @Query(returns => [SystemField])
+    systemField() {
+        return getSystemFields();
     }
 
     @Mutation(returns => DownloadLinks)

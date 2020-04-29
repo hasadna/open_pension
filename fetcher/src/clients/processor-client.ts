@@ -1,6 +1,6 @@
 import fs from "fs";
 import request from "request";
-import {getProcesserUrl} from "services/config-service";
+import {getProcessorUrl} from "services/config-service";
 
 export default class ProcessorClient {
     async sendFile(file: string): Promise<string> {
@@ -9,7 +9,7 @@ export default class ProcessorClient {
             const fileName = Object.keys(body.data.files)[0];
             if (fileName) {
                 const fileId = body.data.files[fileName].id;
-                return `${getProcesserUrl()}/process/${fileId}`;
+                return `${getProcessorUrl()}/process/${fileId}`;
             }
         }
         return "unknown";
@@ -19,7 +19,7 @@ export default class ProcessorClient {
         return new Promise((resolve, reject) => {
             request.post(
                 {
-                    url: `${getProcesserUrl()}/upload`,
+                    url: `${getProcessorUrl()}/upload`,
                     formData: {files: [fs.createReadStream(file)]},
                     json: true,
                     headers: {

@@ -3,10 +3,19 @@ import { Field, ObjectType } from "type-graphql";
 @ObjectType()
 export class Company {
   @Field(type => String)
-  ParentCorpLegalId: string;
+  Id: string;
 
   @Field(type => String)
-  ParentCorpName: string;
+  Label: string;
+}
+
+@ObjectType()
+export class SystemField {
+  @Field(type => String)
+  Id: string;
+
+  @Field(type => String)
+  Label: string;
 }
 
 @ObjectType()
