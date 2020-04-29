@@ -3,11 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Company {
-  Id: String!
-  Label: String!
-}
-
 type DownloadLinks {
   links: [String!]!
 }
@@ -27,7 +22,6 @@ type Quarter {
 }
 
 type Query {
-  companies: [Company!]!
   systemField: [SystemField!]!
   reportsType: [ReportType!]!
   fromYearRange: PeriodRanges!
@@ -37,7 +31,6 @@ type Query {
 input ReportQuery {
   SystemField: String
   ReportType: String
-  Company: String
   FromYearPeriod: YearPeriod
   ToYearPeriod: YearPeriod
 }

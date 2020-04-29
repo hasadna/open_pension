@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-function safeGet(keyName: string) {
+export function safeGet(keyName: string) {
     const value = process.env[keyName];
     if (!value) {
         throw new Error(`${keyName} must be defined`);

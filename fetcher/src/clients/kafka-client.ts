@@ -25,13 +25,21 @@ export default class KafkaClient {
   }
 
   async sendMessage(messages: any) {
+
+    let topic: string;
+
+    try {
+      topic = getKafkaTopic()
+    } catch (e) {
+      return new Promise((resolve, reject) => {
+        reject(e);
+      });
+    }
+
     return new Promise((resolve, reject) => {
       this.producer.send(
         [
-          {
-            topic: getKafkaTopic(),
-            messages
-          }
+          {topic: topic, messages}
         ],
         (error, data) => (error ? reject(error) : resolve(data))
       );

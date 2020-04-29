@@ -17,14 +17,9 @@ export default class ReportQuery {
     @Field(type => String, { nullable: true })
     ReportType: string;
 
-    @Field(type => String, { nullable: true })
-    Company: string;
-
     @Field(type => YearPeriod, { nullable: true })
     FromYearPeriod: YearPeriod;
 
     @Field(type => YearPeriod, { nullable: true })
     ToYearPeriod: YearPeriod;
 }
-
-
