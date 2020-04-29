@@ -22,14 +22,28 @@ export default class CmaGovApiClient {
   }
 
   async getReports(query: ReportQuery): Promise<ReportRow[]> {
-    console.log("Getting reports list");
-    const response = await this.api.post(REPORTS_ROUTE, query);
-    console.log(`Got ${response.data.length} reports`);
+
+    let payload: any = {
+      corporation: query.Company == "" ? null : query.Company,
+      systemField: query.SystemField ? null : query.SystemField,
+      reportType: query.ReportType? null : query.SystemField,
+
+      fromQuarter: query.FromYearPeriod.Quarter,
+      fromYear: query.FromYearPeriod.Year,
+      toQuarter: query.ToYearPeriod.Quarter,
+      toYear: query.ToYearPeriod.Year,
+
+      statusReport: 1,
+      investmentName: null,
+      reportFromDate: null,
+      reportToDate: null,
+    }
+
+    const response = await this.api.post(REPORTS_ROUTE, payload);
     return response.data;
   }
 
   async downloadDocument(report: ReportRow): Promise<string> {
-    console.log("Downloading document", report.DocumentId);
     const response = await this.api.get(DOWNLOAD_ROUTE, {
       params: {
         IdDoc: report.DocumentId,

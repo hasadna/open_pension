@@ -18,23 +18,10 @@ export function getEnv() {
     return ENV || "dev";
 }
 
-export function isDev() {
-    const env = getEnv();
-    return env !== "prod" && env !== "staging";
-}
-
-export function getStorageBucket() {
-    return safeGet("GOOGLE_STORAGE_BUCKET");
-}
-
 export function getKafkaHost() {
     return safeGet("KAFKA_HOST");
 }
 
 export function getKafkaTopic() {
     return safeGet("KAFKA_TOPIC");
-}
-
-export function getProcessorUrl() {
-    return "http://localhost:1000";
 }

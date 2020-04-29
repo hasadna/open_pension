@@ -32,8 +32,7 @@ export default class {
     }
 
     @Mutation(returns => DownloadLinks)
-    async downloadReports(@Arg("query") query: ReportQuery):
-        Promise<DownloadLinks> {
-            return downloadReports(query);
-        }
+    async downloadReports(@Arg("query") query: ReportQuery): Promise<DownloadLinks> {
+        return downloadReports(query);
+    }
 }

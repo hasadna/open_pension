@@ -16,7 +16,7 @@ type ReportRow = {
     LicenseId?: number;
     LicenseStatusId?: number;
     Name?: string;
-    ParentCorpLegalId?: "570005959"
+    ParentCorpLegalId?: string;
     ParentCorpName?: string;
     ProductNum?: number;
     ReportFor?: number;
