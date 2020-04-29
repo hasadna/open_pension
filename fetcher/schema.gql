@@ -16,10 +16,22 @@ type Mutation {
   downloadReports(query: ReportQuery!): DownloadLinks!
 }
 
+type PeriodRanges {
+  Years: [Float!]!
+  Quarters: [Quarter!]!
+}
+
+type Quarter {
+  Id: String!
+  Label: String!
+}
+
 type Query {
   companies: [Company!]!
   systemField: [SystemField!]!
   reportsType: [ReportType!]!
+  fromYearRange: PeriodRanges!
+  toYearRange: PeriodRanges!
 }
 
 input ReportQuery {

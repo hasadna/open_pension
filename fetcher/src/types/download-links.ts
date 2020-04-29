@@ -28,6 +28,24 @@ export class ReportType {
 }
 
 @ObjectType()
+export class PeriodRanges {
+  @Field(type => [Number])
+  Years: number[];
+
+  @Field(type => [Quarter])
+  Quarters: Quarter[];
+}
+
+@ObjectType()
+export class Quarter {
+  @Field(type => String)
+  Id: string;
+
+  @Field(type => String)
+  Label: string
+}
+
+@ObjectType()
 export class DownloadLinks {
   @Field(type => [String])
   links: string[];

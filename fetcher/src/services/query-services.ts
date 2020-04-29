@@ -285,3 +285,27 @@ export function getReportsType() {
         {Id: "71100077", Label: "רשימת נכסים ברמת נכס בודד - Public - מוצר - פנסיה"},
     ];
 }
+
+/**
+ * Get the quarters which we can query by.
+ */
+export function getPeriodRanges() {
+    const years = () => {
+        const years: number[] = [];
+
+        for (let i = 2012; i <= new Date().getFullYear(); i++) {
+            years.push(i);
+        }
+
+        return years;
+    };
+    return {
+        Years: years(),
+        Quarters: [
+            {Id: "1", Label: "רבעון ראשון"},
+            {Id: "2", Label: "רבעון שני"},
+            {Id: "3", Label: "רבעון שלישי"},
+            {Id: "4", Label: "שנתי"},
+        ],
+    }
+}
