@@ -8,7 +8,7 @@ export default class KafkaClient {
   constructor() {
     try {
       const client = new kafka.KafkaClient({
-        kafkaHost: getKafkaHost()
+        kafkaHost: getKafkaHost(),
       });
 
       this.serviceUp = true;
@@ -19,12 +19,15 @@ export default class KafkaClient {
           console.error("Kafka producer error", err)
       );
     } catch (e) {
-      console.error(e);
       this.serviceUp = false;
     }
   }
 
   async sendMessage(messages: any) {
+
+    if (!this.serviceUp) {
+      throw new Error('The kafkat service is not running');
+    }
 
     let topic: string;
 
@@ -36,13 +39,24 @@ export default class KafkaClient {
       });
     }
 
-    return new Promise((resolve, reject) => {
-      this.producer.send(
-        [
-          {topic: topic, messages}
-        ],
-        (error, data) => (error ? reject(error) : resolve(data))
+    let results: any;
+    try {
+      results = await this.producer.send(
+          [
+            {topic: topic, messages}
+          ],
+          (error, data) => {
+          }
       );
+    } catch (e) {
+      return new Promise((resolve, reject) => {
+        reject(e);
+      })
+    }
+
+
+    return new Promise((resolve, reject) => {
+      resolve(results);
     });
   }
 }

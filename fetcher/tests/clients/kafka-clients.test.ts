@@ -1,19 +1,15 @@
-import {getKafkaTopic} from "services/config-service";
-
 const onMock = jest.fn();
 const sendMock = jest.fn();
+const producerMock = jest.fn();
 const KafkaClientMock = jest.fn();
 const getKafkaHostMock = jest.fn();
 const getKafkaTopicMock = jest.fn();
-const mockKafka = jest.fn().mockReturnValue({
-    on: onMock,
-    send: sendMock,
-});
 
 jest.mock("kafka-node", () => ({
     KafkaClient: KafkaClientMock,
-    Producer: mockKafka,
+    Producer: producerMock,
 }));
+
 jest.mock("services/config-service", () => ({
     getKafkaHost: getKafkaHostMock,
     getKafkaTopic: getKafkaTopicMock,
@@ -30,28 +26,46 @@ describe("Kafka service api client", () => {
         new KafkaClient();
         expect(getKafkaHostMock).toBeCalled();
         expect(KafkaClientMock).toBeCalledTimes(1);
-        expect(onMock).toBeCalledTimes(2);
     })
 
     it('Verify we get an error when the kafka topic is not defined', async () => {
+        getKafkaHostMock.mockImplementationOnce(() => {
+            throw new Error(`Kafka host most be defined`);
+        });
         const client = new KafkaClient();
+        expect(client.serviceUp).toBeFalsy();
 
         try {
-            await client.sendMessage('pizza!')
+            await client.sendMessage('pizza!');
             expect(false).toBeTruthy();
         } catch (e) {
-            expect(e.message).toBe('config_service_1.getKafkaTopic is not a function');
+            expect(e.message).toBe('The kafkat service is not running');
+            expect(getKafkaTopicMock).not.toBeCalled();
         }
-        expect(getKafkaTopicMock).toBeCalled();
     });
 
-    it('Testing message kafka message senging', async () => {
+    it('Testing message kafka message sending', async () => {
+        getKafkaHostMock.mockReturnValueOnce('Tom');
+        getKafkaTopicMock.mockReturnValueOnce(() => 'pizza');
+        producerMock.mockImplementationOnce(() => {
+            return {
+                on: onMock,
+                send: sendMock,
+            };
+        });
+
         const client = new KafkaClient();
-        getKafkaTopicMock.mockReturnValue(() => 'pizza');
+
+        sendMock.mockResolvedValueOnce('resolved');
+        const revolved = await client.sendMessage('pizza!');
+        expect(revolved).toBe('resolved');
+
+        sendMock.mockRejectedValueOnce('rejected');
         try {
-            const bar = await client.sendMessage('pizza!');
+            await client.sendMessage('pizza!');
+            expect(false).toBeTruthy();
         } catch (e) {
-            expect(getKafkaTopicMock).toBeCalled();
+            expect(e).toBe('rejected');
         }
     });
 });
