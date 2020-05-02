@@ -14,7 +14,7 @@ jest.mock("fs", () => ({
     createWriteStream: jest.fn()
 }));
 
-import CmaGovApiClient from "clients/cma-api-client";
+import { CmaGovApiClient } from "clients/cma-api-client";
 import ReportQuery from "types/report-query";
 
 describe("CMA api client", () => {

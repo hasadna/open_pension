@@ -1,7 +1,7 @@
 import ReportQuery from "types/report-query";
 import {DownloadLinks} from "types/download-links";
-import CmaGovApiClient from "clients/cma-api-client";
-import KafkaClient from "clients/kafka-client";
+import { CmaGovApiClient } from "clients/cma-api-client";
+import { KafkaClient } from "clients/kafka-client";
 
 const cmaClient = new CmaGovApiClient();
 const kafkaClient = new KafkaClient();
@@ -20,7 +20,6 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
 
         return {links: links};
     } catch (error) {
-        console.log(error.data);
         return {links: []};
     }
 }

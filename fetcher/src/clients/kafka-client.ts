@@ -1,7 +1,7 @@
 import kafka from "kafka-node";
 import { getKafkaHost, getKafkaTopic } from "services/config-service";
 
-export default class KafkaClient {
+export class KafkaClient {
   private producer: kafka.Producer;
   public serviceUp: boolean;
 

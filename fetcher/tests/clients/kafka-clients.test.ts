@@ -15,7 +15,7 @@ jest.mock("services/config-service", () => ({
     getKafkaTopic: getKafkaTopicMock,
 }));
 
-import KafkaClient from "clients/kafka-client";
+import { KafkaClient } from "clients/kafka-client";
 
 describe("Kafka service api client", () => {
 

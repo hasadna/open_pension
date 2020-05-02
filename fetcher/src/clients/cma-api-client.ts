@@ -4,22 +4,16 @@ import os from "os";
 import path from "path";
 import ReportRow from "types/report-row";
 import ReportQuery from "types/report-query";
-import {BASE_URL, DOWNLOAD_EXTENSION, DOWNLOAD_ROUTE, METADATA_ROUTE, REPORTS_ROUTE} from "consts";
-import {getEnv, safeGet} from "services/config-service";
+import {BASE_URL, DOWNLOAD_EXTENSION, DOWNLOAD_ROUTE, REPORTS_ROUTE} from "consts";
+import {safeGet} from "services/config-service";
 
-export default class CmaGovApiClient {
+export class CmaGovApiClient {
   private api: AxiosInstance;
 
   constructor() {
     this.api = axios.create({
       baseURL: BASE_URL
     });
-  }
-
-  async getReportsMetadata() {
-    console.log("Getting metadata");
-    const response = await this.api.get(METADATA_ROUTE);
-    return response.data;
   }
 
   async getReports(query: ReportQuery): Promise<ReportRow[]> {
