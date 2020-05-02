@@ -17,7 +17,7 @@ jest.mock("fs", () => ({
 import CmaGovApiClient from "clients/cma-api-client";
 import ReportQuery from "types/report-query";
 
-describe("cma api client", () => {
+describe("CMA api client", () => {
     let client: CmaGovApiClient;
 
     beforeAll(() => (client = new CmaGovApiClient()));
@@ -37,7 +37,7 @@ describe("cma api client", () => {
             ReportType: "",
             ToYearPeriod: {Quarter: "1", Year: 2012},
             SystemField: "",
-            FromYearPeriod: {Year: 2012, Quarter: ""}
+            FromYearPeriod: {Year: 2012, Quarter: "1"}
         };
 
         const expectedQuery = {
