@@ -20,9 +20,9 @@ import ReportQuery from "types/report-query";
 describe("CMA api client", () => {
     let client: CmaGovApiClient;
     const goodQuery: ReportQuery = {
-        SystemField: "1",
+        SystemField: "300001",
         ToYearPeriod: {Quarter: "1", Year: 2020},
-        ReportType: "1",
+        ReportType: "71100075",
         FromYearPeriod: {Quarter: "2", Year: 2015},
     };
 
@@ -113,14 +113,39 @@ describe("CMA api client", () => {
     });
 
     it('Testing query validation: getReportsType', () => {
-        expect(true).toBeFalsy();
+        let badQuery: ReportQuery = {...goodQuery, ReportType: ""};
+        expect(client.validateQuery(badQuery)).toStrictEqual({});
+
+        badQuery = {...badQuery, ReportType: "71100075"}
+        expect(client.validateQuery(badQuery)).toStrictEqual({});
+
+        badQuery = {...badQuery, ReportType: "pizza"}
+        expect(client.validateQuery(badQuery)).toStrictEqual({ReportType: "'pizza' is not allowed"});
     });
 
     it('Testing query validation: getPeriodRanges', () => {
-        expect(true).toBeFalsy();
+        let badQuery: ReportQuery = {...goodQuery, FromYearPeriod: {Year: 1990, Quarter: "7"}, ToYearPeriod: {Year: 2010, Quarter: "5"}};
+        expect(client.validateQuery(badQuery)).toStrictEqual({
+            FromYearPeriod: {Year: "'1990' is out of range", Quarter: "'7' is out of range"},
+            ToYearPeriod: {Year: "'2010' is out of range", Quarter: "'5' is out of range"},
+        });
     });
 
-    it('Testing query validation: all together', () => {
-        expect(true).toBeFalsy();
+    it('Testing query validation: Happy flow and all the bad flows', () => {
+        expect(client.validateQuery(goodQuery)).toStrictEqual({});
+
+        let badQuery: ReportQuery = {...goodQuery,
+            SystemField: "a",
+            ReportType: "pizza",
+            FromYearPeriod: {Year: 1990, Quarter: "7"},
+            ToYearPeriod: {Year: 2010, Quarter: "5"},
+        };
+
+        expect(client.validateQuery(badQuery)).toStrictEqual({
+            FromYearPeriod: {Year: "'1990' is out of range", Quarter: "'7' is out of range"},
+            ToYearPeriod: {Year: "'2010' is out of range", Quarter: "'5' is out of range"},
+            ReportType: "'pizza' is not allowed",
+            SystemField: "'a' is not allowed",
+        });
     });
 });

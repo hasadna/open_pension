@@ -92,11 +92,11 @@ describe("Testing the reports service", () => {
             throw new Error('🙄');
         });
 
-        mockValidateQuery.mockReturnValueOnce(['🍕', '🤘'])
+        mockValidateQuery.mockReturnValueOnce({SystemField: "'🤘' is not allowed"})
 
         const collectedLinks: DownloadLinks = await downloadReports(reportQuery);
         expect(mockValidateQuery).toBeCalledWith(reportQuery);
-        expect(collectedLinks).toStrictEqual({ links: [], errors: [ '🍕', '🤘' ] });
+        expect(collectedLinks).toStrictEqual({ links: [], errors: {SystemField: "'🤘' is not allowed"} });
     });
 
 });
