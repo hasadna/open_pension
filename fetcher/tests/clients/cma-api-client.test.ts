@@ -19,6 +19,12 @@ import ReportQuery from "types/report-query";
 
 describe("CMA api client", () => {
     let client: CmaGovApiClient;
+    const goodQuery: ReportQuery = {
+        SystemField: "1",
+        ToYearPeriod: {Quarter: "1", Year: 2020},
+        ReportType: "1",
+        FromYearPeriod: {Quarter: "2", Year: 2015},
+    };
 
     beforeAll(() => (client = new CmaGovApiClient()));
     afterEach(() => jest.resetAllMocks());
@@ -87,5 +93,34 @@ describe("CMA api client", () => {
         expect(response).toEqual(
             `${os.tmpdir()}/${reportRow.DocumentId}.${reportRow.fileExt}`
         );
+    });
+
+    it('Testing query validation: getSystemFields', () => {
+        let badQuery: ReportQuery = {...goodQuery, SystemField: "a"};
+        expect(client.validateQuery(badQuery)).toStrictEqual({SystemField: "'a' is not allowed"});
+
+        badQuery = {...badQuery, SystemField: ""}
+        expect(client.validateQuery(badQuery)).toStrictEqual({});
+
+        badQuery = {...badQuery, SystemField: "300001"}
+        expect(client.validateQuery(badQuery)).toStrictEqual({});
+
+        badQuery = {...badQuery, SystemField: "300002"}
+        expect(client.validateQuery(badQuery)).toStrictEqual({});
+
+        badQuery = {...badQuery, SystemField: "300003"}
+        expect(client.validateQuery(badQuery)).toStrictEqual({});
+    });
+
+    it('Testing query validation: getReportsType', () => {
+        expect(true).toBeFalsy();
+    });
+
+    it('Testing query validation: getPeriodRanges', () => {
+        expect(true).toBeFalsy();
+    });
+
+    it('Testing query validation: all together', () => {
+        expect(true).toBeFalsy();
     });
 });

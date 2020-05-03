@@ -8,6 +8,12 @@ const kafkaClient = new KafkaClient();
 
 export async function downloadReports(query: ReportQuery): Promise<DownloadLinks> {
     try {
+        const errors = cmaClient.validateQuery(query);
+
+        if (errors) {
+            return {links: [], errors: errors}
+        }
+
         let reports = await cmaClient.getReports(query);
 
         // todo: add validation to the values.
@@ -18,8 +24,8 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
 
         await kafkaClient.sendMessage(links);
 
-        return {links: links};
+        return {links: links, errors: []};
     } catch (error) {
-        return {links: []};
+        return {links: [], errors: [error.message]};
     }
 }

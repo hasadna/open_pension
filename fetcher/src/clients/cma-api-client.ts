@@ -6,6 +6,7 @@ import ReportRow from "types/report-row";
 import ReportQuery from "types/report-query";
 import {BASE_URL, DOWNLOAD_EXTENSION, DOWNLOAD_ROUTE, REPORTS_ROUTE} from "consts";
 import {safeGet} from "services/config-service";
+import {getSystemFields} from "services/query-services";
 
 export class CmaGovApiClient {
   private api: AxiosInstance;
@@ -37,6 +38,17 @@ export class CmaGovApiClient {
 
     const response = await this.api.post(REPORTS_ROUTE, payload);
     return response.data;
+  }
+
+  public validateQuery(query: ReportQuery): string[] {
+    const errors: any = {};
+
+    if (getSystemFields().map((item: any) => item.Id).indexOf(query.SystemField) === -1) {
+      errors['SystemField'] = `'${query.SystemField}' is not allowed`;
+      // errors.push(`'${query.SystemField}' is not allowed`<!--);-->
+    }
+
+    return errors;
   }
 
   async downloadDocument(DocumentId: string): Promise<string> {

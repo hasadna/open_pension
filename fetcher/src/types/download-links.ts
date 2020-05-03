@@ -40,4 +40,7 @@ export class Quarter {
 export class DownloadLinks {
   @Field(type => [String])
   links: string[];
+
+  @Field(type => [String])
+  errors: string[];
 }

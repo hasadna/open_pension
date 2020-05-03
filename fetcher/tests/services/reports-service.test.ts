@@ -3,10 +3,12 @@ import {DownloadLinks} from "types/download-links";
 const mockGetReports = jest.fn();
 const mockSendMessage = jest.fn();
 const mockDownloadDocument = jest.fn();
+const mockValidateQuery = jest.fn();
 
 const mockCmaGovApiClientCreate = jest.fn().mockReturnValue({
     getReports: mockGetReports,
     downloadDocument: mockDownloadDocument,
+    validateQuery: mockValidateQuery,
 });
 
 const mockKafkaClientCreate = jest.fn().mockReturnValue({
@@ -47,6 +49,7 @@ describe("Testing the reports service", () => {
         ]);
 
         const collectedLinks: DownloadLinks = await downloadReports(reportQuery);
+        expect(mockValidateQuery).toBeCalledWith(reportQuery);
         expect(mockGetReports).toBeCalledWith({
             SystemField: '1',
             ToYearPeriod: { Quarter: '101', Year: 2020 },
@@ -69,13 +72,31 @@ describe("Testing the reports service", () => {
 
         mockGetReports.mockImplementationOnce(() => {
             throw new Error('🙄');
-        })
+        });
+
         const collectedLinks: DownloadLinks = await downloadReports(reportQuery);
+        expect(mockValidateQuery).toBeCalledWith(reportQuery);
+        expect(mockValidateQuery).toBeCalled();
         expect(collectedLinks.links).toStrictEqual([]);
     });
 
-    it('Checking validations for reports query', () => {
-        expect(true).toBeTruthy();
+    it('Checking the validation returns any data in the response', async () => {
+        const reportQuery: ReportQuery = {
+            SystemField: "1",
+            ToYearPeriod: {Quarter: "101", Year: 2020},
+            ReportType: "1",
+            FromYearPeriod: {Quarter: "101", Year: 2020},
+        };
+
+        mockGetReports.mockImplementationOnce(() => {
+            throw new Error('🙄');
+        });
+
+        mockValidateQuery.mockReturnValueOnce(['🍕', '🤘'])
+
+        const collectedLinks: DownloadLinks = await downloadReports(reportQuery);
+        expect(mockValidateQuery).toBeCalledWith(reportQuery);
+        expect(collectedLinks).toStrictEqual({ links: [], errors: [ '🍕', '🤘' ] });
     });
 
 });
