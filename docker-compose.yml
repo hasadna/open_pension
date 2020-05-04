@@ -85,5 +85,10 @@ services:
     depends_on:
       - zookeeper
 
+  enrichment:
+    image: hasadna/open-pension-enrichment:latest
+    build:
+      context: ./enrichment
+
   zookeeper: 
     image: zookeeper:3.5

@@ -3,12 +3,12 @@ import os
 
 import pandas as pd
 
-from consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS, MUTUAL_FUNDS, ETF, WARRANTS, \
+from enrichment.consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS, MUTUAL_FUNDS, ETF, WARRANTS, \
     OPTIONS, FUTURES, STRUCTURED_PRODUCT
 
-from enrich.enrich_instruments import enrich_gov_bonds, enrich_company_bonds, enrich_stocks
-from utils import join_json_strings, save_data_to_file
-from normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks, \
+from enrichment.enrich.enrich_instruments import enrich_gov_bonds, enrich_company_bonds, enrich_stocks
+from enrichment.utils import join_json_strings, save_data_to_file
+from enrichment.normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks, \
     normalize_mutual_funds, normalize_etf, normalize_warrants, normalize_options, normalize_futures, \
     normalize_structured_product
 
