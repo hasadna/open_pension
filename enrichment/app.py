@@ -23,5 +23,10 @@ def api_process_json():
     )
 
 
+@app.route('/ping', methods=["GET"])
+def ping():
+    return "pong"
+
+
 if __name__ == '__main__':
     app.run()
