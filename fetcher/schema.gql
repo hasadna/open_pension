@@ -5,6 +5,7 @@
 
 type DownloadLinks {
   links: [String!]!
+  errors: [String!]!
 }
 
 type Mutation {

@@ -19,6 +19,8 @@ async function bootstrap() {
         })
     );
 
+    app.use("/", (req, res) => res.send({status: 'alive'}))
+
     const port = getPort();
     const env = getEnv();
     app.listen(port, () => console.log(`Fetcher listening on port ${port}, environment ${env}`));

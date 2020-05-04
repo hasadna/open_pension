@@ -45,6 +45,6 @@ services:
 
   fetcher:
     volumes:
-      - ./processor/src/fetcher:/home/app/fetcher
+      - ./fetcher:/home/app
     ports:
-      - "5000:80"
+      - "5000:3000"

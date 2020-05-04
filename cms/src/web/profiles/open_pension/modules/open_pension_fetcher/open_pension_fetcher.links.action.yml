@@ -1,0 +1,5 @@
+open_pension_links.add_form:
+  route_name: entity.open_pension_links.add_form
+  title: 'Add open pension links'
+  appears_on:
+    - entity.open_pension_links.collection

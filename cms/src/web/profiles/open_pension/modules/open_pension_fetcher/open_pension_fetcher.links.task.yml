@@ -1,0 +1,18 @@
+entity.open_pension_links.view:
+  title: View
+  route_name: entity.open_pension_links.canonical
+  base_route: entity.open_pension_links.canonical
+entity.open_pension_links.edit_form:
+  title: Edit
+  route_name: entity.open_pension_links.edit_form
+  base_route: entity.open_pension_links.canonical
+entity.open_pension_links.delete_form:
+  title: Delete
+  route_name: entity.open_pension_links.delete_form
+  base_route: entity.open_pension_links.canonical
+  weight: 10
+#entity.open_pension_links.collection:
+#  title: Open Pension Links
+#  route_name: entity.open_pension_links.collection
+#  base_route: system.admin_content
+#  weight: 10

@@ -43,7 +43,7 @@ use Drupal\user\EntityOwnerTrait;
  *     "canonical" = "/instrument_type/{instrument_type}",
  *     "edit-form" = "/admin/open_pension/reclamations/instrument-type/{instrument_type}/edit",
  *     "delete-form" = "/admin/open_pension/reclamations/instrument-type/{instrument_type}/delete",
- *     "collection" = "/admin/content/instrument-type"
+ *     "collection" = "/admin/open_pension/reclamations/instrument-type"
  *   },
  * )
  */

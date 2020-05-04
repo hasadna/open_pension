@@ -4,7 +4,7 @@
   "description": "Fetcher for open pension platform",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -r tsconfig-paths/register",
+    "build": "tsc",
     "dev": "nodemon -L",
     "start": "node ./dist/server.js",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
