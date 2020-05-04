@@ -12,6 +12,7 @@ class OpenPensionServicesAddresses {
   const SERVICES_ADDRESSES_CONFIG = 'open_pension_services.settings';
 
   const PROCESSOR_DEFAULT_ADDRESS = 'http://processor';
+  const FETCHER_DEFAULT_ADDRESS = 'http://fetcher:3000';
 
   /**
    * The config factory.
@@ -38,6 +39,10 @@ class OpenPensionServicesAddresses {
 
   public function getProcessorAddress(): string {
     return $this->config->get('processor') ?: self::PROCESSOR_DEFAULT_ADDRESS;
+  }
+
+  public function getFetcherAddress(): string {
+    return $this->config->get('fetcher') ?: self::FETCHER_DEFAULT_ADDRESS;
   }
 
 }

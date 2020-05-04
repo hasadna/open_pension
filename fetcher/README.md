@@ -23,9 +23,6 @@ query {
   reportsType {
     Id, Label
   },
-  companies {
-    Id, Label
-  }
   toYearRange {
     Years,
     Quarters {

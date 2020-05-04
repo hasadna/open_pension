@@ -1,0 +1,4 @@
+services:
+  open_pension_fetcher.query:
+    class: Drupal\open_pension_fetcher\OpenPensionFetcherQuery
+    arguments: ['@http_client', '@open_pension_services.services_addresses', '@open_pension_services.health_status']
