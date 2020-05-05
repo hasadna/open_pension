@@ -4,7 +4,6 @@ namespace Drupal\open_pension_fetcher\Form;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Entity\ContentEntityForm;
-use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -43,32 +42,47 @@ class OpenPensionLinksForm extends ContentEntityForm {
     );
   }
 
+  protected function idLabelProcessor($items) {
+      $processed_items = [];
+      foreach ($items as $item) {
+        $processed_items[$item['Id']] = $item['Label'];
+      }
+
+      return $processed_items;
+  }
+
+  protected function processYears($items) {
+    $processed_items = [];
+    foreach ($items as $item) {
+      $processed_items[$item] = $item;
+    }
+
+    return $processed_items;
+  }
+
+  protected function actions(array $form, FormStateInterface $form_state) {
+    $actions = parent::actions($form, $form_state);
+    $actions['submit']['#submit'] = ['::submitForm', '::sendMutation'];
+
+    return $actions;
+  }
 
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
     $query_response = $this->openPensionFetcherQuery->query();
 
-    $iterator = function($values) {
-      $system_fields = [];
-      foreach ($values as $item) {
-        $system_fields[$item['Id']] = $item['Label'];
-      }
-
-      return $system_fields;
-    };
-
     $form['#attached']['library'][] = 'open_pension_fetcher/fetcher-service-query';
     $form['system_field'] = [
       '#type' => 'select',
       '#title' => t('System field'),
-      '#options' => $iterator($query_response['systemField']),
+      '#options' => $this->idLabelProcessor($query_response['systemField']),
     ];
 
     $form['reports_type'] = [
       '#type' => 'select',
       '#title' => t('Reports type'),
-      '#options' => $iterator($query_response['reportsType']),
+      '#options' => $this->idLabelProcessor($query_response['reportsType']),
     ];
 
     $form['period_filter'] = [
@@ -81,29 +95,31 @@ class OpenPensionLinksForm extends ContentEntityForm {
       'from' => [
         '#type' => 'details',
         '#title' => $this->t('From'),
-        'year' => [
+        'from_year' => [
           '#type' => 'select',
           '#title' => t('Years'),
-          '#options' => $query_response['fromYearRange']['Years'],
+          '#default_value' => date('Y'),
+          '#options' => $this->processYears($query_response['fromYearRange']['Years']),
         ],
-        'quarter' => [
+        'from_quarter' => [
           '#type' => 'select',
           '#title' => t('Quarters'),
-          '#options' => $iterator($query_response['fromYearRange']['Quarters']),
+          '#options' => $this->idLabelProcessor($query_response['fromYearRange']['Quarters']),
         ],
       ],
       'to' => [
         '#type' => 'details',
         '#title' => $this->t('To'),
-        'year' => [
+        'to_year' => [
           '#type' => 'select',
+          '#default_value' => date('Y'),
           '#title' => t('Years'),
-          '#options' => $query_response['fromYearRange']['Years'],
+          '#options' => $this->processYears($query_response['fromYearRange']['Years']),
         ],
-        'quarter' => [
+        'to_quarter' => [
           '#type' => 'select',
           '#title' => t('Quarters'),
-          '#options' => $iterator($query_response['fromYearRange']['Quarters']),
+          '#options' => $this->idLabelProcessor($query_response['fromYearRange']['Quarters']),
         ],
       ],
     ];
@@ -111,6 +127,10 @@ class OpenPensionLinksForm extends ContentEntityForm {
     unset($form['created']);
 
     return $form;
+  }
+
+  public function sendMutation(array $form, FormStateInterface $form_state) {
+    dpm($form_state->getValues());
   }
 
 }
