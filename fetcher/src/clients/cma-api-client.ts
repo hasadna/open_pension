@@ -36,6 +36,8 @@ export class CmaGovApiClient {
             "reportToDate": null
         };
 
+        console.log(payload);
+
         const response = await this.api.post(REPORTS_ROUTE, payload);
         return response.data;
     }

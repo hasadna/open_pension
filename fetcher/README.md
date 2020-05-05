@@ -43,7 +43,7 @@ mutation {
       SystemField: "520042631",
       ReportType: "71100075",
       Company: "510927536",
-    	FromYearPeriod: {Year: 2012, Quarter: "1"},
+      FromYearPeriod: {Year: 2012, Quarter: "1"},
       ToYearPeriod: {Year: 2020, Quarter: "1"}
   	}
   ) {

@@ -71,6 +71,7 @@ class OpenPensionLinksForm extends ContentEntityForm {
     $form = parent::form($form, $form_state);
 
     $query_response = $this->openPensionFetcherQuery->query();
+    dpm($this->openPensionFetcherQuery->mutate());
 
     $form['#attached']['library'][] = 'open_pension_fetcher/fetcher-service-query';
     $form['system_field'] = [
