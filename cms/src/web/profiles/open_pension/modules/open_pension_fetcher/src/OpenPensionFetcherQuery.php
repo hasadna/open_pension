@@ -34,23 +34,59 @@ class OpenPensionFetcherQuery {
     $this->servicesHealthStatus = $open_pension_health_status;
   }
 
-  public function query() {
+  protected function sendQuery($query) {
     if (!$this->servicesHealthStatus->getFetcherState()) {
       \Drupal::messenger()->addError(t('The fetcher services does not responding'));
       return [];
     }
 
     $fetcher_address = $this->servicesAddresses->getFetcherAddress();
-    $graphQLquery = '{"query": "query {systemField {Id, Label} reportsType{Id, Label} toYearRange{Years,Quarters{Id,Label}} fromYearRange{Years,Quarters{Id,Label}}}"}';
-
     $response = $this->httpClient->post($fetcher_address . '/graphql', [
       'headers' => [
-        'Content-Type' => 'application/json'
+        'Content-Type' => 'application/json',
       ],
-      'body' => $graphQLquery
-    ])
-      ->getBody()->getContents();
+      'body' => json_encode([
+        'query' => $query,
+      ]),
+    ]);
 
+    return $response->getBody()->getContents();
+  }
+
+  public function query() {
+    if (!$this->servicesHealthStatus->getFetcherState()) {
+      \Drupal::messenger()->addError(t('The fetcher services does not responding'));
+      return [];
+    }
+
+    $query = <<<'GRAPHQL'
+    query {
+      systemField {
+        Id
+        Label
+      }
+      reportsType {
+        Id
+        Label
+      }
+      fromYearRange {
+        Years
+        Quarters {
+          Id
+          Label
+        }
+      }
+      toYearRange {
+        Years
+        Quarters {
+          Id
+          Label
+        }
+      }
+    }
+    GRAPHQL;
+
+    $response = $this->sendQuery($query);
     return json_decode($response, true)['data'];
   }
 
@@ -61,49 +97,35 @@ class OpenPensionFetcherQuery {
     }
 
     $fetcher_address = $this->servicesAddresses->getFetcherAddress();
-//    $graphQLquery = '{"query": "mutation { downloadReports(query:{SystemField: "122"}) {links} }"}';
-//    $response = $this->httpClient->post($fetcher_address . '/graphql', [
-//      'headers' => [
-//        'Content-Type' => 'application/json'
-//      ],
-//      'body' => $graphQLquery
-//    ])
-//      ->getBody()->getContents();
 
     $query = <<<'GRAPHQL'
-mutation {
-  downloadReports(
-    query: {
-      SystemField: "",
-      ReportType: "",
-      FromYearPeriod: {Year: 2020, Quarter: "1"},
-      ToYearPeriod: {Year: 2020, Quarter: "1"}
-  	}
-  ) {
-    links
-  }
-}
-GRAPHQL;
+      mutation {
+        downloadReports(
+          query: {
+            SystemField: "",
+            ReportType: "",
+            FromYearPeriod: {Year: 2020, Quarter: "1"},
+            ToYearPeriod: {Year: 2020, Quarter: "1"}
+          }
+        ) {
+          links, errors
+        }
+      }
+    GRAPHQL;
 
-    $results = '
+//    $response = $this->sendQuery($query);
+
+    $response = '
     {"data":{"downloadReports":{"links":["https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1805078&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1805077&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1805076&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1803876&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810092&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810089&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810090&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810088&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810087&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810094&extention=XLSX"]}}}
     ';
 
-    return json_decode($results);
+    $decoded = json_decode($response, true)['data'];
 
+    if (!empty($decoded['downloadReports']['errors'])) {
+      return [];
+    }
 
-    $response = $this->httpClient->post($fetcher_address . '/graphql', [
-      'headers' => [
-        'Content-Type' => 'application/json',
-      ],
-      'body' => json_encode([
-        'query' => $query,
-      ]),
-    ]);
-
-    dpm($response->getBody()->getContents());
-
-//    return json_decode($response, true);
+    return $decoded['downloadReports']['links'];
   }
 
 }

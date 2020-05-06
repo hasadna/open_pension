@@ -62,16 +62,25 @@ class OpenPensionLinksForm extends ContentEntityForm {
 
   protected function actions(array $form, FormStateInterface $form_state) {
     $actions = parent::actions($form, $form_state);
+
+    if ($this->getOperation() == 'edit') {
+      return $actions;
+    }
+
     $actions['submit']['#submit'] = ['::submitForm', '::sendMutation'];
 
     return $actions;
   }
 
   public function form(array $form, FormStateInterface $form_state) {
+
     $form = parent::form($form, $form_state);
 
+    if ($this->getOperation() == 'edit') {
+      return $form;
+    }
+
     $query_response = $this->openPensionFetcherQuery->query();
-    dpm($this->openPensionFetcherQuery->mutate());
 
     $form['#attached']['library'][] = 'open_pension_fetcher/fetcher-service-query';
     $form['system_field'] = [
@@ -125,13 +134,63 @@ class OpenPensionLinksForm extends ContentEntityForm {
       ],
     ];
 
+    // No need to display the URL.
+    $form['url']['#access'] = FALSE;
+
     unset($form['created']);
 
     return $form;
   }
 
+  public function save(array $form, FormStateInterface $form_state) {
+    $entity = $this->getEntity();
+    $result = $entity->save();
+    $link = $entity->toLink($this->t('View'))->toRenderable();
+
+    $message_arguments = ['%label' => $this->entity->label()];
+    $logger_arguments = $message_arguments + ['link' => render($link)];
+
+    if ($result == SAVED_NEW) {
+      $this->messenger()->addStatus($this->t('New open pension links %label has been created.', $message_arguments));
+      $this->logger('open_pension_fetcher')->notice('Created new open pension links %label', $logger_arguments);
+    }
+    else {
+      $this->messenger()->addStatus($this->t('The open pension links %label has been updated.', $message_arguments));
+      $this->logger('open_pension_fetcher')->notice('Updated new open pension links %label.', $logger_arguments);
+    }
+
+    $form_state->setRedirect('entity.open_pension_links.collection', ['open_pension_links' => $entity->id()]);
+  }
+
   public function sendMutation(array $form, FormStateInterface $form_state) {
-    dpm($form_state->getValues());
+
+    // todo: send the values.
+    $urls = $this->openPensionFetcherQuery->mutate();
+
+    $this->queryUrls($urls);
+  }
+
+  /**
+   * @param array $urls
+   */
+  public function queryUrls(array $urls): void {
+    foreach ($urls as $url) {
+      $results = \Drupal::entityQuery('open_pension_links')->condition('url', $url)->execute();
+
+      if ($results) {
+        // Already exists in the system.
+        continue;
+      }
+
+      $this->createLinkRecordsFromUrl($url);
+    }
+  }
+
+  public function createLinkRecordsFromUrl($url) {
+    \Drupal::entityTypeManager()
+      ->getStorage('open_pension_links')
+      ->create(['url' => $url])
+      ->save();
   }
 
 }

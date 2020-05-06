@@ -71,6 +71,46 @@ class OpenPensionLinks extends ContentEntityBase implements OpenPensionLinksInte
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
+    $fields['url'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Address'))
+      ->setRequired(TRUE)
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'string',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['open_pension_file'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Open pension file'))
+      ->setDescription(t('The file from the URL.'))
+      ->setSetting('target_type', 'media')
+      ->setRequired(TRUE)
+      ->setRevisionable(FALSE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
+
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Authored on'))
       ->setDescription(t('The time that the open pension links was created.'))
