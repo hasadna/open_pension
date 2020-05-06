@@ -136,6 +136,7 @@ class OpenPensionLinksForm extends ContentEntityForm {
 
     // No need to display the URL.
     $form['url']['#access'] = FALSE;
+    $form['open_pension_file']['#access'] = FALSE;
 
     unset($form['created']);
 
@@ -168,29 +169,6 @@ class OpenPensionLinksForm extends ContentEntityForm {
     $urls = $this->openPensionFetcherQuery->mutate();
 
     $this->queryUrls($urls);
-  }
-
-  /**
-   * @param array $urls
-   */
-  public function queryUrls(array $urls): void {
-    foreach ($urls as $url) {
-      $results = \Drupal::entityQuery('open_pension_links')->condition('url', $url)->execute();
-
-      if ($results) {
-        // Already exists in the system.
-        continue;
-      }
-
-      $this->createLinkRecordsFromUrl($url);
-    }
-  }
-
-  public function createLinkRecordsFromUrl($url) {
-    \Drupal::entityTypeManager()
-      ->getStorage('open_pension_links')
-      ->create(['url' => $url])
-      ->save();
   }
 
 }

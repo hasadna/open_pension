@@ -78,9 +78,8 @@ class OpenPensionLinksListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('ID');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
+    $header['id'] = $this->t('Address');
+    $header['file'] = $this->t('File');
     return $header + parent::buildHeader();
   }
 
@@ -89,9 +88,15 @@ class OpenPensionLinksListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\open_pension_fetcher\OpenPensionLinksInterface */
-    $row['id'] = $entity->link();
-    $row['created'] = $this->dateFormatter->format($entity->getCreatedTime());
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
+    $row['label'] = $entity->get('url')->value;
+
+    $row['link'] = t('No file for now');
+
+    if ($entity->get('open_pension_file')->referencedEntities()) {
+      $ref = $entity->get('open_pension_file')->referencedEntities()[0];
+      $row['link'] = $ref->toLink();
+    }
+
     return $row + parent::buildRow($entity);
   }
 

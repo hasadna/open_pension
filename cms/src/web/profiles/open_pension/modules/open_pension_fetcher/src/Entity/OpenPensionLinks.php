@@ -4,6 +4,7 @@ namespace Drupal\open_pension_fetcher\Entity;
 
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\open_pension_fetcher\OpenPensionLinksInterface;
@@ -92,6 +93,7 @@ class OpenPensionLinks extends ContentEntityBase implements OpenPensionLinksInte
       ->setDescription(t('The file from the URL.'))
       ->setSetting('target_type', 'media')
       ->setRequired(TRUE)
+      ->setCardinality(1)
       ->setRevisionable(FALSE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
