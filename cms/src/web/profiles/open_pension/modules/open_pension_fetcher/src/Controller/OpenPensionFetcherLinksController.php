@@ -105,19 +105,25 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       return new Response(t('File was un able to save'), Response::HTTP_BAD_REQUEST);
     }
 
-    $file = $this->entityTypeManager->getStorage('file')->create(['uri' => $file_uri]);
-    $file->save();
+    $file_ids = $this->entityTypeManager->getStorage('file')->getQuery()->condition('uri', $file_uri)->execute();
+
+    $file_id = reset($file_ids);
+    if (!$file_ids) {
+      $file = $this->entityTypeManager->getStorage('file')->create(['uri' => $file_uri]);
+      $file->save();
+      $file_id = $file->id();
+    }
 
     $link = $this->entityTypeManager->getStorage('open_pension_links')->load(reset($link_ids));
 
     // Create the media and reference it to the object.
     $media = $this->entityTypeManager->getStorage('media')->create([
       'bundle' => 'open_pension_file',
-      'field_media_file' => $file->id(),
+      'field_media_file' => $file_id,
     ]);
-
     $media->save();
 
+    // Update the reference.
     $link->set('open_pension_file', $media);
     $link->save();
 
