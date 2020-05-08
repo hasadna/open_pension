@@ -1,0 +1,7 @@
+open_pension_fetcher.links:
+  path: '/api/fetcher-links'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherLinksController::build'
+  requirements:
+    _permission: 'access content'
