@@ -3,6 +3,7 @@ import {DownloadLinks} from "types/download-links";
 import { CmaGovApiClient } from "clients/cma-api-client";
 import { KafkaClient } from "clients/kafka-client";
 import CmsService from "./cms-services";
+import ReportRow from "../types/report-row";
 
 const cmaClient = new CmaGovApiClient();
 const cmsService = new CmsService();
@@ -17,24 +18,20 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
 
         let reports = await cmaClient.getReports(query);
 
-        // todo: add validation to the values.
-        const links: any = reports.map(async (row: any) => {
-            // todo: send a post message to Drupal.
+        const links: any = reports.map(async (row: ReportRow) => {
             const address = `https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=${row['DocumentId']}&extention=XLSX`;
-
-            cmsService.sendLinkAddress(address);
-
-            // todo: send the address to Drupal.
-            return address;
+            await cmsService.sendLinkAddress(address);
+            return {address: address, documentId: row['DocumentId']};
         });
 
-        // todo: iterate over the files we collected.
-        links.map(async (item: string) => {
-            const file = await cmaClient.downloadDocument(item);
-            await cmsService.sendFile(item, file);
-        });
+        Promise.all(links).then(async (links) => {
+            links.map(async (item: any) => {
+                const file = await cmaClient.downloadDocument(item['address'], item['documentId']);
+                await cmsService.sendFile(item['address'], file, item['documentId']);
+            })
+        })
 
-        return {links: links, errors: []};
+        return {links: [`file amount: ${links.length}`], errors: []};
     } catch (error) {
         return {links: [], errors: [error.message]};
     }

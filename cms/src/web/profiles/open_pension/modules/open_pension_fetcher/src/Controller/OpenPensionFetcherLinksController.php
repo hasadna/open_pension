@@ -47,41 +47,89 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     );
   }
 
+  protected function returnResponse($message, $status = 200) {
+    return new Response($message, $status);
+  }
+
   /**
    * Builds the response.
    */
   public function build() {
+    // Get the payload.
+    $response = json_decode($this->requestStack->getContent(), TRUE);
+
+    if ($constraints = $this->validatePayload($this->requestStack->getMethod(), $response)) {
+      return $constraints;
+    }
 
     if ($this->requestStack->getMethod() == Request::METHOD_POST) {
-      // Get the payload.
-      return $this->createLink('http://google.com');
+      return $this->createLink($response['link']);
     }
 
-    if ($this->requestStack->getMethod() == Request::METHOD_PATCH) {
-      // Get the file and create the.
-      return $this->setLinkToFile('pizza', 'foo.json');
-    }
+    // Create the file in the system.
+    return $this->setLinkToFile($response['link'], $response['file'], "{$response['name']}.xlsx");
+  }
 
-    return new Response(t('The method is not allowed'), Response::HTTP_METHOD_NOT_ALLOWED);
+  public function validatePayload($method, $payload) {
+    return null;
   }
 
   public function createLink($address) {
-    // Creating the file.
-    return new Response(t('File was updated'), Response::HTTP_CREATED);
+    $exists = $this->entityTypeManager->getStorage('open_pension_links')->getQuery()
+      ->condition('url', $address)
+      ->execute();
+
+    if ($exists) {
+      return new Response(t('The file is already exists'), Response::HTTP_OK);
+    }
+
+    $created = $this->entityTypeManager->getStorage('open_pension_links')
+      ->create(['url' => $address])
+      ->save();
+
+    if ($created) {
+      return new Response(t('File was updated'), Response::HTTP_CREATED);
+    }
+
+    return new Response(t('An error during creation'), Response::HTTP_BAD_REQUEST);
   }
 
-  public function setLinkToFile($address, $file) {
-    if (!$file_object = $this->getLinkEntityByAddress($address)) {
+  public function setLinkToFile($address, $file, $file_name) {
+    if (!$link_ids = $this->getLinkEntityByAddress($address)) {
       return new Response(t('File does not exits'), Response::HTTP_METHOD_NOT_ALLOWED);
     }
+
+    $file_uri = 'public://' . $file_name;
+
+    if (!file_put_contents($file_uri, base64_decode($file))) {
+      return new Response(t('File was un able to save'), Response::HTTP_BAD_REQUEST);
+    }
+
+    $file = $this->entityTypeManager->getStorage('file')->create(['uri' => $file_uri]);
+    $file->save();
+
+    $link = $this->entityTypeManager->getStorage('open_pension_links')->load(reset($link_ids));
+
+    // Create the media and reference it to the object.
+    $media = $this->entityTypeManager->getStorage('media')->create([
+      'bundle' => 'open_pension_file',
+      'field_media_file' => $file->id(),
+    ]);
+
+    $media->save();
+
+    $link->set('open_pension_file', $media);
+    $link->save();
 
     // update the object.
     return new Response(t('File was updated'), Response::HTTP_OK);
   }
 
-  public function getLinkEntityByAddress($address): bool {
-    // get the file object.
-    return 1 > 2;
+  public function getLinkEntityByAddress($address) {
+    return $this->entityTypeManager->getStorage('open_pension_links')
+      ->getQuery()
+      ->condition('url', $address)
+      ->execute();
   }
 
 }

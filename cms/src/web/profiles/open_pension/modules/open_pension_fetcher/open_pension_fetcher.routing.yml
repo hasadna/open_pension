@@ -3,5 +3,6 @@ open_pension_fetcher.links:
   defaults:
     _title: 'Example'
     _controller: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherLinksController::build'
+  methods: ['PATCH', 'POST']
   requirements:
     _permission: 'access content'

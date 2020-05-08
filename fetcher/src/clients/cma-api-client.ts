@@ -83,12 +83,8 @@ export class CmaGovApiClient {
         return errors;
     }
 
-    async downloadDocument(DocumentId: string): Promise<string> {
-        const response = await this.api.get(DOWNLOAD_ROUTE, {
-            params: {
-                IdDoc: DocumentId,
-                extention: DOWNLOAD_EXTENSION
-            },
+    async downloadDocument(documentUrl: string, documentId: string): Promise<string> {
+        const response = await this.api.get(documentUrl, {
             responseType: "stream"
         });
 
@@ -101,7 +97,7 @@ export class CmaGovApiClient {
             }
 
             const downloadStream = response.data;
-            const filename = DocumentId + "." + DOWNLOAD_EXTENSION;
+            const filename = 'documentId.xslx';
             const destination = path.join(folder_path, filename);
 
             downloadStream

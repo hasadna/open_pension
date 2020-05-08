@@ -1,5 +1,7 @@
 import axios, {AxiosInstance} from "axios";
 import {BASE_URL} from "../consts";
+import {getCmsHost} from "./config-service";
+import fs from "fs";
 
 export default class CmsService {
 
@@ -7,18 +9,32 @@ export default class CmsService {
 
     constructor() {
         this.api = axios.create({
-            baseURL: BASE_URL
+            baseURL: getCmsHost()
         });
     }
-
-    public sendLinkAddress(link: string) {
-        this.api.post('a',{link});
+    public async sendLinkAddress(link: string) {
+        try {
+            return await this.api.post('/api/fetcher-links',{link});
+        } catch (e) {
+            console.log(e);
+            return null
+        }
     }
 
-    public async sendFile(link: string, file: any): Promise<boolean> {
-        const results = await this.api.patch('b', {link: link, file: file});
+    public async sendFile(link: string, file: any, name: string): Promise<boolean> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const results = await this.api.patch('/api/fetcher-links', {
+                    link: link,
+                    file: fs.readFileSync(file).toString('base64'),
+                    name: name,
+                });
 
-        return results.status === 200;
+                resolve();
+            }
+            catch (e) {
+                reject(e);
+            }
+        });
     }
-
 }

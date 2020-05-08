@@ -25,3 +25,7 @@ export function getKafkaHost() {
 export function getKafkaTopic() {
     return safeGet("KAFKA_TOPIC");
 }
+
+export function getCmsHost() {
+    return safeGet('CMS_HOST')
+}
