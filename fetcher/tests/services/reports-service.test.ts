@@ -27,6 +27,7 @@ import {downloadReports} from "services/reports-service";
 import ReportQuery from "types/report-query";
 
 describe("Testing the reports service", () => {
+    // todo: check the CMS service was invoked.
 
     afterEach(() => jest.resetAllMocks());
     afterAll(() => jest.restoreAllMocks());

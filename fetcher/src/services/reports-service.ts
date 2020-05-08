@@ -1,7 +1,6 @@
 import ReportQuery from "types/report-query";
 import {DownloadLinks} from "types/download-links";
 import { CmaGovApiClient } from "clients/cma-api-client";
-import { KafkaClient } from "clients/kafka-client";
 import CmsService from "./cms-services";
 import ReportRow from "../types/report-row";
 
