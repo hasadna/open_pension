@@ -47,8 +47,36 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     );
   }
 
-  protected function returnResponse($message, $status = 200) {
-    return new Response($message, $status);
+  public function getOrCreateFile(string $file_uri) {
+    $file_ids = $this->entityTypeManager->getStorage('file')->getQuery()->condition('uri', $file_uri)->execute();
+
+    if ($file_ids) {
+      return reset($file_ids);
+    }
+
+    $file = $this->entityTypeManager->getStorage('file')->create(['uri' => $file_uri]);
+    $file->save();
+
+    return $file->id();
+  }
+
+  public function getOrCreateMediaLink($file_id): \Drupal\Core\Entity\EntityInterface {
+    $media_ids = $this->entityTypeManager->getStorage('media')->getQuery()
+      ->condition('field_media_file', $file_id)
+      ->condition('bundle', 'open_pension_file')
+      ->execute();
+
+    if ($media_ids) {
+      return reset($media_ids);
+    }
+
+    $media = $this->entityTypeManager->getStorage('media')
+      ->create([
+        'bundle' => 'open_pension_file',
+        'field_media_file' => $file_id
+      ]);
+    $media->save();
+    return $media;
   }
 
   /**
@@ -99,7 +127,11 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       return new Response(t('File does not exits'), Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    // todo: check if the link file already has a file.
+    $link = $this->entityTypeManager->getStorage('open_pension_links')->load(reset($link_ids));
+
+//    if ($link->get('open_pension_file')->value) {
+//      return new Response(t('The link already has a file. Skipping'), Response::HTTP_METHOD_NOT_ALLOWED);
+//    }
 
     $file_uri = 'public://' . $file_name;
 
@@ -107,23 +139,8 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       return new Response(t('File was un able to save'), Response::HTTP_BAD_REQUEST);
     }
 
-    $file_ids = $this->entityTypeManager->getStorage('file')->getQuery()->condition('uri', $file_uri)->execute();
-
-    $file_id = reset($file_ids);
-    if (!$file_ids) {
-      $file = $this->entityTypeManager->getStorage('file')->create(['uri' => $file_uri]);
-      $file->save();
-      $file_id = $file->id();
-    }
-
-    $link = $this->entityTypeManager->getStorage('open_pension_links')->load(reset($link_ids));
-
-    // Create the media and reference it to the object.
-    $media = $this->entityTypeManager->getStorage('media')->create([
-      'bundle' => 'open_pension_file',
-      'field_media_file' => $file_id,
-    ]);
-    $media->save();
+    $file_id = $this->getOrCreateFile($file_uri);
+    $media = $this->getOrCreateMediaLink($file_id);
 
     // Update the reference.
     $link->set('open_pension_file', $media);

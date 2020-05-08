@@ -178,8 +178,11 @@ class OpenPensionLinksForm extends ContentEntityForm {
     if (!empty($decoded['downloadReports']['errors'])) {
       \Drupal::messenger()->addError($decoded['downloadReports']['errors']);
     }
+    else {
+      \Drupal::messenger()->addMessage(t('Success. Message from the fetcher: @message', ['@message' => $decoded["data"]["downloadReports"]["links"][0]]));
+    }
 
-    \Drupal::messenger()->addMessage(t('Success. Message from the fetcher: @message', ['@message' => $decoded["data"]["downloadReports"]["links"][0]]));
+    $form_state->setRedirect('entity.open_pension_links.collection');
   }
 
 }
