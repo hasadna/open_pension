@@ -164,11 +164,22 @@ class OpenPensionLinksForm extends ContentEntityForm {
   }
 
   public function sendMutation(array $form, FormStateInterface $form_state) {
+    $response = $this->openPensionFetcherQuery->mutate(
+      $form_state->getValue('system_field'),
+      $form_state->getValue('reports_type'),
+      $form_state->getValue('from_year'),
+      $form_state->getValue('from_quarter'),
+      $form_state->getValue('to_year'),
+      $form_state->getValue('to_quarter'),
+    );
 
-    // todo: send the values.
-    $urls = $this->openPensionFetcherQuery->mutate();
+    $decoded = json_decode($response, true);
 
-    $this->queryUrls($urls);
+    if (!empty($decoded['downloadReports']['errors'])) {
+      \Drupal::messenger()->addError($decoded['downloadReports']['errors']);
+    }
+
+    \Drupal::messenger()->addMessage(t('Success. Message from the fetcher: @message', ['@message' => $decoded["data"]["downloadReports"]["links"][0]]));
   }
 
 }

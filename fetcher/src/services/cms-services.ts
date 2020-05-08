@@ -24,7 +24,7 @@ export default class CmsService {
     public async sendFile(link: string, file: any, name: string): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
             try {
-                const results = await this.api.patch('/api/fetcher-links', {
+                await this.api.patch('/api/fetcher-links', {
                     link: link,
                     file: fs.readFileSync(file).toString('base64'),
                     name: name,

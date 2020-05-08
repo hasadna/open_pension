@@ -31,7 +31,7 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
             })
         })
 
-        return {links: [`file amount: ${links.length}`], errors: []};
+        return {links: [`Amount of collected files: ${links.length}`], errors: []};
     } catch (error) {
         return {links: [], errors: [error.message]};
     }

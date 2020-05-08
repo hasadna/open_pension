@@ -12,7 +12,7 @@ class OpenPensionServicesAddresses {
   const SERVICES_ADDRESSES_CONFIG = 'open_pension_services.settings';
 
   const PROCESSOR_DEFAULT_ADDRESS = 'http://processor';
-  const FETCHER_DEFAULT_ADDRESS = 'http://fetcher:3000';
+  const FETCHER_DEFAULT_ADDRESS = 'http://fetcher';
 
   /**
    * The config factory.

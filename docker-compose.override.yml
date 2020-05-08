@@ -47,4 +47,4 @@ services:
     volumes:
       - ./fetcher:/home/app
     ports:
-      - "5000:3000"
+      - "5000:80"

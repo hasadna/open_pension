@@ -4,7 +4,7 @@ import os from "os";
 import path from "path";
 import ReportRow from "types/report-row";
 import ReportQuery from "types/report-query";
-import {BASE_URL, DOWNLOAD_EXTENSION, DOWNLOAD_ROUTE, REPORTS_ROUTE} from "consts";
+import {BASE_URL, REPORTS_ROUTE} from "consts";
 import {safeGet} from "services/config-service";
 import {getPeriodRanges, getReportsType, getSystemFields} from "services/query-services";
 
@@ -97,7 +97,7 @@ export class CmaGovApiClient {
             }
 
             const downloadStream = response.data;
-            const filename = 'documentId.xslx';
+            const filename = `${documentId}.XLSX`;
             const destination = path.join(folder_path, filename);
 
             downloadStream

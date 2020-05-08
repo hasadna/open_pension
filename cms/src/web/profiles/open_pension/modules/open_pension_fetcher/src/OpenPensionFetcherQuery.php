@@ -90,22 +90,20 @@ class OpenPensionFetcherQuery {
     return json_decode($response, true)['data'];
   }
 
-  public function mutate() {
+  public function mutate($system_field, $report_type, $from_year, $from_quarter, $to_year, $to_quarter) {
     if (!$this->servicesHealthStatus->getFetcherState()) {
       \Drupal::messenger()->addError(t('The fetcher services does not responding'));
       return [];
     }
 
-    $fetcher_address = $this->servicesAddresses->getFetcherAddress();
-
     $query = <<<'GRAPHQL'
       mutation {
         downloadReports(
           query: {
-            SystemField: "",
-            ReportType: "",
-            FromYearPeriod: {Year: 2020, Quarter: "1"},
-            ToYearPeriod: {Year: 2020, Quarter: "1"}
+            SystemField: "{system_field}",
+            ReportType: "{report_type}",
+            FromYearPeriod: {Year: {from_year}, Quarter: "{from_quarter}"},
+            ToYearPeriod: {Year: {to_year}, Quarter: "{to_quarter}"}
           }
         ) {
           links, errors
@@ -113,19 +111,16 @@ class OpenPensionFetcherQuery {
       }
     GRAPHQL;
 
-//    $response = $this->sendQuery($query);
+    $query = str_replace('{system_field}', $system_field, $query);
+    $query = str_replace('{report_type}', $report_type, $query);
 
-    $response = '
-    {"data":{"downloadReports":{"links":["https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1805078&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1805077&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1805076&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1803876&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810092&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810089&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810090&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810088&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810087&extention=XLSX","https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1810094&extention=XLSX"]}}}
-    ';
+    $query = str_replace('{from_year}', $from_year, $query);
+    $query = str_replace('{from_quarter}', $from_quarter, $query);
 
-    $decoded = json_decode($response, true)['data'];
+    $query = str_replace('{to_year}', $to_year, $query);
+    $query = str_replace('{to_quarter}', $to_quarter, $query);
 
-    if (!empty($decoded['downloadReports']['errors'])) {
-      return [];
-    }
-
-    return $decoded['downloadReports']['links'];
+    return $response = $this->sendQuery($query);
   }
 
 }

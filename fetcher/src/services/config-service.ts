@@ -10,7 +10,7 @@ export function safeGet(keyName: string) {
 
 export function getPort() {
     const {PORT} = process.env;
-    return parseInt(PORT || "3000");
+    return parseInt(safeGet("PORT") || "3000");
 }
 
 export function getEnv() {

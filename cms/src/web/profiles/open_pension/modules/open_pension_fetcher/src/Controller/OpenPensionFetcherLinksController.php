@@ -67,7 +67,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     }
 
     // Create the file in the system.
-    return $this->setLinkToFile($response['link'], $response['file'], "{$response['name']}.xlsx");
+    return $this->setLinkToFile($response['link'], $response['file'], "{$response['name']}.XLSX");
   }
 
   public function validatePayload($method, $payload) {
@@ -98,6 +98,8 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     if (!$link_ids = $this->getLinkEntityByAddress($address)) {
       return new Response(t('File does not exits'), Response::HTTP_METHOD_NOT_ALLOWED);
     }
+
+    // todo: check if the link file already has a file.
 
     $file_uri = 'public://' . $file_name;
 
