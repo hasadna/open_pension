@@ -1,9 +1,8 @@
 import axios, {AxiosInstance} from "axios";
-import {BASE_URL} from "../consts";
 import {getCmsHost} from "./config-service";
 import fs from "fs";
 
-export default class CmsService {
+export class CmsService {
 
     private api: AxiosInstance;
 

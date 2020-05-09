@@ -1,7 +1,7 @@
 import ReportQuery from "types/report-query";
 import {DownloadLinks} from "types/download-links";
 import { CmaGovApiClient } from "clients/cma-api-client";
-import CmsService from "./cms-services";
+import { CmsService } from "./cms-services";
 import ReportRow from "../types/report-row";
 
 const cmaClient = new CmaGovApiClient();
@@ -11,8 +11,10 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
     try {
         const errors = cmaClient.validateQuery(query);
 
-        if (Object.keys(errors).length > 0) {
-            return {links: [], errors: errors}
+        if (errors) {
+            if (Object.keys(errors).length > 0) {
+                return {links: [], errors: errors}
+            }
         }
 
         let reports = await cmaClient.getReports(query);

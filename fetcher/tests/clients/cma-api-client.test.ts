@@ -11,7 +11,7 @@ jest.mock("axios", () => ({
 }));
 
 jest.mock("fs", () => ({
-    createWriteStream: jest.fn()
+    createWriteStream: jest.fn().mockReturnValue(1234)
 }));
 
 import { CmaGovApiClient } from "clients/cma-api-client";
@@ -68,30 +68,27 @@ describe("CMA api client", () => {
 
     it("should download document", async () => {
         const reportRow = {
-            DocumentId: "1234",
+            DocumentId: "address",
             fileExt: "xlsx"
         };
         const mockStream = {
             on: jest.fn(),
             pipe: jest.fn()
         };
-        const mockWriteStream = "1234";
-        (fs.createWriteStream as jest.Mock).mockReturnValue(mockWriteStream);
         mockStream.on.mockImplementation((eventName, cb) => {
             if (eventName === "end") setTimeout(cb, 0);
             return mockStream;
         });
         mockApi.get.mockResolvedValueOnce({data: mockStream});
 
-        const response = await client.downloadDocument(reportRow.DocumentId);
+        const response = await client.downloadDocument(reportRow.DocumentId, reportRow.DocumentId);
 
-        expect(mockApi.get).toHaveBeenCalledWith("/downloadFiles", {
-            params: {IdDoc: reportRow.DocumentId, extention: "xlsx"},
+        expect(mockApi.get).toHaveBeenCalledWith("address", {
             responseType: "stream"
         });
-        expect(mockStream.pipe).toHaveBeenCalledWith(mockWriteStream);
+
         expect(response).toEqual(
-            `${os.tmpdir()}/${reportRow.DocumentId}.${reportRow.fileExt}`
+            `${os.tmpdir()}/${reportRow.DocumentId}.XLSX`
         );
     });
 

@@ -23,7 +23,8 @@
     "kafka-node": "^5.0.0",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.0",
-    "type-graphql": "^0.17.6"
+    "type-graphql": "^0.17.6",
+    "wait-for-expect": "^3.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",

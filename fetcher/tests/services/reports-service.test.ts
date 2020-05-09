@@ -4,6 +4,8 @@ const mockGetReports = jest.fn();
 const mockSendMessage = jest.fn();
 const mockDownloadDocument = jest.fn();
 const mockValidateQuery = jest.fn();
+const mockSendLinkAddress = jest.fn();
+const mockSendFile = jest.fn();
 
 const mockCmaGovApiClientCreate = jest.fn().mockReturnValue({
     getReports: mockGetReports,
@@ -15,6 +17,11 @@ const mockKafkaClientCreate = jest.fn().mockReturnValue({
     sendMessage: mockSendMessage
 });
 
+const mockCmsService = jest.fn().mockReturnValue({
+    sendLinkAddress: mockSendLinkAddress,
+    sendFile: mockSendFile,
+});
+
 jest.mock("clients/cma-api-client", () => ({
     CmaGovApiClient: mockCmaGovApiClientCreate
 }));
@@ -23,8 +30,13 @@ jest.mock("clients/kafka-client", () => ({
     KafkaClient: mockKafkaClientCreate
 }));
 
+jest.mock("services/cms-services", () => ({
+    CmsService: mockCmsService
+}));
+
 import {downloadReports} from "services/reports-service";
 import ReportQuery from "types/report-query";
+import waitForExpect from "wait-for-expect";
 
 describe("Testing the reports service", () => {
     // todo: check the CMS service was invoked.
@@ -57,10 +69,12 @@ describe("Testing the reports service", () => {
             ReportType: '1',
             FromYearPeriod: { Quarter: '101', Year: 2020 }
         });
-        expect(mockSendMessage).toBeCalled();
-        expect(mockDownloadDocument).toBeCalledTimes(3);
 
-        expect(collectedLinks.links.length).toBe(3);
+        await waitForExpect(() => {
+            expect(mockDownloadDocument).toBeCalledTimes(3);
+        });
+
+        expect(collectedLinks.links[0]).toBe('Amount of collected files: 3');
     })
 
     it('Bad flow: Verify we catch an exception during the links collection', async () => {
