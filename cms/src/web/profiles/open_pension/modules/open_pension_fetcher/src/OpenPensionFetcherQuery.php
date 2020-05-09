@@ -4,6 +4,7 @@ namespace Drupal\open_pension_fetcher;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\open_pension_services\OpenPensionServicesAddresses;
 use Drupal\open_pension_services\OpenPensionServicesHealthStatus;
 use GuzzleHttp\ClientInterface;
@@ -14,11 +15,25 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class OpenPensionFetcherQuery {
 
+  /**
+   * @var ClientInterface
+   */
   protected $httpClient;
 
+  /**
+   * @var OpenPensionServicesAddresses|OpenPensionServicesHealthStatus
+   */
   protected $servicesHealthStatus;
 
+  /**
+   * @var OpenPensionServicesAddresses
+   */
   protected $servicesAddresses;
+
+  /**
+   * @var MessengerInterface
+   */
+  protected $messenger;
 
   /**
    * Constructs an OpenPensionServicesHealthStatus object.
@@ -28,15 +43,24 @@ class OpenPensionFetcherQuery {
    * @param OpenPensionServicesAddresses $open_pension_health_status
    *  The services addresses service.
    */
-  public function __construct(ClientInterface $http_client, OpenPensionServicesAddresses $services_addresses, OpenPensionServicesHealthStatus $open_pension_health_status) {
+  public function __construct(ClientInterface $http_client, OpenPensionServicesAddresses $services_addresses, OpenPensionServicesHealthStatus $open_pension_health_status, MessengerInterface $messenger) {
     $this->servicesAddresses = $services_addresses;
     $this->httpClient = $http_client;
     $this->servicesHealthStatus = $open_pension_health_status;
+    $this->messenger = $messenger;
   }
 
+  /**
+   * Sending the query. Can be a query or mutation.
+   *
+   * @param $query
+   *  The query to send.
+   * @return string
+   *  JSON results form the query.
+   */
   protected function sendQuery($query) {
     if (!$this->servicesHealthStatus->getFetcherState()) {
-      \Drupal::messenger()->addError(t('The fetcher services does not responding'));
+      $this->messenger->addError(t('The fetcher services does not responding'));
       return [];
     }
 
@@ -53,9 +77,14 @@ class OpenPensionFetcherQuery {
     return $response->getBody()->getContents();
   }
 
+  /**
+   * Query the fetcher for the form options.
+   *
+   * @return array decoded results.
+   */
   public function query() {
     if (!$this->servicesHealthStatus->getFetcherState()) {
-      \Drupal::messenger()->addError(t('The fetcher services does not responding'));
+      $this->messenger->addError(t('The fetcher services does not responding'));
       return [];
     }
 
@@ -90,9 +119,26 @@ class OpenPensionFetcherQuery {
     return json_decode($response, true)['data'];
   }
 
+  /**
+   * Sending a mutation.
+   *
+   * @param $system_field
+   *  The system field.
+   * @param $report_type
+   *  The report type.
+   * @param $from_year
+   *  The year to query from.
+   * @param $from_quarter
+   *  The quarter to query form.
+   * @param $to_year
+   *  The year to query to.
+   * @param $to_quarter
+   *  The quarter to query to.
+   * @return array
+   */
   public function mutate($system_field, $report_type, $from_year, $from_quarter, $to_year, $to_quarter) {
     if (!$this->servicesHealthStatus->getFetcherState()) {
-      \Drupal::messenger()->addError(t('The fetcher services does not responding'));
+      $this->messenger->addError(t('The fetcher services does not responding'));
       return [];
     }
 
@@ -120,7 +166,7 @@ class OpenPensionFetcherQuery {
     $query = str_replace('{to_year}', $to_year, $query);
     $query = str_replace('{to_quarter}', $to_quarter, $query);
 
-    return $response = $this->sendQuery($query);
+    return $this->sendQuery($query);
   }
 
 }

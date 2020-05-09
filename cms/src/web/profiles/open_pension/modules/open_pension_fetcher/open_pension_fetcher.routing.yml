@@ -5,4 +5,4 @@ open_pension_fetcher.links:
     _controller: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherLinksController::build'
   methods: ['PATCH', 'POST']
   requirements:
-    _permission: 'access content'
+    _custom_access: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherLinksController::access'
