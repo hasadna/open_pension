@@ -22,13 +22,23 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
         const links: any = reports.map(async (row: ReportRow) => {
             const address = `https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=${row['DocumentId']}&extention=XLSX`;
             await cmsService.sendLinkAddress(address);
+            console.log(`Downloading ${address}`);
             return {address: address, documentId: row['DocumentId']};
         });
 
         Promise.all(links).then(async (links) => {
-            links.map(async (item: any) => {
-                const file = await cmaClient.downloadDocument(item['address'], item['documentId']);
-                await cmsService.sendFile(item['address'], file, item['documentId']);
+            // For the first time, collect only 100.
+            links.splice(0, 100).map(async (item: any) => {
+                try {
+                    console.log(`Downloading ${item['address']}`);
+                    const file = await cmaClient.downloadDocument(item['address'], item['documentId']);
+
+                    console.log(`Sending file ${item['address']} to the CMS`);
+                    await cmsService.sendFile(item['address'], file, item['documentId']);
+                } catch (e) {
+                    console.error(e)
+                    return;
+                }
             })
         })
 

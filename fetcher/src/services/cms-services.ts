@@ -15,7 +15,7 @@ export class CmsService {
         try {
             return await this.api.post('/api/fetcher-links',{link});
         } catch (e) {
-            console.log(e);
+            console.error(e);
             return null
         }
     }
@@ -23,15 +23,18 @@ export class CmsService {
     public async sendFile(link: string, file: any, name: string): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
             try {
-                await this.api.patch('/api/fetcher-links', {
+                const results = await this.api.patch('/api/fetcher-links', {
                     link: link,
                     file: fs.readFileSync(file).toString('base64'),
                     name: name,
                 });
 
+                console.log(`${link}: ${results.data}`);
+
                 resolve();
             }
             catch (e) {
+                console.error(e);
                 reject(e);
             }
         });
