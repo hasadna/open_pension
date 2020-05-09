@@ -39,7 +39,6 @@ import ReportQuery from "types/report-query";
 import waitForExpect from "wait-for-expect";
 
 describe("Testing the reports service", () => {
-    // todo: check the CMS service was invoked.
 
     afterEach(() => jest.resetAllMocks());
     afterAll(() => jest.restoreAllMocks());
@@ -72,6 +71,12 @@ describe("Testing the reports service", () => {
 
         await waitForExpect(() => {
             expect(mockDownloadDocument).toBeCalledTimes(3);
+        });
+        await waitForExpect(() => {
+            expect(mockSendLinkAddress).toBeCalledTimes(3);
+        });
+        await waitForExpect(() => {
+            expect(mockSendFile).toBeCalledTimes(3);
         });
 
         expect(collectedLinks.links[0]).toBe('Amount of collected files: 3');
