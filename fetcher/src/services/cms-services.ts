@@ -23,18 +23,18 @@ export class CmsService {
     public async sendFile(link: string, file: any, name: string): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
             try {
-                const results = await this.api.patch('/api/fetcher-links', {
+                await this.api.patch('/api/fetcher-links', {
                     link: link,
                     file: fs.readFileSync(file).toString('base64'),
                     name: name,
+                    maxContentLength: Infinity,
+                    maxBodyLength: Infinity
                 });
 
-                console.log(`${link}: ${results.data}`);
-
+                console.log(`The file ${name} was sent`);
                 resolve();
             }
             catch (e) {
-                console.error(e);
                 reject(e);
             }
         });

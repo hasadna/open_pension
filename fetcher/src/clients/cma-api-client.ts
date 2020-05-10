@@ -83,7 +83,8 @@ export class CmaGovApiClient {
 
     async downloadDocument(documentUrl: string, documentId: string): Promise<string> {
         const response = await this.api.get(documentUrl, {
-            responseType: "stream"
+            responseType: "stream",
+            'maxContentLength': Infinity,
         });
 
         return new Promise((resolve, reject) => {
@@ -100,7 +101,7 @@ export class CmaGovApiClient {
 
             downloadStream
                 .on("end", () => resolve(destination))
-                .on("error", reject)
+                .on("error", console.log)
                 .pipe(fs.createWriteStream(destination));
         });
     }
