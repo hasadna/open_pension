@@ -169,4 +169,24 @@ class OpenPensionFetcherQuery {
     return $this->sendQuery($query);
   }
 
+  public function collectLinks() {
+    // todo: inject the entity storage for query.
+    $storage = \Drupal::entityTypeManager()->getStorage('open_pension_links');
+
+    $ids = $storage
+      ->getQuery()
+      ->condition('', NULL)
+      ->execute();
+
+    $results = $storage->loadMultiple($ids);
+
+    $links = [];
+    foreach ($results as $result) {
+      // append the link.
+      $links[] = 'a';
+    }
+
+    // send the query.
+  }
+
 }

@@ -7,6 +7,30 @@ import ReportRow from "../types/report-row";
 const cmaClient = new CmaGovApiClient();
 const cmsService = new CmsService();
 
+/**
+ * Download files from a give links and send to the to the CMS.
+ *
+ * @param links
+ *  List of links.
+ */
+export function downloadLinks(links: any) {
+    links.map(async (item: any) => {
+        try {
+            console.log(`Downloading ${item['address']}`);
+            const file = await cmaClient.downloadDocument(item['address'], item['documentId']);
+
+            try {
+                console.log(`Sending file ${item['address']} to the CMS`);
+                await cmsService.sendFile(item['address'], file, item['documentId']);
+            } catch (e) {
+                console.error(`Error while sending the file ${item['documentId']}: ${e.message}`)
+            }
+        } catch (e) {
+            console.error(`Error while downloading the file ${item['address']}: ${e.message}`)
+        }
+    })
+}
+
 export async function downloadReports(query: ReportQuery): Promise<DownloadLinks> {
     try {
         const errors = cmaClient.validateQuery(query);
@@ -27,23 +51,9 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
         });
 
         Promise.all(links).then(async (links) => {
-            // console.log('All files were processes')
+            console.log('All files were processes')
             // For the first time, collect only 100.
-            links.splice(0, 100).map(async (item: any) => {
-                try {
-                    console.log(`Downloading ${item['address']}`);
-                    const file = await cmaClient.downloadDocument(item['address'], item['documentId']);
-
-                    try {
-                        console.log(`Sending file ${item['address']} to the CMS`);
-                        await cmsService.sendFile(item['address'], file, item['documentId']);
-                    } catch (e) {
-                        console.error(`Error while sending the file ${item['documentId']}: ${e.message}`)
-                    }
-                } catch (e) {
-                    console.error(`Error while downloading the file ${item['address']}: ${e.message}`)
-                }
-            })
+            downloadLinks(links.splice(0, 100));
         })
 
         return {links: [`Amount of collected files: ${links.length}`], errors: []};
