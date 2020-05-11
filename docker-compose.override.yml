@@ -22,8 +22,16 @@ services:
 
   cms:
     volumes:
-      - /home/app/server/node_modules
-      - ./cms/:/home/app/server
+      - ./cms/src/web/profiles:/var/www/html/web/profiles
+    env_file:
+      - ./cms/.env
+    ports:
+      - '2000:80'
+
+  cms_db:
+    restart: always
+    ports:
+      - '3307:3306'
 
   processor:
     volumes:

@@ -7,11 +7,7 @@ cache:
     - "$HOME/.npm"
 
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: stable
 
 language: python
 python:
@@ -34,6 +30,7 @@ env:
 
 before_install:
   # Install specific docker-compose version
+  - sudo apt-get update
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
@@ -58,7 +55,6 @@ install:
   - python3 -m pip install pyyaml
   - curl -L https://raw.githubusercontent.com/OriHoch/travis-ci-operator/master/travis_ci_operator.sh > $HOME/bin/travis_ci_operator.sh
   - bash $HOME/bin/travis_ci_operator.sh init
-  - docker login -u $docker_username -p $docker_password
 
 script:
   # Launch cluster
@@ -78,3 +74,4 @@ deploy:
   on:
     branch: master
     condition: $TRAVIS_TAG = "" && $TRAVIS_PULL_REQUEST = "false"
+

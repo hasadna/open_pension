@@ -245,3 +245,19 @@ $RECYCLE.BIN/
 
 ### Custom ###
 processor/files/uploaded/*.xlsx
+processor-db
+processor/out/*.json
+
+cms/src/vendor
+cms/src/console
+cms/src/web/.*
+cms/src/web/*.txt
+cms/src/web/*.php
+cms/src/web/*.config
+cms/src/web/core/*
+cms/src/web/*.gitignore
+cms/src/web/modules/
+cms/src/web/sites/
+cms/src/web/themes/
+
+db

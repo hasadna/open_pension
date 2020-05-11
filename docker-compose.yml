@@ -3,6 +3,8 @@ version: "3.7"
 volumes:
   application-db:
     external: false
+  cms-db-data:
+    external: false
   processor-db:
     external: false
 
@@ -62,10 +64,17 @@ services:
 
   cms:
     image: hasadna/open-pension-cms:latest
+    depends_on:
+      - cms_db
     build:
       context: ./cms
       cache_from:
         - hasadna/open-pension-cms:latest
+
+  cms_db:
+    image: mysql:5.7
+    volumes:
+      - cms-db-data:/var/lib/mysql
 
   kafka:
     image: hasadna/open-pension-kafka:latest
@@ -73,14 +82,14 @@ services:
       context: ./kafka
       cache_from:
         - hasadna/open-pension-kafka:latest
-    environment: 
+    environment:
       - BROKER_ID=1
-    depends_on: 
+    depends_on:
       - zookeeper
 
   kafka2:
     image: hasadna/open-pension-kafka:latest
-    environment: 
+    environment:
       - BROKER_ID=2
     depends_on:
       - zookeeper
