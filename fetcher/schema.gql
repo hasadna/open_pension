@@ -8,8 +8,13 @@ type DownloadLinks {
   errors: [String!]!
 }
 
+input FilesCollect {
+  Urls: [String!]!
+}
+
 type Mutation {
   downloadReports(query: ReportQuery!): DownloadLinks!
+  completeFilesCollecting(query: FilesCollect!): DownloadLinks!
 }
 
 type PeriodRanges {

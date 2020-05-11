@@ -4,6 +4,7 @@ namespace Drupal\open_pension_fetcher;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\open_pension_services\OpenPensionServicesAddresses;
 use Drupal\open_pension_services\OpenPensionServicesHealthStatus;
@@ -36,6 +37,11 @@ class OpenPensionFetcherQuery {
   protected $messenger;
 
   /**
+   * @var EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * Constructs an OpenPensionServicesHealthStatus object.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
@@ -43,11 +49,12 @@ class OpenPensionFetcherQuery {
    * @param OpenPensionServicesAddresses $open_pension_health_status
    *  The services addresses service.
    */
-  public function __construct(ClientInterface $http_client, OpenPensionServicesAddresses $services_addresses, OpenPensionServicesHealthStatus $open_pension_health_status, MessengerInterface $messenger) {
+  public function __construct(ClientInterface $http_client, OpenPensionServicesAddresses $services_addresses, OpenPensionServicesHealthStatus $open_pension_health_status, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager) {
     $this->servicesAddresses = $services_addresses;
     $this->httpClient = $http_client;
     $this->servicesHealthStatus = $open_pension_health_status;
     $this->messenger = $messenger;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -169,9 +176,16 @@ class OpenPensionFetcherQuery {
     return $this->sendQuery($query);
   }
 
+  /**
+   * Collect links without files.
+   *
+   * @return array|string
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
   public function collectLinks() {
-    // todo: inject the entity storage for query.
-    $storage = \Drupal::entityTypeManager()->getStorage('open_pension_links');
+    $storage = $this->entityTypeManager->getStorage('open_pension_links');
 
     $ids = $storage
       ->getQuery()
@@ -179,6 +193,8 @@ class OpenPensionFetcherQuery {
       ->execute();
 
     $results = $storage->loadMultiple($ids);
+
+    // todo: remove duplicates from DB.
 
     $links_payload = [];
     foreach ($results as $result) {
@@ -188,9 +204,9 @@ class OpenPensionFetcherQuery {
 
     $query = <<<'GRAPHQL'
       mutation {
-        downloadFiles(
+        completeFilesCollecting(
           query: {
-            files: {files_links}
+            Urls: {files_links}
           }
         ) {
           links, errors
@@ -198,9 +214,9 @@ class OpenPensionFetcherQuery {
       }
     GRAPHQL;
 
-    $query = str_replace('{files_links}', json_decode($links_payload), $query);
+    $query = str_replace('{files_links}', json_encode($links_payload), $query);
 
-    $this->sendQuery($query);
+    return $this->sendQuery($query);
   }
 
 }

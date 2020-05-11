@@ -6,3 +6,11 @@ open_pension_fetcher.links:
   methods: ['PATCH', 'POST']
   requirements:
     _custom_access: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherLinksController::access'
+
+open_pension_fetcher.collect_files:
+  path: '/admin/open_pension/open-pension-links/collect'
+  defaults:
+    _title: 'Collect links'
+    _controller: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherCollectFiles::build'
+  requirements:
+    _permission: 'access open pension links overview'

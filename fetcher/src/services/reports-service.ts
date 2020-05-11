@@ -1,4 +1,4 @@
-import ReportQuery from "types/report-query";
+import {ReportQuery, FilesCollect} from "types/report-query";
 import {DownloadLinks} from "types/download-links";
 import { CmaGovApiClient } from "clients/cma-api-client";
 import { CmsService } from "./cms-services";
@@ -59,5 +59,23 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
         return {links: [`Amount of collected files: ${links.length}`], errors: []};
     } catch (error) {
         return {links: [], errors: [error.message]};
+    }
+}
+
+export async function collectFiles(query: FilesCollect): Promise<DownloadLinks> {
+    try {
+        const links = query.Urls.splice(0, 100)
+            .map((item) => {
+                return {
+                    address: item,
+                    documentId: item.split('IdDoc=')[1].split('&extention=')[0],
+                };
+            }
+        );
+
+        downloadLinks(links);
+        return {links: [`Collecting ${links.length} links`], errors: []};
+    } catch (e) {
+        return {links: [], errors: [e.message]};
     }
 }

@@ -24,11 +24,24 @@ class OpenPensionFetcherCommands extends DrushCommands {
   }
 
   /**
-   * Command description here.
+   * Collecting the files via Drush.
    *
    * @command open_pension_fetcher:get_links_files
    */
   public function commandName() {
-    print_r($this->fetchQueryService->collectLinks());
+    $results = json_decode($this->fetchQueryService->collectLinks());
+
+    if (!empty($results->data->completeFilesCollecting->errors)) {
+
+      foreach ($results->data->completeFilesCollecting->errors as $error) {
+        $this->io()->error($error);
+        $this->logger()->error($error);
+      }
+
+      return;
+    }
+
+    $this->logger()->info($results->data->completeFilesCollecting->links[0]);
+    $this->io()->success($results->data->completeFilesCollecting->links[0]);
   }
 }

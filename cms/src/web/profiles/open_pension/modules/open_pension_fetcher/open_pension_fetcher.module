@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_cron().
+ */
+function open_pension_fetcher_cron() {
+  /** @var \Drupal\open_pension_fetcher\OpenPensionFetcherQuery $fetcher_query */
+  $fetcher_query = \Drupal::service('open_pension_fetcher.query');
+
+  $results = json_decode($fetcher_query->collectLinks());
+
+  if (!empty($results->data->completeFilesCollecting->errors)) {
+
+    foreach ($results->data->completeFilesCollecting->errors as $error) {
+      \Drupal::logger('open_pension_fetcher')->error($error);
+    }
+
+    return;
+  }
+
+  \Drupal::logger('open_pension_fetcher')->info($results->data->completeFilesCollecting->links[0]);
+}

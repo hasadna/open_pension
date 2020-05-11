@@ -10,7 +10,7 @@ class YearPeriod {
 }
 
 @InputType()
-export default class ReportQuery {
+export class ReportQuery {
     @Field(type => String, { nullable: true })
     SystemField: string;
 
@@ -22,4 +22,10 @@ export default class ReportQuery {
 
     @Field(type => YearPeriod, { nullable: true })
     ToYearPeriod: YearPeriod;
+}
+
+@InputType()
+export class FilesCollect {
+    @Field(type => [String])
+    Urls: [string];
 }

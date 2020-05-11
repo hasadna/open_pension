@@ -81,12 +81,14 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     $file_ids = $this->entityTypeManager->getStorage('file')->getQuery()->condition('uri', $file_uri)->execute();
 
     if ($file_ids) {
+      // todo: log.
       return reset($file_ids);
     }
 
     $file = $this->entityTypeManager->getStorage('file')->create(['uri' => $file_uri]);
     $file->save();
 
+    // todo: log.
     return $file->id();
   }
 
@@ -156,6 +158,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       ->execute();
 
     if ($exists) {
+      // todo: log.
       // We have a link entry which relate to this file address.
       return new Response(t('The file is already exists'), Response::HTTP_OK);
     }
@@ -166,10 +169,12 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       ->save();
 
     if ($created) {
+      // todo: log.
       // Manage to create it.
       return new Response(t('File was updated'), Response::HTTP_CREATED);
     }
 
+    // todo: log.
     return new Response(t('An error during creation'), Response::HTTP_BAD_REQUEST);
   }
 
@@ -192,6 +197,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
    */
   public function updateLinkRecordWithAFile($address, $file, $file_name) {
     if (!$link_ids = $this->getLinkEntityByAddress($address)) {
+      // todo: log.
       return new Response(t('File does not exits'), Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
@@ -208,6 +214,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
 
     if (!file_put_contents($file_uri, base64_decode($file))) {
       // Could not create the file.
+      // todo: log.
       return new Response(t('File was un able to save'), Response::HTTP_BAD_REQUEST);
     }
 
@@ -220,6 +227,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     $link->save();
 
     // update the object.
+    // todo: log.
     return new Response(t('File was updated'), Response::HTTP_OK);
   }
 
