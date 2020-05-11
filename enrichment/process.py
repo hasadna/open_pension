@@ -1,32 +1,14 @@
 import json
 import os
 
-import pandas as pd
-
 from enrichment.consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS, MUTUAL_FUNDS, ETF, WARRANTS, \
     OPTIONS, FUTURES, STRUCTURED_PRODUCT
 
 from enrichment.enrich.enrich_instruments import enrich_gov_bonds, enrich_company_bonds, enrich_stocks
-from enrichment.utils import join_json_strings, save_data_to_file
+from enrichment.utils import join_json_strings, save_data_to_file, load_dict_for_enrichment
 from enrichment.normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks, \
     normalize_mutual_funds, normalize_etf, normalize_warrants, normalize_options, normalize_futures, \
     normalize_structured_product
-
-PATH = r"C:\Hasadna\0219_all_jsons"
-FILE_NAME = r'512065202_gsum_0219'
-
-
-def load_json_from_file(json_file_path):
-    with open(json_file_path) as f:
-        loaded_dict = json.load(f)
-    return loaded_dict
-
-
-def load_dict_for_enrichment(en_dict):
-    dfs_dict = dict()
-    for k, v in en_dict.items():
-        dfs_dict[k] = pd.DataFrame(v)
-    return dfs_dict
 
 
 norm_switcher = {
@@ -77,6 +59,9 @@ def process_json(data):
 
 
 if __name__ == "__main__":
+    PATH = r"C:\Hasadna\0219_all_jsons"
+    FILE_NAME = r'512065202_gsum_0219'
+
     with open(os.path.join(PATH, "{}.json".format(FILE_NAME)), "rb") as f:
         json_data = json.load(f)
     process_json(json_data)

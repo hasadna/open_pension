@@ -1,4 +1,4 @@
-from enrich.enrich_columns import isin_enrichment
+from .enrich_columns import isin_enrichment
 
 
 def enrich_gov_bonds(df, error_indices_list=list):

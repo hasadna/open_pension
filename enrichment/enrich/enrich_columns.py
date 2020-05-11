@@ -1,9 +1,5 @@
-from utils import create_il_isin, check_isin_validity
+from enrichment.utils import create_il_isin, check_isin_validity
 import pandas as pd
-
-
-def tase_to_isin(tase_number_series):
-    return tase_number_series.apply(lambda x: create_il_isin(x))
 
 
 def isin_enrichment(df):
@@ -19,8 +15,6 @@ def isin_enrichment(df):
 
     enriched_isin = pd.Series()
 
-    # Check ISIN number validity
-
     # Apply ISIN testing function to instrument numbers and add correct isin numbers to new column, otherwise add None
     isin_mask = df["Instrument number"].apply(lambda num: check_isin_validity(num))
     isin_ser = df["Instrument number"].loc[isin_mask]
@@ -30,7 +24,5 @@ def isin_enrichment(df):
     tase_number_mask = (~isin_mask) & (df["Market name"] == "TASE")
     tase_number_ser = df[tase_number_mask]["Instrument number"].apply(create_il_isin)
     enriched_isin = pd.concat([enriched_isin, tase_number_ser])
-
-    # df["en_instrument_number_isin"].mask(tase_number_mask, tase_to_isin(df["Instrument number"]), inplace=True)
 
     return enriched_isin

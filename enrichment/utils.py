@@ -3,8 +3,7 @@ import json
 import os
 
 from pandas.core.dtypes.common import is_string_dtype
-
-from consts import ISIN_PATTERN
+from enrichment.consts import ISIN_PATTERN
 import pandas as pd
 
 COMPLETED_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "completed")
@@ -68,30 +67,9 @@ def add_luhn_checksum(num):
 
 
 def create_il_isin(num):
+    ''' Receives a TASE instrument number and creates an ISIN number '''
     temp_isin = add_luhn_checksum(base36_decode_isin("IL" + num.zfill(9)))
     return "IL" + temp_isin[-10:]
-
-
-# def format_bank_account_numbers(num):
-#     # If in format <bank>-<account>, return account. Else, return the first number
-#     if isinstance(num, str):
-#         split_num = num.split('-')
-#         return split_num[1] if len(split_num) > 1 else split_num[0]
-#     else:
-#         return num
-
-
-def save_data_to_file(json_string, file_name="", errors=False):
-
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    if errors:
-        file_name = "{}_{}_errors.json".format(file_name, timestamp)
-    else:
-        file_name = "{}_{}.json".format(file_name, timestamp)
-
-    full_path = os.path.join(COMPLETED_PATH, file_name)
-    with open(full_path, 'w') as f:
-        f.write(json_string)
 
 
 def remove_rows_with_blank_in_columns(df, col_name):
@@ -120,6 +98,31 @@ def join_json_strings(json_list):
     return json.dumps(json_loads_df_list)
 
 
+def load_json_from_file(json_file_path):
+    with open(json_file_path) as f:
+        loaded_dict = json.load(f)
+    return loaded_dict
+
+
+def save_data_to_file(json_string, file_name="", errors=False):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    if errors:
+        file_name = "{}_{}_errors.json".format(file_name, timestamp)
+    else:
+        file_name = "{}_{}.json".format(file_name, timestamp)
+
+    full_path = os.path.join(COMPLETED_PATH, file_name)
+    with open(full_path, 'w') as f:
+        f.write(json_string)
+
+
+def load_dict_for_enrichment(en_dict):
+    dfs_dict = dict()
+    for k, v in en_dict.items():
+        dfs_dict[k] = pd.DataFrame(v)
+    return dfs_dict
+
+
 if __name__ == "__main__":
     # print(validate_luhn_algo(base36_decode_isin("IL0004440181")))
 
@@ -127,5 +130,3 @@ if __name__ == "__main__":
     # print(check_isin_validity("IL0004440181"))
     print(create_il_isin("1100957"))
     print(create_il_isin("1123272"))
-
-    # TASE  + all digits

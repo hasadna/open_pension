@@ -1,8 +1,8 @@
 import pandas as pd
 
-from lookups.lookup_lists import MOF_MARKETS_LIST, MOF_CURRENCIES_DICT
-from utils import remove_rows_with_blank_in_columns, \
-    remove_values_not_in_list, reformat_to_upper_lstrip_rstrip
+from enrichment.lookups.lookup_lists import MOF_MARKETS_LIST, MOF_CURRENCIES_DICT
+from enrichment.utils import remove_rows_with_blank_in_columns, remove_values_not_in_list, \
+    reformat_to_upper_lstrip_rstrip
 
 
 def normalize_cash(df, error_indices_list=list):
