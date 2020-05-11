@@ -54,6 +54,8 @@ MOF_CURRENCIES_DICT = {
     "אחר": "OTHER"
 }
 
+MOF_REAL_ESTATE_TYPES = ["השכרה", "מגורים", "חקלאי", "קניון", "תעשיה", "אחר"]
+
 # List from TASE
 # https://info.tase.co.il/NRes/Category/0400_Economic/Eco_450_Sector_Classification_359965.pdf
 TASE_MARKET_SECTORS = [
@@ -92,3 +94,4 @@ TASE_MARKET_SECTORS = [
     'קרנות סל',
     'אג"ח מובנות'
 ]
+
