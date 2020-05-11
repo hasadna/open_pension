@@ -175,18 +175,32 @@ class OpenPensionFetcherQuery {
 
     $ids = $storage
       ->getQuery()
-      ->condition('', NULL)
+      ->notExists('open_pension_file', NULL)
       ->execute();
 
     $results = $storage->loadMultiple($ids);
 
-    $links = [];
+    $links_payload = [];
     foreach ($results as $result) {
       // append the link.
-      $links[] = 'a';
+      $links_payload[] = $result->get('url')->value;
     }
 
-    // send the query.
+    $query = <<<'GRAPHQL'
+      mutation {
+        downloadFiles(
+          query: {
+            files: {files_links}
+          }
+        ) {
+          links, errors
+        }
+      }
+    GRAPHQL;
+
+    $query = str_replace('{files_links}', json_decode($links_payload), $query);
+
+    $this->sendQuery($query);
   }
 
 }
