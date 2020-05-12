@@ -4,7 +4,7 @@
  * Implements hook_cron().
  */
 function open_pension_fetcher_cron() {
-  /** @var \Drupal\open_pension_fetcher\OpenPensionFetcherQuery $fetcher_query */
+  /** @var \Drupal\open_pension_fetcher\OpenPensionFetcherService $fetcher_query */
   $fetcher_query = \Drupal::service('open_pension_fetcher.query');
 
   $results = json_decode($fetcher_query->collectLinks());

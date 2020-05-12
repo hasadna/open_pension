@@ -3,7 +3,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import ReportRow from "types/report-row";
-import ReportQuery from "types/report-query";
+import { ReportQuery } from "types/report-query";
 import {BASE_URL, REPORTS_ROUTE} from "consts";
 import {safeGet} from "services/config-service";
 import {getPeriodRanges, getReportsType, getSystemFields} from "services/query-services";

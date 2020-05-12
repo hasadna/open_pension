@@ -3,7 +3,7 @@
 namespace Drupal\open_pension_fetcher\Commands;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
-use Drupal\open_pension_fetcher\OpenPensionFetcherQuery;
+use Drupal\open_pension_fetcher\OpenPensionFetcherService;
 use Drush\Commands\DrushCommands;
 
 /**
@@ -19,7 +19,7 @@ use Drush\Commands\DrushCommands;
  */
 class OpenPensionFetcherCommands extends DrushCommands {
 
-  public function __construct(OpenPensionFetcherQuery $fetcher_query) {
+  public function __construct(OpenPensionFetcherService $fetcher_query) {
     $this->fetchQueryService = $fetcher_query;
   }
 

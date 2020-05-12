@@ -3,7 +3,7 @@
 namespace Drupal\open_pension_fetcher\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\open_pension_fetcher\OpenPensionFetcherQuery;
+use Drupal\open_pension_fetcher\OpenPensionFetcherService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -15,7 +15,7 @@ class OpenPensionFetcherCollectFiles extends ControllerBase {
   /**
    * The open_pension_fetcher.query service.
    *
-   * @var \Drupal\open_pension_fetcher\OpenPensionFetcherQuery
+   * @var \Drupal\open_pension_fetcher\OpenPensionFetcherService
    */
   protected $openPensionFetcherQuery;
 
@@ -27,9 +27,9 @@ class OpenPensionFetcherCollectFiles extends ControllerBase {
   /**
    * OpenPensionFetcherCollectFiles constructor.
    *
-   * @param OpenPensionFetcherQuery $open_pension_fetcher_query
+   * @param OpenPensionFetcherService $open_pension_fetcher_query
    */
-  public function __construct(OpenPensionFetcherQuery $open_pension_fetcher_query, LoggerInterface $logger) {
+  public function __construct(OpenPensionFetcherService $open_pension_fetcher_query, LoggerInterface $logger) {
     $this->openPensionFetcherQuery = $open_pension_fetcher_query;
     $this->logger = $logger;
   }

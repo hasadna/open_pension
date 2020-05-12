@@ -6,6 +6,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -29,14 +30,20 @@ class OpenPensionFetcherLinksController extends ControllerBase {
   protected $requestStack;
 
   /**
+   * @var LoggerInterface
+   */
+  protected $logger;
+
+  /**
    * The controller constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, LoggerInterface $logger) {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack->getCurrentRequest();
+    $this->logger = $logger;
   }
 
   /**
@@ -45,7 +52,8 @@ class OpenPensionFetcherLinksController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('logger.factory')->get('open_pension_fetcher')
     );
   }
 
@@ -81,14 +89,14 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     $file_ids = $this->entityTypeManager->getStorage('file')->getQuery()->condition('uri', $file_uri)->execute();
 
     if ($file_ids) {
-      // todo: log.
+      $this->logger->info(t('Found a file for @uri', ['@uri' => $file_uri]));
       return reset($file_ids);
     }
 
     $file = $this->entityTypeManager->getStorage('file')->create(['uri' => $file_uri]);
     $file->save();
 
-    // todo: log.
+    $this->logger->info(t('A new file entry, @id, was created for the uri @uri', ['@uri' => $file_uri, '@id' => $file->id()]));
     return $file->id();
   }
 
@@ -112,6 +120,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       ->execute();
 
     if ($media_ids) {
+      $this->logger->info(t('Found a media for the file id @file-id', ['@file-id' => $file_id]));
       return reset($media_ids);
     }
 
@@ -120,7 +129,10 @@ class OpenPensionFetcherLinksController extends ControllerBase {
         'bundle' => 'open_pension_file',
         'field_media_file' => $file_id
       ]);
+
     $media->save();
+
+    $this->logger->info(t('A media entry, @media-id, was create for the file @file-id', ['@file-id' => $file_id, '@media-id' => $media->id()]));
     return $media->id();
   }
 
@@ -158,8 +170,8 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       ->execute();
 
     if ($exists) {
-      // todo: log.
       // We have a link entry which relate to this file address.
+      $this->logger->info(t('There is already a link record for the url @url', ['@url' => $address]));
       return new Response(t('The file is already exists'), Response::HTTP_OK);
     }
 
@@ -169,12 +181,12 @@ class OpenPensionFetcherLinksController extends ControllerBase {
       ->save();
 
     if ($created) {
-      // todo: log.
       // Manage to create it.
+      $this->logger->info(t('A link record was created for the address @url', ['@url' => $address]));
       return new Response(t('File was updated'), Response::HTTP_CREATED);
     }
 
-    // todo: log.
+    $this->logger->error(t('Something went wrong when trying to create a record for the URL @url', ['@url' => $address]));
     return new Response(t('An error during creation'), Response::HTTP_BAD_REQUEST);
   }
 
@@ -197,7 +209,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
    */
   public function updateLinkRecordWithAFile($address, $file, $file_name) {
     if (!$link_ids = $this->getLinkEntityByAddress($address)) {
-      // todo: log.
+      $this->logger->error(t('A link record was not exists for the url @url', ['@url' => $address]));
       return new Response(t('File does not exits'), Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
@@ -214,7 +226,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
 
     if (!file_put_contents($file_uri, base64_decode($file))) {
       // Could not create the file.
-      // todo: log.
+      $this->logger->error(t('Was not able to create a file for the url @url and file name @file-name', ['@url' => $address, '@file-name' => $file]));
       return new Response(t('File was un able to save'), Response::HTTP_BAD_REQUEST);
     }
 
@@ -227,7 +239,7 @@ class OpenPensionFetcherLinksController extends ControllerBase {
     $link->save();
 
     // update the object.
-    // todo: log.
+    $this->logger->info(t('The link record was updated with the file id @file-id', ['@url' => $address, '@file-id' => $file_id]));
     return new Response(t('File was updated'), Response::HTTP_OK);
   }
 

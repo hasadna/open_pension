@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\open_pension_fetcher\OpenPensionFetcherQuery;
+use Drupal\open_pension_fetcher\OpenPensionFetcherService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class OpenPensionLinksForm extends ContentEntityForm {
 
   /**
-   * @var OpenPensionFetcherQuery
+   * @var OpenPensionFetcherService
    */
   protected $openPensionFetcherQuery;
 
@@ -25,7 +25,7 @@ class OpenPensionLinksForm extends ContentEntityForm {
     EntityRepositoryInterface $entity_repository,
     EntityTypeBundleInfoInterface $entity_type_bundle_info,
     TimeInterface $time,
-    OpenPensionFetcherQuery $open_pension_fetcher_query,
+    OpenPensionFetcherService $open_pension_fetcher_query,
     MessengerInterface $messenger
   ) {
     parent::__construct($entity_repository, $entity_type_bundle_info, $time);

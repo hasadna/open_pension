@@ -2,19 +2,16 @@
 
 namespace Drupal\open_pension_fetcher;
 
-use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\open_pension_services\OpenPensionServicesAddresses;
 use Drupal\open_pension_services\OpenPensionServicesHealthStatus;
 use GuzzleHttp\ClientInterface;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Defines a service provider for the Open Pension Fetcher module.
  */
-class OpenPensionFetcherQuery {
+class OpenPensionFetcherService {
 
   /**
    * @var ClientInterface
