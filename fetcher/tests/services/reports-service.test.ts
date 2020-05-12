@@ -35,7 +35,7 @@ jest.mock("services/cms-services", () => ({
 }));
 
 import {downloadReports} from "services/reports-service";
-import ReportQuery from "types/report-query";
+import { ReportQuery } from "types/report-query";
 import waitForExpect from "wait-for-expect";
 
 describe("Testing the reports service", () => {

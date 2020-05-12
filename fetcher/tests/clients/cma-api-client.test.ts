@@ -15,7 +15,7 @@ jest.mock("fs", () => ({
 }));
 
 import { CmaGovApiClient } from "clients/cma-api-client";
-import ReportQuery from "types/report-query";
+import { ReportQuery } from "types/report-query";
 
 describe("CMA api client", () => {
     let client: CmaGovApiClient;
