@@ -20,13 +20,18 @@ class OpenPensionCoreAdminIndex extends ControllerBase {
 
     $content = [
       [
+        'title' => t('Query files'),
+        'description' => t('Query files and download them for processing'),
+        'url' => Url::fromRoute('entity.open_pension_links.collection'),
+      ],
+      [
         'title' => t('Upload files'),
         'description' => t('Uploading files for process by the processor'),
         'url' => Url::fromRoute('open_pension_files.upload'),
       ],
       [
-        'title' => t('Watch uploaded files'),
-        'description' =>  t('Browse uploaded files'),
+        'title' => t('Watch collected files'),
+        'description' => t('Watch all the files which been uploaded and queried'),
         'url' => Url::fromRoute('view.open_pension_uploaded_files.page_1'),
       ],
       [

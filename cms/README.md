@@ -57,7 +57,7 @@ query {
 
 ### Reclamation data
 Reclamation can be accessed via
-http://localhost:2000/admin/content/instrument-type so if we want to get the
+http://localhost:2000/admin/open_pension/reclamations/instrument-type so if we want to get the
 list instruments we'll need to do something like this:
 
 ```
