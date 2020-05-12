@@ -2,7 +2,6 @@
 
 namespace Drupal\open_pension_fetcher\Commands;
 
-use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drupal\open_pension_fetcher\OpenPensionFetcherService;
 use Drush\Commands\DrushCommands;
 
@@ -19,6 +18,16 @@ use Drush\Commands\DrushCommands;
  */
 class OpenPensionFetcherCommands extends DrushCommands {
 
+  /**
+   * @var OpenPensionFetcherService
+   */
+  protected $fetchQueryService;
+
+  /**
+   * OpenPensionFetcherCommands constructor.
+   *
+   * @param OpenPensionFetcherService $fetcher_query
+   */
   public function __construct(OpenPensionFetcherService $fetcher_query) {
     $this->fetchQueryService = $fetcher_query;
   }
@@ -29,7 +38,14 @@ class OpenPensionFetcherCommands extends DrushCommands {
    * @command open_pension_fetcher:get_links_files
    */
   public function commandName() {
-    $results = json_decode($this->fetchQueryService->collectLinks());
+    $query_results = $this->fetchQueryService->collectLinks();
+
+    if (!$query_results) {
+      $this->io()->success('No links to collect!');
+      return;
+    }
+
+    $results = json_decode($query_results);
 
     if (!empty($results->data->completeFilesCollecting->errors)) {
 

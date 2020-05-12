@@ -2,11 +2,14 @@
 
 namespace Drupal\open_pension_fetcher;
 
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\open_pension_services\OpenPensionServicesAddresses;
 use Drupal\open_pension_services\OpenPensionServicesHealthStatus;
 use GuzzleHttp\ClientInterface;
+use Drupal\Core\Logger\LoggerChannelFactory;
+
 
 /**
  * Defines a service provider for the Open Pension Fetcher module.
@@ -39,6 +42,11 @@ class OpenPensionFetcherService {
   protected $entityTypeManager;
 
   /**
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected $logger;
+
+  /**
    * Constructs an OpenPensionServicesHealthStatus object.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
@@ -46,12 +54,20 @@ class OpenPensionFetcherService {
    * @param OpenPensionServicesAddresses $open_pension_health_status
    *  The services addresses service.
    */
-  public function __construct(ClientInterface $http_client, OpenPensionServicesAddresses $services_addresses, OpenPensionServicesHealthStatus $open_pension_health_status, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(
+    ClientInterface $http_client,
+    OpenPensionServicesAddresses $services_addresses,
+    OpenPensionServicesHealthStatus $open_pension_health_status,
+    MessengerInterface $messenger,
+    EntityTypeManagerInterface $entity_type_manager,
+    LoggerChannelFactory $logger_factory
+  ) {
     $this->servicesAddresses = $services_addresses;
     $this->httpClient = $http_client;
     $this->servicesHealthStatus = $open_pension_health_status;
     $this->messenger = $messenger;
     $this->entityTypeManager = $entity_type_manager;
+    $this->logger = $logger_factory->get('open_pension_fetcher');
   }
 
   /**
@@ -184,19 +200,37 @@ class OpenPensionFetcherService {
   public function collectLinks() {
     $storage = $this->entityTypeManager->getStorage('open_pension_links');
 
-    $ids = $storage
+    $links_ids = $storage
       ->getQuery()
       ->notExists('open_pension_file', NULL)
+      ->range(0, 50)
       ->execute();
 
-    $results = $storage->loadMultiple($ids);
-
-    // todo: remove duplicates from DB.
+    /** @var ContentEntityInterface[] $links */
+    $links = $storage->loadMultiple($links_ids);
 
     $links_payload = [];
-    foreach ($results as $result) {
+    foreach ($links as $link) {
       // append the link.
-      $links_payload[] = $result->get('url')->value;
+      $url = $link->get('url')->value;
+
+      $duplicates = $storage
+        ->getQuery()
+        ->condition('url', $url)
+        ->condition('id', $link->id(), '<>')
+        ->execute();
+
+      if ($duplicates) {
+        $this->logger->warning(t('Deleting the link record - @url - due to duplicates', ['@url' => $url]));
+        $link->delete();
+        continue;
+      }
+
+      $links_payload[] = $url;
+    }
+
+    if (!$links_payload) {
+      return [];
     }
 
     $query = <<<'GRAPHQL'
