@@ -1,11 +1,10 @@
 const readXlsxFile = require('read-excel-file/node');
-import {sheetsKeys, orderedSheets} from './sheets/metadata'
+import {sheetsKeys, orderedSheets, fieldsTranslation} from './sheets/metadata'
 
 /**
  * todo: Copy tge object which holds the fields for each sheet.
  *
  * the flow is:
- * 2. Get the metadata(date of publishing etc. etc.)
  * 3. When going over the rows we need to know when the table statrted.
  * 4. After we know where the table started we need to get the context of the rows
  * 5. go over eaach full row, add the information of row with the ideitifiers (get which extra data we collect)
@@ -14,6 +13,7 @@ import {sheetsKeys, orderedSheets} from './sheets/metadata'
 
 const incrementSheetCount = 0;
 const dontIncrementSheetCount = 1;
+const maxAmountItemsForBeingMetadata = 2;
 
 let SheetToSkip: any = {
     'סכום נכסי הקרן': incrementSheetCount,
@@ -24,27 +24,67 @@ let SheetToSkip: any = {
 };
 
 /**
+ * Process a single sheet.
  *
- * @param path
- * @param sheetName
+ * @param path The file path.
+ * @param sheetName The sheet name.
  */
 async function processSheet(path: any, sheetName: any): Promise<any> {
     const sheetRows = await readXlsxFile(path, {sheet: sheetName});
 
     const metadata = {};
+    const parsedSheet: any = [];
 
-    sheetRows.forEach((rows: any) => {
+    sheetRows.forEach((sheetEntry: any) => {
         // todo:
-        //  Get the metadata of the file.
         //  Get if the row is in israel.
         //  Get the context of the field.
         //  Collect the fields and combine it with the other elements.
-        console.log(rows);
+
+        let parsedRow: any = {};
+
+        // Getting the metadata of the sheet.
+        if (checkIfSheetEntryIsMetadata(sheetEntry)) {
+            processRowToMetadataObject(sheetEntry, metadata);
+            return -1;
+        }
+
+        parsedRow = {...parsedRow, ...metadata};
+
+        // Get the values of the sheet.
+        parsedSheet.push(parsedRow);
     })
 
     return new Promise((resolve, reject) => {
-        resolve(sheetRows.length);
+        resolve(parsedSheet);
     });
+}
+
+/**
+ * Checkin if a current sheet entry is a metadata or not.
+ *
+ * @param sheetEntry
+ *  The sheet entry.
+ */
+function checkIfSheetEntryIsMetadata(sheetEntry: any): boolean {
+    return sheetEntry.filter((item: any) => item).length <= maxAmountItemsForBeingMetadata;
+}
+
+/**
+ * Processing the sheet entry to the metadata object.
+ *
+ * @param sheetEntry
+ *  The sheet entry.
+ * @param metadata
+ *  The metadata object.
+ */
+function processRowToMetadataObject(sheetEntry: any, metadata: any) {
+    // todo: handle when the metadata key and the value are in the same key.
+    if (Object.keys(fieldsTranslation).indexOf(sheetEntry[0]) === -1) {
+        return;
+    }
+
+    metadata[fieldsTranslation[sheetEntry[0]]] = sheetEntry[1];
 }
 
 /**
