@@ -11,35 +11,31 @@ import {sheetsKeys, orderedSheets, fieldsTranslation} from './sheets/metadata'
  * 6. construct the full object.
  */
 
-const incrementSheetCount = 0;
-const dontIncrementSheetCount = 1;
 const maxAmountItemsForBeingMetadata = 2;
-
-let SheetToSkip: any = {
-    'סכום נכסי הקרן': incrementSheetCount,
-    'Sheet1': dontIncrementSheetCount,
-    '{PL}PickLst': dontIncrementSheetCount,
-    'סקירת רוח מבקר': dontIncrementSheetCount,
-    'אישור רוח': dontIncrementSheetCount,
-};
+const notInIsraelWords: string[] = ['מט"ח', 'חוץ לארץ', 'חו"ל']
+const sheetToToSkip = ['סכום נכסי הקרן'];
+let sheetsToDelete = ['Sheet1', '{PL}PickLst', 'סקירת רוח מבקר', 'אישור רוח',];
 
 /**
  * Process a single sheet.
  *
  * @param path The file path.
  * @param sheetName The sheet name.
+ * @param sheetKeys The keys of the sheet.
  */
-async function processSheet(path: any, sheetName: any): Promise<any> {
+async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<any> {
     const sheetRows = await readXlsxFile(path, {sheet: sheetName});
-
-    const metadata = {};
     const parsedSheet: any = [];
+    let entryHeaderBeenChecked = false;
+
+    const metadata: any = {
+        'israel': true,
+    };
 
     sheetRows.forEach((sheetEntry: any) => {
         // todo:
-        //  Get if the row is in israel.
         //  Get the context of the field.
-        //  Collect the fields and combine it with the other elements.
+        //  add the missing fields.
 
         let parsedRow: any = {};
 
@@ -49,7 +45,27 @@ async function processSheet(path: any, sheetName: any): Promise<any> {
             return -1;
         }
 
-        parsedRow = {...parsedRow, ...metadata};
+        if (!checkNotInIsraelContext(sheetEntry[0])) {
+            metadata['israel'] = false;
+        }
+
+        parsedRow = {...parsedRow, ...metadata}
+
+        if (!entryRowShouldBeAppended(sheetEntry)) {
+            return -1;
+        }
+
+        if (!entryHeaderBeenChecked) {
+
+            if (entryRowIsHeader(sheetEntry)) {
+                entryHeaderBeenChecked = true;
+                return -1;
+            }
+        }
+
+        Object.values(sheetKeys).map((item: any, key: any) => {
+            parsedRow[item] = sheetEntry[key];
+        });
 
         // Get the values of the sheet.
         parsedSheet.push(parsedRow);
@@ -58,6 +74,38 @@ async function processSheet(path: any, sheetName: any): Promise<any> {
     return new Promise((resolve, reject) => {
         resolve(parsedSheet);
     });
+}
+
+function checkNotInIsraelContext(rowFirstEntry: any): boolean {
+    let inIsrael = true;
+
+    if (!rowFirstEntry) {
+        return true;
+    }
+
+    notInIsraelWords.forEach((item: any) => {
+        if (inIsrael && rowFirstEntry.includes(item)) {
+            inIsrael = false;
+        }
+    });
+
+    return inIsrael;
+}
+
+function entryRowShouldBeAppended(entry: any) {
+    return entry[0] !== null && entry[1] !== null;
+}
+
+function entryRowIsHeader(entryRow: any): boolean {
+    let allString = true;
+
+    entryRow.forEach((cellValue: any) => {
+        if (typeof cellValue !== 'string') {
+            allString = false;
+        }
+    });
+
+    return allString;
 }
 
 /**
@@ -95,29 +143,23 @@ function processRowToMetadataObject(sheetEntry: any, metadata: any) {
  */
 export async function excelParsing(path: string) {
     // Get all the sheets.
-    const sheets = await readXlsxFile(path, {getSheets: true});
+    let sheets = await readXlsxFile(path, {getSheets: true});
+
+    sheets = sheets.filter((data: any) => {
+        return sheetsToDelete.indexOf(data.name) === -1;
+    });
 
     // This is the number which indicate which sheet we need to parse. We have a predefined order because those bustards
     // give different names which later on might screw us in parsing and when read the data in power BI.
-    let incrementedIndex = 0;
-
     const parsedData: any = {};
 
-    await Promise.all(sheets.splice(0, 5).map(async (data: any) => {
-
-        if (Object.keys(SheetToSkip).indexOf(data.name) !== -1) {
-            // This sheet should not be include in the final parsed data but it should not increment the sheet index as
-            // well.
-
-            if (SheetToSkip[data.name] === incrementSheetCount) {
-                incrementedIndex++;
-            }
-            return;
+    await Promise.all(sheets.splice(0, 5).map(async (data: any, key: any) => {
+        if (sheetToToSkip.indexOf(data.name) !== -1) {
+            return -1;
         }
 
-        const results = await processSheet(path, data.name);
-        parsedData[orderedSheets[incrementedIndex]] = results;
-        incrementedIndex++;
+        let sheetName: any = orderedSheets[key];
+        parsedData[sheetName] = await processSheet(path, data.name, sheetsKeys[sheetName]);
     }));
 
     return parsedData;

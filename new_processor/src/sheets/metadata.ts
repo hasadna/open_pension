@@ -61,7 +61,7 @@ export const orderedSheets = [
     'עלות מתואמת מסגרות אשראי ללווים'
 ]
 
-export const sheetsKeys = {
+export const sheetsKeys: any = {
     'אג"ח קונצרני': agach,
     'לא סחיר - אג"ח קונצרני': noTradeAgach,
     'אופציות': options,
