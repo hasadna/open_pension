@@ -7,9 +7,12 @@ import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
 /**
  * Process a single sheet.
  *
- * @param path The file path.
- * @param sheetName The sheet name.
- * @param sheetKeys The keys of the sheet.
+ * @param path
+ *  The file path.
+ * @param sheetName
+ *  The sheet name.
+ * @param sheetKeys
+ *  The keys of the sheet.
  */
 async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<any> {
     const sheetRows = await readXlsxFile(path, {sheet: sheetName});
