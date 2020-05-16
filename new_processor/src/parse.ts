@@ -1,20 +1,8 @@
+import api from './parsing/api';
 const readXlsxFile = require('read-excel-file/node');
-import {sheetsKeys, orderedSheets, fieldsTranslation} from './sheets/metadata'
+import {orderedSheets, sheetsKeys} from './sheets/metadata'
+import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
 
-/**
- * todo: Copy tge object which holds the fields for each sheet.
- *
- * the flow is:
- * 3. When going over the rows we need to know when the table statrted.
- * 4. After we know where the table started we need to get the context of the rows
- * 5. go over eaach full row, add the information of row with the ideitifiers (get which extra data we collect)
- * 6. construct the full object.
- */
-
-const maxAmountItemsForBeingMetadata = 2;
-const notInIsraelWords: string[] = ['מט"ח', 'חוץ לארץ', 'חו"ל']
-const sheetToToSkip = ['סכום נכסי הקרן'];
-let sheetsToDelete = ['Sheet1', '{PL}PickLst', 'סקירת רוח מבקר', 'אישור רוח',];
 
 /**
  * Process a single sheet.
@@ -30,41 +18,42 @@ async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<
 
     const metadata: any = {
         'israel': true,
+        'file_name': path.split('/').pop(),
+        'Investment': sheetName,
     };
 
-    sheetRows.forEach((sheetEntry: any) => {
-        // todo:
-        //  Get the context of the field.
-        //  add the missing fields.
-
+    sheetRows.forEach((row: any) => {
         let parsedRow: any = {};
 
         // Getting the metadata of the sheet.
-        if (checkIfSheetEntryIsMetadata(sheetEntry)) {
-            processRowToMetadataObject(sheetEntry, metadata);
+        if (api.checkIfSheetEntryIsMetadata(row)) {
+            api.processRowToMetadataObject(row, metadata);
             return -1;
         }
 
-        if (!checkNotInIsraelContext(sheetEntry[0])) {
+        if (!api.checkNotInIsraelContext(row[0])) {
+            // The first cell of the row has word which consider as something not in israel. Switch the israel key to
+            // false.
             metadata['israel'] = false;
         }
 
         parsedRow = {...parsedRow, ...metadata}
 
-        if (!entryRowShouldBeAppended(sheetEntry)) {
+        if (!api.rowShouldBeAppended(row)) {
+            // Row should be appended. Skipping.
             return -1;
         }
 
         if (!entryHeaderBeenChecked) {
 
-            if (entryRowIsHeader(sheetEntry)) {
+            if (api.rowIsHeader(row)) {
                 entryHeaderBeenChecked = true;
                 return -1;
             }
         }
 
         Object.values(sheetKeys).map((item: any, key: any) => {
-            parsedRow[item] = sheetEntry[key];
+            parsedRow[item] = row[key];
         });
 
         // Get the values of the sheet.
@@ -74,65 +63,6 @@ async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<
     return new Promise((resolve, reject) => {
         resolve(parsedSheet);
     });
-}
-
-function checkNotInIsraelContext(rowFirstEntry: any): boolean {
-    let inIsrael = true;
-
-    if (!rowFirstEntry) {
-        return true;
-    }
-
-    notInIsraelWords.forEach((item: any) => {
-        if (inIsrael && rowFirstEntry.includes(item)) {
-            inIsrael = false;
-        }
-    });
-
-    return inIsrael;
-}
-
-function entryRowShouldBeAppended(entry: any) {
-    return entry[0] !== null && entry[1] !== null;
-}
-
-function entryRowIsHeader(entryRow: any): boolean {
-    let allString = true;
-
-    entryRow.forEach((cellValue: any) => {
-        if (typeof cellValue !== 'string') {
-            allString = false;
-        }
-    });
-
-    return allString;
-}
-
-/**
- * Checkin if a current sheet entry is a metadata or not.
- *
- * @param sheetEntry
- *  The sheet entry.
- */
-function checkIfSheetEntryIsMetadata(sheetEntry: any): boolean {
-    return sheetEntry.filter((item: any) => item).length <= maxAmountItemsForBeingMetadata;
-}
-
-/**
- * Processing the sheet entry to the metadata object.
- *
- * @param sheetEntry
- *  The sheet entry.
- * @param metadata
- *  The metadata object.
- */
-function processRowToMetadataObject(sheetEntry: any, metadata: any) {
-    // todo: handle when the metadata key and the value are in the same key.
-    if (Object.keys(fieldsTranslation).indexOf(sheetEntry[0]) === -1) {
-        return;
-    }
-
-    metadata[fieldsTranslation[sheetEntry[0]]] = sheetEntry[1];
 }
 
 /**
