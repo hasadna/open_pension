@@ -84,6 +84,7 @@ describe("CMA api client", () => {
         const response = await client.downloadDocument(reportRow.DocumentId, reportRow.DocumentId);
 
         expect(mockApi.get).toHaveBeenCalledWith("address", {
+            "maxContentLength": Infinity,
             responseType: "stream"
         });
 
