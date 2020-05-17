@@ -86,7 +86,7 @@ export async function excelParsing(path: string) {
     // give different names which later on might screw us in parsing and when read the data in power BI.
     const parsedData: any = {};
 
-    await Promise.all(sheets.splice(0, 5).map(async (data: any, key: any) => {
+    await Promise.all(sheets.map(async (data: any, key: any) => {
         if (sheetToToSkip.indexOf(data.name) !== -1) {
             return -1;
         }
