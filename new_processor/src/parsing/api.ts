@@ -49,6 +49,25 @@ function rowShouldBeAppended(row: any) {
 }
 
 /**
+ * There are two types of contexts: israel or not and a row which located above a block of holdings.
+ *
+ * A local context is a row which only the first, second and third are empty. After identifying that row, we need to
+ * remove the "total" word from the cell.
+ *
+ * @param row
+ *  The row we iterating.
+ * @param metadata
+ *  The metadata to set the local context.
+ */
+function checkIfRowIsLocalContextAndAppend(row: any, metadata: any) {
+    if (!(row[0] !== null && row[1] === null && row[2] === null)) {
+        return;
+    }
+
+    metadata['index'] = row[0].replace('סה"כ', '');
+}
+
+/**
  * Checking if the row is the header of the table. The table header is constructed from strings only so any row which
  * all the columns has a string type value will be consider as the table header.
  *
@@ -90,4 +109,5 @@ export default {
     rowShouldBeAppended: rowShouldBeAppended,
     checkNotInIsraelContext: checkNotInIsraelContext,
     checkIfSheetEntryIsMetadata: checkIfSheetEntryIsMetadata,
+    checkIfRowIsLocalContextAndAppend: checkIfRowIsLocalContextAndAppend,
 };

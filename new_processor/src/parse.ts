@@ -23,6 +23,7 @@ async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<
         'israel': true,
         'file_name': path.split('/').pop(),
         'Investment': sheetName,
+        'index': '',
     };
 
     sheetRows.forEach((row: any) => {
@@ -43,6 +44,10 @@ async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<
         parsedRow = {...parsedRow, ...metadata}
 
         if (!api.rowShouldBeAppended(row)) {
+
+            // Try to set the local index.
+            api.checkIfRowIsLocalContextAndAppend(row, metadata);
+
             // Row should be appended. Skipping.
             return -1;
         }
@@ -75,8 +80,14 @@ async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<
  *  The path of the file.
  */
 export async function excelParsing(path: string) {
-    // Get all the sheets.
-    let sheets = await readXlsxFile(path, {getSheets: true});
+    let sheets;
+
+    try {
+        // Get all the sheets.
+        sheets = await readXlsxFile(path, {getSheets: true});
+    } catch (e) {
+        return {};
+    }
 
     sheets = sheets.filter((data: any) => {
         return sheetsToDelete.indexOf(data.name) === -1;
