@@ -240,9 +240,9 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     try {
       $results = $this->sendFileToServer($file);
 
-      if ($results->getStatusCode() == Response::HTTP_CREATED) {
+      if ($results->getStatusCode() == Response::HTTP_OK) {
         $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
-        $this->processedId = reset(json_decode($results->getBody(), true)['data']['files'])['id'];
+        $this->processedId = json_decode($results->getBody(), true)[0]['id'];
         $this->sentToProcessed = TRUE;
         $this->processStatus = ProcessorStatus::STATUS_NEW;
         return $this;
@@ -314,15 +314,19 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
         '@error' => $e->getMessage(),
       ];
       $this->log(t('The file @file-name was not able to process due to @error', $params), 'error');
+      return $this;
     }
 
     $this->sentToProcessed = TRUE;
-    $response = $this->httpClient->request('get', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}");
+    $response = $this->httpClient->request('get', "{$this->openPensionServicesAddress->getProcessorAddress()}/results/{$other_service->value}");
     $parsed = json_decode($response->getBody()->getContents());
 
-    if ($parsed->status == Response::HTTP_OK) {
-      $this->log(t('Processing results: @results', ['@results' => $parsed->data->item->status]));
-      $this->processStatus = ucfirst($parsed->data->item->status);
+    if ($response->getStatusCode() == Response::HTTP_OK) {
+      $this->log(t('Processing results for file @file: @results', [
+        '@file' => $file->getFilename(),
+        '@results' => $parsed->status
+      ]));
+      $this->processStatus = $parsed->status;
     }
 
     return $this;

@@ -195,19 +195,22 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   }
 
   public function acquireJsonFile(Media $entity, &$context) {
-    // Get the file, process, remove unnecessary data.
-    $file_url = open_pension_get_download_link($entity, TRUE);
-    $json_body = $this->httpClient->get($file_url)->getBody()->getContents();
-
     list($file_name) = explode('.', $entity->label());
-    $file_content = json_encode(json_decode($json_body)->data->item->processed);
+    $processor_address = $this->serviceAddresses->getProcessorAddress();
+    $processor_id = $entity->get('field_reference_in_other_service')->value;
+
+    $content = file_get_contents("{$processor_address}/results/{$processor_id}");
+
+    $results = json_decode($content)->results;
 
     // Load the files from the temp storage.
     $files = $this->privateTempStorage->get('files_to_zip');
 
+    // todo: try symfony file system instead!
+
     $files[] = $this
       ->fileSystem
-      ->saveData($file_content, "{$this->privateTempStorage->get('folder_path')}/{$file_name}.json");
+      ->saveData($results, "{$this->privateTempStorage->get('folder_path')}/{$file_name}.json");
 
     $this->privateTempStorage->set('files_to_zip', $files);
   }

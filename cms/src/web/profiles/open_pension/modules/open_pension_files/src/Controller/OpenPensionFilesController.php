@@ -44,8 +44,8 @@ class OpenPensionFilesController extends ControllerBase {
     $processor_address = $this->servicesAddresses->getProcessorAddress();
     $processor_id = $media->get('field_reference_in_other_service')->value;
 
-    $content = file_get_contents("{$processor_address}/process/{$processor_id}");
-    return new JsonResponse(json_decode($content), 200, ['Content-Type'=> 'application/json']);
+    $content = file_get_contents("{$processor_address}/results/{$processor_id}");
+    return new JsonResponse(json_decode($content)->results, 200, ['Content-Type'=> 'application/json']);
   }
 
 }
