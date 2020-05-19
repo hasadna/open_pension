@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run serve",
+    "start": "node ./dist/server.js",
     "sandbox": "nodemon src/sandbox.ts",
+    "build": "tsc",
     "dev": "nodemon src/server.ts",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
