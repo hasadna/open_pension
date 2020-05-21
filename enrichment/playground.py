@@ -2,7 +2,7 @@
 import json
 import os
 
-from .process import process_json
+from enrichment.process import process_json
 
 if __name__ == "__main__":
     PATH = r"C:\Hasadna\0219_all_jsons"

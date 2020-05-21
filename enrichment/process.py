@@ -1,16 +1,16 @@
 import json
 import os
 
-from .consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS, MUTUAL_FUNDS, ETF, \
+from enrichment.consts import ALL_INSTRUMENT_TYPES, GOVERNMENTAL_BONDS, COMPANY_BONDS, STOCKS, MUTUAL_FUNDS, ETF, \
     WARRANTS, \
     OPTIONS, FUTURES, STRUCTURED_PRODUCT, CASH, COMMERCIAL_BONDS, STOCKS_NT, GOVERNMENTAL_BONDS_NT, COMMERCIAL_BONDS_NT, \
     COMPANY_BONDS_NT, MUTUAL_FUNDS_NT, WARRANTS_NT, OPTIONS_NT, FUTURES_CONTRACT_NT, STRUCTURED_PRODUCT_NT, LOANS, \
     SECURITY_DEP_OVER_THREE_MONTHS, REAL_ESTATE, INVESTMENT_IN_HELD_COMPANIES, OTHER_INVESTMENTS, \
     BALANCE_INVESTMENT_COMMITMENT, COORDINATED_COST_COMPANY_BONDS, COORDINATED_COST_BORROWING_CREDIT
 
-from .enrich.enrich_instruments import enrich_gov_bonds, enrich_company_bonds, enrich_stocks
-from .utils import join_json_strings, save_data_to_file, load_dict_for_enrichment
-from .normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks, \
+from enrichment.enrich.enrich_instruments import enrich_gov_bonds, enrich_company_bonds, enrich_stocks
+from enrichment.utils import join_json_strings, save_data_to_file, load_dict_for_enrichment
+from enrichment.normalize.instruments_norm import normalize_gov_bonds, normalize_company_bonds, normalize_stocks, \
     normalize_mutual_funds, normalize_etf, normalize_warrants, normalize_options, normalize_futures, \
     normalize_structured_product, normalize_cash, normalize_commercial_bonds, normalize_stocks_nt, \
     normalize_gov_bonds_nt, normalize_commercial_bonds_nt, normalize_company_bonds_nt, \

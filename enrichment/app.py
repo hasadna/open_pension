@@ -3,7 +3,7 @@ import json
 from flask import Flask, request, Response
 from http import HTTPStatus
 
-from .process import process_json
+from enrichment.process import process_json
 
 app = Flask(__name__)
 

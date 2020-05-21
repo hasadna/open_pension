@@ -3,7 +3,7 @@ import json
 import os
 
 from pandas.core.dtypes.common import is_string_dtype
-from .consts import ISIN_PATTERN
+from enrichment.consts import ISIN_PATTERN
 import pandas as pd
 
 COMPLETED_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "completed")
