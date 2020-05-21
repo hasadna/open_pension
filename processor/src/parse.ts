@@ -1,8 +1,8 @@
 import api from './parsing/api';
 const readXlsxFile = require('read-excel-file/node');
 
-import {orderedSheets, sheetsKeys} from 'sheets/metadata'
-import {sheetsToDelete, sheetToToSkip} from "parsing/consts";
+import {orderedSheets, sheetsKeys} from './sheets/metadata'
+import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
 
 /**
  * Process a single sheet.

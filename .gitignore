@@ -263,3 +263,5 @@ cms/src/web/themes/
 db
 
 fetcher/temp_files
+
+processor/*/*.js

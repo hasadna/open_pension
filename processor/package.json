@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./dist/server.js",
     "sandbox": "nodemon src/sandbox.ts",
-    "build": "tsc",
+    "build": "tsc -r tsconfig-paths/register",
+    "process-files": "tsc src/cli.ts && node src/cli.js",
     "dev": "nodemon -r tsconfig-paths/register src/server.ts",
     "serve": "node -r tsconfig-paths/register dist/server.js",
     "build-ts": "tsc",
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "@types/express": "^4.17.6",
+    "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.14",
