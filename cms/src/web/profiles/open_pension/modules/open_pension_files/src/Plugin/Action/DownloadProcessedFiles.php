@@ -206,11 +206,9 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     // Load the files from the temp storage.
     $files = $this->privateTempStorage->get('files_to_zip');
 
-    // todo: try symfony file system instead!
-
     $files[] = $this
       ->fileSystem
-      ->saveData($results, "{$this->privateTempStorage->get('folder_path')}/{$file_name}.json");
+      ->saveData(json_encode($results), "{$this->privateTempStorage->get('folder_path')}/{$file_name}.json");
 
     $this->privateTempStorage->set('files_to_zip', $files);
   }
@@ -239,7 +237,10 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     /** @var File $file */
     $file = $this->fileStorage->create(['uri' => $file_uri]);
     $file->save();
-    $this->messenger->addMessage(Link::fromTextAndUrl(t('Download the processed files'), Url::fromUserInput($file->createFileUrl(TRUE))));
+
+    $url = Url::fromRoute('open_pension_files.download_zipped_file', ['file' => $file->id()]);
+    $message = Link::fromTextAndUrl(t('Download the processed files'), $url);
+    $this->messenger->addMessage($message->toString());
   }
 
   /**
