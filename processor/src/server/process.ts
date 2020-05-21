@@ -1,8 +1,8 @@
 import {Request, Response} from "express-serve-static-core";
-import {FileModel, StatusProcessed} from '../db/FileModel';
+import {FileModel, StatusProcessed} from 'db/FileModel';
 import * as path from "path";
-import {getUploadedPath} from "../services/env";
-import {excelParsing} from "../parse";
+import {getUploadedPath} from "services/env";
+import {excelParsing} from "parse";
 
 /**
  * Uploading files to the system.

@@ -4,5 +4,3 @@ excelParsing('/Applications/MAMP/htdocs/open_pension/new_processor/src/examples/
     console.log(JSON.stringify(results));
 });
 
-import connect from './db/mongoose'
-

@@ -7,9 +7,8 @@
     "start": "node ./dist/server.js",
     "sandbox": "nodemon src/sandbox.ts",
     "build": "tsc",
-    "dev": "nodemon src/server.ts",
-    "serve": "node dist/server.js",
-    "watch-node": "nodemon dist/server.js",
+    "dev": "nodemon -r tsconfig-paths/register src/server.ts",
+    "serve": "node -r tsconfig-paths/register dist/server.js",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "test": "jest"
@@ -23,6 +22,7 @@
     "nodemon": "^2.0.3",
     "ts-jest": "^26.0.0",
     "ts-node": "^8.10.1",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.2"
   },
   "dependencies": {
