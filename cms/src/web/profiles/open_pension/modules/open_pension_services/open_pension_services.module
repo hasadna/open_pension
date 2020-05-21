@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Open Pension Services module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+use \Drupal\open_pension_services\OpenPensionServicesHealthStatus;
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function open_pension_services_views_pre_render(\Drupal\views\ViewExecutable $view) {
+
+  if ($view->id() != 'open_pension_uploaded_files') {
+    return;
+  }
+
+  /** @var \Drupal\open_pension_services\OpenPensionServicesHealthStatus $health_status_service */
+  $health_status_service = \Drupal::getContainer()->get('open_pension_services.health_status');
+
+  if ($health_status_service->getProcessorState() === OpenPensionServicesHealthStatus::SERVICE_NOT_RESPONDING) {
+    \Drupal::messenger()->addError(t('The processor service is not alive.'));
+  }
+}

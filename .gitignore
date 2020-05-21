@@ -261,3 +261,6 @@ cms/src/web/sites/
 cms/src/web/themes/
 
 db
+
+fetcher/temp_files
+

@@ -1,0 +1,7 @@
+.js-form-item-system-field, .js-form-item-reports-type {
+  display: inline-block;
+}
+
+.js-form-item-system-field {
+  width: 50vh;
+}

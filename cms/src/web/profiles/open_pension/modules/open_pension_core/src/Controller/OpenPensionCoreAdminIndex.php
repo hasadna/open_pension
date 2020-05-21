@@ -19,21 +19,31 @@ class OpenPensionCoreAdminIndex extends ControllerBase {
   public function index(): array {
 
     $content = [
-          [
-            'title' => t('Upload files'),
-            'description' => t('Uploading files for process by the processor'),
-            'url' => Url::fromRoute('open_pension_files.upload'),
-          ],
-          [
-            'title' => t('Watch uploaded files'),
-            'description' => t('Browse uploaded files'),
-            'url' => Url::fromRoute('view.open_pension_uploaded_files.page_1'),
-          ],
-          [
-            'title' => t('Watch logs'),
-            'description' => t('Watch logs from Kafka'),
-            'url' => Url::fromRoute('open_pension_logs.view'),
-          ],
+      [
+        'title' => t('Query files'),
+        'description' => t('Query files and download them for processing'),
+        'url' => Url::fromRoute('entity.open_pension_links.collection'),
+      ],
+      [
+        'title' => t('Upload files'),
+        'description' => t('Uploading files for process by the processor'),
+        'url' => Url::fromRoute('open_pension_files.upload'),
+      ],
+      [
+        'title' => t('Watch collected files'),
+        'description' => t('Watch all the files which been uploaded and queried'),
+        'url' => Url::fromRoute('view.open_pension_uploaded_files.page_1'),
+      ],
+      [
+        'title' => t('Services Addresses'),
+        'description' => t('Setting services addresses'),
+        'url' => Url::fromRoute('open_pension_services.services_addresses'),
+      ],
+      [
+        'title' => t('Reclamation tables'),
+        'description' => t('Manage the reclamation tables'),
+        'url' => Url::fromRoute('entity.instrument_type.collection'),
+      ]
     ];
 
     return [

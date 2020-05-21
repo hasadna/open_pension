@@ -52,7 +52,10 @@ install:
   - open_pension_core
   - open_pension_files
   - open_pension_blog
-  - open_pension_logs
+  - open_pension_services
+  - open_pension_reclamation
+  - open_pension_fetcher
+
 themes:
   - claro
   - bartik
