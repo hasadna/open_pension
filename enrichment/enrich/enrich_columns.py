@@ -1,4 +1,4 @@
-from enrichment.utils import create_il_isin, check_isin_validity
+from ..utils import create_il_isin, check_isin_validity
 import pandas as pd
 
 

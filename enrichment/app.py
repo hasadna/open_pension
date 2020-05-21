@@ -3,7 +3,7 @@ import json
 from flask import Flask, request, Response
 from http import HTTPStatus
 
-from enrichment.process import process_json
+from .process import process_json
 
 app = Flask(__name__)
 
@@ -23,9 +23,13 @@ def api_process_json():
     )
 
 
-@app.route('/ping/', methods=["GET"])
+@app.route('/status/', methods=["GET"])
 def ping():
-    return "pong"
+    return Response(
+        status=HTTPStatus.OK,
+        response=json.dumps({"message": "alive"}),
+        mimetype="application/json"
+    )
 
 
 if __name__ == '__main__':

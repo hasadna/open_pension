@@ -4,8 +4,8 @@ import time
 
 import requests
 
-from enrichment.consts import OPEN_FIGI_LARGE_BULK, OPEN_FIGI_SMALL_BULK
-from enrichment.utils import check_isin_validity
+from ..consts import OPEN_FIGI_LARGE_BULK, OPEN_FIGI_SMALL_BULK
+from ..utils import check_isin_validity
 
 
 def create_json_for_output(resp, isin_list):
@@ -48,46 +48,3 @@ def create_bulks(isin_list):
     for i in range((len(isin_list) * bulk_size - 1) // bulk_size):
         bulked_list.append(isin_list[i * bulk_size: (i + 1) * bulk_size])
     return bulked_list
-
-
-# if __name__ == "__main__":
-#
-#     # Receive Bulk data from json file
-#     # check if file in json format - if not, send an error
-#     # Load Json into dictionary (if from service, load from request)
-#     isin_list = REJECTED_EDITED
-#     approved_isin_list, rejected_isin_list = create_isin_list(isin_list)
-#     bulks_list = create_bulks(approved_isin_list)
-#     # If exists OPEN_FIGI_API - create bulks of 100, if not, create bulks of 5
-#     # Send to openfigi to check isin
-#     # send response back - save to file or send as response
-#
-#     isin_check_list = []  # store 5 isin numbers to check in open_figi - less api calls
-#     count = 32
-#     for index, isin in enumerate(REJECTED_EDITED):
-#         if check_isin_validity(isin):
-#             isin_check_list.append(isin)
-#             if len(isin_check_list) == 100 or index == len(REJECTED_EDITED) - 1:
-#                 resp = check_isin_open_figi(isin_check_list)
-#                 out = create_json_for_output(resp, isin_check_list)
-#                 with open("isin_lists/isin_list{}.json".format(str(count)), "wb+") as f:
-#                     f.writelines(out)
-#                 isin_check_list = []
-#                 count += 1
-#         else:
-#             out = isin + "\n"
-#             with open("isin_lists/reject_list2.txt", "ab+") as f:
-#                 f.writelines(out)
-
-'''
-https://rosettacode.org/wiki/Validate_International_Securities_Identification_Number
-
-Test Cases
-
-US0378331005	valid	
-US0373831005	not valid	The transposition typo is caught by the checksum constraint.
-U50378331005	not valid	The substitution typo is caught by the format constraint.
-US03378331005	not valid	The duplication typo is caught by the format constraint.
-AU0000XVGZA3	valid	
-FR0000988040	valid	
-'''
