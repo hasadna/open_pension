@@ -1,41 +1,27 @@
-# BLOP - business logic operation for the open pension project
+# Application
 
-[![Build Status](https://travis-ci.org/RoySegall/bonappetit.svg?branch=master)](https://travis-ci.org/RoySegall/bonappetit)
+The application service holds the clean, filtered and ordered data.
 
-## Setting up.
+## Setting up
+You'll need go from version `1.13` and above and a MySQL version `5.7.xx`.
 
-First, install all the packages.
-```bash
-npm install
+## Local development
+Open the file `.env` and set the credentials to what you need in the `MYSQL_XX` variables and just `go run server.go`.
+
+For seeding dummy data just run `go run sandbox.go`, after one minute you'll see: `{Passed }` which means that all the 
+dummy data is loaded.
+
+## Using docker
+For now, development mode with docker is not ready yet but you can fire up the container.
+
+## Querying
+Head to postman and fire the query against `localhost:3000`:
+```REST
+query {
+    instruments {
+        id
+        instrument_name
+        instrument_number
+    }
+}
 ```
-
-Make sure you have a mongo DB up and running. 
-
-Next, copy the example of the env file to your own env file:
-```bash
-cp .env.example .env
-```
-
-Now, edit the env file to match your settings. A good example is:
-```dotenv
-PORT=3000
-```
-
-After that:
-```bash
-npm run dev
-```
-
-## Settings
-
-First, let's set up some dependencies for the tests:
-
-```bash
-npm i -g tslint typescript ts-node
-npm i -D jest typescript ts-jest @types/jest
-```
-
-There are two type of tests:
-
-* `npm run lint` - Will check the standards in the lint
-* `npm run unit-test` - Will run unit test code base on jest
