@@ -95,12 +95,19 @@ function rowIsHeader(row: any): boolean {
  *  The metadata object.
  */
 function processRowToMetadataObject(sheetEntry: any, metadata: any) {
-    // todo: handle when the metadata key and the value are in the same key.
-    if (Object.keys(fieldsTranslation).indexOf(sheetEntry[0]) === -1) {
+
+    let sheetEntryToCheck = sheetEntry;
+    if (sheetEntry.filter((item: any) => item).length === 1 && sheetEntry[0].includes(':')) {
+        // This is a metadata row which the label of the metadata and the value are at the same field. Split them and
+        // continue as plan.
+        sheetEntryToCheck = sheetEntry[0].split(':')
+    }
+
+    if (Object.keys(fieldsTranslation).indexOf(sheetEntryToCheck[0]) === -1) {
         return;
     }
 
-    metadata[fieldsTranslation[sheetEntry[0]]] = sheetEntry[1];
+    metadata[fieldsTranslation[sheetEntryToCheck[0].trim()]] = sheetEntryToCheck[1].trim();
 }
 
 export default {
