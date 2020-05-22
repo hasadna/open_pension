@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/server.js",
     "sandbox": "nodemon src/sandbox.ts",
-    "build": "tsc -r tsconfig-paths/register",
+    "build": "tsc",
     "process-files": "tsc src/cli.ts && node src/cli.js",
     "dev": "nodemon -r tsconfig-paths/register src/server.ts",
     "serve": "node -r tsconfig-paths/register dist/server.js",
