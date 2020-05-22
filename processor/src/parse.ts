@@ -14,12 +14,12 @@ import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
  * @param sheetKeys
  *  The keys of the sheet.
  */
-async function processSheet(path: any, sheetName: any, sheetKeys: any): Promise<any> {
+async function processSheet(path: string, sheetName: string, sheetKeys: object): Promise<any> {
     const sheetRows = await readXlsxFile(path, {sheet: sheetName});
     const parsedSheet: any = [];
-    let entryHeaderBeenChecked = false;
+    let entryHeaderBeenChecked: boolean = false;
 
-    const metadata: any = {
+    const metadata: object = {
         'israel': true,
         'file_name': path.split('/').pop(),
         'Investment': sheetName,
@@ -102,7 +102,7 @@ export async function excelParsing(path: string) {
             return -1;
         }
 
-        let sheetName: any = orderedSheets[key];
+        let sheetName: string = orderedSheets[key];
         parsedData[sheetName] = await processSheet(path, data.name, sheetsKeys[sheetName]);
     }));
 

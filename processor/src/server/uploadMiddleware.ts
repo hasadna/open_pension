@@ -3,10 +3,10 @@ import * as fs from "fs";
 const uploadMiddleware = require('multer')
 
 const storage = uploadMiddleware.diskStorage({
-    destination: function (req: any, file: any, cb: any) {
-        cb(null, 'uploaded_files/')
+    destination: function (req: any, file: any, callback: any) {
+        callback(null, 'uploaded_files/')
     },
-    filename: function (req: any, file: any, cb: any) {
+    filename: function (req: any, file: any, callback: any) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         let filename = file.originalname;
 
@@ -20,7 +20,7 @@ const storage = uploadMiddleware.diskStorage({
         }
 
         req.body.uploadedFiles.push(filename)
-        cb(null, filename)
+        callback(null, filename)
     }
 })
 

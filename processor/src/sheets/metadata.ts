@@ -61,7 +61,7 @@ export const orderedSheets = [
     'עלות מתואמת מסגרות אשראי ללווים'
 ]
 
-export const sheetsKeys: any = {
+export const sheetsKeys: { [key: string]: object } = {
     'אג"ח קונצרני': agach,
     'לא סחיר - אג"ח קונצרני': noTradeAgach,
     'אופציות': options,
@@ -93,7 +93,7 @@ export const sheetsKeys: any = {
     'עלות מתואמת מסגרות אשראי ללווים': creditLoans,
 }
 
-export const fieldsTranslation: any = {
+export const fieldsTranslation: {[key: string]: string} = {
     "אג\"ח קונצרני": "Corporate Bond",
     "אופציות": "Option",
     "ארץ": "Country",

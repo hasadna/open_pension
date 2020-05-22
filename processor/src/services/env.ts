@@ -10,14 +10,14 @@ function safeGet(keyName: string, defaultValue?: any) {
     return value;
 }
 
-export function getPort() {
+export function getPort(): number {
     return safeGet('PORT', 3000);
 }
 
-export function getMongoDb() {
+export function getMongoDb(): string {
     return safeGet('mongodb_address', "mongodb://localhost:27017/files");
 }
 
-export function getUploadedPath() {
+export function getUploadedPath(): string {
     return safeGet('upload_path', '');
 }
