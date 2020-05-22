@@ -1,5 +1,5 @@
 import {Request, Response} from "express-serve-static-core";
-import {FileModel} from 'db/FileModel';
+import {FileModel} from '../db/FileModel';
 
 /**
  * Uploading files to the system.

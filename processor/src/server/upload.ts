@@ -1,5 +1,5 @@
 import {Request, Response} from "express-serve-static-core";
-import {FileModel, StatusNew} from 'db/FileModel';
+import {FileModel, StatusNew} from '../db/FileModel';
 import {Document} from "mongoose";
 
 /**
