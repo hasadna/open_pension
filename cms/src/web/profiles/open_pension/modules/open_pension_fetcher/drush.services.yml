@@ -1,0 +1,6 @@
+services:
+  open_pension_fetcher.commands:
+    class: \Drupal\open_pension_fetcher\Commands\OpenPensionFetcherCommands
+    arguments: ['@open_pension_fetcher.query']
+    tags:
+      - { name: drush.command }
