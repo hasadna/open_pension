@@ -1,5 +1,5 @@
 import api from './parsing/api';
-const readXlsxFile = require('read-excel-file/node');
+import {parseFile} from "excelParser";
 
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
@@ -15,7 +15,7 @@ import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
  *  The keys of the sheet.
  */
 async function processSheet(path: string, sheetName: string, sheetKeys: object): Promise<any> {
-    const sheetRows = await readXlsxFile(path, {sheet: sheetName});
+    const sheetRows = await parseFile(path, {sheet: sheetName});
     const parsedSheet: any = [];
     let entryHeaderBeenChecked: boolean = false;
 
@@ -84,7 +84,7 @@ export async function excelParsing(path: string) {
 
     try {
         // Get all the sheets.
-        sheets = await readXlsxFile(path, {getSheets: true});
+        sheets = await parseFile(path, {getSheets: true});
     } catch (e) {
         return {};
     }

@@ -97,7 +97,7 @@ function rowIsHeader(row: any): boolean {
 function processRowToMetadataObject(sheetEntry: any, metadata: any) {
 
     let sheetEntryToCheck = sheetEntry;
-    if (sheetEntry.filter((item: any) => item).length === 1 && sheetEntry[0].includes(':')) {
+    if (sheetEntry.filter((item: any) => item).length === 1 && sheetEntry[0] !== null && sheetEntry[0].includes(':')) {
         // This is a metadata row which the label of the metadata and the value are at the same field. Split them and
         // continue as plan.
         sheetEntryToCheck = sheetEntry[0].split(':')

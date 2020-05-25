@@ -24,7 +24,8 @@
     "ts-jest": "^26.0.0",
     "ts-node": "^8.10.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.2",
+    "wait-for-expect": "^3.0.2"
   },
   "dependencies": {
     "@types/express": "^4.17.6",
