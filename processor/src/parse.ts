@@ -1,4 +1,4 @@
-import api from './parsing/api';
+import {api} from './parsing/api';
 import {parseFile} from "excelParser";
 
 import {orderedSheets, sheetsKeys} from './sheets/metadata'

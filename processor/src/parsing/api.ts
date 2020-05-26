@@ -110,7 +110,7 @@ function processRowToMetadataObject(sheetEntry: any, metadata: any) {
     metadata[fieldsTranslation[sheetEntryToCheck[0].trim()]] = sheetEntryToCheck[1].trim();
 }
 
-export default {
+export const api = {
     processRowToMetadataObject: processRowToMetadataObject,
     rowIsHeader: rowIsHeader,
     rowShouldBeAppended: rowShouldBeAppended,
