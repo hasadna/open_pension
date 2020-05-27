@@ -34,8 +34,8 @@ describe('Testing the process logic', () => {
             }
 
             const sheets = {
-                'foo': fs.readFileSync("/Applications/MAMP/htdocs/open_pension/processor/tests/foo.json"),
-                'bar': fs.readFileSync("/Applications/MAMP/htdocs/open_pension/processor/tests/foo.json"),
+                'foo': fs.readFileSync("/Applications/MAMP/htdocs/open_pension/processor/tests/fixture.json"),
+                'bar': fs.readFileSync("/Applications/MAMP/htdocs/open_pension/processor/tests/fixture.json"),
             };
 
             return sheets[options['sheet']];
@@ -48,34 +48,38 @@ describe('Testing the process logic', () => {
         await waitForExpect(() => expect(mockParseExcel).toBeCalledWith(filename, {sheet: 'bar'}));
 
         await waitForExpect(() => expect(parsingApiMock.checkIfSheetEntryIsMetadata).toBeCalled());
-        // await waitForExpect(() => expect(parsingApiMock.processRowToMetadataObject).toBeCalled());
         await waitForExpect(() => expect(parsingApiMock.checkNotInIsraelContext).toBeCalled());
         await waitForExpect(() => expect(parsingApiMock.rowShouldBeAppended).toBeCalled());
         await waitForExpect(() => expect(parsingApiMock.checkIfRowIsLocalContextAndAppend).toBeCalled());
-        // await waitForExpect(() => expect(parsingApiMock.rowIsHeader).toBeCalled());
     }, 30000);
 
-    it('Testing the consts values of the parser', () => {
+    it('Testing the constants values of the parser', () => {
+        // TBD.
         expect(1).toBe(1);
     });
 
     it('Testing the API function: processRowToMetadataObject', () => {
+        // TBD.
         expect(1).toBe(1);
     });
 
     it('Testing the API function: rowIsHeader', () => {
+        // TBD.
         expect(1).toBe(1);
     });
 
     it('Testing the API function: rowShouldBeAppended', () => {
+        // TBD.
         expect(1).toBe(1);
     });
 
     it('Testing the API function: checkNotInIsraelContext', () => {
+        // TBD.
         expect(1).toBe(1);
     });
 
     it('Testing the API function: checkIfSheetEntryIsMetadata', () => {
+        // TBD.
         expect(1).toBe(1);
     });
 });
