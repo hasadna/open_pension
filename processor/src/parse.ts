@@ -1,5 +1,5 @@
 import {api} from './parsing/api';
-import {parseFile} from "excelParser";
+import {parseFile} from "./excelParser";
 
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
@@ -13,8 +13,10 @@ import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
  *  The sheet name.
  * @param sheetKeys
  *  The keys of the sheet.
+ * @param errors
+ *  An array to append errors.
  */
-async function processSheet(path: string, sheetName: string, sheetKeys: object): Promise<any> {
+async function processSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
     const sheetRows = await parseFile(path, {sheet: sheetName});
     const parsedSheet: any = [];
     let entryHeaderBeenChecked: boolean = false;
@@ -31,7 +33,12 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object):
 
         // Getting the metadata of the sheet.
         if (api.checkIfSheetEntryIsMetadata(row)) {
-            api.processRowToMetadataObject(row, metadata);
+            try {
+                api.processRowToMetadataObject(row, metadata);
+            } catch (e) {
+                errors.push(`${sheetName}: ${e.message}`);
+            }
+
             return -1;
         }
 
@@ -43,21 +50,29 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object):
 
         parsedRow = {...parsedRow, ...metadata}
 
-        if (!api.rowShouldBeAppended(row)) {
+        try {
+            if (!api.rowShouldBeAppended(row)) {
 
-            // Try to set the local index.
-            api.checkIfRowIsLocalContextAndAppend(row, metadata);
+                // Try to set the local index.
+                api.checkIfRowIsLocalContextAndAppend(row, metadata);
 
-            // Row should be appended. Skipping.
-            return -1;
-        }
-
-        if (!entryHeaderBeenChecked) {
-
-            if (api.rowIsHeader(row)) {
-                entryHeaderBeenChecked = true;
+                // Row should be appended. Skipping.
                 return -1;
             }
+        } catch (e) {
+            errors.push(`${sheetName}: ${e.message}`);
+        }
+
+        try {
+            if (!entryHeaderBeenChecked) {
+
+                if (api.rowIsHeader(row)) {
+                    entryHeaderBeenChecked = true;
+                    return -1;
+                }
+            }
+        } catch (e) {
+            errors.push(`${sheetName}: ${e.message}`);
         }
 
         Object.values(sheetKeys).map((item: any, key: any) => {
@@ -81,12 +96,13 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object):
  */
 export async function excelParsing(path: string) {
     let sheets;
+    let errors = [];
 
     try {
         // Get all the sheets.
         sheets = await parseFile(path, {getSheets: true});
     } catch (e) {
-        return {};
+        return {'errors': e.message};
     }
 
     sheets = sheets.filter((data: any) => {
@@ -103,8 +119,8 @@ export async function excelParsing(path: string) {
         }
 
         let sheetName: string = orderedSheets[key];
-        parsedData[sheetName] = await processSheet(path, data.name, sheetsKeys[sheetName]);
+        parsedData[sheetName] = await processSheet(path, data.name, sheetsKeys[sheetName], errors);
     }));
 
-    return parsedData;
+    return {data: parsedData, errors: errors};
 }

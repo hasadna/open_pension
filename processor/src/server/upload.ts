@@ -9,7 +9,7 @@ import {Document} from "mongoose";
  * @param res
  */
 export async function uploadFile(req: Request, res: Response) {
-    res.json(await Promise.all(req.body.uploadedFiles.map(async (filename: string) => {
+    res.status(201).json(await Promise.all(req.body.uploadedFiles.map(async (filename: string) => {
         return new Promise((resolve) => {
             const fileData = {'filename': filename, 'status': StatusNew};
             const file = new FileModel(fileData);

@@ -10,6 +10,5 @@ COPY package*.json ./
 RUN npm i
 
 COPY . $APP_DIR
-RUN npm run build
 
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]
