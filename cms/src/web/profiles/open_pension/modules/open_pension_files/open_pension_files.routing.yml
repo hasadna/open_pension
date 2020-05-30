@@ -43,3 +43,15 @@ open_pension_files.get_single_file:
         type: entity:media
   requirements:
     _permission: 'manage file'
+
+open_pension_files.download_zipped_file:
+  path: '/admin/open_pension/files/download-zip/{file}'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\open_pension_files\Controller\OpenPensionFilesDownloadZippedFile::build'
+  options:
+    parameters:
+      file:
+        type: entity:files
+  requirements:
+    _permission: 'access content'

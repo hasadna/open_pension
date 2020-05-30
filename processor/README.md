@@ -1,21 +1,82 @@
 # Processor
 
-In order to run multiple file processing first create a virtual env for the 
-project. I'll demonstrate with vritualenv wrapper:
+The processor responsible for converting a rough xsl file to an object which later on will be handle by other services.
 
+## Setting up
+
+You can do
 ```bash
-mkvirtualenv processor
-pip install -r src/app/requirements.txt
+docker-compose up -d processor
+```
+and go to `http://localhsot:processor`.
+
+### Local development
+Just do `npm -i` and start to fire up.
+
+## Endpoint
+
+### Service status
+
+```restful
+GET /
 ```
 
-Next, make sure the files are extracted somewhere and you have a folder to dump
-the files to:
-
-```bash
-python single-asset-cli.py --folder=1 --output_folder=OUTPUT_FOLDER_PATH ORIGIN_FOLDER
+If the service is alive you'll get:
+```json
+{"status": "alive"}
 ```
 
-For performance you should run 
-```bash
-python performance-cli.py performance/ --output_folder=OUTPUT_FOLDER_PATH ORIGIN_FOLDER
+if not, please check.
+
+### Send files to process
+
+```REST
+POST /upload
+
+{
+    "files": [files_to_process]
+}
+```
+
+The service will get the files, save them and return an object like this:
+```json
+{
+  "filename": "filename", 
+  "status": "new",
+  "id": "and ID for later process"
+}
+```
+
+### Processing a file
+```REST
+PATCH /process/:object_id
+```
+
+Will return
+
+```json
+{
+  "filename": "filename", 
+  "status": "new",
+  "id": "and ID for later process",
+  "results": {"results": "of the processing"}
+}
+```
+
+
+### Get the results
+
+```restful
+GET /results/:object_id
+```
+
+Will return
+
+```json
+{
+  "filename": "filename", 
+  "status": "new",
+  "id": "and ID for later process",
+  "results": {"results": "of the processing"}
+}
 ```

@@ -58,9 +58,12 @@ services:
       context: ./processor
       cache_from:
         - hasadna/open-pension-processor:latest
+
     environment:
-      - MONGO_URL=mongodb://processor_db:27017/
-      - PYTHONUNBUFFERED=true
+      - PORT=80
+      - mongodb_address=mongodb://processor_db:27017/files
+      - upload_path=/home/app/uploaded_files
+
     depends_on:
       - processor_db
 

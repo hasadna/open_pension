@@ -195,19 +195,20 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
   }
 
   public function acquireJsonFile(Media $entity, &$context) {
-    // Get the file, process, remove unnecessary data.
-    $file_url = open_pension_get_download_link($entity, TRUE);
-    $json_body = $this->httpClient->get($file_url)->getBody()->getContents();
-
     list($file_name) = explode('.', $entity->label());
-    $file_content = json_encode(json_decode($json_body)->data->item->processed);
+    $processor_address = $this->serviceAddresses->getProcessorAddress();
+    $processor_id = $entity->get('field_reference_in_other_service')->value;
+
+    $content = file_get_contents("{$processor_address}/results/{$processor_id}");
+
+    $results = json_decode($content)->results;
 
     // Load the files from the temp storage.
     $files = $this->privateTempStorage->get('files_to_zip');
 
     $files[] = $this
       ->fileSystem
-      ->saveData($file_content, "{$this->privateTempStorage->get('folder_path')}/{$file_name}.json");
+      ->saveData(json_encode($results), "{$this->privateTempStorage->get('folder_path')}/{$file_name}.json");
 
     $this->privateTempStorage->set('files_to_zip', $files);
   }
@@ -236,7 +237,10 @@ class DownloadProcessedFiles extends ConfigurableActionBase implements Container
     /** @var File $file */
     $file = $this->fileStorage->create(['uri' => $file_uri]);
     $file->save();
-    $this->messenger->addMessage(Link::fromTextAndUrl(t('Download the processed files'), Url::fromUserInput($file->createFileUrl(TRUE))));
+
+    $url = Url::fromRoute('open_pension_files.download_zipped_file', ['file' => $file->id()]);
+    $message = Link::fromTextAndUrl(t('Download the processed files'), $url);
+    $this->messenger->addMessage($message->toString());
   }
 
   /**

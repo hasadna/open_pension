@@ -264,3 +264,4 @@ db
 
 fetcher/temp_files
 
+processor/*/*.js
