@@ -240,7 +240,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     try {
       $results = $this->sendFileToServer($file);
 
-      if ($results->getStatusCode() == Response::HTTP_OK) {
+      if ($results->getStatusCode() == Response::HTTP_CREATED) {
         $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
         $this->processedId = json_decode($results->getBody(), true)[0]['id'];
         $this->sentToProcessed = TRUE;
@@ -299,7 +299,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     }
 
     try {
-      $this->httpClient->request('patch', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}",
+      $response = $this->httpClient->request('patch', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}",
         [
           'multipart' => [
             [
@@ -317,17 +317,25 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
       return $this;
     }
 
-    $this->sentToProcessed = TRUE;
-    $response = $this->httpClient->request('get', "{$this->openPensionServicesAddress->getProcessorAddress()}/results/{$other_service->value}");
-    $parsed = json_decode($response->getBody()->getContents());
-
-    if ($response->getStatusCode() == Response::HTTP_OK) {
-      $this->log(t('Processing results for file @file: @results', [
-        '@file' => $file->getFilename(),
-        '@results' => $parsed->status
-      ]));
-      $this->processStatus = $parsed->status;
+    if ($response->getStatusCode() < 200 && $response->getStatusCode() > 299) {
+      $params = [
+        '@file-name' => $file->getFilename(),
+        '@error' => $e->getMessage(),
+      ];
+      $this->log(t('The file @file-name was not able to process due to @error', $params), 'error');
+      return $this;
     }
+
+    $parsed_response = json_decode($response->getBody()->getContents());
+
+    // todo: log the errors in a field.
+
+    $this->sentToProcessed = TRUE;
+    $this->processStatus = $parsed_response->status;
+    $this->log(t('Processing results for file @file: @results', [
+      '@file' => $file->getFilename(),
+      '@results' => $parsed->status
+    ]));
 
     return $this;
   }

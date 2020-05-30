@@ -15,6 +15,7 @@ class ProcessorStatus extends FieldPluginBase {
 
   const STATUS_NEW = 'New';
   const PROCESSED = 'processed';
+  const PROCESSED_WITH_ERRORS = 'processed with errors';
 
   /**
    * {@inheritdoc}

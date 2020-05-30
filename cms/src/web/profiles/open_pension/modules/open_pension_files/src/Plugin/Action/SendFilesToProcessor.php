@@ -79,6 +79,8 @@ class SendFilesToProcessor extends ConfigurableActionBase implements ContainerFa
       return;
     }
 
+    // todo: check we have a reference in other service then don't send it.
+
     $field_value = $file_field->getValue();
 
     // Update about the processing results.
