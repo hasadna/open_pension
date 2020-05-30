@@ -26,11 +26,12 @@ export async function process(req: Request, res: Response) {
         return;
     }
 
-    if (results.errors != []) {
+    file.status = StatusProcessed;
+
+    if (results.errors.length > 0) {
+        // Whoops. Got some errors. Change the process status and add the errors.
         file.status = StatusProcessedWithErrors;
         file.parsingErrors = results.errors;
-    } else {
-        file.status = StatusProcessed;
     }
 
     file.results = results.data;

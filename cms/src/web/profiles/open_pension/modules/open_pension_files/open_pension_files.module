@@ -108,6 +108,19 @@ function open_pension_files_form_media_open_pension_file_edit_form_alter(&$form,
     '#weight' => 10,
   );
 
+  $form['field_parsing_errors'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Parsing error'),
+    'description' => [
+      '#theme' => 'item_list',
+      '#list_type' => 'ul',
+      '#items' => array_map(function ($item) {
+        return ['#markup' => $item['value']];
+      }, $entity->get('field_parsing_errors')->getValue())
+    ],
+    '#weight' => 10,
+  );
+
   $form['status'] = array(
     '#type' => 'fieldset',
     '#title' => t('Status'),

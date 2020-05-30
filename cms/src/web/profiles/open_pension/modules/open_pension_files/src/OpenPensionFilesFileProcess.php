@@ -52,6 +52,13 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   protected $trackingLogs = [];
 
   /**
+   * List of parsing errors.
+   *
+   * @var string[]
+   */
+  protected $parsingErrors = [];
+
+  /**
    * Weather the file processed successfully.
    *
    * @var bool
@@ -328,9 +335,8 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
     $parsed_response = json_decode($response->getBody()->getContents());
 
-    // todo: log the errors in a field.
-
     $this->sentToProcessed = TRUE;
+    $this->parsingErrors = $parsed_response->parsingErrors;
     $this->processStatus = $parsed_response->status;
     $this->log(t('Processing results for file @file: @results', [
       '@file' => $file->getFilename(),
@@ -357,6 +363,11 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     // Add the history to the file.
     foreach ($this->getTrackingLogs() as $log) {
       $media->field_history->appendItem($log);
+    }
+
+    // Add the parsing errors.
+    foreach ($this->parsingErrors as $parsing_error) {
+      $media->field_parsing_errors->appendItem($parsing_error);
     }
 
     // Saving file.

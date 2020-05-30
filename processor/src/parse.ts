@@ -17,7 +17,14 @@ import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
  *  An array to append errors.
  */
 async function processSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
-    const sheetRows = await parseFile(path, {sheet: sheetName});
+    let sheetRows;
+    try {
+        sheetRows = await parseFile(path, {sheet: sheetName});
+    } catch (e) {
+        errors.push(e)
+        return;
+    }
+
     const parsedSheet: any = [];
     let entryHeaderBeenChecked: boolean = false;
 
@@ -102,7 +109,7 @@ export async function excelParsing(path: string) {
         // Get all the sheets.
         sheets = await parseFile(path, {getSheets: true});
     } catch (e) {
-        return {'errors': e.message};
+        return {data: {}, errors: e.message};
     }
 
     sheets = sheets.filter((data: any) => {
