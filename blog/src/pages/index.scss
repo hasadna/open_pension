@@ -1,0 +1,41 @@
+@import "../_variables";
+@import "header";
+@import "nav";
+
+body {
+  font-size: 16px;
+  font-family: 'Arimo', sans-serif;
+  background: $background;
+  margin: 0;
+}
+
+.content {
+  padding-right: 10vw;
+  padding-left: 10vw;
+
+  h1 {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
+.content {
+  padding-bottom: 10vh;
+}
+
+.breadcrumb {
+  margin: 0;
+  padding: 1.5em;
+  padding-inline-start: 0;
+
+  li {
+    list-style-type: none;
+
+    a {
+      color: black;
+      font-weight: bold;
+    }
+  }
+}
+
+@import "../_responsive";

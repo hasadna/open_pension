@@ -1,0 +1,27 @@
+header {
+
+  .wrapper {
+    background: $header-bg;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: $default-padding;
+    color: $header-color;
+    display: flex;
+    align-items: center;
+
+    img {
+      max-width: 4em;
+      margin-left: 1em;
+    }
+
+    .site-tittle {
+      font-size: 2em;
+
+      a {
+        color: $header-color;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    }
+  }
+}

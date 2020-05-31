@@ -1,0 +1,45 @@
+@import "../../variables";
+
+footer {
+  background-color: $footer-bg;
+  font-size: 1.25em;
+  height: 4.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  &.bottom {
+    position: fixed;
+    width: 100vw;
+    bottom: 0;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 50px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+
+    li {
+      list-style-type: none;
+
+      a {
+        color: white;
+        text-decoration: none;
+
+        &:visited {
+          color: white;
+        }
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

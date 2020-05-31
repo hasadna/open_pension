@@ -1,0 +1,75 @@
+@import "../../variables";
+
+section {
+  padding-right: $default-padding;
+  color: $money-color;
+  background-repeat: no-repeat;
+  min-height: 40vh;
+  background-size: contain;
+  margin-bottom: 5vh;
+  padding-bottom: 2em;
+
+  h2 {
+    font-size: 4em;
+    margin: 0;
+    font-weight: normal;
+  }
+
+  .medium {
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+  }
+
+  .big {
+    font-size: 2em;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.grid-display {
+  display: grid;
+  padding-top: 1.5em;
+  grid-template-columns: auto auto auto;
+
+  div {
+    padding: 1em 1em 1em 1.5em;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: $grid-item-bg;
+    margin: 1.5em;
+    margin-right: 0;
+  }
+
+  .title {
+    font-size: 2em;
+    color: $sheet-title;
+    margin: 0;
+    padding-bottom: 1em;
+
+    a {
+      color: $sheet-title;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  img {
+    max-width: 100%;
+
+    &.bordered {
+      border: solid 1px $sheet-title;
+    }
+  }
+
+  .sub-title {
+    padding-top: .25em;
+    font-size: 1.25em;
+    color: $sheet-title;
+    margin: 0;
+    padding-bottom: 1em;
+  }
+}

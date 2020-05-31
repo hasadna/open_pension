@@ -1,0 +1,11 @@
+@import "../strips";
+
+section.money {
+  background-image:url('./background.png');
+  padding-top: 3.5em;
+
+  .text {
+    width: fit-content;
+    margin-top: 5vh;
+  }
+}
