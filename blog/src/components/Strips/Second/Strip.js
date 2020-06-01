@@ -1,23 +1,59 @@
 import React from "react"
+import { graphql, StaticQuery } from "gatsby"
 import "./style.scss";
 
-export const SecondStrip = () => <section className="tools">
-  <a id="tools"></a>
-  <div className="text">
-    <p className="medium">הכלים שלנו</p>
-    <h2>מודיעין פיננסי בקוד פתוח</h2>
-    <p className="big">
-      מסד נתונים בלעדי ופתוח לציבור ומרכז את כל נתוני שוק הפנסיה
-    </p>
+const query = graphql`{
+  drupal {
+    nodeQuery(limit: 3) {
+      entities {
+        ... on drupal_NodeBlog {
+          title
+          body {
+            value
+          }
+          fieldImage {
+            url
+            alt
+          }
+        }
+      }
+    }
+  }
+}
+`;
 
-    <div className="grid-display">
+const blogs = () => {
+  return <section className="tools">
+    <a id="tools"></a>
 
-      <div>
-        <h3 className="title"><a href="{{.Permalink}}">asdasd</a></h3>
+    <div className="text">
+      <p className="medium">הכלים שלנו</p>
 
-        <img src="{{$sheet_image.Permalink}}" alt="דוח ראשון"/>
+      <h2>מודיעין פיננסי בקוד פתוח</h2>
+
+      <p className="big">
+        מסד נתונים בלעדי ופתוח לציבור ומרכז את כל נתוני שוק הפנסיה
+      </p>
+
+      <div className="grid-display">
+        {data.drupal.nodeQuery.entities.map((item) => blog(item))}
       </div>
-
     </div>
+  </section>
+}
+
+const blog = (data) => {
+  const regex = /(<([^>]+)>)/ig;
+  const result = data.body.value.replace(regex, '');
+
+  return <div>
+    <h3 className="title"><a>{data.title}</a></h3>
+    {result.substr(0, 350)}
   </div>
-</section>
+}
+
+export const SecondStrip = () => {
+  return <StaticQuery query={query} render={data => {return blogs(data)}}>
+  </StaticQuery>
+}
+
