@@ -2,6 +2,12 @@
 @import "header";
 @import "nav";
 
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+html {
+  direction: rtl;
+}
+
 body {
   font-size: 16px;
   font-family: 'Arimo', sans-serif;
