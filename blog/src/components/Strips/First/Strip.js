@@ -1,17 +1,32 @@
 import React from "react"
 import "./style.scss";
+import {graphql, StaticQuery} from "gatsby";
 
-export const FirstStrip = () => <section className="money">
+const query = graphql` {
+  drupal {
+    nodeQuery(filter: {
+      conditions: [
+        {field: "type", value: "page_element"}, 
+        {field: "field_page", value: "front"}, 
+        {field: "field_section", value: "upper"}
+      ]
+    }) {
+      entities {
+        ... on drupal_NodePageElement {
+          body {
+            value
+          }
+        }
+      }
+    }
+  }
+}
+`;
 
+export const FirstStrip = () => <StaticQuery query={query} render={data => <section className="money">
   <div className="text">
-    <h2>₪1,820,394,620,920.00</h2>
-    <p className="big">
-      מנוהלים כיום בקרנות הפנסיה וקופות הגמל בישראל
-    </p>
-    <p className="big">
-      זה הכסף של כולנו
-    </p>
+    {data.drupal.nodeQuery.entities[0].body.value}
   </div>
-
 </section>
-
+}>
+</StaticQuery>

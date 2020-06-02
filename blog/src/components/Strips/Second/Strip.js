@@ -22,25 +22,23 @@ const query = graphql`{
 }
 `;
 
-const blogs = () => {
-  return <section className="tools">
-    <a id="tools"></a>
+const blogs = (data) => <section className="tools">
+  <a id="tools"></a>
 
-    <div className="text">
-      <p className="medium">הכלים שלנו</p>
+  <div className="text">
+    <p className="medium">הכלים שלנו</p>
 
-      <h2>מודיעין פיננסי בקוד פתוח</h2>
+    <h2>מודיעין פיננסי בקוד פתוח</h2>
 
-      <p className="big">
-        מסד נתונים בלעדי ופתוח לציבור ומרכז את כל נתוני שוק הפנסיה
-      </p>
+    <p className="big">
+      מסד נתונים בלעדי ופתוח לציבור ומרכז את כל נתוני שוק הפנסיה
+    </p>
 
-      <div className="grid-display">
-        {data.drupal.nodeQuery.entities.map((item) => blog(item))}
-      </div>
+    <div className="grid-display">
+      {data.drupal.nodeQuery.entities.map((item) => blog(item))}
     </div>
-  </section>
-}
+  </div>
+</section>
 
 const blog = (data) => {
   const regex = /(<([^>]+)>)/ig;
@@ -52,8 +50,5 @@ const blog = (data) => {
   </div>
 }
 
-export const SecondStrip = () => {
-  return <StaticQuery query={query} render={data => {return blogs(data)}}>
-  </StaticQuery>
-}
+export const SecondStrip = () => <StaticQuery query={query} render={data => {return blogs(data)}}></StaticQuery>
 
