@@ -7,7 +7,7 @@ import {Navigation} from "../components/Navigation";
 import {FirstStrip} from "../components/Strips/First/Strip";
 import {SecondStrip} from "../components/Strips/Second/Strip";
 import {ThirdStrip} from "../components/Strips/Third/Strip";
-import {FourthStrip} from "../components/Strips/Fourth/FourthStrip";
+import {Strip} from "../components/Strips/Fourth/FourthStrip";
 
 import {Footer} from "../components/Footer/Footer";
 
@@ -20,7 +20,7 @@ export default function Home() {
     <FirstStrip/>
     <SecondStrip/>
     <ThirdStrip/>
-    <FourthStrip/>
+    <Strip/>
 
     <Footer/>
 
