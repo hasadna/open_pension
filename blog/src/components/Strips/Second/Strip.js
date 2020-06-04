@@ -4,7 +4,7 @@ import "./style.scss";
 
 const query = graphql`{
   drupal {
-    nodeQuery(limit: 3) {
+    nodeQuery(limit: 3, filter: {conditions: {field: "type", value: "blog"}}) {
       entities {
         ... on drupal_NodeBlog {
           title
@@ -42,7 +42,7 @@ const blogs = (data) => <section className="tools">
 
 const blog = (data) => {
   const regex = /(<([^>]+)>)/ig;
-  const result = data.body.value.replace(regex, '');
+  const result = data.body?.value.replace(regex, '');
 
   return <div>
     <h3 className="title"><a>{data.title}</a></h3>
