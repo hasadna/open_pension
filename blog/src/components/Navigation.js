@@ -1,15 +1,33 @@
 import React from "react"
+import {graphql, StaticQuery} from "gatsby";
 
-export const Navigation = () => <nav>
-  <div className="wrapper">
-    <ul>
-      <li><a href="/#tools">הכלים שלנו</a></li>
-      <li><a href="/#articles">כתבות</a></li>
-      <li><a href="/#about-us">מי אנחנו</a></li>
-      <li><a href="/#contact-us">צור קשר</a></li>
-    </ul>
-  </div>
-</nav>
+const query = graphql` {
+  drupal {
+    menuByName(name: "gatsby-upper-menu") {
+      links {
+        label
+        url {
+          path
+        }
+      }
+    }
+  }
+}
+`;
+
+export const Navigation = () =>
+  <StaticQuery query={query} render={data =>
+    <nav>
+      <div className="wrapper">
+        <ul>
+          {data.drupal.menuByName.links.map(menuItem => {
+            return <li><a href={menuItem.url.path}>{menuItem.label}</a></li>
+          })}
+        </ul>
+      </div>
+    </nav>
+  }>
+  </StaticQuery>
 
 
 

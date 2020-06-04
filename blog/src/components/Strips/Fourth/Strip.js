@@ -25,6 +25,7 @@ const query = graphql` {
 
 export const Strip = () => <StaticQuery query={query} render={data =>
   <section className="about-us">
+    <a id="about-us"></a>
     <div className="text" dangerouslySetInnerHTML={{__html: data.drupal.nodeQuery.entities[0].body.value}}>
     </div>
 
