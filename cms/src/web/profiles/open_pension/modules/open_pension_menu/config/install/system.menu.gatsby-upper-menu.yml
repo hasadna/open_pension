@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: gatsby-upper-menu
+label: 'Gatsby upper Menu'
+description: ''
+locked: false

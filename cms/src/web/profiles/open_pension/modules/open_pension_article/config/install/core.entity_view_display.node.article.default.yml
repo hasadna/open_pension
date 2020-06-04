@@ -2,16 +2,17 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_display.comment.comment.default
     - field.field.node.article.body
-    - field.field.node.article.comment
+    - field.field.node.article.field_authors
     - field.field.node.article.field_image
-    - field.field.node.article.field_tags
+    - field.field.node.article.field_link
+    - field.field.node.article.field_publishing_date
     - image.style.large
     - node.type.article
   module:
-    - comment
+    - datetime
     - image
+    - link
     - text
     - user
 id: node.article.default
@@ -26,15 +27,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     label: hidden
-  comment:
-    type: comment_default
-    weight: 110
-    region: content
+  field_authors:
+    weight: 101
     label: above
     settings:
-      view_mode: default
-      pager_id: 0
+      link: true
     third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_image:
     type: image
     weight: -1
@@ -44,14 +44,27 @@ content:
       image_link: ''
     third_party_settings: {  }
     label: hidden
-  field_tags:
-    type: entity_reference_label
-    weight: 10
-    region: content
+  field_link:
+    weight: 102
     label: above
     settings:
-      link: true
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
     third_party_settings: {  }
+    type: link
+    region: content
+  field_publishing_date:
+    weight: 103
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   links:
     weight: 100
     region: content

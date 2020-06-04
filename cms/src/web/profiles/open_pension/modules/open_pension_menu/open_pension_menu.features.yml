@@ -1,0 +1,3 @@
+excluded:
+  - jsonapi_extras.jsonapi_resource_config.menu_link_content--menu_link_content
+required: true
