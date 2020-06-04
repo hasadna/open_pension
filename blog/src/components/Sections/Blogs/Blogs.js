@@ -4,7 +4,10 @@ import "./style.scss";
 
 const query = graphql`{
   drupal {
-    nodeQuery(limit: 3, filter: {conditions: {field: "type", value: "blog"}}) {
+    nodeQuery(
+      limit: 3, 
+      filter: {conditions: {field: "type", value: "blog"}}
+    ) {
       entities {
         ... on drupal_NodeBlog {
           title
@@ -21,6 +24,19 @@ const query = graphql`{
   }
 }
 `;
+
+const blog = (data) => {
+  const regex = /(<([^>]+)>)/ig;
+  const result = data.body?.value.replace(regex, '');
+
+  return <div>
+    <h3 className="title"><a>{data.title}</a></h3>
+
+    <p className="intro">{result.substr(0, 350)}</p>
+
+    <img src={data.fieldImage.url} title={data.fieldImage.alt} />
+  </div>
+}
 
 const blogs = (data) => <section className="tools">
   <a id="tools"></a>
@@ -40,15 +56,5 @@ const blogs = (data) => <section className="tools">
   </div>
 </section>
 
-const blog = (data) => {
-  const regex = /(<([^>]+)>)/ig;
-  const result = data.body?.value.replace(regex, '');
-
-  return <div>
-    <h3 className="title"><a>{data.title}</a></h3>
-    {result.substr(0, 350)}
-  </div>
-}
-
-export const SecondStrip = () => <StaticQuery query={query} render={data => {return blogs(data)}}></StaticQuery>
+export const Blogs = () => <StaticQuery query={query} render={data => {return blogs(data)}}></StaticQuery>
 

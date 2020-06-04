@@ -1,13 +1,13 @@
 import React from "react"
 import './index.scss'
 
-import {Header} from "../components/Header";
+import {Header} from "../components/Header/Header";
 import {Navigation} from "../components/Navigation";
 
-import {FirstStrip} from "../components/Strips/First/Strip";
-import {SecondStrip} from "../components/Strips/Second/Strip";
-import {ThirdStrip} from "../components/Strips/Third/Strip";
-import {Strip} from "../components/Strips/Fourth/Strip";
+import {UpperStrip} from "../components/Sections/UpperStrip/UpperStrip";
+import {Blogs} from "../components/Sections/Blogs/Blogs";
+import {Articles} from "../components/Sections/Articles/Articles";
+import {WhoWeAre} from "../components/Sections/WhoWeAre/WhoWeAre";
 
 import {Footer} from "../components/Footer/Footer";
 
@@ -17,10 +17,10 @@ export default function Home() {
     <Header/>
     <Navigation/>
 
-    <FirstStrip/>
-    <SecondStrip/>
-    <ThirdStrip/>
-    <Strip/>
+    <UpperStrip/>
+    <Blogs/>
+    <Articles/>
+    <WhoWeAre/>
 
     <Footer/>
 

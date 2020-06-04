@@ -3,41 +3,42 @@ import "./style.scss";
 import {graphql, StaticQuery} from "gatsby";
 
 const query = graphql`{
-    drupal {
-      nodeQuery(filter: {conditions: {field: "type", value: "article"}}) {
-        entities {
-          ... on drupal_NodeArticle {
-            title
-            fieldImage {
-              url
-              alt
-            }
-            fieldLink {
-              uri
-            }
-            fieldPublishingDate {
-              value
-            }
-            queryFieldAuthors {
-              entities {
-                entityId
-                entityLabel
-              }
+  drupal {
+    nodeQuery(
+      filter: {conditions: {field: "type", value: "article"}
+    }) {
+      entities {
+        ... on drupal_NodeArticle {
+          title
+          fieldImage {
+            url
+            alt
+          }
+          fieldLink {
+            uri
+          }
+          fieldPublishingDate {
+            value
+          }
+          queryFieldAuthors {
+            entities {
+              entityId
+              entityLabel
             }
           }
         }
       }
     }
   }
+}
 `;
 
 const tags = (tags) => <ul>{tags.map(tag => <li>{tag.entityLabel}</li>)}</ul>
-const dateProcess = (date) => date;
 
 const article = (data) => {
   return <div>
     <h3 className="title"><a href={data.fieldLink.uri} target="_blank">{data.title}</a></h3>
-    <p className="sub-title">{tags(data.queryFieldAuthors.entities)}, {dateProcess(data.fieldPublishingDate.value)}</p>
+    <p className="sub-title">{tags(data.queryFieldAuthors.entities)}, {data.fieldPublishingDate.value}</p>
     <a href={data.fieldLink.uri}><img src={data.fieldImage.url} title={data.fieldImage.alt} className="bordered"/></a>
   </div>
 }
@@ -61,4 +62,6 @@ export const articles = (data) => <section className="articles">
 
 </section>
 
-export const ThirdStrip = () => <StaticQuery query={query} render={data => {return articles(data)}}></StaticQuery>
+export const Articles = () => <StaticQuery query={query} render={data => {return articles(data)}}>
+
+</StaticQuery>
