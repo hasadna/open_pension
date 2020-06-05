@@ -1,5 +1,6 @@
 import React from "react"
 import logo from "./logo.png"
+import "./header.scss"
 
 export const Header = () => <header>
   <div className="wrapper">

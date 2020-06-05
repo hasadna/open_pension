@@ -1,5 +1,6 @@
 import React from "react"
 import {graphql, StaticQuery} from "gatsby";
+import "./navigtation.scss"
 
 const query = graphql` {
   drupal {
