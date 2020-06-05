@@ -1,13 +1,24 @@
 import React from "react"
 import { graphql } from "gatsby"
+import "./pages.scss"
 
 import {Wrapper} from "../components/Page";
+import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
+import {blog, BlogsGrid} from "../components/Sections/Blogs/Blogs";
 
-const ComponentName = ({ data }) => <Wrapper>
+const ComponentName = ({ data }) => {console.log(data); return <Wrapper>
 
-  <div className="inner-content">Inner body</div>
+  <div className="inner-page">
 
-</Wrapper>
+    <Breadcrumbs path="homepage.blogs" />
+
+    <div className="content">
+      <BlogsGrid data={data} />
+    </div>
+
+  </div>
+
+</Wrapper> }
 
 export const query = graphql`
   {
@@ -21,6 +32,10 @@ export const query = graphql`
             body {
               value
             }
+          fieldImage {
+            url
+            alt
+          }
           }
         }
       }

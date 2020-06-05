@@ -42,4 +42,10 @@ footer {
       }
     }
   }
+
+  &.append-to-bottom {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+  }
 }

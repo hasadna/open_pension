@@ -16,10 +16,10 @@ const query = graphql` {
 }
 `;
 
-export const Footer = () =>
+export const Footer = ({appendToBottom}) =>
   <StaticQuery query={query} render={data =>
 
-    <footer className="footer">
+    <footer className={`footer${appendToBottom ? ' append-to-bottom' : ''}`}>
       <ul>
         {data.drupal.menuByName.links.map(menuItem => {
           return <li><a href={menuItem.url.path}>{menuItem.label}</a></li>

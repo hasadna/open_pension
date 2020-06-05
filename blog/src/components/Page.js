@@ -3,15 +3,15 @@ import {Header} from "./Header/Header";
 import {Navigation} from "./Navigation/Navigation";
 import {Footer} from "./Footer/Footer";
 
-export const Wrapper = ({ children }) => {
-
+export const Wrapper = ({ children, front }) => {
   return <main>
     <Header />
-    <Navigation />
+
+    {front && <Navigation /> }
 
     {children}
 
-    <Footer/>
+    <Footer appendToBottom={!front}/>
   </main>
 
 };

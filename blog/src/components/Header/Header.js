@@ -9,4 +9,3 @@ export const Header = () => <header>
     <span className="site-tittle"><a href="/">פנסיה פתוחה</a></span>
   </div>
 </header>
-

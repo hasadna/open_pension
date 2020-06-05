@@ -13,20 +13,20 @@ body {
   margin: 0;
 }
 
-.content {
-  padding-right: 10vw;
-  padding-left: 10vw;
+.simple-link {
+  font-weight: bold;
+  color: $links-color;
+  text-decoration: none;
 
-  h1 {
-    padding-bottom: 0;
-    margin-bottom: 0;
+  &:hover {
+    text-decoration: underline;
   }
 }
 
-.content {
-  padding-bottom: 10vh;
+main {
+  height: 100vh;
+  position: relative;
 }
-
 .breadcrumb {
   margin: 0;
   padding: 1.5em;

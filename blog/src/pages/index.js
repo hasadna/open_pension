@@ -9,7 +9,7 @@ import {WhoWeAre} from "../components/Sections/WhoWeAre/WhoWeAre";
 import {Wrapper} from "../components/Page";
 
 export default function Home() {
-  return <Wrapper>
+  return <Wrapper front={true}>
     <UpperStrip/>
     <Blogs/>
     <Articles/>

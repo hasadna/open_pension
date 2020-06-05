@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, StaticQuery } from "gatsby"
+import { graphql, StaticQuery, Link } from "gatsby"
 import "./style.scss";
 
 const query = graphql`{
@@ -25,7 +25,7 @@ const query = graphql`{
 }
 `;
 
-const blog = (data) => {
+export const blog = (data) => {
   const regex = /(<([^>]+)>)/ig;
   const result = data.body?.value.replace(regex, '');
 
@@ -38,21 +38,26 @@ const blog = (data) => {
   </div>
 }
 
+export const BlogsGrid = (props) =>
+  <div className="grid-display">
+    {props.data.drupal.nodeQuery.entities.map((item) => blog(item))}
+  </div>
+
 const blogs = (data) => <section className="tools">
   <a id="tools"></a>
 
   <div className="text">
-    <p className="medium">הכלים שלנו</p>
+    <p className="medium">מה יש לנו להגיד</p>
 
-    <h2>מודיעין פיננסי בקוד פתוח</h2>
+    <h2>בלוגים אחרונים</h2>
 
     <p className="big">
-      מסד נתונים בלעדי ופתוח לציבור ומרכז את כל נתוני שוק הפנסיה
+      הנה התובנות האחרנות שלנו בהתבסס על הנתונים שאספנו.
     </p>
 
-    <div className="grid-display">
-      {data.drupal.nodeQuery.entities.map((item) => blog(item))}
-    </div>
+    <BlogsGrid data={data} />
+
+    <Link to="/blogs" className="big simple-link">יש עוד בלוגים... בוא תקרא</Link>
   </div>
 </section>
 

@@ -1,0 +1,11 @@
+@import "../variables";
+
+.inner-page {
+  padding-right: $default-padding;
+
+  color: $money-color;
+
+  p.intro {
+    line-height: 1.75em;
+  }
+}
