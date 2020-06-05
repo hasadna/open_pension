@@ -4,9 +4,9 @@ import "./pages.scss"
 
 import {Wrapper} from "../components/Page";
 import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
-import {blog, BlogsGrid} from "../components/Sections/Blogs/Blogs";
+import {BlogsGrid} from "../components/Sections/Blogs/Blogs";
 
-const ComponentName = ({ data }) => {console.log(data); return <Wrapper>
+const ComponentName = ({ data }) => { return <Wrapper>
 
   <div className="inner-page">
 

@@ -1,9 +1,31 @@
-const { createFilePath } = require(`gatsby-source-filesystem`)
+const path = require(`path`)
 
-exports.onCreateNode = ({ node, getNode }) => {
-  if (node.internal.owner === 'gatsby-source-graphql') {
-    console.log(node);
-
-    createFilePath({ node, getNode, basePath: `blogs` })
+exports.createPages = async ({ actions, graphql }) => {
+  const { data } = await graphql(`
+    {
+    drupal {
+      nodeQuery(filter: {conditions: {field: "type", value: "blog"}}) {
+        entities {
+          ... on drupal_NodeBlog {
+            nid
+            uuid
+            path {
+              alias
+            }
+          }
+        }
+      }
+    }
   }
+  `)
+
+  data.drupal.nodeQuery.entities.forEach((entity) => {
+    actions.createPage({
+      path: entity.path.alias,
+      component: path.resolve(`./src/templates/blog-post.js`),
+      context: {
+        nid: entity.nid,
+      },
+    })
+  })
 }
