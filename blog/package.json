@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.50",
+    "dateformat": "^3.0.3",
     "gatsby": "^2.21.37",
     "gatsby-plugin-apollo": "^3.0.1",
     "gatsby-plugin-sass": "^2.3.2",

@@ -6,7 +6,7 @@ import {Wrapper} from "../components/Page";
 import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
 import {BlogsGrid} from "../components/Sections/Blogs/Blogs";
 
-const ComponentName = ({ data }) => { return <Wrapper>
+const BlogsPage = ({ data }) => <Wrapper>
 
   <div className="inner-page">
 
@@ -18,7 +18,7 @@ const ComponentName = ({ data }) => { return <Wrapper>
 
   </div>
 
-</Wrapper> }
+</Wrapper>
 
 export const query = graphql`
 {
@@ -45,4 +45,4 @@ export const query = graphql`
 }
 `
 
-export default ComponentName
+export default BlogsPage

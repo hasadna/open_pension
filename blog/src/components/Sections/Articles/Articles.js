@@ -1,6 +1,6 @@
 import React from "react"
 import "./style.scss";
-import {graphql, StaticQuery} from "gatsby";
+import {graphql, Link, StaticQuery} from "gatsby";
 
 const query = graphql`{
   drupal {
@@ -43,21 +43,25 @@ const article = (data) => {
   </div>
 }
 
+export const ArticleGrid = ({data}) => <div className="grid-display">
+  {data.drupal.nodeQuery.entities.map(item => article(item))}
+</div>
+
 export const articles = (data) => <section className="articles">
   <a id="articles"></a>
 
   <div className="text">
-    <p className="medium">כתבות</p>
+    <p className="medium">כתבו עלינו בעיתון</p>
 
-    <h2>הדוחות המעמיקים בתחום</h2>
+    <h2>ובעוד כמה מקומות</h2>
 
     <p className="big">
-      מידע שמאפשר לעיתונאים ואקטיביסטים לספר את הסיפור המלא
+      בואו תראו את כל המקומות שהוזכרנו או שתרמנו חלק משמעותי לתוכן.
     </p>
 
-    <div className="grid-display">
-      {data.drupal.nodeQuery.entities.map(item => article(item))}
-    </div>
+    <ArticleGrid data={data}/>
+
+    <Link to="/articles" className="big simple-link">יש עוד כתבות חוץ מזה. תני מבט!</Link>
   </div>
 
 </section>

@@ -10,6 +10,10 @@ const paths = {
   blogs: {
     title: 'בלוגים',
     path: 'blogs'
+  },
+  articles: {
+    title: 'כתבו עלינו בעיתון',
+    path: 'articles'
   }
 }
 export const Breadcrumbs = ({path, entityLabel}) => {

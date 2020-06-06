@@ -3,6 +3,7 @@ import {graphql} from "gatsby";
 import {Wrapper} from "../components/Page";
 import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
 import "./blog-post.scss"
+import dateformat from "dateformat"
 
 export default ({ data }) => {
   const blog = data.drupal.nodeById;
@@ -13,7 +14,7 @@ export default ({ data }) => {
         <Breadcrumbs path="homepage.blogs.<entityLabel>" entityLabel={blog.title} />
 
         <h1>{blog.title}</h1>
-        <span className="created">נוצר בתאריך <b>{blog.created}</b> על ידי <b>{blog.entityOwner.name}</b></span>
+        <span className="created">נוצר בתאריך <b>{dateformat(blog.created * 1000, "dd/mm/yyyy")}</b> על ידי <b>{blog.entityOwner.name}</b></span>
 
         <div className="blog-content" dangerouslySetInnerHTML={{ __html: blog.body.value }}/>
       </div>
