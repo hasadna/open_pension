@@ -31,6 +31,9 @@ export const query = graphql`
           body {
             value
           }
+          path {
+            alias
+          }
           fieldImage {
             url
             alt

@@ -14,6 +14,9 @@ const query = graphql`{
           body {
             value
           }
+          path {
+            alias
+          }
           fieldImage {
             url
             alt
@@ -30,7 +33,7 @@ export const blog = (data) => {
   const result = data.body?.value.replace(regex, '');
 
   return <div>
-    <h3 className="title"><a>{data.title}</a></h3>
+    <h3 className="title"><a href={data.path.alias}>{data.title}</a></h3>
 
     <p className="intro">{result.substr(0, 350)}</p>
 
