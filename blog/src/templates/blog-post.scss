@@ -1,0 +1,14 @@
+@import "../variables";
+
+.inner-page.blog {
+
+  .created {
+    color: $create-color;
+  }
+
+  .blog-content {
+    max-width: 85vw;
+    color: $blog-content-color;
+  }
+
+}

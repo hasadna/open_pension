@@ -21,26 +21,25 @@ const ComponentName = ({ data }) => { return <Wrapper>
 </Wrapper> }
 
 export const query = graphql`
-  {
-    drupal {
-      nodeQuery(filter: {conditions: {field: "type", value: "blog"}}) {
-        entities {
-          ... on drupal_NodeBlog {
-            nid
-            uuid
-            title
-            body {
-              value
-            }
+{
+  drupal {
+    nodeQuery(filter: {conditions: {field: "type", value: "blog"}}) {
+      entities {
+        ... on drupal_NodeBlog {
+          nid
+          title
+          body {
+            value
+          }
           fieldImage {
             url
             alt
-          }
           }
         }
       }
     }
   }
+}
 `
 
 export default ComponentName

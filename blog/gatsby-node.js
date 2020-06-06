@@ -8,7 +8,6 @@ exports.createPages = async ({ actions, graphql }) => {
         entities {
           ... on drupal_NodeBlog {
             nid
-            uuid
             path {
               alias
             }
@@ -24,7 +23,7 @@ exports.createPages = async ({ actions, graphql }) => {
       path: entity.path.alias,
       component: path.resolve(`./src/templates/blog-post.js`),
       context: {
-        nid: entity.nid,
+        BlogID: entity.nid.toString(),
       },
     })
   })

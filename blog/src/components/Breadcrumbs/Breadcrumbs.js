@@ -12,24 +12,29 @@ const paths = {
     path: 'blogs'
   }
 }
-export const Breadcrumbs = (data) => <ul className="breadcrumb">
-  {data.path.split('.').map((item, index) => {
+export const Breadcrumbs = ({path, entityLabel}) => {
+  const crumbs = path.split('.');
 
-    const arrows = index + 1 === Object.keys(paths).length ? null : '>>';
+  return <ul className="breadcrumb">
+    {crumbs.map((item, index) => {
+      if (index + 1 === crumbs.length) {
+        if (item === '<entityLabel>') {
+          return entityLabel;
+        }
 
-    if (index + 1 === Object.keys(paths).length) {
-      return <li key={index} className="crumb">{paths[item].title}</li>
-    }
+        return <li key={index} className="crumb">{paths[item].title}</li>
+      }
 
-    return <li key={index} className="crumb">
-      <Link
-        to={paths[item].path}
-        state={{ fromFeed: true }}
-        className="simple-link">
+      return <li key={index} className="crumb">
+        <Link
+          to={paths[item].path}
+          state={{fromFeed: true}}
+          className="simple-link">
           {paths[item].title}
-      </Link> {arrows}
-    </li>
-  })}
-</ul>
+        </Link> >>
+      </li>
+    })}
+  </ul>
+}
 
 

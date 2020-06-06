@@ -1,36 +1,46 @@
 import React from "react";
 import {graphql} from "gatsby";
+import {Wrapper} from "../components/Page";
+import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
+import "./blog-post.scss"
 
 export default ({ data }) => {
-  console.log(data);
+  const blog = data.drupal.nodeById;
+
   return (
-    <div>
-      <h1>asdasd</h1>
-    </div>
-  )
-}
+    <Wrapper>
+      <div className="inner-page blog">
+        <Breadcrumbs path="homepage.blogs.<entityLabel>" entityLabel={blog.title} />
+
+        <h1>{blog.title}</h1>
+        <span className="created">נוצר בתאריך <b>sdasd</b> על ידי <b>asdsad</b></span>
+
+        <div className="blog-content" dangerouslySetInnerHTML={{ __html: blog.body.value }}/>
+      </div>
+    </Wrapper>
+  );
+};
 
 export const query = graphql`
-  query($nid: String!) {
-    drupal {
-      nodeById(id: "$nid") {
+query($BlogID: String!) {
+  drupal {
+    nodeById(id: $BlogID) {
+      ... on drupal_NodeBlog {
         title
+        body {
+          value
+        }
+        created
+        entityOwner {
+          ...on drupal_User {
+            name
+            userPicture {
+              url
+            }
+          }
+        }
       }
     }
   }
-`
-
-// export const query = graphql`query($nid: String!) {
-//   drupal {
-//     nodeById(id: "$nid") {
-//       ... on drupal_NodeBlog {
-//         title
-//         body {
-//           value
-//         }
-//         created
-//       }
-//     }
-//   }
-// }
-// `
+}
+`;

@@ -21,8 +21,8 @@ export const Footer = ({appendToBottom}) =>
 
     <footer className={`footer${appendToBottom ? ' append-to-bottom' : ''}`}>
       <ul>
-        {data.drupal.menuByName.links.map(menuItem => {
-          return <li><a href={menuItem.url.path}>{menuItem.label}</a></li>
+        {data.drupal.menuByName.links.map((menuItem, key) => {
+          return <li key={key}><a href={menuItem.url.path}>{menuItem.label}</a></li>
         })}
       </ul>
     </footer>
