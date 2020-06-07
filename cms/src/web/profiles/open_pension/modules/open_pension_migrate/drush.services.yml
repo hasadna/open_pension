@@ -1,0 +1,6 @@
+services:
+  open_pension_migrate.commands:
+    class: \Drupal\open_pension_migrate\Commands\OpenPensionMigrateCommands
+    arguments: ['@plugin.manager.open_pension_migrate_entities']
+    tags:
+      - { name: drush.command }
