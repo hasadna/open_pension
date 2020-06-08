@@ -18,21 +18,24 @@ class Blog extends OpenPensionMigrateEntitiesPluginBase {
 
   protected function getRows() {
     return [
-      ['title' => 'החזקות', 'file' => 'holdings.html'],
-      ['title' => 'אלוקיות', 'file' => 'allocations.html'],
-      ['title' => 'ביצועים', 'file' => 'performance.html'],
+      ['title' => 'החזקות', 'file' => 'holdings'],
+      ['title' => 'אלוקיות', 'file' => 'allocations'],
+      ['title' => 'ביצועים', 'file' => 'performance'],
     ];
   }
 
   protected function processRow(EntityStorageInterface $entity, array $row_data) {
-    $file_content = file_get_contents($this->getFilePath("blogs_content/{$row_data['file']}"));
-
     $values = [
       'type' => 'blog',
       'title' => $row_data['title'],
       'langcode' => 'en',
-      'body' => ['value' => $file_content, 'format' => 'full_html', 'summary' => '',],
+      'body' => [
+        'value' => file_get_contents($this->getAssetLibrary('open_pension_blog', "blogs_content/{$row_data['file']}.html")),
+        'format' => 'full_html',
+        'summary' => '',
+        ],
       'uid' => 1,
+      'field_image' => $this->createFileObject('open_pension_blog', "blogs_content/{$row_data['file']}.png")
     ];
 
     return $entity->create($values);
