@@ -12,4 +12,4 @@ RUN npm i
 COPY . $APP_DIR
 RUN npm run build
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
