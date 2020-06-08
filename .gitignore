@@ -260,7 +260,7 @@ cms/src/web/modules/
 cms/src/web/sites/
 cms/src/web/themes/
 
-db
+/db
 
 fetcher/temp_files
 
