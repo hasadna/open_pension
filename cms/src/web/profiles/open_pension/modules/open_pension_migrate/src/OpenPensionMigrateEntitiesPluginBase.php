@@ -4,6 +4,7 @@ namespace Drupal\open_pension_migrate;
 
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\pathauto\PathautoState;
 
 /**
  * Base class for open_pension_migrate_entities plugins.
@@ -92,7 +93,11 @@ abstract class OpenPensionMigrateEntitiesPluginBase extends PluginBase implement
     $entity = $this->entityManager->getStorage($plugin_definition['entity']);
 
     foreach ($this->getRows() as $row) {
-      $this->processRow($entity, $row)->save();
+      $entity_values = $this->processRow($entity, $row);
+      $entity_object = $entity->create($entity_values);
+      $entity_object->save();
+
+      \Drupal::service('pathauto.generator')->updateEntityAlias($entity_object, 'insert', ['force' => TRUE]);
     }
   }
 }

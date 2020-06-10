@@ -19,13 +19,13 @@ class Blog extends OpenPensionMigrateEntitiesPluginBase {
   protected function getRows() {
     return [
       ['title' => 'החזקות', 'file' => 'holdings'],
-      ['title' => 'אלוקיות', 'file' => 'allocations'],
+      ['title' => 'אלוקציות', 'file' => 'allocations'],
       ['title' => 'ביצועים', 'file' => 'performance'],
     ];
   }
 
   protected function processRow(EntityStorageInterface $entity, array $row_data) {
-    $values = [
+    return [
       'type' => 'blog',
       'title' => $row_data['title'],
       'langcode' => 'en',
@@ -37,8 +37,6 @@ class Blog extends OpenPensionMigrateEntitiesPluginBase {
       'uid' => 1,
       'field_image' => $this->createFileObject('open_pension_blog', "{$row_data['file']}.png")
     ];
-
-    return $entity->create($values);
   }
 
 }

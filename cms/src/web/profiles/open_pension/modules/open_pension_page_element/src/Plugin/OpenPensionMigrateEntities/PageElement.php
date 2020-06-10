@@ -24,7 +24,7 @@ class PageElement extends OpenPensionMigrateEntitiesPluginBase {
   }
 
   protected function processRow(EntityStorageInterface $entity, array $row_data) {
-    $values = [
+    return [
       'type' => 'page_element',
       'title' => $row_data['title'],
       'langcode' => 'en',
@@ -35,8 +35,6 @@ class PageElement extends OpenPensionMigrateEntitiesPluginBase {
         ],
       'uid' => 1,
     ];
-
-    return $entity->create($values);
   }
 
 }

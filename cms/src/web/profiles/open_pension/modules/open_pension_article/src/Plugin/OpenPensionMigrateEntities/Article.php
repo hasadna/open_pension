@@ -50,7 +50,7 @@ class Article extends OpenPensionMigrateEntitiesPluginBase {
   }
 
   protected function processRow(EntityStorageInterface $entity, array $row_data) {
-    $values = [
+    return [
       'type' => 'article',
       'title' => $row_data['title'],
       'langcode' => 'en',
@@ -60,8 +60,6 @@ class Article extends OpenPensionMigrateEntitiesPluginBase {
       'field_publishing_date' => $row_data['date'],
       'field_authors' => $this->createTerms($row_data['authors'])
     ];
-
-    return $entity->create($values);
   }
 
   /**

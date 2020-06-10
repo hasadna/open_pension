@@ -47,6 +47,7 @@ install:
   - graphql_core
   - features_ui
   - vuejs
+  - pathauto
 
   # Profile custom modules.
   - open_pension_core

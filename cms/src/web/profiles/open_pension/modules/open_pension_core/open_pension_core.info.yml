@@ -2,6 +2,8 @@ name: 'Open Pension Core'
 type: module
 core: 8.x
 dependencies:
+  - node
+  - pathauto
   - text
   - user
 core_incompatible: false

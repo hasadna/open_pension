@@ -14,7 +14,7 @@ use Drupal\open_pension_migrate\OpenPensionMigrateEntitiesPluginBase;
  *   entity = "node"
  * )
  */
-class PageElement extends OpenPensionMigrateEntitiesPluginBase {
+class BasicPage extends OpenPensionMigrateEntitiesPluginBase {
 
   protected function getRows() {
     return [
@@ -24,7 +24,7 @@ class PageElement extends OpenPensionMigrateEntitiesPluginBase {
   }
 
   protected function processRow(EntityStorageInterface $entity, array $row_data) {
-    $values = [
+    return [
       'type' => 'page',
       'title' => $row_data['title'],
       'langcode' => 'en',
@@ -35,8 +35,6 @@ class PageElement extends OpenPensionMigrateEntitiesPluginBase {
         ],
       'uid' => 1,
     ];
-
-    return $entity->create($values);
   }
 
 }

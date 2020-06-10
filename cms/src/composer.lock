@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34f577c5f9ccdb3b7641bde16432ade5",
+    "content-hash": "2a177cdea831f7532503901faa4f351d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2186,6 +2186,96 @@
             "time": "2020-04-02T19:01:19+00:00"
         },
         {
+            "name": "drupal/ctools",
+            "version": "3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ctools.git",
+                "reference": "8.x-3.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ctools-8.x-3.4.zip",
+                "reference": "8.x-3.4",
+                "shasum": "016ca5abb7ac4ca720352a72e8989f3ef0e20539"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.4",
+                    "datestamp": "1585763383",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Vanderwater (EclipseGc)",
+                    "homepage": "https://www.drupal.org/u/eclipsegc",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Jakob Perry (japerry)",
+                    "homepage": "https://www.drupal.org/u/japerry",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Tim Plunkett (tim.plunkett)",
+                    "homepage": "https://www.drupal.org/u/timplunkett",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "James Gilliland (neclimdul)",
+                    "homepage": "https://www.drupal.org/u/neclimdul",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Daniel Wehner (dawehner)",
+                    "homepage": "https://www.drupal.org/u/dawehner",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "joelpittet",
+                    "homepage": "https://www.drupal.org/user/160302"
+                },
+                {
+                    "name": "merlinofchaos",
+                    "homepage": "https://www.drupal.org/user/26979"
+                },
+                {
+                    "name": "neclimdul",
+                    "homepage": "https://www.drupal.org/user/48673"
+                },
+                {
+                    "name": "sdboyer",
+                    "homepage": "https://www.drupal.org/user/146719"
+                },
+                {
+                    "name": "sun",
+                    "homepage": "https://www.drupal.org/user/54136"
+                },
+                {
+                    "name": "tim.plunkett",
+                    "homepage": "https://www.drupal.org/user/241634"
+                }
+            ],
+            "description": "Provides a number of utility and helper APIs for Drupal developers and site builders.",
+            "homepage": "https://www.drupal.org/project/ctools",
+            "support": {
+                "source": "https://git.drupalcode.org/project/ctools",
+                "issues": "https://www.drupal.org/project/issues/ctools"
+            }
+        },
+        {
             "name": "drupal/devel",
             "version": "2.1.0",
             "source": {
@@ -2599,96 +2689,32 @@
             }
         },
         {
-            "name": "drupal/migrate_plus",
-            "version": "5.0.0",
+            "name": "drupal/pathauto",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/migrate_plus.git",
-                "reference": "8.x-5.0"
+                "url": "https://git.drupalcode.org/project/pathauto.git",
+                "reference": "8.x-1.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/migrate_plus-8.x-5.0.zip",
-                "reference": "8.x-5.0",
-                "shasum": "5509c76498e4c6141c29db626d20904e1e8593c6"
+                "url": "https://ftp.drupal.org/files/projects/pathauto-8.x-1.8.zip",
+                "reference": "8.x-1.8",
+                "shasum": "ede3216abb9c4f77709338d9147334c595046329"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "require-dev": {
-                "drupal/migrate_example_advanced_setup": "*",
-                "drupal/migrate_example_setup": "*"
+                "drupal/core": "^8.8 || ^9",
+                "drupal/ctools": "*",
+                "drupal/token": "*"
             },
             "suggest": {
-                "ext-soap": "*",
-                "sainsburys/guzzle-oauth2-plugin": "3.0 required for the OAuth2 authentication plugin"
+                "drupal/redirect": "When installed Pathauto will provide a new \"Update Action\" in case your URLs change. This is the recommended update action and is considered the best practice for SEO and usability."
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-5.0",
-                    "datestamp": "1586234154",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Mike Ryan",
-                    "homepage": "https://www.drupal.org/u/mikeryan",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Lucas Hedding",
-                    "homepage": "https://www.drupal.org/u/heddn",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "Enhancements to core migration support.",
-            "homepage": "https://www.drupal.org/project/migrate_plus",
-            "support": {
-                "source": "https://git.drupalcode.org/project/migrate_plus",
-                "issues": "https://www.drupal.org/project/issues/migrate_plus",
-                "slack": "#migrate"
-            }
-        },
-        {
-            "name": "drupal/migrate_tools",
-            "version": "4.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/migrate_tools.git",
-                "reference": "8.x-4.5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/migrate_tools-8.x-4.5.zip",
-                "reference": "8.x-4.5",
-                "shasum": "06390b359bf53c50a30f2d6dc4c7542bfb1fe7ca"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9",
-                "drupal/migrate_plus": "^4 || ^5"
-            },
-            "require-dev": {
-                "drupal/migrate_plus": "4.x-dev",
-                "drupal/migrate_source_csv": "^2.2",
-                "drush/drush": "^10"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-4.5",
-                    "datestamp": "1574693285",
+                    "version": "8.x-1.8",
+                    "datestamp": "1588103046",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2706,24 +2732,97 @@
             ],
             "authors": [
                 {
-                    "name": "heddn",
-                    "homepage": "https://www.drupal.org/user/1463982"
+                    "name": "Berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "Dave Reid",
+                    "homepage": "https://www.drupal.org/user/53892"
+                },
+                {
+                    "name": "Freso",
+                    "homepage": "https://www.drupal.org/user/27504"
+                },
+                {
+                    "name": "greggles",
+                    "homepage": "https://www.drupal.org/user/36762"
+                }
+            ],
+            "description": "Provides a mechanism for modules to automatically generate aliases for the content they manage.",
+            "homepage": "https://www.drupal.org/project/pathauto",
+            "support": {
+                "source": "https://cgit.drupalcode.org/pathauto",
+                "issues": "https://www.drupal.org/project/issues/pathauto",
+                "documentation": "https://www.drupal.org/docs/8/modules/pathauto"
+            }
+        },
+        {
+            "name": "drupal/token",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/token.git",
+                "reference": "8.x-1.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/token-8.x-1.7.zip",
+                "reference": "8.x-1.7",
+                "shasum": "c7e3a3757282e4c94e3c1fff08d01e22155cb853"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.7",
+                    "datestamp": "1589314266",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "Dave Reid",
+                    "homepage": "https://www.drupal.org/user/53892"
+                },
+                {
+                    "name": "eaton",
+                    "homepage": "https://www.drupal.org/user/16496"
+                },
+                {
+                    "name": "fago",
+                    "homepage": "https://www.drupal.org/user/16747"
+                },
+                {
+                    "name": "greggles",
+                    "homepage": "https://www.drupal.org/user/36762"
                 },
                 {
                     "name": "mikeryan",
                     "homepage": "https://www.drupal.org/user/4420"
-                },
-                {
-                    "name": "moshe weitzman",
-                    "homepage": "https://www.drupal.org/user/23"
                 }
             ],
-            "description": "Tools to assist in developing and running migrations.",
-            "homepage": "http://drupal.org/project/migrate_tools",
+            "description": "Provides a user interface for the Token API, some missing core tokens.",
+            "homepage": "https://www.drupal.org/project/token",
             "support": {
-                "source": "http://cgit.drupalcode.org/migrate_tools",
-                "issues": "http://drupal.org/project/migrate_tools",
-                "irc": "irc://irc.freenode.org/drupal-migrate"
+                "source": "https://git.drupalcode.org/project/token"
             }
         },
         {
@@ -2957,12 +3056,12 @@
             "version": "0.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/njh/easyrdf.git",
+                "url": "https://github.com/easyrdf/easyrdf.git",
                 "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/njh/easyrdf/zipball/acd09dfe0555fbcfa254291e433c45fdd4652566",
+                "url": "https://api.github.com/repos/easyrdf/easyrdf/zipball/acd09dfe0555fbcfa254291e433c45fdd4652566",
                 "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566",
                 "shasum": ""
             },

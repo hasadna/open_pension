@@ -29,7 +29,7 @@
         "drupal/gatsby": "^1.0@RC",
         "drupal/graphql": "^3.0",
         "drupal/jsonapi_extras": "^3.14",
-        "drupal/migrate_tools": "4.5",
+        "drupal/pathauto": "^1.8",
         "drupal/vuejs": "^1.0-rc2",
         "drush/drush": "^10.2.2",
         "shuchkin/simplexlsx": "^0.8.14"
