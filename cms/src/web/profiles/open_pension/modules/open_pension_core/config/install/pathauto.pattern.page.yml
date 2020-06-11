@@ -3,20 +3,19 @@ status: true
 dependencies:
   module:
     - node
-id: blog_and_page_path
-label: 'Blog and Page path'
+id: page
+label: Page
 type: 'canonical_entities:node'
 pattern: '/[node:title]'
 selection_criteria:
-  cccb75d4-d158-43b3-b13a-29ce719d3fad:
+  7ab46789-b390-4a16-997c-d192a079f398:
     id: node_type
     bundles:
-      blog: blog
       page: page
     negate: false
     context_mapping:
       node: node
-    uuid: cccb75d4-d158-43b3-b13a-29ce719d3fad
+    uuid: 7ab46789-b390-4a16-997c-d192a079f398
 selection_logic: and
 weight: -5
 relationships: {  }

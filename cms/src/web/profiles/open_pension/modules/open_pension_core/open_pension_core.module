@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file open_pension_core.module
+ */
+
+/**
+ * Implements hook_entity_access().
+ */
+function open_pension_core_entity_access(\Drupal\Core\Entity\EntityInterface $entity, $operation, \Drupal\Core\Session\AccountInterface $account) {
+
+  if ($operation != 'view') {
+    // Not a view operation, skip this one.
+    return;
+  }
+
+  if ($entity->getEntityType()->id() == 'user') {
+    // Don't expose user via this hook.
+    return;
+  }
+
+  // All entities, beside user, are allowed to be watched.
+  return \Drupal\Core\Access\AccessResult::allowed();
+}
