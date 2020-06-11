@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: gatsby-footer-menu
-label: 'Gatsby footer menu'
-description: ''
-locked: false

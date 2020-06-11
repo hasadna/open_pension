@@ -45,6 +45,8 @@ install:
   # Contrib modules
   - graphql
   - graphql_core
+  - gatsby
+  - jsonapi_extras
   - features_ui
   - vuejs
   - pathauto
@@ -56,7 +58,6 @@ install:
   - open_pension_services
   - open_pension_reclamation
   - open_pension_fetcher
-  - open_pension_menu
   - open_pension_page_element
   - open_pension_article
 
