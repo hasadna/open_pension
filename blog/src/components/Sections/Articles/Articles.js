@@ -5,14 +5,16 @@ import {graphql, Link, StaticQuery} from "gatsby";
 const query = graphql`{
   drupal {
     nodeQuery(
-      filter: {conditions: {field: "type", value: "article"}
-    }) {
+      filter: {conditions: {field: "type", value: "article"}},
+      limit: 3
+    ) {
       entities {
         ... on drupal_NodeArticle {
           title
           fieldImage {
-            url
-            alt
+            derivative(style: ARTICLESDISPLAY) {
+              url
+            }
           }
           fieldLink {
             uri
@@ -39,7 +41,7 @@ const article = (data) => {
   return <div>
     <h3 className="title"><a href={data.fieldLink.uri} target="_blank">{data.title}</a></h3>
     <p className="sub-title">{tags(data.queryFieldAuthors.entities)}, {data.fieldPublishingDate.value}</p>
-    <a href={data.fieldLink.uri}><img src={data.fieldImage.url} title={data.fieldImage.alt} className="bordered"/></a>
+    <a href={data.fieldLink.uri}><img src={data.fieldImage.derivative.url} title={data.fieldImage.alt} className="bordered"/></a>
   </div>
 }
 

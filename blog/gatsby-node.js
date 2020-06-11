@@ -1,6 +1,6 @@
 const path = require(`path`)
 
-exports.createPages = async ({ actions, graphql }) => {
+const createBlogs = async (graphql, createPage) => {
   const { data } = await graphql(`
     {
     drupal {
@@ -19,7 +19,7 @@ exports.createPages = async ({ actions, graphql }) => {
   `)
 
   data.drupal.nodeQuery.entities.forEach((entity) => {
-    actions.createPage({
+    createPage({
       path: entity.path.alias,
       component: path.resolve(`./src/templates/blog-post.js`),
       context: {
@@ -27,4 +27,39 @@ exports.createPages = async ({ actions, graphql }) => {
       },
     })
   })
+};
+
+const createDrupalPages = async (graphql, createPage) => {
+  const { data } = await graphql(`
+    {
+    drupal {
+      nodeQuery(filter: {conditions: {field: "type", value: "page"}}) {
+        entities {
+          ... on drupal_NodePage {
+            nid
+            path {
+              alias
+            }
+          }
+        }
+      }
+    }
+  }
+  `)
+
+  data.drupal.nodeQuery.entities.forEach((entity) => {
+    createPage({
+      path: entity.path.alias,
+      component: path.resolve(`./src/templates/page.js`),
+      context: {
+        PageId: entity.nid.toString(),
+      },
+    })
+  })
+};
+
+
+exports.createPages = async ({ actions, graphql }) => {
+  await createBlogs(graphql, actions.createPage)
+  await createDrupalPages(graphql, actions.createPage)
 }

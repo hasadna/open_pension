@@ -18,8 +18,8 @@ class PageElement extends OpenPensionMigrateEntitiesPluginBase {
 
   protected function getRows() {
     return [
-      ['title' => 'עמוד ראשי - אודותינו', 'file' => 'front-page-about-us.html'],
-      ['title' => 'עמוד ראשי - כסף', 'file' => 'front-page-money.html'],
+      ['title' => 'עמוד ראשי - אודותינו', 'file' => 'front-page-about-us.html', 'field_page' => 'front', 'field_section' => 'above-footer'],
+      ['title' => 'עמוד ראשי - כסף', 'file' => 'front-page-money.html', 'field_page' => 'front', 'field_section' => 'upper'],
     ];
   }
 
@@ -32,7 +32,9 @@ class PageElement extends OpenPensionMigrateEntitiesPluginBase {
         'value' => file_get_contents($this->getAssetLibrary('open_pension_page_element', $row_data['file'])),
         'format' => 'full_html',
         'summary' => '',
-        ],
+      ],
+      'field_page' => $row_data['field_page'],
+      'field_section' => $row_data['field_section'],
       'uid' => 1,
     ];
   }

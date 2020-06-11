@@ -23,7 +23,7 @@ const query = graphql` {
 }
 `;
 
-export const UpperStrip = () => <StaticQuery query={query} render={data =>
+export const Money = () => <StaticQuery query={query} render={data =>
   <section className="money">
     <div className="text" dangerouslySetInnerHTML={{__html: data.drupal.nodeQuery.entities[0].body.value}}>
     </div>

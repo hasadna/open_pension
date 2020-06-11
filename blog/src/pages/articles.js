@@ -28,8 +28,9 @@ export const query = graphql`{
         ... on drupal_NodeArticle {
           title
           fieldImage {
-            url
-            alt
+            derivative(style: ARTICLESDISPLAY) {
+              url
+            }
           }
           fieldLink {
             uri
