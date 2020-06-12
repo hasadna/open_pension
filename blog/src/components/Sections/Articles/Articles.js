@@ -39,9 +39,9 @@ const tags = (tags) => <ul>{tags.map(tag => <li>{tag.entityLabel}</li>)}</ul>
 
 const article = (data) => {
   return <div>
-    <h3 className="title"><a href={data.fieldLink.uri} target="_blank">{data.title}</a></h3>
+    <h3 className="title"><a href={data.fieldLink.uri} target="_blank" rel="noreferrer">{data.title}</a></h3>
     <p className="sub-title">{tags(data.queryFieldAuthors.entities)}, {data.fieldPublishingDate.value}</p>
-    <a href={data.fieldLink.uri}><img src={data.fieldImage.derivative.url} title={data.fieldImage.alt} className="bordered"/></a>
+    <a href={data.fieldLink.uri}><img src={data.fieldImage.derivative.url} alt={data.fieldImage.alt} className="bordered"/></a>
   </div>
 }
 
@@ -49,9 +49,7 @@ export const ArticleGrid = ({data}) => <div className="grid-display">
   {data.drupal.nodeQuery.entities.map(item => article(item))}
 </div>
 
-export const articles = (data) => <section className="articles">
-  <a id="articles"></a>
-
+export const articles = (data) => <section className="articles" id="articles">
   <div className="text">
     <p className="medium">כתבו עלינו בעיתון</p>
 

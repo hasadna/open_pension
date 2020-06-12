@@ -7,14 +7,8 @@
 module.exports = {
   /* Your site config here */
   plugins: [
+    `gatsby-plugin-offline`,
     `gatsby-plugin-sass`,
-    // {
-    //   resolve: `gatsby-source-drupal`,
-    //   options: {
-    //     baseUrl: `http://localhost/open_pension/cms/src/web/`,
-    //     apiBase: `jsonapi`, // optional, defaults to `jsonapi`
-    //   },
-    // },
     {
       resolve: "gatsby-source-graphql",
       options: {

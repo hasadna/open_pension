@@ -37,7 +37,7 @@ export const blog = (data) => {
 
     <p className="intro">{result.substr(0, 350)}</p>
 
-    <img src={data.fieldImage.url} title={data.fieldImage.alt} />
+    <img src={data.fieldImage.url} alt={data.fieldImage.alt} />
   </div>
 }
 
@@ -46,9 +46,7 @@ export const BlogsGrid = (props) =>
     {props.data.drupal.nodeQuery.entities.map((item) => blog(item))}
   </div>
 
-const blogs = (data) => <section className="tools">
-  <a id="tools"></a>
-
+const blogs = (data) => <section className="tools" id="tools">
   <div className="text">
     <p className="medium">מה יש לנו להגיד</p>
 

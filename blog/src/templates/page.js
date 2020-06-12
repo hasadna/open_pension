@@ -3,7 +3,6 @@ import {graphql} from "gatsby";
 import {Wrapper} from "../components/Page";
 import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
 import "./blog-post.scss"
-import dateformat from "dateformat"
 
 export default ({ data }) => {
   const page = data.drupal.nodeById;

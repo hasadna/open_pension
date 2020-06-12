@@ -23,13 +23,11 @@ const query = graphql` {
 }
 `;
 
-const aboutUs = (data) => <section className="about-us">
-  <a id="about-us"></a>
+const aboutUs = (data) => <section className="about-us" id="about-us">
   <div className="text" dangerouslySetInnerHTML={{__html: data.drupal.nodeQuery.entities[0].body.value}}>
   </div>
 
-  <div className="contact-us">
-    <a id="contact-us"></a>
+  <div className="contact-us" id="contact-us">
     <button>
       <a href="mailto:openpension@googlegroups.com?subject=פידבק על פנסיה פתוחה">צור קשר</a>
     </button>
