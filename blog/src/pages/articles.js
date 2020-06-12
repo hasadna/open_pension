@@ -1,5 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
+import {Helmet} from "react-helmet";
+
 import "./pages.scss"
 
 import {Wrapper} from "../components/Page";
@@ -9,6 +11,12 @@ import {ArticleGrid} from "../components/Sections/Articles/Articles";
 const ArticlesComponent = ({data}) => <Wrapper>
 
   <div className="inner-page">
+
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>פנסיה פתוחה | כתבו עלינו בעיתון</title>
+      <link rel="canonical" href="https://www.openpension.org.il/articles" />
+    </Helmet>
 
     <Breadcrumbs path="homepage.articles" />
 

@@ -4,12 +4,20 @@ import {Wrapper} from "../components/Page";
 import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
 import "./blog-post.scss"
 import dateformat from "dateformat"
+import {Helmet} from "react-helmet";
 
 export default ({ data }) => {
   const blog = data.drupal.nodeById;
 
   return (
     <Wrapper>
+
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>פנסיה פתוחה | בלוג | {blog.title}</title>
+        <link rel="canonical" href={`https://www.openpension.org.il${blog.path.alias}`} />
+      </Helmet>
+
       <div className="inner-page blog">
         <Breadcrumbs path="homepage.blogs.<entityLabel>" entityLabel={blog.title} />
 
@@ -30,6 +38,9 @@ query($BlogID: String!) {
         title
         body {
           value
+        }
+        path {
+          alias 
         }
         created
         entityOwner {

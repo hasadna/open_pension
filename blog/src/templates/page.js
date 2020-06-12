@@ -3,12 +3,20 @@ import {graphql} from "gatsby";
 import {Wrapper} from "../components/Page";
 import {Breadcrumbs} from "../components/Breadcrumbs/Breadcrumbs";
 import "./blog-post.scss"
+import {Helmet} from "react-helmet";
 
 export default ({ data }) => {
   const page = data.drupal.nodeById;
 
   return (
     <Wrapper>
+
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>פנסיה פתוחה | {page.title}</title>
+        <link rel="canonical" href={`https://www.openpension.org.il${page.path.alias}`} />
+      </Helmet>
+
       <div className="inner-page blog">
         <Breadcrumbs path="homepage.<entityLabel>" entityLabel={page.title} />
 
@@ -27,6 +35,9 @@ query($PageId: String!) {
         title
         body {
           value
+        }
+        path {
+          alias
         }
       }
     }
