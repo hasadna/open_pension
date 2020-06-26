@@ -46,6 +46,8 @@ install:
   - graphql
   - graphql_core
   - gatsby
+  - gatsby_orchestrator
+  - gatsby_revisions
   - jsonapi_extras
   - features_ui
   - vuejs

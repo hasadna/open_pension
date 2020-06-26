@@ -27,6 +27,7 @@
         "drupal/devel_entity_updates": "3.0.0-beta1",
         "drupal/features": "^3.8",
         "drupal/gatsby": "^1.0@RC",
+        "drupal/gatsby_orchestrator": "1.x-dev",
         "drupal/graphql": "^3.0",
         "drupal/jsonapi_extras": "^3.14",
         "drupal/pathauto": "^1.8",

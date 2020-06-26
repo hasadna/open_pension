@@ -270,3 +270,4 @@ processor/*/*.js
 blog/.cache
 blog/node_modules
 blog/public
+blog/revisions

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a177cdea831f7532503901faa4f351d",
+    "content-hash": "75effa604ce1e31b5f03dad07dc87db5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2570,6 +2570,52 @@
                 "source": "http://cgit.drupalcode.org/gatsby",
                 "issues": "https://www.drupal.org/project/issues/gatsby"
             }
+        },
+        {
+            "name": "drupal/gatsby_orchestrator",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/gatsby_orchestrator.git",
+                "reference": "7aab8a2ff5a937e7e3d2a078145d27dd74a56055"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "drupal/gatsby": "*"
+            },
+            "require-dev": {
+                "drupal/gatsby": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.x-dev",
+                    "datestamp": "1593099878",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "RoySegall",
+                    "homepage": "https://www.drupal.org/user/1812910"
+                }
+            ],
+            "description": "Orchestrate action for gatsby",
+            "homepage": "https://www.drupal.org/project/gatsby_orchestrator",
+            "support": {
+                "source": "https://git.drupalcode.org/project/gatsby_orchestrator"
+            },
+            "time": "2020-06-25T10:26:25+00:00"
         },
         {
             "name": "drupal/graphql",
@@ -8001,7 +8047,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/gatsby": 5
+        "drupal/gatsby": 5,
+        "drupal/gatsby_orchestrator": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

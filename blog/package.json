@@ -21,7 +21,7 @@
     "gatsby-plugin-google-analytics": "^2.3.4",
     "gatsby-plugin-offline": "^3.2.9",
     "gatsby-plugin-react-helmet": "^3.3.4",
-    "gatsby-plugin-revisions": "^1.0.0",
+    "gatsby-plugin-revisions": "^1.0.3",
     "gatsby-plugin-sass": "^2.3.2",
     "gatsby-source-drupal": "^3.5.9",
     "gatsby-source-graphql": "^2.5.2",
