@@ -19,6 +19,8 @@ months = {
     12: 'דצמבר',
 }
 
+title = "גיליון_"
+
 
 def process_file(file: Workbook):
     """
@@ -27,8 +29,8 @@ def process_file(file: Workbook):
     :param file: The file to process.
     """
     sheets = {}
-    for worksheet in file.worksheets:
-        sheets[worksheet.title] = process_data(worksheet)
+    for index, worksheet in enumerate(file.worksheets):
+        sheets[f"{title}{index+1}"] = process_data(worksheet)
 
     return sheets
 

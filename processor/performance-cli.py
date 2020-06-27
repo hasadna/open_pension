@@ -34,6 +34,7 @@ class Handler:
         """
         Main logic of the cli handler.
         """
+        print('a')
         # First, we need to check if it's a folder of a path to to the file.
         if self.folder:
             return self.recursive_handler()
@@ -42,10 +43,11 @@ class Handler:
 
     def recursive_handler(self):
 
-        paths = os.path.join(os.getcwd(), self.path, '*', '*.xlsx')
+        paths = os.path.join(os.getcwd(), self.path, '*.xlsx')
         results = {}
 
         for file_path in glob(paths):
+            print(file_path)
             try:
                 parsed = self.handle_file(file_path)
                 file_name = self.get_filename_from_path(file_path)
