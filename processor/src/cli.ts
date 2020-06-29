@@ -27,21 +27,39 @@ rl.question(colors.blue("What's the path for the files, can be a single files or
                 console.log(colors.magenta(`Destination folder ${destination} created`))
             }
 
-            await Promise.all(fs.readdirSync(sourceDirectory).map(async (filename) => {
+            const results = {};
+            let index = 1;
+            const files = fs.readdirSync(sourceDirectory);
+
+            await Promise.all(files.map(async (filename) => {
                 return new Promise(async (resolve) => {
                     console.log(colors.yellow(`Process the file ${filename}`));
+                    const destinationPath = path.join(destination, `${filename.split('.')[0]}.json`);
 
-                    const results = await excelParsing(path.join(sourceDirectory, filename));
-                    fs.writeFileSync(path.join(destination, `${filename.split('.')[0]}.json`), JSON.stringify(results));
+                    if (fs.existsSync(destinationPath)) {
+                        results[filename] = "Skipped";
+                        console.log(colors.blue(`${filename} (${index++} / ${files.length}) {len skipped`));
+                    } else {
+                        try {
+                            const results = await excelParsing(path.join(sourceDirectory, filename));
+                            fs.writeFileSync(destinationPath, JSON.stringify(results['data']));
+                            console.log(colors.green(`${filename} (${index++} / ${files.length}) processed`));
+                            results[filename] = "Passed";
+                        } catch (e) {
+                            console.log(colors.red(`${filename} (${index++} / ${files.length}) error`));
+                            console.error(filename, e);
+                            results[filename] = `Failed: ${e}`
+                        }
+                    }
 
-                    console.log(colors.green(`Done processing the file ${filename}`));
                     resolve();
                 });
 
             }));
 
+            console.log(results);
+            console.log(colors.green("Completed!"))
             rl.close();
-
         });
 
     } else {

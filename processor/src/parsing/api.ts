@@ -17,9 +17,13 @@ function checkNotInIsraelContext(rowFirstColumn: any): boolean {
 
     // Go over the words we considering as something not in israel.
     notInIsraelWords.forEach((item: any) => {
-        if (inIsrael && rowFirstColumn.includes(item)) {
-            // As long as the flag of in israel is true, that mean we did not find any words which indicate about that.
-            inIsrael = false;
+        try {
+            if (inIsrael && rowFirstColumn.includes(item)) {
+                // As long as the flag of in israel is true, that mean we did not find any words which indicate about that.
+                inIsrael = false;
+            }
+        } catch (e) {
+            inIsrael = true;
         }
     });
 
