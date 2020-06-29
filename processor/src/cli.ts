@@ -1,7 +1,7 @@
 import {createInterface} from "readline";
 import * as fs from "fs";
 import * as path from "path";
-import {singleAssetProcess} from "./parse";
+import {performanceProcess, singleAssetProcess} from "./parse";
 import * as colors from "colors";
 
 const rl = createInterface({
@@ -20,9 +20,9 @@ const handleFile = async (processingType, filePath) => {
     }
 
     if (processingType == 'performance') {
-
+        const results = await performanceProcess(filePath)
+        return results['data'];
     }
-
 };
 
 
@@ -40,8 +40,8 @@ const handleFiles = async (sourceDirectory, destination, results) => {
                 console.log(colors.blue(`${filename} (${index++} / ${files.length}) skipped`));
             } else {
                 try {
-                    const results = await handleFile(type, path.join(sourceDirectory, filename));
-                    fs.writeFileSync(destinationPath, JSON.stringify(results));
+                    const processResults = await handleFile(type, path.join(sourceDirectory, filename));
+                    fs.writeFileSync(destinationPath, JSON.stringify(processResults));
                     console.log(colors.green(`${filename} (${index++} / ${files.length}) processed`));
                     results[filename] = "Passed";
                 } catch (e) {

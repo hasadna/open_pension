@@ -16,7 +16,7 @@ import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
  * @param errors
  *  An array to append errors.
  */
-async function processSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
+async function processSingleAssetSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
     let sheetRows;
     try {
         sheetRows = await parseFile(path, {sheet: sheetName});
@@ -99,6 +99,27 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object, 
     });
 }
 
+async function processPerformanceSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
+    let sheetRows;
+
+    try {
+        sheetRows = await parseFile(path, {sheet: sheetName});
+    } catch (e) {
+        errors.push(e)
+        return;
+    }
+
+    const parsedSheet: any = [];
+
+    sheetRows.forEach((row: any) => {
+        parsedSheet.push(row);
+    });
+
+    return new Promise((resolve, reject) => {
+        resolve(parsedSheet);
+    });
+}
+
 /**
  * Parsing a single asset file type.
  *
@@ -130,7 +151,27 @@ export async function singleAssetProcess(path: string) {
         }
 
         let sheetName: string = orderedSheets[key];
-        parsedData[sheetName] = await processSheet(path, data.name, sheetsKeys[sheetName], errors);
+        parsedData[sheetName] = await processSingleAssetSheet(path, data.name, sheetsKeys[sheetName], errors);
+    }));
+
+    return {data: parsedData, errors: errors};
+}
+
+export async function performanceProcess(path: string) {
+    let sheets;
+    let errors = [];
+
+    try {
+        // Get all the sheets.
+        sheets = await parseFile(path, {getSheets: true});
+    } catch (e) {
+        return {data: {}, errors: e.message};
+    }
+
+    const parsedData: any = {};
+
+    await Promise.all(sheets.map(async (data: any, key: any) => {
+        parsedData[key] = await processPerformanceSheet(path, data.name, sheetsKeys[key], errors);
     }));
 
     return {data: parsedData, errors: errors};
