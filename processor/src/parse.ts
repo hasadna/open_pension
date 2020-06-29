@@ -4,6 +4,21 @@ import {parseFile} from "./excelParser";
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
 
+const months = {
+    1: 'ינואר',
+    2: 'פברואר',
+    3: 'מרץ',
+    4: 'אפריל',
+    5: 'מאי',
+    6: 'יוני',
+    7: 'יולי',
+    8: 'אוגוסט',
+    9: 'ספטמבר',
+    10: 'נובמבר',
+    11: 'אוקטובר',
+    12: 'דצמבר',
+}
+
 /**
  * Process a single sheet.
  *
@@ -109,14 +124,49 @@ async function processPerformanceSheet(path: string, sheetName: string, sheetKey
         return;
     }
 
-    const parsedSheet: any = [];
+    const parsedSheet = [];
+    let foundFirstRow = false;
+    let foundLastRow = false;
+    let year = null;
 
     sheetRows.forEach((row: any) => {
-        parsedSheet.push(row);
+
+        if (!year && row[0] && row[0].includes("נתונים לחודש:")) {
+            year = row[1].replace(/\D/g,'');
+        }
+
+        if (foundLastRow) {
+            return;
+        }
+
+        if (row[0] === "מזומנים ושווי מזומנים") {
+            foundFirstRow = true;
+        }
+
+        if (!foundFirstRow || row[0].includes("תשואה חודשית")) {
+            return;
+        }
+
+        iterateSingleRow(parsedSheet, year, row);
+
+        if (row[0] && row[0].includes("סה\"כ")) {
+            foundLastRow = true;
+        }
     });
 
     return new Promise((resolve, reject) => {
         resolve(parsedSheet);
+    });
+}
+
+function iterateSingleRow(parsedSheet, year, row) {
+    const [title, rowWithoutTitle] = [row[0], row.splice(1, 24)];
+
+    rowWithoutTitle.map((item: any, key: any) => {
+        const monthIndex = Math.round((key + 1)/2);
+
+        const subTitle = key % 2 == 0 ? 'תרומה לתשואה' : 'שיעור מסך הנכסים';
+        parsedSheet.push([title, `${months[monthIndex]} ${year}`, subTitle, item]);
     });
 }
 
@@ -170,8 +220,10 @@ export async function performanceProcess(path: string) {
 
     const parsedData: any = {};
 
+    const gilion = 'גליון';
+
     await Promise.all(sheets.map(async (data: any, key: any) => {
-        parsedData[key] = await processPerformanceSheet(path, data.name, sheetsKeys[key], errors);
+        parsedData[`${gilion}_${key+1}`] = await processPerformanceSheet(path, data.name, sheetsKeys[key], errors);
     }));
 
     return {data: parsedData, errors: errors};
