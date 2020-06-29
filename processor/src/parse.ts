@@ -82,6 +82,10 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object, 
             errors.push(`${sheetName}: ${e.message}`);
         }
 
+        if (!sheetKeys) {
+            return;
+        }
+
         Object.values(sheetKeys).map((item: any, key: any) => {
             parsedRow[item] = row[key];
         });
