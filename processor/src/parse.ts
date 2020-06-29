@@ -100,12 +100,12 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object, 
 }
 
 /**
- * Parsing excel file.
+ * Parsing a single asset file type.
  *
  * @param path
  *  The path of the file.
  */
-export async function excelParsing(path: string) {
+export async function singleAssetProcess(path: string) {
     let sheets;
     let errors = [];
 
