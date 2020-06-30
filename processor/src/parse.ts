@@ -114,7 +114,22 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
     });
 }
 
-async function processPerformanceSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
+function getYerFromPerformance(str): string {
+    const regex = /([0-9]{2,4})/gm;
+    let m;
+
+    while ((m = regex.exec(str)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+
+        // The result can be accessed through the `m`-variable.
+        return m[0];
+    }
+}
+
+async function processPerformanceSheet(parsedData: string, machineSheetName: string, path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
     let sheetRows;
 
     try {
@@ -127,19 +142,46 @@ async function processPerformanceSheet(path: string, sheetName: string, sheetKey
     const parsedSheet = [];
     let foundFirstRow = false;
     let foundLastRow = false;
-    let year = null;
+    let year: string = "0";
 
-    sheetRows.forEach((row: any) => {
-
-        if (!year && row[0] && row[0].includes("נתונים לחודש:")) {
-            year = row[1].replace(/\D/g,'');
-        }
+    sheetRows.forEach((row: any, key: number) => {
 
         if (foundLastRow) {
             return;
         }
 
         if (row[0] === "מזומנים ושווי מזומנים") {
+
+            sheetRows[key-1].map((item: any) =>  {
+                if (year == "0") {
+                    return;
+                }
+
+                const matchedYear = getYerFromPerformance(item);
+
+                if (matchedYear) {
+                    year = matchedYear;
+                }
+            });
+
+            sheetRows[key-2].map((item: any) =>  {
+                if (year !== "0") {
+                    return;
+                }
+
+                const matchedYear = getYerFromPerformance(item);
+
+                if (matchedYear) {
+                    year = matchedYear;
+                }
+            });
+
+            if (year.length == 2) {
+                year = `20${year}`
+            }
+
+            console.log(year);
+
             foundFirstRow = true;
         }
 
@@ -147,7 +189,7 @@ async function processPerformanceSheet(path: string, sheetName: string, sheetKey
             return;
         }
 
-        iterateSingleRow(parsedSheet, year, row);
+        iterateSingleRow(machineSheetName, parsedData, year, row);
 
         if (row[0] && row[0].includes("סה\"כ")) {
             foundLastRow = true;
@@ -159,14 +201,14 @@ async function processPerformanceSheet(path: string, sheetName: string, sheetKey
     });
 }
 
-function iterateSingleRow(parsedSheet, year, row) {
+function iterateSingleRow(machineSheetName, parsedSheet, year, row) {
     const [title, rowWithoutTitle] = [row[0], row.splice(1, 24)];
 
     rowWithoutTitle.map((item: any, key: any) => {
         const monthIndex = Math.round((key + 1)/2);
 
         const subTitle = key % 2 == 0 ? 'תרומה לתשואה' : 'שיעור מסך הנכסים';
-        parsedSheet.push([title, `${months[monthIndex]} ${year}`, subTitle, item]);
+        parsedSheet.push([machineSheetName, title, `${months[monthIndex]} ${year}`, subTitle, item]);
     });
 }
 
@@ -218,12 +260,12 @@ export async function performanceProcess(path: string) {
         return {data: {}, errors: e.message};
     }
 
-    const parsedData: any = {};
+    const parsedData: any = [];
 
     const gilion = 'גליון';
 
     await Promise.all(sheets.map(async (data: any, key: any) => {
-        parsedData[`${gilion}_${key+1}`] = await processPerformanceSheet(path, data.name, sheetsKeys[key], errors);
+        await processPerformanceSheet(parsedData, `${gilion}_${key+1}`, path, data.name, sheetsKeys[key], errors);
     }));
 
     return {data: parsedData, errors: errors};

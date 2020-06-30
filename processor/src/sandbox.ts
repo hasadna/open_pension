@@ -4,7 +4,7 @@ import {performanceProcess, singleAssetProcess} from './parse';
 //     console.log(JSON.stringify(results));
 // });
 
-performanceProcess('/Applications/MAMP/htdocs/open_pension/processor/src/ALL/3b48kzpzk8nbpghp-512245812_g1149_yield419.xlsx').then((results: any) => {
+performanceProcess('/Applications/MAMP/htdocs/open_pension/processor/src/ALL/מקיפה מסלול לבני 50 - 60 - פירוט תרומת אפיקי ההשקעה לתשואה מונגש.xlsx').then((results: any) => {
     console.log(JSON.stringify(results));
 })
 
