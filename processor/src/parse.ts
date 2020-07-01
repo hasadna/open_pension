@@ -145,6 +145,7 @@ async function processPerformanceSheet(parsedData: string, machineSheetName: str
     let year: string = "0";
 
     sheetRows.forEach((row: any, key: number) => {
+        row = row.filter(item => item);
 
         if (foundLastRow) {
             return;
@@ -152,35 +153,23 @@ async function processPerformanceSheet(parsedData: string, machineSheetName: str
 
         if (row[0] === "מזומנים ושווי מזומנים") {
 
-            sheetRows[key-1].map((item: any) =>  {
-                if (year == "0") {
-                    return;
-                }
+            [key-1, key-2].map((headerRowKey: any) => {
+                sheetRows[headerRowKey].map((item: any) =>  {
+                    if (year !== "0") {
+                        return;
+                    }
 
-                const matchedYear = getYerFromPerformance(item);
+                    const matchedYear = getYerFromPerformance(item);
 
-                if (matchedYear) {
-                    year = matchedYear;
-                }
-            });
-
-            sheetRows[key-2].map((item: any) =>  {
-                if (year !== "0") {
-                    return;
-                }
-
-                const matchedYear = getYerFromPerformance(item);
-
-                if (matchedYear) {
-                    year = matchedYear;
-                }
+                    if (matchedYear) {
+                        year = matchedYear;
+                    }
+                });
             });
 
             if (year.length == 2) {
                 year = `20${year}`
             }
-
-            console.log(year);
 
             foundFirstRow = true;
         }
