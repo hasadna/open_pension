@@ -4,6 +4,21 @@ import {parseFile} from "./excelParser";
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
 
+const months = {
+    1: 'ינואר',
+    2: 'פברואר',
+    3: 'מרץ',
+    4: 'אפריל',
+    5: 'מאי',
+    6: 'יוני',
+    7: 'יולי',
+    8: 'אוגוסט',
+    9: 'ספטמבר',
+    10: 'נובמבר',
+    11: 'אוקטובר',
+    12: 'דצמבר',
+}
+
 /**
  * Process a single sheet.
  *
@@ -16,7 +31,7 @@ import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
  * @param errors
  *  An array to append errors.
  */
-async function processSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
+async function processSingleAssetSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
     let sheetRows;
     try {
         sheetRows = await parseFile(path, {sheet: sheetName});
@@ -82,6 +97,10 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object, 
             errors.push(`${sheetName}: ${e.message}`);
         }
 
+        if (!sheetKeys) {
+            return;
+        }
+
         Object.values(sheetKeys).map((item: any, key: any) => {
             parsedRow[item] = row[key];
         });
@@ -95,13 +114,100 @@ async function processSheet(path: string, sheetName: string, sheetKeys: object, 
     });
 }
 
+function getYerFromPerformance(str): string {
+    const regex = /([0-9]{2,4})/gm;
+    let m;
+
+    while ((m = regex.exec(str)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+
+        // The result can be accessed through the `m`-variable.
+        return m[0];
+    }
+}
+
+async function processPerformanceSheet(parsedData: string, machineSheetName: string, path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
+    let sheetRows;
+
+    try {
+        sheetRows = await parseFile(path, {sheet: sheetName});
+    } catch (e) {
+        errors.push(e)
+        return;
+    }
+
+    const parsedSheet = [];
+    let foundFirstRow = false;
+    let foundLastRow = false;
+    let year: string = "0";
+
+    sheetRows.forEach((row: any, key: number) => {
+        row = row.filter(item => item);
+
+        if (foundLastRow) {
+            return;
+        }
+
+        if (row[0] === "מזומנים ושווי מזומנים") {
+
+            [key-1, key-2].map((headerRowKey: any) => {
+                sheetRows[headerRowKey].map((item: any) =>  {
+                    if (year !== "0") {
+                        return;
+                    }
+
+                    const matchedYear = getYerFromPerformance(item);
+
+                    if (matchedYear) {
+                        year = matchedYear;
+                    }
+                });
+            });
+
+            if (year.length == 2) {
+                year = `20${year}`
+            }
+
+            foundFirstRow = true;
+        }
+
+        if (!foundFirstRow || row[0].includes("תשואה חודשית")) {
+            return;
+        }
+
+        iterateSingleRow(machineSheetName, parsedData, year, row);
+
+        if (row[0] && row[0].includes("סה\"כ")) {
+            foundLastRow = true;
+        }
+    });
+
+    return new Promise((resolve, reject) => {
+        resolve(parsedSheet);
+    });
+}
+
+function iterateSingleRow(machineSheetName, parsedSheet, year, row) {
+    const [title, rowWithoutTitle] = [row[0], row.splice(1, 24)];
+
+    rowWithoutTitle.map((item: any, key: any) => {
+        const monthIndex = Math.round((key + 1)/2);
+
+        const subTitle = key % 2 == 0 ? 'תרומה לתשואה' : 'שיעור מסך הנכסים';
+        parsedSheet.push([machineSheetName, title, `${months[monthIndex]} ${year}`, subTitle, item]);
+    });
+}
+
 /**
- * Parsing excel file.
+ * Parsing a single asset file type.
  *
  * @param path
  *  The path of the file.
  */
-export async function excelParsing(path: string) {
+export async function singleAssetProcess(path: string) {
     let sheets;
     let errors = [];
 
@@ -126,7 +232,29 @@ export async function excelParsing(path: string) {
         }
 
         let sheetName: string = orderedSheets[key];
-        parsedData[sheetName] = await processSheet(path, data.name, sheetsKeys[sheetName], errors);
+        parsedData[sheetName] = await processSingleAssetSheet(path, data.name, sheetsKeys[sheetName], errors);
+    }));
+
+    return {data: parsedData, errors: errors};
+}
+
+export async function performanceProcess(path: string) {
+    let sheets;
+    let errors = [];
+
+    try {
+        // Get all the sheets.
+        sheets = await parseFile(path, {getSheets: true});
+    } catch (e) {
+        return {data: {}, errors: e.message};
+    }
+
+    const parsedData: any = [];
+
+    const gilion = 'גליון';
+
+    await Promise.all(sheets.map(async (data: any, key: any) => {
+        await processPerformanceSheet(parsedData, `${gilion}_${key+1}`, path, data.name, sheetsKeys[key], errors);
     }));
 
     return {data: parsedData, errors: errors};
