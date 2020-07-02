@@ -4,7 +4,7 @@ import {performanceProcess, singleAssetProcess} from './parse';
 //     console.log(JSON.stringify(results));
 // });
 
-performanceProcess('/Applications/MAMP/htdocs/open_pension/processor/src/ALL/513765347_g1059_Yield120.xlsx').then((results: any) => {
-    console.log(JSON.stringify(results));
+performanceProcess('/Applications/MAMP/htdocs/open_pension/processor/src/ALL/3b48kzpzkapg9wtk-512245812_g1110_yield120.xlsx').then((results: any) => {
+    console.log(JSON.stringify(results['data']));
 })
 

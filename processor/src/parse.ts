@@ -145,7 +145,25 @@ async function processPerformanceSheet(parsedData: string, machineSheetName: str
     let year: string = "0";
 
     sheetRows.forEach((row: any, key: number) => {
-        row = row.filter(item => item);
+        let foundFirst  = false;
+
+        row = row.filter(item => {
+            // Filtering all the null items which comes before an item with a real value.
+
+            if (foundFirst) {
+                // Once we got an item that's mean that all the items, even those which are null, are OK for us.
+                return true;
+            }
+
+            if (item) {
+                // This is the first valid item, set the flag to true and return true anyway.
+                foundFirst = true;
+                return true;
+            }
+
+            // Until we'll find any item, the item will be return leave it to JS to decide if the filter it or not.
+            return item
+        })
 
         if (foundLastRow) {
             return;
@@ -197,7 +215,13 @@ function iterateSingleRow(machineSheetName, parsedSheet, year, row) {
         const monthIndex = Math.round((key + 1)/2);
 
         const subTitle = key % 2 == 0 ? 'תרומה לתשואה' : 'שיעור מסך הנכסים';
-        parsedSheet.push([machineSheetName, title, `${months[monthIndex]} ${year}`, subTitle, item]);
+        parsedSheet.push({
+            sheet: machineSheetName,
+            title: title,
+            date: `${months[monthIndex]} ${year}`,
+            subTitle,
+            value: item
+        });
     });
 }
 
