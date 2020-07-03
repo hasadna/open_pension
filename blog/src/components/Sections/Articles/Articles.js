@@ -12,7 +12,7 @@ const query = graphql`{
         ... on drupal_NodeArticle {
           title
           fieldImage {
-            derivative(style: ARTICLESDISPLAY) {
+            derivative(style: LARGE) {
               url
             }
           }

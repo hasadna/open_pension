@@ -6,9 +6,15 @@ ENV APP_DIR /home/app
 
 WORKDIR $APP_DIR
 
+RUN npm install -g gatsby-cli
+
 COPY package*.json ./
 RUN npm i
 
 COPY . $APP_DIR
 
-CMD ["npm", "run", "develop"]
+# Exposing the port.
+EXPOSE 8000
+
+RUN chmod +x /home/app/entrypoint.sh
+CMD ["/home/app/entrypoint.sh"]

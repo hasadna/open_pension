@@ -62,6 +62,7 @@ install:
   - open_pension_fetcher
   - open_pension_page_element
   - open_pension_article
+  - open_pension_migrate
 
 themes:
   - claro

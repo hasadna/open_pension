@@ -25,6 +25,7 @@ services:
     depends_on:
       - cms
     environment:
+      ENABLE_GATSBY_REFRESH_ENDPOINT: 1
       DRUPAL_BACKEND: http://cms
 
   application:

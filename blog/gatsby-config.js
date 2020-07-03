@@ -17,7 +17,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-revisions`,
       options: {
-        eventsAddressBroadcast: process.env.DRUPAL_BACKEND,
+        eventsAddressBroadcast: `http://cms/gatsby-revisions/event-listener`,
       }
     },
     {
@@ -34,7 +34,7 @@ module.exports = {
         // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
         fieldName: "drupal",
         // Url to query from
-        url: `${process.env.DRUPAL_BACKEND}/graphql`,
+        url: `http://cms/graphql`,
       },
     },
   ],

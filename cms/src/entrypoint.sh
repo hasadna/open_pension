@@ -21,6 +21,8 @@ else
   vendor/bin/drush si open_pension --db-url="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}" --account-pass="${ACCOUNT_PASS}" --account-name="${ACCOUNT_NAME}" -y -v
 fi
 
+../vendor/bin/drush sqlq "truncate table cache_graphql_definitions;"
+
 # Clear cache for css and js issues.
 chmod 777 -R web/sites/default/files/
 vendor/bin/drush cr
