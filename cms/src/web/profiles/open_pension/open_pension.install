@@ -15,9 +15,12 @@ use Drupal\user\Entity\Role;
  * @see system_install()
  */
 function open_pension_install() {
+
   // First, do everything that is done in the standard profile.
   include_once DRUPAL_ROOT . '/core/profiles/standard/standard.install';
   standard_install();
 
+  // Adding permissions.
+  Role::load(Role::ANONYMOUS_ID)->grantPermission('bypass graphql field security')->save();
   Role::load(Role::ANONYMOUS_ID)->grantPermission('execute graphql requests')->save();
 }
