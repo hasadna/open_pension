@@ -50,8 +50,18 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
         'index': '',
     };
 
+    let skipFirstRow = false;
+
+    if (sheetRows[0]) {
+        skipFirstRow = sheetRows[0][0] === null && sheetRows[0][1] != null;
+    }
+
     sheetRows.forEach((row: any) => {
         let parsedRow: any = {};
+
+        if (skipFirstRow) {
+            row = row.splice(1);
+        }
 
         // Getting the metadata of the sheet.
         if (api.checkIfSheetEntryIsMetadata(row)) {
