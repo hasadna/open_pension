@@ -10,6 +10,7 @@ require('dotenv').config({
 })
 
 module.exports = {
+  pathPrefix: "/open_pension/",
   /* Your site config here */
   plugins: [
     // `gatsby-plugin-offline`,
