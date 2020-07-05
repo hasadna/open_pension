@@ -9,6 +9,9 @@ export default function HTML(props) {
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <link rel="shortcut icon" type="image/x-icon" href={favicon} />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"
+                integrity="sha512-M+hXwltZ3+0nFQJiVke7pqXY7VdtWW2jVG31zrml+eteTP7im25FdwtLhIBTWkaHRQyPrhO2uy8glLMHZzhFog=="
+                crossOrigin="anonymous"></script>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"

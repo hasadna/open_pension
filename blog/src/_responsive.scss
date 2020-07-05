@@ -1,3 +1,11 @@
+.desktop {
+  display: block;
+}
+
+.mobile {
+  display: none !important;
+}
+
 @media (max-width: 1610px) {
 
   section {
@@ -26,7 +34,16 @@
     }
   }
 
+  .money {
+    .text {
+      h2 {
+        word-break: break-all;
+      }
+    }
+  }
+
   section {
+
     .big {
       font-size:1.75em;
     }
@@ -46,6 +63,14 @@
 }
 
 @media (max-width: 768px) {
+
+  .mobile {
+    display: block !important;
+  }
+
+  .desktop {
+    display: none !important;
+  }
 
   body {
     font-size: 14px;

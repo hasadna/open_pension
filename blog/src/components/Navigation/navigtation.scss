@@ -41,5 +41,27 @@ nav {
         }
       }
     }
+
+    &.mobile {
+
+      .not-first {
+        display: none;
+      }
+
+      ul {
+        grid-template-columns: auto;
+        grid-gap: 1em;
+        justify-content: center;
+
+        li {
+          text-align: center;
+          display: flex;
+
+          a {
+            padding-left: .25em;
+          }
+        }
+      }
+    }
   }
 }
