@@ -12,8 +12,14 @@ const query = graphql`{
         ... on drupal_NodeArticle {
           title
           fieldImage {
-            derivative(style: LARGE) {
-              url
+            alt
+            url
+            gatsbyImageFile {
+              childImageSharp {
+                fluid(maxHeight: 300)  {
+                  src
+                }
+              }
             }
           }
           fieldLink {
@@ -35,17 +41,13 @@ const query = graphql`{
 }
 `;
 
-const tags = (tags) => <ul>{tags.map(tag => <li>{tag.entityLabel}</li>)}</ul>
+const tags = (tags) => <ul>{tags.map((tag, key) => <li key={key}>{tag.entityLabel}</li>)}</ul>
 
-const getpath = (url) => {
-  return url.split('/').splice(-1)[0];
-}
-
-const article = (data) => {
+const article = (data) =>  {
   return <div>
     <h3 className="title"><a href={data.fieldLink.uri} target="_blank" rel="noreferrer">{data.title}</a></h3>
     <p className="sub-title">{tags(data.queryFieldAuthors.entities)}, {data.fieldPublishingDate.value}</p>
-    <a href={data.fieldLink.uri}><img src={`./assets/${getpath(data.fieldImage.derivative.url)}`} alt={data.fieldImage.alt} className="bordered"/></a>
+    <a href={data.fieldLink.uri}><img src={data.fieldImage.gatsbyImageFile.childImageSharp.fluid.src} alt={data.fieldImage.alt} className="bordered"/></a>
   </div>
 }
 

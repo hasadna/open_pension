@@ -36,8 +36,14 @@ export const query = graphql`{
         ... on drupal_NodeArticle {
           title
           fieldImage {
-            derivative(style: LARGE) {
-              url
+            alt
+            url
+            gatsbyImageFile {
+              childImageSharp {
+                fluid(maxHeight: 300)  {
+                  src
+                }
+              }
             }
           }
           fieldLink {

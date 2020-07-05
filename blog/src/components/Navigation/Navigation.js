@@ -11,8 +11,8 @@ const menuItems = [
 export const Navigation = () => <nav>
   <div className="wrapper">
     <ul>
-      {menuItems.map(menuItem => {
-        return <li><a href={menuItem.path}>{menuItem.label}</a></li>
+      {menuItems.map((menuItem, key) => {
+        return <li key={key}><a href={menuItem.path}>{menuItem.label}</a></li>
       })}
     </ul>
   </div>

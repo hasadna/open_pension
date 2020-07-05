@@ -18,8 +18,15 @@ const query = graphql`{
             alias
           }
           fieldImage {
-            url
             alt
+            url
+            gatsbyImageFile {
+              childImageSharp {
+                fluid(maxHeight: 300)  {
+                  src
+                }
+              }
+            }
           }
         }
       }
@@ -37,7 +44,7 @@ export const blog = (data) => {
 
     <p className="intro">{result.substr(0, 350)}</p>
 
-    <img src={data.fieldImage.url} alt={data.fieldImage.alt} />
+    <img src={data.fieldImage.gatsbyImageFile.childImageSharp.fluid.src} alt={data.fieldImage.alt} />
   </div>
 }
 

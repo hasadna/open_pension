@@ -41,8 +41,15 @@ export const query = graphql`
             alias
           }
           fieldImage {
-            url
             alt
+            url
+            gatsbyImageFile {
+              childImageSharp {
+                fluid(maxHeight: 300)  {
+                  src
+                }
+              }
+            }
           }
         }
       }
