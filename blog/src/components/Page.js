@@ -3,15 +3,31 @@ import {Header} from "./Header/Header";
 import {Navigation} from "./Navigation/Navigation";
 import {Footer} from "./Footer/Footer";
 
-export const Wrapper = ({ children, front }) => {
-  return <main>
-    <Header />
+export class Wrapper extends React.Component {
 
-    {front && <Navigation /> }
+  constructor(props) {
+    super(props);
 
-    {children}
+    this.state = {
+      mobilMenuOpen: false,
+    };
+  }
 
-    <Footer appendToBottom={!front}/>
-  </main>
+  openCloseMobileMenu = () => {
+    this.setState({mobilMenuOpen: !this.state.mobilMenuOpen});
+  }
 
-};
+  render() {
+    const { children, front } = this.props;
+
+    return <main>
+      <Header frontPage={front} mobileMenuHandler={this.openCloseMobileMenu} />
+
+      {front && <Navigation mobileOpen={this.state.mobilMenuOpen} /> }
+
+      {children}
+
+      <Footer appendToBottom={!front}/>
+    </main>
+  }
+}

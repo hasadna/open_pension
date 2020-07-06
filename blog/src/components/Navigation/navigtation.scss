@@ -44,10 +44,6 @@ nav {
 
     &.mobile {
 
-      .not-first {
-        display: none;
-      }
-
       ul {
         grid-template-columns: auto;
         grid-gap: 1em;

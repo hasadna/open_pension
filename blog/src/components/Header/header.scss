@@ -2,6 +2,13 @@
 
 header {
 
+  .mobile.menu {
+    margin-right: .25em;
+    border: white solid 1px;
+    padding:.25em;
+    font-size: 1.25em;
+  }
+
   .wrapper {
     background: $header-bg;
     padding-top: 1em;
