@@ -1,0 +1,17 @@
+@media (max-width: 1610px) {
+
+  section {
+    .grid-display {
+      grid-template-columns: auto auto;
+    }
+
+    &.about-us {
+
+      .text {
+        .quarter-text {
+          width: 85vw;
+        }
+      }
+    }
+  }
+}

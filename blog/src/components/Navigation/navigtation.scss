@@ -43,15 +43,16 @@ nav {
     }
 
     &.mobile {
+      border-bottom: $navigation-color solid 1px;
 
       ul {
         grid-template-columns: auto;
         grid-gap: 1em;
-        justify-content: center;
+        justify-content: right;
 
         li {
-          text-align: center;
-          display: flex;
+          text-align: right;
+          padding-right: 1em;
 
           a {
             padding-left: .25em;

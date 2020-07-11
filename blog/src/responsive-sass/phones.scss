@@ -1,0 +1,44 @@
+@media (max-width: 500px) {
+
+  nav .wrapper ul {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: .5em;
+  }
+
+  section {
+
+    h2 {
+      font-size: 2.5em;
+    }
+
+    &.money {
+      span {
+        display: block;
+        direction: ltr;
+        text-align: right;
+      }
+
+      .text {
+        h2 {
+          font-size: 4em;
+        }
+
+        .big {
+          padding-top: 15vh;
+          font-size: 3em;
+        }
+      }
+    }
+
+    &.about-us {
+      h2 {
+        font-size: 3em;
+      }
+    }
+  }
+
+  body {
+    font-size: 12px;
+  }
+}

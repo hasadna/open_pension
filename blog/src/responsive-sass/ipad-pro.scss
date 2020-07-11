@@ -1,0 +1,63 @@
+@media (max-width: 1020px) {
+
+  header  {
+    .wrapper {
+      padding-right: 0;
+    }
+  }
+
+  nav {
+    box-shadow: none;
+  }
+
+  body {
+    font-size: 18px;
+  }
+
+  header {
+    .wrapper {
+      justify-content: right;
+      font-size: 1.5em;
+      padding-right: 1em;
+
+      .site-tittle {
+        width: 100%;
+      }
+    }
+  }
+
+  .money {
+    .text {
+      color: $background;
+
+      h2 {
+        word-break: break-all;
+        font-size: 5.75em;
+      }
+
+      .big {
+        padding-top: 20vh;
+        font-size: 3.5em;
+      }
+    }
+  }
+
+  section {
+
+    .big {
+      font-size:1.75em;
+    }
+
+    .grid-display {
+      grid-template-columns:
+        auto;
+    }
+
+    &.about-us {
+      .quarter-text {
+        font-size: 1.25em;
+        width: 75vw;
+      }
+    }
+  }
+}
