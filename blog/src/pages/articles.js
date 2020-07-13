@@ -30,8 +30,9 @@ const ArticlesComponent = ({data}) => <Wrapper>
 export const query = graphql`{
   drupal {
     nodeQuery(
-      filter: {conditions: {field: "type", value: "article"}
-    }) {
+      filter: {conditions: {field: "type", value: "article"}} 
+      sort: {field: "created", direction: DESC}
+    ) {
       entities {
         ... on drupal_NodeArticle {
           title

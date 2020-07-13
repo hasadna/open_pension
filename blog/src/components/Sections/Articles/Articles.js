@@ -6,7 +6,8 @@ const query = graphql`{
   drupal {
     nodeQuery(
       filter: {conditions: {field: "type", value: "article"}},
-      limit: 3
+      limit: 3,
+      sort: {field: "created", direction: DESC}
     ) {
       entities {
         ... on drupal_NodeArticle {

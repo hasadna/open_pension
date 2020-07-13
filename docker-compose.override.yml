@@ -29,9 +29,6 @@ services:
     restart: always
     volumes:
       - ./blog/src:/app/app
-    ports:
-      - '2500:8000'
-      - '2501:9000'
 
   cms:
     volumes:
@@ -40,6 +37,7 @@ services:
       - ./cms/.env
     ports:
       - '2000:80'
+      - '2500:8000'
 
   cms_db:
     restart: always

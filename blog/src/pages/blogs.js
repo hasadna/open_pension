@@ -29,7 +29,10 @@ const BlogsPage = ({ data }) => <Wrapper>
 export const query = graphql`
 {
   drupal {
-    nodeQuery(filter: {conditions: {field: "type", value: "blog"}}) {
+    nodeQuery(
+      filter: {conditions: {field: "type", value: "blog"}} 
+      sort: {field: "created", direction: DESC}
+    ) {
       entities {
         ... on drupal_NodeBlog {
           nid
