@@ -1,20 +1,41 @@
-FROM node:12.14.1-alpine3.11
+#FROM node:12.14.1
+#
+#LABEL maintainer="http://www.hasadna.org.il/"
+#
+#ENV APP_DIR /home/app
+#
+#WORKDIR $APP_DIR
+#
+#RUN npm install -g gatsby-cli
+#
+#COPY package*.json ./
+#RUN npm i
+#
+#COPY . $APP_DIR
+#
+## Exposing the port.
+#EXPOSE 8000
+#
+#RUN chmod +x /home/app/entrypoint.sh
 
-LABEL maintainer="http://www.hasadna.org.il/"
+# base image
+FROM node:11
 
-ENV APP_DIR /home/app
+# set working directory
+RUN mkdir /app
+WORKDIR /app
 
-WORKDIR $APP_DIR
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-RUN npm install -g gatsby-cli
-
-COPY package*.json ./
+# install and cache app dependencies using yarn
+ADD package.json package-lock.json /app/
 RUN npm i
 
-COPY . $APP_DIR
+# Copy all frontend stuff to new "app" folder
+COPY . /app/
 
-# Exposing the port.
 EXPOSE 8000
+#EXPOSE 9000
 
-RUN chmod +x /home/app/entrypoint.sh
-CMD ["/home/app/entrypoint.sh"]
+CMD ["./entrypoint.sh"]

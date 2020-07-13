@@ -24,9 +24,13 @@ services:
         - hasadna/open-pension-blog:latest
     depends_on:
       - cms
+    restart: "no"
+    # allows the frontend to access the backend at localhost, which allows Gatsby to access the api
+    # and the Api to include localhost:8000 (and not backend:8000) in the image paths.
+    network_mode: "service:cms"
     environment:
       ENABLE_GATSBY_REFRESH_ENDPOINT: 1
-      DRUPAL_BACKEND: http://cms
+#      DRUPAL_BACKEND: http://cms
 
   application:
     image: hasadna/open-pension-application:latest
