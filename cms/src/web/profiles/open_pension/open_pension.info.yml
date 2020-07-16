@@ -43,11 +43,13 @@ install:
   - media_library
 
   # Contrib modules
+  - build_hooks
   - graphql
   - graphql_core
   - gatsby
   - gatsby_orchestrator
   - gatsby_revisions
+  - gatsby_deploy
   - jsonapi_extras
   - features_ui
   - vuejs

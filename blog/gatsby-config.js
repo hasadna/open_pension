@@ -21,6 +21,13 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-plugin-trigger-deploy`,
+      options: {
+        secretKey: 'ogbj9vSfAmJiJnMGUjQPXc4swEf2vtvq',
+        addressCallback: 'http://localhost/gatsby-deploy/event-listener',
+      },
+    },
+    {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         trackingId: "UA-151385393-1",
