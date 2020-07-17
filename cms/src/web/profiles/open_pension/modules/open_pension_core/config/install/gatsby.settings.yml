@@ -1,5 +1,5 @@
-server_url: 'http://localhost:8000'
-incrementalbuild_url: ''
+server_url: 'http://blog'
+incrementalbuild_url: 'http://blog:8000/__refresh'
 build_published: 0
 preview_entity_types:
   block_content: block_content

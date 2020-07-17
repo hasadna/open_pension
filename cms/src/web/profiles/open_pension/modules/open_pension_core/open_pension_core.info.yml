@@ -2,7 +2,9 @@ name: 'Open Pension Core'
 type: module
 core: 8.x
 dependencies:
+  - build_hooks
   - gatsby
+  - gatsby_deploy
   - node
   - pathauto
   - text
