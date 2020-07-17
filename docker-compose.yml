@@ -89,6 +89,8 @@ services:
         - hasadna/open-pension-blog:latest
     depends_on:
       - cms
+    environment:
+      - GH_ACCESS_TOKEN=
     restart: "yes"
     network_mode: "service:cms"
 
