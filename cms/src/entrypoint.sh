@@ -10,7 +10,6 @@ done
 echo "DB is online"
 
 # Install drupal if not already installed
-# Create a drush commnand for checking if drupal installed or not - if so just run updb.
 
 cd web
 if ../vendor/bin/drush orchestrate --verbose; then
@@ -19,6 +18,7 @@ if ../vendor/bin/drush orchestrate --verbose; then
 else
   cd -
   vendor/bin/drush si open_pension --db-url="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}" --account-pass="${ACCOUNT_PASS}" --account-name="${ACCOUNT_NAME}" -y -v
+  bash profiles/post_setup.sh
 fi
 
 ../vendor/bin/drush sqlq "truncate table cache_graphql_definitions;"
