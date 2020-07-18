@@ -89,7 +89,8 @@ services:
         - hasadna/open-pension-blog:latest
     depends_on:
       - cms
-#    environment:
+    environment:
+      - trigger_deploy_secret_key=ogbj9vSfAmJiJnMGUjQPXc4swEf2vtvq
 #      - GH_ACCESS_TOKEN=
     restart: "always"
     network_mode: "service:cms"

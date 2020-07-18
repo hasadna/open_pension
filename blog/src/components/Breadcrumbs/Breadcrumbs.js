@@ -40,5 +40,3 @@ export const Breadcrumbs = ({path, entityLabel}) => {
     })}
   </ul>
 }
-
-

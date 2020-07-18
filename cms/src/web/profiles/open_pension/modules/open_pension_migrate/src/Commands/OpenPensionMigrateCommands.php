@@ -8,15 +8,8 @@ use Drupal\open_pension_migrate\OpenPensionMigrateEntitiesPluginManager;
 use Drush\Commands\DrushCommands;
 
 /**
- * A Drush commandfile.
- *
- * In addition to this file, you need a drush.services.yml
- * in root of your module, and a composer.json file that provides the name
- * of the services file to use.
- *
- * See these files for an example of injecting Drupal services:
- *   - http://cgit.drupalcode.org/devel/tree/src/Commands/DevelCommands.php
- *   - http://cgit.drupalcode.org/devel/tree/drush.services.yml
+ * A drush command to migrate content to Drupal. Yes, we might need to use the migration module but there's no time for
+ * that.
  */
 class OpenPensionMigrateCommands extends DrushCommands {
 

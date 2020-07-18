@@ -4,9 +4,10 @@ FROM node:12
 RUN mkdir /app
 WORKDIR /app
 
+# Setting up stuff for deployment.
 RUN apt-get update && apt-get install lsof
-RUN git config --global user.email "you@example.com"
-RUN git config --global user.name "Your Name"
+RUN git config --global user.email "author@hasadna.org.il"
+RUN git config --global user.name "Open Pension"
 
 # install and cache app dependencies using yarn
 ADD package.json package-lock.json /app/

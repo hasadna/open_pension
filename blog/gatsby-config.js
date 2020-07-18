@@ -17,13 +17,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-revisions`,
       options: {
-        eventsAddressBroadcast: `http://localhost/gatsby-revisions/event-listener`,
+        eventsAddressBroadcast: `http://localhost:2000/gatsby-revisions/event-listener`,
       }
     },
     {
       resolve: `gatsby-plugin-trigger-deploy`,
       options: {
-        secretKey: 'ogbj9vSfAmJiJnMGUjQPXc4swEf2vtvq',
+        secretKey: process.env.trigger_deploy_secret_key,
         addressCallback: 'http://localhost/gatsby-deploy/event-listener',
       },
     },
@@ -41,7 +41,7 @@ module.exports = {
         // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
         fieldName: "drupal",
         // Url to query from
-        url: `http://localhost/graphql`,
+        url: `http://localhost:2000/graphql`,
       },
     },
     {
