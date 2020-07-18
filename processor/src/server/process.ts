@@ -2,7 +2,7 @@ import {Request, Response} from "express-serve-static-core";
 import {FileModel, StatusProcessed, StatusProcessedWithErrors} from '../db/FileModel';
 import * as path from "path";
 import {getUploadedPath} from "../services/env";
-import {excelParsing} from "../parse";
+import {singleAssetProcess} from "../parse";
 
 /**
  * Uploading files to the system.
@@ -20,7 +20,7 @@ export async function process(req: Request, res: Response) {
 
     let results;
     try {
-        results = await excelParsing(path.join(getUploadedPath(), file.filename));
+        results = await singleAssetProcess(path.join(getUploadedPath(), file.filename));
     } catch (e) {
         res.status(400).json({'error': e.message});
         return;

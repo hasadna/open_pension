@@ -18,7 +18,7 @@ jest.mock("parsing/api", () => ({
     api: parsingApiMock,
 }));
 
-import {excelParsing} from "parse";
+import {singleAssetProcess} from "parse";
 
 describe('Testing the process logic', () => {
 
@@ -41,7 +41,7 @@ describe('Testing the process logic', () => {
             return sheets[options['sheet']];
         });
 
-        excelParsing(filename);
+        singleAssetProcess(filename);
 
         await waitForExpect(() => expect(mockParseExcel).toBeCalledWith(filename, {getSheets: true}));
         await waitForExpect(() => expect(mockParseExcel).toBeCalledWith(filename, {sheet: 'foo'}));
