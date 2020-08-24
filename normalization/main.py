@@ -1,14 +1,26 @@
-from pandas import to_datetime
-
+import json
 from normalization.utils.validation import in_valid_instruments_list, in_valid_currency_list, \
     needs_issuer_number, needs_fair_value, needs_valid_currency, in_valid_market_name_list, needs_instrument_number
+from normalization.utils.reformating import values_to_upper_and_remove_spaces, to_float, to_date, \
+    flatten_instrument_dict
 
-from normalization.utils.reformating import values_to_upper_and_remove_spaces, to_float
 
-
-def start_instrument_processing(instrument_dict: dict) -> dict:
+def process_instruments_dict(instrument_json: dict) -> list:
     '''
-    Receives a single instrument as a dictionary and returns the normalized values
+    Receives a json file with multiple instrument types and entries and returns normalized (flattened) json
+    '''
+    instrument_list = flatten_instrument_dict(instrument_json)
+    instrument_list_normed = []
+
+    for entry in instrument_list:
+        entry_normed = process_entry(entry)
+        instrument_list_normed.append(entry_normed)
+    return instrument_list_normed
+
+
+def process_entry(instrument_dict: dict) -> dict:
+    '''
+    Receives a single instrument entry as a dictionary and returns the normalized values
     '''
 
     instrument_dict = values_to_upper_and_remove_spaces(instrument_dict)
@@ -50,7 +62,7 @@ def validate_values(instrument_dict):
 def normalize_values(instrument_dict):
 
     if instrument_dict.get("Purchase date"):
-        instrument_dict["Purchase date"] = to_datetime(instrument_dict, "Purchase date")
+        instrument_dict["Purchase date"] = to_date(instrument_dict, "Purchase date")
     if instrument_dict.get("Fair value"):
         instrument_dict["Fair value"] = to_float(instrument_dict, "Fair value") * 1000
     if instrument_dict.get("Price"):
@@ -73,5 +85,17 @@ def normalize_values(instrument_dict):
         instrument_dict["Rate of instrument type"] = to_float(instrument_dict, "Rate of instrument type")
     if instrument_dict.get("Rate of fund holding"):
         instrument_dict["Rate of fund holding"] = to_float(instrument_dict, "Rate of fund holding")
+    if instrument_dict.get("Date"):
+        instrument_dict["Date"] = to_date(instrument_dict, "Date")
 
     return instrument_dict
+
+# TODO:
+#  [V] normalize values
+#  [V] process single values and return normalized dict
+#  [V] process JSON file and return normalized values
+#  [V] api for receiving values
+#  [ ] use non-flask api for production
+#  [ ] kafka listner
+#  [ ] kafka publish
+

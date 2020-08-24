@@ -3,9 +3,6 @@ from normalization.consts import ALL_INSTRUMENT_TYPES, INSTRUMENTS_REQUIRING_ISS
 from normalization.lookup_lists import MOF_CURRENCIES_DICT, MOF_MARKETS_LIST
 
 
-
-
-
 def in_valid_instruments_list(instrument: str) -> bool:
     return instrument in ALL_INSTRUMENT_TYPES
 
