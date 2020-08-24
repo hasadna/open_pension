@@ -115,6 +115,8 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
             parsedRow[item] = row[key];
         });
 
+        // Send the parsed row over kafka event.
+
         // Get the values of the sheet.
         parsedSheet.push(parsedRow);
     })
