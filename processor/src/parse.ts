@@ -3,6 +3,7 @@ import {parseFile} from "./excelParser";
 
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
+import {KafkaClient} from "./services/kafka-client";
 
 const months = {
     1: 'ינואר',
@@ -33,6 +34,7 @@ const months = {
  */
 async function processSingleAssetSheet(path: string, sheetName: string, sheetKeys: object, errors: string[]): Promise<any> {
     let sheetRows;
+    const kafka = new KafkaClient();
     try {
         sheetRows = await parseFile(path, {sheet: sheetName});
     } catch (e) {
@@ -116,6 +118,7 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
         });
 
         // Send the parsed row over kafka event.
+        kafka.sendMessage(parsedRow);
 
         // Get the values of the sheet.
         parsedSheet.push(parsedRow);
