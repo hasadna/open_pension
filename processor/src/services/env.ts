@@ -29,4 +29,3 @@ export function getKafkaHost() {
 export function getKafkaTopic() {
     return safeGet("KAFKA_TOPIC");
 }
-

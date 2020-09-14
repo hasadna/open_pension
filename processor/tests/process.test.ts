@@ -14,11 +14,12 @@ const parsingApiMock = {
     rowIsHeader: jest.fn(),
     processRowToMetadataObject: jest.fn(),
 };
+
 jest.mock("parsing/api", () => ({
     api: parsingApiMock,
 }));
 
-import {singleAssetProcess} from "parse";
+import {singleAssetProcess} from "../src/parse";
 
 describe('Testing the process logic', () => {
 

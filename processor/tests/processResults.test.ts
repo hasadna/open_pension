@@ -1,18 +1,22 @@
-import {singleAssetProcess} from "parse";
+import {singleAssetProcess} from "../src/parse";
 import * as path from "path";
 
 describe('Testing the process results', () => {
 
     it('Testing a none existing file', async () => {
         const results = await singleAssetProcess("a")
-        expect(results).toStrictEqual({});
+        expect(results).toStrictEqual({
+          "data": {},
+        "errors": "ENOENT: no such file or directory, open 'a'",
+        }
+    );
     });
 
     it('Testing results of a valid file', async () => {
         const filePath = path.join(process.cwd(), 'src', 'examples', '512237744_psum_0219.xlsx');
         const results = await singleAssetProcess(filePath);
 
-        const parsingResults = results['מזומנים'][0];
+        const parsingResults = results['data']['מזומנים'][0];
         const expected = {
             "index": "יתרות מזומנים ועו\"ש בש\"ח",
             "israel": true,

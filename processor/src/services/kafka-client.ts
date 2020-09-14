@@ -41,13 +41,7 @@ export class KafkaClient {
     }
 
     try {
-      return await this.producer.send(
-          [
-            {topic: topic, messages}
-          ],
-          (error, data) => {
-          }
-      );
+      return await this.producer.send([{topic, messages}], (error, data) => {});
     } catch (e) {
       throw new Error(e);
     }
