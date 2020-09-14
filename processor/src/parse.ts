@@ -118,7 +118,10 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
         });
 
         // Send the parsed row over kafka event.
-        kafka.sendMessage(JSON.stringify(parsedRow));
+        try {
+            kafka.sendMessage(JSON.stringify(parsedRow));
+        } catch(e) {
+        }
 
         // Get the values of the sheet.
         parsedSheet.push(parsedRow);

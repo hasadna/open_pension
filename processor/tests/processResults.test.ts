@@ -1,13 +1,22 @@
-import {singleAssetProcess} from "../src/parse";
 import * as path from "path";
+
+const mockSendMessage = jest.fn();
+const mockKafkaClientCreate = jest.fn().mockReturnValue({
+    sendMessage: mockSendMessage,
+});
+jest.mock("services/kafka-client", () => ({
+    KafkaClient: mockKafkaClientCreate
+}));
+
+import {singleAssetProcess} from "../src/parse";
 
 describe('Testing the process results', () => {
 
     it('Testing a none existing file', async () => {
         const results = await singleAssetProcess("a")
         expect(results).toStrictEqual({
-          "data": {},
-        "errors": "ENOENT: no such file or directory, open 'a'",
+            "data": {},
+            "errors": "ENOENT: no such file or directory, open 'a'",
         }
     );
     });
@@ -39,9 +48,18 @@ describe('Testing the process results', () => {
             "Fund Number": "\u05de\u05d2\u05d3\u05dc \u05de\u05e7\u05e4\u05ea - \u05de\u05e8\u05db\u05d6"
         }
 
+        expect(mockSendMessage).toBeCalled();
         expect(Object.keys(expected).sort()).toStrictEqual(Object.keys(parsingResults).sort())
         expect(parsingResults).toStrictEqual(expected)
 
+    }, 30000);
+
+    it('Checking exception handling', async () => {
+        mockSendMessage.mockImplementation(() => {throw new Error('42')})
+        const filePath = path.join(process.cwd(), 'src', 'examples', '512237744_psum_0219.xlsx');
+        const results = await singleAssetProcess(filePath);
+        expect(results.data).not.toBeNull()
+        expect(mockSendMessage).toBeCalled();
     }, 30000);
 
 });

@@ -35,9 +35,7 @@ export class KafkaClient {
     try {
       topic = getKafkaTopic()
     } catch (e) {
-      return new Promise((resolve, reject) => {
-        reject(e);
-      });
+      throw new Error(e);
     }
 
     try {
