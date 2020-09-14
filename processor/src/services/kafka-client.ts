@@ -26,7 +26,8 @@ export class KafkaClient {
   async sendMessage(messages: any) {
 
     if (!this.serviceUp) {
-      throw new Error('The kafkat service is not running');
+      console.error('The kafka host is not alive')
+      return;
     }
 
     let topic: string;
@@ -39,9 +40,8 @@ export class KafkaClient {
       });
     }
 
-    let results: any;
     try {
-      results = await this.producer.send(
+      return await this.producer.send(
           [
             {topic: topic, messages}
           ],
@@ -49,14 +49,7 @@ export class KafkaClient {
           }
       );
     } catch (e) {
-      return new Promise((resolve, reject) => {
-        reject(e);
-      })
+      throw new Error(e);
     }
-
-
-    return new Promise((resolve, reject) => {
-      resolve(results);
-    });
   }
 }
