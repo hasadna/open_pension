@@ -1,8 +1,10 @@
 import {api} from './parsing/api';
 import {parseFile} from "./excelParser";
-
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
+import {KafkaClient} from "./services/kafka-client";
+
+let kafka;
 
 const months = {
     1: 'ינואר',
@@ -114,6 +116,12 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
         Object.values(sheetKeys).map((item: any, key: any) => {
             parsedRow[item] = row[key];
         });
+
+        // Send the parsed row over kafka event.
+        try {
+            kafka.sendMessage(JSON.stringify(parsedRow));
+        } catch(e) {
+        }
 
         // Get the values of the sheet.
         parsedSheet.push(parsedRow);
@@ -244,6 +252,7 @@ function iterateSingleRow(machineSheetName, parsedSheet, year, row) {
 export async function singleAssetProcess(path: string) {
     let sheets;
     let errors = [];
+    kafka = new KafkaClient();
 
     try {
         // Get all the sheets.

@@ -3,7 +3,16 @@ import {performanceProcess, singleAssetProcess} from './parse';
 const bad2 = '512227265_gsum_0419';
 const bad3 = '510806870_gsum_0419';
 
-singleAssetProcess(`/Applications/MAMP/htdocs/open_pension/processor/src/512227265_gsum_0419.xlsx`).then((results: any) => {
+// import {KafkaClient} from "./services/kafka-client";
+//
+// const kafka = new KafkaClient();
+// kafka.sendMessage('asdasdasdasasd').then(resp => {
+//     console.log(resp);
+// }).catch((e) => {
+//     console.error(e);
+// });
+
+singleAssetProcess(`/Applications/MAMP/htdocs/open_pension/processor/src/examples/512237744_psum_0219.xlsx`).then((results: any) => {
     console.log(JSON.stringify(results));
 });
 //
