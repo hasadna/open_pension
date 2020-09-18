@@ -21,3 +21,11 @@ export function getMongoDb(): string {
 export function getUploadedPath(): string {
     return safeGet('upload_path', '');
 }
+
+export function getKafkaHost() {
+    return safeGet("KAFKA_HOST");
+}
+
+export function getKafkaTopic() {
+    return safeGet("KAFKA_TOPIC");
+}
