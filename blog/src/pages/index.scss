@@ -14,7 +14,7 @@ body {
 }
 
 .header-money {
-  height: 50vh;
+  height: 40vh;
   display: flex;
   flex-direction: column;
   border-bottom: solid 1px;
@@ -22,44 +22,61 @@ body {
 }
 
 .grid-display {
-  display: flex;
   padding-left: 0.75em;
   padding-right: 0.75em;
   justify-content: space-between;
+  width: 80vw;
+  margin: 0 auto;
+  display: grid;
+  padding-top: 1.5em;
+  grid-template-columns: auto auto auto;
 
-  .title {
-    text-align: right;
-    margin: 0;
-    padding-bottom: 1em;
 
-    a {
-      color: black;
-      font-weight: normal;
-      text-align: left;
-    }
-  }
+  .article {
 
-  .meta {
-    display: flex;
+    .title {
+      text-align: right;
+      margin: 0;
+      padding-bottom: 1em;
 
-    .by {
-      display: flex;
-      padding-bottom: .25em;
-
-      p {
-        margin: 0;
-        padding-right: .25em;
-
+      a {
+        color: black;
+        font-weight: normal;
+        text-align: left;
       }
+    }
 
-      .tags {
-        padding-bottom: 1em;
+    .meta {
+      display: flex;
 
-        a {
-          padding-left: .25em;
+      .by {
+        display: flex;
+        padding-bottom: .25em;
+
+        p {
+          margin: 0;
+          padding-right: .25em;
+
         }
+
+        .tags {
+          padding-bottom: 1em;
+
+          a {
+            padding-left: .25em;
+          }
+        }
+      }
+    }
+
+    img {
+      max-width: 100%;
+
+      &.bordered {
+        border: solid 1px $sheet-title;
       }
     }
   }
 }
-//@import "../_responsive";
+
+@import "../_responsive";

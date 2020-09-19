@@ -45,7 +45,7 @@ const query = graphql`{
 const tags = (tags) => tags.map((tag, key) => <a key={key}>{tag.entityLabel}</a>)
 
 const article = (data) =>  {
-  return <div>
+  return <div className="article">
     <h3 className="title"><a href={data.fieldLink.uri} target="_blank" rel="noreferrer">{data.title}</a></h3>
 
     <div className="meta">
@@ -54,7 +54,7 @@ const article = (data) =>  {
       </div>
     </div>
 
-    <a href={data.fieldLink.uri}>
+    <a href={data.fieldLink.uri} className="link-article">
       <img src={data.fieldImage.gatsbyImageFile.childImageSharp.fluid.src}
            alt={data.fieldImage.alt}
            className="bordered"/>
