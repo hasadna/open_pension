@@ -1,6 +1,6 @@
 @import "../_variables";
 
-@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 html {
   direction: rtl;
@@ -8,39 +8,16 @@ html {
 
 body {
   font-size: 16px;
-  font-family: 'Arimo', sans-serif;
+  font-family: 'Rubik', sans-serif;
   background: $background;
   margin: 0;
 }
 
-.simple-link {
-  font-weight: bold;
-  color: $links-color;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
+.header-money {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  border-bottom: solid 1px;
+  background: #eceaff;
 }
-
-main {
-  height: 100vh;
-  position: relative;
-}
-
-.breadcrumb {
-  margin: 0;
-  padding: 1.5em;
-  padding-inline-start: 0;
-
-  li {
-    list-style-type: none;
-
-    a {
-      color: black;
-      font-weight: bold;
-    }
-  }
-}
-
-@import "../_responsive";
+//@import "../_responsive";

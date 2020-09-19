@@ -27,6 +27,7 @@ export const Money = () => <StaticQuery query={query} render={data =>
   <section className="money">
     <div className="text" dangerouslySetInnerHTML={{__html: data.drupal.nodeQuery.entities[0].body.value}}>
     </div>
+    <a className="personal-zone">בוא תראה איפה שלך מושקעים</a>
   </section>
 }>
 </StaticQuery>

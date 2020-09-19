@@ -1,36 +1,32 @@
-@import "../../variables";
+//@import "../../variables";
 
 header {
+  display: flex;
+  padding-left: .75em;
+  padding-right: .75em;
+  padding-top: .75em;
 
-  .mobile.menu {
-    margin-left: .25em;
-    border: white solid 1px;
-    padding:.25em;
-    font-size: 1.25em;
-  }
-
-  .wrapper {
-    background: $header-bg;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-right: $default-padding;
-    color: $header-color;
+  .logo {
+    margin-left: auto;
+    font-size: 1.5em;
+    font-weight: 100;
     display: flex;
     align-items: center;
 
     img {
-      max-width: 4em;
-      margin-left: 1em;
+      width: 2em;
+      padding-left: 1em;
     }
 
-    .site-tittle {
-      font-size: 2em;
-
-      a {
-        color: $header-color;
-        text-decoration: none;
-        font-weight: bold;
-      }
+    h1.text {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #58585a;
+      margin: 0;
     }
+  }
+
+  nav {
+    margin-right: auto;
   }
 }

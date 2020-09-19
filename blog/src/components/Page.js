@@ -21,13 +21,13 @@ export class Wrapper extends React.Component {
     const { children, front } = this.props;
 
     return <main>
-      <Header frontPage={front} mobileMenuHandler={this.openCloseMobileMenu} />
-
-      {front && <Navigation mobileOpen={this.state.mobilMenuOpen} /> }
+      {/*<Header frontPage={front} mobileMenuHandler={this.openCloseMobileMenu} />*/}
+      {/**/}
+      {/*{front && <Navigation mobileOpen={this.state.mobilMenuOpen} /> }*/}
 
       {children}
 
-      <Footer appendToBottom={!front}/>
+      {/*<Footer appendToBottom={!front}/>*/}
     </main>
   }
 }

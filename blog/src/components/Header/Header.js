@@ -1,14 +1,12 @@
 import React from "react"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
 import logo from "./logo.png"
 import "./header.scss"
+import {Navigation} from "../Navigation/Navigation";
 
-export const Header = ({frontPage, mobileMenuHandler}) => <header>
-  <div className="wrapper">
-    <a href="/"><img src={logo} alt="לוגו של פנסיה פתוחה"/></a>
-    <span className="site-tittle"><a href="/">פנסיה פתוחה</a></span>
-
-    {frontPage && <a onClick={mobileMenuHandler}><FontAwesomeIcon className={"mobile menu"} icon={faBars} /></a>  }
-  </div>
+export const Header = () => <header>
+  <section className="logo">
+    <img src={logo} alt="פנסיה פתוחה לוגו" title="פנסיה פתוחה לוגו" />
+    <h1 className="text">פנסיה פתוחה</h1>
+  </section>
+  <Navigation />
 </header>

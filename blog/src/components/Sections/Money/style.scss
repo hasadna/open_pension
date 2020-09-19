@@ -1,11 +1,31 @@
 @import "../strips";
 
 section.money {
-  background-image:url('./background.png');
-  padding-top: 3.5em;
+  margin: auto;
+  text-align: center;
+
+  h2, p {
+    font-weight: lighter;
+    font-size: 3.5em;
+    margin: 0;
+    padding: 0;
+  }
+
+  p {
+    margin-top: .5em;
+  }
 
   .text {
-    width: fit-content;
-    margin-top: 5vh;
+    padding-bottom: 3em;
+  }
+
+  .personal-zone {
+    background: #9c27b0;
+    padding: .5em;
+    border-radius: 5px;
+    border: white solid 1px;
+    font-size: 1.25em;
+    color: white;
+    cursor: pointer;
   }
 }
