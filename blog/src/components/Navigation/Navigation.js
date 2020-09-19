@@ -2,8 +2,8 @@ import React from "react"
 import "./navigtation.scss"
 
 const menuItems = [
-  {path: '#blogs', label: 'הופעות אחרונות בתקשורות'},
-  {path: '#charts', label: 'אנליות אחרונות'},
+  {path: '#articles', label: 'הופעות אחרונות בתקשורות'},
+  {path: '#blogs', label: 'אנליות אחרונות'},
   {path: '#who-we-are', label: 'מי אנחנו'},
 ]
 

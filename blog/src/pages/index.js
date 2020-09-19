@@ -5,6 +5,7 @@ import './index.scss'
 import {Header} from "../components/Header/Header";
 import {Money} from "../components/Sections/Money/Money";
 import {Articles} from "../components/Sections/Articles/Articles";
+import {Blogs} from "../components/Sections/Blogs/Blogs";
 
 export default function Home() {
   return <>
@@ -20,6 +21,7 @@ export default function Home() {
     </section>
 
     <Articles />
+    <Blogs />
   </>
 
 }

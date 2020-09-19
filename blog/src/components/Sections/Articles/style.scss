@@ -1,6 +1,8 @@
 @import "../strips";
 
 section.articles {
+  border-bottom: solid 1px black;
+  padding-bottom: 2em;
 
   h2 {
     font-size: 2em;

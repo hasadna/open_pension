@@ -23,7 +23,7 @@ const query = graphql`{
             url
             gatsbyImageFile {
               childImageSharp {
-                fluid(maxHeight: 300)  {
+                fluid(maxWidth: 450)  {
                   src
                 }
               }
@@ -40,7 +40,7 @@ export const blog = (data) => {
   const regex = /(<([^>]+)>)/ig;
   const result = data.body?.value.replace(regex, '');
 
-  return <div>
+  return <div className="blog">
     <h3 className="title"><a href={data.path.alias}>{data.title}</a></h3>
 
     <p className="intro">{result.substr(0, 350)}</p>
@@ -54,20 +54,9 @@ export const BlogsGrid = (props) =>
     {props.data.drupal.nodeQuery.entities.map((item) => blog(item))}
   </div>
 
-const blogs = (data) => <section className="tools" id="tools">
-  <div className="text">
-    <p className="medium">מה יש לנו להגיד</p>
-
+const blogs = (data) => <section className="blogs" id="blogs">
     <h2>בלוגים אחרונים</h2>
-
-    <p className="big">
-      הנה התובנות האחרנות שלנו בהתבסס על הנתונים שאספנו.
-    </p>
-
     <BlogsGrid data={data} />
-
-    <Link to="/blogs" className="big simple-link">יש עוד בלוגים... בוא תקרא</Link>
-  </div>
 </section>
 
 export const Blogs = () => <StaticQuery query={query} render={data => {return blogs(data)}}></StaticQuery>

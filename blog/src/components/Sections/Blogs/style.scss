@@ -1,9 +1,13 @@
 @import "../strips";
 
-section.tools {
-  //background-image:url('./background.png');
+section.blogs {
+  border-bottom: solid 1px black;
+  padding-bottom: 2em;
 
-  p.intro {
-    line-height: 1.75em;
+  h2 {
+    font-size: 2em;
+    font-weight: lighter;
+    letter-spacing: .5em;
+    text-align: center;
   }
 }

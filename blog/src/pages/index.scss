@@ -11,6 +11,7 @@ body {
   font-family: 'Rubik', sans-serif;
   background: $background;
   margin: 0;
+  padding-bottom: 1em;
 }
 
 .header-money {
@@ -32,12 +33,13 @@ body {
   grid-template-columns: auto auto auto;
 
 
-  .article {
+  .article, .blog {
 
     .title {
       text-align: right;
       margin: 0;
       padding-bottom: 1em;
+      padding-top: 1em;
 
       a {
         color: black;
