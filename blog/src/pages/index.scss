@@ -14,10 +14,52 @@ body {
 }
 
 .header-money {
-  height: 60vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
   border-bottom: solid 1px;
   background: #eceaff;
+}
+
+.grid-display {
+  display: flex;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  justify-content: space-between;
+
+  .title {
+    text-align: right;
+    margin: 0;
+    padding-bottom: 1em;
+
+    a {
+      color: black;
+      font-weight: normal;
+      text-align: left;
+    }
+  }
+
+  .meta {
+    display: flex;
+
+    .by {
+      display: flex;
+      padding-bottom: .25em;
+
+      p {
+        margin: 0;
+        padding-right: .25em;
+
+      }
+
+      .tags {
+        padding-bottom: 1em;
+
+        a {
+          padding-left: .25em;
+        }
+      }
+    }
+  }
 }
 //@import "../_responsive";

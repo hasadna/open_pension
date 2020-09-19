@@ -4,6 +4,7 @@ import './index.scss'
 
 import {Header} from "../components/Header/Header";
 import {Money} from "../components/Sections/Money/Money";
+import {Articles} from "../components/Sections/Articles/Articles";
 
 export default function Home() {
   return <>
@@ -17,6 +18,8 @@ export default function Home() {
       <Header />
       <Money />
     </section>
+
+    <Articles />
   </>
 
 }

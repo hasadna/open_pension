@@ -42,13 +42,23 @@ const query = graphql`{
 }
 `;
 
-const tags = (tags) => <ul>{tags.map((tag, key) => <li key={key}>{tag.entityLabel}</li>)}</ul>
+const tags = (tags) => tags.map((tag, key) => <a key={key}>{tag.entityLabel}</a>)
 
 const article = (data) =>  {
   return <div>
     <h3 className="title"><a href={data.fieldLink.uri} target="_blank" rel="noreferrer">{data.title}</a></h3>
-    <p className="sub-title">{tags(data.queryFieldAuthors.entities)}, {data.fieldPublishingDate.value}</p>
-    <a href={data.fieldLink.uri}><img src={data.fieldImage.gatsbyImageFile.childImageSharp.fluid.src} alt={data.fieldImage.alt} className="bordered"/></a>
+
+    <div className="meta">
+      <div className="by">
+        <span>פורסם על ידי:</span><p className="tags">{tags(data.queryFieldAuthors.entities)}, {data.fieldPublishingDate.value}</p>
+      </div>
+    </div>
+
+    <a href={data.fieldLink.uri}>
+      <img src={data.fieldImage.gatsbyImageFile.childImageSharp.fluid.src}
+           alt={data.fieldImage.alt}
+           className="bordered"/>
+    </a>
   </div>
 }
 
@@ -57,19 +67,9 @@ export const ArticleGrid = ({data}) => <div className="grid-display">
 </div>
 
 export const articles = (data) => <section className="articles" id="articles">
-  <div className="text">
-    <p className="medium">כתבו עלינו בעיתון</p>
+  <h2>הופעות אחרונות בתקשורת</h2>
 
-    <h2>ובעוד כמה מקומות</h2>
-
-    <p className="big">
-      בואו תראו את כל המקומות שהוזכרנו או שתרמנו חלק משמעותי לתוכן.
-    </p>
-
-    <ArticleGrid data={data}/>
-
-    <Link to="/articles" className="big simple-link">יש עוד כתבות חוץ מזה. תני מבט!</Link>
-  </div>
+  <ArticleGrid data={data}/>
 
 </section>
 
