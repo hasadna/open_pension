@@ -73,10 +73,7 @@ body {
 
     img {
       max-width: 100%;
-
-      &.bordered {
-        border: solid 1px $sheet-title;
-      }
+      border: solid 1px $sheet-title;
     }
   }
 }

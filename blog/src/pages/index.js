@@ -6,6 +6,7 @@ import {Header} from "../components/Header/Header";
 import {Money} from "../components/Sections/Money/Money";
 import {Articles} from "../components/Sections/Articles/Articles";
 import {Blogs} from "../components/Sections/Blogs/Blogs";
+import {WhoWeAre} from "../components/Sections/WhoWeAre/WhoWeAre";
 
 export default function Home() {
   return <>
@@ -22,6 +23,7 @@ export default function Home() {
 
     <Articles />
     <Blogs />
+    <WhoWeAre />
   </>
 
 }

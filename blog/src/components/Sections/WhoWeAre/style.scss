@@ -1,35 +1,19 @@
 @import "../strips";
 
 section.about-us {
-  //background-image:url('./background.png');
+  width: 80vw;
+  margin: 0 auto;
 
-  .quarter-text {
+  h2 {
+    font-size: 2em;
+    font-weight: lighter;
+    letter-spacing: .5em;
+    text-align: center;
+  }
+
+  p {
     font-size: 1.25em;
-    width: 85vw;
+    line-height: 2em;
   }
 
-  .contact-us {
-    padding-top: 2em;
-
-    button {
-      width: 15em;
-      height: 2.5em;
-      border: none;
-      border-radius: 6px;
-      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-      background-color: $button-bg;
-      font-size: 20px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.15;
-      letter-spacing: normal;
-      text-align: center;
-      color: $button-txt;
-
-      a {
-        color: $button-txt;
-      }
-    }
-  }
 }
