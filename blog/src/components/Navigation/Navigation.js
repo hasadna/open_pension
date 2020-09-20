@@ -3,7 +3,7 @@ import "./navigtation.scss"
 
 const menuItems = [
     {path: '#articles', label: 'הופעות אחרונות בתקשורות'},
-    {path: '#blogs', label: 'אנליות אחרונות'},
+    {path: '#blogs', label: 'בלוגים אחרונים'},
     {path: '#who-we-are', label: 'מי אנחנו'},
 ]
 
@@ -42,6 +42,23 @@ export class Navigation extends Component {
     scrollToAnchor = (event) => {
         // Scrolling to element with calculating the height of the top menu.
         event.preventDefault();
+
+        const elementId = event.currentTarget
+            .getAttribute('href')
+            .replace('#', '');
+
+        const targetPosition = document.getElementById(elementId);
+
+        let top = targetPosition.offsetTop;
+            let menuHeight = 0;
+
+        if (elementId !== 'about') {
+            menuHeight = document.querySelector('header').clientHeight;
+        }
+
+        top = top - menuHeight - 10
+
+        window.scroll({top});
     };
 
     render() {

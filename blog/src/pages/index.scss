@@ -1,4 +1,4 @@
-@import "../_variables";
+@import "../variables";
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
@@ -18,8 +18,8 @@ body {
   height: 40vh;
   display: flex;
   flex-direction: column;
-  border-bottom: solid 1px;
-  background: #eceaff;
+  border-bottom: solid 1px $border;
+  background: $purple;
 }
 
 .grid-display {
@@ -42,7 +42,7 @@ body {
       padding-top: 1em;
 
       a {
-        color: black;
+        color: $dark;
         font-weight: normal;
         text-align: left;
       }
@@ -72,7 +72,7 @@ body {
 
     img {
       max-width: 100%;
-      border: solid 1px black;
+      border: solid 1px $dark;
     }
   }
 }

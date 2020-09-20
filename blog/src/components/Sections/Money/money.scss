@@ -1,3 +1,4 @@
+@import "../../../variables";
 
 section.money {
   margin: auto;
@@ -19,12 +20,12 @@ section.money {
   }
 
   .personal-zone {
-    background: #9c27b0;
+    background: $button-bg;
     padding: .5em;
     border-radius: 5px;
-    border: white solid 1px;
+    border: $light solid 1px;
     font-size: 1.25em;
-    color: white;
+    color: $light;
     cursor: pointer;
   }
 }
