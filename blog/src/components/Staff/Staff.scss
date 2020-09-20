@@ -1,0 +1,32 @@
+.staff {
+
+  .person {
+    width: 10em;
+
+    img {
+      width: 10em;
+      border: solid 1px #000000;
+      border-radius: 10em;
+    }
+
+    .info {
+      padding-top: .5em;
+      text-align: center;
+
+      .name {
+        font-weight: lighter;
+        font-size: 2em;
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+
+      .position {
+        display: block;
+        padding-top: .25em;
+        font-weight: lighter;
+        font-size: 1.25em;
+      }
+    }
+  }
+}
