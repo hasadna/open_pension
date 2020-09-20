@@ -1,6 +1,6 @@
 import React from "react"
 import "./money.scss";
-import {graphql, StaticQuery} from "gatsby";
+import {graphql, Link, StaticQuery} from "gatsby";
 
 const query = graphql` {
   drupal {
@@ -27,7 +27,7 @@ export const Money = () => <StaticQuery query={query} render={data =>
     <section className="money">
         <div className="text" dangerouslySetInnerHTML={{__html: data.drupal.nodeQuery.entities[0].body.value}}>
         </div>
-        <a className="personal-zone">בוא תראה איפה שלך מושקעים</a>
+        <Link to="/constructions" className="personal-zone">בוא תראה איפה שלך מושקעים</Link>
     </section>
 }>
 </StaticQuery>
