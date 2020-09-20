@@ -2,7 +2,11 @@
 
 section.money {
   margin: auto;
+  display: flex;
   text-align: center;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
 
   h2, p {
     font-weight: lighter;
@@ -15,11 +19,9 @@ section.money {
     margin-top: .5em;
   }
 
-  .text {
-    padding-bottom: 3em;
-  }
-
   .personal-zone {
+    width: 50%;
+    margin: 0 auto;
     background: $button-bg;
     padding: .5em;
     border-radius: 5px;

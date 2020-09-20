@@ -14,6 +14,7 @@ body {
   padding-bottom: 1em;
 }
 
+
 .header-money {
   height: 40vh;
   display: flex;
@@ -32,24 +33,30 @@ body {
   padding-top: 1.5em;
   grid-template-columns: auto auto auto;
 
-
   .article, .blog {
+    text-align: center;
 
     .title {
-      text-align: right;
+      text-align: center;
       margin: 0;
       padding-bottom: 1em;
       padding-top: 1em;
 
       a {
-        color: $dark;
+        color: #2b7ecd;
         font-weight: normal;
         text-align: left;
       }
     }
 
+    .intro {
+      padding-top: 0;
+      margin-top: 0;
+    }
+
     .meta {
       display: flex;
+      justify-content: center;
 
       .by {
         display: flex;
@@ -73,8 +80,28 @@ body {
     img {
       max-width: 100%;
       border: solid 1px $dark;
+      text-align: center;
     }
   }
+}
+
+section {
+
+  &.blogs, &.articles {
+    padding-bottom: 3.5em;
+    border-bottom: solid 1px $border;
+  }
+
+  &.blogs, &.articles, &.who-we-are {
+    h2 {
+      font-size: 2em;
+      letter-spacing: .5em;
+      text-align: center;
+      margin: 1.75em 0 0;
+      font-weight: 400;
+    }
+  }
+
 }
 
 @import "../_responsive";
