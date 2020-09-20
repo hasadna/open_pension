@@ -21,10 +21,11 @@ export default ({ data }) => {
       <div className="inner-page blog">
         <Breadcrumbs path="homepage.blogs.<entityLabel>" entityLabel={blog.title} />
 
-        <h1>{blog.title}</h1>
-        <span className="created">נוצר בתאריך <b>{dateformat(blog.created * 1000, "dd/mm/yyyy")}</b> על ידי <b>{blog.entityOwner.name}</b></span>
+        <article>
+            <span className="created">נוצר בתאריך <b>{dateformat(blog.created * 1000, "dd/mm/yyyy")}</b> על ידי <b>{blog.entityOwner.name}</b></span>
+            <div className="blog-content" dangerouslySetInnerHTML={{ __html: blog.body.value }}/>
+        </article>
 
-        <div className="blog-content" dangerouslySetInnerHTML={{ __html: blog.body.value }}/>
       </div>
     </Wrapper>
   );

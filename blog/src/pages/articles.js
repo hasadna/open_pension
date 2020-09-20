@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql } from "gatsby"
+import {graphql} from "gatsby"
 import {Helmet} from "react-helmet";
 
 import "./pages.scss"
@@ -10,20 +10,20 @@ import {ArticleGrid} from "../components/Sections/Articles/Articles";
 
 const ArticlesComponent = ({data}) => <Wrapper>
 
-  <div className="inner-page">
+    <div className="inner-page">
 
-    <Helmet>
-      <meta charSet="utf-8" />
-      <title>פנסיה פתוחה | כתבו עלינו בעיתון</title>
-      <link rel="canonical" href="https://www.openpension.org.il/articles" />
-    </Helmet>
+        <Helmet>
+            <meta charSet="utf-8"/>
+            <title>פנסיה פתוחה | כתבו עלינו בעיתון</title>
+            <link rel="canonical" href="https://www.openpension.org.il/articles"/>
+        </Helmet>
 
-    <Breadcrumbs path="homepage.articles" />
+        <Breadcrumbs path="homepage.articles"/>
 
-    <div className="content">
-      <ArticleGrid data={data}/>
+        <div className="content">
+            <ArticleGrid data={data}/>
+        </div>
     </div>
-  </div>
 
 </Wrapper>
 

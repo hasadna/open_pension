@@ -1,5 +1,3 @@
-//@import "../../variables";
-
 header {
   display: flex;
   padding-left: .75em;
@@ -10,8 +8,12 @@ header {
     margin-left: auto;
     font-size: 1.5em;
     font-weight: 100;
-    display: flex;
-    align-items: center;
+
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
 
     img {
       width: 2em;
@@ -28,5 +30,12 @@ header {
 
   nav {
     margin-right: auto;
+  }
+
+  &.inner {
+    border-bottom: solid 1px black;
+    margin-bottom: 1em;
+    padding-bottom: .5em;
+    box-shadow: 0 5px 5px #4787c7;
   }
 }

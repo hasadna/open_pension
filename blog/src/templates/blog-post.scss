@@ -2,13 +2,18 @@
 
 .inner-page.blog {
 
-  .created {
-    color: $create-color;
-  }
+  article {
+    margin-top: 2em;
 
-  .blog-content {
-    max-width: 85vw;
-    color: $blog-content-color;
+    .created {
+      display: block;
+      padding-bottom: 2em;
+      font-size: 1.25em;
+    }
+
+    .blog-content {
+      max-width: 85vw;
+    }
   }
 
 }

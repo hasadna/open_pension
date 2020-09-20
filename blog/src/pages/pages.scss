@@ -1,10 +1,22 @@
 @import "../variables";
 
 .inner-page {
-  padding-right: $default-padding;
-  padding-bottom: $inner-page-padding;
+  padding-right: 1em;
+  padding-bottom: 0.25em;
 
-  color: $money-color;
+  color: black;
+
+  .grid-display {
+    width: auto;
+    padding: 0;
+    padding-top: 1em; 
+
+    .blog, .article {
+      img {
+        border: none;
+      }
+    }
+  }
 
   p.intro {
     line-height: 1.75em;

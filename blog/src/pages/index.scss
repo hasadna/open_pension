@@ -58,7 +58,6 @@ body {
         p {
           margin: 0;
           padding-right: .25em;
-
         }
 
         .tags {
@@ -73,7 +72,7 @@ body {
 
     img {
       max-width: 100%;
-      border: solid 1px $sheet-title;
+      border: solid 1px black;
     }
   }
 }

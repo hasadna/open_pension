@@ -1,7 +1,5 @@
 import React from "react"
 import {Header} from "./Header/Header";
-import {Navigation} from "./Navigation/Navigation";
-import {Footer} from "./Footer/Footer";
 
 export class Wrapper extends React.Component {
 
@@ -19,15 +17,9 @@ export class Wrapper extends React.Component {
 
   render() {
     const { children, front } = this.props;
-
     return <main>
-      {/*<Header frontPage={front} mobileMenuHandler={this.openCloseMobileMenu} />*/}
-      {/**/}
-      {/*{front && <Navigation mobileOpen={this.state.mobilMenuOpen} /> }*/}
-
+      {!front && <Header front={front} mobileMenuHandler={this.openCloseMobileMenu} />}
       {children}
-
-      {/*<Footer appendToBottom={!front}/>*/}
     </main>
   }
 }
