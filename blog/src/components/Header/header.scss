@@ -38,4 +38,19 @@ header {
     padding-bottom: .5em;
     box-shadow: 0 5px 5px #4787c7;
   }
+
+  &.sticky {
+    position: fixed;
+    width: 99vw;
+    padding-bottom: .5em;
+    background: #eceaff;
+
+    &.bordered {
+      border-bottom: 1px solid black;
+    }
+
+    nav {
+      padding-left: .75em;
+    }
+  }
 }

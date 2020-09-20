@@ -24,7 +24,7 @@ const query = graphql` {
 }
 `;
 
-const aboutUs = (data) => <section className="about-us" id="about-us">
+const aboutUs = (data) => <section className="who-we-are" id="who-we-are">
   <div className="text" dangerouslySetInnerHTML={{__html: data.drupal.nodeQuery.entities[0].body.value}}></div>
 
   <Staff />
