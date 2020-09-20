@@ -50,14 +50,15 @@ export class Navigation extends Component {
         const targetPosition = document.getElementById(elementId);
 
         let top = targetPosition.offsetTop;
-            let menuHeight = 0;
+        let menuHeight = 90;
 
-        if (elementId !== 'about') {
-            menuHeight = document.querySelector('header').clientHeight;
+        if (window.innerWidth <= 500) {
+            if (elementId === 'articles') {
+                menuHeight = 15;
+            }
         }
 
-        top = top - menuHeight - 10
-
+        top = top - menuHeight
         window.scroll({top});
     };
 

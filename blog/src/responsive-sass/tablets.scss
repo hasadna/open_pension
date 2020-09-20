@@ -1,31 +1,12 @@
 @media (max-width: 768px) {
 
-  .mobile {
-    display: block !important;
-  }
-
-  .desktop {
-    display: none !important;
-  }
-
   body {
     font-size: 14px;
-  }
 
-  footer {
-    ul {
-      grid-gap: 1.5em;
-    }
-  }
-
-  section.money {
-    background-size: cover;
-    height: 79vh;
-
-    .text {
-      h2 {
-        word-break: unset;
-      }
+    .grid-display {
+      grid-template-columns: auto;
+      font-size: 1.5em;
+      justify-content: center;
     }
   }
 }

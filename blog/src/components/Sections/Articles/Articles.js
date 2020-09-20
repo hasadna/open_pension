@@ -50,8 +50,10 @@ const article = (data) => {
 
         <div className="meta">
             <div className="by">
-                <span>פורסם על ידי:</span><p className="tags">{tags(data.queryFieldAuthors.entities)},
-                בתאריך: {data.fieldPublishingDate.value}</p>
+                <span>פורסם על ידי:</span><p className="tags">{tags(data.queryFieldAuthors.entities)}</p>
+            </div>
+            <div className="at">
+                בתאריך: {data.fieldPublishingDate.value}
             </div>
         </div>
 
