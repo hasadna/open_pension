@@ -20,6 +20,7 @@ class PageElement extends OpenPensionMigrateEntitiesPluginBase {
     return [
       ['title' => 'עמוד ראשי - אודותינו', 'file' => 'front-page-about-us.html', 'field_page' => 'front', 'field_section' => 'above-footer'],
       ['title' => 'עמוד ראשי - כסף', 'file' => 'front-page-money.html', 'field_page' => 'front', 'field_section' => 'upper'],
+      ['title' => 'תחת בניה', 'file' => 'front-page-under-construction.html', 'field_page' => 'under-constructions', 'field_section' => 'body'],
     ];
   }
 

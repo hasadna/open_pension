@@ -4,30 +4,49 @@ import {Helmet} from "react-helmet";
 import "./constructions.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHammer} from "@fortawesome/free-solid-svg-icons";
+import {graphql} from "gatsby"
 
-export default function constructions() {
-    return (
-        <Wrapper>
-            <Helmet>
-                <meta charSet="utf-8"/>
-                <title>פנסיה פתוחה | עבודים על זה</title>
-            </Helmet>
-
-            <div className="constructions">
-                <article>
-                    <section className="text">
-                        <h2>האיזור האישי בתהליכי פיתוח</h2>
-                        <p>היי, החלק הזה בתהליכי פיתוח ואנחנו מקווים לסיים את זה מהר.</p>
-                        <p>באיזור האישי תוכלו לראות היכן הכסף ששמור בקרן הפנסיה שלכם מושקע: נכסי נדל״ו, מט״ח, אג״חים ועוד.</p>
-                    </section>
-
-                    <section className="icon">
-                        <FontAwesomeIcon icon={faHammer} />
-                    </section>
-                </article>
-
-            </div>
-
-        </Wrapper>
-    )
+export const query = graphql`{
+drupal {
+  nodeQuery(
+    filter: {
+    conditions: [
+        {field: "type", value: "page_element"}, 
+        {field: "field_page", value: "under-constructions"}, 
+        {field: "field_section", value: "body"}
+    ]
+  }) {
+    entities {
+      ... on drupal_NodePageElement {
+        body {
+          value
+        }
+      }
+    }
+  }
 }
+}`
+
+const constructions = ({data}) => {
+    return <Wrapper>
+        <Helmet>
+            <meta charSet="utf-8"/>
+            <title>פנסיה פתוחה | עובדים על זה</title>
+        </Helmet>
+
+        <div className="constructions">
+            <article>
+                <div className="text" dangerouslySetInnerHTML={{__html: data.drupal.nodeQuery.entities[0].body.value}}>
+                </div>
+
+                <section className="icon">
+                    <FontAwesomeIcon icon={faHammer}/>
+                </section>
+            </article>
+
+        </div>
+
+    </Wrapper>
+}
+
+export default constructions
