@@ -41,7 +41,6 @@
       padding-top: 2em;
     }
 
-
     .grid-display {
       grid-template-columns: auto;
       font-size: 1.5em;
@@ -61,6 +60,23 @@
           }
           .at {
             padding-bottom: .5em;
+          }
+        }
+      }
+    }
+
+    .constructions {
+      width: auto;
+      height: auto;
+
+      article {
+        flex-direction: column-reverse;
+
+        .text {
+          max-width: 100%;
+
+          h2 {
+            font-size: 2em;
           }
         }
       }
