@@ -90,8 +90,8 @@ services:
     depends_on:
       - cms
     environment:
-      - trigger_deploy_secret_key=ogbj9vSfAmJiJnMGUjQPXc4swEf2vtvq
-#      - GH_ACCESS_TOKEN=
+      - trigger_deploy_secret_key=pizza
+      - GH_ACCESS_TOKEN=hamburger
     restart: "always"
     network_mode: "service:cms"
 
