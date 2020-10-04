@@ -81,6 +81,20 @@ services:
       cache_from:
         - hasadna/open-pension-cms:latest
 
+  blog:
+    image: hasadna/open-pension-blog:latest
+    build:
+      context: ./blog
+      cache_from:
+        - hasadna/open-pension-blog:latest
+    depends_on:
+      - cms
+    environment:
+      - trigger_deploy_secret_key=pizza
+      - GH_ACCESS_TOKEN=hamburger
+    restart: "always"
+    network_mode: "service:cms"
+
   cms_db:
     image: mysql:5.7
     volumes:

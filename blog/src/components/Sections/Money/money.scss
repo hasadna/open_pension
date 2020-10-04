@@ -1,0 +1,34 @@
+@import "../../../variables";
+
+section.money {
+  margin: auto;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
+
+  h2, p {
+    font-weight: lighter;
+    font-size: 3.5em;
+    margin: 0;
+    padding: 0;
+  }
+
+  p {
+    margin-top: .5em;
+  }
+
+  .personal-zone {
+    width: 50%;
+    margin: 0 auto;
+    background: $button-bg;
+    padding: .5em;
+    border-radius: 5px;
+    border: $light solid 1px;
+    font-size: 1.25em;
+    color: $light;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}

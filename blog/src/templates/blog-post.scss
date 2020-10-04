@@ -1,0 +1,19 @@
+@import "../variables";
+
+.inner-page.blog {
+
+  article {
+    margin-top: 2em;
+
+    .created {
+      display: block;
+      padding-bottom: 2em;
+      font-size: 1.25em;
+    }
+
+    .blog-content {
+      max-width: 85vw;
+    }
+  }
+
+}

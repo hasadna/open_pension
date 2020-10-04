@@ -265,3 +265,9 @@ cms/src/web/themes/
 fetcher/temp_files
 
 processor/*/*.js
+
+
+blog/.cache
+blog/node_modules
+blog/public
+blog/revisions

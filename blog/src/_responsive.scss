@@ -1,0 +1,12 @@
+.desktop {
+  display: block;
+}
+
+.mobile {
+  display: none !important;
+}
+
+@import "responsive-sass/huge-screens";
+@import "responsive-sass/ipad-pro";
+@import "responsive-sass/tablets";
+@import "responsive-sass/phones";
