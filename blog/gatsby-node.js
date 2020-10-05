@@ -88,5 +88,6 @@ exports.createResolvers = ({actions,cache, createNodeId, createResolvers, getNod
   createResolvers({
     drupal_FieldNodeArticleFieldImage: fieldImage,
     drupal_FieldNodeBlogFieldImage: fieldImage,
+    drupal_FieldTaxonomyTermStaffFieldProfilePicture: fieldImage,
   })
 }

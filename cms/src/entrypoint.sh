@@ -9,7 +9,7 @@ do
 done
 echo "DB is online"
 
-# Install drupal if not already installed
+# Install drupal if not already installed.
 cd web
 
 if ../vendor/bin/drush orchestrate --verbose; then
