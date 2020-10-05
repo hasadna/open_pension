@@ -52,7 +52,6 @@ install:
   - gatsby_deploy
   - jsonapi_extras
   - features_ui
-  - vuejs
   - pathauto
 
   # Profile custom modules.
