@@ -64,6 +64,7 @@ install:
   - open_pension_page_element
   - open_pension_article
   - open_pension_migrate
+  - open_pension_staff
 
 themes:
   - claro
