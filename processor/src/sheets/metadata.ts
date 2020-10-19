@@ -87,6 +87,7 @@ export const sheetsKeys: { [key: string]: object } = {
     'תעודות חוב מסחריות': commercialDebt,
     'לא סחיר - תעודות חוב מסחריות': noTradesCommercialDebt,
     'תעודות סל': ETF,
+    'קרנות סל': ETF,
     'עלות מתואמת אג"ח קונצרני ל.סחיר': noTradeFairValue,
     'עלות מתואמת אג"ח קונצרני סחיר': fairValue,
     'מזומנים': cash,
