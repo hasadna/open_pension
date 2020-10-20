@@ -21,13 +21,13 @@ class Staff extends OpenPensionMigrateEntitiesPluginBase {
       [
         'title' => 'משה קאשי',
         'position' => 'כלכלן ראשי',
-        'image' => null,
+        'profile_picture' => 'moshe-kashi.jpg',
         'weight' => 0,
       ],
       [
         'title' => 'רועי סגל',
         'position' => 'מוביל טכני',
-        'image' => 'roy-segall.png',
+        'profile_picture' => 'roy-segall.jpg',
         'weight' => 1,
       ],
     ];
@@ -41,8 +41,8 @@ class Staff extends OpenPensionMigrateEntitiesPluginBase {
       'weight' => $row_data['weight']
     ];
 
-    if ($row_data['image']) {
-      $row['field_image'] = $this->createFileObject('open_pension_staff', $row_data['image']);
+    if ($row_data['profile_picture']) {
+      $row['field_profile_picture'] = $this->createFileObject('open_pension_staff', $row_data['profile_picture']);
     }
 
     return $row;

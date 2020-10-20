@@ -17,6 +17,14 @@ const query = graphql`{
           fieldPosition
           fieldProfilePicture {
             url
+            alt
+            gatsbyImageFile {
+              childImageSharp {
+                fluid(maxHeight: 150)  {
+                  src
+                }
+              }
+            }
           }
         }
       }
@@ -25,13 +33,19 @@ const query = graphql`{
 }
 `;
 
-const Personal = ({personal}) => <div className="person">
-  <img src={personal.fieldProfilePicture.url} alt={`תמונה של ${personal.entityLabel}`}/>
-     <div className="info">
-         <span className="name">{personal.entityLabel}</span>
-         <span className="position">{personal.fieldPosition}</span>
-     </div>
+const Personal = ({personal}) => {
+  const { fieldProfilePicture, entityLabel, fieldPosition } = personal;
+
+  return <div className="person">
+    {fieldProfilePicture &&
+    <img src={fieldProfilePicture.gatsbyImageFile.childImageSharp.fluid.src}
+         alt={`תמונה של ${personal.entityLabel}`}/>}
+    <div className="info">
+      <span className="name">{entityLabel}</span>
+      <span className="position">{fieldPosition}</span>
+    </div>
   </div>
+}
 
 export default () => <StaticQuery
   query={query}
