@@ -1,5 +1,7 @@
 # Building the front site.
-gatsby build --prefix-paths
+gatsby build
+
+cp CNAME public/CNAME
 
 # Deploy the site to gh pages using the access token.
 gh-pages -d public -r https://${GH_ACCESS_TOKEN}@github.com/hasadna/open_pension.git
