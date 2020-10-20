@@ -4,7 +4,8 @@
   display: flex;
 
   .person {
-    width: 10em;
+    min-width: 25vw;
+    text-align: center;
 
     img {
       border: solid 1px $dark;

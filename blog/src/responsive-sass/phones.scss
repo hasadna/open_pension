@@ -81,5 +81,13 @@
         }
       }
     }
+
+    .staff {
+      display: block;
+
+      .person {
+        padding-bottom: 1em;
+      }
+    }
   }
 }
