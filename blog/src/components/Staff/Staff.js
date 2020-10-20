@@ -9,7 +9,7 @@ const query = graphql`{
         {field: "vid", value: ["staff"]}, 
         {field: "status", value: "1"}
       ]}, 
-      sort: {field: "weight"}
+      sort: {field: "weight", direction: ASC}
     ) {
       entities {
         ... on drupal_TaxonomyTermStaff {
