@@ -13,6 +13,9 @@ RUN apt update && apt install --yes --no-install-recommends \
     libzip-dev && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update -y && apt-get install -y librdkafka-dev && pecl install rdkafka
+
+
 # install the PHP extensions we need.
 RUN set -eux && \
     savedAptMark="$(apt-mark showmanual)"  && \
@@ -38,7 +41,6 @@ RUN mv /tmp/build-tools/composer.phar /usr/local/bin/composer && \
     composer self-update && \
     composer global require hirak/prestissimo && \
     composer install
-
 
 COPY src .
 

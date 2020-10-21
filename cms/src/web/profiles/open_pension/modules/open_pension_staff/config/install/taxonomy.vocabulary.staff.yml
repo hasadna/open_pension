@@ -3,5 +3,5 @@ status: true
 dependencies: {  }
 name: Staff
 vid: staff
-description: 'The staff'
+description: ''
 weight: 0

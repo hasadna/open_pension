@@ -10,7 +10,7 @@ id: taxonomy_term.staff.field_profile_picture
 field_name: field_profile_picture
 entity_type: taxonomy_term
 bundle: staff
-label: 'Profile Picture'
+label: 'Profile picture'
 description: ''
 required: false
 translatable: false

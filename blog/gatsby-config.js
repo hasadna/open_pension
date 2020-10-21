@@ -41,7 +41,7 @@ module.exports = {
         // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
         fieldName: "drupal",
         // Url to query from
-        url: `http://localhost/open_pension/cms/src/web/graphql`,
+        url: `http://cms/graphql`,
       },
     },
     {
