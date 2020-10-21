@@ -16,23 +16,15 @@
   }
 
   .text {
-    max-width: 60%;
+    max-width: 99vw;
     text-align: right;
+
     h2 {
       font-size: 4em;
     }
 
     p {
       font-size: 2em;
-    }
-  }
-
-  .icon {
-    width: 30%;
-    text-align: left;
-    .fa-hammer {
-      font-size: 7em;
-      color: #eeb105;
     }
   }
 }

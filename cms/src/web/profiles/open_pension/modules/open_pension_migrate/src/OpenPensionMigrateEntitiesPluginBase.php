@@ -52,6 +52,20 @@ abstract class OpenPensionMigrateEntitiesPluginBase extends PluginBase implement
     return drupal_get_path('module', $module) . '/assets/' . $relative_path;
   }
 
+  /**
+   * Creating a file object from a given asset in a given module.
+   *
+   * @param $module
+   *  The module name.
+   * @param $relative_path
+   *  The relative path.
+   * @return int|string|null
+   *  The file object.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
   protected function createFileObject($module, $relative_path) {
     $source = drupal_get_path('module', $module) . '/assets/' . $relative_path;
     $uri = \Drupal::service('file_system')->copy($source, 'public://');
