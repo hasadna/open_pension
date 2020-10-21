@@ -9,23 +9,21 @@ do
 done
 echo "DB is online"
 
-# Install drupal if not already installed
-
+# Install drupal if not already installed.
 cd web
+
 if ../vendor/bin/drush orchestrate --verbose; then
-    echo "success"
-    cd -
+    echo "The site already exists. Installation has been skipped"
 else
-  cd -
-  vendor/bin/drush si open_pension --db-url="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}" --account-pass="${ACCOUNT_PASS}" --account-name="${ACCOUNT_NAME}" -y -v
+  ../vendor/bin/drush si open_pension --db-url="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}" --account-pass="${ACCOUNT_PASS}" --account-name="${ACCOUNT_NAME}" -y -v
   bash profiles/post_setup.sh
 fi
 
 ../vendor/bin/drush sqlq "truncate table cache_graphql_definitions;"
 
 # Clear cache for css and js issues.
-chmod 777 -R web/sites/default/files/
-vendor/bin/drush cr
+chmod 777 -R sites/default/files/
+../vendor/bin/drush cr
 
 # Start the apache process.
 exec apache2-foreground

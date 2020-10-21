@@ -1,12 +1,13 @@
 @import "../../variables";
 
 .staff {
+  display: flex;
 
   .person {
-    width: 10em;
+    min-width: 25vw;
+    text-align: center;
 
     img {
-      width: 10em;
       border: solid 1px $dark;
       border-radius: 10em;
     }

@@ -52,7 +52,6 @@ install:
   - gatsby_deploy
   - jsonapi_extras
   - features_ui
-  - vuejs
   - pathauto
 
   # Profile custom modules.
@@ -65,6 +64,7 @@ install:
   - open_pension_page_element
   - open_pension_article
   - open_pension_migrate
+  - open_pension_staff
 
 themes:
   - claro
