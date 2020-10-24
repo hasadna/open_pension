@@ -63,7 +63,7 @@ class OpenPensionCoreCommands extends DrushCommands {
     /** @var OpenPensionKafkaOrchestrator $kafka_orchestrator */
     $kafka_orchestrator = \Drupal::service('open_pension_kafka.orchestrator');
 
-    $kafka_orchestrator->sendTopic('test', ['foo' => 'bar']);
+    $kafka_orchestrator->sendTopic('file_parsed', json_encode(['foo' => 'bar']));
   }
 
 }

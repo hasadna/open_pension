@@ -53,8 +53,20 @@ class OpenPensionKafkaOrchestrator {
   public function sendTopic(string $topic, $payload) {
     $producer = $this->getProducer();
     $topic = $producer->newTopic($topic);
-    $topic->produce(\RD_KAFKA_PARTITION_UA, 0, json_encode($payload));
+    $topic->produce(\RD_KAFKA_PARTITION_UA, 0, $payload);
     $producer->flush(1000);
+  }
+
+  /**
+   * Consuming a topic.
+   *
+   * @param $topic
+   *  The topic we need to listen to.
+   *
+   * @return string
+   */
+  public function consume($topic) {
+    return "pizza";
   }
 
 }
