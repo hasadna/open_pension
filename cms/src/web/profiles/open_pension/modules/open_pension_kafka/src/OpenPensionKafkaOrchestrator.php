@@ -5,6 +5,7 @@ namespace Drupal\open_pension_kafka;
 use Drupal\open_pension_services\OpenPensionServicesAddresses;
 use RdKafka\Conf;
 use RdKafka\Producer;
+use RdKafka\KafkaConsumer;
 
 class OpenPensionKafkaOrchestrator {
 
@@ -66,7 +67,20 @@ class OpenPensionKafkaOrchestrator {
    * @return string
    */
   public function consume($topic) {
-    return "pizza";
+
+    $this->kafkaConf->set('group.id', 'myConsumerGroup');
+    $this->kafkaConf->set('metadata.broker.list', $this->openPensionServicesAddresses->getKafkaAddress());
+    $this->kafkaConf->set('auto.offset.reset', 'earliest');
+
+    $consumer = new KafkaConsumer($this->kafkaConf);
+
+    $consumer->subscribe([$topic]);
+
+    $message = $consumer->consume(1000);
+
+    if ($message->err == RD_KAFKA_RESP_ERR_NO_ERROR) {
+      return $message->payload;
+    }
   }
 
 }

@@ -2,11 +2,12 @@
 
 namespace Drupal\open_pension_kafka\Commands;
 
-use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drupal\open_pension_kafka\KafkaTopicPluginBase;
 use Drupal\open_pension_kafka\KafkaTopicPluginManager;
 use Drupal\open_pension_kafka\OpenPensionKafkaOrchestrator;
 use Drush\Commands\DrushCommands;
+use Spatie\Async\Pool;
+
 
 /**
  * Drush command of the open pension kafka module.
@@ -47,9 +48,14 @@ class OpenPensionKafkaCommands extends DrushCommands {
    * @aliases kafka_listen
    */
   public function kafkaListen() {
+
     $plugins = $this->kafkaTopicPluginManager->getDefinitions();
 
-    for ($i = 0; $i <= 59; $i++) {
+    $this->io()->title(dt('Start to listen to events'));
+
+    $max_times = 59;
+
+    for ($i = 0; $i <= $max_times; $i++) {
       // Start to iterate 60 times. At the end of each iteration we going to
       // sleep for a second.
 
@@ -59,9 +65,14 @@ class OpenPensionKafkaCommands extends DrushCommands {
         $plugin = $this->kafkaTopicPluginManager->createInstance($plugin_id);
 
         // Listen to the event.
+        // todo: log the events to watchdog.
+        $this->io()->note(dt("Getting message from {$plugin_id} {$i}/{$max_times}"));
+
         if ($payload = $this->kafkaOrchestrator->consume($plugin_id)) {
+
           // Got the payload. Trigger the handle.
           $plugin->handleTopicMessage($payload);
+          $this->io()->block('Got a message', 'NOTE', 'fg=green',);
         }
       }
 

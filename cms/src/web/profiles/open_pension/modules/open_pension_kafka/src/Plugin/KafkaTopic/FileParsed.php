@@ -19,6 +19,5 @@ class FileParsed extends KafkaTopicPluginBase {
    * {@inheritDoc}
    */
   public function handleTopicMessage($payload) {
-    print_r($payload);
   }
 }
