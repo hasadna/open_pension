@@ -2,11 +2,12 @@
 
 namespace Drupal\open_pension_kafka\Commands;
 
+use Drupal\Core\Logger\LoggerChannel;
 use Drupal\open_pension_kafka\KafkaTopicPluginBase;
 use Drupal\open_pension_kafka\KafkaTopicPluginManager;
+use Drupal\open_pension_kafka\Logger\OpenPensionKafkaLogger;
 use Drupal\open_pension_kafka\OpenPensionKafkaOrchestrator;
 use Drush\Commands\DrushCommands;
-use Spatie\Async\Pool;
 
 
 /**
@@ -27,16 +28,30 @@ class OpenPensionKafkaCommands extends DrushCommands {
   protected $kafkaTopicPluginManager;
 
   /**
+   * The kafka logger.
+   *
+   * @var OpenPensionKafkaLogger
+   */
+  protected $openPensionKafkaLogger;
+
+  /**
    * OpenPensionKafkaCommands constructor.
    *
    * @param OpenPensionKafkaOrchestrator $kafka_orchestrator
    *  The kafka orchestrator service.
    * @param KafkaTopicPluginManager $kafka_topic_manager
    *  The kakfa topic manager.
+   * @param LoggerChannel $open_pension_kafka_logger
+   *  The open pension kafka logger service.
    */
-  public function __construct(OpenPensionKafkaOrchestrator $kafka_orchestrator, KafkaTopicPluginManager $kafka_topic_manager) {
+  public function __construct(
+    OpenPensionKafkaOrchestrator $kafka_orchestrator,
+    KafkaTopicPluginManager $kafka_topic_manager,
+    LoggerChannel $open_pension_kafka_logger
+  ) {
     $this->kafkaOrchestrator = $kafka_orchestrator;
     $this->kafkaTopicPluginManager = $kafka_topic_manager;
+    $this->openPensionKafkaLogger = $open_pension_kafka_logger;
   }
 
   /**
@@ -48,10 +63,9 @@ class OpenPensionKafkaCommands extends DrushCommands {
    * @aliases kafka_listen
    */
   public function kafkaListen() {
-
     $plugins = $this->kafkaTopicPluginManager->getDefinitions();
 
-    $this->io()->title(dt('Start to listen to events'));
+    $this->openPensionKafkaLogger->info(dt('Start to listen to events'));
 
     $max_times = 59;
 
@@ -65,14 +79,13 @@ class OpenPensionKafkaCommands extends DrushCommands {
         $plugin = $this->kafkaTopicPluginManager->createInstance($plugin_id);
 
         // Listen to the event.
-        // todo: log the events to watchdog.
-        $this->io()->note(dt("Getting message from {$plugin_id} {$i}/{$max_times}"));
+        $this->openPensionKafkaLogger->info(dt("Trying to getting message from {$plugin_id} {$i}/{$max_times}"));
 
         if ($payload = $this->kafkaOrchestrator->consume($plugin_id)) {
-
           // Got the payload. Trigger the handle.
           $plugin->handleTopicMessage($payload);
-          $this->io()->block('Got a message', 'NOTE', 'fg=green',);
+
+          $this->openPensionKafkaLogger->info(dt("Got a message with the payload @payload at {$i}/{$max_times}", ['@payload' => $payload]));
         }
       }
 
