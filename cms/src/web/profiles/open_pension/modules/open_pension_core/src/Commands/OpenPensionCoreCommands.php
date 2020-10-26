@@ -66,7 +66,7 @@ class OpenPensionCoreCommands extends DrushCommands {
     $message = json_encode(['foo' => 'bar' . time()]);
     $kafka_orchestrator->sendTopic('file_parsed', $message);
 
-    print_r("sent {$message}");
+    print_r("sent {$message}\n");
   }
 
 }
