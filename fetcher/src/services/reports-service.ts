@@ -34,6 +34,7 @@ export function downloadLinks(links: any) {
 export async function downloadReports(query: ReportQuery): Promise<DownloadLinks> {
     try {
         const errors = cmaClient.validateQuery(query);
+        console.error(errors);
 
         if (errors) {
             if (Object.keys(errors).length > 0) {
@@ -41,12 +42,14 @@ export async function downloadReports(query: ReportQuery): Promise<DownloadLinks
             }
         }
 
+        console.log('No logs, start to download files');
+
         let reports = await cmaClient.getReports(query);
 
         const links: any = reports.map(async (row: ReportRow) => {
             const address = `https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=${row['DocumentId']}&extention=XLSX`;
-            await cmsService.sendLinkAddress(address);
-            console.log(`Sending the link ${address}`);
+            // await cmsService.sendLinkAddress(address);
+            // console.log(`Sending the link ${address}`);
             return {address: address, documentId: row['DocumentId']};
         });
 

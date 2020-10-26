@@ -1,5 +1,7 @@
 import kafka from "kafka-node";
 import { getKafkaHost, getKafkaTopic } from "services/config-service";
+import { ConsumerGroupOptions, ConsumerGroup } from 'kafka-node';
+import {downloadReports} from "../services/reports-service";
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -57,6 +59,28 @@ export class KafkaClient {
 
     return new Promise((resolve, reject) => {
       resolve(results);
+    });
+  }
+
+  static listen() {
+    const options: ConsumerGroupOptions = {
+      kafkaHost: 'kafka:9092',
+      groupId: 'fetcher',
+      protocol: ['roundrobin'],
+      encoding: 'buffer', // default is utf8, use 'buffer' for binary data
+      fromOffset: 'latest', // default
+      outOfRangeOffset: 'earliest', // default
+    };
+
+    const consumerGroup = new ConsumerGroup(options, ['queryFiles']);
+
+    consumerGroup.on('message', async function (message) {
+      const { value } = message;
+      // @ts-ignore
+      const parsedMessage = JSON.parse(value);
+
+      console.log('Start to download files.')
+      await downloadReports(parsedMessage)
     });
   }
 }

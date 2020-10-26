@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\open_pension_fetcher\OpenPensionFetcherService;
+use Drupal\open_pension_kafka\OpenPensionKafkaOrchestrator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,16 +22,34 @@ class OpenPensionLinksForm extends ContentEntityForm {
    */
   protected $openPensionFetcherQuery;
 
+  /**
+   * The kafka orchestrator service.
+   *
+   * @var OpenPensionKafkaOrchestrator
+   */
+  protected $kafkaOrchestrator;
+
+  /**
+   * OpenPensionLinksForm constructor.
+   * @param EntityRepositoryInterface $entity_repository
+   * @param EntityTypeBundleInfoInterface $entity_type_bundle_info
+   * @param TimeInterface $time
+   * @param OpenPensionFetcherService $open_pension_fetcher_query
+   * @param MessengerInterface $messenger
+   * @param OpenPensionKafkaOrchestrator $kafka_orchestrator
+   */
   public function __construct(
     EntityRepositoryInterface $entity_repository,
     EntityTypeBundleInfoInterface $entity_type_bundle_info,
     TimeInterface $time,
     OpenPensionFetcherService $open_pension_fetcher_query,
-    MessengerInterface $messenger
+    MessengerInterface $messenger,
+    OpenPensionKafkaOrchestrator $kafka_orchestrator
   ) {
     parent::__construct($entity_repository, $entity_type_bundle_info, $time);
     $this->openPensionFetcherQuery = $open_pension_fetcher_query;
     $this->messenger = $messenger;
+    $this->kafkaOrchestrator = $kafka_orchestrator;
   }
 
   /**
@@ -42,7 +61,8 @@ class OpenPensionLinksForm extends ContentEntityForm {
       $container->get('entity_type.bundle.info'),
       $container->get('datetime.time'),
       $container->get('open_pension_fetcher.query'),
-      $container->get('messenger')
+      $container->get('messenger'),
+      $container->get('open_pension_kafka.orchestrator'),
     );
   }
 
@@ -202,26 +222,23 @@ class OpenPensionLinksForm extends ContentEntityForm {
    *  The form state object we get from FAPI.
    */
   public function sendMutation(array $form, FormStateInterface $form_state) {
-    $response = $this->openPensionFetcherQuery->mutate(
-      $form_state->getValue('system_field'),
-      $form_state->getValue('reports_type'),
-      $form_state->getValue('from_year'),
-      $form_state->getValue('from_quarter'),
-      $form_state->getValue('to_year'),
-      $form_state->getValue('to_quarter'),
-    );
+    $form_keys = [
+      'system_field',
+      'reports_type',
+      'from_year',
+      'from_quarter',
+      'to_year',
+      'to_quarter',
+    ];
 
-    // Decode the response we got.s
-    $decoded = json_decode($response, true);
-
-    // Display the errors or success we got.
-    if (!empty($decoded['downloadReports']['errors'])) {
-      $this->messenger->addError($decoded['downloadReports']['errors']);
-    }
-    else {
-      $this->messenger->addMessage(t('Success. Message from the fetcher: @message', ['@message' => $decoded["data"]["downloadReports"]["links"][0]]));
+    $payload = [];
+    foreach ($form_keys as $key) {
+      $payload[$key] = $form_state->getValue($key);
     }
 
+    $this->kafkaOrchestrator->sendTopic('queryFiles', json_encode($payload));
+
+    $this->messenger->addMessage(t('Success. The message was broadcast'));
     $form_state->setRedirect('entity.open_pension_links.collection');
   }
 
