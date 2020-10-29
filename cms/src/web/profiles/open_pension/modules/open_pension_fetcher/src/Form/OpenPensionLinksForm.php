@@ -31,6 +31,7 @@ class OpenPensionLinksForm extends ContentEntityForm {
 
   /**
    * OpenPensionLinksForm constructor.
+   *
    * @param EntityRepositoryInterface $entity_repository
    * @param EntityTypeBundleInfoInterface $entity_type_bundle_info
    * @param TimeInterface $time
@@ -233,7 +234,20 @@ class OpenPensionLinksForm extends ContentEntityForm {
 
     $payload = [];
     foreach ($form_keys as $key) {
-      $payload[$key] = $form_state->getValue($key);
+
+      $value = $form_state->getValue($key);
+
+      // Converting the quarters to a string.
+      if (in_array($key, ['from_quarter', 'to_quarter'])) {
+        $value = (string) $value;
+      }
+
+      // Converting the years to integers.
+      if (in_array($key, ['to_year', 'from_year'])) {
+        $value = (int) $value;
+      }
+
+      $payload[$key] = $value;
     }
 
     $this->kafkaOrchestrator->sendTopic('queryFiles', json_encode($payload));

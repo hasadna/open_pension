@@ -60,11 +60,21 @@ class OpenPensionCoreCommands extends DrushCommands {
    * @aliases sandbox
    */
   public function sandbox($options = ['option-name' => 'default']) {
+
+    $payload = [
+      "system_field" => "",
+      "reports_type" => "",
+      "from_year" => 2020,
+      "to_year" => 2020,
+      "from_quarter" => "1",
+      "to_quarter" => "1"
+    ];
+
     /** @var OpenPensionKafkaOrchestrator $kafka_orchestrator */
     $kafka_orchestrator = \Drupal::service('open_pension_kafka.orchestrator');
 
-    $message = json_encode(['foo' => 'bar' . time()]);
-    $kafka_orchestrator->sendTopic('file_parsed', $message);
+    $message = json_encode($payload);
+    $kafka_orchestrator->sendTopic('queryFiles', $message);
 
     print_r("sent {$message}\n");
   }
