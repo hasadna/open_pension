@@ -8,7 +8,7 @@ import (
 func main() {
 	// Flow:
 	// 1. Create function which receive a URL and download it. - 👍
-	// 2. Write the path of the file to the DB.
+	// 2. Write the path of the file to the DB.  - 👍
 	// 	a. ID
 	//	b. Filename
 	//	c. Path
@@ -16,13 +16,25 @@ func main() {
 	// 3. Write an endpoint to download the file.
 	// Step two:
 	// 4. Listen to kafka event and trigger the flow.
+	// 5. Set up a queue to download files smart way
 
-	path := api.DownloadFile("https://file-examples-com.github.io/uploads/2017/02/file_example_XLSX_5000.xlsx")
+	//url := "https://file-examples-com.github.io/uploads/2017/02/file_example_XLSX_5000.xlsx"
+	//api.SaveUrlToDb(url)
 
-	if path == "" {
-		fmt.Println("The file saved has failed. Please check the logs.")
-		return
+	files := api.GetUnDownloadedFiles(2)
+	fmt.Println(files)
+
+	db := api.GetDbConnection()
+
+	for _, file := range files {
+		path := api.DownloadFile(file.URL)
+
+		if path == "" {
+			fmt.Println("The file saved has failed. Please check the logs.")
+			return
+		}
+
+		file.AlterFileRecordAfterDownload(path)
+		db.Save(&file)
 	}
-
-	fmt.Println(path)
 }

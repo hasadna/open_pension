@@ -110,6 +110,8 @@ services:
       - BROKER_ID=1
     depends_on:
       - zookeeper
+    ports:
+      - "9092:9092"
 
   kafka2:
     image: hasadna/open-pension-kafka:latest
@@ -127,3 +129,10 @@ services:
       context: ./fetcher
       cache_from:
         - hasadna/open-pension-fetcher:latest
+
+  storage:
+    image: hasadna/open-pension-storage:latest
+    build:
+      context: ./storage
+      cache_from:
+        - hasadna/open-pension-storage:latest

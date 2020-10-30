@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// Creating the download folder path.
 func createFolderForDownloading() bool {
 
 	fileFolder := GetEnv("FILE_FOLDER_PATH")
@@ -37,11 +38,18 @@ func createFolderForDownloading() bool {
 	return true
 }
 
+// Creating a unique file name from a giving file name.
 func createUniqueFileName(filename string) string {
 	now := time.Now()
 	splitFileName := strings.Split(filename, ".")
 	name, ext := splitFileName[0], splitFileName[1]
 	return fmt.Sprintf("%s_%d%d.%s", name, now.Unix(), now.Nanosecond(), ext)
+}
+
+// Generating a unique filename form a given path or a URL.
+func GetFileNameFromPathOrUrl(pathOrUrl string) string {
+	splitFiles := strings.Split(pathOrUrl, "/")
+	return splitFiles[len(splitFiles)-1]
 }
 
 // Downloading file to the disk.
@@ -61,8 +69,7 @@ func DownloadFile(url string) string {
 	defer resp.Body.Close()
 
 	// Create the file.
-	splitFiles := strings.Split(url, "/")
-	fileName := splitFiles[len(splitFiles)-1]
+	fileName := GetFileNameFromPathOrUrl(url)
 	uniqueFileName := createUniqueFileName(fileName)
 
 	finalFilePath := fmt.Sprintf("%s/%s", GetEnv("FILE_FOLDER_PATH"), uniqueFileName)
