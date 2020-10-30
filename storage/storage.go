@@ -55,6 +55,7 @@ func main() {
 	logFatal(err)
 
 	e.POST("/graphql", echo.WrapHandler(h))
+	e.GET("/file/:id", api.ServeFile)
 
 	if err := e.Start(":3000"); err != nil {
 		log.Fatalln(err)
