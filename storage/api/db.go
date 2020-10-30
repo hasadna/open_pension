@@ -58,10 +58,8 @@ func (file *File) AlterFileRecordAfterDownload(path string) {
 
 func SaveUrlToDb(url string) {
 	db := GetDbConnection()
-
 	var file File
 	db.Where(&File{URL: url}).FirstOrCreate(&file)
-	fmt.Println(file)
 }
 
 func GetUnDownloadedFiles(limit int) []File {

@@ -1,9 +1,13 @@
 package main
 
 import (
-	"fmt"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"log"
 	"storage/api"
+	"storage/graphql"
 )
+
 
 func main() {
 	// Flow:
@@ -21,20 +25,47 @@ func main() {
 	//url := "https://file-examples-com.github.io/uploads/2017/02/file_example_XLSX_5000.xlsx"
 	//api.SaveUrlToDb(url)
 
-	files := api.GetUnDownloadedFiles(2)
-	fmt.Println(files)
+	//files := api.GetUnDownloadedFiles(2)
+	//fmt.Println(files)
+	//
+	//db := api.GetDbConnection()
+	//
+	//for _, file := range files {
+	//	path := api.DownloadFile(file.URL)
+	//
+	//	if path == "" {
+	//		fmt.Println("The file saved has failed. Please check the logs.")
+	//		return
+	//	}
+	//
+	//	file.AlterFileRecordAfterDownload(path)
+	//	db.Save(&file)
+	//}
 
 	db := api.GetDbConnection()
 
-	for _, file := range files {
-		path := api.DownloadFile(file.URL)
+	// Firing up the server.
+	e := echo.New()
 
-		if path == "" {
-			fmt.Println("The file saved has failed. Please check the logs.")
-			return
-		}
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
-		file.AlterFileRecordAfterDownload(path)
-		db.Save(&file)
+	h, err := graphql.NewHandler(db)
+
+	logFatal(err)
+
+	e.POST("/graphql", echo.WrapHandler(h))
+
+	if err := e.Start(":3000"); err != nil {
+		log.Fatalln(err)
+	}
+
+	defer db.Close()
+
+}
+
+func logFatal(err error) {
+	if err != nil {
+		log.Fatalln(err)
 	}
 }
