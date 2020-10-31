@@ -62,4 +62,4 @@ services:
 
   storage:
     ports:
-      - "7000:80"
+      - "7000:3000"

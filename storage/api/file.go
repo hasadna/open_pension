@@ -1,6 +1,7 @@
 package api
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io"
 	"log"
@@ -37,9 +38,14 @@ func createFolderForDownloading() bool {
 }
 
 // Creating a unique file name from a giving file name.
-func createUniqueFileName(filename string) string {
+func CreateUniqueFileName(filename string) string {
 	now := time.Now()
 	splitFileName := strings.Split(filename, ".")
+
+	if len(splitFileName) == 1 {
+		return fmt.Sprintf("unrecognize_file%d%d.xlsx", now.Unix(), now.Nanosecond())
+	}
+
 	name, ext := splitFileName[0], splitFileName[1]
 	return fmt.Sprintf("%s_%d%d.%s", name, now.Unix(), now.Nanosecond(), ext)
 }
@@ -56,8 +62,12 @@ func DownloadFile(url string) string {
 	// Making sure the download folder exists.
 	createFolderForDownloading()
 
-	// Get the data
-	resp, err := http.Get(url)
+	// Get the data.
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+	resp, err := client.Get(url)
 
 	if err != nil {
 		log.Fatal(err)
@@ -68,7 +78,7 @@ func DownloadFile(url string) string {
 
 	// Create the file.
 	fileName := GetFileNameFromPathOrUrl(url)
-	uniqueFileName := createUniqueFileName(fileName)
+	uniqueFileName := CreateUniqueFileName(fileName)
 
 	finalFilePath := fmt.Sprintf("%s/%s", GetEnv("FILE_FOLDER_PATH"), uniqueFileName)
 

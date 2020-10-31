@@ -110,8 +110,6 @@ services:
       - BROKER_ID=1
     depends_on:
       - zookeeper
-    ports:
-      - "9092:9092"
 
   kafka2:
     image: hasadna/open-pension-kafka:latest
@@ -136,3 +134,17 @@ services:
       context: ./storage
       cache_from:
         - hasadna/open-pension-storage:latest
+    depends_on:
+      - storage_db
+
+  storage_db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: storage
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./storage/data:/var/lib/mysql

@@ -1,13 +1,12 @@
 package api
 
 import (
-	"github.com/hasadna/open_pension/application/api"
 	"github.com/labstack/echo/v4"
 	"strconv"
 )
 
 func ServeFile(c echo.Context) error {
-	db := api.GetDbConnection()
+	db := GetDbConnection()
 
 	var file File
 

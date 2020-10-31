@@ -56,9 +56,11 @@ func (file *File) AlterFileRecordAfterDownload(path string) {
 	file.Filename = GetFileNameFromPathOrUrl(path)
 }
 
-func SaveUrlToDb(url string, db *gorm.DB) {
+func SaveUrlToDb(url string, db *gorm.DB) File {
 	var file File
 	db.Where(&File{URL: url}).FirstOrCreate(&file)
+
+	return file
 }
 
 func GetUnDownloadedFiles(limit int, db *gorm.DB) []File {

@@ -9,17 +9,6 @@ import (
 )
 
 func main() {
-	// Flow:
-	// 1. Create function which receive a URL and download it. - 👍
-	// 2. Write the path of the file to the DB.  - 👍
-	// 	a. ID
-	//	b. Filename
-	//	c. Path
-	//	d. Downloaded
-	// 3. Write an endpoint to download the file.  - 👍
-	// Step two:
-	// 4. Listen to kafka event and trigger the flow.
-	// 5. Set up a queue to download files smart way  - 👍
 
 	db := api.GetDbConnection()
 
