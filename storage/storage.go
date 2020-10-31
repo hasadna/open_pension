@@ -8,7 +8,6 @@ import (
 	"storage/graphql"
 )
 
-
 func main() {
 	// Flow:
 	// 1. Create function which receive a URL and download it. - 👍
@@ -17,30 +16,10 @@ func main() {
 	//	b. Filename
 	//	c. Path
 	//	d. Downloaded
-	// 3. Write an endpoint to download the file.
+	// 3. Write an endpoint to download the file.  - 👍
 	// Step two:
 	// 4. Listen to kafka event and trigger the flow.
-	// 5. Set up a queue to download files smart way
-
-	//url := "https://file-examples-com.github.io/uploads/2017/02/file_example_XLSX_5000.xlsx"
-	//api.SaveUrlToDb(url)
-
-	//files := api.GetUnDownloadedFiles(2)
-	//fmt.Println(files)
-	//
-	//db := api.GetDbConnection()
-	//
-	//for _, file := range files {
-	//	path := api.DownloadFile(file.URL)
-	//
-	//	if path == "" {
-	//		fmt.Println("The file saved has failed. Please check the logs.")
-	//		return
-	//	}
-	//
-	//	file.AlterFileRecordAfterDownload(path)
-	//	db.Save(&file)
-	//}
+	// 5. Set up a queue to download files smart way  - 👍
 
 	db := api.GetDbConnection()
 

@@ -33,8 +33,6 @@ func createFolderForDownloading() bool {
 		log.Print("Folder was not existed but we created it any way 🕺")
 		return true
 	}
-
-	log.Print("Folder already exists, returning true any way 🤷‍")
 	return true
 }
 
