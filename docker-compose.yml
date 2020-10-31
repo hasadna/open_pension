@@ -136,6 +136,8 @@ services:
         - hasadna/open-pension-storage:latest
     depends_on:
       - storage_db
+    env_file:
+      - ./storage/.docker.env
 
   storage_db:
     image: mysql:5.7

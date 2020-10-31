@@ -43,6 +43,8 @@ func main() {
 				db.Save(&file)
 
 				log.Printf("Downloaded %d %s", file.ID, file.URL)
+
+				api.SendMessage(file.ID)
 			case <-stopCollectingFiles:
 				return
 			}
