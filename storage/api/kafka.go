@@ -3,15 +3,15 @@ package api
 import (
 	"context"
 	"fmt"
-	kafkaProducer "github.com/confluentinc/confluent-kafka-go/kafka"
-	kafkaConsumer "github.com/segmentio/kafka-go"
+	"github.com/segmentio/kafka-go"
 	"log"
+	"time"
 )
 
 func ListenToMessages() {
 	db := GetDbConnection()
 
-	r := kafkaConsumer.NewReader(kafkaConsumer.ReaderConfig{
+	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:   []string{GetEnv("KAFKA_HOST")},
 		Topic:     GetEnv("KAFKA_LISTEN_TOPIC"),
 		Partition: 0,
@@ -37,19 +37,25 @@ func ListenToMessages() {
 }
 
 func SendMessage(fileId uint) {
-	p, err := kafkaProducer.NewProducer(&kafkaProducer.ConfigMap{"bootstrap.servers": GetEnv("KAFKA_HOST")})
+
+	// to produce messages
+	topic := GetEnv("KAFKA_BROADCAST_TOPIC")
+	partition := 0
+
+	conn, err := kafka.DialLeader(context.Background(), "tcp", GetEnv("KAFKA_HOST"), topic, partition)
 	if err != nil {
-		panic(err)
+		log.Fatal("failed to dial leader:", err)
 	}
 
-	defer p.Close()
+	conn.SetWriteDeadline(time.Now().Add(10*time.Second))
+	_, err = conn.WriteMessages(
+		kafka.Message{Value: []byte(fmt.Sprintf("%d", fileId))},
+	)
+	if err != nil {
+		log.Fatal("failed to write messages:", err)
+	}
 
-	topic := GetEnv("KAFKA_BROADCAST_TOPIC")
-	p.Produce(&kafkaProducer.Message{
-		TopicPartition: kafkaProducer.TopicPartition{Topic: &topic, Partition: kafkaProducer.PartitionAny},
-		Value:          []byte(fmt.Sprintf("%d", fileId)),
-	}, nil)
-
-	// Wait for message deliveries before shutting down
-	p.Flush(15 * 1000)
+	if err := conn.Close(); err != nil {
+		log.Fatal("failed to close writer:", err)
+	}
 }

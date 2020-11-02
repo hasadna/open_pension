@@ -8,16 +8,17 @@ use Drupal\open_pension_kafka\KafkaTopicPluginBase;
  * Plugin implementation of the kafka_topic.
  *
  * @KafkaTopic(
- *   id = "file_parsed",
- *   label = @Translation("File parsed"),
- *   description = @Translation("Handeling a file parsing event")
+ *   id = "FileStored",
+ *   label = @Translation("File downloaded"),
+ *   description = @Translation("Handling whena file was downloaded")
  * )
  */
-class FileParsed extends KafkaTopicPluginBase {
+class FileStored extends KafkaTopicPluginBase {
 
   /**
    * {@inheritDoc}
    */
   public function handleTopicMessage($payload) {
+    print_r($payload . "\n");
   }
 }
