@@ -3,11 +3,12 @@
 namespace Drupal\open_pension_kafka;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
 /**
  * Base class for kafka_topic plugins.
  */
-abstract class KafkaTopicPluginBase extends PluginBase implements KafkaTopicInterface {
+abstract class KafkaTopicPluginBase extends PluginBase implements KafkaTopicInterface, ContainerFactoryPluginInterface {
 
   /**
    * {@inheritdoc}

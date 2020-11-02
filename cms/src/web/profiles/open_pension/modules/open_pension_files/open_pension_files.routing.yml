@@ -55,3 +55,11 @@ open_pension_files.download_zipped_file:
         type: entity:files
   requirements:
     _permission: 'access content'
+
+entity.open_pension_storage_files.settings:
+  path: 'admin/structure/open-pension-storage-files'
+  defaults:
+    _form: '\Drupal\open_pension_files\Form\OpenPensionStorageFilesSettingsForm'
+    _title: 'Open Pension Storage Files'
+  requirements:
+    _permission: 'administer open pension storage files'

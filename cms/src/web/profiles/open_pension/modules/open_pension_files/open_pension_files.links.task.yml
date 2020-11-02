@@ -1,0 +1,9 @@
+entity.open_pension_storage_files.settings:
+  title: 'Settings'
+  route_name: entity.open_pension_storage_files.settings
+  base_route: entity.open_pension_storage_files.settings
+entity.open_pension_storage_files.collection:
+  title: 'Open Pension Storage Filess'
+  route_name: entity.open_pension_storage_files.collection
+  base_route: system.admin_content
+  weight: 10
