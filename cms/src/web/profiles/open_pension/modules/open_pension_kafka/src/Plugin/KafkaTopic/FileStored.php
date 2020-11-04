@@ -3,6 +3,8 @@
 namespace Drupal\open_pension_kafka\Plugin\KafkaTopic;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\open_pension_files\Entity\OpenPensionStorageFiles;
+use Drupal\open_pension_files\OpenPensionFiles;
 use Drupal\open_pension_kafka\KafkaTopicPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -56,16 +58,18 @@ class FileStored extends KafkaTopicPluginBase {
   public function handleTopicMessage($payload) {
     $storage = $this->entityTypeManager->getStorage('open_pension_storage_files');
 
-    $results = $storage
-      ->getQuery()
-      ->condition('storage_id')
-      ->execute();
-
-    if (!empty($results)) {
-      // todo: log here.
+    if (OpenPensionFiles::getFilesIDByStorageId($payload)) {
+      \Drupal::logger('open_pension_kafka')->info(t('A file with the @id already exists', ['@id' => $payload]));
       return;
     }
 
-    $storage->create(['storage_id' => $payload])->save();
+    $storage->create([
+      'storage_id' => $payload,
+      'label' => 'Matching file ' . $payload,
+      'processing_status' => OpenPensionStorageFiles::$SENT,
+    ])->save();
+
+    \Drupal::logger('open_pension_kafka')->info(t('A matching record to the storage file @id has been created', ['@id' => $payload]));
+
   }
 }

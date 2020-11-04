@@ -59,7 +59,15 @@ class OpenPensionStorageFiles extends ContentEntityBase implements OpenPensionSt
    * @var string
    */
   public static $SENT = 'sent';
+
+  /**
+   * @var string
+   */
   public static $PROCESSING = 'processing';
+
+  /**
+   * @var string
+   */
   public static $PROCESSED = 'processed';
 
   /**
@@ -104,6 +112,8 @@ class OpenPensionStorageFiles extends ContentEntityBase implements OpenPensionSt
       ->setDescription(t('The file storage ID'))
       ->setSetting('max_length', 255)
       ->setSetting('size', 'big')
+      ->addConstraint('OpenPensionFilesUniqueStorageId')
+
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
         'weight' => -5,
