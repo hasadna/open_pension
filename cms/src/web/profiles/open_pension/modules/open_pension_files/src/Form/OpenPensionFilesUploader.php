@@ -97,24 +97,9 @@ class OpenPensionFilesUploader extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    /** @var \Drupal\file\Entity\File[] $files */
-    $files = $this->fileStorage->loadMultiple($form_state->getValue('selected_files'));
-
-    foreach ($files as $file) {
-      // Setting the file as permanent.
-      $file->setPermanent();
-      $file->save();
-
-      // Create a media file so we could manage it later on.
-      $media = Media::create(['bundle' => 'open_pension_file']);
-
-      $media->set('field_media_file', $file->id());
-      $media->save();
-    }
-
-    $this->messenger->addMessage(t('@file-number has been uploaded.', ['@file-number' => count($files)]));
-
-    $form_state->setRedirectUrl(Url::fromRoute('view.open_pension_uploaded_files.page_1'));
+    // todo: upload the files to the storage service.
+    $this->messenger->addMessage(t('The file was sent to storage and will be processed later.'));
+    $form_state->setRedirectUrl(Url::fromRoute('open_pension_core.main'));
   }
 
 }
