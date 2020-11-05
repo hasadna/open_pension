@@ -14,6 +14,7 @@ class OpenPensionServicesAddresses {
   const PROCESSOR_DEFAULT_ADDRESS = 'http://processor';
   const FETCHER_DEFAULT_ADDRESS = 'http://fetcher';
   const KAFKA_DEFAULT_ADDRESS = 'kafka:9092';
+  const STORAGE_DEFAULT_ADDRESS = 'http://storage:3000';
 
   /**
    * The config factory.
@@ -63,6 +64,15 @@ class OpenPensionServicesAddresses {
    */
   public function getKafkaAddress(): string {
     return $this->config->get('kafka') ?: self::KAFKA_DEFAULT_ADDRESS;
+  }
+
+  /**
+   * Get the storage address.
+   *
+   * @return string
+   */
+  public function getStorageAddress(): string {
+    return $this->config->get('storage') ?: self::STORAGE_DEFAULT_ADDRESS;
   }
 
 }

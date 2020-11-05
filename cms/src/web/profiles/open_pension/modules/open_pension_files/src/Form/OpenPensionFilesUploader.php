@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Drupal\open_pension_files\OpenPensionFilesProcessInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -97,9 +98,26 @@ class OpenPensionFilesUploader extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    /** @var File[] $files */
+    $files = $this->fileStorage->loadMultiple($form_state->getValue('selected_files'));
+
+    // todo: create a batch operation.
+    foreach ($files as $file) {
+
+      try {
+        $this->fileProcessorService->sendFileToStorage($file);
+      } catch (\Exception $e) {
+        dpm($e);
+      }
+    }
+
+    return;
+
+
     // todo: upload the files to the storage service.
     $this->messenger->addMessage(t('The file was sent to storage and will be processed later.'));
-    $form_state->setRedirectUrl(Url::fromRoute('open_pension_core.main'));
+//    $form_state->setRedirectUrl(Url::fromRoute('open_pension_core.main'));
   }
 
 }

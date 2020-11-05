@@ -23,6 +23,8 @@ func main() {
 	logFatal(err)
 
 	e.POST("/graphql", echo.WrapHandler(h))
+	// todo: Change the file to server and add here support for getting uploaded
+	// files.
 	e.GET("/file/:id", api.ServeFile)
 
 	if err := e.Start(":3000"); err != nil {

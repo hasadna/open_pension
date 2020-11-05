@@ -10,48 +10,6 @@ use \Drupal\open_pension_services\OpenPensionServicesAddresses;
 use \Drupal\open_pension_services\OpenPensionServicesHealthStatus;
 
 /**
- * Implements hook_cron().
- *
- * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
- * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
- * @throws \Drupal\Core\TypedData\Exception\MissingDataException
- * @throws \GuzzleHttp\Exception\GuzzleException
- */
-function open_pension_files_cron() {
-  /** @var \Drupal\open_pension_files\OpenPensionFilesProcessInterface $processor */
-  $processor = \Drupal::getContainer()->get('open_pension_files.file_process');
-
-  // Get the files which not processed by the processor yet.
-  $results = \Drupal::entityQuery('media')
-    ->condition('bundle', 'open_pension_file')
-    ->condition('field_processed', FALSE)
-    ->execute();
-
-  /** @var \Drupal\media\Entity\Media[] $files */
-  $files = \Drupal::entityTypeManager()
-    ->getStorage('media')
-    ->loadMultiple(array_keys($results));
-
-  if (!$files) {
-    $text = t('The cron operation for sending files for processing did not find any files');
-    $processor->getLogger()->log(LogLevel::INFO, $text);
-    return;
-  }
-
-  foreach ($files as $file) {
-
-    if (!$file_field = $file->get('field_media_file')->first()) {
-      $text = t('The media @id has no file which can be process.', ['@id' => $file->id()]);
-      $processor->getLogger()->log(LogLevel::INFO, $text);
-      continue;
-    }
-
-    $field_value = $file_field->getValue();
-    $processor->sendToProcessor($field_value['target_id'])->updateEntity($file);
-  }
-}
-
-/**
  * Get the link to the file.
  *
  * @param \Drupal\media\Entity\Media $file
@@ -63,6 +21,8 @@ function open_pension_files_cron() {
  *
  * @return string
  *  The HTML string.
+ *
+ * @deprecated
  */
 function open_pension_get_download_link(\Drupal\media\Entity\Media $file, $return_url=FALSE, $title=NULL): string {
   /** @var OpenPensionServicesAddresses $services_addresses */
@@ -79,66 +39,4 @@ function open_pension_get_download_link(\Drupal\media\Entity\Media $file, $retur
   }
 
   return \Drupal\Core\Link::fromTextAndUrl($title, $url)->toString();
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function open_pension_files_form_media_open_pension_file_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-
-  /** @var \Drupal\media\Entity\Media $entity */
-  $entity = $form_state->getBuildInfo()['callback_object']->getEntity();
-
-  /** @var OpenPensionServicesHealthStatus $health_status */
-  $health_status = \Drupal::getContainer()->get('open_pension_services.health_status');
-
-  /** @var OpenPensionServicesAddresses $services_addresses */
-  $services_addresses = \Drupal::getContainer()->get('open_pension_services.services_addresses');
-
-  $form['history'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('History'),
-    'description' => [
-      '#theme' => 'item_list',
-      '#list_type' => 'ul',
-      '#items' => array_map(function ($item) {
-        return ['#markup' => $item['value']];
-      }, $entity->get('field_history')->getValue())
-    ],
-    '#weight' => 10,
-  );
-
-  $form['field_parsing_errors'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Parsing error'),
-    'description' => [
-      '#theme' => 'item_list',
-      '#list_type' => 'ul',
-      '#items' => array_map(function ($item) {
-        return ['#markup' => $item['value']];
-      }, $entity->get('field_parsing_errors')->getValue())
-    ],
-    '#weight' => 10,
-  );
-
-  $form['status'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Status'),
-    'description' => [
-      '#markup' => $entity->get('field_processing_status')->value,
-    ],
-    '#weight' => 11,
-  );
-
-  $download_text = t('Service is not active ');
-  if ($health_status->getProcessorState() === OpenPensionServicesHealthStatus::SERVICE_IS_RESPONDING) {
-    $download_text = open_pension_get_download_link($entity);
-  }
-
-  $form['download'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Download'),
-    'description' => ['#markup' => $download_text],
-    '#weight' => 12,
-  );
 }
