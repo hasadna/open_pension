@@ -9,8 +9,8 @@ import (
 )
 
 func main() {
-
 	db := api.GetDbConnection()
+	defer db.Close()
 
 	// Firing up the server.
 	e := echo.New()
@@ -23,9 +23,8 @@ func main() {
 	logFatal(err)
 
 	e.POST("/graphql", echo.WrapHandler(h))
-	// todo: Change the file to server and add here support for getting uploaded
-	// files.
 	e.GET("/file/:id", api.ServeFile)
+	e.POST("/file", api.StoreFile)
 
 	if err := e.Start(":3000"); err != nil {
 		log.Fatalln(err)

@@ -112,12 +112,8 @@ class OpenPensionFilesUploader extends FormBase {
       }
     }
 
-    return;
-
-
-    // todo: upload the files to the storage service.
     $this->messenger->addMessage(t('The file was sent to storage and will be processed later.'));
-//    $form_state->setRedirectUrl(Url::fromRoute('open_pension_core.main'));
+    $form_state->setRedirectUrl(Url::fromRoute('open_pension_core.main'));
   }
 
 }

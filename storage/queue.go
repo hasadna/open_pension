@@ -44,7 +44,7 @@ func main() {
 
 				log.Printf("Downloaded %d %s", file.ID, file.URL)
 
-				api.SendMessage(file.ID)
+				api.SendMessage(file)
 			case <-stopCollectingFiles:
 				return
 			}

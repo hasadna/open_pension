@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/segmentio/kafka-go"
 	"log"
@@ -36,7 +37,7 @@ func ListenToMessages() {
 	}
 }
 
-func SendMessage(fileId uint) {
+func SendMessage(file File) {
 
 	// to produce messages
 	topic := GetEnv("KAFKA_BROADCAST_TOPIC")
@@ -47,9 +48,11 @@ func SendMessage(fileId uint) {
 		log.Fatal("failed to dial leader:", err)
 	}
 
+	marshal, _ := json.Marshal(file)
+
 	conn.SetWriteDeadline(time.Now().Add(10*time.Second))
 	_, err = conn.WriteMessages(
-		kafka.Message{Value: []byte(fmt.Sprintf("%d", fileId))},
+		kafka.Message{Value: marshal},
 	)
 	if err != nil {
 		log.Fatal("failed to write messages:", err)

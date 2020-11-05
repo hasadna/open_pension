@@ -62,21 +62,20 @@ class FileStored extends KafkaTopicPluginBase {
   }
 
   /**
-
-  /**
    * {@inheritDoc}
    */
   public function handleTopicMessage($payload) {
+    $payload = json_decode($payload);
     $storage = $this->entityTypeManager->getStorage('open_pension_storage_files');
 
-    if (OpenPensionFiles::getFilesIDByStorageId($payload)) {
+    if (OpenPensionFiles::getFilesIDByStorageId($payload->id)) {
       $this->logger->info(t('A file with the @id already exists', ['@id' => $payload]));
       return;
     }
 
     $storage->create([
-      'storage_id' => $payload,
-      'label' => 'Matching file ' . $payload,
+      'storage_id' => $payload->id,
+      'label' => $payload->filename,
       'processing_status' => OpenPensionStorageFiles::$SENT,
     ])->save();
 

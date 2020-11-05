@@ -283,7 +283,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
       [
         'multipart' => [
           [
-            'name'     => 'files',
+            'name'     => 'file',
             'contents' => fopen($this->fileSystemService->realpath($file->getFileUri()), 'r'),
           ],
         ],

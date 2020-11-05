@@ -48,6 +48,20 @@ class OpenPensionStorageFilesListBuilder extends EntityListBuilder {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  protected function getEntityIds() {
+    $query = $this->getStorage()->getQuery()
+      ->sort($this->entityType->getKey('id'), 'DESC');
+
+    // Only add the pager if a limit is specified.
+    if ($this->limit) {
+      $query->pager($this->limit);
+    }
+    return $query->execute();
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function render() {
