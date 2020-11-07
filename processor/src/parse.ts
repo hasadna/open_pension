@@ -254,6 +254,8 @@ export async function singleAssetProcess(path: string) {
     let errors = [];
     kafka = new KafkaClient();
 
+    // todo: send event for starting to process the file.
+
     try {
         // Get all the sheets.
         sheets = await parseFile(path, {getSheets: true});
@@ -278,6 +280,7 @@ export async function singleAssetProcess(path: string) {
         parsedData[sheetName] = await processSingleAssetSheet(path, data.name, sheetsKeys[sheetName], errors);
     }));
 
+    // todo: send event for ending the file processing.
     return {data: parsedData, errors: errors};
 }
 
