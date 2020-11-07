@@ -8,6 +8,7 @@ export const File = {
     filename: String,
     status: String,
     results: Object,
+    storageId: Number,
     parsingErrors: [String]
 }
 

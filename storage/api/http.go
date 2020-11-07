@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strconv"
 )
 
 func ServeFile(c echo.Context) error {
@@ -14,13 +13,7 @@ func ServeFile(c echo.Context) error {
 
 	var file File
 
-	u, err := strconv.ParseUint(c.Param("id"), 10, 32)
-
-	if err != nil {
-		panic(err)
-	}
-
-	db.Find(&File{ID: uint(u)}).First(&file)
+	db.First(&file, c.Param("id"))
 	return c.File(file.Path)
 }
 

@@ -22,6 +22,10 @@ export function getUploadedPath(): string {
     return safeGet('upload_path', '');
 }
 
+export function getStorageAddress(): string {
+    return safeGet('STORAGE_ADDRESS', 'http://storage:3000');
+}
+
 export function getKafkaHost() {
     return safeGet("KAFKA_HOST");
 }

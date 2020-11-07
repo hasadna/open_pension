@@ -1,8 +1,24 @@
-export const handleKafkaMessage = (message) => {
+import fs from 'fs'
+import path from "path";
+import request from "request";
+import {getStorageAddress, getUploadedPath} from "./env";
 
-  console.log(message);
+export const handleKafkaMessage = async (message) => {
+  const { ID, filename } = message;
 
-  // 1. Download the file form the storage.
+  const dest = path.join(getUploadedPath(), filename);
+  const url = `${getStorageAddress()}/file/${ID}`;
+
+  // Downloading the file.
+  request(url)
+    .pipe(fs.createWriteStream(dest))
+    .on('error', (err) => {
+      console.error(`there was an error while downloading the file ${filename}`, err);
+    })
+    .on('close', (res) => {
+      console.log(`The file, ${filename}, was created successfully.`);
+    })
+
   // 2. Create an entry in the DB with an unprocessed status.
 };
 
