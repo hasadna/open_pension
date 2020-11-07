@@ -9,7 +9,8 @@ export const File = {
     status: String,
     results: Object,
     storageId: Number,
-    parsingErrors: [String]
+    parsingErrors: [String],
+    createdAt: {type: Date, default: new Date()},
 }
 
 export const FileModel = connect.model('file', File);

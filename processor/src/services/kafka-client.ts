@@ -62,7 +62,7 @@ export class KafkaClient {
     consumerGroup.on('message', async function (message) {
       // @ts-ignore
       const parsedMessage = JSON.parse(message.value);
-      handleKafkaMessage(parsedMessage);
+      await handleKafkaMessage(parsedMessage);
     });
 
   }

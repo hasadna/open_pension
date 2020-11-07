@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from "path";
 import request from "request";
 import {getStorageAddress, getUploadedPath} from "./env";
+import {FileModel, StatusNew} from "../db/FileModel";
 
 export const handleKafkaMessage = async (message) => {
   const { ID, filename } = message;
@@ -15,11 +16,18 @@ export const handleKafkaMessage = async (message) => {
     .on('error', (err) => {
       console.error(`there was an error while downloading the file ${filename}`, err);
     })
-    .on('close', (res) => {
+    .on('close', () => {
       console.log(`The file, ${filename}, was created successfully.`);
     })
 
-  // 2. Create an entry in the DB with an unprocessed status.
+  // Create an entry in the DB with an unprocessed status.
+  const fileData = {
+    filename,
+    'status': StatusNew,
+    storageId: ID
+  };
+
+  await new FileModel(fileData).save();
 };
 
 export const queueHandle = (fileObject) => {
