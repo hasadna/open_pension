@@ -9,6 +9,7 @@
     "build": "tsc",
     "process-single-asset": "tsc src/cli.ts && node --max-old-space-size=8192 src/cli.js single_asset",
     "process-perfomance": "tsc src/cli.ts && node --max-old-space-size=8192 src/cli.js performance",
+    "queue": "tsc src/queue.ts && node --max-old-space-size=8192 src/queue.js performance",
     "dev": "nodemon -r tsconfig-paths/register src/server.ts",
     "serve": "node -r tsconfig-paths/register dist/server.js",
     "build-ts": "tsc",

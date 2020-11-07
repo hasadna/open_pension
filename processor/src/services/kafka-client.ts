@@ -1,5 +1,5 @@
 import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
-import {getKafkaHost, getKafkaBroadcastTopic, getKafkaListenTopic} from "./env";
+import {getKafkaHost, getKafkaParsedRowTopic, getKafkaListenTopic} from "./env";
 import {handleKafkaMessage} from "./queue";
 
 export class KafkaClient {
@@ -24,19 +24,11 @@ export class KafkaClient {
     }
   }
 
-  async sendMessage(messages: any) {
+  async sendMessage(messages: any, topic: any) {
 
     if (!this.serviceUp) {
       console.error('The kafka host is not alive')
       return;
-    }
-
-    let topic: string;
-
-    try {
-      topic = getKafkaBroadcastTopic();
-    } catch (e) {
-      throw new Error(e);
     }
 
     try {

@@ -30,8 +30,8 @@ export function getKafkaHost() {
     return safeGet("KAFKA_HOST");
 }
 
-export function getKafkaBroadcastTopic() {
-    return safeGet("KAFKA_BROADCAST_TOPIC");
+export function getKafkaParsedRowTopic() {
+    return safeGet("KAFKA_BROADCAST_PARSED_ROW_TOPIC");
 }
 
 export function getKafkaListenTopic() {

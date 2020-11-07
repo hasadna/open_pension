@@ -3,6 +3,7 @@ import {parseFile} from "./excelParser";
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
 import {KafkaClient} from "./services/kafka-client";
+import {getKafkaParsedRowTopic} from "./services/env";
 
 let kafka;
 
@@ -119,8 +120,9 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
 
         // Send the parsed row over kafka event.
         try {
-            kafka.sendMessage(JSON.stringify(parsedRow));
+            kafka.sendMessage(JSON.stringify(parsedRow), getKafkaParsedRowTopic());
         } catch(e) {
+            console.log('An error while sending the parsed row', e)
         }
 
         // Get the values of the sheet.

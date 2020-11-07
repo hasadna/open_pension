@@ -3,6 +3,8 @@ import {FileModel, StatusProcessed, StatusProcessedWithErrors} from '../db/FileM
 import * as path from "path";
 import {getUploadedPath} from "../services/env";
 import {singleAssetProcess} from "../parse";
+import {Model} from "mongoose";
+
 
 /**
  * Uploading files to the system.
@@ -18,11 +20,22 @@ export async function process(req: Request, res: Response) {
         return;
     }
 
+    await processingFile(file, (e) => {
+        res.status(400).json({'error': e.message});
+    })
+    res.status(201).json(file);
+}
+
+export const processingFile = async (file: any, catchCallback = null) => {
     let results;
     try {
         results = await singleAssetProcess(path.join(getUploadedPath(), file.filename));
     } catch (e) {
-        res.status(400).json({'error': e.message});
+
+        if (catchCallback) {
+            catchCallback(e);
+        }
+
         return;
     }
 
@@ -36,6 +49,4 @@ export async function process(req: Request, res: Response) {
 
     file.results = results.data;
     file.save();
-
-    res.status(201).json(file)
-}
+};
