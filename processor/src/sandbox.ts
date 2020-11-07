@@ -1,22 +1,7 @@
-import {performanceProcess, singleAssetProcess} from './parse';
+import {handleKafkaMessage} from "./services/queue";
 
-const bad2 = '512227265_gsum_0419';
-const bad3 = '510806870_gsum_0419';
+const message = '{"ID":1306,"filename":"unrecognize_file1604736415268244200.xlsx","path":"/app/download_files/unrecognize_file1604736415268244200.xlsx","downloaded":true,"url":"https://employersinfocmp.cma.gov.il/api/PublicReporting/downloadFiles?IdDoc=1874190\\u0026extention=XLSX","created_at":"2020-10-31T13:11:20Z","updated_at":"2020-11-07T08:06:55.3562377Z","deleted_at":null}';
 
-// import {KafkaClient} from "./services/kafka-client";
-//
-// const kafka = new KafkaClient();
-// kafka.sendMessage('asdasdasdasasd').then(resp => {
-//     console.log(resp);
-// }).catch((e) => {
-//     console.error(e);
-// });
 
-singleAssetProcess(`/Applications/MAMP/htdocs/open_pension/processor/src/examples/512237744_psum_0219.xlsx`).then((results: any) => {
-    console.log(JSON.stringify(results));
-});
-//
-// performanceProcess('/Applications/MAMP/htdocs/open_pension/processor/src/ALL/3b48kzpzkapg9wtk-512245812_g1110_yield120.xlsx').then((results: any) => {
-//     console.log(JSON.stringify(results['data']));
-// })
-
+const parsedMessage = JSON.parse(message);
+handleKafkaMessage(parsedMessage);

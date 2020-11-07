@@ -1,5 +1,6 @@
-import kafka from "kafka-node";
-import {getKafkaHost, getKafkaTopic} from "./env";
+import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
+import {getKafkaHost, getKafkaBroadcastTopic, getKafkaListenTopic} from "./env";
+import {handleKafkaMessage} from "./queue";
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -33,7 +34,7 @@ export class KafkaClient {
     let topic: string;
 
     try {
-      topic = getKafkaTopic()
+      topic = getKafkaBroadcastTopic();
     } catch (e) {
       throw new Error(e);
     }
@@ -43,5 +44,26 @@ export class KafkaClient {
     } catch (e) {
       throw new Error(e);
     }
+  }
+
+  static listen() {
+    const options: ConsumerGroupOptions = {
+      kafkaHost: getKafkaHost(),
+      groupId: 'fetcher',
+      protocol: ['roundrobin'],
+      encoding: 'utf8', // default is utf8, use 'buffer' for binary data
+      fromOffset: 'latest', // default
+      outOfRangeOffset: 'earliest', // default
+    };
+
+    const consumerGroup = new ConsumerGroup(options, [getKafkaListenTopic()]);
+    console.log('Start to listen to events')
+
+    consumerGroup.on('message', async function (message) {
+      // @ts-ignore
+      const parsedMessage = JSON.parse(message.value);
+      handleKafkaMessage(parsedMessage);
+    });
+
   }
 }

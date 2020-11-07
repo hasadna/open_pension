@@ -26,6 +26,10 @@ export function getKafkaHost() {
     return safeGet("KAFKA_HOST");
 }
 
-export function getKafkaTopic() {
-    return safeGet("KAFKA_TOPIC");
+export function getKafkaBroadcastTopic() {
+    return safeGet("KAFKA_BROADCAST_TOPIC");
+}
+
+export function getKafkaListenTopic() {
+    return safeGet("KAFKA_LISTEN_TOPIC");
 }

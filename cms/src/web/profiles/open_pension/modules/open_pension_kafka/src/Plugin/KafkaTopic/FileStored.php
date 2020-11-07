@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @KafkaTopic(
  *   id = "FileStored",
  *   label = @Translation("File downloaded"),
- *   description = @Translation("Handling whena file was downloaded")
+ *   description = @Translation("Handling when file was downloaded")
  * )
  */
 class FileStored extends KafkaTopicPluginBase {
