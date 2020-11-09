@@ -22,6 +22,7 @@ func filesToDownload(db *gorm.DB) []api.File {
 
 func main() {
 	db := api.GetDbConnection()
+	defer db.Close()
 	fileToDownload := make(chan api.File)
 	stopCollectingFiles := make(chan bool)
 

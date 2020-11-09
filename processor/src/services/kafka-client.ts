@@ -1,5 +1,5 @@
 import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
-import {getKafkaHost, getKafkaParsedRowTopic, getKafkaListenTopic} from "./env";
+import {getKafkaHost, getKafkaListenTopic} from "./env";
 import {handleKafkaMessage} from "./queue";
 
 export class KafkaClient {

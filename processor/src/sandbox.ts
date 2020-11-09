@@ -6,4 +6,6 @@
 // const parsedMessage = JSON.parse(message);
 // handleKafkaMessage(parsedMessage);
 
+import {getKafkaParsedRowTopic} from "./services/env";
 
+console.log(getKafkaParsedRowTopic())
