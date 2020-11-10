@@ -18,55 +18,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   description = @Translation("Handling when file was downloaded")
  * )
  */
-class processingCompletedWithErrors extends KafkaTopicPluginBase {
+class processingCompletedWithErrors extends AbstractProcessKafkaPlugin {
 
   /**
-   * @var EntityTypeManagerInterface
+   * @return string
    */
-  protected $entityTypeManager;
-
-  /**
-   * Open pension logger.
-   *
-   * @var LoggerChannel
-   */
-  protected $logger;
-
-  /**
-   * FileStored constructor.
-   *
-   * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param EntityTypeManagerInterface $entity_type_manager
-   * @param LoggerChannel $open_pension_logger
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, LoggerChannel $open_pension_logger) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-
-    $this->entityTypeManager = $entity_type_manager;
-    $this->logger = $open_pension_logger;
+  protected function getFileStatus() {
+    return OpenPensionStorageFiles::$PROCESS_COMPLETED_WITH_ERRORS;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('logger.open_pension_kafka')
-    );
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function handleTopicMessage($payload) {
-    $payload = json_decode($payload);
-    // todo: check here the file entry by the storage ID which changed and set
-    //  the status of the file.
-  }
 }

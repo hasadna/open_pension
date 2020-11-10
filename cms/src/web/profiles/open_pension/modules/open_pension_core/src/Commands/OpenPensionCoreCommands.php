@@ -4,7 +4,9 @@ namespace Drupal\open_pension_core\Commands;
 
 use Consolidation\SiteAlias\SiteAliasManager;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
+use Drupal\open_pension_kafka\KafkaTopicPluginManager;
 use Drupal\open_pension_kafka\OpenPensionKafkaOrchestrator;
+use Drupal\open_pension_kafka\Plugin\KafkaTopic\ProcessingStarted;
 use Drush\Commands\DrushCommands;
 use Drupal\Core\Extension\ModuleHandler;
 
@@ -61,22 +63,32 @@ class OpenPensionCoreCommands extends DrushCommands {
    */
   public function sandbox($options = ['option-name' => 'default']) {
 
-    $payload = [
-      "system_field" => "",
-      "reports_type" => "",
-      "from_year" => 2020,
-      "to_year" => 2020,
-      "from_quarter" => "1",
-      "to_quarter" => "1"
-    ];
+    $payload = '{"storageId":1835}';
 
-    /** @var OpenPensionKafkaOrchestrator $kafka_orchestrator */
-    $kafka_orchestrator = \Drupal::service('open_pension_kafka.orchestrator');
+    /** @var KafkaTopicPluginManager $kafka_plugin */
+    $kafka_plugin = \Drupal::service('plugin.manager.kafka_topic');
 
-    $message = json_encode($payload);
-    $kafka_orchestrator->sendTopic('queryFiles', $message);
+    /** @var ProcessingStarted $plugin */
+    $plugin = $kafka_plugin->createInstance('processingStarted');
 
-    print_r("sent {$message}\n");
+    $plugin->handleTopicMessage($payload);
+
+//    $payload = [
+//      "system_field" => "",
+//      "reports_type" => "",
+//      "from_year" => 2020,
+//      "to_year" => 2020,
+//      "from_quarter" => "1",
+//      "to_quarter" => "1"
+//    ];
+//
+//    /** @var OpenPensionKafkaOrchestrator $kafka_orchestrator */
+//    $kafka_orchestrator = \Drupal::service('open_pension_kafka.orchestrator');
+//
+//    $message = json_encode($payload);
+//    $kafka_orchestrator->sendTopic('queryFiles', $message);
+//
+//    print_r("sent {$message}\n");
   }
 
 }

@@ -4,21 +4,10 @@ namespace Drupal\open_pension_kafka\Plugin\KafkaTopic;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannel;
-use Drupal\open_pension_files\Entity\OpenPensionStorageFiles;
-use Drupal\open_pension_files\OpenPensionFiles;
 use Drupal\open_pension_kafka\KafkaTopicPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * Plugin implementation of the kafka_topic.
- *
- * @KafkaTopic(
- *   id = "processingStarted",
- *   label = @Translation("File downloaded"),
- *   description = @Translation("Handling when file was downloaded")
- * )
- */
-class processingStarted extends KafkaTopicPluginBase {
+abstract class AbstractKafkaPlugin extends KafkaTopicPluginBase {
 
   /**
    * @var EntityTypeManagerInterface
@@ -52,22 +41,17 @@ class processingStarted extends KafkaTopicPluginBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('logger.open_pension_kafka')
-    );
+    return new static($configuration, $plugin_id, $plugin_definition, $container->get('entity_type.manager'), $container->get('logger.open_pension_kafka'));
   }
 
   /**
-   * {@inheritDoc}
+   * @return \Drupal\Core\Entity\EntityStorageInterface
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function handleTopicMessage($payload) {
-    $payload = json_decode($payload);
-
-    // todo: check here the file entry by the storage ID which changed and set
-    //  the status of the file.
+  public function getStorage() {
+    return $this->entityTypeManager->getStorage('open_pension_storage_files');
   }
+
 }

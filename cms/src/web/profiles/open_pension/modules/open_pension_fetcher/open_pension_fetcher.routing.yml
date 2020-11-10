@@ -14,3 +14,11 @@ open_pension_fetcher.collect_files:
     _controller: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherCollectFiles::build'
   requirements:
     _permission: 'access open pension links overview'
+
+open_pension_fetcher.open_pension_fetcher:
+  path: '/admin/open_pension/query-files'
+  defaults:
+    _title: 'Query files'
+    _form: 'Drupal\open_pension_fetcher\Form\OpenPensionFetcherForm'
+  requirements:
+    _permission: 'access open pension core'

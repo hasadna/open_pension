@@ -42,7 +42,7 @@ use Drupal\open_pension_files\OpenPensionStorageFilesInterface;
  *     "uuid" = "uuid",
  *   },
  *   links = {
- *     "collection" = "/admin/open_pension/open-pension-storage-files",
+ *     "collection" = "/_admin/open_pension/open-pension-storage-files",
  *     "add-form" = "/admin/open_pension/open-pension-storage-files/add",
  *     "canonical" = "/admin/open_pension/open-pension-storage-files/{open_pension_storage_files}",
  *     "edit-form" = "/admin/open_pension/open-pension-storage-files/{open_pension_storage_files}",
@@ -63,12 +63,17 @@ class OpenPensionStorageFiles extends ContentEntityBase implements OpenPensionSt
   /**
    * @var string
    */
-  public static $PROCESSING = 'processing';
+  public static $PROCESS_STARTED = 'processing';
 
   /**
    * @var string
    */
-  public static $PROCESSED = 'processed';
+  public static $PROCESS_COMPLETED = 'process_completed';
+
+  /**
+   * @var string
+   */
+  public static $PROCESS_COMPLETED_WITH_ERRORS = 'process_completed_with_errors';
 
   /**
    * Return the status of the storage file.
@@ -78,8 +83,9 @@ class OpenPensionStorageFiles extends ContentEntityBase implements OpenPensionSt
   static public function getProcessStatus() {
     return [
       self::$SENT => t('Stored'),
-      self::$PROCESSING => t('Processing'),
-      self::$PROCESSED => t('Processed'),
+      self::$PROCESS_STARTED => t('Processing started'),
+      self::$PROCESS_COMPLETED => t('Processing completed'),
+      self::$PROCESS_COMPLETED_WITH_ERRORS => t('Processing completed with errors'),
     ];
   }
 

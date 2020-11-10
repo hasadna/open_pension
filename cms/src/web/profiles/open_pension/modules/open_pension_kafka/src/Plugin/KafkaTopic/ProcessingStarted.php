@@ -13,17 +13,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Plugin implementation of the kafka_topic.
  *
  * @KafkaTopic(
- *   id = "processingCompelted",
+ *   id = "processingStarted",
  *   label = @Translation("File downloaded"),
  *   description = @Translation("Handling when file was downloaded")
  * )
  */
-class processingCompelted extends AbstractProcessKafkaPlugin {
+class ProcessingStarted extends AbstractProcessKafkaPlugin {
 
   /**
    * @return string
    */
   protected function getFileStatus() {
-    return OpenPensionStorageFiles::$PROCESS_COMPLETED;
+    return OpenPensionStorageFiles::$SENT;
   }
+
 }
