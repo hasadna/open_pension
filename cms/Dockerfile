@@ -39,7 +39,6 @@ RUN mv /tmp/build-tools/php.ini /usr/local/etc/php/ && \
 COPY src/composer.* ./
 RUN mv /tmp/build-tools/composer.phar /usr/local/bin/composer && \
     composer self-update && \
-    composer global require hirak/prestissimo && \
     composer install
 
 COPY src .

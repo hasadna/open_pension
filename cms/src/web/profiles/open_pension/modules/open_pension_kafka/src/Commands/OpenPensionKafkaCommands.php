@@ -34,6 +34,9 @@ class OpenPensionKafkaCommands extends DrushCommands {
    */
   protected $openPensionKafkaLogger;
 
+
+  protected $kafkaPlugins = NULL;
+
   /**
    * OpenPensionKafkaCommands constructor.
    *
@@ -55,41 +58,74 @@ class OpenPensionKafkaCommands extends DrushCommands {
   }
 
   /**
+   * Iterating over the kafka topics plugins and query for their payloads.
+   */
+  protected function queryKafkaTopics(callable $pre_logging_handler = NULL, callable $post_logging_handler = NULL) {
+
+    if (!$this->kafkaPlugins) {
+      $this->kafkaPlugins = $this->kafkaTopicPluginManager->getDefinitions();
+    }
+
+    foreach (array_keys($this->kafkaPlugins) as $plugin_id) {
+
+      /** @var KafkaTopicPluginBase $plugin */
+      $plugin = $this->kafkaTopicPluginManager->createInstance($plugin_id);
+
+      // Listen to the event.
+      if ($pre_logging_handler) {
+        $pre_logging_handler($plugin_id);
+      }
+
+      if ($payload = $this->kafkaOrchestrator->consume($plugin_id)) {
+        // Got the payload. Trigger the handle.
+        $plugin->handleTopicMessage($payload);
+
+        if ($post_logging_handler) {
+          $post_logging_handler($payload);
+        }
+      }
+    }
+
+    sleep(1);
+  }
+
+  /**
    * Listening to kafka topics for a minute.
    *
    * We going to query kafka topics based on the kafka topics we implemented.
    *
    * @command open_pension_kafka:kafka_listen
    * @aliases kafka_listen
+   * @option daemon Determines if the command will run as a daemon in the
+   *  background. Default - false, which meand the command will run at 60
+   *  seconds time frame.
    */
-  public function kafkaListen() {
-    $plugins = $this->kafkaTopicPluginManager->getDefinitions();
+  public function kafkaListen($daemon=FALSE) {
 
-    $this->openPensionKafkaLogger->info(dt('Start to listen to events'));
+    if ($daemon) {
+      $this->openPensionKafkaLogger->info(dt('Running the service as a daemon'));
+
+      while (true) {
+        print_r('a');
+        sleep(1);
+      }
+      return;
+    }
+
+    $this->openPensionKafkaLogger->info(dt('Start to listen to events for a minute'));
 
     $max_times = 59;
 
     for ($i = 0; $i <= $max_times; $i++) {
       // Start to iterate 60 times. At the end of each iteration we going to
       // sleep for a second.
-
-      foreach (array_keys($plugins) as $plugin_id) {
-
-        /** @var KafkaTopicPluginBase $plugin */
-        $plugin = $this->kafkaTopicPluginManager->createInstance($plugin_id);
-
-        // Listen to the event.
+      $this->queryKafkaTopics(
+        function($plugin_id) use ($i, $max_times) {
         $this->openPensionKafkaLogger->info(dt("Trying to getting message from {$plugin_id} {$i}/{$max_times}"));
-
-        if ($payload = $this->kafkaOrchestrator->consume($plugin_id)) {
-          // Got the payload. Trigger the handle.
-          $plugin->handleTopicMessage($payload);
-
-          $this->openPensionKafkaLogger->info(dt("Got a message with the payload @payload at {$i}/{$max_times}", ['@payload' => $payload]));
-        }
-      }
-
-      sleep(1);
+      },
+      function($payload) use ($i, $max_times) {
+        $this->openPensionKafkaLogger->info(dt("Got a message with the payload @payload at {$i}/{$max_times}", ['@payload' => $payload]));
+      });
     }
   }
 }
