@@ -106,8 +106,20 @@ class OpenPensionKafkaCommands extends DrushCommands {
       $this->openPensionKafkaLogger->info(dt('Running the service as a daemon'));
 
       while (true) {
-        print_r('a');
-        sleep(1);
+        $date = \Drupal::service('date.formatter')->format(\Drupal::time()->getCurrentTime(), 'short');
+        $params = [
+          '@date' => $date
+        ];
+
+        $this->queryKafkaTopics(
+          function($plugin_id) use ($params) {
+            $params['@plugin_id'] = $plugin_id;
+            $this->openPensionKafkaLogger->info(dt("@date - Trying to getting message from @plugin_id while running a daemon", $params));
+          },
+          function($payload) use ($params) {
+            $params['@payload'] = $payload;
+            $this->openPensionKafkaLogger->info(dt("@date - Got a message with the payload @payload at ", $params));
+          });
       }
       return;
     }

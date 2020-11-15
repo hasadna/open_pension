@@ -41,6 +41,9 @@ RUN mv /tmp/build-tools/composer.phar /usr/local/bin/composer && \
     composer self-update && \
     composer install
 
+RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
+ADD supervisor.conf /etc/supervisor.conf
+
 COPY src .
 
 # Exposing the port.
