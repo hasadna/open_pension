@@ -140,56 +140,6 @@ class OpenPensionFetcherService {
   }
 
   /**
-   * Sending a mutation.
-   *
-   * @param $system_field
-   *  The system field.
-   * @param $report_type
-   *  The report type.
-   * @param $from_year
-   *  The year to query from.
-   * @param $from_quarter
-   *  The quarter to query form.
-   * @param $to_year
-   *  The year to query to.
-   * @param $to_quarter
-   *  The quarter to query to.
-   * @return array
-   */
-  public function mutate($system_field, $report_type, $from_year, $from_quarter, $to_year, $to_quarter) {
-    if (!$this->servicesHealthStatus->getFetcherState()) {
-      $this->messenger->addError(t('The fetcher services does not responding'));
-      return [];
-    }
-
-    $query = <<<'GRAPHQL'
-      mutation {
-        downloadReports(
-          query: {
-            SystemField: "{system_field}",
-            ReportType: "{report_type}",
-            FromYearPeriod: {Year: {from_year}, Quarter: "{from_quarter}"},
-            ToYearPeriod: {Year: {to_year}, Quarter: "{to_quarter}"}
-          }
-        ) {
-          links, errors
-        }
-      }
-    GRAPHQL;
-
-    $query = str_replace('{system_field}', $system_field, $query);
-    $query = str_replace('{report_type}', $report_type, $query);
-
-    $query = str_replace('{from_year}', $from_year, $query);
-    $query = str_replace('{from_quarter}', $from_quarter, $query);
-
-    $query = str_replace('{to_year}', $to_year, $query);
-    $query = str_replace('{to_quarter}', $to_quarter, $query);
-
-    return $this->sendQuery($query);
-  }
-
-  /**
    * Collect links without files.
    *
    * @return array|string

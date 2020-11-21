@@ -4,3 +4,14 @@ upload files:
 manage file:
   title: 'Manage files'
   description: 'Allow to manage uploaded files'
+administer open pension storage files:
+  title: 'Administer open pension storage files settings'
+  restrict access: true
+delete open pension storage files:
+  title: Delete open pension storage files
+create open pension storage files:
+  title: Create open pension storage files
+view open pension storage files:
+  title: View open pension storage files
+edit open pension storage files:
+  title: Edit open pension storage files

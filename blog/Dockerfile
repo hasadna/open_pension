@@ -15,7 +15,6 @@ RUN npm i
 
 # Copy all frontend stuff to new "app" folder
 COPY . /app/
-RUN ls -al /app/
 RUN chmod +x /app/entrypoint.sh
 RUN chmod +x /app/deploy.sh
 CMD ["/app/entrypoint.sh"]

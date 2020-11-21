@@ -3,6 +3,7 @@ import {parseFile} from "./excelParser";
 import {orderedSheets, sheetsKeys} from './sheets/metadata'
 import {sheetsToDelete, sheetToToSkip} from "./parsing/consts";
 import {KafkaClient} from "./services/kafka-client";
+import {getKafkaParsedRowTopic} from "./services/env";
 
 let kafka;
 
@@ -38,6 +39,7 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
     try {
         sheetRows = await parseFile(path, {sheet: sheetName});
     } catch (e) {
+        console.error('Error while parsing', e);
         errors.push(e)
         return;
     }
@@ -106,6 +108,7 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
                 }
             }
         } catch (e) {
+            console.error(e);
             errors.push(`${sheetName}: ${e.message}`);
         }
 
@@ -119,8 +122,11 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
 
         // Send the parsed row over kafka event.
         try {
-            kafka.sendMessage(JSON.stringify(parsedRow));
+            // todo: attach the storage ID.
+            kafka.sendMessage(JSON.stringify(parsedRow), getKafkaParsedRowTopic());
         } catch(e) {
+            console.log('An error while sending the parsed row', e);
+            errors.push(e);
         }
 
         // Get the values of the sheet.
@@ -230,7 +236,7 @@ function iterateSingleRow(machineSheetName, parsedSheet, year, row) {
     const [title, rowWithoutTitle] = [row[0], row.splice(1, 24)];
 
     rowWithoutTitle.map((item: any, key: any) => {
-        const monthIndex = Math.round((key + 1)/2);
+        const monthIndex = Math.round((key + 1) / 2);
 
         const subTitle = key % 2 == 0 ? 'תרומה לתשואה' : 'שיעור מסך הנכסים';
         parsedSheet.push({
@@ -248,11 +254,13 @@ function iterateSingleRow(machineSheetName, parsedSheet, year, row) {
  *
  * @param path
  *  The path of the file.
+ * @param kafkaClient
+ *  Optional; The kafka client object. If non will be given an new instance will be created.
  */
-export async function singleAssetProcess(path: string) {
+export async function singleAssetProcess(path: string, kafkaClient: KafkaClient = null) {
     let sheets;
     let errors = [];
-    kafka = new KafkaClient();
+    kafka = kafkaClient ? kafkaClient : new KafkaClient();
 
     try {
         // Get all the sheets.
@@ -293,7 +301,6 @@ export async function performanceProcess(path: string) {
     }
 
     const parsedData: any = [];
-
     const gilion = 'גליון';
 
     await Promise.all(sheets.map(async (data: any, key: any) => {

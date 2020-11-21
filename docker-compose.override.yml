@@ -59,3 +59,7 @@ services:
       - ./fetcher:/home/app
     ports:
       - "5000:80"
+
+  storage:
+    ports:
+      - "7000:3000"

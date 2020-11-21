@@ -271,3 +271,6 @@ blog/.cache
 blog/node_modules
 blog/public
 blog/revisions
+
+storage/files
+storage/.env

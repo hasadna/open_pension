@@ -65,6 +65,7 @@ install:
   - open_pension_article
   - open_pension_migrate
   - open_pension_staff
+  - open_pension_kafka
 
 themes:
   - claro

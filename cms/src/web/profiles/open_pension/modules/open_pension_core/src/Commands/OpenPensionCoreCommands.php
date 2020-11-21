@@ -4,8 +4,9 @@ namespace Drupal\open_pension_core\Commands;
 
 use Consolidation\SiteAlias\SiteAliasManager;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
-use Drupal\Core\File\FileSystem;
-use Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile;
+use Drupal\open_pension_kafka\KafkaTopicPluginManager;
+use Drupal\open_pension_kafka\OpenPensionKafkaOrchestrator;
+use Drupal\open_pension_kafka\Plugin\KafkaTopic\ProcessingStarted;
 use Drush\Commands\DrushCommands;
 use Drupal\Core\Extension\ModuleHandler;
 
@@ -61,10 +62,33 @@ class OpenPensionCoreCommands extends DrushCommands {
    * @aliases sandbox
    */
   public function sandbox($options = ['option-name' => 'default']) {
-    /** @var OpenPensionReclamationParseSourceFile $parse_source_file */
-    $parse_source_file = \Drupal::service('open_pension_reclamaion.parse_source_file');
 
-    $parse_source_file->getSheetRows('foo');
+    $payload = '{"storageId":1835}';
+
+    /** @var KafkaTopicPluginManager $kafka_plugin */
+    $kafka_plugin = \Drupal::service('plugin.manager.kafka_topic');
+
+    /** @var ProcessingStarted $plugin */
+    $plugin = $kafka_plugin->createInstance('processingStarted');
+
+    $plugin->handleTopicMessage($payload);
+
+//    $payload = [
+//      "system_field" => "",
+//      "reports_type" => "",
+//      "from_year" => 2020,
+//      "to_year" => 2020,
+//      "from_quarter" => "1",
+//      "to_quarter" => "1"
+//    ];
+//
+//    /** @var OpenPensionKafkaOrchestrator $kafka_orchestrator */
+//    $kafka_orchestrator = \Drupal::service('open_pension_kafka.orchestrator');
+//
+//    $message = json_encode($payload);
+//    $kafka_orchestrator->sendTopic('queryFiles', $message);
+//
+//    print_r("sent {$message}\n");
   }
 
 }

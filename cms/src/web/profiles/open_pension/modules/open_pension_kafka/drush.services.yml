@@ -1,0 +1,6 @@
+services:
+  open_pension_kafka.commands:
+    class: \Drupal\open_pension_kafka\Commands\OpenPensionKafkaCommands
+    arguments: ['@open_pension_kafka.orchestrator', '@plugin.manager.kafka_topic', '@logger.open_pension_kafka']
+    tags:
+      - { name: drush.command }
