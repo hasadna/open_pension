@@ -1,0 +1,32 @@
+@import "../variables";
+
+.constructions {
+  height: 80vh;
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+
+  article {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+  }
+
+  .text {
+    max-width: 99vw;
+    text-align: right;
+
+    h2 {
+      font-size: 4em;
+    }
+
+    p {
+      font-size: 2em;
+    }
+  }
+}
+
+@import "../_responsive";

@@ -4,6 +4,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.blog.body
+    - field.field.node.blog.field_image
     - node.type.blog
   module:
     - text
@@ -26,4 +27,5 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  field_image: true

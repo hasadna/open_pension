@@ -260,4 +260,17 @@ cms/src/web/modules/
 cms/src/web/sites/
 cms/src/web/themes/
 
-db
+/db
+
+fetcher/temp_files
+
+processor/*/*.js
+
+
+blog/.cache
+blog/node_modules
+blog/public
+blog/revisions
+
+storage/files
+storage/.env

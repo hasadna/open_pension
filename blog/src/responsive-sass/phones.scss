@@ -1,0 +1,93 @@
+@media (max-width: 500px) {
+
+  body {
+    font-size: 12px;
+
+    header {
+      display: block;
+
+      .logo {
+        a {
+          justify-content: center;
+          padding-bottom: .5em;
+          font-size: 1.25em;
+        }
+      }
+
+      &.sticky {
+        .logo {
+          font-size: 1em;
+        }
+      }
+    }
+
+    section.money {
+      .text {
+        h2, .big {
+          font-size: 2.75em;
+        }
+      }
+      .personal-zone {
+        width: 55%;
+        font-size: 1.25em;
+      }
+    }
+
+    .header-money {
+      height: 50vh;
+    }
+
+    section.articles {
+      padding-top: 2em;
+    }
+
+    .grid-display {
+      grid-template-columns: auto;
+      font-size: 1.5em;
+
+      .article {
+        .meta {
+          flex-direction: column;
+
+          .by {
+            justify-content: center;
+
+            .tags {
+              padding: 0;
+              padding-bottom: .25em;
+              padding-right: .25em;
+            }
+          }
+          .at {
+            padding-bottom: .5em;
+          }
+        }
+      }
+    }
+
+    .constructions {
+      width: auto;
+      height: auto;
+
+      article {
+        flex-direction: column-reverse;
+
+        .text {
+          max-width: 100%;
+
+          h2 {
+            font-size: 2em;
+          }
+        }
+      }
+    }
+
+    .staff {
+      display: block;
+
+      .person {
+        padding-bottom: 1em;
+      }
+    }
+  }
+}

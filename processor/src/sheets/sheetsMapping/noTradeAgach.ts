@@ -1,0 +1,20 @@
+export default {
+    1: 'Instrument name',
+    2: 'Instrument number',
+    3: 'Information provider',
+    4: 'Issuer number',
+    5: 'Industry',
+    6: 'Rating',
+    7: 'Rating agencies',
+    8: 'Purchase date',
+    9: 'Duration',
+    10: 'Currency',
+    11: 'Rate',
+    12: 'Yield to maturity',
+    13: 'Nominal value',
+    14: 'Price',
+    15: 'Fair value',
+    16: 'Rate of register',
+    17: 'Rate of instrument type',
+    18: 'Rate of fund holding'
+};

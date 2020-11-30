@@ -17,25 +17,22 @@
     "require": {
         "chamilo/pclzip": "^2.8",
         "composer/installers": "^1.2",
-        "cweagans/composer-patches": "^1.6",
-        "drupal/coder": "^8.3",
-        "drupal/config_inspector": "1.0",
-        "drupal/console": "dev-master",
+        "drupal/build_hooks": "^2.3",
+        "drupal/config_inspector": "^1.1",
         "drupal/core-composer-scaffold": "^8.8",
         "drupal/core-project-message": "^8.8",
         "drupal/core-recommended": "^8.8",
-        "drupal/devel": "^2.1",
-        "drupal/devel_entity_updates": "3.0.0-beta1",
-        "drupal/features": "^3.8",
+        "drupal/devel": "^4.0",
+        "drupal/devel_entity_updates": "^3.0",
+        "drupal/features": "^3.11",
+        "drupal/gatsby": "^1.0@RC",
+        "drupal/gatsby_orchestrator": "1.x-dev",
         "drupal/graphql": "^3.0",
-        "drupal/migrate_tools": "4.5",
-        "drupal/vuejs": "^1.0-rc2",
-        "drush/drush": "^10.2.2",
-        "shuchkin/simplexlsx": "^0.8.14"
-    },
-    "require-dev": {
-        "mikey179/vfsstream": "^1.6",
-        "phpunit/phpunit": "^7"
+        "drupal/jsonapi_extras": "^3.16",
+        "drupal/pathauto": "^1.8",
+        "drush/drush": "^10.3",
+        "shuchkin/simplexlsx": "^0.8.19",
+        "spatie/async": "^1.5"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -52,23 +49,36 @@
             }
         },
         "installer-paths": {
-            "web/core": ["type:drupal-core"],
-            "web/libraries/{$name}": ["type:drupal-library"],
-            "web/modules/contrib/{$name}": ["type:drupal-module"],
-            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
-            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
-            "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
-        },
-        "composer-exit-on-patch-failure": true,
-        "patches": {
-	        "drupal/features": {
-		        "fix fr": "https://www.drupal.org/files/issues/2019-10-30/features-3.8-issue-3091278.patch"
-	        }
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
         },
         "drupal-core-project-message": {
-            "include-keys": ["homepage", "support"],
+            "include-keys": [
+                "homepage",
+                "support"
+            ],
             "post-create-project-cmd-message": [
                 "<bg=blue;fg=white>                                                         </>",
                 "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
@@ -76,7 +86,6 @@
                 "<bg=blue;fg=white>                                                         </>",
                 "",
                 "<bg=yellow;fg=black>Next steps</>:",
-
                 "  * Install the site: https://www.drupal.org/docs/8/install",
                 "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
                 "  * Get support: https://www.drupal.org/support",

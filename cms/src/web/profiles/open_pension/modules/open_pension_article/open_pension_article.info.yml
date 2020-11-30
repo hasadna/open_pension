@@ -1,0 +1,14 @@
+name: 'Open Pension Article'
+type: module
+core: 8.x
+dependencies:
+  - datetime
+  - field
+  - image
+  - link
+  - node
+  - path
+  - taxonomy
+  - text
+  - user
+core_incompatible: false

@@ -133,7 +133,7 @@ interface OpenPensionFilesProcessInterface {
    * @return \Psr\Http\Message\ResponseInterface
    *   A response object.
    */
-  public function sendFileToServer(File $file): ResponseInterface;
+  public function sendFileToStorage(File $file): ResponseInterface;
 
   /**
    * Sending a patch process to the file in the processor.

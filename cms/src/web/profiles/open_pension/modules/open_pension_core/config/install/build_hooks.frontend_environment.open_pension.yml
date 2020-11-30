@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - gatsby_deploy
+id: open_pension
+label: 'Open pension'
+weight: '0'
+provider: null
+plugin: gatsby-plugin-trigger-deploy
+settings:
+  id: gatsby-plugin-trigger-deploy
+  label: null
+  provider: gatsby_deploy
+  secret_key: ogbj9vSfAmJiJnMGUjQPXc4swEf2vtvq
+  build_hook_url: 'http://localhost:8000/deploy'
+url: 'http://openpension.org.il'
+deployment_strategy: manual

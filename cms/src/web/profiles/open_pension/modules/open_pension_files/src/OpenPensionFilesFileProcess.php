@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class OpenPensionFilesFileProcess.
+ *
+ * todo: reduce a lot of the code.
  */
 class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
@@ -50,6 +52,13 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
    * @var string[]
    */
   protected $trackingLogs = [];
+
+  /**
+   * List of parsing errors.
+   *
+   * @var string[]
+   */
+  protected $parsingErrors = [];
 
   /**
    * Weather the file processed successfully.
@@ -238,11 +247,11 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
     $this->log(t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
     try {
-      $results = $this->sendFileToServer($file);
+      $results = $this->sendFileToStorage($file);
 
       if ($results->getStatusCode() == Response::HTTP_CREATED) {
         $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
-        $this->processedId = reset(json_decode($results->getBody(), true)['data']['files'])['id'];
+        $this->processedId = json_decode($results->getBody(), true)[0]['id'];
         $this->sentToProcessed = TRUE;
         $this->processStatus = ProcessorStatus::STATUS_NEW;
         return $this;
@@ -265,16 +274,16 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   /**
    * {@inheritdoc}
    */
-  public function sendFileToServer(File $file): ResponseInterface {
-    if ($this->healthServiceStatus->getProcessorState() === OpenPensionServicesHealthStatus::SERVICE_NOT_RESPONDING) {
-      $this->log(t('The service is not responding. Please check it\'s on the air'), 'error');
+  public function sendFileToStorage(File $file): ResponseInterface {
+    if ($this->healthServiceStatus->getStorageState() === OpenPensionServicesHealthStatus::SERVICE_NOT_RESPONDING) {
+      $this->log(t('The storage service is not responding. Please check it\'s on the air'), 'error');
     }
 
-    return $this->httpClient->request('post', "{$this->openPensionServicesAddress->getProcessorAddress()}/upload",
+    return $this->httpClient->request('post', "{$this->openPensionServicesAddress->getStorageAddress()}/file",
       [
         'multipart' => [
           [
-            'name'     => 'files',
+            'name'     => 'file',
             'contents' => fopen($this->fileSystemService->realpath($file->getFileUri()), 'r'),
           ],
         ],
@@ -299,7 +308,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     }
 
     try {
-      $this->httpClient->request('patch', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}",
+      $response = $this->httpClient->request('patch', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}",
         [
           'multipart' => [
             [
@@ -314,16 +323,27 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
         '@error' => $e->getMessage(),
       ];
       $this->log(t('The file @file-name was not able to process due to @error', $params), 'error');
+      return $this;
     }
+
+    if ($response->getStatusCode() < 200 && $response->getStatusCode() > 299) {
+      $params = [
+        '@file-name' => $file->getFilename(),
+        '@error' => $e->getMessage(),
+      ];
+      $this->log(t('The file @file-name was not able to process due to @error', $params), 'error');
+      return $this;
+    }
+
+    $parsed_response = json_decode($response->getBody()->getContents());
 
     $this->sentToProcessed = TRUE;
-    $response = $this->httpClient->request('get', "{$this->openPensionServicesAddress->getProcessorAddress()}/process/{$other_service->value}");
-    $parsed = json_decode($response->getBody()->getContents());
-
-    if ($parsed->status == Response::HTTP_OK) {
-      $this->log(t('Processing results: @results', ['@results' => $parsed->data->item->status]));
-      $this->processStatus = ucfirst($parsed->data->item->status);
-    }
+    $this->parsingErrors = $parsed_response->parsingErrors;
+    $this->processStatus = $parsed_response->status;
+    $this->log(t('Processing results for file @file: @results', [
+      '@file' => $file->getFilename(),
+      '@results' => $parsed->status
+    ]));
 
     return $this;
   }
@@ -345,6 +365,11 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
     // Add the history to the file.
     foreach ($this->getTrackingLogs() as $log) {
       $media->field_history->appendItem($log);
+    }
+
+    // Add the parsing errors.
+    foreach ($this->parsingErrors as $parsing_error) {
+      $media->field_parsing_errors->appendItem($parsing_error);
     }
 
     // Saving file.

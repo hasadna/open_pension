@@ -1,0 +1,29 @@
+server_url: 'http://localhost:8000'
+incrementalbuild_url: ''
+build_published: 0
+preview_entity_types:
+  block_content: block_content
+  comment: comment
+  contact_message: contact_message
+  file: file
+  media: media
+  node: node
+  open_pension_links: open_pension_links
+  my_stock: my_stock
+  market_date: market_date
+  issuer: issuer
+  mutual_fund: mutual_fund
+  date: date
+  instrument_type: instrument_type
+  manager: manager
+  instrument: instrument
+  instrument_sub_type: instrument_sub_type
+  index_manager: index_manager
+  path_alias: path_alias
+  shortcut: shortcut
+  taxonomy_term: taxonomy_term
+  user: user
+  menu_link_content: menu_link_content
+path_mapping: ''
+secret_key: ''
+legacy_preview_url: 0

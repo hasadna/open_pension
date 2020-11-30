@@ -1,0 +1,12 @@
+services:
+  open_pension_kafka.orchestrator:
+    class: Drupal\open_pension_kafka\OpenPensionKafkaOrchestrator
+    arguments: ['@open_pension_services.services_addresses']
+
+  plugin.manager.kafka_topic:
+    class: Drupal\open_pension_kafka\KafkaTopicPluginManager
+    parent: default_plugin_manager
+
+  logger.open_pension_kafka:
+    parent: logger.channel_base
+    arguments: ['open_pension_kafka']

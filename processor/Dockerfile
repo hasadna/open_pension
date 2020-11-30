@@ -1,7 +1,16 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.7
+FROM node:12.14.1-alpine3.11
 
 LABEL maintainer="http://www.hasadna.org.il/"
 
-COPY ./src /app
+ENV APP_DIR /home/app
 
-RUN pip --no-cache-dir install -r app/requirements.txt
+WORKDIR $APP_DIR
+
+COPY package*.json ./
+RUN npm i
+
+COPY . $APP_DIR
+
+RUN npm run build
+
+CMD ["npm", "start"]

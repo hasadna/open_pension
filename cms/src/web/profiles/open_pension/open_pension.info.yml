@@ -43,10 +43,16 @@ install:
   - media_library
 
   # Contrib modules
+  - build_hooks
   - graphql
   - graphql_core
+  - gatsby
+  - gatsby_orchestrator
+  - gatsby_revisions
+  - gatsby_deploy
+  - jsonapi_extras
   - features_ui
-  - vuejs
+  - pathauto
 
   # Profile custom modules.
   - open_pension_core
@@ -54,6 +60,12 @@ install:
   - open_pension_blog
   - open_pension_services
   - open_pension_reclamation
+  - open_pension_fetcher
+  - open_pension_page_element
+  - open_pension_article
+  - open_pension_migrate
+  - open_pension_staff
+  - open_pension_kafka
 
 themes:
   - claro

@@ -1,0 +1,5 @@
+entity.open_pension_storage_files.settings:
+  title: 'Open Pension Storage Files'
+  description: 'Configure an Open Pension Storage Files entity type.'
+  route_name:  entity.open_pension_storage_files.settings
+  parent: system.admin_structure

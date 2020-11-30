@@ -1,0 +1,12 @@
+name: 'Open Pension Page element'
+type: module
+core: 8.x
+package: 'Open Pension'
+dependencies:
+  - field
+  - menu_ui
+  - node
+  - path
+  - text
+  - user
+  - open_pension_core

@@ -63,4 +63,50 @@ class OpenPensionServicesHealthStatus {
       return self::SERVICE_IS_RESPONDING;
     }
   }
+
+  /**
+   * @return int
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function getFetcherState() {
+    try {
+      $this->httpClient->request('GET', $this->openPensionServicesAddresses->getFetcherAddress());
+      return self::SERVICE_IS_RESPONDING;
+    } catch (RequestException $e) {
+      if ($e->getCode() === 0 || $e->getCode() >= 500) {
+        // The CURL request failed so we got 0 as code or the server has an
+        // internal error, 500 and above, so we need to return that the service
+        // is not alive.
+        return self::SERVICE_NOT_RESPONDING;
+      }
+
+      // No 500 error or a 0 code. The service is alive but something else went
+      // wrong - bad request, not allowed method or anything else.
+      return self::SERVICE_IS_RESPONDING;
+    }
+  }
+
+  /**
+   * Get the health of the storage service.
+   *
+   * @return int
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function getStorageState() {
+    try {
+      $this->httpClient->request('GET', $this->openPensionServicesAddresses->getStorageAddress());
+      return self::SERVICE_IS_RESPONDING;
+    } catch (RequestException $e) {
+      if ($e->getCode() === 0 || $e->getCode() >= 500) {
+        // The CURL request failed so we got 0 as code or the server has an
+        // internal error, 500 and above, so we need to return that the service
+        // is not alive.
+        return self::SERVICE_NOT_RESPONDING;
+      }
+
+      // No 500 error or a 0 code. The service is alive but something else went
+      // wrong - bad request, not allowed method or anything else.
+      return self::SERVICE_IS_RESPONDING;
+    }
+  }
 }

@@ -1,0 +1,7 @@
+open_pension_fetcher.open_pension_fetcher:
+  path: '/admin/open_pension/query-files'
+  defaults:
+    _title: 'Query files'
+    _form: 'Drupal\open_pension_fetcher\Form\OpenPensionFetcherForm'
+  requirements:
+    _permission: 'access open pension core'

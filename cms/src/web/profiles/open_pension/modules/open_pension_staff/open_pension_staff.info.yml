@@ -1,0 +1,10 @@
+name: 'Open Pension Staff'
+type: module
+core: 8.x
+dependencies:
+  - field
+  - file
+  - image
+  - path
+  - taxonomy
+  - text

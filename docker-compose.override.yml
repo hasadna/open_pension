@@ -8,8 +8,13 @@ services:
   application:
     volumes:
       - ./application:/home/app
-      - /home/app/node_modules
-    command: ["npm", "run", "dev"]
+    ports:
+      - '3000:3000'
+
+  application_db:
+    restart: always
+    ports:
+      - '3308:3306'
 
   gateway:
     volumes:
@@ -20,6 +25,11 @@ services:
       # Expose graphql-playground localhost:4000
       - "4000:80"
 
+  blog:
+    restart: always
+    volumes:
+      - ./blog/src:/app/app
+
   cms:
     volumes:
       - ./cms/src/web/profiles:/var/www/html/web/profiles
@@ -27,6 +37,7 @@ services:
       - ./cms/.env
     ports:
       - '2000:80'
+      - '2500:8000'
 
   cms_db:
     restart: always
@@ -46,3 +57,13 @@ services:
   processor_db:
     ports:
       - '27017:27017'
+
+  fetcher:
+    volumes:
+      - ./fetcher:/home/app
+    ports:
+      - "5000:80"
+
+  storage:
+    ports:
+      - "7000:3000"

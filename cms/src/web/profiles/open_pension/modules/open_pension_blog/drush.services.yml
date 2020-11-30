@@ -1,6 +1,0 @@
-services:
-  open_pension_blog.commands:
-    class: \Drupal\open_pension_blog\Commands\OpenPensionBlogCommands
-    arguments: ['@entity_type.manager']
-    tags:
-      - { name: drush.command }
