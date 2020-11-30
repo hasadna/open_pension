@@ -3,12 +3,15 @@ import express from "express";
 import graphqlHTTP from "express-graphql";
 import {buildSchema} from "type-graphql";
 import {getPort, getEnv} from "services/config-service";
+import {KafkaClient} from "./clients/kafka-client";
 
 async function bootstrap() {
     const schema = await buildSchema({
         resolvers: [__dirname + "/resolvers/**/*.ts"],
         emitSchemaFile: true
     });
+
+    KafkaClient.listen();
 
     const app = express();
     app.use(

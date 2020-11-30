@@ -1,16 +1,7 @@
-open_pension_fetcher.links:
-  path: '/api/fetcher-links'
+open_pension_fetcher.open_pension_fetcher:
+  path: '/admin/open_pension/query-files'
   defaults:
-    _title: 'Example'
-    _controller: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherLinksController::build'
-  methods: ['PATCH', 'POST']
+    _title: 'Query files'
+    _form: 'Drupal\open_pension_fetcher\Form\OpenPensionFetcherForm'
   requirements:
-    _custom_access: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherLinksController::access'
-
-open_pension_fetcher.collect_files:
-  path: '/admin/open_pension/open-pension-links/collect'
-  defaults:
-    _title: 'Collect links'
-    _controller: '\Drupal\open_pension_fetcher\Controller\OpenPensionFetcherCollectFiles::build'
-  requirements:
-    _permission: 'access open pension links overview'
+    _permission: 'access open pension core'

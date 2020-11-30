@@ -31,7 +31,8 @@
         "drupal/jsonapi_extras": "^3.16",
         "drupal/pathauto": "^1.8",
         "drush/drush": "^10.3",
-        "shuchkin/simplexlsx": "^0.8.19"
+        "shuchkin/simplexlsx": "^0.8.19",
+        "spatie/async": "^1.5"
     },
     "conflict": {
         "drupal/drupal": "*"

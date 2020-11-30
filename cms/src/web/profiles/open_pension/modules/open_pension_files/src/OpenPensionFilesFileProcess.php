@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class OpenPensionFilesFileProcess.
+ *
+ * todo: reduce a lot of the code.
  */
 class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
@@ -245,7 +247,7 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
 
     $this->log(t('Starting to process the file @file_name', ['@file_name' => $file->getFilename()]));
     try {
-      $results = $this->sendFileToServer($file);
+      $results = $this->sendFileToStorage($file);
 
       if ($results->getStatusCode() == Response::HTTP_CREATED) {
         $this->log(t('The file @file-name has been processed', ['@file-name' => $file->getFilename()]));
@@ -272,16 +274,16 @@ class OpenPensionFilesFileProcess implements OpenPensionFilesProcessInterface {
   /**
    * {@inheritdoc}
    */
-  public function sendFileToServer(File $file): ResponseInterface {
-    if ($this->healthServiceStatus->getProcessorState() === OpenPensionServicesHealthStatus::SERVICE_NOT_RESPONDING) {
-      $this->log(t('The service is not responding. Please check it\'s on the air'), 'error');
+  public function sendFileToStorage(File $file): ResponseInterface {
+    if ($this->healthServiceStatus->getStorageState() === OpenPensionServicesHealthStatus::SERVICE_NOT_RESPONDING) {
+      $this->log(t('The storage service is not responding. Please check it\'s on the air'), 'error');
     }
 
-    return $this->httpClient->request('post', "{$this->openPensionServicesAddress->getProcessorAddress()}/upload",
+    return $this->httpClient->request('post', "{$this->openPensionServicesAddress->getStorageAddress()}/file",
       [
         'multipart' => [
           [
-            'name'     => 'files',
+            'name'     => 'file',
             'contents' => fopen($this->fileSystemService->realpath($file->getFileUri()), 'r'),
           ],
         ],

@@ -22,10 +22,30 @@ export function getUploadedPath(): string {
     return safeGet('upload_path', '');
 }
 
+export function getStorageAddress(): string {
+    return safeGet('STORAGE_ADDRESS', 'http://storage:3000');
+}
+
 export function getKafkaHost() {
     return safeGet("KAFKA_HOST");
 }
 
-export function getKafkaTopic() {
-    return safeGet("KAFKA_TOPIC");
+export function getKafkaParsedRowTopic() {
+    return safeGet("KAFKA_BROADCAST_TOPIC_PARSED_ROW");
+}
+
+export function getKafkaProcessStartedTopic() {
+    return safeGet("KAFKA_BROADCAST_TOPIC_PROCESS_STARTED");
+}
+
+export function getKafkaProcessCompletedTopic() {
+    return safeGet("KAFKA_BROADCAST_TOPIC_PROCESS_COMPLETED");
+}
+
+export function getKafkaProcessCompletedWithErrorsTopic() {
+    return safeGet("KAFKA_BROADCAST_TOPIC_PROCESS_COMPLETED_WITH_ERRORS");
+}
+
+export function getKafkaListenTopic() {
+    return safeGet("KAFKA_LISTEN_TOPIC");
 }

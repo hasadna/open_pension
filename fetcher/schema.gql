@@ -12,11 +12,6 @@ input FilesCollect {
   Urls: [String!]!
 }
 
-type Mutation {
-  downloadReports(query: ReportQuery!): DownloadLinks!
-  completeFilesCollecting(query: FilesCollect!): DownloadLinks!
-}
-
 type PeriodRanges {
   Years: [Float!]!
   Quarters: [Quarter!]!

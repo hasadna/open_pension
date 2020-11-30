@@ -39,8 +39,10 @@ RUN mv /tmp/build-tools/php.ini /usr/local/etc/php/ && \
 COPY src/composer.* ./
 RUN mv /tmp/build-tools/composer.phar /usr/local/bin/composer && \
     composer self-update && \
-    composer global require hirak/prestissimo && \
     composer install
+
+RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
+ADD supervisor.conf /etc/supervisor.conf
 
 COPY src .
 

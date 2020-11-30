@@ -1,4 +1,4 @@
-import {getMongoDb} from "services/env";
+import {getMongoDb} from "../services/env";
 
 const mongoose = require('mongoose');
 

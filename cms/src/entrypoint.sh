@@ -25,5 +25,4 @@ fi
 chmod 777 -R sites/default/files/
 ../vendor/bin/drush cr
 
-# Start the apache process.
-exec apache2-foreground
+supervisord -c /etc/supervisor.conf

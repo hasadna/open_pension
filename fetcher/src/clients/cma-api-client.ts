@@ -6,6 +6,7 @@ import ReportRow from "types/report-row";
 import { ReportQuery } from "types/report-query";
 import {BASE_URL, REPORTS_ROUTE} from "consts";
 import {safeGet} from "services/config-service";
+import https from 'https'
 import {getPeriodRanges, getReportsType, getSystemFields} from "services/query-services";
 
 export class CmaGovApiClient {
@@ -13,7 +14,10 @@ export class CmaGovApiClient {
 
     constructor() {
         this.api = axios.create({
-            baseURL: BASE_URL
+            baseURL: BASE_URL,
+            httpsAgent: new https.Agent({
+                rejectUnauthorized: false
+            }),
         });
     }
 

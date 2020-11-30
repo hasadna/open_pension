@@ -1,5 +1,8 @@
 import kafka from "kafka-node";
 import { getKafkaHost, getKafkaTopic } from "services/config-service";
+import { ConsumerGroupOptions, ConsumerGroup } from 'kafka-node';
+import {downloadReports} from "../services/reports-service";
+import {ReportQuery} from "../types/report-query";
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -57,6 +60,44 @@ export class KafkaClient {
 
     return new Promise((resolve, reject) => {
       resolve(results);
+    });
+  }
+
+  static listen() {
+    const options: ConsumerGroupOptions = {
+      kafkaHost: getKafkaHost(),
+      groupId: 'fetcher',
+      protocol: ['roundrobin'],
+      encoding: 'buffer', // default is utf8, use 'buffer' for binary data
+      fromOffset: 'latest', // default
+      outOfRangeOffset: 'earliest', // default
+    };
+
+    const consumerGroup = new ConsumerGroup(options, ['queryFiles']);
+
+    consumerGroup.on('message', async function (message) {
+      const { value } = message;
+      // @ts-ignore
+      const parsedMessage = JSON.parse(value);
+
+      console.log('Start to download files.');
+
+      // Preparing the report query.
+      const query: ReportQuery = {
+        SystemField: parsedMessage['system_field'],
+        ReportType: parsedMessage['reports_type'],
+        FromYearPeriod: {
+          Quarter: parsedMessage['from_quarter'],
+          Year: parsedMessage['from_year']
+        },
+        ToYearPeriod: {
+          Quarter: parsedMessage['to_quarter'],
+          Year: parsedMessage['to_year']
+        },
+      };
+
+      // Send the request to download the reports.
+      await downloadReports(query)
     });
   }
 }

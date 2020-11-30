@@ -66,6 +66,13 @@ processed, file downloaded.
   * Run `pycodestyle --show-source --max-line-length=120 --exclude=pension/migrations --show-pep8 .` to check for lint mistakes.
   * Run `isort . --recursive --check-only` to check for import mistakes.
   * Run `python manage.py test` to run the unit tetst.
+  
+  
+## Kafka
+```bash
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --whitelist '.*'
+./bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+```
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: https://github.com/hasadna/open_pension/blob/master/LICENSE

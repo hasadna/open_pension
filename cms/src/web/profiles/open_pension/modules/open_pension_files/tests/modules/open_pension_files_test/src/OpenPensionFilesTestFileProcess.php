@@ -15,7 +15,7 @@ class OpenPensionFilesTestFileProcess extends OpenPensionFilesFileProcess {
   /**
    * {@inheritdoc}
    */
-  public function sendFileToServer(File $file): ResponseInterface {
+  public function sendFileToStorage(File $file): ResponseInterface {
 
     // We can't mock responses for both the file handling so we going to return
     // a response base on the name. Why we can't mock responses for two files

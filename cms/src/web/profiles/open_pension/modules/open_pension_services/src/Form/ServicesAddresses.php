@@ -44,6 +44,20 @@ class ServicesAddresses extends ConfigFormBase {
         OpenPensionServicesAddresses::FETCHER_DEFAULT_ADDRESS,
     ];
 
+    $form['kafka'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Kafka address'),
+      '#default_value' => $this->config(OpenPensionServicesAddresses::SERVICES_ADDRESSES_CONFIG)->get('kafka') ?:
+        OpenPensionServicesAddresses::KAFKA_DEFAULT_ADDRESS,
+    ];
+
+    $form['storage'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Storage address'),
+      '#default_value' => $this->config(OpenPensionServicesAddresses::SERVICES_ADDRESSES_CONFIG)->get('storage') ?:
+        OpenPensionServicesAddresses::STORAGE_DEFAULT_ADDRESS,
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -54,7 +68,10 @@ class ServicesAddresses extends ConfigFormBase {
     $this->config(OpenPensionServicesAddresses::SERVICES_ADDRESSES_CONFIG)
       ->set('processor', $form_state->getValue('processor'))
       ->set('fetcher', $form_state->getValue('fetcher'))
+      ->set('kafka', $form_state->getValue('kafka'))
+      ->set('storage', $form_state->getValue('storage'))
       ->save();
+
     parent::submitForm($form, $form_state);
   }
 

@@ -58,11 +58,8 @@ services:
       context: ./processor
       cache_from:
         - hasadna/open-pension-processor:latest
-
-    environment:
-      - PORT=80
-      - mongodb_address=mongodb://processor_db:27017/files
-      - upload_path=/home/app/uploaded_files
+    env_file:
+      - ./processor/.env.docker
 
     depends_on:
       - processor_db
@@ -127,3 +124,26 @@ services:
       context: ./fetcher
       cache_from:
         - hasadna/open-pension-fetcher:latest
+
+  storage:
+    image: hasadna/open-pension-storage:latest
+    build:
+      context: ./storage
+      cache_from:
+        - hasadna/open-pension-storage:latest
+    depends_on:
+      - storage_db
+    env_file:
+      - ./storage/.docker.env
+
+  storage_db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: storage
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./storage/data:/var/lib/mysql

@@ -22,7 +22,7 @@ class OpenPensionCoreAdminIndex extends ControllerBase {
       [
         'title' => t('Query files'),
         'description' => t('Query files and download them for processing'),
-        'url' => Url::fromRoute('entity.open_pension_links.collection'),
+        'url' => Url::fromRoute('open_pension_fetcher.open_pension_fetcher'),
       ],
       [
         'title' => t('Upload files'),
@@ -30,9 +30,9 @@ class OpenPensionCoreAdminIndex extends ControllerBase {
         'url' => Url::fromRoute('open_pension_files.upload'),
       ],
       [
-        'title' => t('Watch collected files'),
-        'description' => t('Watch all the files which been uploaded and queried'),
-        'url' => Url::fromRoute('view.open_pension_uploaded_files.page_1'),
+        'title' => t('Storage files'),
+        'description' => t('Watch all the files which the storage files collected'),
+        'url' => Url::fromUserInput('/admin/open_pension/open-pension-storage-files'),
       ],
       [
         'title' => t('Services Addresses'),
