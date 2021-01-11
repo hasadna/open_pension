@@ -31,7 +31,8 @@ class OpenPensionKafkaOrchestrator {
    */
   public function __construct(OpenPensionServicesAddresses $open_pension_services_addresses) {
     $this->openPensionServicesAddresses = $open_pension_services_addresses;
-    $this->kafkaConf = new Conf();
+    // todo: need to be triggered only when the kafka is installed.
+//    $this->kafkaConf = new Conf();
   }
 
   /**

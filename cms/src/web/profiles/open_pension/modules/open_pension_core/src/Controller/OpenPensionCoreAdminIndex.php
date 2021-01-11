@@ -43,7 +43,7 @@ class OpenPensionCoreAdminIndex extends ControllerBase {
         'title' => t('Reclamation tables'),
         'description' => t('Manage the reclamation tables'),
         'url' => Url::fromRoute('entity.instrument_type.collection'),
-      ]
+      ],
     ];
 
     return [

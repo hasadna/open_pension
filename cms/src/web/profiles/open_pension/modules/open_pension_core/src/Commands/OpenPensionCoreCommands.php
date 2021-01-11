@@ -4,9 +4,7 @@ namespace Drupal\open_pension_core\Commands;
 
 use Consolidation\SiteAlias\SiteAliasManager;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
-use Drupal\open_pension_kafka\KafkaTopicPluginManager;
-use Drupal\open_pension_kafka\OpenPensionKafkaOrchestrator;
-use Drupal\open_pension_kafka\Plugin\KafkaTopic\ProcessingStarted;
+use Drupal\Core\Database\Database;
 use Drush\Commands\DrushCommands;
 use Drupal\Core\Extension\ModuleHandler;
 
@@ -63,15 +61,29 @@ class OpenPensionCoreCommands extends DrushCommands {
    */
   public function sandbox($options = ['option-name' => 'default']) {
 
-    $payload = '{"storageId":1835}';
 
-    /** @var KafkaTopicPluginManager $kafka_plugin */
-    $kafka_plugin = \Drupal::service('plugin.manager.kafka_topic');
+    $db = Database::getConnection('foo');
+    \Kint::dump($db);
 
-    /** @var ProcessingStarted $plugin */
-    $plugin = $kafka_plugin->createInstance('processingStarted');
+    $query = $db->select('users', 'u');
+    $query->fields('u');
 
-    $plugin->handleTopicMessage($payload);
+    $users = $query->execute()->fetchAllKeyed();
+
+    \Kint::dump($users);
+
+//
+//    print_r('a');
+
+//    $payload = '{"storageId":1835}';
+//
+//    /** @var KafkaTopicPluginManager $kafka_plugin */
+//    $kafka_plugin = \Drupal::service('plugin.manager.kafka_topic');
+//
+//    /** @var ProcessingStarted $plugin */
+//    $plugin = $kafka_plugin->createInstance('processingStarted');
+//
+//    $plugin->handleTopicMessage($payload);
 
 //    $payload = [
 //      "system_field" => "",

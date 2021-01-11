@@ -74,13 +74,14 @@ class OpenPensionFilesUploader extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    // todo: check here the status of the storage service.
     $form['selected_files'] = [
       '#title' => t('Select files to upload'),
       '#description' => t('You can add as many files as you want. The files will be sent to processor for parsing and the rest of the flow.'),
       '#type' => 'managed_file',
       '#upload_location' => 'public://open_pension_processor/',
       '#multiple' => TRUE,
-      '#upload_validators' => ['file_validate_extensions' => ['xls xlsx']],
+      '#upload_validators' => ['file_validate_extensions' => ['xls xlsx xml']],
     ];
 
     $form['actions'] = [
@@ -108,7 +109,7 @@ class OpenPensionFilesUploader extends FormBase {
       try {
         $this->fileProcessorService->sendFileToStorage($file);
       } catch (\Exception $e) {
-        dpm($e);
+        $this->messenger->addError($e);
       }
     }
 
