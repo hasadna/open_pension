@@ -1,9 +1,10 @@
 -- CreateTable
-CREATE TABLE `Data` (
+CREATE TABLE `ParsedFiles` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `filename` VARCHAR(191) NOT NULL,
+    `created` DATETIME(3) NOT NULL,
     `id_guf` INT NOT NULL,
-    `shem_guf` INT NOT NULL,
+    `shem_guf` VARCHAR(191) NOT NULL,
     `taarich_hafakat_hadoch` DATETIME(3) NOT NULL,
     `id_hevra` INT NOT NULL,
     `tkufat_hakama` VARCHAR(191) NOT NULL,

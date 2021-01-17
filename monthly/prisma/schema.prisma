@@ -7,11 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Data {
+model ParsedFiles {
   id                              Int     @id @default(autoincrement())
-  filename                        String 
+  filename                        String
+  created                         DateTime
   id_guf                          Int
-  shem_guf                        Int
+  shem_guf                        String
   taarich_hafakat_hadoch          DateTime
   id_hevra                        Int
   tkufat_hakama                   String
