@@ -37,13 +37,16 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
-    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
+    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
+    "make_migration": "prisma migrate dev --preview-feature",
+    "migrate": "prisma db push --preview-feature"
   },
   "engines": {
     "node": ">=10"
   },
   "dependencies": {
     "@bitauth/libauth": "^1.17.1",
+    "@prisma/client": "^2.14.0",
     "@types/xml2js": "^0.4.7",
     "date-fns": "^2.16.1",
     "xml2js": "^0.4.23"
@@ -51,6 +54,7 @@
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@prisma/cli": "^2.14.0",
     "@types/node": "^14.14.20",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
