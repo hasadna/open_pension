@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "nodemon --watch '**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "run-p build:*",
+    "start": "node build/main/index.js",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
@@ -38,8 +39,10 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-    "make_migration": "prisma migrate dev --preview-feature",
-    "migrate": "prisma db push --preview-feature"
+
+    "makeMigration": "prisma migrate dev --preview-feature",
+    "migrate": "prisma db push --preview-feature",
+    "clientGenerate": "prisma generate"
   },
   "engines": {
     "node": ">=10"

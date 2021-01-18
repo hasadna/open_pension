@@ -63,3 +63,7 @@ services:
   storage:
     ports:
       - "7000:3000"
+
+  monthly:
+    ports:
+      - "8000:4000"
