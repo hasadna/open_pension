@@ -65,5 +65,7 @@ services:
       - "7000:3000"
 
   monthly:
+    volumes:
+      - ./monthly:/home/app
     ports:
       - "8000:4000"

@@ -157,7 +157,7 @@ services:
     depends_on:
       - monthly_db
     env_file:
-      - ./storage/.docker.env
+      - ./monthly/.docker.env
 
   monthly_db:
     image: mysql:5.7

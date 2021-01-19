@@ -15,4 +15,4 @@ echo "DB is online"
 npm run clientGenerate
 npm run migrate
 
-npm run start
+npm run dev

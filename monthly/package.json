@@ -39,7 +39,6 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-
     "makeMigration": "prisma migrate dev --preview-feature",
     "migrate": "prisma db push --preview-feature",
     "clientGenerate": "prisma generate"
@@ -53,7 +52,9 @@
     "@types/xml2js": "^0.4.7",
     "apollo-server": "^2.19.2",
     "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
     "graphql": "^15.4.0",
+    "kafka-node": "^5.0.0",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
@@ -78,6 +79,7 @@
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
     "prettier": "^2.1.1",
+    "request": "^2.88.2",
     "standard-version": "^9.0.0",
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.0",
