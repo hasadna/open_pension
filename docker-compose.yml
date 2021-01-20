@@ -169,4 +169,4 @@ services:
       MYSQL_DATABASE: monthly
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./montly/data:/var/lib/mysql
+      - ./monthly/data:/var/lib/mysql

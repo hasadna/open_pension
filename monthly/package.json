@@ -10,6 +10,7 @@
   "keywords": [],
   "scripts": {
     "dev": "nodemon --watch '**/*.ts' --exec 'ts-node' src/index.ts",
+    "sandbox": "nodemon --watch '**/*.ts' --exec 'ts-node' src/sandbox.ts",
     "build": "run-p build:*",
     "start": "node build/main/index.js",
     "build:main": "tsc -p tsconfig.json",

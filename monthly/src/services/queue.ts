@@ -17,14 +17,14 @@ export const handleKafkaMessage = async (message) => {
     .on('error', (err) => {
       console.error(`there was an error while downloading the file ${filename}`, err);
     })
-    .on('close', () => {
+    .on('close', async () => {
       console.log(`The file, ${filename}, was created successfully.`);
-    })
 
-    try {
-      await processFileIntoDb(dest, prisma);
-      console.log(`💪 The file ${filename} was process successfully`)
-    } catch (e) {
-      console.error(e);
-    }
+      try {
+        await processFileIntoDb(dest, prisma);
+        console.log(`💪 The file ${filename} was process successfully`)
+      } catch (e) {
+        console.error(e);
+      }
+    })
 };

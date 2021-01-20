@@ -15,8 +15,6 @@ COPY . $APP_DIR
 
 RUN cp .docker.env .env
 
-RUN npm run build
-
 # Running the entry point.
 RUN chmod +x /home/app/entrypoint.sh
 CMD [ "/home/app/entrypoint.sh" ]

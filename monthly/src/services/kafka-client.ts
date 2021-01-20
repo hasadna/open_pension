@@ -1,7 +1,6 @@
 import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
 import {getKafkaHost, getKafkaListenTopic} from "./env";
 import {handleKafkaMessage} from "./queue";
-// import {handleKafkaMessage} from "./queue";
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -43,8 +42,6 @@ export class KafkaClient {
     });
 
     consumerGroup.on('message', async function (message) {
-      console.log(message);
-
       // @ts-ignore
       const parsedMessage = JSON.parse(message.value);
 

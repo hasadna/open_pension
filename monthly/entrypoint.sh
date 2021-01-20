@@ -11,8 +11,8 @@ done
 echo "DB is online"
 
 # Migrating the DB.
-
+npm run build
 npm run clientGenerate
 npm run migrate
 
-npm run dev
+npm run start

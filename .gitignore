@@ -274,3 +274,5 @@ blog/revisions
 
 storage/files
 storage/.env
+
+monthly/uploaded_files/*
