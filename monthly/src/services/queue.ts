@@ -8,6 +8,11 @@ import {prisma} from "../server/context";
 export const handleKafkaMessage = async (message) => {
   const { ID, filename } = message;
 
+  if (path.extname(filename) !== '.xml') {
+    console.log(`The file ${filename} was not an xml based file`);
+    return;
+  }
+
   const dest = path.join(getUploadedPath(), filename);
   const url = `${getStorageAddress()}/file/${ID}`;
 
