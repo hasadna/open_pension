@@ -55,7 +55,6 @@ export class KafkaClient {
       // @ts-ignore
       const parsedMessage = JSON.parse(message.value);
 
-      // todo: if it's an xml don't pull the file.
       await handleKafkaMessage(parsedMessage);
     });
 
