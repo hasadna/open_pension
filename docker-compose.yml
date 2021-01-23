@@ -3,8 +3,6 @@ version: "3.7"
 volumes:
   application-db:
     external: false
-  cms-db-data:
-    external: false
   processor-db:
     external: false
 
@@ -77,6 +75,16 @@ services:
       context: ./cms
       cache_from:
         - hasadna/open-pension-cms:latest
+  cms_db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: cms
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./cms-db-data:/var/lib/mysql
 
   blog:
     image: hasadna/open-pension-blog:latest
@@ -91,11 +99,6 @@ services:
       - GH_ACCESS_TOKEN=hamburger
     restart: "always"
     network_mode: "service:cms"
-
-  cms_db:
-    image: mysql:5.7
-    volumes:
-      - cms-db-data:/var/lib/mysql
 
   kafka:
     image: hasadna/open-pension-kafka:latest
