@@ -24,6 +24,20 @@ export class KafkaClient {
     }
   }
 
+  async sendMessage(messages: any, topic: any) {
+
+    if (!this.serviceUp) {
+      console.error('The kafka host is not alive')
+      return;
+    }
+
+    try {
+      return await this.producer.send([{topic, messages}], () => {});
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
   static listen() {
     const options: ConsumerGroupOptions = {
       kafkaHost: getKafkaHost(),
@@ -33,6 +47,7 @@ export class KafkaClient {
       fromOffset: 'latest', // default
       outOfRangeOffset: 'earliest', // default
     };
+    const kafkaClient = new KafkaClient();
 
     const consumerGroup = new ConsumerGroup(options, [getKafkaListenTopic()]);
     console.log('Start to listen to events');
@@ -45,7 +60,7 @@ export class KafkaClient {
       // @ts-ignore
       const parsedMessage = JSON.parse(message.value);
 
-      await handleKafkaMessage(parsedMessage);
+      await handleKafkaMessage(kafkaClient, parsedMessage);
     });
 
   }

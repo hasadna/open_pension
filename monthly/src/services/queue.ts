@@ -1,11 +1,28 @@
 import fs from 'fs'
 import path from "path";
 import request from "request";
-import {getStorageAddress, getUploadedPath} from "./env";
+import {
+  getKafkaProcessCompletedTopic, getKafkaProcessCompletedWithErrorsTopic,
+  getKafkaProcessStartedTopic,
+  getStorageAddress,
+  getUploadedPath
+} from "./env";
 import {processFileIntoDb} from "../lib/db";
 import {prisma} from "../server/context";
+import {KafkaClient} from "./kafka-client";
 
-export const handleKafkaMessage = async (message) => {
+function sendMessage(kafkaClient: KafkaClient, topic: string, storageId: number) {
+  const messagePayload = {
+    storageId: storageId,
+  };
+
+  kafkaClient.sendMessage(JSON.stringify(messagePayload), topic)
+    .then(() => {
+      console.log(`The event ${topic} for the file ${storageId} has been sent.`);
+    });
+}
+
+export const handleKafkaMessage = async (kafkaClient: KafkaClient, message) => {
   const { ID, filename } = message;
 
   if (path.extname(filename) !== '.xml') {
@@ -26,9 +43,14 @@ export const handleKafkaMessage = async (message) => {
       console.log(`The file, ${filename}, was created successfully.`);
 
       try {
+        sendMessage(kafkaClient, getKafkaProcessStartedTopic(), ID);
+
         await processFileIntoDb(dest, prisma);
+        sendMessage(kafkaClient, getKafkaProcessCompletedTopic(), ID);
+
         console.log(`💪 The file ${filename} was process successfully`)
       } catch (e) {
+        sendMessage(kafkaClient, getKafkaProcessCompletedWithErrorsTopic(), ID);
         console.error(e);
       }
     })

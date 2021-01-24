@@ -9,6 +9,7 @@ volumes:
 services:
   gateway:
     image: hasadna/open-pension-gateway:latest
+    restart: always
     build:
       context: ./gateway
       cache_from:
@@ -16,6 +17,7 @@ services:
 
   application:
     image: hasadna/open-pension-application:latest
+    restart: always
     build:
       context: ./application
       cache_from:
@@ -39,6 +41,7 @@ services:
 
   client:
     image: hasadna/open-pension-client:latest
+    restart: always
     build:
       context: ./client
       cache_from:
@@ -52,6 +55,7 @@ services:
 
   processor:
     image: hasadna/open-pension-processor:latest
+    restart: always
     build:
       context: ./processor
       cache_from:
@@ -64,11 +68,13 @@ services:
 
   processor_db:
     image: mongo
+    restart: always
     volumes:
       - processor-db:/data/db
 
   cms:
     image: hasadna/open-pension-cms:latest
+    restart: always
     depends_on:
       - cms_db
     build:
@@ -102,6 +108,7 @@ services:
 
   kafka:
     image: hasadna/open-pension-kafka:latest
+    restart: always
     build:
       context: ./kafka
       cache_from:
@@ -113,16 +120,19 @@ services:
 
   kafka2:
     image: hasadna/open-pension-kafka:latest
+    restart: always
     environment:
       - BROKER_ID=2
     depends_on:
       - zookeeper
 
   zookeeper:
+    restart: always
     image: zookeeper:3.5
 
   fetcher:
     image: hasadna/open-pension-fetcher:latest
+    restart: always
     build:
       context: ./fetcher
       cache_from:
@@ -130,6 +140,7 @@ services:
 
   storage:
     image: hasadna/open-pension-storage:latest
+    restart: always
     build:
       context: ./storage
       cache_from:
@@ -153,6 +164,7 @@ services:
 
   monthly:
     image: hasadna/open-pension-monthly:latest
+    restart: always
     build:
       context: ./monthly
       cache_from:
