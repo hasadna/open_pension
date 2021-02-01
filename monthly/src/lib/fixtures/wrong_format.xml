@@ -1,0 +1,10 @@
+<menu>
+  <first-meals>
+    <dish>
+      <name>Antipasti</name>
+      <description>Pepper, Sweet potato, Eggplant</description>
+      <price>5 USD</price>
+    </dish>
+  </first-meals>
+
+</menu>
