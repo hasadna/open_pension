@@ -4,8 +4,9 @@ import {FileRowInterface, ProcessedXmlFileInterface} from "./interfaces";
 import {firstRow, secondRow, emptyRow, incompleteRow} from "./fixtures/bituach_source";
 import {fullRow} from "./fixtures/bituach_results";
 
+export const getPathForFixture = (filename: string): string => join(process.cwd(), 'src', 'lib', 'fixtures', filename);
+
 describe('Testing the file processing', () => {
-  const getPathForFixture = (filename: string): string => join(process.cwd(), 'src', 'lib', 'fixtures', filename);
 
   const parseRows = (rows: any[]): FileRowInterface[]=> {
     const emptyRows: ProcessedXmlFileInterface = {
