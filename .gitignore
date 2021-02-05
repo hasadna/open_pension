@@ -241,12 +241,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
-### Custom ###
-processor/files/uploaded/*.xlsx
-processor-db
-processor/out/*.json
-
+# CMS.
 cms/src/vendor
 cms/src/console
 cms/src/web/.*
@@ -258,20 +253,29 @@ cms/src/web/*.gitignore
 cms/src/web/modules/
 cms/src/web/sites/
 cms/src/web/themes/
+cms-db-data
 
 /db
 
 fetcher/temp_files
 
+# Processor.
 processor/*/*.js
+processor/.env
+processor/files/uploaded/*.xlsx
+processor-db
+processor/out/*.json
 
-
+# Blog.
 blog/.cache
 blog/node_modules
 blog/public
 blog/revisions
 
+# Storage.
 storage/files
 storage/.env
+storage/data
 
+# Monthly.
 monthly/uploaded_files/*
