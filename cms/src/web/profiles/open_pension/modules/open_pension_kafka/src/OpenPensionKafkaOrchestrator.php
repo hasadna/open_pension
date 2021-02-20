@@ -31,8 +31,11 @@ class OpenPensionKafkaOrchestrator {
    */
   public function __construct(OpenPensionServicesAddresses $open_pension_services_addresses) {
     $this->openPensionServicesAddresses = $open_pension_services_addresses;
-    // todo: need to be triggered only when the kafka is installed.
-    $this->kafkaConf = new Conf();
+
+    $this->kafkaConf = NULL;
+    if (in_array('rdkafka', get_loaded_extensions())) {
+      $this->kafkaConf = new Conf();
+    }
   }
 
   /**
@@ -53,6 +56,11 @@ class OpenPensionKafkaOrchestrator {
    *  The kafka payload.
    */
   public function sendTopic(string $topic, $payload) {
+
+    if (!$this->kafkaConf) {
+      throw new \Exception('The kafka package is not installed.');
+    }
+
     $producer = $this->getProducer();
     $topic = $producer->newTopic($topic);
     $topic->produce(\RD_KAFKA_PARTITION_UA, 0, $payload);
@@ -68,6 +76,10 @@ class OpenPensionKafkaOrchestrator {
    * @return string
    */
   public function consume($topic) {
+
+    if (!$this->kafkaConf) {
+      throw new \Exception('The kafka package is not installed.');
+    }
 
     $this->kafkaConf->set('group.id', 'myConsumerGroup');
     $this->kafkaConf->set('metadata.broker.list', $this->openPensionServicesAddresses->getKafkaAddress());
