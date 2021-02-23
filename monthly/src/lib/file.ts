@@ -7,6 +7,10 @@ import {
   ProcessedXmlFileInterface
 } from "./interfaces";
 import {parseStringPromise} from "xml2js";
+import * as loadash from "lodash";
+
+
+const {head} = loadash;
 
 /**
  * Reading a file and return the raw object.
@@ -51,7 +55,7 @@ function processDateFromString(dateAsString: string, dateMode: DateFormats): Dat
 }
 
 function processStringToNumber(stringedNumber: string[], numberType: NumberType): number {
-  const numberFromString = numberType == NumberType.Int ? parseInt(stringedNumber[0]) : parseFloat(stringedNumber[0]);
+  const numberFromString = numberType == NumberType.Int ? parseInt(head(stringedNumber)) : parseFloat(head(stringedNumber));
 
   if (isNaN(numberFromString)) {
     return 0;
@@ -69,7 +73,6 @@ function processStringToNumber(stringedNumber: string[], numberType: NumberType)
  */
 export function enrichRawFileObject(rawFieData: ProcessedXmlFileInterface): FileRowInterface[] {
   const fileRows: FileRowInterface[] = [];
-
   try {
     rawFieData.ROWSET.ROW.map(async (row) => {
       const publishingDate = new Date();
@@ -110,6 +113,7 @@ export function enrichRawFileObject(rawFieData: ProcessedXmlFileInterface): File
 
     return fileRows;
   } catch (e) {
+    console.error(e);
     return null;
   }
 

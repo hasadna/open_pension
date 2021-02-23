@@ -18,7 +18,8 @@ export interface ProcessedXmlFileInterface {
   ROWSET: {
     DESCRIPTION1: string[],
     DESCRIPTION2: string[],
-    ROW: ProcessedXmlFileRowsInterface[],
+    ROW?: ProcessedXmlFileRowsInterface[],
+    Row?: ProcessedXmlFileRowsInterface[],
   },
 }
 

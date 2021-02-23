@@ -60,17 +60,18 @@ class OpenPensionCoreCommands extends DrushCommands {
    * @aliases sandbox
    */
   public function sandbox($options = ['option-name' => 'default']) {
+//    \Kint::dump(in_array('rdkafka', get_loaded_extensions()));
 
-
-    $db = Database::getConnection('foo');
-    \Kint::dump($db);
-
-    $query = $db->select('users', 'u');
-    $query->fields('u');
-
-    $users = $query->execute()->fetchAllKeyed();
-
-    \Kint::dump($users);
+//
+//    $db = Database::getConnection('foo');
+//    \Kint::dump($db);
+//
+//    $query = $db->select('users', 'u');
+//    $query->fields('u');
+//
+//    $users = $query->execute()->fetchAllKeyed();
+//
+//    \Kint::dump($users);
 
 //
 //    print_r('a');
@@ -85,21 +86,21 @@ class OpenPensionCoreCommands extends DrushCommands {
 //
 //    $plugin->handleTopicMessage($payload);
 
-//    $payload = [
-//      "system_field" => "",
-//      "reports_type" => "",
-//      "from_year" => 2020,
-//      "to_year" => 2020,
-//      "from_quarter" => "1",
-//      "to_quarter" => "1"
-//    ];
-//
-//    /** @var OpenPensionKafkaOrchestrator $kafka_orchestrator */
-//    $kafka_orchestrator = \Drupal::service('open_pension_kafka.orchestrator');
-//
-//    $message = json_encode($payload);
-//    $kafka_orchestrator->sendTopic('queryFiles', $message);
-//
+    $payload = [
+      "system_field" => "",
+      "reports_type" => "",
+      "from_year" => 2020,
+      "to_year" => 2020,
+      "from_quarter" => "1",
+      "to_quarter" => "1"
+    ];
+
+    /** @var OpenPensionKafkaOrchestrator $kafka_orchestrator */
+    $kafka_orchestrator = \Drupal::service('open_pension_kafka.orchestrator');
+
+    $message = json_encode($payload);
+    $kafka_orchestrator->sendTopic('queryFiles', $message);
+
 //    print_r("sent {$message}\n");
   }
 

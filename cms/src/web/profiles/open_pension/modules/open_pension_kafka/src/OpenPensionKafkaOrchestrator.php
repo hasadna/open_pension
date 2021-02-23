@@ -68,6 +68,34 @@ class OpenPensionKafkaOrchestrator {
   }
 
   /**
+   *
+   * @param $topics
+   * @return KafkaConsumer
+   */
+  public function getConsumeQueue($topics) {
+    // Set the group id. This is required when storing offsets on the broker
+    $this->kafkaConf->set('group.id', 'myConsumerGroup');
+
+    $rk = new \RdKafka\Consumer($this->kafkaConf);
+    $rk->addBrokers($this->openPensionServicesAddresses->getKafkaAddress());
+
+    $queue = $rk->newQueue();
+
+    $topicConf = new \RdKafka\TopicConf();
+    $topicConf->set('auto.commit.interval.ms', 100);
+
+    // Set the offset store method to 'file'
+    $topicConf->set('offset.store.method', 'broker');
+
+    foreach ($topics as $topic) {
+      $topic1 = $rk->newTopic($topic, $topicConf);
+      $topic1->consumeQueueStart(0, RD_KAFKA_OFFSET_BEGINNING, $queue);
+    }
+
+    return $queue;
+  }
+
+  /**
    * Consuming a topic.
    *
    * @param $topic
@@ -76,24 +104,35 @@ class OpenPensionKafkaOrchestrator {
    * @return string
    */
   public function consume($topic) {
+    $conf = $this->kafkaConf;
 
-    if (!$this->kafkaConf) {
-      throw new \Exception('The kafka package is not installed.');
-    }
+    // Configure the group.id. All consumer with the same group.id will consume
+    // different partitions.
+    $conf->set('group.id', 'myConsumerGroup');
 
-    $this->kafkaConf->set('group.id', 'myConsumerGroup');
-    $this->kafkaConf->set('metadata.broker.list', $this->openPensionServicesAddresses->getKafkaAddress());
-    $this->kafkaConf->set('auto.offset.reset', 'earliest');
+    // Initial list of Kafka brokers
+    $conf->set('metadata.broker.list', 'kafka:9092');
 
-    $consumer = new KafkaConsumer($this->kafkaConf);
+    // Set where to start consuming messages when there is no initial offset in
+    // offset store or the desired offset is out of range.
+    // 'earliest': start from the beginning
+//    $conf->set('auto.offset.reset', 'earliest');
 
+    $consumer = new \RdKafka\KafkaConsumer($conf);
+
+    // Subscribe to topic 'test'
     $consumer->subscribe([$topic]);
 
-    $message = $consumer->consume(1000);
+    var_dump($topic);
 
-    if ($message->err == RD_KAFKA_RESP_ERR_NO_ERROR) {
-      return $message->payload;
-    }
+    echo "Waiting for partition assignment... (make take some time when\n";
+    echo "quickly re-joining the group after leaving it.)\n";
+
+//    while (true) {
+//      $message = $consumer->consume(1*1000);
+//
+//      var_dump($message);
+//    }
   }
 
 }

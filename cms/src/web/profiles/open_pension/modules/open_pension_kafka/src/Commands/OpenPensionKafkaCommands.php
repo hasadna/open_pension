@@ -66,7 +66,7 @@ class OpenPensionKafkaCommands extends DrushCommands {
       $this->kafkaPlugins = $this->kafkaTopicPluginManager->getDefinitions();
     }
 
-    foreach (array_keys($this->kafkaPlugins) as $plugin_id) {
+    foreach (['FileStored'] as $plugin_id) {
 
       /** @var KafkaTopicPluginBase $plugin */
       $plugin = $this->kafkaTopicPluginManager->createInstance($plugin_id);
@@ -102,42 +102,60 @@ class OpenPensionKafkaCommands extends DrushCommands {
    */
   public function kafkaListen($daemon=FALSE) {
 
-    if ($daemon) {
-      $this->openPensionKafkaLogger->info(dt('Running the service as a daemon'));
+    // todo:
+    //  1. Get all the topics by plugins.
+    //  2. if we not in a deamon then we need to limit the range to 60 seconds
+    //  3. Take the events from the latest the newer or maybe don't events which
+    //    pulled before.
+    //  4. Check the flow works...
 
-      while (true) {
-        $date = \Drupal::service('date.formatter')->format(\Drupal::time()->getCurrentTime(), 'short');
-        $params = [
-          '@date' => $date
-        ];
+    $queue = $this->kafkaOrchestrator->getConsumeQueue(['FileStored']);
 
-        $this->queryKafkaTopics(
-          function($plugin_id) use ($params) {
-            $params['@plugin_id'] = $plugin_id;
-            $this->openPensionKafkaLogger->info(dt("@date - Trying to getting message from @plugin_id while running a daemon", $params));
-          },
-          function($payload) use ($params) {
-            $params['@payload'] = $payload;
-            $this->openPensionKafkaLogger->info(dt("@date - Got a message with the payload @payload at ", $params));
-          });
+    while (true) {
+      $message = $queue->consume(120*1000);
+      if ($message->err == RD_KAFKA_RESP_ERR_NO_ERROR) {
+        var_dump($message->payload);
       }
-      return;
+
+      sleep(1);
     }
 
-    $this->openPensionKafkaLogger->info(dt('Start to listen to events for a minute'));
-
-    $max_times = 59;
-
-    for ($i = 0; $i <= $max_times; $i++) {
-      // Start to iterate 60 times. At the end of each iteration we going to
-      // sleep for a second.
-      $this->queryKafkaTopics(
-        function($plugin_id) use ($i, $max_times) {
-        $this->openPensionKafkaLogger->info(dt("Trying to getting message from {$plugin_id} {$i}/{$max_times}"));
-      },
-      function($payload) use ($i, $max_times) {
-        $this->openPensionKafkaLogger->info(dt("Got a message with the payload @payload at {$i}/{$max_times}", ['@payload' => $payload]));
-      });
-    }
+//    if ($daemon) {
+//      $this->openPensionKafkaLogger->info(dt('Running the service as a daemon'));
+//
+//      while (true) {
+//        $date = \Drupal::service('date.formatter')->format(\Drupal::time()->getCurrentTime(), 'short');
+//        $params = [
+//          '@date' => $date
+//        ];
+//
+//        $this->queryKafkaTopics(
+//          function($plugin_id) use ($params) {
+//            $params['@plugin_id'] = $plugin_id;
+//            $this->openPensionKafkaLogger->info(dt("@date - Trying to getting message from @plugin_id while running a daemon", $params));
+//          },
+//          function($payload) use ($params) {
+//            $params['@payload'] = $payload;
+//            $this->openPensionKafkaLogger->info(dt("@date - Got a message with the payload @payload at ", $params));
+//          });
+//      }
+//      return;
+//    }
+//
+//    $this->openPensionKafkaLogger->info(dt('Start to listen to events for a minute'));
+//
+//    $max_times = 59;
+//
+//    for ($i = 0; $i <= $max_times; $i++) {
+//      // Start to iterate 60 times. At the end of each iteration we going to
+//      // sleep for a second.
+//      $this->queryKafkaTopics(
+//        function($plugin_id) use ($i, $max_times) {
+//        $this->openPensionKafkaLogger->info(dt("Trying to getting message from {$plugin_id} {$i}/{$max_times}"));
+//      },
+//      function($payload) use ($i, $max_times) {
+//        $this->openPensionKafkaLogger->info(dt("Got a message with the payload @payload at {$i}/{$max_times}", ['@payload' => $payload]));
+//      });
+//    }
   }
 }
