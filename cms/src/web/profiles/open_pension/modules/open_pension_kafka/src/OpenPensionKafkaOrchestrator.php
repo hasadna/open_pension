@@ -68,11 +68,18 @@ class OpenPensionKafkaOrchestrator {
   }
 
   /**
+   * Consume the message in a queue format.
    *
    * @param $topics
+   *   List of topics we need to events.
+   *
    * @return KafkaConsumer
+   *   The kafka queue object.
    */
   public function getConsumeQueue($topics) {
+    // todo: Take the events from the latest the newer or maybe don't events
+    //  which pulled before.
+
     // Set the group id. This is required when storing offsets on the broker
     $this->kafkaConf->set('group.id', 'myConsumerGroup');
 
