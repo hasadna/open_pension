@@ -2,7 +2,8 @@ import fs from 'fs'
 import path from "path";
 import request from "request";
 import {
-  getKafkaProcessCompletedTopic, getKafkaProcessCompletedWithErrorsTopic,
+  getKafkaProcessCompletedTopic,
+  getKafkaProcessCompletedWithErrorsTopic,
   getKafkaProcessStartedTopic,
   getStorageAddress,
   getUploadedPath
@@ -23,7 +24,6 @@ function sendMessage(kafkaClient: KafkaClient, topic: string, storageId: number)
 }
 
 export const handleKafkaMessage = async (kafkaClient: KafkaClient, message) => {
-  // todo: add a status for the file.
   const { ID, filename } = message;
 
   if (path.extname(filename) !== '.xml') {
@@ -44,13 +44,10 @@ export const handleKafkaMessage = async (kafkaClient: KafkaClient, message) => {
       console.log(`The file, ${filename}, was created successfully.`);
 
       try {
-
-        // todo: failed files are not marked as failed.
         sendMessage(kafkaClient, getKafkaProcessStartedTopic(), ID);
-
         await processFileIntoDb(dest, prisma);
-        sendMessage(kafkaClient, getKafkaProcessCompletedTopic(), ID);
 
+        sendMessage(kafkaClient, getKafkaProcessCompletedTopic(), ID);
         console.log(`💪 The file ${filename} was process successfully`)
       } catch (e) {
         sendMessage(kafkaClient, getKafkaProcessCompletedWithErrorsTopic(), ID);

@@ -72,6 +72,7 @@ class OpenPensionKafkaCommands extends DrushCommands {
 
     $plugins_ids = array_keys($this->kafkaTopicPluginManager->getDefinitions());
     $queue = $this->kafkaOrchestrator->getConsumeQueue($plugins_ids);
+
     $plugins = [];
 
     $i = 0;

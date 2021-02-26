@@ -24,7 +24,7 @@ class ProcessingStarted extends AbstractProcessKafkaPlugin {
    * @return string
    */
   protected function getFileStatus() {
-    return OpenPensionStorageFiles::$SENT;
+    return OpenPensionStorageFiles::$PROCESS_STARTED;
   }
 
 }

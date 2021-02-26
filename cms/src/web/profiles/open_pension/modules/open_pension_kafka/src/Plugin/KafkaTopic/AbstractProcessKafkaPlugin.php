@@ -19,7 +19,9 @@ abstract class AbstractProcessKafkaPlugin extends AbstractKafkaPlugin {
 
     $storage_id = $payload->storageId;
 
-    if (!$file_ids = OpenPensionFiles::getFilesIDByStorageId($storage_id)) {
+    $file_ids = OpenPensionFiles::getFilesIDByStorageId($storage_id);
+
+    if (!$file_ids) {
       // todo: query the file from the storage.
       $this->getStorage()->create([
         'storage_id' => $storage_id,

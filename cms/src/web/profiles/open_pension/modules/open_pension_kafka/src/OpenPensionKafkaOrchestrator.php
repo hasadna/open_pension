@@ -93,6 +93,7 @@ class OpenPensionKafkaOrchestrator {
 
     // Set the offset store method to 'file'
     $topicConf->set('offset.store.method', 'broker');
+    $topicConf->set('auto.offset.reset', 'earliest');
 
     foreach ($topics as $topic) {
       $topic1 = $rk->newTopic($topic, $topicConf);

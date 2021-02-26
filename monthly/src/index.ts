@@ -15,6 +15,5 @@ server.listen().then(({ url }) => {
     console.error(e);
   }
 
-  // todo: add queue which iterate over un processed files.
   console.log(`🚀 Server ready ${url}`);
 });

@@ -39,7 +39,6 @@ export class KafkaClient {
   }
 
   static listen() {
-    // todo: check why it does not listen to early events.
     const options: ConsumerGroupOptions = {
       kafkaHost: getKafkaHost(),
       groupId: 'monthly',

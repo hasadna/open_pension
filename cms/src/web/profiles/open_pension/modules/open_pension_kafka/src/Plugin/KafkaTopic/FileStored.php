@@ -23,16 +23,22 @@ class FileStored extends AbstractKafkaPlugin {
     $payload = json_decode($payload);
 
     if (OpenPensionFiles::getFilesIDByStorageId($payload->ID)) {
-      $this->logger->info(t('A file with the @id already exists', ['@id' => $payload]));
+      $this->logger->info(t('A file with the @id already exists', ['@id' => $payload->ID]));
       return;
     }
 
-    $this->getStorage()->create([
+    $file = $this->getStorage()->create([
       'storage_id' => $payload->ID,
       'label' => $payload->filename,
       'processing_status' => OpenPensionStorageFiles::$SENT,
-    ])->save();
+    ]);
 
-    $this->logger->info(t('A matching record to the storage file @id has been created', ['@id' => $payload]));
+    $file->save();
+
+    $this->logger->info(t('A matching record to the storage file @id has been created with the ID @file-id named @label', [
+      '@id' => $payload->ID,
+      '@file-id' => $file->id(),
+      '@label' => $file->label(),
+    ]));
   }
 }
