@@ -15,19 +15,6 @@ use Psr\Http\Message\ResponseInterface;
 interface OpenPensionFilesProcessInterface {
 
   /**
-   * Sending a file to the process.
-   *
-   * @param mixed $file_id
-   *   The file ID.
-   *
-   * @return self
-   *   The current object.
-   *
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   */
-  public function sendToProcessor($file_id): OpenPensionFilesProcessInterface;
-
-  /**
    * Setting the http client.
    *
    * @param \GuzzleHttp\ClientInterface $httpClient
@@ -117,14 +104,6 @@ interface OpenPensionFilesProcessInterface {
   public function getTrackingLogs(): array;
 
   /**
-   * Updating the media entity which holds the file refrence.
-   *
-   * @param \Drupal\media\Entity\Media $media
-   *   The file object.
-   */
-  public function updateEntity(Media $media);
-
-  /**
    * Sending file for processing.
    *
    * @param \Drupal\file\Entity\File $file
@@ -134,18 +113,5 @@ interface OpenPensionFilesProcessInterface {
    *   A response object.
    */
   public function sendFileToStorage(File $file): ResponseInterface;
-
-  /**
-   * Sending a patch process to the file in the processor.
-   *
-   * @param $file_id
-   *  The file ID.
-   *
-   * @return OpenPensionFilesProcessInterface
-   *  The results objects.
-   *
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   */
-  public function processFile($file_id): OpenPensionFilesProcessInterface;
 
 }

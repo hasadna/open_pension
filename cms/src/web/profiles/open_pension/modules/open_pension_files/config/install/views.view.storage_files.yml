@@ -43,12 +43,17 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
-        type: mini
+        type: full
         options:
           items_per_page: 10
           offset: 0
           id: 0
           total_pages: null
+          tags:
+            previous: ‹‹
+            next: ››
+            first: '« First'
+            last: 'Last »'
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
@@ -57,9 +62,7 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          tags:
-            previous: ‹‹
-            next: ››
+          quantity: 9
       style:
         type: table
         options:
@@ -74,33 +77,39 @@ display:
           columns:
             label: label
             processing_status: processing_status
+            processing_history_value: processing_history_value
             storage_id: storage_id
             created: created
           info:
             label:
               sortable: true
-              default_sort_order: asc
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             processing_status:
               sortable: true
-              default_sort_order: asc
+              default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            processing_history_value:
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             storage_id:
-              sortable: false
-              default_sort_order: asc
+              sortable: true
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             created:
               sortable: true
-              default_sort_order: asc
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -243,71 +252,6 @@ display:
           field_api_classes: false
           entity_type: open_pension_storage_files
           entity_field: processing_status
-          plugin_id: field
-        processing_history_value:
-          id: processing_history_value
-          table: open_pension_storage_files__processing_history
-          field: processing_history_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Processing history'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: open_pension_storage_files
-          entity_field: processing_history
           plugin_id: field
         storage_id:
           id: storage_id
@@ -547,6 +491,63 @@ display:
           entity_type: open_pension_storage_files
           entity_field: created
           plugin_id: date
+        changed:
+          id: changed
+          table: open_pension_storage_files
+          field: changed
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          granularity: second
+          entity_type: open_pension_storage_files
+          entity_field: changed
+          plugin_id: date
+        id:
+          id: id
+          table: open_pension_storage_files
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ID
+          entity_type: open_pension_storage_files
+          entity_field: id
+          plugin_id: standard
+        processing_status:
+          id: processing_status
+          table: open_pension_storage_files
+          field: processing_status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          entity_type: open_pension_storage_files
+          entity_field: processing_status
+          plugin_id: standard
+        storage_id:
+          id: storage_id
+          table: open_pension_storage_files
+          field: storage_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          entity_type: open_pension_storage_files
+          entity_field: storage_id
+          plugin_id: standard
       header: {  }
       footer: {  }
       empty: {  }
