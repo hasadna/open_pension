@@ -1,15 +1,16 @@
-import {enrichRawFileObject, processFile, readFile} from "./file";
+import {processFile, readFile} from "./file";
 import {join} from "path";
-import {FileRowInterface, ProcessedXmlFileInterface} from "./interfaces";
+import {FileRowInterface, ProcessedBituachXmlFileInterface} from "./interfaces";
 import {firstRow, secondRow, emptyRow, incompleteRow} from "./fixtures/bituach_source";
 import {fullRow} from "./fixtures/bituach_results";
+import {bituachProcess} from "./parsers";
 
 export const getPathForFixture = (filename: string): string => join(process.cwd(), 'src', 'lib', 'fixtures', filename);
 
 describe('Testing the file processing', () => {
 
   const parseRows = (rows: any[]): FileRowInterface[]=> {
-    const emptyRows: ProcessedXmlFileInterface = {
+    const emptyRows: ProcessedBituachXmlFileInterface = {
       ROWSET: {
         DESCRIPTION1: ["First description"],
         DESCRIPTION2: ["Second description"],
@@ -17,7 +18,7 @@ describe('Testing the file processing', () => {
       }
     };
 
-    return enrichRawFileObject(emptyRows);
+    return bituachProcess(emptyRows);
   }
 
   it('readFile: File does not exits', async () => {
@@ -49,7 +50,7 @@ describe('Testing the file processing', () => {
   it('enrichRawFileObject: Testing processing invalid object', () => {
     // Ignore this one just for testing.
     // @ts-ignore
-    const results = enrichRawFileObject({food: 'pizza'});
+    const results = bituachProcess({food: 'pizza'});
     expect(results).toBeNull();
   });
 

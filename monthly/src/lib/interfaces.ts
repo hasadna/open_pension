@@ -8,22 +8,26 @@ export enum NumberType {
   Float = 'float'
 }
 
+export enum ProcessState {
+  Success = 'success',
+  Failed = 'failed'
+}
+
 export interface InfoReturnInterface {
   status: boolean,
   message: string,
   payload?: any,
 }
 
-export interface ProcessedXmlFileInterface {
+export interface ProcessedBituachXmlFileInterface {
   ROWSET: {
     DESCRIPTION1: string[],
     DESCRIPTION2: string[],
-    ROW?: ProcessedXmlFileRowsInterface[],
-    Row?: ProcessedXmlFileRowsInterface[],
+    ROW: ProcessedXmlFileBituachRowsInterface[],
   },
 }
 
-export interface ProcessedXmlFileRowsInterface {
+export interface ProcessedXmlFileBituachRowsInterface {
   ID_GUF: string[],
   SHEM_GUF: string[],
   TAARICH_HAFAKAT_HADOCH: string[],
@@ -89,4 +93,10 @@ export interface FileRowInterface {
   yahas_nezilut: number,
   num_hevra: number,
   taarich_sium_peilut: Date,
+}
+
+export interface ProcessResults {
+  status: ProcessState,
+  payload: FileRowInterface[],
+  message: string
 }
