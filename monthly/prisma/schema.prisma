@@ -7,10 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  Succeeded
+  Failed
+}
+
 model ParsedFiles {
   id                              Int     @id @default(autoincrement())
   filename                        String
   created                         DateTime
+  status                          Status @default(Succeeded)
+  error                           String
   id_guf                          Int
   shem_guf                        String
   taarich_hafakat_hadoch          DateTime

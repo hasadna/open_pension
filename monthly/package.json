@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@bitauth/libauth": "^1.17.1",
-    "@prisma/client": "^2.14.0",
+    "@prisma/client": "^2.17.0",
     "@types/xml2js": "^0.4.7",
     "apollo-server": "^2.19.2",
     "date-fns": "^2.16.1",
@@ -81,6 +81,7 @@
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
     "prettier": "^2.1.1",
+    "prisma": "^2.17.0",
     "request": "^2.88.2",
     "standard-version": "^9.0.0",
     "ts-jest": "^26.4.4",
