@@ -80,13 +80,15 @@ export function bituachProcess(rawFieData: ProcessedBituachXmlFileInterface): Fi
  * Processing a rows from gemel.
  */
 export function gemelProcess() {
-
+  throw new Error("I'm not working yet :(");
 }
 
 /**
  * Process rows from pensya net.
  */
-export function pensyanetProcess() {}
+export function pensyanetProcess() {
+  throw new Error("I'm not working yet :(");
+}
 
 /**
  * Holding references by the source type.

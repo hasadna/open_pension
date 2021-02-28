@@ -1,4 +1,5 @@
 import {existsSync, readFileSync} from "fs";
+import {basename} from "path"
 import {
   InfoReturnInterface,
   ProcessedBituachXmlFileInterface,
@@ -6,7 +7,7 @@ import {
   ProcessState
 } from "./interfaces";
 import {parseStringPromise} from "xml2js";
-import {bituachProcess} from "./parsers";
+import {parsers} from "./parsers";
 
 /**
  * Reading a file and return the raw object.
@@ -52,14 +53,26 @@ export async function processFile(path: string): Promise<ProcessResults> {
   if (!status) {
     return {
       status: ProcessState.Failed,
-      payload: null,
+      payload: [],
       message
     };
   }
 
-  // todo: pull the parser by the file name.
+  const fileName = basename(path);
+  const parser = Object.keys(parsers).find(parser => fileName.includes(parser));
+
+  if (!parser) {
+    return {
+      status: ProcessState.Failed,
+      payload: [],
+      message: `There is no matching processor for the file ${fileName}`
+    }
+  }
+
+  const handler = parsers[parser];
+
   try {
-    const results = bituachProcess(payload);
+    const results = handler(payload);
     return {
       status: ProcessState.Success,
       payload: results,
@@ -68,7 +81,7 @@ export async function processFile(path: string): Promise<ProcessResults> {
   } catch (e) {
     return {
       status: ProcessState.Failed,
-      payload: null,
+      payload: [],
       message: e.message
     };
   }
