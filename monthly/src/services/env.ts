@@ -45,3 +45,7 @@ export function getKafkaProcessCompletedWithErrorsTopic() {
 export function getKafkaListenTopic() {
     return safeGet("KAFKA_LISTEN_TOPIC");
 }
+
+export function getKafkaFileStoredByService() {
+  return safeGet("KAFKA_BROADCAST_TOPIC_FILE_STORED_AT_SERVICE");
+}

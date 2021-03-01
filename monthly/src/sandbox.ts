@@ -1,6 +1,6 @@
 // import {processFile} from "./lib/file";
-import {prisma} from "./server/context";
-import {processFileIntoDb} from "./lib/db";
+// import {prisma} from "./server/context";
+// import {processFileIntoDb} from "./lib/db";
 
 /**
  * There should be a change in the flow:
@@ -13,15 +13,20 @@ import {processFileIntoDb} from "./lib/db";
  * In any case, send message for failing or success. Later on.
  */
 
-const path = '/Users/roysegall/Sites/localhost/open_pension/monthly/src/files/gemelnet_2017_01_perut.xml';
-// processFile(path).then((results) => {
-//   console.log(results);
-// }).catch(e => {
-//   console.error(e);
-// });
 
-processFileIntoDb(path, prisma).then((res) => {
-  console.log(res);
-}).catch((e) => {
-  console.log(e)
-})
+import {storeFile} from "./lib/file";
+
+// storeFile('512237744_psum_0219_1614018591432374913.xlsx', 1, null);
+storeFile('pensyanet_2017_01_maslul_klali_161402523762700.xml', 12, null);
+// const path = '/Users/roysegall/Sites/localhost/open_pension/monthly/src/files/gemelnet_2017_01_perut.xml';
+// // processFile(path).then((results) => {
+// //   console.log(results);
+// // }).catch(e => {
+// //   console.error(e);
+// // });
+//
+// processFileIntoDb(path, prisma).then((res) => {
+//   console.log(res);
+// }).catch((e) => {
+//   console.log(e)
+// })

@@ -9,6 +9,51 @@ import {
 import {parseStringPromise} from "xml2js";
 import {parsers} from "./parsers";
 
+import fs from 'fs'
+import path from "path";
+import request from "request";
+// import {prisma} from "../server/context";
+import {
+  getKafkaFileStoredByService,
+  getStorageAddress,
+  getUploadedPath
+} from "../services/env";
+import {KafkaClient} from "../services/kafka-client";
+
+/**
+ * Saving the file to the local disk and save it later for processing.
+ *
+ * @param {string} filename - The file name from the storage service.
+ * @param {any} ID - The ID of the file from the storage service.
+ * @param {KafkaClient} kafkaClient - The kafka client service.
+ */
+export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
+  if (path.extname(filename) !== '.xml') {
+    console.log(`The file ${filename} was not an xml based file`);
+    return;
+  }
+
+  const dest = path.join(getUploadedPath(), filename);
+  const url = `${getStorageAddress()}/file/${ID}`;
+
+  // Downloading the file.
+  request(url)
+    .pipe(fs.createWriteStream(dest))
+    .on('error', (err) => {
+      console.error(`there was an error while downloading the file ${filename}`, err);
+    })
+    .on('close', async () => {
+      console.log(`The file, ${filename}, was created successfully in ${dest}.`);
+
+      // todo: save the file in the DB.
+
+
+      if (kafkaClient !== null) {
+        await kafkaClient.sendMessage(JSON.stringify({id: ID}), getKafkaFileStoredByService());
+      }
+    });
+}
+
 /**
  * Reading a file and return the raw object.
  *

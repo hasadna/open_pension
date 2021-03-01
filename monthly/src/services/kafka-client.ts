@@ -1,6 +1,6 @@
 import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
 import {getKafkaHost, getKafkaListenTopic} from "./env";
-import {handleKafkaMessage} from "./queue";
+import {storeFile} from "../lib/file";
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -53,15 +53,38 @@ export class KafkaClient {
     console.log('Start to listen to events');
 
     consumerGroup.on('connect', () => {
-      console.error('connected');
+      console.log('connected');
     });
 
     consumerGroup.on('message', async function (message) {
       // @ts-ignore
       const parsedMessage = JSON.parse(message.value);
 
-      await handleKafkaMessage(kafkaClient, parsedMessage);
+      const { ID, filename } = parsedMessage;
+      storeFile(filename, ID, kafkaClient);
     });
 
   }
 }
+
+// function sendMessage(kafkaClient: KafkaClient, topic: string, storageId: number) {
+//   const messagePayload = {
+//     storageId: storageId,
+//   };
+//
+//   kafkaClient.sendMessage(JSON.stringify(messagePayload), topic)
+//     .then(() => {
+//       console.log(`The event ${topic} for the file ${storageId} has been sent.`);
+//     });
+
+// try {
+//   sendMessage(kafkaClient, getKafkaProcessStartedTopic(), ID);
+//   await processFileIntoDb(dest, prisma);
+//
+//   sendMessage(kafkaClient, getKafkaProcessCompletedTopic(), ID);
+//   console.log(`💪 The file ${filename} was process successfully`)
+// } catch (e) {
+//   sendMessage(kafkaClient, getKafkaProcessCompletedWithErrorsTopic(), ID);
+//   console.error(e);
+// }
+// }
