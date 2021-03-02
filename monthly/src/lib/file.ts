@@ -12,7 +12,7 @@ import {parsers} from "./parsers";
 import fs from 'fs'
 import path from "path";
 import request from "request";
-// import {prisma} from "../server/context";
+import {prisma} from "../server/context";
 import {
   getKafkaFileStoredByService,
   getStorageAddress,
@@ -45,8 +45,13 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
     .on('close', async () => {
       console.log(`The file, ${filename}, was created successfully in ${dest}.`);
 
-      // todo: save the file in the DB.
+      // @ts-ignore
+      const file = await prisma.file.create({data: {
+        filename,
+        status: 'Ready',
+      }});
 
+      console.log(`The file ${filename} was created to the DB with the id ${file.id}`);
 
       if (kafkaClient !== null) {
         await kafkaClient.sendMessage(JSON.stringify({id: ID}), getKafkaFileStoredByService());

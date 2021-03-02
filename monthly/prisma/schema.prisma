@@ -7,17 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model File {
+  id                              Int     @id @default(autoincrement())
+  filename                        String
+  created                         DateTime @default(now())
+  status                          Status @default(Succeeded)
+  error                           String @default("")
+  rows                            Rows[]
+}
+
 enum Status {
+  Ready
   Succeeded
   Failed
 }
 
-model ParsedFiles {
+model Rows {
   id                              Int     @id @default(autoincrement())
-  filename                        String
-  created                         DateTime
-  status                          Status @default(Succeeded)
-  error                           String
+  fileId                          Int
+  file                            File    @relation(fields: [fileId], references: [id])
   id_guf                          Int
   shem_guf                        String
   taarich_hafakat_hadoch          DateTime
