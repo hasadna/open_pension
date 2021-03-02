@@ -22,9 +22,9 @@ queue();
 //
 // // storeFile('512237744_psum_0219_1614018591432374913.xlsx', 1, null);
 // storeFile('pensyanet_2017_01_maslul_klali_161402523762700.xml', 12, null);
-// // const path = '/Users/roysegall/Sites/localhost/open_pension/monthly/src/files/gemelnet_2017_01_perut.xml';
-// // // processFile(path).then((results) => {
-// // //   console.log(results);
+// // // const path = '/Users/roysegall/Sites/localhost/open_pension/monthly/src/files/gemelnet_2017_01_perut.xml';
+// // // // processFile(path).then((results) => {
+// // // //   console.log(results);
 // // // }).catch(e => {
 // // //   console.error(e);
 // // // });

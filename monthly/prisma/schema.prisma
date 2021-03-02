@@ -9,6 +9,7 @@ datasource db {
 
 model File {
   id                              Int     @id @default(autoincrement())
+  storageID                       Int
   filename                        String
   created                         DateTime @default(now())
   status                          Status @default(Succeeded)
