@@ -46,6 +46,7 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
       console.log(`The file, ${filename}, was created successfully in ${dest}.`);
 
       // @ts-ignore
+      // todo: add the storage file ID.
       const file = await prisma.file.create({data: {
         filename,
         status: 'Ready',
