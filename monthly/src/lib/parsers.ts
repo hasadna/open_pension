@@ -33,10 +33,10 @@ function processStringToNumber(stringedNumber: string[], numberType: NumberType)
  * @param rawFieData
  *   The raw file data.
  */
-export function bituachProcess(rawFieData: ProcessedBituachXmlFileInterface): FileRowInterface[] {
+export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterface): Promise<FileRowInterface[]> {
   const fileRows: FileRowInterface[] = [];
 
-  rawFieData.ROWSET.ROW.map(async (row) => {
+  await Promise.all(rawFieData.ROWSET.ROW.map(async (row) => {
     const publishingDate = new Date();
     fileRows.push({
       id_guf: processStringToNumber(row.ID_GUF, NumberType.Int),
@@ -71,7 +71,7 @@ export function bituachProcess(rawFieData: ProcessedBituachXmlFileInterface): Fi
       num_hevra: processStringToNumber(row.NUM_HEVRA, NumberType.Int),
       taarich_sium_peilut: publishingDate, // TBD
     });
-  });
+  }));
 
   return fileRows;
 }
@@ -79,14 +79,14 @@ export function bituachProcess(rawFieData: ProcessedBituachXmlFileInterface): Fi
 /**
  * Processing a rows from gemel.
  */
-export function gemelProcess() {
+export async function gemelProcess() {
   throw new Error("I'm not working yet :(");
 }
 
 /**
  * Process rows from pensya net.
  */
-export function pensyanetProcess() {
+export async function pensyanetProcess() {
   throw new Error("I'm not working yet :(");
 }
 

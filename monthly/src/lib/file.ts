@@ -127,7 +127,7 @@ export async function processFile(path: string): Promise<ProcessResults> {
   const handler = parsers[parser];
 
   try {
-    const results = handler(payload);
+    const results = await handler(payload);
     return {
       status: ProcessState.Success,
       payload: results,

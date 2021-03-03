@@ -1,8 +1,5 @@
 import {PrismaClient} from "@prisma/client"
-// import {basename} from "path"
-// import {processFile} from "./file";
-// import {ProcessState} from "./interfaces";
-// import {processFile} from "./file";
+import {isEmpty} from "lodash";
 
 import {File, FileStatus, ProcessState} from "./interfaces";
 import {processFile} from "./file";
@@ -21,7 +18,25 @@ export async function processFilesToRows(file: File, prisma: PrismaClient) {
     return FileStatus.Failed;
   }
 
-  console.log(payload);
+  if (!isEmpty(payload)) {
+    console.log(`Inset the results for ${file.filename} to the DB.`);
+
+    const baseData: any = {
+      fileId: file.id,
+      created: new Date(),
+    };
+
+    await Promise.all(payload.map(async (processedFileRow) => {
+      const combined = {...baseData, ...processedFileRow};
+
+      // @ts-ignore
+      await prisma.rows.create({data: combined});
+    }));
+
+    console.log(`Done creating rows for the file ${file.filename}.`)
+  } else {
+    console.log(`There are now rows for the file ${file.filename}. Update the file as success anyway.`);
+  }
 
   await prisma.file.update({
     where: {id: file.id},
@@ -29,21 +44,4 @@ export async function processFilesToRows(file: File, prisma: PrismaClient) {
   });
 
   return FileStatus.Succeeded;
-  // const baseData: any = {
-  //   filename: fileName,
-  //   created: new Date(),
-  // };
-  //
-  // if (status == ProcessState.Failed) {
-  //   baseData.status = 'Failed';
-  //   baseData.message = message;
-  // } else {
-  //   baseData.status = 'Succeeded';
-  //   payload.map(async (processedFileRow) => {
-  //     const combined = {...baseData, ...processedFileRow};
-  //
-  //     // @ts-ignore
-  //     await prisma.parsedFiles.create({data: combined});
-  //   });
-  // }
 }

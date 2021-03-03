@@ -2,7 +2,7 @@
 // import {prisma} from "./server/context";
 // import {processFileIntoDb} from "./lib/db";
 
-import {queue} from "./lib/queue";
+
 
 /**
  * There should be a change in the flow:
@@ -16,10 +16,14 @@ import {queue} from "./lib/queue";
  *
  * Also, we need to update the tests and update the graphql schema.
  */
-queue();
 
 // import {storeFile} from "./lib/file";
-// storeFile('pensyanet_2017_01_maslul_klali_161402523762700.xml', 12, null);
+// storeFile('bituachnet_2017_01_type0_4_1614356605572918500.xml', 54, null);
+//
+//
+import {queue} from "./lib/queue";
+queue();
+
 
 //
 // // storeFile('512237744_psum_0219_1614018591432374913.xlsx', 1, null);
