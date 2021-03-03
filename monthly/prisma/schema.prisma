@@ -11,9 +11,10 @@ model File {
   id                              Int     @id @default(autoincrement())
   storageID                       Int
   filename                        String
+  path                            String  @db.LongText
   created                         DateTime @default(now())
-  status                          Status @default(Succeeded)
-  error                           String @default("")
+  status                          Status @default(Ready)
+  error                           String @db.LongText
   rows                            Rows[]
 }
 

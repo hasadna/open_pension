@@ -1,10 +1,12 @@
 -- CreateTable
 CREATE TABLE `File` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `storageID` INTEGER NOT NULL,
     `filename` VARCHAR(191) NOT NULL,
+    `path` LONGTEXT NOT NULL,
     `created` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `status` ENUM('Ready', 'Succeeded', 'Failed') NOT NULL DEFAULT 'Succeeded',
-    `error` VARCHAR(191) NOT NULL DEFAULT '',
+    `status` ENUM('Ready', 'Succeeded', 'Failed') NOT NULL DEFAULT 'Ready',
+    `error` LONGTEXT NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

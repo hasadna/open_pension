@@ -48,6 +48,8 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
       const data = {
         filename,
         storageID: ID,
+        path: dest,
+        error: "",
         status: 'Ready',
       };
 
