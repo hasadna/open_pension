@@ -24,6 +24,7 @@ class processingCompelted extends AbstractProcessKafkaPlugin {
    * @return string
    */
   protected function getFileStatus() {
+    // todo: support getKafkaFileStoredByService.
     return OpenPensionStorageFiles::$PROCESS_COMPLETED;
   }
 }

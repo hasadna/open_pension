@@ -59,7 +59,7 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
       console.log(`The file ${filename} was created to the DB with the id ${file.id}`);
 
       if (kafkaClient !== null) {
-        await kafkaClient.sendMessage(JSON.stringify({id: ID}), getKafkaFileStoredByService());
+        await kafkaClient.sendMessage({storageId: ID}, getKafkaFileStoredByService());
       }
     });
 }

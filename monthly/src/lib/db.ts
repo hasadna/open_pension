@@ -1,10 +1,11 @@
 import {PrismaClient} from "@prisma/client"
 import {isEmpty} from "lodash";
-
 import {File, FileStatus, ProcessState} from "./interfaces";
 import {processFile} from "./file";
+import {KafkaClient} from "../services/kafka-client";
+import {getKafkaProcessCompletedTopic, getKafkaProcessCompletedWithErrorsTopic} from "../services/env";
 
-export async function processFilesToRows(file: File, prisma: PrismaClient) {
+export async function processFilesToRows(file: File, prisma: PrismaClient, kafkaClient: KafkaClient) {
   const {status, payload, message} = await processFile(file.path);
 
   if (status == ProcessState.Failed) {
@@ -14,6 +15,12 @@ export async function processFilesToRows(file: File, prisma: PrismaClient) {
       where: {id: file.id},
       data: {status: FileStatus.Failed, error: message},
     });
+
+    // Sending the event for starting the processing.
+    await kafkaClient.sendMessage(
+      KafkaClient.getPayloadByStorageId(file.storageID),
+      getKafkaProcessCompletedWithErrorsTopic()
+    );
 
     return FileStatus.Failed;
   }
@@ -42,6 +49,12 @@ export async function processFilesToRows(file: File, prisma: PrismaClient) {
     where: {id: file.id},
     data: {status: FileStatus.Succeeded},
   });
+
+  // Sending the event for starting the processing.
+  await kafkaClient.sendMessage(
+    KafkaClient.getPayloadByStorageId(file.storageID),
+    getKafkaProcessCompletedTopic()
+  );
 
   return FileStatus.Succeeded;
 }

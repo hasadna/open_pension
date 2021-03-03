@@ -32,10 +32,15 @@ export class KafkaClient {
     }
 
     try {
+      messages = JSON.stringify(messages);
       return await this.producer.send([{topic, messages}], () => {});
     } catch (e) {
       throw new Error(e);
     }
+  }
+
+  static getPayloadByStorageId(storageId) {
+    return {storageId};
   }
 
   static listen() {

@@ -2,10 +2,14 @@ import {prisma} from "../server/context";
 import {isEmpty} from "lodash";
 import {processFilesToRows} from "./db";
 import {File} from "./interfaces";
+import {KafkaClient} from "../services/kafka-client";
+import {getKafkaProcessStartedTopic} from "../services/env";
 
 const fileToProcessEachQueue = 5;
 
 export async function queue() {
+  const kafkaClient = new KafkaClient();
+
   const files: any = await prisma.file.findMany({
     where: {status: 'Ready'},
     take: fileToProcessEachQueue,
@@ -21,17 +25,17 @@ export async function queue() {
 
   await Promise.all(files.map(async (file: File) => {
     console.log(`Processing the file ${file.id} - ${file.filename}`);
-    await processFilesToRows(file, prisma);
+
+    // Sending the event for starting the processing.
+    await kafkaClient.sendMessage(
+      KafkaClient.getPayloadByStorageId(file.storageID),
+      getKafkaProcessStartedTopic()
+    );
+
+    await processFilesToRows(file, prisma, kafkaClient);
   }));
 
-  console.log(`Done processing ${numberOfFiles} file(s).`)
-
-  // Get all the unprocessed files and print it in the log.
-  // Start process the file:
-  //  * if something went wrong - change the status and set the error message
-  //  (should be long text field)
-  //  * If it's OK change the status to success.
-  // In any case we need to send kafka messages about it.
+  console.log(`Done processing ${numberOfFiles} file(s).`);
 }
 
 // queue();
