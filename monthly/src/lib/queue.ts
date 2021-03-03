@@ -38,4 +38,4 @@ export async function queue() {
   console.log(`Done processing ${numberOfFiles} file(s).`);
 }
 
-// queue();
+queue();

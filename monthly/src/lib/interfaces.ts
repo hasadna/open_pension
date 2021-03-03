@@ -13,6 +13,22 @@ export enum ProcessState {
   Failed = 'failed'
 }
 
+export enum FileStatus {
+  Ready = 'Ready',
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
+
+export interface File {
+  id: number,
+  storageID: number,
+  filename: string,
+  path: string,
+  created: Date,
+  status: FileStatus,
+  error: String
+}
+
 export interface InfoReturnInterface {
   status: boolean,
   message: string,
@@ -100,20 +116,3 @@ export interface ProcessResults {
   payload: FileRowInterface[],
   message: string
 }
-
-export enum FileStatus {
-  Ready = 'Ready',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
-
-export interface File {
-  id: number,
-  storageID: number,
-  filename: string,
-  path: string,
-  created: Date,
-  status: FileStatus,
-  error: String
-}
-

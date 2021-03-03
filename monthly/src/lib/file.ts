@@ -1,24 +1,24 @@
+import fs from 'fs'
+import path from "path";
+import request from "request";
 import {existsSync, readFileSync} from "fs";
+import {parseStringPromise} from "xml2js";
 import {basename} from "path"
+import {parsers} from "./parsers";
+import {prisma} from "../server/context";
+import {KafkaClient} from "../services/kafka-client";
 import {
   InfoReturnInterface,
   ProcessedBituachXmlFileInterface,
   ProcessResults,
   ProcessState
 } from "./interfaces";
-import {parseStringPromise} from "xml2js";
-import {parsers} from "./parsers";
 
-import fs from 'fs'
-import path from "path";
-import request from "request";
-import {prisma} from "../server/context";
 import {
   getKafkaFileStoredByService,
   getStorageAddress,
   getUploadedPath
 } from "../services/env";
-import {KafkaClient} from "../services/kafka-client";
 
 /**
  * Saving the file to the local disk and save it later for processing.

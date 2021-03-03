@@ -13,6 +13,7 @@
     "sandbox": "nodemon --watch '**/*.ts' --exec 'ts-node' src/sandbox.ts",
     "build": "run-p build:*",
     "start": "node build/main/index.js",
+    "queue": "node build/main/lib/queue.js",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",

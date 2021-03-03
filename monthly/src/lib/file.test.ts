@@ -9,7 +9,7 @@ export const getPathForFixture = (filename: string): string => join(process.cwd(
 
 describe('Testing the file processing', () => {
 
-  const parseRows = (rows: any[]): FileRowInterface[]=> {
+  const parseRows = async (rows: any[]): Promise<FileRowInterface[]> => {
     const emptyRows: ProcessedBituachXmlFileInterface = {
       ROWSET: {
         DESCRIPTION1: ["First description"],
@@ -18,7 +18,7 @@ describe('Testing the file processing', () => {
       }
     };
 
-    return bituachProcess(emptyRows);
+    return await bituachProcess(emptyRows);
   }
 
   it('readFile: File does not exits', async () => {
@@ -47,15 +47,15 @@ describe('Testing the file processing', () => {
     expect(readFileResults.payload).not.toBe(null);
   });
 
-  it('enrichRawFileObject: Testing processing invalid object', () => {
+  it('enrichRawFileObject: Testing processing invalid object', async () => {
     // Ignore this one just for testing.
     // @ts-ignore
     const results = bituachProcess({food: 'pizza'});
     expect(results).toBeNull();
   });
 
-  it ('enrichRawFileObject: Testing the process of a complete row', () => {
-    const parsedRows = parseRows([firstRow, secondRow]);
+  it ('enrichRawFileObject: Testing the process of a complete row', async () => {
+    const parsedRows = await parseRows([firstRow, secondRow]);
     expect(parsedRows).toHaveLength(2);
 
     const baseSubStringForDates = {
@@ -82,8 +82,8 @@ describe('Testing the file processing', () => {
     });
   });
 
-  it ('enrichRawFileObject: Testing processing an empty row', () => {
-    const parsedRows = parseRows([emptyRow]);
+  it ('enrichRawFileObject: Testing processing an empty row', async () => {
+    const parsedRows = await parseRows([emptyRow]);
 
     // Validating we can handle empty values of three types - empty string,
     // empty number and empty date.
@@ -94,8 +94,8 @@ describe('Testing the file processing', () => {
     expect(String(taarich_hafakat_hadoch)).toBe('Invalid Date');
   });
 
-  it ('enrichRawFileObject: Testing processing incomplete row', () => {
-    const parsedRows = parseRows([incompleteRow]);
+  it ('enrichRawFileObject: Testing processing incomplete row', async () => {
+    const parsedRows = await parseRows([incompleteRow]);
     expect(parsedRows).toHaveLength(1);
     const {id_guf, shem_guf} = parsedRows[0];
 
