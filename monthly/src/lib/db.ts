@@ -23,6 +23,11 @@ export async function processFilesToRows(file: File, prisma: PrismaClient) {
 
   console.log(payload);
 
+  await prisma.file.update({
+    where: {id: file.id},
+    data: {status: FileStatus.Succeeded},
+  });
+
   return FileStatus.Succeeded;
   // const baseData: any = {
   //   filename: fileName,

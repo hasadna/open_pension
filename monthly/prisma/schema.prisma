@@ -27,6 +27,7 @@ enum Status {
 model Rows {
   id                              Int     @id @default(autoincrement())
   fileId                          Int
+  created                         DateTime @default(now())
   file                            File    @relation(fields: [fileId], references: [id])
   id_guf                          Int
   shem_guf                        String
