@@ -1,10 +1,12 @@
 import {prisma} from "../server/context";
 import {isEmpty} from "lodash";
+import {processFilesToRows} from "./db";
+import {File} from "./interfaces";
 
 const fileToProcessEachQueue = 5;
 
 export async function queue() {
-  const files = await prisma.file.findMany({
+  const files: any = await prisma.file.findMany({
     where: {status: 'Ready'},
     take: fileToProcessEachQueue,
     orderBy: {created: 'asc'}
@@ -17,12 +19,12 @@ export async function queue() {
   const numberOfFiles = files.length;
   console.log(`There are ${numberOfFiles} file(s) to process. Starting to process them`);
 
-  await Promise.all(files.map(async (file) => {
-    console.log(file.id);
+  await Promise.all(files.map(async (file: File) => {
+    console.log(`Processing the file ${file.id} - ${file.filename}`);
+    await processFilesToRows(file, prisma);
   }));
 
   console.log(`Done processing ${numberOfFiles} file(s).`)
-
 
   // Get all the unprocessed files and print it in the log.
   // Start process the file:
