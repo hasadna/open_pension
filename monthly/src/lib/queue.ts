@@ -27,7 +27,7 @@ export async function queue() {
       console.log(`Processing the file ${file.id} - ${file.filename}`);
 
       // Sending the event for starting the processing.
-
+      console.log(kafkaClient.serviceUp, 'foo');
       if (kafkaClient.serviceUp) {
         await kafkaClient.sendMessage(
           KafkaClient.getPayloadByStorageId(file.storageID),
@@ -44,6 +44,8 @@ export async function queue() {
 
 queue().then(() => {
   console.log(`Done processing files at ${new Date()}`)
+  process.exit(0);
 }).catch((e) => {
   console.error(`An error occurred while processing the files: ${e}`)
+  process.exit(1);
 });

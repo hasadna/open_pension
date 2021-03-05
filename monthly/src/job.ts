@@ -34,7 +34,6 @@ const bree = new Bree({
     // runs `./jobs/process-files` on the last day of the month
     {
       name: 'process-files',
-      timeout: '1m',
       path: path.resolve(__dirname, 'lib', 'queue.js'),
       cron: '* * * * *'
     },

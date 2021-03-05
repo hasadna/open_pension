@@ -26,7 +26,7 @@ export async function processFilesToRows(file: File, prisma: PrismaClient, kafka
   }
 
   if (!isEmpty(payload)) {
-    console.log(`Inset the results for ${file.filename} to the DB.`);
+    console.log(`Inserting the results for ${file.filename} to the DB.`);
 
     const baseData: any = {
       fileId: file.id,
