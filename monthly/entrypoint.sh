@@ -15,4 +15,5 @@ npm run build
 npm run clientGenerate
 npm run migrate
 
-npm run start
+supervisord -c /etc/supervisor.conf
+

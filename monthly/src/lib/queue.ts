@@ -8,6 +8,7 @@ import {getKafkaProcessStartedTopic} from "../services/env";
 const fileToProcessEachQueue = 5;
 
 export async function queue() {
+
   const kafkaClient = new KafkaClient();
 
   const files: any = await prisma.file.findMany({
@@ -17,25 +18,32 @@ export async function queue() {
   });
 
   if (isEmpty(files)) {
-    return console.log('There are no files to process');
+    console.log('There are no files to process');
+  } else {
+    const numberOfFiles = files.length;
+    console.log(`There are ${numberOfFiles} file(s) to process. Starting to process them`);
+
+    await Promise.all(files.map(async (file: File) => {
+      console.log(`Processing the file ${file.id} - ${file.filename}`);
+
+      // Sending the event for starting the processing.
+
+      if (kafkaClient.serviceUp) {
+        await kafkaClient.sendMessage(
+          KafkaClient.getPayloadByStorageId(file.storageID),
+          getKafkaProcessStartedTopic()
+        );
+      }
+
+      await processFilesToRows(file, prisma, kafkaClient);
+    }));
+
+    console.log(`Done processing ${numberOfFiles} file(s).`);
   }
-
-  const numberOfFiles = files.length;
-  console.log(`There are ${numberOfFiles} file(s) to process. Starting to process them`);
-
-  await Promise.all(files.map(async (file: File) => {
-    console.log(`Processing the file ${file.id} - ${file.filename}`);
-
-    // Sending the event for starting the processing.
-    await kafkaClient.sendMessage(
-      KafkaClient.getPayloadByStorageId(file.storageID),
-      getKafkaProcessStartedTopic()
-    );
-
-    await processFilesToRows(file, prisma, kafkaClient);
-  }));
-
-  console.log(`Done processing ${numberOfFiles} file(s).`);
 }
 
-queue();
+queue().then(() => {
+  console.log(`Done processing files at ${new Date()}`)
+}).catch((e) => {
+  console.error(`An error occurred while processing the files: ${e}`)
+});
