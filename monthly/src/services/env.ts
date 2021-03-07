@@ -43,5 +43,5 @@ export function getKafkaListenTopic() {
 }
 
 export function getKafkaFileStoredByService() {
-  return safeGet("KAFKA_BROADCAST_TOPIC_FILE_STORED_AT_SERVICE");
+  return safeGet("KAFKA_BROADCAST_TOPIC_FILE_STORED_BY_SERVICE");
 }

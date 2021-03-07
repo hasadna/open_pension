@@ -4,6 +4,13 @@ namespace Drupal\open_pension_kafka\Plugin\KafkaTopic;
 
 use Drupal\open_pension_files\OpenPensionFiles;
 
+/**
+ * Base class for the processing phases of the processors.
+ *
+ * Class AbstractProcessKafkaPlugin
+ *
+ * @package Drupal\open_pension_kafka\Plugin\KafkaTopic
+ */
 abstract class AbstractProcessKafkaPlugin extends AbstractKafkaPlugin {
 
   /**
@@ -32,9 +39,6 @@ abstract class AbstractProcessKafkaPlugin extends AbstractKafkaPlugin {
     }
 
     $file = $this->getStorage()->load(reset($file_ids));
-
-    // todo: get the process history from the processor.
-
     $file->processing_status = $this->getFileStatus();
     $file->save();
   }

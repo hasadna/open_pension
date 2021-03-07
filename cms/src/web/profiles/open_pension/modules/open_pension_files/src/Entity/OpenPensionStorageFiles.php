@@ -63,6 +63,11 @@ class OpenPensionStorageFiles extends ContentEntityBase implements OpenPensionSt
   /**
    * @var string
    */
+  public static $STORED_BY_SERVICE = 'stored_by_service';
+
+  /**
+   * @var string
+   */
   public static $PROCESS_STARTED = 'processing';
 
   /**
@@ -82,7 +87,8 @@ class OpenPensionStorageFiles extends ContentEntityBase implements OpenPensionSt
    */
   static public function getProcessStatus() {
     return [
-      self::$SENT => t('Stored'),
+      self::$SENT => t('Stored in storage'),
+      self::$STORED_BY_SERVICE => t('Stored by service'),
       self::$PROCESS_STARTED => t('Processing started'),
       self::$PROCESS_COMPLETED => t('Processing completed'),
       self::$PROCESS_COMPLETED_WITH_ERRORS => t('Processing completed with errors'),

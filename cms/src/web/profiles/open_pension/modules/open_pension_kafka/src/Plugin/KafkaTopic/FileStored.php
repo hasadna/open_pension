@@ -10,8 +10,8 @@ use Drupal\open_pension_files\OpenPensionFiles;
  *
  * @KafkaTopic(
  *   id = "FileStored",
- *   label = @Translation("File downloaded"),
- *   description = @Translation("Handling when file was downloaded")
+ *   label = @Translation("File stored in service"),
+ *   description = @Translation("Handeling the event when the storage downloaded the file")
  * )
  */
 class FileStored extends AbstractKafkaPlugin {
