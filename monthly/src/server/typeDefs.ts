@@ -1,10 +1,9 @@
 import {gql} from "apollo-server";
 
 export default gql`
-  # This "Book" type defines the queryable fields for every book in our data source.
   type Row {
     id:                              Int
-    filename:                        String
+    file:                            File
     created:                         String
     id_guf:                          Int
     shem_guf:                        String
@@ -39,10 +38,21 @@ export default gql`
     taarich_sium_peilut:             String
   }
 
+  type File {
+      id:                 Int
+      storageId:          Int
+      filename:           String
+      path:               String
+      created:            String
+      status:             String
+      error:              String
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    rows: [Row]
+    rows: [Row],
+    files: [File]
   }
 `;

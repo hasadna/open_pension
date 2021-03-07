@@ -37,7 +37,7 @@ export async function processFilesToRows(file: File, prisma: PrismaClient, kafka
       const combined = {...baseData, ...processedFileRow};
 
       // @ts-ignore
-      await prisma.rows.create({data: combined});
+      await prisma.row.create({data: combined});
     }));
 
     console.log(`Done creating rows for the file ${file.filename}.`)

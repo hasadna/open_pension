@@ -15,7 +15,7 @@ model File {
   created                         DateTime @default(now())
   status                          Status @default(Ready)
   error                           String @db.LongText
-  rows                            Rows[]
+  rows                            Row[]
 }
 
 enum Status {
@@ -24,7 +24,7 @@ enum Status {
   Failed
 }
 
-model Rows {
+model Row {
   id                              Int     @id @default(autoincrement())
   fileId                          Int
   created                         DateTime @default(now())
