@@ -1,8 +1,3 @@
-export enum DateFormats {
-  Short = 'short',
-  Full = 'full'
-}
-
 export enum NumberType {
   Int = 'int',
   Float = 'float'
@@ -78,37 +73,20 @@ export interface ProcessedXmlFileBituachRowsInterface {
 }
 
 export interface FileRowInterface {
-  id_guf: number,
-  shem_guf: string,
-  taarich_hafakat_hadoch: Date,
-  id_hevra: number,
-  tkufat_hakama: string,
-  tkufat_divuach: Date,
-  tsua_mitz_mi_thilat_hashana: number,
-  tsua_hodshit: number,
-  tsua_memuzaat36_hodashim: number,
-  tsua_memuzaat60_hodashim: number,
-  tsua_mitztaberet36_hodashim: number,
-  tsua_mitztaberet60_hodashim: number,
-  tsua_shnatit_memuzaat3_shanim: number,
-  tsua_shnatit_memuzaat5_shanim: number,
-  stiat_teken36_hodashim: number,
-  stiat_teken60_hodashim: number,
-  yit_nchasim_bfoal: number,
-  shiur_d_nihul_nechasim: number,
-  shiur_d_nihul_hafkadot: number,
-  sharp_tsua_hezyonit_anaf: number,
-  sharp_ribit_hasrat_sikun: number,
-  alpha_shnati: number,
-  beta_ta100: number,
-  beta_agach_kontzerniot_tzmudot: number,
-  beta_agach_mem_lo_tzmudot: number,
-  beta_agach_memshaltiot_tzmudot: number,
-  beta_hutz_laaretz: number,
-  r_squared: number,
-  yahas_nezilut: number,
-  num_hevra: number,
-  taarich_sium_peilut: Date,
+  ID_MANAGER: number,
+  ALPHA_SHNATI: number,
+  SHARP_RIBIT_HASRAT_SIKUN?: number,
+  STIAT_TEKEN_60_HODASHIM: number,
+  STIAT_TEKEN_36_HODASHIM: number,
+  TSUA_SHNATIT_MEMUZAAT_5_SHANIM: number,
+  TSUA_SHNATIT_MEMUZAAT_3_SHANIM: number,
+  TSUA_MITZTABERET_60_HODASHIM: number,
+  TSUA_MITZTABERET_36_HODASHIM: number,
+  TSUA_MEMUZAAT_60_HODASHIM: number,
+  TSUA_MEMUZAAT_36_HODASHIM: number,
+  TSUA_MITZT_MI_THILAT_SHANA: number,
+  YITRAT_NCHASIM_LSOF_TKUFA: number,
+  TSUA_NOMINALIT_BRUTO_HODSHIT: number
 }
 
 export interface ProcessResults {
