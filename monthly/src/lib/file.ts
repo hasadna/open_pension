@@ -114,7 +114,10 @@ export async function processFile(path: string): Promise<ProcessResults> {
   }
 
   const fileName = basename(path);
-  const parser = Object.keys(parsers).find(parser => fileName.includes(parser));
+
+  const [firstFileName] = fileName.split('_');
+
+  const parser = Object.keys(parsers).find(parser => firstFileName.includes(parser));
 
   if (!parser) {
     return {

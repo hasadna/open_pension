@@ -65,7 +65,7 @@ export async function pensyanetProcess() {
  * Holding references by the source type.
  */
 export const parsers = {
-  bituach: bituachProcess,
+  bituachnet: bituachProcess,
   gemel: gemelProcess,
   pensya: pensyanetProcess
 };
