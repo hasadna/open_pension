@@ -1,15 +1,3 @@
-const bituachnetMockFunction = jest.fn();
-const gemelMockFunction = jest.fn();
-const pensyaMockFunction = jest.fn();
-
-jest.mock('./parsers', () => ({
-  parsers: {
-    bituachnet: bituachnetMockFunction,
-    gemel: gemelMockFunction,
-    pensya: pensyaMockFunction,
-  },
-}));
-
 import {processFile} from "./file";
 import {join} from "path";
 import {ProcessState} from "./interfaces";
@@ -18,10 +6,6 @@ export const getPathForFixture = (filename: string): string => join(process.cwd(
 
 describe('Testing the file processing', () => {
 
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('No processor should be called when passing wrong file name', async () => {
     const {status, payload, message} = await processFile(getPathForFixture('simple_name.xml'));
     expect(status).toBe(ProcessState.Failed);
@@ -29,41 +13,38 @@ describe('Testing the file processing', () => {
     expect(message).toBe('There is no matching processor for the file simple_name.xml');
   });
 
-  it('Testing which processor which be called by the name of the file', async () => {
-    expect(bituachnetMockFunction).not.toBeCalled();
-    expect(gemelMockFunction).not.toBeCalled();
-    expect(pensyaMockFunction).not.toBeCalled();
+  it('bituah processor: testing processing a file', async() => {
+    const {status, payload, message} = await processFile(getPathForFixture('bituachnet_2017_01_type0.xml'));
+    expect(status).toBe(ProcessState.Success);
+    expect(message).toBeNull();
 
-    await processFile(getPathForFixture('bituachnet_2017_01_type0.xml'));
-    await processFile(getPathForFixture('pensyanet_2017_01_maslul_klali.xml'));
-    await processFile(getPathForFixture('gemelnet_2017_01_perut.xml'));
+    const expected = {
+      ID_MANAGER: 108,
+      ALPHA_SHNATI: 2.16,
+      SHARP_RIBIT_HASRAT_SIKUN: 1.15,
+      STIAT_TEKEN_36_HODASHIM: 0.95,
+      STIAT_TEKEN_60_HODASHIM: 1.01,
+      TSUA_MEMUZAAT_36_HODASHIM: 0.32,
+      TSUA_MEMUZAAT_60_HODASHIM: 0.45,
+      TSUA_MITZT_MI_THILAT_SHANA: -0.1,
+      TSUA_MITZTABERET_36_HODASHIM: 12.03,
+      TSUA_MITZTABERET_60_HODASHIM: 30.98,
+      TSUA_NOMINALIT_BRUTO_HODSHIT: -0.1,
+      TSUA_SHNATIT_MEMUZAAT_3_SHANIM: 3.86,
+      TSUA_SHNATIT_MEMUZAAT_5_SHANIM: 5.55,
+      YITRAT_NCHASIM_LSOF_TKUFA: 90.38057
+    };
 
-    expect(bituachnetMockFunction).toBeCalledTimes(1);
-    expect(pensyaMockFunction).toBeCalledTimes(1);
-    expect(gemelMockFunction).toBeCalledTimes(1);
+    expect(expected).toStrictEqual(payload[0]);
   });
 
-  it('bituach processor: testing full valued row', async () => {
-    expect(1).toBe(1);
+  it('gemel processor: Testing file processing', async () => {
+    const res = await processFile(getPathForFixture('gemelnet_2017_01_perut.xml'));
+    console.log(res);
   });
 
-  it('bituach processor: testing partial valued row', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('gemel processor: testing full valued row', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('gemel processor: testing partial valued row', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('pensya processor: testing full valued row', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('pensya processor: testing partial valued row', async () => {
-    expect(1).toBe(1);
+  it('pensya processor: Testing file process', async () => {
+    const res = await processFile(getPathForFixture('pensyanet_2017_01_maslul_klali.xml'));
+    console.log(res);
   });
 });

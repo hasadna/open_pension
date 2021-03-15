@@ -69,15 +69,3 @@ export const parsers = {
   gemel: gemelProcess,
   pensya: pensyanetProcess
 };
-
-/**
- * Questions to mosh:
- * 1. In the destinatin mapping we have ID - this need to be with another name
- *    since ID is the row it self in the DB unless this is kind of unique
- *    identifier?
- * 2. SHARP_RIBIT_HASRAT_SIKUN - exists only in bituach and gemel, it does not
- *    exists in other places?
- * 3. The destination fields list is kind of small when comparing to what we
- *    really have in bituach source. Don't we want more items?
- */
-
