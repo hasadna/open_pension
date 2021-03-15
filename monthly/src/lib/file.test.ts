@@ -44,7 +44,26 @@ describe('Testing the file processing', () => {
   });
 
   it('pensya processor: Testing file process', async () => {
-    const res = await processFile(getPathForFixture('pensyanet_2017_01_maslul_klali.xml'));
-    console.log(res);
+    const {status, payload, message} = await processFile(getPathForFixture('pensyanet_2017_01_maslul_klali.xml'));
+    expect(status).toBe(ProcessState.Success);
+    expect(message).toBeNull();
+
+    const expected = {
+      ID_MANAGER: 1560,
+      ALPHA_SHNATI: 2.9,
+      STIAT_TEKEN_60_HODASHIM: 5.6,
+      STIAT_TEKEN_36_HODASHIM: 8,
+      TSUA_SHNATIT_MEMUZAAT_5_SHANIM: 7,
+      TSUA_SHNATIT_MEMUZAAT_3_SHANIM: 5,
+      TSUA_MITZTABERET_60_HODASHIM: 10,
+      TSUA_MITZTABERET_36_HODASHIM: 2,
+      TSUA_MEMUZAAT_60_HODASHIM: 10,
+      TSUA_MEMUZAAT_36_HODASHIM: 9,
+      TSUA_MITZT_MI_THILAT_SHANA: 0.06,
+      YITRAT_NCHASIM_LSOF_TKUFA: 460.02,
+      TSUA_NOMINALIT_BRUTO_HODSHIT: 0.06
+    };
+
+    expect(expected).toStrictEqual(payload[0]);
   });
 });

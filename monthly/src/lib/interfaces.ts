@@ -40,6 +40,7 @@ export interface ProcessedBituachXmlFileInterface {
 
 export interface ProcessedXmlFileBituachRowsInterface {
   ID_GUF: string[],
+  ID: string[],
   SHEM_GUF: string[],
   TAARICH_HAFAKAT_HADOCH: string[],
   ID_HEVRA: string[],
@@ -69,7 +70,10 @@ export interface ProcessedXmlFileBituachRowsInterface {
   R_SQUARED: string[],
   YAHAS_NEZILUT: string[],
   NUM_HEVRA: string[],
-  TAARICH_SIUM_PEILUT: string[]
+  TAARICH_SIUM_PEILUT: string[],
+  TSUA_MITZT_MI_THILAT_SHANA: string[],
+  YITRAT_NCHASIM_LSOF_TKUFA: string[],
+  TSUA_NOMINALIT_BRUTO_HODSHIT: string[],
 }
 
 export interface FileRowInterface {
