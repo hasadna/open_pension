@@ -1,7 +1,0 @@
-name: 'Open Pension Files Test'
-type: module
-description: 'Testing the open pension files module'
-core: 8.x
-package: 'Open Pension'
-dependencies:
-  - open_pension_files

@@ -1,3 +1,0 @@
-services:
-  open_pension_reclamation.source_file_parser:
-    class: Drupal\open_pension_reclamation\OpenPensionReclamationParseSourceFile
