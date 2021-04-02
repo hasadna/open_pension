@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"log"
+	"net/http"
 	"storage/api"
 	"storage/graphql"
 )
@@ -17,6 +18,10 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+	}))
 
 	h, err := graphql.NewHandler(db)
 
@@ -26,7 +31,7 @@ func main() {
 	e.GET("/file/:id", api.ServeFile)
 	e.POST("/file", api.StoreFile)
 
-	if err := e.Start(":3000"); err != nil {
+	if err := e.Start(":7000"); err != nil {
 		log.Fatalln(err)
 	}
 
