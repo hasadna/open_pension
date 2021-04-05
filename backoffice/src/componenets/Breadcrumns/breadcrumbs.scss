@@ -1,0 +1,28 @@
+.breadcrumbs {
+  margin-left: 1em;
+  margin-bottom: 1em;
+  padding: .25em;
+  border-radius: .25em;
+  background: white;
+  display: inline-flex;
+
+  li {
+    list-style-type: none;
+    font-weight: 300;
+
+    .fa-chevron-right {
+      padding-left: .25em;
+      padding-right: .25em;
+      color: var(--text);
+    }
+
+    .icon {
+      padding-right: .25em;
+      color: var(--text);
+    }
+
+    .title {
+      color: var(--text);
+    }
+  }
+}

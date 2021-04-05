@@ -1,0 +1,146 @@
+main {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+
+  aside {
+    width: 15vw;
+    background: white;
+    border-right: solid 1px #efefef;
+    box-shadow: 0 4px 6px #32325d1c, 0 1px 3px #00000014;
+    z-index: 2;
+
+
+    .title {
+      padding-bottom: .75em;
+      margin-bottom: .5em;
+
+      h2 {
+        text-align: center;
+        padding-top: .25em;
+        font-size: 2em;
+        color: var(--blue);
+      }
+    }
+
+    nav {
+      padding-top: .5em;
+      padding-left: .2em;
+      font-size: .85em;
+
+      .side-menu {
+        padding: 0;
+
+        li {
+          list-style-type: none;
+          margin: .5em;
+          padding: .75em;
+          color: #00000099;
+          display: flex;
+
+          a {
+            color: inherit;
+            text-decoration: none;
+            display: flex;
+            flex-direction: row;
+
+            .icon-wrapper {
+              width: 3em;
+            }
+          }
+
+          .svg-inline--fa {
+            padding-right: 1.5em;
+          }
+
+          .icon {
+            width: 3em;
+            display: block
+          }
+
+          .icon-home {
+            color: #5e72e4;
+          }
+
+          .icon-users {
+            color: #fb6340;
+          }
+
+          .icon-files {
+            color: #ffd600;
+          }
+
+          .icon-analytics {
+            color: #11cdef;
+          }
+
+          &.active {
+            background: #f6f9fc;
+            color: #525f7f;
+          }
+        }
+      }
+    }
+  }
+
+  .main-content {
+    width: 85vw;
+    min-height: 75vh;
+    background: #f8f9fe;
+
+    .umbre-background {
+      padding-top: .5em;
+      color: white;
+      display: flex;
+      flex-direction: column;
+
+      &.notch-big {
+        min-height: 22vh;
+      }
+
+      &.notch-small {
+        min-height: 10vh;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+        border-bottom: solid 1px var(--header-border-bottom);
+        padding-bottom: .75em;
+        margin-bottom: 1em;
+
+        h1 {
+          font-size: 2em;
+        }
+
+        .header-menu {
+          font-size: 1.25em;
+          font-weight: 300;
+
+          a {
+            color: inherit;
+            font-weight: 700;
+            text-decoration: none;
+          }
+        }
+      }
+
+      .top-content {
+        margin-top: auto;
+        margin-bottom: 5em;
+        margin-left: 1.25em;
+        margin-right: 1em;
+      }
+    }
+  }
+
+  .content {
+    padding-left: .25em;
+    margin-top: -3em;
+    margin-left: 1.5em;
+    margin-right: 1.5em
+  }
+}
