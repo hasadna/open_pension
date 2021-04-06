@@ -5,8 +5,29 @@ import {Breadcrumbs, Crumb} from "../../componenets/Breadcrumns/Breadcrumbs";
 import {Home, Users} from "../../Icons/Icons";
 import Table from "../../componenets/Table/Table";
 import RoundedElement from "../../componenets/RoundedElement/RoundedElement";
+import {useState, useEffect} from 'react';
+import {getUsers} from "../../api/user";
+import {isEmpty} from 'lodash';
+import TextWithActions from "../../componenets/TextWithActions/TextWithActions";
 
 export default () => {
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(async () => {
+    const {data: users} = await getUsers();
+    setUsers(users.users);
+  }, []);
+
+  const processUsers = (users) => {
+    if (isEmpty(users)) {
+      return [];
+    }
+
+    return Object.values(users).map(({username, email, nameToPresent}) => {
+      return [username, email, <TextWithActions actions={['Edit', 'Delete']}>{nameToPresent}</TextWithActions>];
+    });
+  };
 
   return <Page
     title="Users"
@@ -25,7 +46,7 @@ export default () => {
       <Table
         title="Users"
         headers={['Username', 'Email', 'Presentation name']}
-        rows={[]}
+        rows={processUsers(users)}
         navigationButton={{path: '/users/add', text: 'Add user'}}
         // pager={showPager && <Pager />}
         emptyElement={"No files were found. You can add more files with the button above."}

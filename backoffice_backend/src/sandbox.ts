@@ -1,7 +1,10 @@
-import { createFile, Status } from './db/file';
+import {createUser} from "./db/user";
 
 (async () => {
-  await createFile({filename: 'foo.png', storageId: 42, status: Status.stored});
+  const userObject = {username: 'roysegall2', email: 'foo@gmail.com', password: '1234'};
+  const results = await createUser(userObject);
+
+  console.log(results);
 })();
 
 

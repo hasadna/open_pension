@@ -3,19 +3,45 @@ import Page from "../../componenets/Page/Page";
 import {Breadcrumbs, Crumb} from "../../componenets/Breadcrumns/Breadcrumbs";
 import {Copy, Home, Upload} from "../../Icons/Icons";
 import {Button, Form, Input, Section} from "../../componenets/Form/Form";
-import {errorsReducer, valuesReducer} from "../../componenets/Form/formReducers";
+import {ADD_ERROR, errorsReducer, valuesReducer} from "../../componenets/Form/formReducers";
 import {validation} from './submitHandle';
+import {isEmpty} from 'lodash';
+import {createUser} from "../../api/user";
+import {Redirect} from "react-router-dom";
 
 export default () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const [{usernameError, emailError, passwordError, rePasswordError}, dispatchError] = useReducer(errorsReducer, {});
+  const [errors, dispatchError] = useReducer(errorsReducer, {});
   const [formValues, dispatchValue] = useReducer(valuesReducer, {});
 
   const handleSubmit = async () => {
-    validation({dispatchError, formValues});
+    const isFormValid = validation({dispatchError, formValues});
+
+    if (isFormValid) {
+      setIsLoading(true);
+
+      const {data, error} = await createUser(formValues);
+
+      if (!isEmpty(error)) {
+        Object.entries(error.fields).forEach(([field, error]) => {
+          dispatchError({ type: ADD_ERROR, error: {[field]: error}});
+        });
+      }
+      else {
+        setRedirect(true);
+      }
+
+      setIsLoading(false);
+    }
   };
+
+  if (redirect) {
+    return <Redirect to={"/users"} />;
+  }
+
+  const {usernameError, emailError, passwordError, rePasswordError} = errors;
 
   return <Page
     title={"Adding user"}

@@ -56,7 +56,8 @@ export async function createObject(entityModel: Model<any>, objectToInsert: Base
   try {
     const createdObject = await entityModel.create(objectToInsert);
     return {errors: null, object: createdObject};
-  } catch ({name, errors, message}) {
+  } catch (e) {
+    const {name, errors, message} = e;
 
     if (name === 'MongoError') {
       return {errors: message, object: null};

@@ -1,6 +1,8 @@
 import * as bcrypt from 'bcrypt';
 import {isEmpty} from 'loadsh';
 import { createTokenObject, TokenSchema, UserTokenInterface } from './token';
+const beautifyUnique = require('mongoose-beautiful-unique-validation');
+
 
 import {
   BaseEntity,
@@ -23,8 +25,8 @@ export type UserInterface = BaseEntity & {
   readonly token?: UserTokenInterface,
 };
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+export const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: 'Username already exists' },
   password: {
     type: String,
     required: true,
@@ -42,9 +44,10 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: 'Email already exists',
     validate: {
       validator: function(email) {
+        console.log(email);
         // todo: find better validation.
         return email.includes('@');
       },
@@ -59,6 +62,8 @@ const userSchema = new mongoose.Schema({
     type: TokenSchema,
   }
 });
+
+userSchema.plugin(beautifyUnique);
 
 export const User = mongoose.model('users', userSchema);
 

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+  import {useState} from 'react';
 import './Login.scss';
 import {Redirect} from "react-router-dom";
 import {Input} from "../Form/Form";
@@ -36,6 +36,7 @@ const validateForm = ({usernameOrEmail, password, setErrors}) => {
 }
 
 export default () => {
+  // todo: refactor to use the form reducers.
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -62,8 +63,8 @@ export default () => {
     setIsLoading(true);
     const {data, error} = await login({usernameOrEmail, password});
 
-    if (error) {
-      setError(error);
+    if (!isEmpty(error)) {
+      setError(error.message);
     } else {
       const {token, refreshToken, expires} = data;
 

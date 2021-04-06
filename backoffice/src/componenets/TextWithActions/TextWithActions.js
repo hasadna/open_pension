@@ -9,11 +9,7 @@ export default ({children, actions}) => <div className="text-with-actions">
     <div className="menu">
       <ul>
         {actions.map((action, key) => {
-          const {title, handler} = action;
-          return <li key={key}><a href={"#"} onClick={(e) => {
-            e.preventDefault();
-            handler();
-          }}>{title}</a> </li>
+          return <li key={key}>{action}</li>
         })}
       </ul>
     </div>

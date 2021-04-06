@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {isEmpty} from 'lodash';
 
 export const API_URL = process.env.REACT_APP_API;
 export const STORAGE_URL = process.env.REACT_APP_STORAGE_API;
@@ -40,9 +41,16 @@ export async function sendQuery(query) {
 
   const {data, errors} = response;
 
-  let error;
+  let error = {};
   if (errors) {
-    error = errors[0].message;
+    const [errorFromServer] = errors;
+    error['message'] = errorFromServer.message;
+
+    // todo: handle better.
+    if (!isEmpty(errorFromServer.extensions.exception)) {
+      delete errorFromServer.extensions.exception['stacktrace'];
+      error['fields'] = errorFromServer.extensions.exception;
+    }
   }
   return {data, error};
 }

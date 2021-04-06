@@ -27,3 +27,25 @@ export async function me() {
   const {data: {me: data}, error} = results;
   return {data, error}
 }
+
+export async function createUser({username, password, email, nameToPresent}) {
+  return await sendQuery(`
+    mutation {
+      userCreate(username: "${username}", password: "${password}", email: "${email}", nameToPresent: "${nameToPresent}") {
+        username
+      }
+    }
+  `);
+}
+
+export async function getUsers() {
+  return await sendQuery(`
+    query {
+      users {
+        username
+        email
+        nameToPresent
+      }
+    }
+  `);
+}
