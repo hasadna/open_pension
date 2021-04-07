@@ -42,6 +42,7 @@ export async function getUsers() {
   return await sendQuery(`
     query {
       users {
+      id
         username
         email
         nameToPresent

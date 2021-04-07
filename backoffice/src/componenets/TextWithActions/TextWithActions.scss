@@ -10,6 +10,10 @@
     padding: .5em;
     border: solid 1px white;
 
+    &:hover {
+      z-index: 10;
+    }
+
     .action-title {
       .svg-inline--fa {
         padding-left: .25em;
@@ -20,6 +24,7 @@
     .menu {
       position: absolute;
       left: -1px;
+      background: white;
     }
 
     ul {
@@ -36,12 +41,21 @@
         padding-right: .5em;
         padding-left: .5em;
         padding-bottom: .5em;
-        font-size: .85em;
+        font-size: 1em;
 
         a {
           text-decoration: none;
-          color: black;
+          font-weight: 300;
         }
+
+        .delete {
+          color: var(--delete-text);
+        }
+
+        .edit {
+          color: var(--edit-text);
+        }
+
 
         &:not(first) {
           padding-top: .25em;

@@ -2,13 +2,14 @@ import Page from "../../componenets/Page/Page";
 import {Input} from "../../componenets/Form/Form";
 import Filters from "../../componenets/Filters/Filters";
 import {Breadcrumbs, Crumb} from "../../componenets/Breadcrumns/Breadcrumbs";
-import {Home, Users} from "../../Icons/Icons";
+import {Delete, Edit, Home, Users} from "../../Icons/Icons";
 import Table from "../../componenets/Table/Table";
 import RoundedElement from "../../componenets/RoundedElement/RoundedElement";
 import {useState, useEffect} from 'react';
 import {getUsers} from "../../api/user";
 import {isEmpty} from 'lodash';
 import TextWithActions from "../../componenets/TextWithActions/TextWithActions";
+import {Link} from "react-router-dom";
 
 export default () => {
 
@@ -24,8 +25,17 @@ export default () => {
       return [];
     }
 
-    return Object.values(users).map(({username, email, nameToPresent}) => {
-      return [username, email, <TextWithActions actions={['Edit', 'Delete']}>{nameToPresent}</TextWithActions>];
+    return Object.values(users).map(({id, username, email, nameToPresent}) => {
+      const actions = [
+        <Link to={`/user/${id}/edit`}><span className="edit"><Edit /> Edit</span></Link>,
+        <Link to={`/user/${id}/delete`}><span className="delete"><Delete /> Delete</span></Link>
+      ];
+      return [
+        username,
+        email,
+        <TextWithActions actions={actions}>
+          {nameToPresent}
+        </TextWithActions>];
     });
   };
 
