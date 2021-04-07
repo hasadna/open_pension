@@ -1,13 +1,14 @@
 import {useState, useReducer} from 'react';
-import Page from "../../componenets/Page/Page";
-import {Breadcrumbs, Crumb} from "../../componenets/Breadcrumns/Breadcrumbs";
-import {Copy, Home, Upload} from "../../Icons/Icons";
-import {Button, Form, Input, Section} from "../../componenets/Form/Form";
-import {ADD_ERROR, errorsReducer, valuesReducer} from "../../componenets/Form/formReducers";
-import {validation} from './submitHandle';
 import {isEmpty} from 'lodash';
-import {createUser} from "../../api/user";
 import {Redirect} from "react-router-dom";
+
+import {validation} from './submitHandle';
+import Page from "../../../componenets/Page/Page";
+import {Breadcrumbs, Crumb} from "../../../componenets/Breadcrumns/Breadcrumbs";
+import {Copy, Home, Upload} from "../../../Icons/Icons";
+import {Button, Form, Input, Section} from "../../../componenets/Form/Form";
+import {ADD_ERROR, errorsReducer, valuesReducer} from "../../../componenets/Form/formReducers";
+import {createUser} from "../../../api/user";
 
 export default () => {
 

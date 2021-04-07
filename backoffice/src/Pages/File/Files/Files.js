@@ -1,10 +1,10 @@
-import Page from "../../componenets/Page/Page";
-import Files from "../../componenets/Files/Files";
-import {Input} from "../../componenets/Form/Form";
 import "./Files.scss";
-import Filters from "../../componenets/Filters/Filters";
-import {Breadcrumbs, Crumb} from "../../componenets/Breadcrumns/Breadcrumbs";
-import {Copy, Home} from "../../Icons/Icons";
+import Page from "../../../componenets/Page/Page";
+import Files from "../../../componenets/Files/Files";
+import {Input} from "../../../componenets/Form/Form";
+import Filters from "../../../componenets/Filters/Filters";
+import {Breadcrumbs, Crumb} from "../../../componenets/Breadcrumns/Breadcrumbs";
+import {Copy, Home} from "../../../Icons/Icons";
 
 export default () => {
   return <Page

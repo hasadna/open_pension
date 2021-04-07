@@ -1,6 +1,6 @@
 import {isEmpty} from "lodash";
-import {ADD_ERROR, RESET_ERRORS} from "../../componenets/Form/formReducers";
-import {isEmailValid} from "../../componenets/Form/validations";
+import {ADD_ERROR, RESET_ERRORS} from "../../../componenets/Form/formReducers";
+import {isEmailValid} from "../../../componenets/Form/validations";
 
 export const validation = ({dispatchError, formValues}) => {
   const {username, email, password, rePassword, nameToPresent} = formValues;
