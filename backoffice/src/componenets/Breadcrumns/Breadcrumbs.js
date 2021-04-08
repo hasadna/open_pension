@@ -1,5 +1,5 @@
 import "./breadcrumbs.scss"
-import {ArrowRight} from "../../Icons/Icons";
+import {ArrowRight} from "Icons/Icons";
 
 export const Breadcrumbs = ({crumbs}) => <ul className={"breadcrumbs"}>
   {crumbs.map((crumb, key) => <li key={key}>{crumb} {key != (crumbs.length - 1) && <ArrowRight />}</li>)}

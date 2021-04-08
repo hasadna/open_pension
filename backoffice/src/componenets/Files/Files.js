@@ -1,10 +1,10 @@
-import Table from "../Table/Table";
-import Status from "../Status/Status";
-import Pager from "../Pager/Pager";
-import RoundedElement from "../RoundedElement/RoundedElement";
+import Table from "componenets/Table/Table";
+import Status from "componenets/Status/Status";
+import Pager from "componenets/Pager/Pager";
+import RoundedElement from "componenets/RoundedElement/RoundedElement";
 import {useEffect, useState} from 'react';
 import {isEmpty} from 'lodash';
-import {getFiles} from "../../api/file";
+import {getFiles} from "api/file";
 
 
 const filesHandler = (files) => {
@@ -35,10 +35,10 @@ export default ({isFrontpage, showPager, itemsPerPage = 25}) => {
   let navigationButton;
   if (isFrontpage) {
     navigationButton = isEmpty(files) ?
-      {path: '/files/add', text: 'Add files'} :
+      {path: '/file/add', text: 'Add file'} :
       {path: 'files', text: 'View all'};
   } else {
-    navigationButton = {path: '/files/add', text: 'Add file'};
+    navigationButton = {path: '/file/add', text: 'Add file'};
   }
 
   return <RoundedElement>

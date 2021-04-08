@@ -1,7 +1,7 @@
 import "./Page.scss"
-import {Charts, Copy, Home, Users} from "../../Icons/Icons";
+import {Charts, Copy, Home, Users} from "Icons/Icons";
 import {Link} from "react-router-dom";
-import Username from "../Username/Username";
+import Username from "componenets/Username/Username";
 
 export default ({title, children, topContent, activePage = "home", notch="big"}) => {
 

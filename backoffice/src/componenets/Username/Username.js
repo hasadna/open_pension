@@ -1,5 +1,5 @@
 import {useRecoilValue, useResetRecoilState} from "recoil";
-import {authState, loggedInUserState} from "../../state/authState";
+import {authState, loggedInUserState} from "state/authState";
 import {useState} from 'react';
 
 export default () => {

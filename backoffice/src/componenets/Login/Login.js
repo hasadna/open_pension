@@ -1,11 +1,11 @@
-  import {useState} from 'react';
+import {useState} from 'react';
 import './Login.scss';
 import {Redirect} from "react-router-dom";
-import {Input} from "../Form/Form";
+import {Input} from "componenets/Form/Form";
 import {isEmpty} from "lodash";
 import {useSetRecoilState} from "recoil";
-import {authState} from "../../state/authState";
-import {loginQuery} from "../../api/user";
+import {authState} from "state/authState";
+import {loginQuery} from "api/user";
 
 const login = async ({usernameOrEmail, password}) => {
   const key = usernameOrEmail.includes('@') ? 'email' : 'username';

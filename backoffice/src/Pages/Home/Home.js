@@ -1,8 +1,8 @@
-import Page from "../../componenets/Page/Page";
-import StatsCard from "../../componenets/StatsCard/StatsCard";
+import Page from "componenets/Page/Page";
+import StatsCard from "componenets/StatsCard/StatsCard";
 import "./Home.scss";
-import {File, Database, Clock, Tasks} from "../../Icons/Icons";
-import Files from "../../componenets/Files/Files";
+import {File, Database, Clock, Tasks} from "Icons/Icons";
+import Files from "componenets/Files/Files";
 
 const TopContent = () => {
   return <div className="stats-wrapper">

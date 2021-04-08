@@ -1,5 +1,5 @@
 import "./FormWrapper.scss";
-import RoundedElement from "../RoundedElement/RoundedElement";
+import RoundedElement from "componenets/RoundedElement/RoundedElement";
 
 export const Form = ({children, title, actions}) => {
 

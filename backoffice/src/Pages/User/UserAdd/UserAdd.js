@@ -3,12 +3,12 @@ import {isEmpty} from 'lodash';
 import {Redirect} from "react-router-dom";
 
 import {validation} from './submitHandle';
-import Page from "../../../componenets/Page/Page";
-import {Breadcrumbs, Crumb} from "../../../componenets/Breadcrumns/Breadcrumbs";
-import {Copy, Home, Upload} from "../../../Icons/Icons";
-import {Button, Form, Input, Section} from "../../../componenets/Form/Form";
-import {ADD_ERROR, errorsReducer, valuesReducer} from "../../../componenets/Form/formReducers";
-import {createUser} from "../../../api/user";
+import Page from "componenets/Page/Page";
+import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
+import {Copy, Home, Upload} from "Icons/Icons";
+import {Button, Form, Input, Section} from "componenets/Form/Form";
+import {ADD_ERROR, errorsReducer, valuesReducer} from "componenets/Form/formReducers";
+import {createUser} from "api/user";
 
 export default () => {
 

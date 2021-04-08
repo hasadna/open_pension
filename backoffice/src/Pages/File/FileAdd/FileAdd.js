@@ -1,10 +1,10 @@
 import {useState} from 'react';
 import {Redirect} from "react-router-dom";
-import Page from "../../../componenets/Page/Page";
-import {Button, Form, Input, Section} from "../../../componenets/Form/Form";
-import {Breadcrumbs, Crumb} from "../../../componenets/Breadcrumns/Breadcrumbs";
-import {Copy, Home, Upload} from "../../../Icons/Icons";
-import {uploadFile} from "../../../api/file";
+import Page from "componenets/Page/Page";
+import {Button, Form, Input, Section} from "componenets/Form/Form";
+import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
+import {Copy, Home, Upload} from "Icons/Icons";
+import {uploadFile} from "api/file";
 
 export default () => {
   const [isLoading, setIsLoading] = useState(false);

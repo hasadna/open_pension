@@ -1,10 +1,10 @@
 import {useRecoilValue} from "recoil";
-import {authState} from "../state/authState.js"
+import {authState} from "state/authState.js"
 import {Switch, Route, BrowserRouter as Router} from "react-router-dom";
 import Home from "./Home/Home";
-import Login from "../componenets/Login/Login";
+import Login from "componenets/Login/Login";
 
-import {filesPages} from './File'
+import {filePages} from './File'
 import {userPages} from './User';
 
 export default () => {
@@ -12,7 +12,7 @@ export default () => {
   const tokenFromStorage = localStorage.getItem('token');
   const isAuth = tokenFromState || tokenFromStorage;
 
-  const {FilesAdd, FilesList} = filesPages;
+  const {FilesList, FileAdd} = filePages;
   const {UsersList, UserAdd, UserDelete, UserEdit} = userPages;
 
 
@@ -27,8 +27,8 @@ export default () => {
         <Route exact path="/user/:id/edit"><UserEdit /></Route>
         <Route exact path="/user/:id/delete"><UserDelete /></Route>
 
-        <Route exact path="/files">{FilesList}</Route>
-        <Route exact path="/files/add"><FilesAdd /></Route>
+        <Route exact path="/files"><FilesList /></Route>
+        <Route exact path="/file/add"><FileAdd /></Route>
 
       </> : <Route path="/"><Login /></Route>}
     </Switch>

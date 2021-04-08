@@ -1,7 +1,7 @@
 import Files from './Files/Files';
-import FilesAdd from './FilesAdd/FilesAdd';
+import FileAdd from 'Pages/File/FileAdd/FileAdd';
 
-export const filesPages = {
+export const filePages = {
   FilesList: Files,
-  FilesAdd
+  FileAdd
 };

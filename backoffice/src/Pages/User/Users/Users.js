@@ -2,15 +2,15 @@ import {isEmpty} from 'lodash';
 import {Link} from "react-router-dom";
 import {useState, useEffect} from 'react';
 
-import Page from "../../../componenets/Page/Page";
-import {Input} from "../../../componenets/Form/Form";
-import Filters from "../../../componenets/Filters/Filters";
-import {Breadcrumbs, Crumb} from "../../../componenets/Breadcrumns/Breadcrumbs";
-import {Delete, Edit, Home, Users} from "../../../Icons/Icons";
-import Table from "../../../componenets/Table/Table";
-import RoundedElement from "../../../componenets/RoundedElement/RoundedElement";
-import {getUsers} from "../../../api/user";
-import TextWithActions from "../../../componenets/TextWithActions/TextWithActions";
+import Page from "componenets/Page/Page";
+import {Input} from "componenets/Form/Form";
+import Filters from "componenets/Filters/Filters";
+import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
+import {Delete, Edit, Home, Users} from "Icons/Icons";
+import Table from "componenets/Table/Table";
+import RoundedElement from "componenets/RoundedElement/RoundedElement";
+import {getUsers} from "api/user";
+import TextWithActions from "componenets/TextWithActions/TextWithActions";
 
 export default () => {
 
@@ -58,7 +58,7 @@ export default () => {
         title="Users"
         headers={['Username', 'Email', 'Presentation name']}
         rows={processUsers(users)}
-        navigationButton={{path: '/users/add', text: 'Add user'}}
+        navigationButton={{path: '/user/add', text: 'Add user'}}
         // pager={showPager && <Pager />}
         emptyElement={"No files were found. You can add more files with the button above."}
       >

@@ -1,5 +1,5 @@
 import "./Pager.scss";
-import {ArrowLeft, ArrowRight} from "../../Icons/Icons";
+import {ArrowLeft, ArrowRight} from "Icons/Icons";
 
 export default ({ Pages, baseURL }) => <section className="pager">
   <ul>

@@ -1,6 +1,6 @@
 import {atom, selector} from "recoil";
 import {isEmpty} from 'lodash';
-import {me} from "../api/user";
+import {me} from "api/user";
 
 export const DummyLoginResults = {
   token: 'pizza',

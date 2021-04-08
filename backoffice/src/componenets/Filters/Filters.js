@@ -1,5 +1,5 @@
-import RoundedElement from "../RoundedElement/RoundedElement";
-import {Button} from "../Form/Form";
+import RoundedElement from "componenets/RoundedElement/RoundedElement";
+import {Button} from "componenets/Form/Form";
 
 export default ({inputs}) => {
 
