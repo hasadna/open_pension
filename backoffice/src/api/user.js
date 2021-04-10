@@ -50,3 +50,17 @@ export async function getUsers() {
     }
   `);
 }
+
+export async function getUser(id) {
+  return await sendQuery(`
+  query {
+    user(id: "${id}") {
+      username
+    }
+  }
+  `);
+}
+
+export async function deleteUser(id) {
+  // todo: handle it later on.
+}
