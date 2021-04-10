@@ -31,6 +31,9 @@ export default () => {
         <Link to={`/user/${id}/edit`}><span className="edit"><Edit /> Edit</span></Link>,
         <Link to={`/user/${id}/delete`}><span className="delete"><Delete /> Delete</span></Link>
       ];
+
+      nameToPresent = isEmpty(nameToPresent) ? '' : nameToPresent;
+
       return [
         username,
         email,

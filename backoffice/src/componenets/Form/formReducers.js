@@ -1,5 +1,7 @@
 export const ADD_ERROR = 'setError';
 export const RESET_ERRORS = 'resetErrors';
+export const SET_ELEMENT_VALUE = 'setElement';
+export const SET_VALUES = 'setValues';
 
 export const errorsReducer = (state, {type, error}) => {
   switch (type) {
@@ -19,7 +21,12 @@ export const errorsReducer = (state, {type, error}) => {
   }
 };
 
-export const valuesReducer = (state, {element, name}) => {
-  element.preventDefault();
-  return {...state, ...{[name]: element.target.value}};
+export const valuesReducer = (state, {element, name, action = SET_ELEMENT_VALUE, newState = {}}) => {
+  if (action === SET_ELEMENT_VALUE) {
+    element.preventDefault();
+    return {...state, ...{[name]: element.target.value}};
+  }
+
+  return {...state, ...newState}
+
 }

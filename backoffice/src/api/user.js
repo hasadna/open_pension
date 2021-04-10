@@ -1,4 +1,5 @@
 import {sendQuery} from "./core";
+import {isEmpty} from 'lodash';
 
 export async function loginQuery({username, email, password}) {
   const results = await sendQuery(`
@@ -53,11 +54,28 @@ export async function getUsers() {
 
 export async function getUser(id) {
   return await sendQuery(`
-  query {
-    user(id: "${id}") {
-      username
+    query {
+      user(id: "${id}") {
+        username
+        email
+        nameToPresent
+      }
     }
+  `);
+}
+
+export async function updateUser(id, {username, password, email, nameToPresent}) {
+
+  let args = [`id: "${id}"`, `username: "${username}"`, `email: "${email}"`, `nameToPresent: "${nameToPresent}"`]
+  if (!isEmpty(password)) {
+    args.push(`password: "${password}"`);
   }
+  return await sendQuery(`
+    mutation {
+      userUpdate(${args.join(',')}) {
+        id
+      }
+    }
   `);
 }
 
