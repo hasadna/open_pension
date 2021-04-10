@@ -1,5 +1,5 @@
 import "./Page.scss"
-import {Charts, Copy, Home, Users} from "Icons/Icons";
+import {Charts, Copy, Home, Users, Search} from "Icons/Icons";
 import {Link} from "react-router-dom";
 import Username from "componenets/Username/Username";
 
@@ -9,7 +9,8 @@ export default ({title, children, topContent, activePage = "home", notch="big"})
     home: {title: 'Home',  icon: <Home />, path: "/"},
     users: {title: 'Users', icon: <Users />, path: "/users"},
     files: {title: 'Files', icon: <Copy />, path: "/files"},
-    analytics: {title: 'Analytics', icon: <Charts />, path: "/analytics"}
+    search: {title: 'Search files', icon: <Search />, path: "/query-files"},
+    servicesAndAnalytics: {title: 'Services & Analytics', icon: <Charts />, path: "/services-and-analytics"}
   };
 
   return <main>

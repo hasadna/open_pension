@@ -6,6 +6,7 @@ import Login from "componenets/Login/Login";
 
 import {filePages} from './File'
 import {userPages} from './User';
+import ServicesAndAnalytics from "./ServicesAndAnalytics/ServicesAndAnalytics";
 
 export default () => {
   const {token: tokenFromState} = useRecoilValue(authState);
@@ -14,7 +15,6 @@ export default () => {
 
   const {FilesList, FileAdd} = filePages;
   const {UsersList, UserAdd, UserDelete, UserEdit} = userPages;
-
 
   // todo: use gurards routes.
   return <Router>
@@ -26,6 +26,8 @@ export default () => {
         <Route exact path="/user/add"><UserAdd /></Route>
         <Route exact path="/user/:id/edit"><UserEdit /></Route>
         <Route exact path="/user/:id/delete"><UserDelete /></Route>
+
+        <Route exact path="/services-and-analytics"><ServicesAndAnalytics /></Route>
 
         <Route exact path="/files"><FilesList /></Route>
         <Route exact path="/file/add"><FileAdd /></Route>

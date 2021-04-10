@@ -2,8 +2,6 @@
   margin-left: 1em;
   margin-bottom: 1em;
   padding: .25em;
-  border-radius: .25em;
-  background: white;
   display: inline-flex;
 
   li {
@@ -13,16 +11,16 @@
     .fa-chevron-right {
       padding-left: .25em;
       padding-right: .25em;
-      color: var(--text);
+      color: var(--background);
     }
 
     .icon {
       padding-right: .25em;
-      color: var(--text);
+      color: var(--background);
     }
 
     .title {
-      color: var(--text);
+      color: var(--background);
     }
   }
 }

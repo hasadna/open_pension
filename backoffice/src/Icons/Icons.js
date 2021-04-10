@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFile, faDatabase, faClock, faTasks, faChevronCircleDown, faChevronLeft, faChevronRight, faHome,
-  faUsers, faCopy, faChartBar, faUpload, faTrash, faPencilAlt
+  faUsers, faCopy, faChartBar, faUpload, faTrash, faPencilAlt, faSearch
 } from '@fortawesome/free-solid-svg-icons';
 
 export const File = () => <FontAwesomeIcon icon={faFile} />
@@ -14,6 +14,7 @@ export const ArrowRight = () => <FontAwesomeIcon icon={faChevronRight} />
 export const Home = () => <FontAwesomeIcon icon={faHome} />
 export const Users = () => <FontAwesomeIcon icon={faUsers} />
 export const Copy = () => <FontAwesomeIcon icon={faCopy} />
+export const Search = () => <FontAwesomeIcon icon={faSearch} />
 export const Charts = () => <FontAwesomeIcon icon={faChartBar} />
 export const Upload = () => <FontAwesomeIcon icon={faUpload} />
 export const Edit = () => <FontAwesomeIcon icon={faPencilAlt} />
