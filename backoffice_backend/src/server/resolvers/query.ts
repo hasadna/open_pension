@@ -3,9 +3,9 @@ import { getUser } from '../../db/user';
 import { assertLoggedIn } from '../server';
 
 export default {
-  files: async (_, __, context) => {
+  files: async (_, {filter, itemsNumber, page}, context) => {
     assertLoggedIn(context);
-    return await getFile({conditions: {}})
+    return await getFile({conditions: {}}, {itemsNumber, page}, filter)
   },
   file: async (_, args, context) => {
     assertLoggedIn(context);

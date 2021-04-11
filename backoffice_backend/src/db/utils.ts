@@ -76,14 +76,23 @@ export async function createObject(entityModel: Model<any>, objectToInsert: Base
  *
  * @throws {Error} When none of the arguments was passed.
  */
-export async function getObject(entityModel: Model<any>, {id, conditions}: GetEntityArguments) {
+export async function getObject(entityModel: Model<any>, {id, conditions}: GetEntityArguments, pagination: any = {}, filter = {}) {
+  console.log(filter);
 
   if (id) {
     return entityModel.findById({_id: id});
   }
 
   if (conditions) {
-    return entityModel.find(conditions);
+    let collections = entityModel.find(conditions).sort('createdAt');
+
+    if (!isEmpty(pagination)) {
+      const {itemsNumber, page} = pagination;
+      collections = collections.limit(itemsNumber).skip(page * itemsNumber);
+    }
+
+    return collections;
+
   }
 
   throw new Error('You need to pass an ID or conditions');

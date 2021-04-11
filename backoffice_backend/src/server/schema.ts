@@ -26,8 +26,13 @@ export const typeDefs = gql`
     expires: Int,
   }
 
+  input MessageInput {
+    key: String,
+    value: String,
+  }
+
   type Query {
-    files: [File],
+    files(filter: [MessageInput], itemsNumber: Int, page: Int): [File],
     file(id: ID!): File,
     users: [User],
     user(id: ID!): User,
