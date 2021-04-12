@@ -99,7 +99,7 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
     return entityModel.findById({_id: id});
   }
 
-  let collections;
+  let collections, totalCount;
 
   if (!isEmpty(filter)) {
     const filterParams = {}
@@ -120,6 +120,12 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
     collections = entityModel.find(conditions);
   }
 
+  if (isEmpty(conditions)) {
+    // const clonedCollections = Object.assign(collections);
+    // totalCount = await clonedCollections.count();
+  }
+  console.log(totalCount);
+
   if (!isEmpty(pagination)) {
     const {itemsNumber, page} = pagination;
     collections = collections.limit(itemsNumber).skip(page * itemsNumber);
@@ -127,7 +133,7 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
 
   collections = collections.sort('createdAt');
 
-  return {collections, totalItems: 12};
+  return {collections, totalCount: 12};
 }
 
 /**

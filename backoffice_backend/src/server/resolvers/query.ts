@@ -1,15 +1,13 @@
 import { getFile } from '../../db/file';
 import { getUser } from '../../db/user';
 import { assertLoggedIn } from '../server';
-import {Pagination} from "../../db/utils";
-
 export default {
   files: async (_, {filter, pagination = {}}, context) => {
     assertLoggedIn(context);
-    const {itemsNumber, page}: Pagination = pagination;
-    const {collections: files, totalItems} = await getFile({conditions: {}}, {itemsNumber, page}, filter)
 
-    return {files, totalItems}
+    const {collections: files, totalCount} = await getFile({conditions: {}}, pagination, filter)
+    console.log(totalCount);
+    return {files, totalCount}
   },
   file: async (_, args, context) => {
     assertLoggedIn(context);

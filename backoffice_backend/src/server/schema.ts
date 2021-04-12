@@ -44,8 +44,7 @@ export const typeDefs = gql`
 
   input Pagination {
     itemsNumber: Int,
-    page: Int,
-    totalCount: Boolean
+    page: Int
   }
 
   type Query {

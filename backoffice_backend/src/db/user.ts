@@ -47,7 +47,6 @@ export const userSchema = new mongoose.Schema({
     unique: 'Email already exists',
     validate: {
       validator: function(email) {
-        console.log(email);
         // todo: find better validation.
         return email.includes('@');
       },

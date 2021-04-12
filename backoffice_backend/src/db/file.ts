@@ -44,8 +44,8 @@ export const File = mongoose.model('files', fileSchema);
  * @throws {Error} When none of the arguments was passed.
  */
 export async function getFile({id, conditions}: GetEntityArguments, pagination: Pagination = {}, filter: Filter[] = []) {
-  const {collections, totalItems} = await getObject(File, {id, conditions}, pagination, filter);
-  return {collections, totalItems};
+  const {collections, totalCount} = await getObject(File, {id, conditions}, pagination, filter);
+  return {collections, totalCount};
 }
 
 /**
