@@ -97,7 +97,9 @@ export async function createUser(user: UserInterface): Promise<TransactionResult
  * @throws {Error} When none of the arguments was passed.
  */
 export async function getUser({id, conditions}: GetEntityArguments) {
-  return getObject(User, {id, conditions});
+  const {collections} = await getObject(User, {id, conditions});
+
+  return collections;
 }
 
 /**
@@ -133,7 +135,6 @@ export async function createToken(user: UserInterface): Promise<UserTokenInterfa
  * @return JSON representation of the user.
  */
 export async function loadUserByToken(token: string) {
-  // const user = await User.findOne({'token.token': token});
   const [user] = await getUser({conditions: {'token.token': token}});
 
   if (!user) {

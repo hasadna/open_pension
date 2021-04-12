@@ -37,11 +37,15 @@ export const File = mongoose.model('files', fileSchema);
  * @param {Conditions} conditions - The conditions to filter the files by.
  * @param {Pagination} pagination - pagination for the items.
  * @param {Filter} filter - The filter params passed from GraphQL.
+ * @param {boolean} withTotalCount - Determine if we need to return just the
+ *  items or including the count. Should be removed once all the models line up
+ *  with the new format.
  *
  * @throws {Error} When none of the arguments was passed.
  */
 export async function getFile({id, conditions}: GetEntityArguments, pagination: Pagination = {}, filter: Filter[] = []) {
-  return getObject(File, {id, conditions}, pagination, filter);
+  const {collections, totalItems} = await getObject(File, {id, conditions}, pagination, filter);
+  return {collections, totalItems};
 }
 
 /**

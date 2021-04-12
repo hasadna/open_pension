@@ -20,6 +20,12 @@ export const typeDefs = gql`
     nameToPresent: String,
   }
 
+  type AllItems {
+    files: [File],
+    users: [User],
+    totalCount: Int
+  }
+
   type Token {
     token: String,
     refreshToken: String,
@@ -36,8 +42,14 @@ export const typeDefs = gql`
     operation: operations
   }
 
+  input Pagination {
+    itemsNumber: Int,
+    page: Int,
+    totalCount: Boolean
+  }
+
   type Query {
-    files(filter: [MessageInput], itemsNumber: Int, page: Int): [File],
+    files(filter: [MessageInput], pagination: Pagination): AllItems,
     file(id: ID!): File,
     users: [User],
     user(id: ID!): User,

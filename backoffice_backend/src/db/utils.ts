@@ -27,6 +27,7 @@ export type GetEntityArguments = {
 export type Pagination = {
   readonly itemsNumber?: number;
   readonly page?: number;
+  readonly totalCount?: boolean;
 };
 
 export enum Operation {
@@ -126,7 +127,7 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
 
   collections = collections.sort('createdAt');
 
-  return collections;
+  return {collections, totalItems: 12};
 }
 
 /**
