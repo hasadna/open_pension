@@ -26,9 +26,14 @@ export const typeDefs = gql`
     expires: Int,
   }
 
+  enum operations {
+    CONTAINS
+  }
+
   input MessageInput {
     key: String,
     value: String,
+    operation: operations
   }
 
   type Query {

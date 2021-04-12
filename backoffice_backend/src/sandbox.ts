@@ -1,9 +1,11 @@
-import {createUser} from "./db/user";
+import {getObject, Operation} from "./db/utils";
+import {File} from "./db/file";
 
 (async () => {
-  const userObject = {username: 'roysegall2', email: 'foo@gmail.com', password: '1234'};
-  const results = await createUser(userObject);
-
+  const results = await getObject(File, {}, {itemsNumber: 1}, [
+    {key: "filename", value: "foo", operation: Operation.CONTAINS},
+    {key: "storageId", value: 42}
+  ]);
   console.log(results);
 })();
 

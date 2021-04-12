@@ -1,7 +1,6 @@
 import {
   BaseEntity,
-  createObject, GetEntityArguments, getObject,
-  // GetEntityArguments, getObject,
+  createObject, Filter, GetEntityArguments, getObject, Pagination,
   TransactionResults, updateObject
 } from './Utils';
 import mongoose from './db';
@@ -35,11 +34,13 @@ export const File = mongoose.model('files', fileSchema);
  * Loading a file from the DB by id or condition.
  *
  * @param {string} id - The id of the file.
- * @param {Conditions} conditions - the conditions to filter the files by.
+ * @param {Conditions} conditions - The conditions to filter the files by.
+ * @param {Pagination} pagination - pagination for the items.
+ * @param {Filter} filter - The filter params passed from GraphQL.
  *
  * @throws {Error} When none of the arguments was passed.
  */
-export async function getFile({id, conditions}: GetEntityArguments, pagination: any = {}, filter: any = {}) {
+export async function getFile({id, conditions}: GetEntityArguments, pagination: Pagination = {}, filter: Filter[] = []) {
   return getObject(File, {id, conditions}, pagination, filter);
 }
 

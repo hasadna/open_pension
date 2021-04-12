@@ -24,6 +24,21 @@ export type GetEntityArguments = {
   readonly conditions?: Conditions;
 };
 
+export type Pagination = {
+  readonly itemsNumber?: number;
+  readonly page?: number;
+};
+
+export enum Operation {
+  CONTAINS = "CONTAINS"
+}
+
+export type Filter = {
+  readonly key?: string;
+  readonly value?: any;
+  readonly operation?: Operation
+};
+
 /**
  * Convert an error object to key value.
  *
@@ -72,30 +87,46 @@ export async function createObject(entityModel: Model<any>, objectToInsert: Base
  *
  * @param entityModel - The model object.
  * @param {string} id - The id of the user.
- * @param {Conditions} conditions - the conditions to filter the users by.
+ * @param {Conditions} conditions - The conditions to filter the users by.
+ * @param {Pagination} pagination - Pagination for the items.
+ * @param {Filter} filter - The filter params passed from GraphQL.
  *
  * @throws {Error} When none of the arguments was passed.
  */
-export async function getObject(entityModel: Model<any>, {id, conditions}: GetEntityArguments, pagination: any = {}, filter = {}) {
-  console.log(filter);
-
+export async function getObject(entityModel: Model<any>, {id, conditions}: GetEntityArguments, pagination: Pagination = {}, filter: Filter[] = []) {
   if (id) {
     return entityModel.findById({_id: id});
   }
 
-  if (conditions) {
-    let collections = entityModel.find(conditions).sort('createdAt');
+  let collections;
 
-    if (!isEmpty(pagination)) {
-      const {itemsNumber, page} = pagination;
-      collections = collections.limit(itemsNumber).skip(page * itemsNumber);
-    }
+  if (!isEmpty(filter)) {
+    const filterParams = {}
+    await filter.forEach(({key, value, operation}) => {
+      if (!operation) {
+        filterParams[key] = value;
+      } else {
 
-    return collections;
+        if (operation == Operation.CONTAINS) {
+          const regex = new RegExp(value, 'i')
+          filterParams[key] = {$regex: regex};
+        }
+      }
+    });
 
+    collections = entityModel.find(filterParams);
+  } else {
+    collections = entityModel.find(conditions);
   }
 
-  throw new Error('You need to pass an ID or conditions');
+  if (!isEmpty(pagination)) {
+    const {itemsNumber, page} = pagination;
+    collections = collections.limit(itemsNumber).skip(page * itemsNumber);
+  }
+
+  collections = collections.sort('createdAt');
+
+  return collections;
 }
 
 /**
