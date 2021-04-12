@@ -22,7 +22,7 @@ export default () => {
     <Files
       isFrontpage={false}
       showPager={true}
-      itemsPerPage={10}
+      itemsPerPage={5}
     />
   </Page>
 };
