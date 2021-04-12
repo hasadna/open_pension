@@ -38,6 +38,6 @@ const TopContent = () => {
 
 export default () => {
   return <Page title={"Home"} topContent={<TopContent />}>
-    <Files isFrontpage={true} itemsPerPage={10} />
+    <Files isFrontpage={true} itemsPerPage={5} />
   </Page>
 };

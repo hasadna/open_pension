@@ -23,14 +23,17 @@ const filesHandler = (files) => {
 
 export default ({isFrontpage, showPager, itemsPerPage = 25}) => {
   const [files, setFiles] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(async () => {
     if (!files) {
       return;
     }
-    const {data, error} = await getFiles();
-    setFiles(data);
-  }, []);
+    const {data: {files: filesFromResponse, totalCount}, error} = await getFiles(itemsPerPage, currentPage);
+    setTotalCount(totalCount);
+    setFiles(filesFromResponse);
+  }, [currentPage]);
 
   let navigationButton;
   if (isFrontpage) {
@@ -47,7 +50,12 @@ export default ({isFrontpage, showPager, itemsPerPage = 25}) => {
       headers={['Filename', 'Status', 'Storage ID']}
       rows={filesHandler(files)}
       navigationButton={navigationButton}
-      pager={showPager && <Pager />}
+      pager={showPager && <Pager
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />}
       emptyElement={"No files were found. You can add more files with the button above."}
     >
     </Table>

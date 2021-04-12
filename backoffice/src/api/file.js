@@ -1,14 +1,17 @@
 import axios from "axios";
 import {sendQuery, STORAGE_URL} from "./core";
 
-export async function getFiles() {
+export async function getFiles(itemsNumber = 5, page = 0) {
   const results = await sendQuery(`
     query {
-      files {
-        id
-        filename
-        status
-        storageId
+      files(pagination: {itemsNumber: ${itemsNumber}, page: ${page}}) {
+        files {
+          id
+          filename
+          status
+          storageId
+        },
+        totalCount
       }
     }
   `);
