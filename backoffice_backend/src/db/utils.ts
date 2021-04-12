@@ -100,6 +100,7 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
   }
 
   let collections, totalCount;
+  let countParams = conditions;
 
   if (!isEmpty(filter)) {
     const filterParams = {}
@@ -116,15 +117,12 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
     });
 
     collections = entityModel.find(filterParams);
+    countParams = filterParams;
   } else {
     collections = entityModel.find(conditions);
   }
 
-  if (isEmpty(conditions)) {
-    // const clonedCollections = Object.assign(collections);
-    // totalCount = await clonedCollections.count();
-  }
-  console.log(totalCount);
+  totalCount = await entityModel.count(countParams);
 
   if (!isEmpty(pagination)) {
     const {itemsNumber, page} = pagination;
@@ -133,7 +131,7 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
 
   collections = collections.sort('createdAt');
 
-  return {collections, totalCount: 12};
+  return {collections, totalCount};
 }
 
 /**
