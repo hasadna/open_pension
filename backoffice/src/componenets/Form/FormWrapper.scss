@@ -65,13 +65,11 @@
     font-size: .75em;
   }
 
-  .input {
+  .form-element {
     margin-top: .5em;
     font-weight: 400;
     line-height: 1.5;
     display: block;
-    height: 2em;
-    width: 20%;
     padding: .625rem .75rem;
     transition: all .15s cubic-bezier(.68,-.55,.265,1.55);
     color: #8898aa;
@@ -81,6 +79,11 @@
     background-clip: padding-box;
     box-shadow: 0 3px 2px #e9ecef0d;
     outline: 0;
+    width: 100%;
+
+    &.input {
+      height: 2em;
+    }
 
     &:focus {
       color: #8898aa;

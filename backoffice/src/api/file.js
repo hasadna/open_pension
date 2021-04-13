@@ -1,10 +1,17 @@
 import axios from "axios";
 import {sendQuery, STORAGE_URL} from "./core";
 
-export async function getFiles(itemsNumber = 5, page = 0) {
+export async function getFiles({itemsPerPage = 5, page = 0, queryParams = {}}) {
+  const {filename} = queryParams;
+  let filesArgs = `pagination: {itemsNumber: ${itemsPerPage}, page: ${page}}`;
+
+  if (filename) {
+    filesArgs = `${filesArgs}, filter:[{key: "filename", value: "${filename}", operation: CONTAINS}]`
+  }
+
   const results = await sendQuery(`
     query {
-      files(pagination: {itemsNumber: ${itemsNumber}, page: ${page}}) {
+      files(${filesArgs}) {
         files {
           id
           filename

@@ -1,18 +1,23 @@
 import "./Pager.scss";
 import {ArrowLeft, ArrowRight} from "Icons/Icons";
 
-export default ({ totalCount, itemsPerPage, currentPage, setCurrentPage }) => {
+export default ({ totalCount, itemsPerPage, page, setPage }) => {
   const totalPages = Math.ceil(totalCount / itemsPerPage);
-  const prevDisabled = currentPage === 0;
-  const nextDisabled = currentPage + 1 === totalPages;
+
+  if (totalPages <= 1) {
+    return <></>
+  }
+
+  const prevDisabled = page === 0;
+  const nextDisabled = page + 1 === totalPages;
 
   const arrowClickHandler = (arrowType) => {
     if (arrowType === 'prev' && !prevDisabled) {
-      setCurrentPage(currentPage - 1);
+      setPage(page - 1);
     }
 
     if (arrowType === 'next' && !nextDisabled) {
-      setCurrentPage(currentPage + 1);
+      setPage(page + 1);
     }
   };
 
@@ -30,9 +35,9 @@ export default ({ totalCount, itemsPerPage, currentPage, setCurrentPage }) => {
       {Array(totalPages)
         .fill('')
         .map((item, key) => <li
-          className={`item ${currentPage === key ? 'active' : ''}`}
+          className={`item ${page === key ? 'active' : ''}`}
           key={key}
-          onClick={() => {setCurrentPage(key)}}>
+          onClick={() => {setPage(key)}}>
           {key + 1}
         </li>)
       }

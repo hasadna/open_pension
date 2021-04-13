@@ -45,16 +45,12 @@ export default () => {
 
   return <Page
     title="Users"
+    notch="small"
     activePage="users"
-    topContent={
-      <>
-        <Breadcrumbs crumbs={[<Crumb title={'Home'} icon={<Home />} />, <Crumb title={'Users'} icon={<Users />} />]} />
-        <Filters inputs={[
-          <Input title={"Username"} />,
-          <Input title={"Email"} />
-        ]} />
-      </>
-      }
+    topContent={<Breadcrumbs crumbs={[
+      <Crumb title={'Home'} icon={<Home />} />,
+      <Crumb title={'Users'} icon={<Users />} />
+    ]} />}
   >
     <RoundedElement>
       <Table
@@ -62,7 +58,6 @@ export default () => {
         headers={['Username', 'Email', 'Presentation name']}
         rows={processUsers(users)}
         navigationButton={{path: '/user/add', text: 'Add user'}}
-        // pager={showPager && <Pager />}
         emptyElement={"No files were found. You can add more files with the button above."}
       >
       </Table>

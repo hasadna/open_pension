@@ -28,7 +28,7 @@ export const Input = ({title, type= "text", error, ...props}) => {
   return <div className="input-wrapper">
     <label>{title}</label>
 
-    <input type={type} {...props} className={`input ${error && 'error'}`} />
+    <input type={type} {...props} className={`form-element input ${error && 'error'}`} />
     {error && <span className="input-error">{error}</span>}
   </div>
 }
