@@ -3,10 +3,29 @@ import {ArrowLeft, ArrowRight} from "Icons/Icons";
 
 export default ({ totalCount, itemsPerPage, currentPage, setCurrentPage }) => {
   const totalPages = Math.ceil(totalCount / itemsPerPage);
+  const prevDisabled = currentPage === 0;
+  const nextDisabled = currentPage + 1 === totalPages;
+
+  const arrowClickHandler = (arrowType) => {
+    if (arrowType === 'prev' && !prevDisabled) {
+      setCurrentPage(currentPage - 1);
+    }
+
+    if (arrowType === 'next' && !nextDisabled) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return <section className="pager">
     <ul>
-      <li className={`arrows ${currentPage === 0 ? 'disabled' : ''}`}><ArrowLeft /></li>
+      <li
+        className={`arrows ${prevDisabled ? 'disabled' : ''}`}
+        onClick={(e) => {
+        e.preventDefault();
+        arrowClickHandler('prev');
+      }}>
+        <ArrowLeft />
+      </li>
 
       {Array(totalPages)
         .fill('')
@@ -18,7 +37,12 @@ export default ({ totalCount, itemsPerPage, currentPage, setCurrentPage }) => {
         </li>)
       }
 
-      <li className={`arrows ${currentPage === (totalPages - 1) ? 'disabled' : ''}`}><ArrowRight /></li>
+      <li
+        className={`arrows ${nextDisabled ? 'disabled' : ''}`}
+        onClick={(e) => {arrowClickHandler('next');}}
+      >
+        <a><ArrowRight /></a>
+      </li>
     </ul>
   </section>
 }
