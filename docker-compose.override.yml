@@ -25,25 +25,6 @@ services:
       # Expose graphql-playground localhost:4000
       - "4000:80"
 
-  blog:
-    restart: always
-    volumes:
-      - ./blog/src:/app/app
-
-  cms:
-    volumes:
-      - ./cms/src/web/profiles:/var/www/html/web/profiles
-    env_file:
-      - ./cms/.env
-    ports:
-      - '2000:80'
-      - '2500:8000'
-
-  cms_db:
-    restart: always
-    ports:
-      - '3307:3306'
-
   processor:
     volumes:
       - ./processor/src/app:/app/app

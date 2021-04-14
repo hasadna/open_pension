@@ -66,7 +66,7 @@ describe('Testing server: File', () => {
     expect(status).toBe('stored');
     expect(storageId).toBe(42);
 
-    const loadingFileFromDB = await getFile({id: id});
+    const {collections: loadingFileFromDB} = await getFile({id: id});
 
     expect(loadingFileFromDB).not.toBeNull();
     expect(loadingFileFromDB).not.toBeUndefined();
@@ -90,7 +90,7 @@ describe('Testing server: File', () => {
     expect(status).toBe(Status.processed);
     expect(storageId).toBe(55);
 
-    const loadingFileFromDB = await getFile({id: id});
+    const {collections: loadingFileFromDB} = await getFile({id: id});
 
     expect(loadingFileFromDB).not.toBeNull();
     expect(loadingFileFromDB).not.toBeUndefined();

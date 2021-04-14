@@ -1,4 +1,4 @@
-import {getObject, Operation} from "./db/utils";
+import {getObject, Operation} from "./db/Utils";
 import {File} from "./db/file";
 
 (async () => {
