@@ -10,6 +10,12 @@ export const typeDefs = gql`
     updatedAt: String,
   }
 
+  type FileUpload {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+
   type User {
     id: String,
     username: String,
@@ -57,7 +63,7 @@ export const typeDefs = gql`
 
   type Mutation {
     # File.
-    fileCreate(filename: String, storageId: Int, status: String): File,
+    fileCreate(file: Upload!): Boolean,
     fileUpdate(id: ID!, filename: String, storageId: Int, status: String): File,
 
     # User.

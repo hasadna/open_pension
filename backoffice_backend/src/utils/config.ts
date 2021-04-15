@@ -13,6 +13,10 @@ export function getMongoURL() {
   return safeGet('dbURL', 'mongodb://127.0.0.1/test');
 }
 
+export function getStorageAddress() {
+  return safeGet('storageAddress', 'http://storage');
+}
+
 export function getPusherCredentials() {
   return {
     appId: safeGet("pusher_app_id"),

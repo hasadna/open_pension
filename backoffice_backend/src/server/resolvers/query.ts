@@ -6,7 +6,6 @@ export default {
     assertLoggedIn(context);
 
     const {collections: files, totalCount} = await getFile({conditions: {}}, pagination, filter)
-    console.log(totalCount);
     return {files, totalCount}
   },
   file: async (_, args, context) => {

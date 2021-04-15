@@ -1,8 +1,10 @@
+// ValidationError
 import { UserInputError } from 'apollo-server';
 import * as bcrypt from 'bcrypt';
 import {isEmpty} from 'lodash';
+import axios from 'axios';
 
-import { createFile, updateFile } from '../../db/file';
+import { updateFile } from '../../db/file';
 import {
   createToken,
   createUser,
@@ -11,18 +13,48 @@ import {
   updateUser
 } from '../../db/user';
 import { assertLoggedIn } from '../server';
+import {getStorageAddress} from "../../utils/config";
+import FormData from "form-data";
+
+const uploadFileToStorage = async (file) => {
+  const formData = new FormData();
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data'
+    }
+  };
+  formData.append('file', file);
+
+  const axiosInstance = axios.create({
+    baseURL: getStorageAddress(),
+  });
+
+  console.log(getStorageAddress());
+
+  try {
+    return await axiosInstance.post('/file', formData, config);
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
 
 export default {
   // File.
   fileCreate: async (_, args, context) => {
     assertLoggedIn(context);
 
-    const {object: file, errors} = await createFile(args);
+    // if (!storageAvailable()) {
+    //   throw new ValidationError('The storage service is not available at the moment');
+    // }
 
-    if (errors) {
-      throw new UserInputError(errors)
-    }
-    return file
+    const file = await args.file;
+    const {createReadStream} = file;
+    const results = await uploadFileToStorage(createReadStream);
+    console.log(results);
+    console.log(file);
+
+    return true;
   },
   fileUpdate: async (_, args, context) => {
     assertLoggedIn(context);

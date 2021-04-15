@@ -13,7 +13,6 @@ const filesHandler = (files) => {
     return [];
   }
 
-  // todo: handle the statueses.
   return files.map((file, key) => [
     file.filename,
     <Status status='info'>{file.status}</Status>,
@@ -21,7 +20,7 @@ const filesHandler = (files) => {
   ]);
 }
 
-export default ({isFrontpage, showPager, itemsPerPage = 25, queryParams={}}) => {
+export default ({isFrontpage, showPager, itemsPerPage = 25, queryParams}) => {
   const [files, setFiles] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);

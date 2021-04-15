@@ -5,6 +5,7 @@ import {Button, Form, Input, Section} from "componenets/Form/Form";
 import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
 import {Copy, Home, Upload} from "Icons/Icons";
 import {uploadFile} from "api/file";
+import {isEmpty} from 'lodash';
 
 export default () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +14,7 @@ export default () => {
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
-    return <Redirect to={"/"} />
+    return <Redirect to={"/files"} />
   }
 
   const handleSubmit = async () => {
@@ -25,9 +26,19 @@ export default () => {
     }
 
     setIsLoading(true);
-    await uploadFile(file);
+    const {data: {data: fileCreate, errors}} = await uploadFile(file);
+
+    if (!isEmpty(errors)) {
+      const [{message}] = errors;
+      setErrors({errors, ...{file: message}})
+    }
+    else {
+      if (fileCreate) {
+        setRedirect(true);
+      }
+    }
+
     setIsLoading(false);
-    setRedirect(true);
   };
 
   return <Page
