@@ -1,4 +1,0 @@
-services:
-  plugin.manager.open_pension_migrate_entities:
-    class: Drupal\open_pension_migrate\OpenPensionMigrateEntitiesPluginManager
-    parent: default_plugin_manager

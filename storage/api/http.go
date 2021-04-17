@@ -67,7 +67,17 @@ func StoreFile(c echo.Context) error {
 	// Sending a kafka event.
 	SendMessage(dbFile)
 
+	type Response struct {
+		ID         uint       `json:"ID"`
+		Filename   string     `json:"filename"`
+	}
+
+	resp := &Response{ID: dbFile.ID, Filename: dbFile.Filename}
+
 	// And.. we're done! return the response.
-	encodedJSON := []byte{} // Encoded JSON from external source
-	return c.JSONBlob(http.StatusCreated, encodedJSON)
+	/*encodedJSON := []byte{
+		dbFile
+	}*/
+	// Encoded JSON from external source
+	return c.JSON(http.StatusCreated, resp)
 }

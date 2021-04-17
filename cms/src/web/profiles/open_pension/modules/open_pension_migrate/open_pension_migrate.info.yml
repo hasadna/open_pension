@@ -1,8 +1,0 @@
-name: Open Pension Migrate
-type: module
-description: Migrating dummy content
-package: Open pension
-core: 8.x
-core_version_requirement: ^8 || ^9
-dependencies:
-  - open_pension_core

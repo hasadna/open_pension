@@ -1,0 +1,27 @@
+@import "./scss/variables";
+@import "./scss/elements";
+@import "./scss/messages";
+@import "./scss/forms";
+@import "./scss/gradient";
+
+body {
+  font-size: 18px;
+  background: var(--background-general);
+  font-family: 'Lato', sans-serif;
+}
+
+.App {
+  min-height: 100vh;
+  padding: .75em;
+}
+
+* {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
+.umbre-background {
+  background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
+}

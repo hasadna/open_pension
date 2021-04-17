@@ -1,6 +1,0 @@
-services:
-  open_pension_reclamation.commands:
-    class: \Drupal\open_pension_reclamation\Commands\OpenPensionReclamationCommands
-    arguments: ['@entity_type.manager', '@open_pension_reclamation.source_file_parser']
-    tags:
-      - { name: drush.command }

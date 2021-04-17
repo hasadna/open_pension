@@ -1,5 +1,0 @@
-open_pension_storage_files.add_form:
-  title: 'Add open pension storage files'
-  route_name: entity.open_pension_storage_files.add_form
-  appears_on:
-    - entity.open_pension_storage_files.collection
