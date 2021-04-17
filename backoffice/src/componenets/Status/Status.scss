@@ -1,0 +1,31 @@
+.status-wrapper {
+
+  .dot {
+    display: inline-block;
+    width: .375rem;
+    height: .375rem;
+    margin-right: .375rem;
+    vertical-align: middle;
+    border-radius: 50%;
+
+    &.error {
+      background-color: var(--warning-error);
+    }
+
+    &.ok {
+      background-color: var(--warning-ok);
+    }
+
+    &.warning {
+      background-color: var(--warning-warning);
+    }
+
+    &.info {
+      background-color: var(--warning-info);
+    }
+  }
+
+  .text {
+    font-weight: 200;
+  }
+}

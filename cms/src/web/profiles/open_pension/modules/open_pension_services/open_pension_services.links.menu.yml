@@ -1,4 +1,0 @@
-open_pension_services.services_addresses:
-  title: Services addresses
-  route_name: open_pension_services.services_addresses
-  weight: 10

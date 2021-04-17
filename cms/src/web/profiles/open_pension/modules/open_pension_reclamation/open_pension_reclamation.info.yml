@@ -1,6 +1,0 @@
-name: Open Pension Reclamation
-type: module
-description: 'Provides an instrument type entity.'
-package: Open Pension
-core: 8.x
-core_version_requirement: ^8 || ^9

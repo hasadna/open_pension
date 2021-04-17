@@ -1,0 +1,20 @@
+.rounded-table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  border: 1px solid #8898aa26;
+  border-radius: .375rem;
+  background-color: #fff;
+  background-clip: border-box;
+  margin-bottom: 2em;
+
+  .title {
+    color: #32325d;
+    font-weight: 500;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    margin-left: 1em;
+    display: block;
+  }
+}

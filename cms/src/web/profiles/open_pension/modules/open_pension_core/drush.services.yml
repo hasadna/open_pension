@@ -1,6 +1,0 @@
-services:
-  open_pension_core.commands:
-    class: \Drupal\open_pension_core\Commands\OpenPensionCoreCommands
-    arguments: ['@module_handler']
-    tags:
-      - { name: drush.command }

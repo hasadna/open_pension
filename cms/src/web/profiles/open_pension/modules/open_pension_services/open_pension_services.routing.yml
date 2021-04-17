@@ -1,7 +1,0 @@
-open_pension_services.services_addresses:
-  path: '/admin/open_pension/config/services-addresses'
-  defaults:
-    _title: 'Services addresses'
-    _form: 'Drupal\open_pension_services\Form\ServicesAddresses'
-  requirements:
-    _permission: 'administer site configuration'
