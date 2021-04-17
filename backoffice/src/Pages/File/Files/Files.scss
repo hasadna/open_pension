@@ -1,0 +1,22 @@
+.filter-items {
+
+  .rounded-table {
+    padding: .5em;
+    margin-right: .75em;
+    margin-left: .75em;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    input {
+      width: 10vw;
+      margin-right: 1em;
+    }
+
+    button {
+      margin-right: 1em;
+      margin-left: auto;
+    }
+  }
+}

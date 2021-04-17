@@ -1,11 +1,11 @@
-version: "3.7"
+version: "3.9"
 
 volumes:
   application-db:
     external: false
-  cms-db-data:
-    external: false
   processor-db:
+    external: false
+  backoffice-backend-db:
     external: false
 
 services:
@@ -15,6 +15,37 @@ services:
       context: ./gateway
       cache_from:
         - hasadna/open-pension-gateway:latest
+
+  backoffice:
+    build:
+      context: ./backoffice
+    depends_on:
+      - backoffice_backend
+    environment:
+      REACT_APP_API: http://localhost:2001
+    ports:
+      - '2000:3000'
+
+  backoffice_backend:
+    tty: true
+    build:
+      context: ./backoffice_backend
+    depends_on:
+      - backoffice_backend_db
+    environment:
+      PORT: 4000
+      dbURL: mongodb://backoffice_backend_db/open_pesion_dashboard
+      storageAddress: http://storage:3000
+      tempStorageFiles: /app/files
+      saltRounds: 10
+      tokenTimeToLive: 86400
+    ports:
+      - '2001:4000'
+
+  backoffice_backend_db:
+    image: mongo
+    volumes:
+      - backoffice-backend-db:/data/db
 
   application:
     image: hasadna/open-pension-application:latest
@@ -68,34 +99,6 @@ services:
     image: mongo
     volumes:
       - processor-db:/data/db
-
-  cms:
-    image: hasadna/open-pension-cms:latest
-    depends_on:
-      - cms_db
-    build:
-      context: ./cms
-      cache_from:
-        - hasadna/open-pension-cms:latest
-
-  blog:
-    image: hasadna/open-pension-blog:latest
-    build:
-      context: ./blog
-      cache_from:
-        - hasadna/open-pension-blog:latest
-    depends_on:
-      - cms
-    environment:
-      - trigger_deploy_secret_key=pizza
-      - GH_ACCESS_TOKEN=hamburger
-    restart: "always"
-    network_mode: "service:cms"
-
-  cms_db:
-    image: mysql:5.7
-    volumes:
-      - cms-db-data:/var/lib/mysql
 
   kafka:
     image: hasadna/open-pension-kafka:latest
