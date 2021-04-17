@@ -1,8 +1,7 @@
 import axios from 'axios';
-import {isEmpty, isObject} from 'lodash';
+import {isEmpty} from 'lodash';
 
 export const API_URL = process.env.REACT_APP_API;
-export const STORAGE_URL = process.env.REACT_APP_STORAGE_API;
 
 let axiosInstance = null;
 
@@ -12,7 +11,7 @@ export function getAxios() {
   }
 
   axiosInstance = axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_URL}`,
   });
 
   axiosInstance.interceptors.request.use(function (config) {
@@ -35,7 +34,7 @@ export function getAxios() {
 export async function sendQuery(query) {
   const axios = getAxios();
 
-  const {data: response} = await axios.post('', {
+  const {data: response} = await axios.post('/graphql', {
     query
   });
 

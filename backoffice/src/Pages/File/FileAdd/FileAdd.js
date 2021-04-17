@@ -5,7 +5,6 @@ import {Button, Form, Input, Section} from "componenets/Form/Form";
 import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
 import {Copy, Home, Upload} from "Icons/Icons";
 import {uploadFile} from "api/file";
-import {isEmpty} from 'lodash';
 
 export default () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,16 +25,14 @@ export default () => {
     }
 
     setIsLoading(true);
-    const {data: {data: fileCreate, errors}} = await uploadFile(file);
 
-    if (!isEmpty(errors)) {
-      const [{message}] = errors;
-      setErrors({errors, ...{file: message}})
-    }
-    else {
-      if (fileCreate) {
-        setRedirect(true);
-      }
+    try {
+      await uploadFile(file);
+      setRedirect(true);
+    } catch (e) {
+      const {response: {data: {error}}} = e;
+      console.log(error);
+      setErrors({errors, ...{file: error}})
     }
 
     setIsLoading(false);

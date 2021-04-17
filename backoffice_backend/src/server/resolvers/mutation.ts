@@ -1,67 +1,28 @@
-// ValidationError
-import { UserInputError } from 'apollo-server';
+import {UserInputError} from 'apollo-server';
 import * as bcrypt from 'bcrypt';
 import {isEmpty} from 'lodash';
-import axios from 'axios';
-
-import { updateFile } from '../../db/file';
+import { updateFile} from '../../db/file';
 import {
   createToken,
   createUser,
   getUser,
-  refreshToken, revokeToken,
+  refreshToken,
+  revokeToken,
   updateUser
 } from '../../db/user';
-import { assertLoggedIn } from '../server';
-import {getStorageAddress} from "../../utils/config";
-import FormData from "form-data";
-
-const uploadFileToStorage = async (file) => {
-  const formData = new FormData();
-  const config = {
-    headers: {
-      'content-type': 'multipart/form-data'
-    }
-  };
-  formData.append('file', file);
-
-  const axiosInstance = axios.create({
-    baseURL: getStorageAddress(),
-  });
-
-  console.log(getStorageAddress());
-
-  try {
-    return await axiosInstance.post('/file', formData, config);
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-};
+import {assertLoggedIn} from '../server';
+// import fs from "fs";
+// import {createWriteStream} from "fs";
+// import {resolve} from "path";
+// import {uploadFile} from "../../utils/file";
+// import {getTempStorageFiles} from "../../utils/config";
 
 export default {
-  // File.
-  fileCreate: async (_, args, context) => {
-    assertLoggedIn(context);
-
-    // if (!storageAvailable()) {
-    //   throw new ValidationError('The storage service is not available at the moment');
-    // }
-
-    const file = await args.file;
-    const {createReadStream} = file;
-    const results = await uploadFileToStorage(createReadStream);
-    console.log(results);
-    console.log(file);
-
-    return true;
-  },
   fileUpdate: async (_, args, context) => {
     assertLoggedIn(context);
     const id = args.id;
     return await updateFile(id, args);
   },
-
   // User.
   userCreate: async (_, args, context) => {
     assertLoggedIn(context);
@@ -78,8 +39,7 @@ export default {
     const id = args.id;
     return await updateUser({id, newValues: args});
   },
-
-  // Auth.
+  //  Auth.
   tokenCreate: async (_, args) => {
     const {username, email, password} = args;
     const conditions = {};
@@ -115,7 +75,7 @@ export default {
   revokeToken: async (_, args) => {
     // todo: pull it from the context once the middelware will exists.
     const {id} = args;
-    const user = await  getUser({id});
+    const user = await getUser({id});
     await revokeToken(user)
     return true;
   }

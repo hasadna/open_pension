@@ -27,27 +27,12 @@ export async function getFiles({itemsPerPage = 5, page = 0, queryParams = {}}) {
 
 export async function uploadFile(file) {
   const formData = new FormData();
-
-  const query = `
-    mutation($upload: Upload!) {
-      fileCreate(file: $upload)
-    }
-  `;
-
-  const variables = {
-    upload: null,
-  };
-
-  const operations = JSON.stringify({ query, variables });
-  formData.append("operations", operations);
-
-  const map = {
-    "0": ["variables.upload"]
-  };
-
-  formData.append("map", JSON.stringify(map));
-  formData.append("0", file);
+  formData.append("file", file);
 
   const axios = getAxios();
-  return await axios.post('', formData);
+  return await axios.post('/file', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
 }

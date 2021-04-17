@@ -17,6 +17,10 @@ export function getStorageAddress() {
   return safeGet('storageAddress', 'http://storage');
 }
 
+export function getTempStorageFiles() {
+  return safeGet('tempStorageFiles', '');
+}
+
 export function getPusherCredentials() {
   return {
     appId: safeGet("pusher_app_id"),

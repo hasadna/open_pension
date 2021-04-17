@@ -65,7 +65,7 @@ func StoreFile(c echo.Context) error {
 	}).FirstOrCreate(&dbFile)
 
 	// Sending a kafka event.
-	//SendMessage(dbFile)
+	SendMessage(dbFile)
 
 	type Response struct {
 		ID         uint       `json:"ID"`
