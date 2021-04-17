@@ -13,5 +13,7 @@ export const uploadFile = async (path) => {
     }
   };
 
+  console.log(getStorageAddress());
+
   return axios.post(`${getStorageAddress()}/file`, form, request_config);
 }

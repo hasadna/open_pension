@@ -14,10 +14,14 @@ import {createFile, Status} from "./db/file";
 
   app.post('/file', uploadMiddleware, async (req, res) => {
     const [filePath] = req.body.uploadedFile;
+    console.log(req.body.uploadedFile);
     try {
       const {data: {ID: storageId, filename}} = await uploadFile(filePath);
-      await createFile({status: Status.sent, filename, storageId});
+      const results = await createFile({status: Status.sent, filename, storageId});
+
+      console.log(results);
     } catch (e) {
+      console.error(e);
       unlinkSync(filePath);
       res.status(400).json({error: 'The storage service failed to response. Try again later'});
     }

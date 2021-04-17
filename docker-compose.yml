@@ -35,7 +35,7 @@ services:
     environment:
       PORT: 4000
       dbURL: mongodb://backoffice_backend_db/open_pesion_dashboard
-      storageAddress: http://storage
+      storageAddress: http://storage:3000
       tempStorageFiles: /app/files
       saltRounds: 10
       tokenTimeToLive: 86400
