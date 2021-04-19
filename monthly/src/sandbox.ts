@@ -1,8 +1,19 @@
-import {processFile} from "./lib/file";
 // import {prisma} from "./server/context";
-// import {processFileIntoDb} from "./lib/db";
-(async () => {
-  const foo = await processFile('/Users/roysegall/Sites/localhost/open_pension/monthly/src/files/gemelnet_2017_01_perut.xml');
+import {queue} from "./lib/queue";
 
-  console.log(foo);
+(async () => {
+
+  // const data = {
+  //   filename: 'foo.xml',
+  //   storageID: 20,
+  //   path: '/Users/roysegall/Sites/localhost/open_pension/monthly/src/files/bituachnet_2017_01_type0.xml',
+  //   error: "",
+  //   status: 'Ready',
+  // };
+  //
+  // // @ts-ignore
+  // const file = await prisma.file.create({data: data});
+  await queue();
+
+
 })()

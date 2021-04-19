@@ -4,7 +4,6 @@ const Bree = require('bree');
 
 const bree = new Bree({
   jobs: [
-    // runs `./jobs/process-files` on the last day of the month.
     {
       name: 'process-files',
       path: path.resolve(__dirname, 'lib', 'queue.js'),

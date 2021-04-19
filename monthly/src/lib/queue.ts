@@ -28,6 +28,7 @@ export async function queue() {
 
       // Sending the event for starting the processing.
       console.log(kafkaClient.serviceUp, 'foo');
+
       if (kafkaClient.serviceUp) {
         await kafkaClient.sendMessage(
           KafkaClient.getPayloadByStorageId(file.storageID),
