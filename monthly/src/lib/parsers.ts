@@ -27,7 +27,7 @@ export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterfac
 
   rawFieData.ROWSET.ROW.forEach((row) => {
     fileRows.push({
-      ID_MANAGER: processStringToNumber(row.ID_GUF, NumberType.Int),
+      MANAGER_ID: processStringToNumber(row.ID_GUF, NumberType.Int),
       ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
       SHARP_RIBIT_HASRAT_SIKUN: processStringToNumber(row.SHARP_RIBIT_HASRAT_SIKUN, NumberType.Float),
       STIAT_TEKEN_36_HODASHIM: processStringToNumber(row.STIAT_TEKEN_36_HODASHIM, NumberType.Float),
@@ -62,7 +62,7 @@ export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterf
 
   rawFieData.ROWSET.ROW.forEach((row) => {
     fileRows.push({
-      ID_MANAGER: processStringToNumber(row.ID, NumberType.Int),
+      MANAGER_ID: processStringToNumber(row.ID, NumberType.Int),
       ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
       STIAT_TEKEN_60_HODASHIM: processStringToNumber(row.STIAT_TEKEN_60_HODASHIM, NumberType.Float),
       STIAT_TEKEN_36_HODASHIM: processStringToNumber(row.STIAT_TEKEN_36_HODASHIM, NumberType.Float),

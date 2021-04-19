@@ -77,7 +77,7 @@ export interface ProcessedXmlFileBituachRowsInterface {
 }
 
 export interface FileRowInterface {
-  ID_MANAGER: number,
+  MANAGER_ID: number,
   ALPHA_SHNATI: number,
   SHARP_RIBIT_HASRAT_SIKUN?: number,
   STIAT_TEKEN_60_HODASHIM: number,
