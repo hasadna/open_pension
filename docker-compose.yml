@@ -40,6 +40,7 @@ services:
       tempStorageFiles: /app/files
       saltRounds: 10
       tokenTimeToLive: 86400
+      kafkaHost: kafka:9092
     ports:
       - '2001:4000'
 
@@ -116,6 +117,8 @@ services:
       - BROKER_ID=1
     depends_on:
       - zookeeper
+    ports:
+      - "9092:9092"
 
   kafka2:
     image: hasadna/open-pension-kafka:latest
@@ -128,6 +131,19 @@ services:
   zookeeper:
     restart: always
     image: zookeeper:3.5
+    ports:
+      - "2181:2181"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=localhost:2181
 
   fetcher:
     image: hasadna/open-pension-fetcher:latest
@@ -183,4 +199,4 @@ services:
       MYSQL_DATABASE: monthly
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./monthly/data:/var/lib/mysql
+      - ./db/monthly/data:/var/lib/mysql

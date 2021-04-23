@@ -1,6 +1,10 @@
+import {getFile} from "./db/file";
 
 (async () => {
-  // await uploadFile("/Users/roysegall/Sites/localhost/open_pension/backoffice_backend/files/Advisor recommendation – STP 92 TC 6 0 – 02_12_2021.pdf")
+
+  const {collections} = await getFile({conditions: {storageId: 85}});
+  const files = await collections.exec();
+  console.log(files[0]._id);
 })();
 
 

@@ -60,12 +60,13 @@
     "form-data": "^3.0.1",
     "graphql": "^15.5.0",
     "inquirer": "^8.0.0",
-    "loadsh": "0.0.4",
+    "lodash": "4.17.21",
     "mongoose": "^5.12.1",
     "mongoose-beautiful-unique-validation": "^7.1.1",
     "multer": "^1.4.2",
     "pusher": "^5.0.0",
-    "ts-jest": "^26.5.4"
+    "ts-jest": "^26.5.4",
+    "kafka-node": "^5.0.0"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",

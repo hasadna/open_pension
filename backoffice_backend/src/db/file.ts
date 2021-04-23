@@ -16,6 +16,8 @@ export type FileInterface = BaseEntity & {
 export enum Status {
   sent = 'sent',
   stored = 'stored',
+  storedByService = 'storedByService',
+  processStarted = 'processStarted',
   processed = 'processed',
   processedWithError = 'processedWithError',
 }
@@ -23,6 +25,7 @@ export enum Status {
 const fileSchema = new mongoose.Schema({
   filename: { type: String, required: true },
   storageId: {type: Number, unique: true},
+  error: {type: String, required: false},
   status: {type: String, required: true, enum: Status},
   createdAt: { type: Date, default: () => new Date() },
   updatedAt: { type: Date, default: () => new Date() },

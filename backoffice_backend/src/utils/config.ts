@@ -33,3 +33,11 @@ export function getPusherCredentials() {
 export function getSaltRounds() {
   return safeGet('saltRounds', 10);
 }
+
+export function getKafkaHost() {
+  return safeGet('kafkaHost', 'http://kafka:9092');
+}
+
+export function getListenedTopics() {
+  return safeGet('listenedTopic', '').split(',');
+}
