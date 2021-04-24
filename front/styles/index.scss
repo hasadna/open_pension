@@ -1,0 +1,46 @@
+@import "variables";
+@import "mixins";
+
+body {
+  direction: rtl;
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  width: 100vw;
+}
+
+header {
+  background: var(--frontpage-bgblack);
+  color: var(--white-text);
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5em;
+  padding-right: 5em;
+  padding-top: 3em;
+  padding-bottom: 1.5em;
+
+  ul {
+    display: flex;
+
+    li {
+      list-style-type: none;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      &:last-child {
+        padding-left: 0;
+      }
+    }
+  }
+}
+

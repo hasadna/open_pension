@@ -50,6 +50,7 @@ services:
     volumes:
       - backoffice-backend-db:/data/db
 
+  # Change to quarters.
   application:
     image: hasadna/open-pension-application:latest
     restart: always
@@ -88,6 +89,7 @@ services:
     depends_on:
       - gateway
 
+  # Change to quarter
   processor:
     image: hasadna/open-pension-processor:latest
     restart: always
