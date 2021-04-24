@@ -5,6 +5,7 @@ import {uploadMiddleware} from "./server/server";
 import {unlinkSync} from "fs";
 import {uploadFile} from "./utils/file";
 import {createFile, Status} from "./db/file";
+import {KafkaClient} from "./kafka/kafka-client";
 
 (async () => {
   const app = express();
@@ -14,12 +15,9 @@ import {createFile, Status} from "./db/file";
 
   app.post('/file', uploadMiddleware, async (req, res) => {
     const [filePath] = req.body.uploadedFile;
-    console.log(req.body.uploadedFile);
     try {
       const {data: {ID: storageId, filename}} = await uploadFile(filePath);
-      const results = await createFile({status: Status.sent, filename, storageId});
-
-      console.log(results);
+      await createFile({status: Status.sent, filename, storageId});
     } catch (e) {
       console.error(e);
       unlinkSync(filePath);
@@ -29,6 +27,13 @@ import {createFile, Status} from "./db/file";
     unlinkSync(filePath);
     res.status(201).json({body: 'Uploaded successfully'});
   });
+
+
+  try {
+    KafkaClient.listen();
+  } catch (e) {
+    console.error(e);
+  }
 
   server.applyMiddleware({ app });
 

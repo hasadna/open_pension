@@ -9,9 +9,9 @@ RUN apk -q update && apk add \
     bash \
     gettext
 
-RUN wget http://apache.mivzakim.net/kafka/2.3.0/kafka_2.12-2.3.0.tgz && \
-    tar -xvf kafka_2.12-2.3.0.tgz --strip 1 &&\
-    rm kafka_2.12-2.3.0.tgz
+RUN wget https://apache.mivzakim.net/kafka/2.7.0/kafka_2.12-2.7.0.tgz && \
+    tar -xvf kafka_2.12-2.7.0.tgz --strip 1 &&\
+    rm kafka_2.12-2.7.0.tgz
 
 COPY entrypoint.sh server.properties.template ./
 

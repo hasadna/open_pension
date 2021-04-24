@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model File {
+  id                              Int     @id @default(autoincrement())
+  storageID                       Int
+  filename                        String
+  path                            String  @db.LongText
+  created                         DateTime @default(now())
+  status                          Status @default(Ready)
+  error                           String @db.LongText
+  rows                            Row[]
+}
+
+enum Status {
+  Ready
+  Succeeded
+  Failed
+}
+
+model Row {
+  id                                Int     @id @default(autoincrement())
+  fileId                            Int
+  created                           DateTime @default(now())
+  file                              File    @relation(fields: [fileId], references: [id])
+
+  MANAGER_ID                        Int
+  ALPHA_SHNATI                      Float
+  SHARP_RIBIT_HASRAT_SIKUN          Float?
+  STIAT_TEKEN_60_HODASHIM           Float
+  STIAT_TEKEN_36_HODASHIM           Float
+  TSUA_SHNATIT_MEMUZAAT_5_SHANIM    Float
+  TSUA_SHNATIT_MEMUZAAT_3_SHANIM    Float
+  TSUA_MITZTABERET_60_HODASHIM      Float
+  TSUA_MITZTABERET_36_HODASHIM      Float
+  TSUA_MEMUZAAT_60_HODASHIM         Float
+  TSUA_MEMUZAAT_36_HODASHIM         Float
+  TSUA_MITZT_MI_THILAT_SHANA        Float
+  YITRAT_NCHASIM_LSOF_TKUFA         Float
+  TSUA_NOMINALIT_BRUTO_HODSHIT      Float
+}

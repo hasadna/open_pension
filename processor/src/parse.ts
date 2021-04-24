@@ -122,7 +122,8 @@ async function processSingleAssetSheet(path: string, sheetName: string, sheetKey
 
         // Send the parsed row over kafka event.
         try {
-            // todo: attach the storage ID.
+            // todo: remove this one since we need to send the file after the
+            //  approval of the processing.
             kafka.sendMessage(JSON.stringify(parsedRow), getKafkaParsedRowTopic());
         } catch(e) {
             console.log('An error while sending the parsed row', e);

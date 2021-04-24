@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import {isEmpty} from 'loadsh';
+import {isEmpty} from 'lodash';
 import { createTokenObject, TokenSchema, UserTokenInterface } from './token';
 const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
