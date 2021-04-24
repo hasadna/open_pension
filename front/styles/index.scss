@@ -44,3 +44,31 @@ header {
   }
 }
 
+.welcome-message {
+  min-height: 25em;
+  padding-top: 4em;
+  display: flex;
+  padding-right: 5em;
+  flex-direction: column;
+  background: var(--frontpage-bgblack);
+  color: var(--white-text);
+
+  h2 {
+    font-size: 9em;
+  }
+
+  p {
+    font-size: 2.7em;
+  }
+
+  a {
+    @include purple-gradient-button();
+    box-shadow: 1px 1px 9px 0 rgba(255, 255, 255, 0.27);
+    border-radius: 5em;
+    padding: 1em;
+    margin: 1em auto;
+    font-size: 1.75em;
+    font-weight: bold;
+  }
+}
+
