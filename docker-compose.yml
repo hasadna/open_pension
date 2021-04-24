@@ -41,6 +41,7 @@ services:
       saltRounds: 10
       tokenTimeToLive: 86400
       kafkaHost: kafka:9092
+      listenedTopic: FileStored,fileStoredByService,processingStarted,processedWithErrors,processed
     ports:
       - '2001:4000'
 

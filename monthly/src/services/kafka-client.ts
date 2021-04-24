@@ -24,19 +24,21 @@ export class KafkaClient {
     }
   }
 
-  async sendMessage(messages: any, topic: any) {
-
-    if (!this.serviceUp) {
-      console.error('The kafka host is not alive')
-      return;
-    }
-
-    try {
-      messages = JSON.stringify(messages);
-      return await this.producer.send([{topic, messages}], () => {});
-    } catch (e) {
-      throw new Error(e);
-    }
+  sendMessage(messages: any, topic: any) {
+    return new Promise((resolve, reject) => {
+      if (!this.serviceUp) {
+        reject('The kafka host is not alive')
+      }
+      try {
+        messages = JSON.stringify(messages);
+        this.producer.send([{topic, messages}], () => {
+          resolve({messages, topic});
+        });
+      } catch (e) {
+        reject(e);
+        throw new Error(e);
+      }
+    });
   }
 
   static getPayloadByStorageId(storageId) {

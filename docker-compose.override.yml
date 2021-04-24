@@ -5,9 +5,6 @@ services:
     volumes:
       - ./client/build:/usr/share/nginx/html/
 
-  backoffice_backend:
-    volumes:
-    - ./backoffice_backend:/app
 
   application:
     volumes:

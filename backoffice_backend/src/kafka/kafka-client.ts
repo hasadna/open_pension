@@ -52,7 +52,6 @@ export class KafkaClient {
       fromOffset: 'latest', // default
       outOfRangeOffset: 'earliest', // default
     };
-
     const consumerGroup = new ConsumerGroup(options, getListenedTopics());
     console.log('Start to listen to events');
 
@@ -66,6 +65,5 @@ export class KafkaClient {
       const parsedMessage = JSON.parse(value);
       await handleKafkaEvent(topic, parsedMessage);
     });
-
   }
 }

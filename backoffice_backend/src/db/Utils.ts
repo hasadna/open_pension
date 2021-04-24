@@ -129,7 +129,7 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
     collections = collections.limit(itemsNumber).skip(page * itemsNumber);
   }
 
-  collections = collections.sort('createdAt');
+  collections = collections.sort({'storageId': -1});
 
   return {collections, totalCount};
 }

@@ -13,9 +13,20 @@ const filesHandler = (files) => {
     return [];
   }
 
+  const fileStatusHandler = {
+    sent: 'Sent to storage',
+    processStarted: 'Processing started',
+    storedByService: 'Stored by the service',
+    processed: 'Processed successfully',
+    processedWithError: 'processed with errors'
+  };
+
+  const handleFileStatus = (fileStatus) => Object.keys(fileStatusHandler).includes(fileStatus) ?
+    fileStatusHandler[fileStatus] : 'Unknown';
+
   return files.map((file, key) => [
     file.filename,
-    <Status status='info'>{file.status}</Status>,
+    <Status status='info'>{handleFileStatus(file.status)}</Status>,
     file.storageId
   ]);
 }

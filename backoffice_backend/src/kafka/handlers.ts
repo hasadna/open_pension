@@ -4,13 +4,12 @@ const topicsStatus = {
   'FileStored': Status.stored,
   'fileStoredByService': Status.storedByService,
   'processingStarted': Status.processStarted,
-  'processingCompletedWithErrors': Status.processedWithError,
-  'processingCompleted': Status.processed,
+  'processedWithErrors': Status.processedWithError,
+  'processed': Status.processed,
 };
 
 export async function handleKafkaEvent(topic, message) {
-  const storageId = topic === 'FileStored' ? message.id : message.storageId;
-  console.log(storageId);
+  const storageId = topic === 'FileStored' ? message.ID : message.storageId;
   const {collections} = await getFile({conditions: {storageId}});
 
   const files = await collections.exec();

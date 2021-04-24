@@ -1,9 +1,12 @@
 import {prisma} from "../server/context";
 import {isEmpty} from "lodash";
 import {processFilesToRows} from "./db";
-import {File} from "./interfaces";
+import {File, ProcessState} from "./interfaces";
 import {KafkaClient} from "../services/kafka-client";
-import {getKafkaProcessStartedTopic} from "../services/env";
+import {
+  getKafkaProcessCompletedTopic, getKafkaProcessCompletedWithErrorsTopic,
+  getKafkaProcessStartedTopic
+} from "../services/env";
 
 const fileToProcessEachQueue = 5;
 
@@ -34,7 +37,19 @@ export async function queue() {
         );
       }
 
-      await processFilesToRows(file, prisma, kafkaClient);
+      const status = await processFilesToRows(file, prisma);
+
+      if (kafkaClient.serviceUp) {
+        const topic = status == ProcessState.Success ?
+          getKafkaProcessCompletedTopic() :
+          getKafkaProcessCompletedWithErrorsTopic();
+
+        console.log('sending kafka event', topic, KafkaClient.getPayloadByStorageId(file.storageID));
+        await kafkaClient.sendMessage(
+          KafkaClient.getPayloadByStorageId(file.storageID),
+          topic
+        );
+      }
     }));
 
     console.log(`Done processing ${numberOfFiles} file(s).`);

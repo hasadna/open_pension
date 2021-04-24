@@ -4,10 +4,6 @@ WORKDIR /app
 ADD . /app
 
 RUN mkdir -p /app/files && chmod 777 -R /app/files
-RUN npm i --also-dev
+RUN npm i --also-dev && npm install pm2 -g && npm run build
 
-
-#CMD ["npm", "run", "dev"]
-#CMD ["node", "build/main/index.js"]
-ENTRYPOINT ["tail"]
-CMD ["-f","/dev/null"]
+CMD ["pm2-runtime", "build/main/index.js"]
