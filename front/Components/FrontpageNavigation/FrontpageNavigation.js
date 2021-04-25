@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import FrontpageArticles from "../FrontpageArticles/FrontpageArticles";
+import Wrapper from "../Wrapper/Wrapper";
 
 export default function FrontpageNavigation() {
 
@@ -35,7 +37,7 @@ export default function FrontpageNavigation() {
       ולהבין, כמה אתה מרוויח, איך הכספים מנוהלים ובמה אתה מושקע.
     </p>
 
-    <ul>
+    <ul className="internal-links">
       {links.map(({title, descriptions, path}, key) => <li key={key}>
         <h4 className="link-title">{title}</h4>
         <div className="descriptions">
@@ -44,5 +46,7 @@ export default function FrontpageNavigation() {
         <Link className="link" href={path}> > </Link>
       </li>)}
     </ul>
+
+    <FrontpageArticles />
   </section>
 }
