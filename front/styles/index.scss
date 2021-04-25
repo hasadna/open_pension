@@ -10,6 +10,8 @@ body {
 * {
   margin: 0;
   padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .wrapper {
@@ -28,6 +30,7 @@ header {
   padding-right: 5em;
   padding-top: 3em;
   padding-bottom: 1.5em;
+  font-weight: bold;
 
   ul {
     display: flex;
@@ -44,22 +47,14 @@ header {
   }
 }
 
-.welcome-message {
-  min-height: 25em;
+.welcome-message-wrapper {
+  min-height: 50em;
   padding-top: 4em;
   display: flex;
   padding-right: 5em;
   flex-direction: column;
   background: var(--frontpage-bgblack);
   color: var(--white-text);
-
-  h2 {
-    font-size: 9em;
-  }
-
-  p {
-    font-size: 2.7em;
-  }
 
   a {
     @include purple-gradient-button();
@@ -69,6 +64,18 @@ header {
     margin: 1em auto;
     font-size: 1.75em;
     font-weight: bold;
+  }
+
+  .welcome-message {
+    .h2 {
+      font-size: 8em;
+      font-weight: bold;
+    }
+
+    .p {
+      font-size: 2.7em;
+      font-weight: 500;
+    }
   }
 }
 

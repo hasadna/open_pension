@@ -1,14 +1,20 @@
 export default function WelcomeMessage() {
-  return <div className="welcome-message">
+  return <div className="welcome-message-wrapper">
 
-    <h2>
-      פנסיה פתוחה - מדובר על הכסף שלך
-    </h2>
+    <section className="welcome-message">
+      <p className="h2">
+        פנסיה פתוחה -
+      </p>
 
-    <p>
-      מהיום תוכל לדעת בצורה פשוטה מה קורה עם הכסף שלך,
-      היכן הוא מושקע וכמה הוא מרוויח.
-    </p>
+      <p className="h2">
+        מדובר על הכסף שלך
+      </p>
+
+      <p className="p">
+        מהיום תוכל לדעת בצורה פשוטה מה קורה עם הכסף שלך,
+        היכן הוא מושקע וכמה הוא מרוויח.
+      </p>
+    </section>
 
     <a>מה קורה עם הכסף שלי?</a>
   </div>
