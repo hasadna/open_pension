@@ -1,3 +1,5 @@
+import {Play} from "../Icons/Incons";
+
 export default function FrontpageArticles() {
   const links = [
     {
@@ -29,7 +31,7 @@ export default function FrontpageArticles() {
     {links.map(({icon, title, url}, key) => <li>
       <img src={`/svgs/${icon}`} />
       <a className="title" href={url}>{title}</a>
-      <a className="play">P</a>
+      <a className="play" href={url}><Play /></a>
     </li>)}
   </ul>
 }

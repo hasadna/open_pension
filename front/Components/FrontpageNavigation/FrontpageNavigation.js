@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import FrontpageArticles from "../FrontpageArticles/FrontpageArticles";
 import Wrapper from "../Wrapper/Wrapper";
+import {ArrowLeft, Play} from "../Icons/Incons";
 
 export default function FrontpageNavigation() {
 
@@ -43,7 +44,7 @@ export default function FrontpageNavigation() {
         <div className="descriptions">
           {descriptions.map((description, key) => <p key={key}>{description}</p>)}
         </div>
-        <Link className="link" href={path}> > </Link>
+        <Link className="link" href={path}><ArrowLeft /></Link>
       </li>)}
     </ul>
 

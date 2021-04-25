@@ -1,0 +1,109 @@
+.frontpage-navigation {
+  @include container-padding();
+  padding-top: 6.6em;
+  color: var(--white-text);
+  background-image: linear-gradient(197deg, var(--frontpage-purple-top), var(--frontpage-purple-bottom));
+
+  p.text {
+    font-size: 2.2em;
+    line-height: 1.5em;
+    padding-bottom: 1em;
+    font-weight: 100;
+  }
+
+  ul {
+    li {
+      display: flex;
+      list-style-type: none;
+    }
+  }
+
+  .internal-links {
+    margin-top: 1em;
+    padding-bottom: 10em;
+
+    li {
+      border-top: solid white 1px;
+      padding-top: 2em;
+      padding-bottom: 2em;
+
+      &:last-child {
+        border-bottom: solid white 1px;
+      }
+
+      h4 {
+        font-size: 7em;
+        font-weight: bold;
+        padding-left: .25em;
+      }
+
+      .descriptions {
+        padding-top: 1.75em;
+
+        p {
+          font-size: 1.5em;
+          line-height: 1.3;
+        }
+      }
+
+      a {
+        font-size: 5em;
+        color: white;
+      }
+
+      .fa-chevron-left {
+        padding-top: 2.25em;
+        height: 5em;
+        margin-left: 0;
+        margin-right: auto;
+      }
+    }
+  }
+
+  .external-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 2em;
+
+      img {
+        height: 10em;
+        padding-bottom: 1em;
+      }
+
+      p {
+        padding-bottom: .5em;
+      }
+
+      .title {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.5em;
+        text-align: center;
+      }
+
+      .play {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        color: var(--button-purple-background-first);
+
+        .fa-play {
+          height: 2em;
+        }
+      }
+    }
+  }
+}

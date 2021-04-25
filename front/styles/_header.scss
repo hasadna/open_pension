@@ -1,0 +1,39 @@
+header {
+  @include container-padding();
+  background: var(--frontpage-bgblack);
+  color: var(--white-text);
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 3em;
+  padding-bottom: 1.5em;
+  font-weight: bold;
+
+  .logo {
+    display: flex;
+    align-items: flex-end;
+
+    img {
+      height: 3em;
+      padding-left: .25em;
+      margin-bottom: 0.5em;
+    }
+  }
+
+  ul {
+    display: flex;
+    margin-bottom: .5em;
+
+    li {
+      list-style-type: none;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      &:last-child {
+        padding-left: 0;
+      }
+    }
+  }
+}
