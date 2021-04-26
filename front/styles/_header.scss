@@ -1,6 +1,6 @@
 header {
   @include container-padding();
-  background: var(--frontpage-bgblack);
+  background: var(--background-purple-dark);
   color: var(--white-text);
   display: flex;
   flex-direction: row;
@@ -10,6 +10,10 @@ header {
   padding-top: 3em;
   padding-bottom: 1.5em;
   font-weight: bold;
+
+  &.front-page {
+    background: var(--frontpage-bgblack);
+  }
 
   .logo {
     display: flex;

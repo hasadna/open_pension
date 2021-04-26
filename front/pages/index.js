@@ -4,7 +4,7 @@ import FrontpageNavigation from "../Components/FrontpageNavigation/FrontpageNavi
 import WhoWeAre from "../Components/WhoWeAre/WhoWeAre";
 
 export default function Home() {
-  return <Wrapper title="Homepage">
+  return <Wrapper title="Homepage" isFrontPage={true}>
     <WelcomeMessage />
     <FrontpageNavigation />
     <WhoWeAre />
