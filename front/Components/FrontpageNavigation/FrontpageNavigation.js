@@ -17,7 +17,7 @@ export default function FrontpageNavigation() {
       descriptions: [
         <p>או במילים פשוטות ... </p>,
       ],
-      path: '/performance'
+      path: '/portfolio'
     },
     {
       title: 'אחזקות',
@@ -25,7 +25,7 @@ export default function FrontpageNavigation() {
         <p>או במילים פשוטות היכן השקיעו חברות הפנסיה ת הכסף שלי,</p>,
         <p>והאם הכסף שלי עלה או ירד מאז שהוא מושקע באותם חברות.</p>,
       ],
-      path: '/performance'
+      path: '/holdings'
     },
   ];
 

@@ -30,3 +30,67 @@ h1 {
 @import "whoWeAre";
 @import "footer";
 @import "innerPage";
+
+.holding-searching {
+  padding-top: 3em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  border-bottom: white solid 1px;
+  width: 30vw;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  svg {
+    color: white;
+    padding-left: .5em;
+    height: 1em
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    width: 25em;
+    color: white;
+    font-weight: 400;
+    font-size: .9em;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #b4a2f2;
+    }
+  }
+
+  .bodies {
+    position: absolute;
+    top: 6em;
+    width: 30vw;
+
+    li {
+      list-style: none;
+      background: var(--button-purple-background-first);
+      border: white solid 1px;
+      padding: .5em;
+      color: white;
+
+      &.item:hover {
+        cursor: pointer;
+      }
+
+      :not(&:first-child) {
+        border-top: none;
+      }
+
+      &:hover {
+        background: var(--button-purple-background-fourth);
+      }
+
+      &.empty {
+        color: var(--button-purple-background-third);
+      }
+    }
+  }
+}
