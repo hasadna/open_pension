@@ -1,0 +1,12 @@
+@mixin purple-gradient-big {
+  background-image: linear-gradient(197deg, var(--frontpage-purple-top) 90%, var(--frontpage-purple-bottom) 5%);
+}
+
+@mixin purple-gradient-button {
+  background-image: linear-gradient(172deg, #714ee6 -43%, #634fa7 157%, #392773 193%);
+}
+
+@mixin container-padding {
+  padding-right: 5em;
+  padding-left: 5em;
+}

@@ -1,0 +1,54 @@
+.who-we-are {
+  @include container-padding();
+  padding-top: 4em;
+  margin-bottom: 3em;
+
+  h4 {
+    font-size: 2.7em;
+    font-weight: 300;
+    padding-bottom: .5em;
+  }
+
+  .text {
+    font-weight: 400;
+    line-height: 1.65;
+    font-size: 1.25em;
+  }
+
+  .staff {
+    display: flex;
+    padding-top: 4em;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .graphs {
+      padding-top: 10em;
+    }
+
+    ul {
+      li {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        img {
+          height: 7em;
+          padding-bottom: .5em;
+        }
+
+        .name {
+          font-size: 1.25em;
+          color: var(--text-gray-one);
+          padding-bottom: .25em;
+        }
+
+        .job {
+          font-size: .75em;
+          color: var(--text-blue);
+        }
+      }
+    }
+  }
+}
