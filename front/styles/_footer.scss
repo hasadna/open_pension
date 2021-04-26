@@ -1,0 +1,41 @@
+footer {
+  background: var(--footer-background);
+  padding: 2.5em;
+  color: white;
+  font-size: 0.75em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .icons {
+    display: flex;
+
+    svg {
+      padding-right: 1.5em;
+      color: white;
+      height: 1.5em;
+    }
+  }
+
+  .contact-us {
+    font-weight: 100;
+    display: flex;
+
+    p {
+      padding-right: 1em;
+      text-transform: uppercase;
+    }
+
+    ul {
+      li {
+        list-style: none;
+        text-align: left;
+        padding-top: .5em;
+
+        &:first-child {
+          padding-top: 0;
+        }
+      }
+    }
+  }
+}

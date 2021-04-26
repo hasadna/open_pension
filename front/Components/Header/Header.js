@@ -8,7 +8,6 @@ export default function Header() {
       <li>ההשקעות שלי</li>
       <li>הופעות תקשורת</li>
       <li>מי אנחנו</li>
-      <li>הבלוג שלנו</li>
     </ul>
   </header>
 }

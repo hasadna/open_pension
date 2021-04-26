@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 export default function Wrapper({children, title}) {
   return <div className="wrapper">
@@ -15,8 +16,6 @@ export default function Wrapper({children, title}) {
       {children}
     </main>
 
-    <footer>
-      Footer
-    </footer>
+    <Footer />
   </div>
 }

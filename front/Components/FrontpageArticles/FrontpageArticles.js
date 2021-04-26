@@ -28,7 +28,7 @@ export default function FrontpageArticles() {
     },
   ];
   return <ul className="external-items">
-    {links.map(({icon, title, url}, key) => <li>
+    {links.map(({icon, title, url}, key) => <li key={key}>
       <img src={`/svgs/${icon}`} />
       <a className="title" href={url}>{title}</a>
       <a className="play" href={url}><Play /></a>
