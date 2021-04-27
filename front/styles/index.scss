@@ -18,6 +18,15 @@ body {
 
 .wrapper {
   width: 100%;
+
+  &.inner-page {
+
+    main {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
 h1 {
@@ -30,6 +39,24 @@ h1 {
 @import "whoWeAre";
 @import "footer";
 @import "innerPage";
+
+.bottom-image {
+  padding-top: 10em;
+  padding-bottom: 2em;
+  margin-right: auto;
+  padding-left: 2em;
+  margin-top: auto;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  span {
+    padding-bottom: 1.5em;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+}
 
 .holding-searching {
   padding-top: 3em;
@@ -76,8 +103,9 @@ h1 {
       padding: .5em;
       color: white;
 
-      &.item:hover {
-        cursor: pointer;
+      a {
+        color: white;
+        text-decoration: none;
       }
 
       :not(&:first-child) {

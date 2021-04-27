@@ -4,7 +4,7 @@ import Footer from "../Footer/Footer";
 
 export default function Wrapper({children, title, isFrontPage = false}) {
 
-  return <div className="wrapper">
+  return <div className={`wrapper ${!isFrontPage ? 'inner-page' : ''}`}>
     <Head>
       <title>{title}</title>
       <link rel="preconnect" href="https://fonts.gstatic.com" />

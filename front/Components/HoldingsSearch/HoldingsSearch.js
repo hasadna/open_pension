@@ -1,7 +1,7 @@
 import {Search} from "../Icons/Incons";
 import {useState, useEffect} from "react";
 
-export default function HoldingsSearch() {
+export default function HoldingsSearch({setSelectedBody}) {
 
   const [showBodies, setShowBodies] = useState(false);
   const [bodies, setBodies] = useState([]);
@@ -32,12 +32,17 @@ export default function HoldingsSearch() {
     <input
       placeholder="חפש את שם החברה בה הכסף שלך מושקע"
       onFocus={() => {setShowBodies(true)}}
-      onBlur={() => {setShowBodies(false)}}
       onChange={(e) => {handleFilterBodies(e)}}
     />
 
     {showBodies && <ul className="bodies">
-      {bodiesToShow().map((body, key) => <li key={key} className="item">{body}</li>)}
+      {bodiesToShow().map((body, key) => <li key={key} className="item">
+        <a href="#" onClick={(e) => {
+          e.preventDefault();
+          setShowBodies(false);
+          setSelectedBody(body);
+        }}>{body}</a>
+        </li>)}
       {bodiesToShow().length === 0 && <li className="empty">לא נמצאו גופים</li>}
     </ul> }
   </div>

@@ -1,8 +1,14 @@
 import Wrapper from "../Components/Wrapper/wrapper";
 import SecondaryHeader from "../Components/SecondaryHeader/SecondaryHeader";
 import HoldingsSearch from "../Components/HoldingsSearch/HoldingsSearch";
+import {useState} from 'react';
+import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
+import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
 
 export default function Holdings() {
+
+  const [selectedBody, setSelectedBody] = useState(null);
+
   return <>
     <Wrapper title="אחזקות">
       <SecondaryHeader
@@ -18,8 +24,13 @@ export default function Holdings() {
         </>}
         lastUpdate={"18/09/2020 לפי רבעון 4 של שנת 2020"}
       >
-        <HoldingsSearch />
+        <HoldingsSearch setSelectedBody={setSelectedBody} />
       </SecondaryHeader>
+
+
+      {selectedBody ? <HoldingsQuery company={selectedBody} />: <HoldingsWaiting />}
+
+
     </Wrapper>
   </>
 }
