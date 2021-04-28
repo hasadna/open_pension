@@ -59,7 +59,7 @@ h1 {
 }
 
 .buttons-group {
-  padding-top: 1em;
+  padding-top: 1.5em;
 
   span {
     font-size: 1.25em;
@@ -88,6 +88,42 @@ h1 {
 
         &.active {
           background: var(--button-purple-background-fourth);
+        }
+      }
+    }
+  }
+}
+
+.table {
+  margin-top: 2em;
+  width: 100%;
+  border-collapse: collapse;
+
+  td:first-child {
+    padding-right: 1.5em;
+  }
+
+  thead {
+    tr {
+      td {
+        border-bottom: solid 1px black;
+        padding-bottom: .5em;
+        font-weight: 500;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        font-weight: 500;
+        padding-top: .75em;
+        padding-bottom: .75em;
+      }
+
+      &:nth-child(even) {
+        td {
+          background: var(--background-table-gray);
         }
       }
     }
@@ -144,7 +180,7 @@ h1 {
         text-decoration: none;
       }
 
-      :not(&:first-child) {
+      &:not(&:first-child) {
         border-top: none;
       }
 
