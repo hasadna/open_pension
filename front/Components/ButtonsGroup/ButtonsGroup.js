@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import Info from "../Info/Info";
 
 export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton}) {
 
@@ -16,7 +17,10 @@ export default function ButtonGroups({title, buttons, selectHandler, defaultActi
   const getButtonClass = (identifier) => activeButton === identifier ? 'active' : null;
 
   return <div className="buttons-group">
-    <span className="title">{title}</span>
+    <div>
+      <span className="title">{title}</span>
+      <Info description={"a"} />
+    </div>
 
     <ul>
       {Object
