@@ -7,7 +7,8 @@ import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
 
 export default function Holdings() {
 
-  const [selectedBody, setSelectedBody] = useState(null);
+  // const [selectedBody, setSelectedBody] = useState(null);
+  const [selectedBody, setSelectedBody] = useState('כלל ביטוח');
 
   return <>
     <Wrapper title="אחזקות">
@@ -29,7 +30,6 @@ export default function Holdings() {
 
 
       {selectedBody ? <HoldingsQuery company={selectedBody} />: <HoldingsWaiting />}
-
 
     </Wrapper>
   </>
