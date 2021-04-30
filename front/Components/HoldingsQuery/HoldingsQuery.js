@@ -13,6 +13,7 @@ export default function HoldingsQuery({company}) {
         gemel: 'גמל',
         bituah: 'ביטוח'
       }}
+      description={"במידה ואתה לא יודע היכן הכסף שלך מושקע...."}
     />
     <Table
       headers={['', 'שם החברה', 'שוק / ענף במשק', 'שווי החזקות', 'שיעור אחזקות']}
@@ -23,5 +24,9 @@ export default function HoldingsQuery({company}) {
         ['', 'בזק החברה הישראלית לתקשורת בע”מ ', 'מסחר', '10,000,000 שקל', '5.7%'],
       ]}
     />
+
+    <div className="all-companies-wrapper">
+      <a href="#" className="all-companies">לרשימות החברות המלאות</a>
+    </div>
   </div>
 }

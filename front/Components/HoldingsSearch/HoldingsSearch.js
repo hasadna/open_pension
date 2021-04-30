@@ -1,5 +1,6 @@
 import {Search} from "../Icons/Incons";
 import {useState, useEffect} from "react";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 export default function HoldingsSearch({setSelectedBody}) {
 
@@ -34,6 +35,9 @@ export default function HoldingsSearch({setSelectedBody}) {
       onFocus={() => {setShowBodies(true)}}
       onChange={(e) => {handleFilterBodies(e)}}
     />
+    <div className="info-wrapper">
+      <InfoTooltip description={"אפשר להתחיל לכתוב שמות של גופים פנסיונים ולבחור מהרשימה את הגוף הרצוי"} />
+    </div>
 
     {showBodies && <ul className="bodies">
       {bodiesToShow().map((body, key) => <li key={key} className="item">

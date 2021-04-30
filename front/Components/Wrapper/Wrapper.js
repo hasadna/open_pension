@@ -17,6 +17,6 @@ export default function Wrapper({children, title, isFrontPage = false}) {
       {children}
     </main>
 
-    {isFrontPage && <Footer /> }
+    <Footer />
   </div>
 }

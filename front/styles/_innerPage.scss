@@ -9,7 +9,7 @@
     color: var(--text-purple-dark);
   }
 
-  p {
+  p.description {
     color: white;
     font-size: 1.5em;
     font-weight: 300;
@@ -39,4 +39,22 @@
     font-weight: 500;
     color: var(--text-black-three)
   }
+
+  .all-companies-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 3em;
+    padding-bottom: 2em;
+
+    .all-companies {
+      color: var(--button-purple-background-first);
+      padding-bottom: .25em;
+      padding-right: 1.25em;
+      padding-left: 1.25em;
+      font-weight: bold;
+      text-decoration: none;
+      border-bottom: solid 2px;
+    }
+  }
+
 }

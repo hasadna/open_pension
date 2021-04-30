@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import Info from "../Info/Info";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
-export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton}) {
+export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton, description = null}) {
 
   const [activeButton, setActiveButton] = useState(defaultActiveButton);
 
@@ -17,9 +17,9 @@ export default function ButtonGroups({title, buttons, selectHandler, defaultActi
   const getButtonClass = (identifier) => activeButton === identifier ? 'active' : null;
 
   return <div className="buttons-group">
-    <div>
+    <div className="title-wrapper">
       <span className="title">{title}</span>
-      <Info description={"a"} />
+      {description && <div className="info-wrapper"><InfoTooltip description={description} /></div>}
     </div>
 
     <ul>
