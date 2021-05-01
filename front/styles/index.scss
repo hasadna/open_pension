@@ -2,7 +2,6 @@
 @import "mixins";
 @import "fonts";
 
-
 body {
   direction: rtl;
   font-family: 'Rubik', sans-serif;
@@ -18,6 +17,15 @@ body {
 
 .wrapper {
   width: 100%;
+
+  &.inner-page {
+
+    main {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
 h1 {
@@ -30,3 +38,8 @@ h1 {
 @import "whoWeAre";
 @import "footer";
 @import "innerPage";
+@import "secondaryHeader";
+@import "infoTooltip";
+@import "buttonGroups";
+@import "table";
+@import "holdingsSearchings";

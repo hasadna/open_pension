@@ -75,20 +75,6 @@ services:
     volumes:
       - ./db/data:/var/lib/mysql
 
-  client:
-    image: hasadna/open-pension-client:latest
-    restart: always
-    build:
-      context: ./client
-      cache_from:
-        - hasadna/open-pension-client:latest
-    ports:
-      - "80:80"
-    environment:
-      - SERVICE_PORTS=80
-    depends_on:
-      - gateway
-
   # Change to quarter
   processor:
     image: hasadna/open-pension-processor:latest
