@@ -18,16 +18,18 @@ export async function getStaticProps() {
     gemel: 'גמל',
     bituah: 'ביטוח'
   };
+  const lastUpdate = '18/09/2020 לפי רבעון 4 של שנת 2020';
 
   return {
     props: {
       bodies,
-      investmentTypes
+      investmentTypes,
+      lastUpdate
     },
   }
 }
 
-export default function Holdings({bodies, investmentTypes}) {
+export default function Holdings({bodies, investmentTypes, lastUpdate}) {
   const [selectedBody, setSelectedBody] = useState(null);
 
   return <>
@@ -43,7 +45,7 @@ export default function Holdings({bodies, investmentTypes}) {
           בחרו גופי הפנסיה להשקעה את כספי החסכונות שלנו.
         </p>
         }
-        lastUpdate={"18/09/2020 לפי רבעון 4 של שנת 2020"}
+        lastUpdate={lastUpdate}
       >
         <HoldingsSearch setSelectedBody={setSelectedBody} bodies={bodies} />
       </SecondaryHeader>
