@@ -1,18 +1,14 @@
 import ButtonGroups from "../ButtonsGroup/ButtonsGroup";
 import Table from "../Table/Table";
 
-export default function HoldingsQuery({company}) {
+export default function HoldingsQuery({company, investmentTypes}) {
   return <div className="inner-page-content">
     <h3>רשימת חברות השקעה של {company}</h3>
     <h4>רבעון 4, ספטמבר 2019</h4>
 
     <ButtonGroups
       title={"בחרו את אפיק ההשקעה"}
-      buttons={{
-        pension: 'פנסיה',
-        gemel: 'גמל',
-        bituah: 'ביטוח'
-      }}
+      buttons={investmentTypes}
       description={"במידה ואתה לא יודע היכן הכסף שלך מושקע...."}
     />
     <Table

@@ -5,10 +5,30 @@ import {useState} from 'react';
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
 import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
 
-export default function Holdings() {
+export async function getStaticProps() {
+  const bodies = [
+    'אלטשולר שחם'
+    , 'כלל ביטוח'
+    , 'כלל ביטוח'
+    , 'מנורה מבטחים'
+  ];
 
-  // const [selectedBody, setSelectedBody] = useState(null);
-  const [selectedBody, setSelectedBody] = useState('כלל ביטוח');
+  const investmentTypes = {
+    pension: 'פנסיה',
+    gemel: 'גמל',
+    bituah: 'ביטוח'
+  };
+
+  return {
+    props: {
+      bodies,
+      investmentTypes
+    },
+  }
+}
+
+export default function Holdings({bodies, investmentTypes}) {
+  const [selectedBody, setSelectedBody] = useState(null);
 
   return <>
     <Wrapper title="אחזקות">
@@ -25,11 +45,15 @@ export default function Holdings() {
         }
         lastUpdate={"18/09/2020 לפי רבעון 4 של שנת 2020"}
       >
-        <HoldingsSearch setSelectedBody={setSelectedBody} />
+        <HoldingsSearch setSelectedBody={setSelectedBody} bodies={bodies} />
       </SecondaryHeader>
 
-
-      {selectedBody ? <HoldingsQuery company={selectedBody} />: <HoldingsWaiting />}
+      {selectedBody ?
+        <HoldingsQuery
+          company={selectedBody}
+          investmentTypes={investmentTypes} /> :
+        <HoldingsWaiting />
+      }
 
     </Wrapper>
   </>

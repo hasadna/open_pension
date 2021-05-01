@@ -2,13 +2,13 @@
   padding-top: 3em;
   padding-bottom: 1em;
   margin-bottom: 1em;
-  border-bottom: white solid 1px;
+  border-bottom: var(--white-border) solid 1px;
   width: 20%;
   display: flex;
   position: relative;
 
   svg {
-    color: white;
+    color: var(--white-text);
     padding-left: .5em;
     height: 1em
   }
@@ -17,7 +17,7 @@
     background: transparent;
     border: none;
     width: 25em;
-    color: white;
+    color: var(--white-text);
     font-weight: 400;
     font-size: .9em;
 
@@ -26,7 +26,7 @@
     }
 
     &::placeholder {
-      color: #b4a2f2;
+      color: var(--placeholder-color);
     }
   }
 
@@ -47,12 +47,12 @@
     li {
       list-style: none;
       background: var(--button-purple-background-first);
-      border: white solid 1px;
+      border: var(--white-border) solid 1px;
       padding: .5em;
-      color: white;
+      color: var(--white-text);
 
       a {
-        color: white;
+        color: var(--white-text);
         text-decoration: none;
       }
 

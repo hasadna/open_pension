@@ -23,6 +23,7 @@
       margin-top: 1em;
 
       a {
+        @include drop-shadow;
         text-decoration: none;
         background: gray;
         color: white;
@@ -32,7 +33,6 @@
         padding-bottom: .75em;
         padding-left: 3.5em;
         padding-right: 3.5em;
-        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
 
         &.active {
           background: var(--button-purple-background-fourth);

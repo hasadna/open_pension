@@ -28,7 +28,7 @@
 
   &.on {
     margin-right: .5em;
-    background: white;
+    background: var(--white-background);
 
     @include drop-shadow;
     border-radius: 32px;
@@ -37,7 +37,7 @@
       margin-right: .25em;
       margin-top: .25em;
       margin-bottom: .25em;
-      border: solid 2px #6e4bdd;
+      border: solid 2px var(--tooltip-border);
       font-size: 1.5em;
       height: 32px;
       width: 32px;

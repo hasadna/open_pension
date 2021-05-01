@@ -1,5 +1,8 @@
 :root {
   --white-text: #ffffff;
+  --white-border: #ffffff;
+  --white-background: #ffffff;
+
   --frontpage-bgblack: black;
   --frontpage-purple-top: #7c5beb;
   --frontpage-purple-bottom: #6141c7;
@@ -24,4 +27,7 @@
   --text-blue: #2699fb;
   --text-purple-dark: #563cab;
   --text-active-link-header: rgba(255, 255, 255, 0.35);
+
+  --placeholder-color: #b4a2f2;
+  --tooltip-border: #6e4bdd;
 }

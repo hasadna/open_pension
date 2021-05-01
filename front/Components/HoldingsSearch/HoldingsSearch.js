@@ -1,11 +1,10 @@
 import {Search} from "../Icons/Incons";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
-export default function HoldingsSearch({setSelectedBody}) {
+export default function HoldingsSearch({bodies, setSelectedBody}) {
 
   const [showBodies, setShowBodies] = useState(false);
-  const [bodies, setBodies] = useState([]);
   const [filteredBodies, setFilteredBodies] = useState([]);
   const [currentSearchValue, setCurrentSearchValue] = useState(null);
 
@@ -21,12 +20,6 @@ export default function HoldingsSearch({setSelectedBody}) {
     }
     return currentSearchValue ? filteredBodies : bodies;
   }
-
-  useEffect(() => {
-    setBodies(['אלטשולר שחם'
-      , 'כלל ביטוח'
-      , 'מנורה מבטחים']);
-  }, []);
 
   return <div className="holding-searching">
     <Search />
