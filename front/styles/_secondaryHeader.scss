@@ -1,0 +1,25 @@
+.secondary-header {
+  @include container-padding;
+  background: var(--button-purple-background-first);
+  padding-top: 2em;
+  padding-bottom: 1.25em;
+
+  h2 {
+    font-size: 7.5em;
+    color: var(--text-purple-dark);
+  }
+
+  p.description {
+    color: white;
+    font-size: 1.5em;
+    font-weight: 300;
+    padding-bottom: 1em;
+    line-height: 1.43;
+  }
+
+  .last-update {
+    font-weight: bold;
+    font-size: 1.25em;
+    color: white;
+  }
+}

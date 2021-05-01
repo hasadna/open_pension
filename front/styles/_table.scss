@@ -1,0 +1,35 @@
+.table {
+  margin-top: 2em;
+  width: 100%;
+  border-collapse: collapse;
+
+  td:first-child {
+    padding-right: 1.5em;
+  }
+
+  thead {
+    tr {
+      td {
+        border-bottom: solid 1px black;
+        padding-bottom: .5em;
+        font-weight: 500;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        font-weight: 500;
+        padding-top: .75em;
+        padding-bottom: .75em;
+      }
+
+      &:nth-child(even) {
+        td {
+          background: var(--background-table-gray);
+        }
+      }
+    }
+  }
+}

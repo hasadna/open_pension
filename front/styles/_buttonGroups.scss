@@ -1,0 +1,43 @@
+.buttons-group {
+  padding-top: 1.5em;
+
+  .title-wrapper {
+    display: flex;
+
+    span {
+      font-size: 1.25em;
+      font-weight: 500;
+    }
+    .info-wrapper {
+      position: relative;
+    }
+  }
+
+
+  ul {
+    display: flex;
+
+    li {
+      list-style: none;
+      padding: 1em .25em 1em 1em;
+      margin-top: 1em;
+
+      a {
+        text-decoration: none;
+        background: gray;
+        color: white;
+        background: var(--background-button-gray);
+        border-radius: 33px;
+        padding-top: .75em;
+        padding-bottom: .75em;
+        padding-left: 3.5em;
+        padding-right: 3.5em;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+        &.active {
+          background: var(--button-purple-background-fourth);
+        }
+      }
+    }
+  }
+}

@@ -1,28 +1,3 @@
-.secondary-header {
-  @include container-padding;
-  background: var(--button-purple-background-first);
-  padding-top: 2em;
-  padding-bottom: 1.25em;
-
-  h2 {
-    font-size: 7.5em;
-    color: var(--text-purple-dark);
-  }
-
-  p.description {
-    color: white;
-    font-size: 1.5em;
-    font-weight: 300;
-    padding-bottom: 1em;
-    line-height: 1.43;
-  }
-
-  .last-update {
-    font-weight: bold;
-    color: white;
-  }
-}
-
 .inner-page-content {
   @include container-padding;
   padding-top: 2em;
@@ -51,10 +26,27 @@
       padding-bottom: .25em;
       padding-right: 1.25em;
       padding-left: 1.25em;
-      font-weight: bold;
+      font-weight: 500;
       text-decoration: none;
       border-bottom: solid 2px;
     }
   }
+}
 
+.bottom-image {
+  padding-top: 10em;
+  padding-bottom: 2em;
+  margin-right: auto;
+  padding-left: 2em;
+  margin-top: auto;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  span {
+    padding-bottom: 1.5em;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
 }
