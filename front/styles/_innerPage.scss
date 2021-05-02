@@ -2,6 +2,15 @@
   @include container-padding;
   padding-top: 2em;
   padding-bottom: 2em;
+  display: flex;
+
+  &.big {
+    min-height: 75vh;
+  }
+
+  &.small {
+    min-height: 55vh;
+  }
 
   h3 {
     font-size: 3.25em;
@@ -31,22 +40,20 @@
       border-bottom: solid 2px;
     }
   }
-}
 
-.bottom-image {
-  padding-top: 10em;
-  padding-bottom: 2em;
-  margin-right: auto;
-  padding-left: 2em;
-  margin-top: auto;
-  margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  .bottom-image {
+    padding-top: 10em;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 
-  span {
-    padding-bottom: 1.5em;
-    font-size: 1.5em;
-    font-weight: bold;
+    span {
+      padding-bottom: 1.5em;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
   }
 }
