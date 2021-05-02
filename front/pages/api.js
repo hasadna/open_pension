@@ -7,9 +7,15 @@ export const getInvestmentTypes = () => {
 };
 
 export const getInvestmentPath = () => {
-  return [
-    'שריעה', 'סיכון מועט', 'סיכון מוגבר', 'סיכון בינוני', 'מקבלי קצבה', 'מניות', 'ממשלתי',
-  ];
+  return {
+    saria: 'שריעה',
+    lowRisk: 'סיכון מועט',
+    highRisk: 'סיכון מוגבר',
+    mediumRisk: 'סיכון בינוני',
+    onABudget: 'מקבלי קצבה',
+    stocks: 'מניות',
+    gov: 'ממשלתי'
+  };
 };
 
 export const getLastUpdate = () => {
@@ -17,13 +23,11 @@ export const getLastUpdate = () => {
 }
 
 export const getBodies = () => {
-  return [
-    'אלטשולר שחם',
-    'כלל ביטוח',
-    'כלל ביטוח',
-    'מנורה מבטחים',
-    'הפניקס',
-    'הכשרה',
-    'פסגות',
-  ];
+  return {
+    alt: 'אלטשולר שחם',
+    klal: 'כלל ביטוח',
+    menora: 'מנורה מבטחים',
+    hach: 'הכשרה',
+    pasgot: 'פסגות',
+  };
 }

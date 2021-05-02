@@ -22,18 +22,23 @@ export default function ButtonGroups({title, buttons, selectHandler, defaultActi
 
   const handleButtonClick = (e) => {
       e.preventDefault();
-
       const {target: {dataset: {identifier}}} = e;
+      let activeButtonState;
 
       if (multiple) {
-        setActiveButtons({...activeButtons, ...{[identifier]: !optionIsSelected(identifier)}});
+        activeButtonState = {
+          ...activeButtons,
+          ...{[identifier]: !optionIsSelected(identifier)}
+        };
       }
       else {
-        setActiveButtons({[identifier]: !optionIsSelected(identifier)});
+        activeButtonState = {[identifier]: !optionIsSelected(identifier)};
       }
 
+      setActiveButtons(activeButtonState);
+
       if (selectHandler) {
-        selectHandler(activeButtons);
+        selectHandler(activeButtonState);
       }
   };
 
