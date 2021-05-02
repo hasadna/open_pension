@@ -35,12 +35,13 @@ export default function Performance({bodies, investmentTypes, investmentPath, la
       >
       </SecondaryHeader>
 
-      <div className="inner-page-content big">
-        <PerformanceQuery />
+      <div className="inner-page-content big performance">
+        <PerformanceQuery
+          bodies={bodies}
+          investmentPath={investmentPath}
+          investmentTypes={investmentTypes} />
 
-        {results && <PerformanceResults />}
-
-        {!results && <HoldingsWaiting />}
+        {results ? <PerformanceResults /> : <HoldingsWaiting />}
       </div>
 
 

@@ -3,6 +3,7 @@
   padding-top: 2em;
   padding-bottom: 2em;
   display: flex;
+  flex-direction: column;
 
   &.big {
     min-height: 75vh;
@@ -54,6 +55,15 @@
       padding-bottom: 1.5em;
       font-size: 1.5em;
       font-weight: bold;
+    }
+  }
+
+  &.performance {
+    .buttons-group {
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      width: 88vw;
+      padding-bottom: 0.5em;
     }
   }
 }

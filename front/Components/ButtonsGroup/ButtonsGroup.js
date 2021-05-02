@@ -1,20 +1,43 @@
 import {useState} from 'react';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
-export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton, description = null}) {
+export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton, description = null, multiple = false}) {
 
-  const [activeButton, setActiveButton] = useState(defaultActiveButton);
+  const [activeButtons, setActiveButtons] = useState(() => {
+    if (defaultActiveButton) {
+      return {[defaultActiveButton]: true};
+    }
+
+    return {};
+  });
+
+  const existsSelectedButtons = Object.keys(activeButtons);
+  const optionIsSelected = (identifier) => {
+    if (existsSelectedButtons.includes(identifier)) {
+      return activeButtons[identifier];
+    }
+
+    return false;
+  }
 
   const handleButtonClick = (e) => {
       e.preventDefault();
+
       const {target: {dataset: {identifier}}} = e;
-      setActiveButton(identifier);
+
+      if (multiple) {
+        setActiveButtons({...activeButtons, ...{[identifier]: !optionIsSelected(identifier)}});
+      }
+      else {
+        setActiveButtons({[identifier]: !optionIsSelected(identifier)});
+      }
+
       if (selectHandler) {
-        selectHandler(identifier);
+        selectHandler(activeButtons);
       }
   };
 
-  const getButtonClass = (identifier) => activeButton === identifier ? 'active' : null;
+  const getButtonClass = (identifier) => optionIsSelected(identifier) ? 'active' : null;
 
   return <div className="buttons-group">
     <div className="title-wrapper">
