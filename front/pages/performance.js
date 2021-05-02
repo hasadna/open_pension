@@ -41,16 +41,14 @@ const queryReducer = (state, {type, value}) => {
 };
 
 export default function Performance({bodies, investmentTypes, investmentPath, lastUpdate}) {
-
   const [results, setResults] = useState(null);
-  const [searchedOnce, setSearchedOnce] = useState(false);
   const [query, dispatchQuery] = useReducer(queryReducer, queryState);
 
   useEffect(() => {
     const {bodies, investmentType, investmentPath} = query;
 
     if (!isEmpty(bodies) && !isEmpty(investmentType) && !isEmpty(investmentPath)) {
-      console.log('searching');
+      setResults({});
     }
   }, [query]);
 
