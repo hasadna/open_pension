@@ -33,7 +33,7 @@ export default function HoldingsSearch({bodies, setSelectedBody}) {
     </div>
 
     {showBodies && <ul className="bodies">
-      {bodiesToShow().map((body, key) => <li key={key} className="item">
+      {Object.entries(bodiesToShow()).map(([identifier, body], key) => <li key={key} className="item">
         <a href="#" onClick={(e) => {
           e.preventDefault();
           setShowBodies(false);

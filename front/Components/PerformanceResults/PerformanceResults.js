@@ -1,6 +1,7 @@
 import Table from "../Table/Table";
 import {useState} from 'react';
-import { Line } from 'react-chartjs-2';
+import data from './data';
+import {ResponsiveLine} from "@nivo/line";
 
 export default function PerformanceResults({tracksInfo}) {
   const [selectedFilter, setSelectedFilter] = useState('last12Years');
@@ -12,38 +13,6 @@ export default function PerformanceResults({tracksInfo}) {
     last12Years: '12 חודשים אחרונים',
     last3Years: '3 שנים אחרונות',
     last5Years: '5 שנים אחרונות',
-  };
-
-  const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
-    datasets: [
-      {
-        label: 'My First Dataset',
-        data: [120, 200, 66, 81, 56, 200, 170],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      },
-      {
-        label: 'My SECPOND Dataset',
-        data: [120, 100, 90, 50, 56, 190, 150],
-        fill: false,
-        borderColor: 'rgb(188,192,75)',
-        tension: 0.1
-      },
-    ]
-  };
-
-  const options = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
   };
 
   return <div className="performance-results">
@@ -64,7 +33,7 @@ export default function PerformanceResults({tracksInfo}) {
 
     <h5 className="separator">משה מה לכתוב כאן?</h5>
     <div className="graph-wrapper">
-      <ul >
+      <ul className="period-picker">
         {Object.entries(graphsFilterOptions).map(([filterBy, title], key) => {
           const className = selectedFilter === filterBy ? 'active' : '';
 
@@ -77,7 +46,57 @@ export default function PerformanceResults({tracksInfo}) {
         })}
       </ul>
 
-      <Line data={data} options={options} />
+      <div className="graph">
+
+        <ul className="legends">
+          <li>כלל חיסכון לכל ילד</li>
+          <li>חיסכון לכל ילד</li>
+          <li>פסגות חיסכון לכל ילד</li>
+          <li>הטובה ביותר: מיטב דש חיסכון לכל ילד</li>
+        </ul>
+        <ResponsiveLine
+          data={data}
+          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          xScale={{ type: 'point' }}
+          yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+          yFormat=" >-.2f"
+          axisTop={null}
+          axisRight={null}
+          axisBottom={{
+            orient: 'bottom',
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'transportation',
+            legendOffset: 36,
+            legendPosition: 'middle'
+          }}
+          axisLeft={{
+            orient: 'left',
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'count',
+            legendOffset: -40,
+            legendPosition: 'middle'
+          }}
+          enableGridY={false}
+          lineWidth={5}
+          pointSize={10}
+          pointColor={{ from: 'color', modifiers: [] }}
+          pointBorderWidth={1}
+          pointBorderColor={{ theme: 'background' }}
+          pointLabel="x"
+          pointLabelYOffset={-12}
+          areaBlendMode="overlay"
+          areaOpacity={0}
+          enableCrosshair={false}
+          crosshairType="top-right"
+          useMesh={true}
+          legends={[]}
+          motionConfig="default"
+        />
+      </div>
     </div>
   </div>
 }

@@ -90,27 +90,51 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
-        border-radius: 15px;
 
         li {
           list-style: none;
-          font-weight: bold;
-          margin-top: .75em;
-          margin-bottom: .75em;
-          margin-left: 1.75em;
-          margin-right: 1.75em;
+        }
 
-          a {
-            color: var(--text-black-gray);
-            text-decoration: none;
-          }
+        &.period-picker {
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+          border-radius: 15px;
 
-          &.active {
+          li {
+            font-weight: bold;
+            margin-top: .75em;
+            margin-bottom: .75em;
+            margin-left: 1.75em;
+            margin-right: 1.75em;
+
             a {
-              color: var(--active-graph-text-filter);
+              color: var(--text-black-gray);
+              text-decoration: none;
+            }
+
+            &.active {
+              a {
+                color: var(--active-graph-text-filter);
+              }
             }
           }
+        }
+
+        &.legends {
+          padding-top: .75em;
+          padding-bottom: .75em;
+          border-bottom: solid 3px #ebebeb;
+          width: 95%;
+          margin: 0 auto;
+        }
+      }
+
+      .graph {
+        margin-top: 2em;
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+        border-radius: 15px;
+
+        & > div {
+          height: 50vh !important;
         }
       }
     }
