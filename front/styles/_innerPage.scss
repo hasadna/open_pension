@@ -66,4 +66,53 @@
       padding-bottom: 0.5em;
     }
   }
+
+  .performance-results {
+    padding-top: 5em;
+
+    h5 {
+      font-size: 1.5em;
+      font-weight: 500;
+    }
+
+    .separator {
+      padding-top: 2em;
+      padding-bottom: .25em;
+      margin-bottom: .5em;
+      text-align: center;
+      border-bottom: solid 2px #000000;
+    }
+
+    .graph-wrapper {
+
+      ul {
+        margin-top: 2em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+        border-radius: 15px;
+
+        li {
+          list-style: none;
+          font-weight: bold;
+          margin-top: .75em;
+          margin-bottom: .75em;
+          margin-left: 1.75em;
+          margin-right: 1.75em;
+
+          a {
+            color: var(--text-black-gray);
+            text-decoration: none;
+          }
+
+          &.active {
+            a {
+              color: var(--active-graph-text-filter);
+            }
+          }
+        }
+      }
+    }
+  }
 }

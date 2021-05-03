@@ -73,7 +73,15 @@ export default function Performance({bodies, investmentTypes, investmentPath, la
           investmentPath={investmentPath}
           investmentTypes={investmentTypes} />
 
-        {results ? <PerformanceResults /> : <HoldingsWaiting />}
+        <PerformanceResults
+          tracksInfo={[
+            [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
+            [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],
+            [11320, 'כלל חיסכון לכל ילד', '197', '4.2', '', '', ''],
+          ]}
+        />
+
+        {/*{results ? <PerformanceResults /> : <HoldingsWaiting />}*/}
       </div>
 
 
