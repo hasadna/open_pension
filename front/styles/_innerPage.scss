@@ -83,6 +83,15 @@
       border-bottom: solid 2px #000000;
     }
 
+    .graph {
+      margin-top: 2em;
+      border-radius: 15px;
+
+      & > div {
+        height: 50vh !important;
+      }
+    }
+
     .graph-wrapper {
 
       ul {
@@ -129,13 +138,7 @@
       }
 
       .graph {
-        margin-top: 2em;
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
-        border-radius: 15px;
-
-        & > div {
-          height: 50vh !important;
-        }
       }
     }
   }
