@@ -6,6 +6,7 @@ import {useState, useReducer, useEffect} from 'react';
 import PerformanceQuery from "../Components/PerformanceQuery/PerformanceQuery";
 import PerformanceResults from "../Components/PerformanceResults/PerformanceResults";
 import {getBodies, getInvestmentPath, getInvestmentTypes, getLastUpdate} from "./api";
+import BarsGraph from "../Components/BarsGraph/BarsGraph";
 
 export async function getStaticProps() {
   return {
@@ -72,6 +73,7 @@ export default function Performance({bodies, investmentTypes, investmentPath, la
           bodies={bodies}
           investmentPath={investmentPath}
           investmentTypes={investmentTypes} />
+
 
         {results ? <PerformanceResults tracksInfo={[
           [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],

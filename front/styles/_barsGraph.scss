@@ -1,0 +1,70 @@
+.bars-graph {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  .bar {
+    background-color: var(--bar-graph-purple);
+    padding: 1em;
+    margin-left: 1em;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    margin-top: 1em;
+
+    thead {
+      tr {
+        td {
+          height: 20vh;
+          vertical-align: bottom;
+
+          &:last-child {
+            div {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          height: 25vh;
+          padding-right: .5em;
+          border-top: solid 2px black;
+          text-align: center;
+          vertical-align: top;
+
+          .bar {
+            background-color: var(--bar-graph-red);
+          }
+
+          span {
+            display: block;
+
+            &.money {
+              padding-top: .5em;
+              padding-bottom: .5em;
+
+              &.gray {
+                color: #4b4b4b;
+              }
+
+              &.red {
+                color: var(--bar-graph-red);
+              }
+
+              &.purple {
+                color: var(--bar-graph-purple);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
