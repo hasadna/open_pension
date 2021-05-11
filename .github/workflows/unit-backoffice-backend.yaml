@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version: [ 14.16.1 ]
+        mongodb-version: [4.4]
 
     steps:
       - uses: actions/checkout@v2
@@ -21,6 +22,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.4.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
       - name: Install dependencies
         run: cd backoffice_backend && npm i
       - name: run jest
