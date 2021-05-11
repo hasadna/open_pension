@@ -17,6 +17,15 @@
     line-height: 1.43;
   }
 
+  p.under-construction {
+    text-align: center;
+    color: var(--white-text);
+    font-weight: bold;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    font-size: 2.75em;
+  }
+
   .last-update {
     font-weight: bold;
     font-size: 1.25em;
