@@ -23,5 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: cd backoffice_backend && npm i
-      - name: run tests
+      - name: run jest
+        run: cd backoffice_backend && npm run jest
+      - name: run test
         run: cd backoffice_backend && npm run test
