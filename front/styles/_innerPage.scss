@@ -2,6 +2,16 @@
   @include container-padding;
   padding-top: 2em;
   padding-bottom: 2em;
+  display: flex;
+  flex-direction: column;
+
+  &.big {
+    min-height: 75vh;
+  }
+
+  &.small {
+    min-height: 55vh;
+  }
 
   h3 {
     font-size: 3.25em;
@@ -31,22 +41,111 @@
       border-bottom: solid 2px;
     }
   }
-}
 
-.bottom-image {
-  padding-top: 10em;
-  padding-bottom: 2em;
-  margin-right: auto;
-  padding-left: 2em;
-  margin-top: auto;
-  margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  .bottom-image {
+    padding-top: 10em;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 
-  span {
-    padding-bottom: 1.5em;
-    font-size: 1.5em;
-    font-weight: bold;
+    span {
+      padding-bottom: 1.5em;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  }
+
+  &.performance {
+    .buttons-group {
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      width: 88vw;
+      padding-bottom: 0.5em;
+    }
+  }
+
+  .performance-results {
+    padding-top: 5em;
+
+    h5 {
+      font-size: 1.5em;
+      font-weight: 500;
+    }
+
+    .separator {
+      padding-top: 2em;
+      padding-bottom: .25em;
+      margin-bottom: .5em;
+      text-align: center;
+      border-bottom: solid 2px #000000;
+    }
+
+    .graph {
+      margin-top: 2em;
+      border-radius: 15px;
+
+      &.lines {
+        & > div {
+          height: 50vh !important;
+        }
+      }
+
+      &.bars {
+        margin-top: 15em;
+      }
+    }
+
+    .graph-wrapper {
+
+      ul {
+        margin-top: 2em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        li {
+          list-style: none;
+        }
+
+        &.period-picker {
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+          border-radius: 15px;
+
+          li {
+            font-weight: bold;
+            margin-top: .75em;
+            margin-bottom: .75em;
+            margin-left: 1.75em;
+            margin-right: 1.75em;
+
+            a {
+              color: var(--text-black-gray);
+              text-decoration: none;
+            }
+
+            &.active {
+              a {
+                color: var(--active-graph-text-filter);
+              }
+            }
+          }
+        }
+
+        &.legends {
+          padding-top: .75em;
+          padding-bottom: .75em;
+          border-bottom: solid 3px #ebebeb;
+          width: 95%;
+          margin: 0 auto;
+        }
+      }
+
+      .graph {
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+      }
+    }
   }
 }

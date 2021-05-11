@@ -4,27 +4,14 @@ import HoldingsSearch from "../Components/HoldingsSearch/HoldingsSearch";
 import {useState} from 'react';
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
 import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
+import {getBodies, getInvestmentTypes, getLastUpdate} from "./api";
 
 export async function getStaticProps() {
-  const bodies = [
-    'אלטשולר שחם'
-    , 'כלל ביטוח'
-    , 'כלל ביטוח'
-    , 'מנורה מבטחים'
-  ];
-
-  const investmentTypes = {
-    pension: 'פנסיה',
-    gemel: 'גמל',
-    bituah: 'ביטוח'
-  };
-  const lastUpdate = '18/09/2020 לפי רבעון 4 של שנת 2020';
-
   return {
     props: {
-      bodies,
-      investmentTypes,
-      lastUpdate
+      bodies: getBodies(),
+      investmentTypes: getInvestmentTypes(),
+      lastUpdate: getLastUpdate()
     },
   }
 }
@@ -50,13 +37,14 @@ export default function Holdings({bodies, investmentTypes, lastUpdate}) {
         <HoldingsSearch setSelectedBody={setSelectedBody} bodies={bodies} />
       </SecondaryHeader>
 
-      {selectedBody ?
-        <HoldingsQuery
-          company={selectedBody}
-          investmentTypes={investmentTypes} /> :
-        <HoldingsWaiting />
-      }
-
+      <div className="inner-page-content small">
+        {selectedBody ?
+          <HoldingsQuery
+            company={selectedBody}
+            investmentTypes={investmentTypes} /> :
+          <HoldingsWaiting />
+        }
+      </div>
     </Wrapper>
   </>
 }

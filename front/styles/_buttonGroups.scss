@@ -16,11 +16,13 @@
 
   ul {
     display: flex;
+    min-width: fit-content;
 
     li {
       list-style: none;
       padding: 1em .25em 1em 1em;
       margin-top: 1em;
+      min-width: fit-content;
 
       a {
         @include drop-shadow;
