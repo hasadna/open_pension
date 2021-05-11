@@ -87,8 +87,14 @@
       margin-top: 2em;
       border-radius: 15px;
 
-      & > div {
-        height: 50vh !important;
+      &.lines {
+        & > div {
+          height: 50vh !important;
+        }
+      }
+
+      &.bars {
+        margin-top: 15em;
       }
     }
 

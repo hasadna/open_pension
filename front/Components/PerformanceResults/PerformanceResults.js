@@ -47,7 +47,7 @@ export default function PerformanceResults({tracksInfo}) {
         })}
       </ul>
 
-      <div className="graph">
+      <div className="graph lines">
 
         <ul className="legends">
           <li>כלל חיסכון לכל ילד</li>
@@ -102,7 +102,7 @@ export default function PerformanceResults({tracksInfo}) {
 
     <h5 className="separator">משה מה לכתוב כאן?</h5>
 
-    <div className="graph">
+    <div className="graph bars">
       <BarsGraph
         data={{
           'עמיתים': null,

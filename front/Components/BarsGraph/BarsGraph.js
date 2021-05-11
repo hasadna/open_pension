@@ -10,28 +10,23 @@ export default function BarsGraph({data}) {
   const [[_, highestValue]] = sortedBodies;
 
   const calculateHeight = (investmentValueForBody) => (Math.abs(investmentValueForBody) / highestValue) * 100;
-
   const Bar = ({value}) => <div className={"bar"} style={{height: `${calculateHeight(value)}%`}}>&nbsp;</div>;
-  const Columns = ({direction}) => {
-    return <tr>
-      {sortedBodies.map(([_, value], key) => {
-
-        if (value && value > 0) {
-          return <td className={direction}>
-            <Bar value={value} />
-          </td>;
-        }
-
-        return <td>&nbsp;</td>
-
-      })}
-    </tr>
-  };
 
   return <div className="bars-graph">
       <table>
       <thead>
-        <Columns />
+        <tr>
+          {sortedBodies.map(([_, value], key) => {
+            if (value && value > 0) {
+              return <td className='up' key={key}>
+
+                {value === highestValue && <img src={`/svgs/winner.svg`} />}
+                <Bar value={value} />
+              </td>;
+            }
+            return <td>&nbsp;</td>
+          })}
+        </tr>
       </thead>
       <tbody>
         <tr className="legend">
