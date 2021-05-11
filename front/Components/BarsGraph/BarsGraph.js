@@ -1,27 +1,33 @@
 export default function BarsGraph({data}) {
 
-  const sortedBodies = Object.entries(data).sort(([_, valueFirst], [__,valueSecond]) =>  {
+  // Ordering the bodies from the lowest to the highest.
+  const sortedBodies = Object.entries(data).sort(([, valueFirst], [, valueSecond]) => {
     if (!valueFirst || !valueSecond) {
+      // It seems the body did not invested any money. Set it in the end of the list.
       return -1;
     }
-    return valueFirst > valueSecond ? -1: 1
+
+    return valueFirst > valueSecond ? -1 : 1
   });
 
-  const [[_, highestValue]] = sortedBodies;
+  const [[, highestValue]] = sortedBodies;
 
   const calculateHeight = (investmentValueForBody) => (Math.abs(investmentValueForBody) / highestValue) * 100;
-  const Bar = ({value}) => <div className={"bar"} style={{height: `${calculateHeight(value)}%`}}>&nbsp;</div>;
+  const Bar = ({value}) => <div
+    className="bar"
+    style={{height: `${calculateHeight(value)}%`}}
+  >&nbsp;</div>;
 
   return <div className="bars-graph">
-      <table>
+    <table>
       <thead>
         <tr>
-          {sortedBodies.map(([_, value], key) => {
+          {sortedBodies.map(([, value], key) => {
             if (value && value > 0) {
               return <td className='up' key={key}>
 
-                {value === highestValue && <img src={`/svgs/winner.svg`} />}
-                <Bar value={value} />
+                {value === highestValue && <img src={`/svgs/winner.svg`}/>}
+                <Bar value={value}/>
               </td>;
             }
             return <td>&nbsp;</td>
@@ -36,16 +42,12 @@ export default function BarsGraph({data}) {
 
             if (value === null) {
               textClass = 'gray';
-            }
-            else if (value < 0) {
-              textClass = 'red';
-            }
-            else {
-              textClass = 'purple';
+            } else {
+              textClass = value < 0 ? 'red' : 'purple';
             }
 
             return <td key={key}>
-              {value < 0 && <Bar value={value} />}
+              {value < 0 && <Bar value={value}/>}
               <span className={`money ${textClass}`}>{valueToPresent}</span>
               <span>{name}</span>
             </td>
