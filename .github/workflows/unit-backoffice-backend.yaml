@@ -31,6 +31,6 @@ jobs:
       - name: Install dependencies
         run: cd backoffice_backend && npm i
       - name: run jest
-        run: cd backoffice_backend && npm run jest -- --detectOpenHandles
+        run: cd backoffice_backend && npm run jest --testTimeout=10000
       - name: run test
         run: cd backoffice_backend && npm run test
