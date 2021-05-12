@@ -15,12 +15,14 @@ export const sendQuery = async (graphqlQuery, testingServer) => {
 export const filesQuery = gql`
   query {
     files {
-      filename,
-      id,
-      status,
-      storageId,
-      createdAt,
-      updatedAt,
+      files {
+        filename,
+        id,
+        status,
+        storageId,
+        createdAt,
+        updatedAt,
+      }
     }
   }
 `;

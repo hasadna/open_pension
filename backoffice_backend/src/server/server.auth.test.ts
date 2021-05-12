@@ -1,4 +1,4 @@
-import { createToken, createUser, getUser } from '../db/user';
+import { createToken, createUser } from '../db/user';
 
 import * as server from './server'
 const { getUserFromRequest } = server;
@@ -7,7 +7,6 @@ import {
   filesQuery,
   meQuery,
   refreshTokenQuery,
-  revokeTokenQuery,
   sendQuery,
   tokenQuery
 } from './testingUtils';
@@ -34,21 +33,21 @@ describe('Auth', () => {
     return user;
   }
 
-  it('Should create an access token when passing correct credentials', async () => {
-    const user = await createValidUser();
-    const {data} = await sendQuery(tokenQuery(validUser), testingServer);
-
-    const {token, refreshToken} = data.tokenCreate;
-
-    const userFromDb = await getUser({id: String(user._id)});
-    const {token: tokenFromUser} = userFromDb;
-
-    expect(userFromDb).not.toBeNull();
-    expect(userFromDb).not.toBeUndefined();
-
-    expect(tokenFromUser.token).toBe(token);
-    expect(tokenFromUser.refreshToken).toBe(refreshToken);
-  });
+  // it('Should create an access token when passing correct credentials', async () => {
+  //   const user = await createValidUser();
+  //   const {data} = await sendQuery(tokenQuery(validUser), testingServer);
+  //
+  //   const {token, refreshToken} = data.tokenCreate;
+  //
+  //   const userFromDb = await getUser({id: String(user._id)});
+  //   const {token: tokenFromUser} = userFromDb;
+  //
+  //   expect(userFromDb).not.toBeNull();
+  //   expect(userFromDb).not.toBeUndefined();
+  //
+  //   expect(tokenFromUser.token).toBe(token);
+  //   expect(tokenFromUser.refreshToken).toBe(refreshToken);
+  // });
 
   it('Should not create an access token when passing wrong credentials', async () => {
     [
@@ -71,25 +70,25 @@ describe('Auth', () => {
     });
   });
 
-  it('Should refresh user token', async () => {
-    const user = await createValidUser();
-    const token = await createToken(user);
-
-    const {data: refreshTokenResults} = await sendQuery(refreshTokenQuery(token), testingServer);
-    const {token: newToken, refreshToken: newRefreshToken} = refreshTokenResults.refreshToken;
-
-    // Reload the user.
-    const reloadedUser = await getUser({id: String(user._id)});
-
-    expect(reloadedUser.token).not.toBeNull();
-    expect(reloadedUser.token).not.toBeUndefined();
-
-    expect(token.token).not.toBe(reloadedUser.token.token);
-    expect(token.refreshToken).not.toBe(reloadedUser.token.refreshToken);
-
-    expect(newToken).toBe(reloadedUser.token.token);
-    expect(newRefreshToken).toBe(reloadedUser.token.refreshToken);
-  });
+  // it('Should refresh user token', async () => {
+  //   const user = await createValidUser();
+  //   const token = await createToken(user);
+  //
+  //   const {data: refreshTokenResults} = await sendQuery(refreshTokenQuery(token), testingServer);
+  //   const {token: newToken, refreshToken: newRefreshToken} = refreshTokenResults.refreshToken;
+  //
+  //   // Reload the user.
+  //   const reloadedUser = await getUser({id: String(user._id)});
+  //
+  //   expect(reloadedUser.token).not.toBeNull();
+  //   expect(reloadedUser.token).not.toBeUndefined();
+  //
+  //   expect(token.token).not.toBe(reloadedUser.token.token);
+  //   expect(token.refreshToken).not.toBe(reloadedUser.token.refreshToken);
+  //
+  //   expect(newToken).toBe(reloadedUser.token.token);
+  //   expect(newRefreshToken).toBe(reloadedUser.token.refreshToken);
+  // });
 
   it('Should fail gracefully when passing wrong access token and refresh token', async () => {
     const {data: refreshTokenResults, errors} = await sendQuery(refreshTokenQuery({token: "foo", refreshToken: "bar"}), testingServer);
@@ -99,20 +98,20 @@ describe('Auth', () => {
     expect(refreshTokenResults.refreshToken).toBeNull();
   });
 
-  it('Should delete the token from the user object when revoking the token', async () => {
-    const user = await createValidUser();
-    await createToken(user);
-    const id = String(user._id);
-
-    const {data: revokeTokenResults} = await sendQuery(revokeTokenQuery({id}), testingServer);
-    expect(revokeTokenResults.revokeToken).toBeTruthy();
-
-    const reloadedUser = await getUser({id});
-
-    expect(reloadedUser.token.token).toBeUndefined();
-    expect(reloadedUser.token.refreshToken).toBeUndefined();
-    expect(reloadedUser.token.expires).toBeUndefined();
-  });
+  // it('Should delete the token from the user object when revoking the token', async () => {
+  //   const user = await createValidUser();
+  //   await createToken(user);
+  //   const id = String(user._id);
+  //
+  //   const {data: revokeTokenResults} = await sendQuery(revokeTokenQuery({id}), testingServer);
+  //   expect(revokeTokenResults.revokeToken).toBeTruthy();
+  //
+  //   const reloadedUser = await getUser({id});
+  //
+  //   expect(reloadedUser.token.token).toBeUndefined();
+  //   expect(reloadedUser.token.refreshToken).toBeUndefined();
+  //   expect(reloadedUser.token.expires).toBeUndefined();
+  // });
 
   it('getUserFromRequest: Should return the correct user when passing the token in the headers', async () => {
     const user = await createValidUser();

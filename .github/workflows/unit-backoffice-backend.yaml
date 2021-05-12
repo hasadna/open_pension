@@ -31,6 +31,6 @@ jobs:
       - name: Install dependencies
         run: cd backoffice_backend && npm i
       - name: run jest
-        run: cd backoffice_backend && npm run jest
+        run: cd backoffice_backend && npm run jest -- --detectOpenHandles
       - name: run test
         run: cd backoffice_backend && npm run test
