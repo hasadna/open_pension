@@ -5,6 +5,7 @@ import {uploadMiddleware} from "./server/server";
 import {unlinkSync} from "fs";
 import {uploadFile} from "./utils/file";
 import {createFile, Status} from "./db/file";
+import {getKafkaOn} from "./utils/config";
 import {KafkaClient} from "./kafka/kafka-client";
 
 (async () => {
@@ -14,25 +15,32 @@ import {KafkaClient} from "./kafka/kafka-client";
   app.use(cors());
 
   app.post('/file', uploadMiddleware, async (req, res) => {
-    const [filePath] = req.body.uploadedFile;
-    try {
-      const {data: {ID: storageId, filename}} = await uploadFile(filePath);
-      await createFile({status: Status.sent, filename, storageId});
-    } catch (e) {
-      console.error(e);
-      unlinkSync(filePath);
-      res.status(400).json({error: 'The storage service failed to response. Try again later'});
-    }
+    let uploadResults = true;
 
-    unlinkSync(filePath);
-    res.status(201).json({body: 'Uploaded successfully'});
+    req.body.uploadedFiles.map(async (filePath) => {
+      try {
+        const {data: {ID: storageId, filename}} = await uploadFile(filePath);
+        await createFile({status: Status.sent, filename, storageId});
+        unlinkSync(filePath);
+      } catch (e) {
+        console.error(e);
+        unlinkSync(filePath);
+        uploadResults = false;
+      }
+    });
+
+    const message = uploadResults ?
+      {body: 'Uploaded successfully'} :
+      {error: 'The storage service failed to response. Try again later'};
+    res.status(201).json(message);
   });
 
-
-  try {
-    KafkaClient.listen();
-  } catch (e) {
-    console.error(e);
+  if (getKafkaOn()) {
+    try {
+      KafkaClient.listen();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   server.applyMiddleware({ app });

@@ -41,3 +41,8 @@ export function getKafkaHost() {
 export function getListenedTopics() {
   return safeGet('listenedTopic', '').split(',');
 }
+
+export function getKafkaOn() {
+  const kafkaOn = safeGet('kafkaOn');
+  return kafkaOn === 'true';
+}

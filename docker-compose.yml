@@ -42,6 +42,7 @@ services:
       tokenTimeToLive: 86400
       kafkaHost: kafka:9092
       listenedTopic: FileStored,fileStoredByService,processingStarted,processedWithErrors,processed
+      kafkaOn: true
     ports:
       - '2001:4000'
 
