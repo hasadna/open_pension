@@ -8,7 +8,7 @@ import {uploadFile} from "api/file";
 
 export default () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [file, setFile] = useState();
+  const [files, setFiles] = useState();
   const [errors, setErrors] = useState({});
   const [redirect, setRedirect] = useState(false);
 
@@ -19,7 +19,7 @@ export default () => {
   const handleSubmit = async () => {
     setErrors({});
 
-    if (!file) {
+    if (!files) {
       setErrors({errors, ...{file: 'You need to select a file'}})
       return;
     }
@@ -27,7 +27,7 @@ export default () => {
     setIsLoading(true);
 
     try {
-      await uploadFile(file);
+      await uploadFile(files);
       setRedirect(true);
     } catch (e) {
       const {response: {data: {error}}} = e;
@@ -52,7 +52,7 @@ export default () => {
       title={"Adding file"}
       actions={<Button type="ok" waiting={isLoading} onClick={() => handleSubmit()}>Submit</Button>}>
       <Section title="File">
-        <Input type="file" onChange={(event) => {setFile(event.target.files[0])}} error={errors.file}/>
+        <Input type="file" onChange={(event) => {setFiles(event.target.files)}} error={errors.file} multiple/>
       </Section>
     </Form>
   </Page>

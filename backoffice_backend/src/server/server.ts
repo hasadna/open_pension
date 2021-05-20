@@ -64,13 +64,13 @@ const storage = uploadMiddlewareHandler.diskStorage({
       filename = `${filenameNoExt}_${uniqueSuffix}.${filename.split('.')[1]}`
     }
 
-    if (!req.body.uploadedFile) {
-      req.body.uploadedFile = [];
+    if (!req.body.uploadedFiles) {
+      req.body.uploadedFiles = [];
     }
 
-    req.body.uploadedFile.push(join(getTempStorageFiles(), filename))
+    req.body.uploadedFiles.push(join(getTempStorageFiles(), filename))
     callback(null, filename)
   }
 })
 
-export const uploadMiddleware = uploadMiddlewareHandler({ storage: storage }).array('file')
+export const uploadMiddleware = uploadMiddlewareHandler({ storage: storage }).array('files')
