@@ -10,3 +10,11 @@ export function sendEvent(channel, event, data) {
 
   pusher.trigger(channel, event, data)
 }
+
+export function prepareDocumentToPusherEvent(document, model) {
+  const {_doc: clonedDocument} = Object.assign(document);
+  delete clonedDocument['password'];
+  delete clonedDocument['token'];
+  clonedDocument['model'] = model;
+  return clonedDocument;
+}

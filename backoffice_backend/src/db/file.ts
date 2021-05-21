@@ -4,6 +4,7 @@ import {
   TransactionResults, updateObject
 } from './Utils';
 import mongoose from './db';
+import {prepareDocumentToPusherEvent, sendEvent} from "../utils/pusher";
 
 export type FileInterface = BaseEntity & {
   readonly filename: string,
@@ -67,7 +68,9 @@ export async function createFile(file: FileInterface): Promise<TransactionResult
  * @param status - The new status of the file.
  */
 export async function updateFileStatus(storageId: number, status: Status) {
-  await File.findOneAndUpdate({storageId}, {status});
+  // @ts-ignore
+  const document = await File.findOneAndUpdate({storageId}, {status}, {new: true});
+  await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, 'files'));
 }
 
 export async function updateFile(id, newValues) {
