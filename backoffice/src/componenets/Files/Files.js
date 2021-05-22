@@ -5,6 +5,7 @@ import RoundedElement from "componenets/RoundedElement/RoundedElement";
 import {useEffect, useState} from 'react';
 import {isEmpty} from 'lodash';
 import {getFiles} from "api/file";
+import {getPusher} from "../../api/pusher";
 
 
 const filesHandler = (files) => {
@@ -35,6 +36,7 @@ export default ({isFrontpage, showPager, itemsPerPage = 25, queryParams}) => {
   const [files, setFiles] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
+  const [lastReloaded, setLastReloaded] = useState(new Date());
 
   useEffect(async () => {
     const {
@@ -46,9 +48,23 @@ export default ({isFrontpage, showPager, itemsPerPage = 25, queryParams}) => {
 
     setTotalCount(totalCount);
     setFiles(filesFromResponse);
-  }, [page, queryParams]);
+  }, [page, queryParams, lastReloaded]);
+
+  useEffect(() => {
+    const channel = getPusher();
+    channel.bind_global((event, {model}) => {
+
+      if (model !== 'files') {
+        return;
+      }
+
+      // Trigger reloading the page.
+      setLastReloaded(new Date());
+    });
+  }, [files]);
 
   let navigationButton;
+
   if (isFrontpage) {
     navigationButton = isEmpty(files) ?
       {path: '/file/add', text: 'Add file'} :

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {isEmpty} from 'lodash';
 
 export const API_URL = process.env.REACT_APP_API;
+export const PUSHER_APP_ID = process.env.REACT_APP_PUSHER_API;
 
 let axiosInstance = null;
 
