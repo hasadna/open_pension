@@ -3,6 +3,13 @@ import { getPusherCredentials } from './config';
 
 let pusher;
 
+/**
+ * Sending an event to pusher.
+ *
+ * @param channel The channel name.
+ * @param event The event name.
+ * @param data The data to send, AKA payload.
+ */
 export function sendEvent(channel, event, data) {
   if (!pusher) {
     pusher = new Pusher(getPusherCredentials())
@@ -11,6 +18,12 @@ export function sendEvent(channel, event, data) {
   pusher.trigger(channel, event, data)
 }
 
+/**
+ * Remove any sensitive data before sending it to pusher.
+ *
+ * @param document The data to send, AKA payload.
+ * @param model The model name.
+ */
 export function prepareDocumentToPusherEvent(document, model) {
   const {_doc: clonedDocument} = Object.assign(document);
   delete clonedDocument['password'];

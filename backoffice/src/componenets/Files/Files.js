@@ -5,7 +5,7 @@ import RoundedElement from "componenets/RoundedElement/RoundedElement";
 import {useEffect, useState} from 'react';
 import {isEmpty} from 'lodash';
 import {getFiles} from "api/file";
-import {getPusher} from "../../api/pusher";
+import {getPusher} from "api/pusher";
 
 
 const filesHandler = (files) => {

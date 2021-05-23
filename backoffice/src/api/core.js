@@ -3,6 +3,8 @@ import {isEmpty} from 'lodash';
 
 export const API_URL = process.env.REACT_APP_API;
 export const PUSHER_APP_ID = process.env.REACT_APP_PUSHER_API;
+export const PUSHER_APP_CLUSTER = process.env.REACT_APP_PUSHER_CLUSTER;
+export const PUSHER_APP_DEBUG = process.env.REACT_APP_PUSHER_DEBUG;
 
 let axiosInstance = null;
 

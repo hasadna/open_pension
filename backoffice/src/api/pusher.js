@@ -1,14 +1,14 @@
 import Pusher from 'pusher-js';
-import {PUSHER_APP_ID} from "./core";
+import {PUSHER_APP_CLUSTER, PUSHER_APP_DEBUG, PUSHER_APP_ID} from "./core";
 
 let pusher = null;
 
 export function getPusher(channelName = 'main') {
-  Pusher.logToConsole = true;
+  Pusher.logToConsole = PUSHER_APP_DEBUG === 'true';
 
   if (!pusher) {
     pusher = new Pusher(PUSHER_APP_ID, {
-      cluster: 'ap2',
+      cluster: PUSHER_APP_CLUSTER,
     });
   }
 
