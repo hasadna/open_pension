@@ -5,7 +5,7 @@ import RoundedElement from "componenets/RoundedElement/RoundedElement";
 import {useEffect, useState} from 'react';
 import {isEmpty} from 'lodash';
 import {getFiles} from "api/file";
-import {getPusher} from "api/pusher";
+import {getPusherChannel} from "api/pusher";
 
 
 const filesHandler = (files) => {
@@ -51,7 +51,7 @@ export default ({isFrontpage, showPager, itemsPerPage = 25, queryParams}) => {
   }, [page, queryParams, lastReloaded]);
 
   useEffect(() => {
-    const channel = getPusher();
+    const channel = getPusherChannel();
     channel.bind_global((event, {model}) => {
 
       if (model !== 'files') {
