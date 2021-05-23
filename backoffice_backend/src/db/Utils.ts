@@ -1,5 +1,6 @@
 import {isEmpty} from 'lodash';
 import { Model, ObjectId } from 'mongoose';
+import {prepareDocumentToPusherEvent, sendEvent} from "../utils/pusher";
 
 export type BaseEntity = {
   readonly _id?: ObjectId
@@ -71,6 +72,7 @@ export function convertErrorToObject(errors) {
 export async function createObject(entityModel: Model<any>, objectToInsert: BaseEntity): Promise<TransactionResults> {
   try {
     const createdObject = await entityModel.create(objectToInsert);
+    await sendEvent('main', 'objectInsert', prepareDocumentToPusherEvent(createdObject, entityModel.modelName));
     return {errors: null, object: createdObject};
   } catch (e) {
     const {name, errors, message} = e;
@@ -142,5 +144,7 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
  * @param newValues - The new values to apply.
  */
 export async function updateObject(entityModel: Model<any>, id, newValues) {
-  return entityModel.findOneAndUpdate({_id: id}, newValues, {new: true})
+  const document = await entityModel.findOneAndUpdate({_id: id}, newValues, {new: true});
+  await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, entityModel.modelName));
+  return document;
 }
