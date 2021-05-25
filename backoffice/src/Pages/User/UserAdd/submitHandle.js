@@ -32,9 +32,17 @@ export const validation = ({dispatchError, formValues, passwordRequired = true})
     isFormValid = false;
   }
 
-  const checkPassword = passwordRequired ? !isEmpty(password) && !isEmpty(rePassword) : true;
+  let checkPassword;
 
-  if (checkPassword && password !== rePassword) {
+  // const checkPassword = passwordRequired ? !isEmpty(password) && !isEmpty(rePassword) : true;
+
+  if (passwordRequired) {
+    checkPassword = true;
+  } else {
+    checkPassword = !isEmpty(password) || !isEmpty(rePassword);
+  }
+
+  if (checkPassword === true && password !== rePassword) {
     dispatchError({ type: ADD_ERROR, error: {'password': 'Passwords are not matching'}});
     dispatchError({ type: ADD_ERROR, error: {'rePassword': 'Passwords are not matching'}});
     isFormValid = false;

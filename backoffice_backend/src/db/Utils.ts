@@ -98,7 +98,7 @@ export async function createObject(entityModel: Model<any>, objectToInsert: Base
  */
 export async function getObject(entityModel: Model<any>, {id, conditions}: GetEntityArguments, pagination: Pagination = {}, filter: Filter[] = []) {
   if (id) {
-    return entityModel.findById({_id: id});
+    return {collections: entityModel.findById({_id: id})};
   }
 
   let collections, totalCount;
