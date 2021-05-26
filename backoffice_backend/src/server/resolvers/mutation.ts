@@ -4,18 +4,14 @@ import {isEmpty} from 'lodash';
 import { updateFile} from '../../db/file';
 import {
   createToken,
-  createUser, deleteUser,
+  createUser,
+  deleteUser,
   getUser,
   refreshToken,
   revokeToken,
   updateUser
 } from '../../db/user';
 import {assertLoggedIn} from '../server';
-// import fs from "fs";
-// import {createWriteStream} from "fs";
-// import {resolve} from "path";
-// import {uploadFile} from "../../utils/file";
-// import {getTempStorageFiles} from "../../utils/config";
 
 export default {
   fileUpdate: async (_, args, context) => {

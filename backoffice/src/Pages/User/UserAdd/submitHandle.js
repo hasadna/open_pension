@@ -34,11 +34,11 @@ export const validation = ({dispatchError, formValues, passwordRequired = true})
 
   let checkPassword;
 
-  // const checkPassword = passwordRequired ? !isEmpty(password) && !isEmpty(rePassword) : true;
-
   if (passwordRequired) {
     checkPassword = true;
   } else {
+    // The password are not required, we could be editing a user, but one of the passwords has been changed - both of
+    // the passwords need to be checked.
     checkPassword = !isEmpty(password) || !isEmpty(rePassword);
   }
 

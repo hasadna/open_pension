@@ -3,10 +3,10 @@ import {isEmpty} from 'lodash';
 import { createTokenObject, TokenSchema, UserTokenInterface } from './token';
 const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
-
 import {
   BaseEntity,
-  createObject, deleteObject,
+  createObject,
+  deleteObject,
   GetEntityArguments,
   getObject,
   TransactionResults,
