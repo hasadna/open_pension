@@ -1,20 +1,52 @@
 import "./Page.scss"
-import {Charts, Copy, Home, Users, Search} from "Icons/Icons";
+import {Charts, Copy, Home, Users, Search, Book, BookOpen} from "Icons/Icons";
 import {Link} from "react-router-dom";
 import Username from "componenets/Username/Username";
+import {useState} from 'react';
+import {isEmpty} from 'lodash';
+
+const MenuItem = ({title, icon, path, id, children}) => {
+ const [isOpen, setIsOpen] = useState(true);
+ const onClickHandler = (e) => {
+   if (isEmpty(children)) {
+     return;
+   }
+
+   e.preventDefault();
+   setIsOpen(!isOpen);
+ }
+
+  return <>
+      <Link to={path} onClick={onClickHandler}>
+        <span className={`icon icon-${id}`}>{icon}</span>
+        {title}
+      </Link>
+      {isOpen && children}
+    </>
+}
 
 export default ({title, children, topContent, activePage = "home", notch="big"}) => {
 
   const menuItems = {
-    home: {title: 'Home',  icon: <Home />, path: "/"},
-    users: {title: 'Users', icon: <Users />, path: "/users"},
-    files: {title: 'Files', icon: <Copy />, path: "/files"},
-    search: {title: 'Search files', icon: <Search />, path: "/query-files"},
-    servicesAndAnalytics: {title: 'Services & Analytics', icon: <Charts />, path: "/services-and-analytics"}
+    home: <MenuItem title={'Home'} icon={<Home />} path={"/"} id={'home'} />,
+    users: <MenuItem title={'Users'} icon={<Users />} path={"users"} id={'users'} />,
+    files: <MenuItem title={'Files'} icon={<Copy />} path={"/files"} id={'files'} />,
+    frontSite: <MenuItem title={'Front site'} icon={<Book />} path={"/files"} id={'frontSite'}>
+      <ul className="submenu">
+        <li><MenuItem title="Pages" icon={<BookOpen />} id="pages" path={"/front/pages"} /></li>
+        <li><MenuItem title="Pages descriptions" icon={<BookOpen />} id="pages" path={"/front/pages"} /></li>
+        <li><MenuItem title="Helpers" icon={<BookOpen />} id="pages" path={"/front/pages"} /></li>
+        <li><MenuItem title="Bodies" icon={<BookOpen />} id="pages" path={"/front/pages"} /></li>
+        <li><MenuItem title="Routes" icon={<BookOpen />} id="pages" path={"/front/pages"} /></li>
+        <li><MenuItem title="Articles" icon={<BookOpen />} id="pages" path={"/front/pages"} /></li>
+        <li><MenuItem title="Staff" icon={<Users />} id="pages" path={"/front/pages"} /></li>
+      </ul>
+    </MenuItem>,
+    search: <MenuItem title={'Search files'} icon={<Search />} path={"/query-files"} id={'search'} />,
+    servicesAndAnalytics: <MenuItem title={'Services & Analytics'} icon={<Charts />} path={"/services-and-analytics"} id={'servicesAndAnalytics'} />,
   };
 
   return <main>
-
     <aside>
       <section className="title">
         <h2>Open Pension</h2>
@@ -23,17 +55,12 @@ export default ({title, children, topContent, activePage = "home", notch="big"})
       <nav>
         <ul className="side-menu">
           {Object.entries(menuItems).map(([id, menuItem], key) => {
-            const {title, icon, path} = menuItem;
             return <li className={`${id === activePage ? 'active' : ''} link-wrapper`}>
-              <Link to={path}>
-                <span className={`icon icon-${id}`}>{icon}</span>
-                <div >{title}</div>
-              </Link>
+              {menuItem}
             </li>
           })}
         </ul>
       </nav>
-
     </aside>
 
     <section className="main-content">

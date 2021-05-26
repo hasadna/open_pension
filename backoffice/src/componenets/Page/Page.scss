@@ -37,6 +37,7 @@ main {
           padding: .75em;
           color: #00000099;
           display: flex;
+          flex-direction: column;
 
           a {
             color: inherit;
@@ -46,6 +47,23 @@ main {
 
             .icon-wrapper {
               width: 3em;
+            }
+          }
+
+          ul.submenu {
+            padding: 0;
+            margin: 0;
+            padding-left: 1em;
+            margin-top: .75em;
+
+            li {
+              margin: 0;
+              padding: 0;
+              padding-top: .5em;
+
+              .icon {
+                width: 1.75em;
+              }
             }
           }
 
@@ -72,6 +90,10 @@ main {
 
           .icon-search {
             color: #ce11ef;
+          }
+
+          .icon-frontSite {
+            color: #328b1f;
           }
 
           .icon-servicesAndAnalytics {
