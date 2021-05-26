@@ -98,7 +98,7 @@ export async function createObject(entityModel: Model<any>, objectToInsert: Base
  */
 export async function getObject(entityModel: Model<any>, {id, conditions}: GetEntityArguments, pagination: Pagination = {}, filter: Filter[] = []) {
   if (id) {
-    return entityModel.findById({_id: id});
+    return {collections: entityModel.findById({_id: id})};
   }
 
   let collections, totalCount;
@@ -147,4 +147,15 @@ export async function updateObject(entityModel: Model<any>, id, newValues) {
   const document = await entityModel.findOneAndUpdate({_id: id}, newValues, {new: true});
   await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, entityModel.modelName));
   return document;
+}
+
+/**
+ * Delete an object from the DB.
+ *
+ * @param entityModel - The model object.
+ * @param id - The ID of the model.
+ */
+export async function deleteObject(entityModel: Model<any>, id) {
+  await entityModel.deleteOne({_id: id});
+  await sendEvent('main', 'objectDelete', {id});
 }

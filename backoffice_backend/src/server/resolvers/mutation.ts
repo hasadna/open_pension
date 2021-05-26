@@ -5,17 +5,13 @@ import { updateFile} from '../../db/file';
 import {
   createToken,
   createUser,
+  deleteUser,
   getUser,
   refreshToken,
   revokeToken,
   updateUser
 } from '../../db/user';
 import {assertLoggedIn} from '../server';
-// import fs from "fs";
-// import {createWriteStream} from "fs";
-// import {resolve} from "path";
-// import {uploadFile} from "../../utils/file";
-// import {getTempStorageFiles} from "../../utils/config";
 
 export default {
   fileUpdate: async (_, args, context) => {
@@ -38,6 +34,17 @@ export default {
     assertLoggedIn(context);
     const id = args.id;
     return await updateUser({id, newValues: args});
+  },
+  userDelete: async (_, args, context) => {
+    assertLoggedIn(context);
+    const id = args.id;
+    try {
+      await deleteUser(id);
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   },
   //  Auth.
   tokenCreate: async (_, args) => {

@@ -63,6 +63,7 @@ export const typeDefs = gql`
     # User.
     userCreate(username: String, password: String, email: String, nameToPresent: String, profilePictureStorageId: Int): User,
     userUpdate(id: ID!, username: String, password: String, email: String, nameToPresent: String, profilePictureStorageId: Int): User,
+    userDelete(id: ID!): Boolean,
 
     # Auth.
     tokenCreate(username: String, email: String, password: String): Token

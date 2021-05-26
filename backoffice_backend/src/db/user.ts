@@ -3,10 +3,10 @@ import {isEmpty} from 'lodash';
 import { createTokenObject, TokenSchema, UserTokenInterface } from './token';
 const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
-
 import {
   BaseEntity,
   createObject,
+  deleteObject,
   GetEntityArguments,
   getObject,
   TransactionResults,
@@ -109,6 +109,15 @@ export async function getUser({id, conditions}: GetEntityArguments) {
  */
 export async function updateUser({id, newValues}) {
   return await updateObject(User, id, newValues);
+}
+
+/**
+ * Delete a user from the DB.
+ *
+ * @param id - The id of the user.
+ */
+export async function deleteUser(id) {
+  await deleteObject(User, id);
 }
 
 /**
