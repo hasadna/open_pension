@@ -148,3 +148,14 @@ export async function updateObject(entityModel: Model<any>, id, newValues) {
   await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, entityModel.modelName));
   return document;
 }
+
+/**
+ * Delete an object from the DB.
+ *
+ * @param entityModel - The model object.
+ * @param id - The ID of the model.
+ */
+export async function deleteObject(entityModel: Model<any>, id) {
+  await entityModel.deleteOne({_id: id});
+  await sendEvent('main', 'objectDelete', {id});
+}

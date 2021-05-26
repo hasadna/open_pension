@@ -4,7 +4,7 @@ import {isEmpty} from 'lodash';
 import { updateFile} from '../../db/file';
 import {
   createToken,
-  createUser,
+  createUser, deleteUser,
   getUser,
   refreshToken,
   revokeToken,
@@ -38,6 +38,17 @@ export default {
     assertLoggedIn(context);
     const id = args.id;
     return await updateUser({id, newValues: args});
+  },
+  userDelete: async (_, args, context) => {
+    assertLoggedIn(context);
+    const id = args.id;
+    try {
+      await deleteUser(id);
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   },
   //  Auth.
   tokenCreate: async (_, args) => {

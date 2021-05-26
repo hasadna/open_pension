@@ -67,6 +67,7 @@ export async function getUser(id) {
 export async function updateUser(id, {username, password, email, nameToPresent}) {
 
   let args = [`id: "${id}"`, `username: "${username}"`, `email: "${email}"`, `nameToPresent: "${nameToPresent}"`]
+
   if (!isEmpty(password)) {
     args.push(`password: "${password}"`);
   }
@@ -80,5 +81,9 @@ export async function updateUser(id, {username, password, email, nameToPresent})
 }
 
 export async function deleteUser(id) {
-  // todo: handle it later on.
+  return await sendQuery(`
+    mutation {
+      userDelete(id: "${id}")
+    }
+  `);
 }
