@@ -2,7 +2,7 @@ import { createFile, getFile, Status } from '../db/file';
 
 import {
   createTestingServer, filesQuery,
-  fileQuery, fileCreationQuery, fileUpdateQuery,
+  fileQuery, fileUpdateQuery,
   sendQuery
 } from './testingUtils';
 
@@ -29,14 +29,13 @@ describe('Testing server: File', () => {
   }
 
   it('Testing the files resolvers', async () => {
-    const {data: emptyFilesResponse} = await sendQuery(filesQuery, testingServer);
-    expect(emptyFilesResponse.files).toStrictEqual([]);
+    const {data: {files: files}} = await sendQuery(filesQuery, testingServer);
+    expect(files.files).toStrictEqual([]);
 
     // Adding a dummy file and send request.
     const {object: file} = await createFile({filename: 'foo.png', storageId: 42, status: Status.stored});
-    const {data: filesResponse} = await sendQuery(filesQuery, testingServer);
+    const {data: {files: filesResponse}} = await sendQuery(filesQuery, testingServer);
     const [fileFromResponse] = filesResponse.files;
-
     compareFileFromResponse(file, fileFromResponse);
   });
 
@@ -52,25 +51,6 @@ describe('Testing server: File', () => {
     const {data: FilesResponse} = await sendQuery(fileQuery(String(file._id)), testingServer);
 
     compareFileFromResponse(file, FilesResponse.file);
-  });
-
-  it('Testing mutation of a file: creating', async () => {
-    const {data: emptyFilesResponse} = await sendQuery(
-      fileCreationQuery(validFile),
-      testingServer
-    );
-
-    const {filename, id, status, storageId} = emptyFilesResponse.fileCreate;
-
-    expect(filename).toBe('foo.png');
-    expect(status).toBe('stored');
-    expect(storageId).toBe(42);
-
-    const {collections: loadingFileFromDB} = await getFile({id: id});
-
-    expect(loadingFileFromDB).not.toBeNull();
-    expect(loadingFileFromDB).not.toBeUndefined();
-    expect(loadingFileFromDB.filename).toBe(filename);
   });
 
   it('Testing mutation of a file: updating', async () => {
@@ -90,19 +70,10 @@ describe('Testing server: File', () => {
     expect(status).toBe(Status.processed);
     expect(storageId).toBe(55);
 
-    const {collections: loadingFileFromDB} = await getFile({id: id});
+    const {collections: {_doc: loadingFileFromDB}} = await getFile({id: id});
 
     expect(loadingFileFromDB).not.toBeNull();
     expect(loadingFileFromDB).not.toBeUndefined();
     expect(loadingFileFromDB.filename).toBe('cat.png');
-  });
-
-  it('Testing mutation of file with invalid values', async () => {
-    await createFile({filename: 'foo.png', storageId: 42, status: Status.stored});
-
-    const {data: response, errors} = await sendQuery(fileCreationQuery(validFile), testingServer);
-
-    expect(response.fileCreate).toBeNull();
-    expect(errors[0].message).toContain('storageId_1 dup key')
   });
 });

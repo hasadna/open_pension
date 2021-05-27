@@ -33,7 +33,7 @@ describe('File testing', () => {
 
     await updateFileStatus(42, Status.processedWithError);
 
-    const {collections: updatedFile} = await getFile({conditions: {'storageId': 42}});
+    const {collections: [{_doc: updatedFile}]} = await getFile({conditions: {'storageId': 42}});
 
     expect(updatedFile.status).toBe(Status.processedWithError);
   });

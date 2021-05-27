@@ -15,12 +15,14 @@ export const sendQuery = async (graphqlQuery, testingServer) => {
 export const filesQuery = gql`
   query {
     files {
-      filename,
-      id,
-      status,
-      storageId,
-      createdAt,
-      updatedAt,
+      files {
+        filename,
+        id,
+        status,
+        storageId,
+        createdAt,
+        updatedAt,
+      }
     }
   }
 `;
@@ -28,19 +30,6 @@ export const filesQuery = gql`
 export const fileQuery = (fileId: string) => gql`
   query {
     file(id: "${fileId}") {
-      filename,
-      id,
-      status,
-      storageId,
-      createdAt,
-      updatedAt,
-    }
-  }
-`;
-
-export const fileCreationQuery = ({filename, storageId, status}) => gql`
-  mutation {
-    fileCreate(filename: "${filename}", storageId: ${storageId}, status: "${status}") {
       filename,
       id,
       status,
