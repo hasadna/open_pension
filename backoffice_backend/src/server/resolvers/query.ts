@@ -10,7 +10,9 @@ export default {
   },
   file: async (_, args, context) => {
     assertLoggedIn(context);
-    return await getFile({id: args.id})
+    const {collections: {_doc: file}} = await getFile({id: args.id});
+
+    return file;
   },
 
   users: async (_, __, context) => {
