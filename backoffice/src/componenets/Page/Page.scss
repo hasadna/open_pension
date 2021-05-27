@@ -37,6 +37,7 @@ main {
           padding: .75em;
           color: #00000099;
           display: flex;
+          flex-direction: column;
 
           a {
             color: inherit;
@@ -46,6 +47,24 @@ main {
 
             .icon-wrapper {
               width: 3em;
+            }
+          }
+
+          ul.submenu {
+            padding: 0;
+            margin: 0;
+            padding-left: 1em;
+            margin-top: .75em;
+
+            li {
+              margin: 0;
+              padding: 0;
+              padding-top: .5em;
+
+              .icon {
+                width: 1.75em;
+                color: #0090ff;
+              }
             }
           }
 
@@ -74,6 +93,10 @@ main {
             color: #ce11ef;
           }
 
+          .icon-frontSite {
+            color: #328b1f;
+          }
+
           .icon-servicesAndAnalytics {
             color: #11cdef;
           }
@@ -93,7 +116,6 @@ main {
     background: #f8f9fe;
     border-radius: 0 1em 1em 0;
     box-shadow: 0 4px 6px #32325d1c, 0 1px 3px #00000014;
-
 
     .umbre-background {
       border-radius: 0 1em 0 0;
