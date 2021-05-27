@@ -98,11 +98,13 @@ describe('Testing user', () => {
   });
 
   it('Should encrypt the password', async () => {
-    const user = await createValidUser();
-    expect(user.password).not.toBeNull();
-    expect(user.password).not.toBe('password');
+    const {_doc: user} = await createValidUser();
 
-    const passwordMatch = await bcrypt.compare('password', user.password);
+    const {_doc: loadedUser} = await getUser({id: user._id})
+    expect(loadedUser.password).not.toBeNull();
+    expect(loadedUser.password).not.toBe('password');
+
+    const passwordMatch = await bcrypt.compare('password', loadedUser.password);
     expect(passwordMatch).toBeTruthy();
   });
 
