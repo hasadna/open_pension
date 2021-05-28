@@ -1,6 +1,8 @@
 import { getFile } from '../../db/file';
 import { getUser } from '../../db/user';
+import {getPage} from "../../db/page";
 import { assertLoggedIn } from '../server';
+
 export default {
   files: async (_, {filter, pagination = {}}, context) => {
     assertLoggedIn(context);
@@ -10,7 +12,7 @@ export default {
   },
   file: async (_, args, context) => {
     assertLoggedIn(context);
-    const {collections: {_doc: file}} = await getFile({id: args.id});
+    const {collections: file} = await getFile({id: args.id});
 
     return file;
   },
@@ -22,6 +24,19 @@ export default {
   user: async (_, args, context) => {
     assertLoggedIn(context);
     return await getUser({id: args.id})
+  },
+
+  pages: async (_, __, context) => {
+    assertLoggedIn(context);
+    const {collections: pages} = await getPage({conditions: {}});
+
+    return pages;
+  },
+
+  page: async (_, args, context) => {
+    assertLoggedIn(context);
+    const {collections: page} = await getPage({id: args.id});
+    return page;
   },
 
   // @ts-ignore

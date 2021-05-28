@@ -21,6 +21,11 @@ export const typeDefs = gql`
     nameToPresent: String,
   }
 
+  type Page {
+    id: String,
+    label: String,
+  }
+
   type AllItems {
     files: [File],
     users: [User],
@@ -49,10 +54,19 @@ export const typeDefs = gql`
   }
 
   type Query {
+    # File.
     files(filter: [MessageInput], pagination: Pagination): AllItems,
     file(id: ID!): File,
+
+    # User.
     users: [User],
     user(id: ID!): User,
+
+    # Page.
+    pages: [Page],
+    page(id: ID!): Page,
+
+    # Auth.
     me: User
   },
 

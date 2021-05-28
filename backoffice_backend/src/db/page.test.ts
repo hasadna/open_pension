@@ -48,24 +48,4 @@ describe('Page', () => {
     const {collections: collectionAfterDelete} = await getPage({id});
     expect(collectionAfterDelete).toBeNull();
   });
-
-  it('Server: Creating a page', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('Server: Updating and creating a page with a non unique label', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('Server: Updating a page', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('Server: Delete a page', async () => {
-    expect(1).toBe(1);
-  });
-
-  it('Server: Get a page specific page', async () => {
-    expect(1).toBe(1);
-  });
 });

@@ -21,8 +21,7 @@ describe('Testing server: File', () => {
   });
 
   const compareFileFromResponse = (fileFromDB, fileFromResponse) => {
-    // todo: fix later on.
-    // expect(String(fileFromDB._id)).toBe(fileFromResponse.id);
+    expect(String(fileFromDB._id)).toBe(fileFromResponse.id);
     expect(fileFromDB.filename).toBe(fileFromResponse.filename);
     expect(fileFromDB.storageId).toBe(fileFromResponse.storageId);
     expect(String(fileFromDB.createdAt.getTime())).toBe(fileFromResponse.createdAt);

@@ -139,3 +139,20 @@ export const meQuery = () => gql`
   }
 `;
 
+export const pagesQuery = gql`
+  query  {
+    pages {
+      id
+      label
+    }
+  }
+`;
+
+export const pageQuery = ({id}) => gql`
+  query  {
+    page(id: "${id}") {
+      id
+      label
+    }
+  }
+`;
