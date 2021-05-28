@@ -72,7 +72,7 @@ export function convertErrorToObject(errors) {
 export async function createObject(entityModel: Model<any>, objectToInsert: BaseEntity): Promise<TransactionResults> {
   try {
     const createdObject = await entityModel.create(objectToInsert);
-    // await sendEvent('main', 'objectInsert', prepareDocumentToPusherEvent(createdObject, entityModel.modelName));
+    await sendEvent('main', 'objectInsert', prepareDocumentToPusherEvent(createdObject, entityModel.modelName));
     return {errors: null, object: createdObject};
   } catch (e) {
     const {name, errors, message} = e;
