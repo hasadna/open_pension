@@ -156,3 +156,27 @@ export const pageQuery = ({id}) => gql`
     }
   }
 `;
+
+export const pageCreateQuery = ({label}) => gql`
+  mutation {
+    pageCreate(label: "${label}") {
+      id
+      label
+    }
+  }
+`;
+
+export const pageUpdateQuery = ({id, label}) => gql`
+  mutation  {
+    pageUpdate(id: "${id}", label: "${label}") {
+      id,
+      label
+    }
+  }
+`;
+
+export const pageDeleteQuery = ({id}) => gql`
+  mutation  {
+    pageDelete(id: "${id}")
+  }
+`

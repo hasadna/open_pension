@@ -79,6 +79,11 @@ export const typeDefs = gql`
     userUpdate(id: ID!, username: String, password: String, email: String, nameToPresent: String, profilePictureStorageId: Int): User,
     userDelete(id: ID!): Boolean,
 
+    # Page
+    pageCreate(label: String): Page,
+    pageUpdate(id: ID!, label: String): Page,
+    pageDelete(id: ID!): Boolean,
+
     # Auth.
     tokenCreate(username: String, email: String, password: String): Token
     refreshToken(token: String, refreshToken: String): Token,
