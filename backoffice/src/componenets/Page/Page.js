@@ -6,7 +6,7 @@ import {useState} from 'react';
 import {isEmpty} from 'lodash';
 
 const MenuItem = ({title, icon, path, id, children}) => {
- const [isOpen, setIsOpen] = useState(true);
+ const [isOpen, setIsOpen] = useState(false);
  const onClickHandler = (e) => {
    if (isEmpty(children)) {
      // The menu item has no sub menu so we can navigate the user.
