@@ -38,7 +38,7 @@ export async function getPage({id, conditions}: GetEntityArguments, pagination: 
 /**
  * Creating a page.
  *
- * @param page - The file object.
+ * @param page - The page object.
  */
 export async function createPage(page: PageInterface): Promise<TransactionResults> {
   return await createObject(Page, page);
