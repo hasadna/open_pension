@@ -11,7 +11,7 @@ export type PageInterface = BaseEntity& {
   readonly label: string;
 }
 
-const pageSchema = new mongoose.Schema({
+export const pageSchema = new mongoose.Schema({
   label: { type: String, required: true },
 });
 
