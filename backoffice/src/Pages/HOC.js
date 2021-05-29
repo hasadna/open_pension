@@ -16,7 +16,7 @@ export default () => {
 
   const {FilesList, FileAdd} = filePages;
   const {UsersList, UserAdd, UserDelete, UserEdit} = userPages;
-  const {PagesList, PageAdd} = frontPagesPages;
+  const {PagesList, PageAdd, PageEdit} = frontPagesPages;
 
   // todo: use gurards routes.
   return <Router>
@@ -36,6 +36,7 @@ export default () => {
 
         <Route exact path="/front/pages"><PagesList /></Route>
         <Route exact path="/front/page/add"><PageAdd /></Route>
+        <Route exact path="/front/page/:id/edit"><PageEdit /></Route>
 
       </> : <Route path="/"><Login /></Route>}
     </Switch>

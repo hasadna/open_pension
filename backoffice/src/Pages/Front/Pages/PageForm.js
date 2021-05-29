@@ -25,8 +25,13 @@ export const handleFormSubmit = async ({setIsLoading, formValues, dispatchError,
   setRedirect(true);
 };
 
-export default ({isEdit, isLoading, handleSubmit, errors, dispatchValue}) => {
+export default ({isEdit, isLoading, handleSubmit, errors, dispatchValue, page}) => {
   const {labelError} = errors;
+  const {label} = {
+    ...{label: ''},
+    ...page
+  };
+
   return <Page
     notch={"small"}
     activePage="frontSite"
@@ -42,7 +47,7 @@ export default ({isEdit, isLoading, handleSubmit, errors, dispatchValue}) => {
     }>
     <Form title={isEdit ? 'Edit page' : 'Add page'} actions={<Button type="ok" waiting={isLoading} onClick={() => handleSubmit()}>Submit</Button>}>
       <Section title="Page details">
-        <Input type="text" title={"Label"} error={labelError} onChange={(element) => dispatchValue({element, name: 'label'})}  />
+        <Input type="text" value={label} title={"Label"} error={labelError} onChange={(element) => dispatchValue({element, name: 'label'})}  />
       </Section>
     </Form>
   </Page>

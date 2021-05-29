@@ -20,7 +20,7 @@ export default () => {
       sendRequestHandler: async ({label}) => {
         return await createPage({label});
       }
-    })
+    });
   };
 
   if (redirect) {

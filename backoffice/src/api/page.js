@@ -13,8 +13,21 @@ export async function getPages() {
   return {data, error}
 }
 
-export async function createPage({label}) {
+export async function getPage(id) {
   const results = await sendQuery(`
+    query {
+      page(id: "${id}") {
+        id
+        label
+      }
+    }
+  `);
+  const {data: {page: data}, error} = results;
+  return {data, error}
+}
+
+export async function createPage({label}) {
+  return await sendQuery(`
     mutation {
       pageCreate(label: "${label}") {
         id
@@ -22,6 +35,15 @@ export async function createPage({label}) {
       }
     }
   `);
+}
 
-  return results;
+export async function updatePage({id, label}) {
+  return await sendQuery(`
+    mutation {
+      pageUpdate(id: "${id}", label: "${label}") {
+        id
+        label
+      }
+    }
+  `);
 }
