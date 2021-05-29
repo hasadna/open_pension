@@ -40,7 +40,7 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-    "jest": "jest --detectOpenHandles --runInBand"
+    "jest": "jest --detectOpenHandles --runInBand --all"
   },
   "engines": {
     "node": ">=10"

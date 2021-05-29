@@ -1,4 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+import {Page} from "../db/page";
+
 require('dotenv').config()
 
 process.env.dbURL = 'mongodb://127.0.0.1/test';
@@ -18,8 +20,5 @@ beforeEach(async () => {
 
   await User.deleteMany({});
   await File.deleteMany({});
+  await Page.deleteMany({});
 });
-
-// afterEach(() => {
-//   jest.clearAllMocks();
-// });

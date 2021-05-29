@@ -73,6 +73,12 @@ export async function updateFileStatus(storageId: number, status: Status) {
   await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, 'files'));
 }
 
+/**
+ * Updating a file.
+ *
+ * @param id - The ID of the file.
+ * @param newValues - The new values of the file.
+ */
 export async function updateFile(id, newValues) {
   return await updateObject(File, id, newValues);
 }

@@ -6,7 +6,7 @@ import {useState} from 'react';
 import {isEmpty} from 'lodash';
 
 const MenuItem = ({title, icon, path, id, children}) => {
- const [isOpen, setIsOpen] = useState(true);
+ const [isOpen, setIsOpen] = useState(false);
  const onClickHandler = (e) => {
    if (isEmpty(children)) {
      // The menu item has no sub menu so we can navigate the user.
@@ -30,7 +30,7 @@ export default ({title, children, topContent, activePage = "home", notch="big"})
 
   const menuItems = {
     home: <MenuItem title={'Home'} icon={<Home />} path={"/"} id={'home'} />,
-    users: <MenuItem title={'Users'} icon={<Users />} path={"users"} id={'users'} />,
+    users: <MenuItem title={'Users'} icon={<Users />} path={"/users"} id={'users'} />,
     files: <MenuItem title={'Files'} icon={<Copy />} path={"/files"} id={'files'} />,
     frontSite: <MenuItem title={'Front site'} icon={<Book />} path={"/files"} id={'frontSite'}>
       <ul className="submenu">
