@@ -6,8 +6,6 @@ import {
   Pagination, TransactionResults, updateObject
 } from "./Utils";
 import mongoose from "./db";
-const beautifyUnique = require('mongoose-beautiful-unique-validation');
-
 
 export type PageInterface = BaseEntity& {
   readonly label: string;
@@ -16,7 +14,6 @@ export type PageInterface = BaseEntity& {
 const pageSchema = new mongoose.Schema({
   label: { type: String, required: true },
 });
-pageSchema.plugin(beautifyUnique);
 
 export const Page = mongoose.model('pages', pageSchema);
 

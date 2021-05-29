@@ -14,6 +14,13 @@ describe('Server: page', () => {
     testingServer = createTestingServer()
   });
 
+  /**
+   * Comparing object from the DB and the representation of the that object from
+   * a GraphQL resolver.
+   *
+   * @param pageFromResponse - The object from the response.
+   * @param pageFromDb - The object from the DB.
+   */
   const comparePageFromResponseToDbObject = (pageFromResponse, pageFromDb) => {
     expect(String(pageFromDb._id)).toBe(pageFromResponse.id);
     expect(pageFromDb.label).toBe(pageFromResponse.label);

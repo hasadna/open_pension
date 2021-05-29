@@ -43,9 +43,7 @@ export default () => {
           <Crumb title={'Pages'} icon={<BookOpen/>}/>,
         ]}/>
       </>
-    }
-  >
-
+    }>
     <RoundedElement>
       <Table
         title="Pages"
