@@ -1,4 +1,4 @@
-import PageForm, {handleFormSubmit} from "../PageForm";
+import {handleFormSubmit, PageForm} from "../PageForm";
 import {useState, useReducer} from 'react';
 import {errorsReducer, valuesReducer} from "componenets/Form/formReducers";
 import {Redirect} from "react-router-dom";
@@ -28,7 +28,9 @@ export default () => {
   }
 
   return <PageForm
-    user={formValues}
+    page={formValues}
     isLoading={isLoading}
-    handleSubmit={handleSubmit} dispatchValue={dispatchValue} errors={errors}/>
+    handleSubmit={handleSubmit}
+    dispatchValue={dispatchValue}
+    errors={errors}/>
 }

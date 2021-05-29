@@ -47,3 +47,11 @@ export async function updatePage({id, label}) {
     }
   `);
 }
+
+export async function deletePage({id}) {
+  return await sendQuery(`
+    mutation {
+      pageDelete(id: "${id}")
+    }
+  `);
+}

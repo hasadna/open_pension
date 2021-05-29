@@ -1,7 +1,7 @@
 import {Button, Form, Input, Section} from "componenets/Form/Form";
 import Page from "componenets/Page/Page";
 import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
-import {Book, BookOpen, Home, Upload} from "Icons/Icons";
+import {Book, BookOpen, Edit, Home, Upload} from "Icons/Icons";
 import {isEmpty} from "lodash";
 import {ADD_ERROR} from "componenets/Form/formReducers";
 
@@ -25,7 +25,7 @@ export const handleFormSubmit = async ({setIsLoading, formValues, dispatchError,
   setRedirect(true);
 };
 
-export default ({isEdit, isLoading, handleSubmit, errors, dispatchValue, page}) => {
+export const PageForm = ({isEdit, isLoading, handleSubmit, errors, dispatchValue, page}) => {
   const {labelError} = errors;
   const {label} = {
     ...{label: ''},
@@ -41,7 +41,7 @@ export default ({isEdit, isLoading, handleSubmit, errors, dispatchValue, page}) 
           <Crumb title={'Home'} icon={<Home/>}/>,
           <Crumb title={'Front site'} icon={<Book/>}/>,
           <Crumb title={'Pages'} icon={<BookOpen/>}/>,
-          <Crumb title={'Add page'} icon={<Upload />}/>,
+          isEdit ? <Crumb title={'Edit page'} icon={<Edit />}/> : <Crumb title={'Add page'} icon={<Upload />}/>,
         ]}/>
       </>
     }>
