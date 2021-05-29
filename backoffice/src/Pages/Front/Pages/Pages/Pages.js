@@ -4,7 +4,7 @@ import {Book, BookOpen, Delete, Edit, Home} from "Icons/Icons";
 import RoundedElement from "componenets/RoundedElement/RoundedElement";
 import Table from "componenets/Table/Table";
 import {useEffect, useState} from "react";
-import {getPages} from "api/pages";
+import {getPages} from "api/page";
 import {isEmpty} from 'lodash';
 import TextWithActions from "componenets/TextWithActions/TextWithActions";
 import {Link} from "react-router-dom";
@@ -51,7 +51,7 @@ export default () => {
         title="Pages"
         headers={['Page label']}
         rows={handlePages(pages)}
-        navigationButton={{path: '/front/pages/add', text: 'Add page'}}
+        navigationButton={{path: '/front/page/add', text: 'Add page'}}
         emptyElement={"There are no pages to manage."}
       >
       </Table>

@@ -7,8 +7,6 @@ export default ({isEdit = false, isLoading, handleSubmit, dispatchValue, errors,
     ...user
   };
 
-  console.log(errors);
-
   return <Form
     title={isEdit ? "Editing user" : "Adding user"}
     actions={<Button type="ok" waiting={isLoading} onClick={() => handleSubmit()}>Submit</Button>}>
