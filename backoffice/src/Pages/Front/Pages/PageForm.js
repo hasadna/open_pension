@@ -2,6 +2,28 @@ import {Button, Form, Input, Section} from "componenets/Form/Form";
 import Page from "componenets/Page/Page";
 import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
 import {Book, BookOpen, Home, Upload} from "Icons/Icons";
+import {isEmpty} from "lodash";
+import {ADD_ERROR} from "componenets/Form/formReducers";
+
+export const handleFormSubmit = async ({setIsLoading, formValues, dispatchError, setRedirect, sendRequestHandler}) => {
+  setIsLoading(true);
+  const {label} = formValues;
+
+  if (isEmpty(label)) {
+    dispatchError({ type: ADD_ERROR, error: {label: 'The field is required'}});
+    setIsLoading(false);
+    return;
+  }
+
+  const {error} = await sendRequestHandler({label});
+
+  if (!isEmpty(error)) {
+    // todo: handle.
+    return;
+  }
+
+  setRedirect(true);
+};
 
 export default ({isEdit, isLoading, handleSubmit, errors, dispatchValue}) => {
   const {labelError} = errors;

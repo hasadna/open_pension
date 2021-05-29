@@ -1,7 +1,8 @@
-import PageForm, {handleFormSubmit} from "../PageForm";
+import PageForm from "../PageForm";
 import {useState, useReducer} from 'react';
-import {errorsReducer, valuesReducer} from "componenets/Form/formReducers";
+import {ADD_ERROR, errorsReducer, valuesReducer} from "componenets/Form/formReducers";
 import {Redirect} from "react-router-dom";
+import {isEmpty} from 'lodash';
 import {createPage} from "api/page";
 
 export default () => {
@@ -12,15 +13,23 @@ export default () => {
   const [formValues, dispatchValue] = useReducer(valuesReducer, {label: ''});
 
   const handleSubmit = async () => {
-    await handleFormSubmit({
-      setIsLoading,
-      formValues,
-      dispatchError,
-      setRedirect,
-      sendRequestHandler: async ({label}) => {
-        return await createPage({label});
-      }
-    })
+    setIsLoading(true);
+    const {label} = formValues;
+
+    if (isEmpty(label)) {
+      dispatchError({ type: ADD_ERROR, error: {label: 'The field is required'}});
+      setIsLoading(false);
+      return;
+    }
+
+    const {error} = await createPage({label});
+
+    if (!isEmpty(error)) {
+      // todo: handle.
+      return;
+    }
+
+    setRedirect(true);
   };
 
   if (redirect) {
