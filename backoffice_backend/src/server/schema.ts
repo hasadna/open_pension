@@ -97,8 +97,8 @@ export const typeDefs = gql`
     pageDelete(id: ID!): Boolean,
 
     # Page Helper.
-    pageHelperCreate: PageHelper,
-    pageHelperUpdate: PageHelper,
+    pageHelperCreate(description: String, elementID: String, page: ID!): PageHelper,
+    pageHelperUpdate(id: ID!, description: String, elementID: String, page: ID!): PageHelper,
     pageHelperDelete: Boolean,
 
     # Auth.

@@ -1,10 +1,11 @@
 import {
-  createTestingServer, pageHelperQuery,
+  createTestingServer, pageHelperCreateQuery, pageHelperQuery,
   pageHelpersQuery,
   sendQuery
 } from "./testingUtils";
 import {createPage} from "../db/page";
-import {createPageHelper} from "../db/pageHelper";
+//@ts-ignore
+import {createPageHelper, getPageHelper} from "../db/pageHelper";
 
 describe('Testing server: page helper', () => {
 
@@ -40,6 +41,17 @@ describe('Testing server: page helper', () => {
     [firstPageHelper, secondPageHelper] = [createFirstPageHelper, createdSecondPageHelper]
   });
 
+  /**
+   * Sending a request to create a page helper.
+   *
+   * @param page - The page ID.
+   * @param elementID - The element ID.
+   * @param description - The description.§
+   */
+  const sendCreateQuery = async ({page = null, elementID = null, description = null}) => {
+    return await sendQuery(pageHelperCreateQuery({page, elementID, description}), testingServer);
+  }
+
   it('Get all page helpers', async () => {
     const {data: {pageHelpers: {pageHelpers: [firstPageHelper, secondPageHelpers], totalCount}}} = await sendQuery(pageHelpersQuery, testingServer);
     expect(totalCount).toBe(2);
@@ -53,9 +65,7 @@ describe('Testing server: page helper', () => {
     expect(secondPageHelpers.page.id).toBe(String(page._doc._id));
   });
 
-  it('Get a page helper by args', async () => {});
-
-  it('Get a page helper by id', async () => {
+  it('Get a page helper', async () => {
     const id = String(firstPageHelper._id);
     const {data: {pageHelper}} = await sendQuery(pageHelperQuery(id), testingServer);
     const {id: IDFromResponse, description, elementID, page: pageFromResponse} = pageHelper;
@@ -66,16 +76,24 @@ describe('Testing server: page helper', () => {
     expect(pageFromResponse.id).toBe(String(page._doc._id));
   });
 
-  it('Creating a page helper with valid values', async () => {});
-  it('Creating a page helper with invalid values: missing description', async () => {});
-  it('Creating a page helper with invalid values: missing element ID', async () => {});
-  it('Creating a page helper with invalid values: missing page ID', async () => {});
-  it('Creating a page helper with invalid values: passing invalid page ID as reference', async () => {});
+  it('Creating a page helper with valid values', async () => {
+    const pageID = page._doc._id;
+    const {data: {pageHelperCreate: {id, description, elementID, page: pgeFromResponse}, errors}} = await sendCreateQuery({
+      page: pageID,
+      elementID: "aboveStaff",
+      description: "This is the staff picture",
+    })
+
+    expect(errors).toBeUndefined();
+    const {collections: pageHelperFromDB} = await getPageHelper({id});
+
+    expect(id).toBe(String(pageHelperFromDB._id))
+    expect(description).toBe('This is the staff picture');
+    expect(elementID).toBe('aboveStaff');
+    expect(String(pageID)).toBe(pgeFromResponse.id)
+  });
 
   it('Updating a page helper with valid values', async () => {});
-  it('Updating a page helper with invalid values: missing description', async () => {});
-  it('Updating a page helper with invalid values: passing invalid page ID as reference', async () => {});
-
   it('Delete a page ID', async () => {});
 
 });

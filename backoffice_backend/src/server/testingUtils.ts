@@ -211,3 +211,17 @@ export const pageHelperQuery = (id) => gql`
     },
   }
 `;
+
+export const pageHelperCreateQuery = ({page, description, elementID}) => gql`
+  mutation {
+    pageHelperCreate(page: "${page}", description: "${description}", elementID: "${elementID}") {
+      id
+      description
+      elementID
+      page {
+        id
+        label
+      }
+    }
+  }
+`;

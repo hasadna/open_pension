@@ -12,7 +12,8 @@ import {
   updateUser
 } from '../../db/user';
 import {assertLoggedIn} from '../server';
-import {createPage, deletePage, updatePage} from "../../db/page";
+import {createPage, deletePage, getPage, updatePage} from "../../db/page";
+import {createPageHelper} from "../../db/pageHelper";
 
 export default {
   fileUpdate: async (_, args, context) => {
@@ -111,5 +112,21 @@ export default {
     await deletePage(id);
 
     return true;
+  },
+
+  pageHelperCreate: async(_, args, context) => {
+    assertLoggedIn(context);
+    const {description, page, elementID} = args;
+
+    const {collections: pageFromDB} = await getPage({id: page});
+    const {object: pageHelper, errors} = await createPageHelper({
+      page: pageFromDB, description, elementID
+    })
+
+    if (errors) {
+      throw new UserInputError('There was an error while creating the page helper', errors)
+    }
+
+    return pageHelper;
   },
 }
