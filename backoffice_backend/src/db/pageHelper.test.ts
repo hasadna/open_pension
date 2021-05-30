@@ -1,5 +1,10 @@
 import {createPage, PageInterface} from "./page";
-import {createPageHelper, getPageHelper} from "./pageHelper";
+import {
+  createPageHelper,
+  deletePageHelper,
+  getPageHelper,
+  updatePageHelper
+} from "./pageHelper";
 import {createUser} from "./user";
 import {validUser} from "./user.test";
 
@@ -127,7 +132,32 @@ describe('Page helper', () => {
     await verifyLoadedObjectAndCreateObject(secondPageHelper);
   });
 
-  it('Update a page helper', async () => {});
+  it('Update a page helper', async () => {
+    const [{_id: firstObjectID}, {_id: secondObjectID}] = await getTwoPageHandlerObjects();
 
-  it('Delete a pager helper', async () => {});
+    await updatePageHelper(firstObjectID, {description: 'updated'});
+
+    // Check the first object has been updated.
+    const {collections: {description}} = await getPageHelper({id: firstObjectID});
+    expect(description).toBe('updated');
+
+    // Checking the second object did not updated.
+    const {collections: {description: secondDescription}} = await getPageHelper({id: secondObjectID});
+    expect(secondDescription).toBe('Dummy label');
+  });
+
+  it('Delete a pager helper', async () => {
+    const [{_id: firstObjectID}, {_id: secondObjectID}] = await getTwoPageHandlerObjects();
+
+    // Delete the first object.
+    await deletePageHelper(firstObjectID);
+
+    // Verify the first object was removed.
+    const {collections: firstObjectFromDB} = await getPageHelper({id: firstObjectID});
+    expect(firstObjectFromDB).toBeNull();
+
+    // Verify the second object was not removed.
+    const {collections: secondObjectFomrDB} = await getPageHelper({id: secondObjectID});
+    expect(secondObjectFomrDB).not.toBeNull();
+  });
 });
