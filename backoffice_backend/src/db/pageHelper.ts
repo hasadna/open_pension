@@ -6,7 +6,10 @@ import {
   getObject,
   Pagination, TransactionResults, updateObject
 } from "./Utils";
-import {PageInterface} from "./page";
+// @ts-ignore
+import {getPage, PageInterface} from "./page";
+// @ts-ignore
+import {isEmpty} from 'lodash';
 
 export type PageHelperInterface = BaseEntity& {
   readonly description: string;
@@ -17,7 +20,23 @@ export type PageHelperInterface = BaseEntity& {
 const pageHelperSchema = new mongoose.Schema({
   description: { type: String, required: true },
   elementID: { type: String, required: true },
-  page: {type: mongoose.Schema.Types.ObjectId, ref: 'pages'}
+  page: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'pages',
+    validate: {
+      validator: async function({id}) {
+
+        if (isEmpty(id)) {
+          return false;
+        }
+
+        const {collections} = await getPage({id: String(id)});
+        return !isEmpty(collections);
+      },
+      message: 'The given ID is not a valid page object',
+    },
+    required: true,
+  }
 });
 
 export const PageHelper = mongoose.model('pageHelpers', pageHelperSchema);
