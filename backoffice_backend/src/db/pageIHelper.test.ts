@@ -1,5 +1,5 @@
 import {createPage, PageInterface} from "./page";
-import {createPageHelper} from "./pageHelper";
+import {createPageHelper, getPageHelper} from "./pageHelper";
 import {createUser} from "./user";
 import {validUser} from "./user.test";
 
@@ -12,6 +12,31 @@ describe('Page helper', () => {
     const {object} = await createPage({label: 'Dummy label'});
     basePage = object;
   });
+
+  /**
+   * Create two objects for testing.
+   */
+  const getTwoPageHandlerObjects = async () => {
+    const [firstPageHelperObject,secondPageHelperObject] = [
+      {
+        page: basePage,
+        description: 'Dummy description',
+        elementID: 'aboveCode',
+      },
+
+      {
+        page: basePage,
+        description: 'Dummy label',
+        elementID: 'aboveRoutes',
+      }
+    ];
+
+    const {object: firstPageHelper} = await createPageHelper(firstPageHelperObject);
+    const {object: secondPageHelper} = await createPageHelper(secondPageHelperObject);
+
+    return [firstPageHelper, secondPageHelper];
+  };
+
 
   /**
    * Creating an invalid page handle and verify an expected error has been
@@ -82,9 +107,22 @@ describe('Page helper', () => {
     )
   });
 
-  it('Load all page helpers', async () => {});
+  it('Load a page helper', async () => {
+    const verifyLoadedObjectAndCreateObject = async (createdPageHelper) => {
+      const {collections: {_doc: pageHelperFromDB}} = await getPageHelper({id: String(createdPageHelper._id)});
 
-  it('Load a page helper', async () => {});
+      expect(String(pageHelperFromDB._id)).toBe(String(createdPageHelper._id));
+      expect(String(pageHelperFromDB.page._id)).toBe(String(createdPageHelper.page._id));
+
+      expect(pageHelperFromDB.description).toBe(createdPageHelper.description);
+      expect(pageHelperFromDB.elementID).toBe(createdPageHelper.elementID);
+    };
+
+    const [firstPageHelper, secondPageHelper] = await getTwoPageHandlerObjects();
+
+    await verifyLoadedObjectAndCreateObject(firstPageHelper);
+    await verifyLoadedObjectAndCreateObject(secondPageHelper);
+  });
 
   it('Update a page helper', async () => {});
 
