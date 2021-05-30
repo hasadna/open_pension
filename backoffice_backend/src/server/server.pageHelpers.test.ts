@@ -1,5 +1,5 @@
 import {
-  createTestingServer,
+  createTestingServer, pageHelperQuery,
   pageHelpersQuery,
   sendQuery
 } from "./testingUtils";
@@ -41,13 +41,32 @@ describe('Testing server: page helper', () => {
   });
 
   it('Get all page helpers', async () => {
-    const data = await sendQuery(pageHelpersQuery, testingServer);
-    console.log(data);
+    const {data: {pageHelpers: {pageHelpers: [firstPageHelper, secondPageHelpers], totalCount}}} = await sendQuery(pageHelpersQuery, testingServer);
+    expect(totalCount).toBe(2);
+
+    expect(firstPageHelper.description).toBe('Dummy description');
+    expect(firstPageHelper.elementID).toBe('aboveCode');
+    expect(firstPageHelper.page.id).toBe(String(page._doc._id));
+
+    expect(secondPageHelpers.description).toBe('Dummy label');
+    expect(secondPageHelpers.elementID).toBe('aboveRoutes');
+    expect(secondPageHelpers.page.id).toBe(String(page._doc._id));
   });
 
   it('Get a page helper by args', async () => {});
-  it('Creating a page helper with valid values', async () => {});
 
+  it('Get a page helper by id', async () => {
+    const id = String(firstPageHelper._id);
+    const {data: {pageHelper}} = await sendQuery(pageHelperQuery(id), testingServer);
+    const {id: IDFromResponse, description, elementID, page: pageFromResponse} = pageHelper;
+
+    expect(IDFromResponse).toBe(id);
+    expect(description).toBe('Dummy description');
+    expect(elementID).toBe('aboveCode');
+    expect(pageFromResponse.id).toBe(String(page._doc._id));
+  });
+
+  it('Creating a page helper with valid values', async () => {});
   it('Creating a page helper with invalid values: missing description', async () => {});
   it('Creating a page helper with invalid values: missing element ID', async () => {});
   it('Creating a page helper with invalid values: missing page ID', async () => {});

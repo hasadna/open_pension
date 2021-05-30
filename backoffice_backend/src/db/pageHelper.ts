@@ -6,7 +6,7 @@ import {
   getObject,
   Pagination, TransactionResults, updateObject
 } from "./Utils";
-import {PageInterface, pageSchema} from "./page";
+import {PageInterface} from "./page";
 
 export type PageHelperInterface = BaseEntity& {
   readonly description: string;
@@ -17,7 +17,7 @@ export type PageHelperInterface = BaseEntity& {
 const pageHelperSchema = new mongoose.Schema({
   description: { type: String, required: true },
   elementID: { type: String, required: true },
-  page: { type: pageSchema, required: true }
+  page: {type: mongoose.Schema.Types.ObjectId, ref: 'pages'}
 });
 
 export const PageHelper = mongoose.model('pageHelpers', pageHelperSchema);

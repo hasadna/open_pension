@@ -189,11 +189,25 @@ export const pageHelpersQuery = gql`
         description,
         elementID,
         page {
-          id
+          id,
           label
         }
       },
       totalCount
     }
+  }
+`;
+
+export const pageHelperQuery = (id) => gql`
+  query  {
+    pageHelper(id: "${id}") {
+      id,
+      description,
+      elementID,
+      page {
+        id,
+        label
+      }
+    },
   }
 `;

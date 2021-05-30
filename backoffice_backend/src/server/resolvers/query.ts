@@ -2,6 +2,7 @@ import { getFile } from '../../db/file';
 import { getUser } from '../../db/user';
 import {getPage} from "../../db/page";
 import { assertLoggedIn } from '../server';
+import {getPageHelper} from "../../db/pageHelper";
 
 export default {
   files: async (_, {filter, pagination = {}}, context) => {
@@ -46,5 +47,19 @@ export default {
     const {user} = context;
     // Get the user.
     return user;
-  }
+  },
+
+  pageHelpers: async (_, {filter, pagination = {}}, context) => {
+    assertLoggedIn(context);
+
+    const {collections: pageHelpers, totalCount} = await getPageHelper({conditions: {}}, pagination, filter)
+    return {pageHelpers, totalCount}
+  },
+
+  pageHelper: async (_, {id}, context) => {
+    assertLoggedIn(context);
+
+    const {collections: pageHelper} = await getPageHelper({id})
+    return pageHelper
+  },
 };
