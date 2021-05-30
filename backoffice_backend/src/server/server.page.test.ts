@@ -7,7 +7,7 @@ import {
 } from "./testingUtils";
 import {createPage, getPage} from "../db/page";
 
-describe('Server: page', () => {
+describe('Testing server:: page', () => {
   let testingServer;
 
   beforeAll(() => {

@@ -12,7 +12,7 @@ import {
   tokenQuery
 } from './testingUtils';
 
-describe('Auth', () => {
+describe('Testing server: auth', () => {
 
   let testingServer;
 

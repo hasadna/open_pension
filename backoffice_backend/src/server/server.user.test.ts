@@ -6,7 +6,7 @@ import {
   usersQuery, userUpdateQuery
 } from './testingUtils';
 
-describe('Testing server: User', () => {
+describe('Testing server: user', () => {
 
   let testingServer;
 

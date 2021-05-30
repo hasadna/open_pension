@@ -6,7 +6,7 @@ import {
   sendQuery
 } from './testingUtils';
 
-describe('Testing server: File', () => {
+describe('Testing server: file', () => {
 
   let testingServer;
 
