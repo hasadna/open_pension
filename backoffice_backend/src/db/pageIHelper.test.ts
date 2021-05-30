@@ -72,7 +72,10 @@ describe('Page helper', () => {
       description: 'Dummy description',
       elementID: 'aboveCode',
     });
-    expect(errorFromUser).toStrictEqual({ page: 'Path `page` is required.' });
+    expect(errorFromUser).toStrictEqual({
+      "label": "Path `label` is required.",
+      "": "Validation failed: label: Path `label` is required."
+    });
   });
 
   it('Create a page helper with wrong values: empty page', async () => {

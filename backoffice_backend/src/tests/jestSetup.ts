@@ -19,7 +19,7 @@ beforeEach(async () => {
         }}
     });
 
-  [User, File, Page, PageHelper].forEach(model => {
-    model.deleteMany({})
+  [User, File, Page, PageHelper].forEach(async model => {
+    await model.deleteMany({})
   });
 });
