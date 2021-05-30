@@ -5,18 +5,19 @@ import {
   revokeToken, User
 } from './user';
 
+
+export const validUser = {
+  username: 'username',
+  password: 'password',
+  email: 'test@example.com',
+};
+
 describe('Testing user', () => {
 
   const baseUser = {
     username: '',
     password: '',
     email: '',
-  };
-
-  const validUser = {
-    username: 'username',
-    password: 'password',
-    email: 'test@example.com',
   };
 
   const createValidUser = async () => {
