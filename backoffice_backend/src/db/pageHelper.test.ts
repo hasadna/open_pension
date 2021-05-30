@@ -42,7 +42,6 @@ describe('Page helper', () => {
     return [firstPageHelper, secondPageHelper];
   };
 
-
   /**
    * Creating an invalid page handle and verify an expected error has been
    * raised.

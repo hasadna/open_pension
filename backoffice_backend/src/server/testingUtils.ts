@@ -180,3 +180,20 @@ export const pageDeleteQuery = ({id}) => gql`
     pageDelete(id: "${id}")
   }
 `
+
+export const pageHelpersQuery = gql`
+  query  {
+    pageHelpers {
+      pageHelpers {
+        id,
+        description,
+        elementID,
+        page {
+          id
+          label
+        }
+      },
+      totalCount
+    }
+  }
+`;

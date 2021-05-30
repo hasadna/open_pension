@@ -1,15 +1,50 @@
-import {createTestingServer} from "./testingUtils";
+import {
+  createTestingServer,
+  pageHelpersQuery,
+  sendQuery
+} from "./testingUtils";
+import {createPage} from "../db/page";
+import {createPageHelper} from "../db/pageHelper";
 
 describe('Testing server: page helper', () => {
 
   // @ts-ignore
-  let testingServer;
+  let testingServer, firstPageHelper, secondPageHelper, page;
 
   beforeAll(() => {
     testingServer = createTestingServer()
   });
 
-  it('Get all page helpers', async () => {});
+  beforeEach(async () => {
+    // Create a dummy page object for reference in other tests.
+    const {object} = await createPage({label: 'Dummy label'});
+    page = object;
+
+    // Create two page helpers.
+    const [firstPageHelperObject,secondPageHelperObject] = [
+      {
+        page,
+        description: 'Dummy description',
+        elementID: 'aboveCode',
+      },
+      {
+        page,
+        description: 'Dummy label',
+        elementID: 'aboveRoutes',
+      }
+    ];
+
+    const {object: createFirstPageHelper} = await createPageHelper(firstPageHelperObject);
+    const {object: createdSecondPageHelper} = await createPageHelper(secondPageHelperObject);
+
+    [firstPageHelper, secondPageHelper] = [createFirstPageHelper, createdSecondPageHelper]
+  });
+
+  it('Get all page helpers', async () => {
+    const data = await sendQuery(pageHelpersQuery, testingServer);
+    console.log(data);
+  });
+
   it('Get a page helper by args', async () => {});
   it('Creating a page helper with valid values', async () => {});
 
