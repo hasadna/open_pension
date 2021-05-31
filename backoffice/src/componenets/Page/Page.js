@@ -35,8 +35,8 @@ export default ({title, children, topContent, activePage = "home", notch="big"})
     frontSite: <MenuItem title={'Front site'} icon={<Book />} path={"/files"} id={'frontSite'}>
       <ul className="submenu">
         <li><MenuItem title="Pages" icon={<BookOpen />} id="pages" path={"/front/pages"} /></li>
+        <li><MenuItem title="Helpers" icon={<InfoCircle />} id="pages" path={"/front/page-helpers"} /></li>
         <li><MenuItem title="Pages descriptions" icon={<Paragraph />} id="pages" path={"/front/pages"} /></li>
-        <li><MenuItem title="Helpers" icon={<InfoCircle />} id="pages" path={"/front/pages"} /></li>
         <li><MenuItem title="Bodies" icon={<Shekel />} id="pages" path={"/front/pages"} /></li>
         <li><MenuItem title="Routes" icon={<Route />} id="pages" path={"/front/pages"} /></li>
         <li><MenuItem title="Articles" icon={<Articles />} id="pages" path={"/front/pages"} /></li>
