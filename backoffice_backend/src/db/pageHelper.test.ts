@@ -71,7 +71,6 @@ describe('Page helper', () => {
   it('Create a page helper with wrong values: invalid page reference', async () => {
     // Creating a dummy user object for reference.
     const {object: user} = await createUser(validUser);
-    console.log(String(user._doc._id));
     let {errors: errorFromUser} = await createPageHelper({
       page: user,
       description: 'Dummy description',
