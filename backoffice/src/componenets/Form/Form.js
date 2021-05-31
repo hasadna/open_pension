@@ -33,6 +33,19 @@ export const Input = ({title, type= "text", error, ...props}) => {
   </div>
 }
 
+export const Select = ({title, error, options = [], firstOption, ...props}) => {
+
+  return <div className="input-wrapper">
+    <label>{title}</label>
+
+    <select className={`form-element select ${error && 'error'}`}>
+      {firstOption && <option>{firstOption}</option>}
+      {options.map(({text, value}, key) => <option key={key} value={value}>{text}</option>) }
+    </select>
+    {error && <span className="input-error">{error}</span>}
+  </div>
+}
+
 export const Text = ({children}) => {
   return <p className={"text"}>
     {children}

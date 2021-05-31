@@ -1,7 +1,7 @@
-import List from "./List";
-import Add from "./Add";
-import Edit from "./Edit";
-import Delete from "./Delete";
+import List from "./List/List";
+import Add from "./Add/Add";
+import Edit from "./Edit/Edit";
+import Delete from "./Delete/Delete";
 
 export const PageHelpers = {
   PageHelpersList: List,
