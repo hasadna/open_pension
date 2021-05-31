@@ -1,11 +1,14 @@
 import {
   createTestingServer,
-  pageCreateQuery, pageDeleteQuery,
-  pageQuery,
-  pagesQuery, pageUpdateQuery,
   sendQuery
 } from "./testingUtils";
-import {createPage, getPage} from "../db/page";
+import {createPage, getPage} from "../../db/page";
+import {
+  pageCreateQuery,
+  pageDeleteQuery,
+  pageQuery, pagesQuery,
+  pageUpdateQuery
+} from "./query.pages";
 
 describe('Testing server:: page', () => {
   let testingServer;

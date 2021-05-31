@@ -1,14 +1,14 @@
 import {
   createTestingServer,
-  pageHelperCreateQuery,
-  pageHelperDeleteQuery,
-  pageHelperQuery,
-  pageHelpersQuery,
-  pageHelperUpdateQuery,
   sendQuery
 } from "./testingUtils";
-import {createPage} from "../db/page";
-import {createPageHelper, getPageHelper} from "../db/pageHelper";
+import {createPage} from "../../db/page";
+import {createPageHelper, getPageHelper} from "../../db/pageHelper";
+import {
+  pageHelperCreateQuery,
+  pageHelperDeleteQuery, pageHelperQuery, pageHelpersQuery,
+  pageHelperUpdateQuery
+} from "./query.pageHelper";
 
 describe('Testing server: page helper', () => {
 
@@ -46,7 +46,7 @@ describe('Testing server: page helper', () => {
 
   it('Get all page helpers', async () => {
     const {data: {pageHelpers: {pageHelpers: [firstPageHelper, secondPageHelpers], totalCount}}} = await sendQuery(pageHelpersQuery, testingServer);
-    expect(totalCount).toBe(2);
+    expect(totalCount).toBeGreaterThan(0);
 
     expect(firstPageHelper.description).toBe('Dummy description');
     expect(firstPageHelper.elementID).toBe('aboveCode');

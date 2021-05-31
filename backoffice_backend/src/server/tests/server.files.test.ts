@@ -1,10 +1,9 @@
-import { createFile, getFile, Status } from '../db/file';
+import { createFile, getFile, Status } from '../../db/file';
 
 import {
-  createTestingServer, filesQuery,
-  fileQuery, fileUpdateQuery,
-  sendQuery
+  createTestingServer, sendQuery
 } from './testingUtils';
+import {fileQuery, queryFiles, fileUpdateQuery} from "./query.files";
 
 describe('Testing server: file', () => {
 
@@ -29,12 +28,12 @@ describe('Testing server: file', () => {
   }
 
   it('Testing the files resolvers', async () => {
-    const {data: {files: files}} = await sendQuery(filesQuery, testingServer);
+    const {data: {files: files}} = await sendQuery(queryFiles, testingServer);
     expect(files.files).toStrictEqual([]);
 
     // Adding a dummy file and send request.
     const {object: file} = await createFile({filename: 'foo.png', storageId: 42, status: Status.stored});
-    const {data: {files: filesResponse}} = await sendQuery(filesQuery, testingServer);
+    const {data: {files: filesResponse}} = await sendQuery(queryFiles, testingServer);
     const [fileFromResponse] = filesResponse.files;
     compareFileFromResponse(file, fileFromResponse);
   });

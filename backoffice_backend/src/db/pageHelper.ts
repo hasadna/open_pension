@@ -30,8 +30,16 @@ const pageHelperSchema = new mongoose.Schema({
           return false;
         }
 
-        const {collections} = await getPage({id: String(id)});
-        return !isEmpty(collections);
+        try {
+          id = String(id);
+
+          const {collections} = await getPage({id});
+          return !isEmpty(collections);
+        } catch (e) {
+          return false;
+        }
+
+
       },
       message: 'The given ID is not a valid page object',
     },

@@ -1,10 +1,15 @@
-import { createUser, getUser } from '../db/user';
+import { createUser, getUser } from '../../db/user';
 
 import {
   createTestingServer,
-  sendQuery, userCreationQuery, userQuery,
-  usersQuery, userUpdateQuery
+  sendQuery
 } from './testingUtils';
+import {
+  userCreationQuery,
+  userQuery,
+  queryUsers,
+  userUpdateQuery
+} from "./query.users";
 
 describe('Testing server: user', () => {
 
@@ -36,7 +41,7 @@ describe('Testing server: user', () => {
   it('Testing the users resolvers', async () => {
     const userFromDB = await createValidUser();
 
-    const {data: emptyFilesResponse} = await sendQuery(usersQuery, testingServer);
+    const {data: emptyFilesResponse} = await sendQuery(queryUsers, testingServer);
     const [userFromResponse] = emptyFilesResponse.users;
 
     compareUserFromResponse(userFromDB, userFromResponse)
