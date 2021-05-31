@@ -13,7 +13,10 @@ import {
 } from '../../db/user';
 import {assertLoggedIn} from '../server';
 import {createPage, deletePage, getPage, updatePage} from "../../db/page";
-import {createPageHelper} from "../../db/pageHelper";
+import {
+  createPageHelper, deletePageHelper,
+  updatePageHelper
+} from "../../db/pageHelper";
 
 export default {
   fileUpdate: async (_, args, context) => {
@@ -118,6 +121,8 @@ export default {
     assertLoggedIn(context);
     const {description, page, elementID} = args;
 
+    // todo: handle non-existing page.
+
     const {collections: pageFromDB} = await getPage({id: page});
     const {object: pageHelper, errors} = await createPageHelper({
       page: pageFromDB, description, elementID
@@ -128,5 +133,27 @@ export default {
     }
 
     return pageHelper;
+  },
+  pageHelperUpdate: async (_, args, context) => {
+    assertLoggedIn(context);
+    // @ts-ignore
+    const {description, page, elementID, id} = args;
+    const {collections: pageFromDB} = await getPage({id: page});
+
+    // todo: handle non-existing page.
+    const data = await updatePageHelper(id, {
+      description,
+      page: pageFromDB,
+      elementID
+    });
+    data.page = pageFromDB;
+    return data;
+  },
+  pageHelperDelete: async (_, args, context) => {
+    assertLoggedIn(context);
+    // @ts-ignore
+    const {id} = args;
+    await deletePageHelper(id);
+    return true;
   },
 }

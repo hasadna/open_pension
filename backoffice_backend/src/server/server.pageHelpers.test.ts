@@ -1,10 +1,13 @@
 import {
-  createTestingServer, pageHelperCreateQuery, pageHelperQuery,
+  createTestingServer,
+  pageHelperCreateQuery,
+  pageHelperDeleteQuery,
+  pageHelperQuery,
   pageHelpersQuery,
+  pageHelperUpdateQuery,
   sendQuery
 } from "./testingUtils";
 import {createPage} from "../db/page";
-//@ts-ignore
 import {createPageHelper, getPageHelper} from "../db/pageHelper";
 
 describe('Testing server: page helper', () => {
@@ -41,17 +44,6 @@ describe('Testing server: page helper', () => {
     [firstPageHelper, secondPageHelper] = [createFirstPageHelper, createdSecondPageHelper]
   });
 
-  /**
-   * Sending a request to create a page helper.
-   *
-   * @param page - The page ID.
-   * @param elementID - The element ID.
-   * @param description - The description.§
-   */
-  const sendCreateQuery = async ({page = null, elementID = null, description = null}) => {
-    return await sendQuery(pageHelperCreateQuery({page, elementID, description}), testingServer);
-  }
-
   it('Get all page helpers', async () => {
     const {data: {pageHelpers: {pageHelpers: [firstPageHelper, secondPageHelpers], totalCount}}} = await sendQuery(pageHelpersQuery, testingServer);
     expect(totalCount).toBe(2);
@@ -78,11 +70,11 @@ describe('Testing server: page helper', () => {
 
   it('Creating a page helper with valid values', async () => {
     const pageID = page._doc._id;
-    const {data: {pageHelperCreate: {id, description, elementID, page: pgeFromResponse}, errors}} = await sendCreateQuery({
+    const {data: {pageHelperCreate: {id, description, elementID, page: pgeFromResponse}, errors}} = await sendQuery(pageHelperCreateQuery({
       page: pageID,
       elementID: "aboveStaff",
       description: "This is the staff picture",
-    })
+    }), testingServer);
 
     expect(errors).toBeUndefined();
     const {collections: pageHelperFromDB} = await getPageHelper({id});
@@ -93,7 +85,33 @@ describe('Testing server: page helper', () => {
     expect(String(pageID)).toBe(pgeFromResponse.id)
   });
 
-  it('Updating a page helper with valid values', async () => {});
-  it('Delete a page ID', async () => {});
+  it('Updating a page helper with valid values', async () => {
+    const {object: {_id: secondPageId}} = await createPage({label: 'Second page'});
 
+    const {data: {pageHelperUpdate: {id, description, elementID, page: pageFromResponse}}} = await sendQuery(pageHelperUpdateQuery({
+      id: String(firstPageHelper.id),
+      page: String(secondPageId),
+      description: 'updated description',
+      elementID: 'updated element id',
+    }), testingServer);
+
+    expect(id).toBe(String(firstPageHelper.id));
+    expect(description).toBe('updated description');
+    expect(elementID).toBe('updated element id');
+    expect(elementID).toBe('updated element id');
+    expect(pageFromResponse.id).toBe(String(secondPageId));
+    expect(pageFromResponse.label).toBe('Second page');
+  });
+
+  it('Delete a page ID', async () => {
+    const [firstPageHelperID, secondPageHelperID] = [String(firstPageHelper.id), String(secondPageHelper.id)];
+    const {data: {pageHelperDelete: pageHelperDelete}} = await sendQuery(pageHelperDeleteQuery(firstPageHelperID), testingServer);
+    expect(pageHelperDelete).toBe(true);
+
+    const {collections: deletedPageHelper} = await getPageHelper({id: firstPageHelperID})
+    const {collections: nonDeletePageHelper} = await getPageHelper({id: secondPageHelperID})
+
+    expect(deletedPageHelper).toBeNull();
+    expect(nonDeletePageHelper).not.toBeNull();
+  });
 });

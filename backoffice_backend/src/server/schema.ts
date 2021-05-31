@@ -99,7 +99,7 @@ export const typeDefs = gql`
     # Page Helper.
     pageHelperCreate(description: String, elementID: String, page: ID!): PageHelper,
     pageHelperUpdate(id: ID!, description: String, elementID: String, page: ID!): PageHelper,
-    pageHelperDelete: Boolean,
+    pageHelperDelete(id: ID!): Boolean,
 
     # Auth.
     tokenCreate(username: String, email: String, password: String): Token
