@@ -35,6 +35,7 @@ export default () => {
   const [pageHelpers, setPageHelpers] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
+  const [queryParams, setQueryParams] = useState({});
 
   useEffect(async () => {
     const {data: pages} = await getPages();
@@ -48,12 +49,15 @@ export default () => {
   useEffect(async () => {
     const {data: {pageHelpers: pageHelpers, totalCount}} = await getPageHelpers({
       itemsPerPage,
-      page
+      page,
+      queryParams
     });
 
     setPageHelpers(pageHelpers);
     setTotalCount(totalCount);
-  }, [page, filterByPage, filterByDescription, pages]);
+  }, [page, queryParams, pages]);
+
+  const handleSubmit = () => setQueryParams({filterByPage, filterByDescription});
 
   return <Page
     activePage={"frontSite"}
@@ -67,15 +71,18 @@ export default () => {
         ]}/>
 
         <Filters
-          handleSubmit={() => {}}
+          handleSubmit={handleSubmit}
           inputs={[
             <Select
               title={"Page"}
-              onChange={(element) => dispatchValue({element, name: 'filename'})}
+              onChange={(element) => {
+                // debugger;
+                dispatchValue({element, name: 'filterByPage'})
+              }}
               firstOption={'Please select an option'}
               options={pages}
             />,
-            <Input title={"Descriptions"} onChange={(element) => dispatchValue({element, name: 'filename'})} />
+            <Input title={"Descriptions"} onChange={(element) => dispatchValue({element, name: 'filterByDescription'})} />
           ]}
         />
       </>

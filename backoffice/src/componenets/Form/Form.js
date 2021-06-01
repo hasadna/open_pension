@@ -38,7 +38,7 @@ export const Select = ({title, error, options = [], firstOption, ...props}) => {
   return <div className="input-wrapper">
     <label>{title}</label>
 
-    <select className={`form-element select ${error && 'error'}`}>
+    <select className={`form-element select ${error && 'error'}`} {...props}>
       {firstOption && <option>{firstOption}</option>}
       {options.map(({text, value}, key) => <option key={key} value={value}>{text}</option>) }
     </select>
