@@ -42,12 +42,7 @@ export const pageHelperCreateQuery = ({page, description, elementID}) => gql`
     }
   }
 `;
-export const pageHelperUpdateQuery = ({
-                                        id,
-                                        page,
-                                        description,
-                                        elementID
-                                      }) => gql`
+export const pageHelperUpdateQuery = ({id, page, description, elementID}) => gql`
   mutation {
     pageHelperUpdate(id: "${id}", page: "${page}", description: "${description}", elementID: "${elementID}") {
       id
