@@ -26,6 +26,7 @@ const handlePageHelpers = (pageHelpers) => {
 };
 
 export default () => {
+  const itemsPerPage = 15;
   const [{filterByPage, filterByDescription}, dispatchValue] = useReducer(
     valuesReducer,
     {filterByPage: null, filterByDescription: null}
@@ -45,12 +46,10 @@ export default () => {
   }, []);
 
   useEffect(async () => {
-    const {
-      data: {
-        pageHelpers: pageHelpers,
-        totalCount
-      }
-    } = await getPageHelpers();
+    const {data: {pageHelpers: pageHelpers, totalCount}} = await getPageHelpers({
+      itemsPerPage,
+      page
+    });
 
     setPageHelpers(pageHelpers);
     setTotalCount(totalCount);
@@ -90,7 +89,7 @@ export default () => {
         emptyElement={"There are no page helpers to manage."}
         pager={<Pager
           totalCount={totalCount}
-          itemsPerPage={10}
+          itemsPerPage={itemsPerPage}
           page={page}
           setPage={setPage}
         />}
