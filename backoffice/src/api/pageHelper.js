@@ -1,18 +1,14 @@
 import {sendQuery} from "./core";
 
 export async function getPageHelpers({itemsPerPage = 5, page = 0, queryParams = {}}) {
-  const {filterByPage, filterByDescription} = queryParams;
+  const {filterByDescription} = queryParams;
   let pageHelperArgs = `pagination: {itemsNumber: ${itemsPerPage}, page: ${page}}`;
 
-  if (filterByPage || filterByDescription) {
+  if (filterByDescription) {
     let filter = [];
 
     if (filterByDescription) {
       filter.push(`{key: "description", value: "${filterByDescription}", operation: CONTAINS}`)
-    }
-
-    if (filterByPage) {
-      filter.push(`{key: "page", value: "${filterByPage}"}`)
     }
 
     pageHelperArgs = `${pageHelperArgs}, filter:[${filter.join(", ")}]`

@@ -3,7 +3,7 @@ import {Breadcrumbs, Crumb} from "componenets/Breadcrumns/Breadcrumbs";
 import {Book, Delete, Edit, Home, InfoCircle} from "Icons/Icons";
 import RoundedElement from "componenets/RoundedElement/RoundedElement";
 import Table from "componenets/Table/Table";
-import {Input, Select} from "componenets/Form/Form";
+import {Input} from "componenets/Form/Form";
 import Filters from "componenets/Filters/Filters";
 import {useEffect, useReducer, useState} from "react";
 import {valuesReducer} from "componenets/Form/formReducers";
@@ -27,10 +27,7 @@ const handlePageHelpers = (pageHelpers) => {
 
 export default () => {
   const itemsPerPage = 15;
-  const [{filterByPage, filterByDescription}, dispatchValue] = useReducer(
-    valuesReducer,
-    {filterByPage: null, filterByDescription: null}
-  );
+  const [{filterByPage, filterByDescription}, dispatchValue] = useReducer(valuesReducer, {filterByPage: null});
   const [pages, setPages] = useState([]);
   const [pageHelpers, setPageHelpers] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -55,7 +52,7 @@ export default () => {
 
     setPageHelpers(pageHelpers);
     setTotalCount(totalCount);
-  }, [page, queryParams, pages]);
+  }, [page, queryParams]);
 
   const handleSubmit = () => setQueryParams({filterByPage, filterByDescription});
 
@@ -73,15 +70,6 @@ export default () => {
         <Filters
           handleSubmit={handleSubmit}
           inputs={[
-            <Select
-              title={"Page"}
-              onChange={(element) => {
-                // debugger;
-                dispatchValue({element, name: 'filterByPage'})
-              }}
-              firstOption={'Please select an option'}
-              options={pages}
-            />,
             <Input title={"Descriptions"} onChange={(element) => dispatchValue({element, name: 'filterByDescription'})} />
           ]}
         />
