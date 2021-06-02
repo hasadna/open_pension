@@ -1,5 +1,10 @@
 import "./FormWrapper.scss";
 import RoundedElement from "componenets/RoundedElement/RoundedElement";
+import {useState} from "react";
+import {EditorState} from "draft-js";
+import { Editor as DraftEditor } from 'react-draft-wysiwyg';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from 'draftjs-to-html'
 
 export const Form = ({children, title, actions}) => {
 
@@ -51,5 +56,23 @@ export const Text = ({children}) => {
     {children}
   </p>
 };
+
+export const Editor = ({label, changeContentCallback, error}) => {
+  const [editorState, setEditorStage] = useState( EditorState.createEmpty());
+  return <div className="input-wrapper">
+    <label>{label}</label>
+
+    <DraftEditor
+      editorState={editorState}
+      wrapperClassName="draft-wrapper "
+      editorClassName="demo-editor"
+      onContentStateChange={(contentState) => {
+        changeContentCallback(draftToHtml(contentState));
+      }}
+      onEditorStateChange={(editorState) => {setEditorStage(editorState)}}
+    />
+    {error && <span className="input-error">{error}</span> }
+  </div>
+}
 
 export const Button = ({children, type, waiting = false, ...props}) => <button className={`button button-${type} ${waiting ? 'on-click' : ''}`} {...props}>{children}</button>;

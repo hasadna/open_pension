@@ -9,7 +9,6 @@ import {useEffect, useReducer, useState} from "react";
 import {valuesReducer} from "componenets/Form/formReducers";
 import Pager from "componenets/Pager/Pager";
 import {getPageHelpers} from "api/pageHelper";
-import {getPages} from "api/page";
 import {Link} from "react-router-dom";
 import TextWithActions from "componenets/TextWithActions/TextWithActions";
 
@@ -21,27 +20,24 @@ const handlePageHelpers = (pageHelpers) => {
       <Link to={`/front/page/${id}/delete`}><span className="delete"><Delete /> Delete</span></Link>
     ];
 
-    return [label, elementID, <TextWithActions actions={actions}>{description}</TextWithActions>];
+    return [
+      label,
+      elementID,
+      <TextWithActions actions={actions}>
+        <p dangerouslySetInnerHTML={{__html: decodeURI(description)}}>
+        </p>
+      </TextWithActions>,
+    ];
   });
 };
 
 export default () => {
   const itemsPerPage = 15;
   const [{filterByPage, filterByDescription}, dispatchValue] = useReducer(valuesReducer, {filterByPage: null});
-  const [pages, setPages] = useState([]);
   const [pageHelpers, setPageHelpers] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
   const [queryParams, setQueryParams] = useState({});
-
-  useEffect(async () => {
-    const {data: pages} = await getPages();
-
-    setPages(pages.map(({id: value, label: text}) => {
-      return {value, text}
-    }));
-
-  }, []);
 
   useEffect(async () => {
     const {data: {pageHelpers: pageHelpers, totalCount}} = await getPageHelpers({

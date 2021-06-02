@@ -33,3 +33,15 @@ export async function getPageHelpers({itemsPerPage = 5, page = 0, queryParams = 
   const {data: {pageHelpers: data}, error} = results;
   return {data, error}
 }
+
+export const createPageHelper = async ({description, elementID, page}) => {
+  return await sendQuery(`
+    mutation {
+      pageHelperCreate(page: "${page}", description: "${description}", elementID: "${elementID}") {
+        id
+        description
+        elementID
+      }
+    }
+  `);
+};
