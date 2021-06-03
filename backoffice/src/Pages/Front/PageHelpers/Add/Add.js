@@ -18,7 +18,6 @@ export default () => {
       dispatchError,
       setRedirect,
       sendRequestHandler: async ({description, elementID, page}) => {
-        console.log(description, elementID, page);
         return await createPageHelper({description, elementID, page});
       }
     });

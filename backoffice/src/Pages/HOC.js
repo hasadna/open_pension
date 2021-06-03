@@ -43,8 +43,8 @@ export default () => {
 
         <Route exact path="/front/page-helpers"><PageHelpersList /></Route>
         <Route exact path="/front/page-helpers/add"><AddPageHelper /></Route>
-        <Route exact path="/front/page-helpers/:id/edit"><EditPageHelper /></Route>
-        <Route exact path="/front/page-helpers/:id/delete"><DeletePageHelper /></Route>
+        <Route exact path="/front/page-helper/:id/edit"><EditPageHelper /></Route>
+        <Route exact path="/front/page-helper/:id/delete"><DeletePageHelper /></Route>
 
       </> : <Route path="/"><Login /></Route>}
     </Switch>

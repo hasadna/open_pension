@@ -1,10 +1,11 @@
 import "./FormWrapper.scss";
 import RoundedElement from "componenets/RoundedElement/RoundedElement";
-import {useState} from "react";
-import {EditorState} from "draft-js";
+import {useEffect, useState} from "react";
+import {EditorState, convertFromHTML, ContentState} from "draft-js";
 import { Editor as DraftEditor } from 'react-draft-wysiwyg';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from 'draftjs-to-html'
+import {isEmpty} from 'lodash';
 
 export const Form = ({children, title, actions}) => {
 
@@ -38,14 +39,14 @@ export const Input = ({title, type= "text", error, ...props}) => {
   </div>
 }
 
-export const Select = ({title, error, options = [], firstOption, ...props}) => {
+export const Select = ({title, error, options = [], defaultValue, firstOption, ...props}) => {
 
   return <div className="input-wrapper">
     <label>{title}</label>
 
     <select className={`form-element select ${error && 'error'}`} {...props}>
       {firstOption && <option>{firstOption}</option>}
-      {options.map(({text, value}, key) => <option key={key} value={value}>{text}</option>) }
+      {options.map(({text, value}, key) => <option key={key} value={value} selected={defaultValue === value}>{text}</option>) }
     </select>
     {error && <span className="input-error">{error}</span>}
   </div>
@@ -57,8 +58,16 @@ export const Text = ({children}) => {
   </p>
 };
 
-export const Editor = ({label, changeContentCallback, error}) => {
+export const Editor = ({label, changeContentCallback, error, value}) => {
   const [editorState, setEditorStage] = useState( EditorState.createEmpty());
+  useEffect(() => {
+    setEditorStage(EditorState.createWithContent(
+      ContentState.createFromBlockArray(
+        convertFromHTML(value)
+      )
+    ));
+  }, [value]);
+
   return <div className="input-wrapper">
     <label>{label}</label>
 

@@ -45,3 +45,20 @@ export const createPageHelper = async ({description, elementID, page}) => {
     }
   `);
 };
+
+export const getPageHelper = async (id) => {
+  const results = await sendQuery(`
+    query  {
+      pageHelper(id: "${id}") {
+        id,
+        description,
+        elementID,
+        page {
+          id,
+        }
+      },
+    }
+  `);
+  const {data: {pageHelper: data}, error} = results;
+  return {data, error}
+};

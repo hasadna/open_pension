@@ -1,9 +1,8 @@
 import {handleFormSubmit, PageForm} from "../PageForm";
 import {useState, useReducer, useEffect} from 'react';
-import {ADD_ERROR, errorsReducer, SET_VALUES, valuesReducer} from "componenets/Form/formReducers";
+import {errorsReducer, SET_VALUES, valuesReducer} from "componenets/Form/formReducers";
 import {Redirect, useParams} from "react-router-dom";
-import {isEmpty} from 'lodash';
-import {createPage, getPage, updatePage} from "api/page";
+import {getPage, updatePage} from "api/page";
 
 export default () => {
 

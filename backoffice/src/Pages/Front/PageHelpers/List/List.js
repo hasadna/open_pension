@@ -16,8 +16,8 @@ const handlePageHelpers = (pageHelpers) => {
   return pageHelpers.map(({id, description, elementID, page: {label}}) => {
 
     const actions = [
-      <Link to={`/front/page/${id}/edit`}><span className="edit"><Edit /> Edit</span></Link>,
-      <Link to={`/front/page/${id}/delete`}><span className="delete"><Delete /> Delete</span></Link>
+      <Link to={`/front/page-helper/${id}/edit`}><span className="edit"><Edit /> Edit</span></Link>,
+      <Link to={`/front/page-helper/${id}/delete`}><span className="delete"><Delete /> Delete</span></Link>
     ];
 
     return [
