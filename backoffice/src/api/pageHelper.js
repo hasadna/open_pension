@@ -55,6 +55,7 @@ export const getPageHelper = async (id) => {
         elementID,
         page {
           id,
+          label
         }
       },
     }
@@ -69,6 +70,14 @@ export const updatePageHelper = async({id, page, description, elementID}) => {
       pageHelperUpdate(id: "${id}", page: "${page}", description: "${description}", elementID: "${elementID}") {
         id
       }
+    }
+  `);
+};
+
+export const deletePageHelper = async (id) => {
+  return await sendQuery(`
+    mutation {
+      pageHelperDelete(id: "${id}")
     }
   `);
 };
