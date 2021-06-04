@@ -60,13 +60,24 @@ export const Text = ({children}) => {
 
 export const Editor = ({label, changeContentCallback, error, value}) => {
   const [editorState, setEditorStage] = useState( EditorState.createEmpty());
+  const [originalValue, setOriginalValue] = useState();
+
   useEffect(() => {
-    setEditorStage(EditorState.createWithContent(
-      ContentState.createFromBlockArray(
-        convertFromHTML(value)
-      )
-    ));
-  }, [value]);
+    if (!originalValue) {
+      setOriginalValue(value);
+    }
+  }, [value])
+
+  useEffect(() => {
+    if (originalValue) {
+      setEditorStage(EditorState.createWithContent(
+        ContentState.createFromBlockArray(
+          convertFromHTML(originalValue)
+        )
+      ));
+    }
+
+  }, [originalValue]);
 
   return <div className="input-wrapper">
     <label>{label}</label>

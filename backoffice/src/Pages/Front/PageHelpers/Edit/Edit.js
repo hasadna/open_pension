@@ -2,7 +2,7 @@ import {handleFormSubmit, PageHelperForm} from "../PageHelperForm";
 import {useState, useReducer, useEffect} from 'react';
 import {errorsReducer, SET_VALUES, valuesReducer} from "componenets/Form/formReducers";
 import {Redirect, useParams} from "react-router-dom";
-import {getPageHelper} from "api/pageHelper";
+import {getPageHelper, updatePageHelper} from "api/pageHelper";
 
 export default () => {
 
@@ -27,15 +27,13 @@ export default () => {
       dispatchError,
       setRedirect,
       sendRequestHandler: async ({description, elementID, page}) => {
-        console.log(description, elementID, page);
-        return {};
-        // return await createPageHelper({description, elementID, page});
+        return await updatePageHelper({id, description, elementID, page});
       }
     });
   };
 
   if (redirect) {
-    // return <Redirect to={"/front/page-helpers"} />;
+    return <Redirect to={"/front/page-helpers"} />;
   }
 
   return <PageHelperForm

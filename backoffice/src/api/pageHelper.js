@@ -62,3 +62,13 @@ export const getPageHelper = async (id) => {
   const {data: {pageHelper: data}, error} = results;
   return {data, error}
 };
+
+export const updatePageHelper = async({id, page, description, elementID}) => {
+  return await sendQuery(`
+    mutation {
+      pageHelperUpdate(id: "${id}", page: "${page}", description: "${description}", elementID: "${elementID}") {
+        id
+      }
+    }
+  `);
+};
