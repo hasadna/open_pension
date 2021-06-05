@@ -9,7 +9,7 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [errors, dispatchError] = useReducer(errorsReducer, {});
-  const [formValues, dispatchValue] = useReducer(valuesReducer, {description: '', elementID: '',});
+  const [formValues, dispatchValue] = useReducer(valuesReducer, {description: '', elementID: '', page: null});
 
   const handleSubmit = async () => {
     await handleFormSubmit({

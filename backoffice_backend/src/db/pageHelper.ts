@@ -6,9 +6,7 @@ import {
   getObject,
   Pagination, TransactionResults, updateObject
 } from "./Utils";
-// @ts-ignore
 import {getPage, PageInterface} from "./page";
-// @ts-ignore
 import {isEmpty} from 'lodash';
 
 export type PageHelperInterface = BaseEntity& {

@@ -46,12 +46,10 @@
     "node": ">=10"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js",
-    "preset": "@shelf/jest-mongodb"
+    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js"
   },
   "dependencies": {
     "@bitauth/libauth": "^1.17.1",
-    "@shelf/jest-mongodb": "^1.2.5",
     "@types/mongodb": "^3.6.10",
     "apollo-server": "^2.21.2",
     "apollo-server-express": "^2.23.0",

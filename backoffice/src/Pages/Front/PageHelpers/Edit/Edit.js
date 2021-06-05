@@ -9,7 +9,7 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [errors, dispatchError] = useReducer(errorsReducer, {});
-  const [formValues, dispatchValue] = useReducer(valuesReducer, {description: '', elementID: '', page: null,});
+  const [formValues, dispatchValue] = useReducer(valuesReducer, {description: '', elementID: '', page: null});
   const {id} = useParams();
 
   useEffect(async() => {
