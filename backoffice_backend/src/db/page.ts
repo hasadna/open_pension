@@ -11,7 +11,7 @@ export type PageInterface = BaseEntity& {
   readonly label: string;
 }
 
-const pageSchema = new mongoose.Schema({
+export const pageSchema = new mongoose.Schema({
   label: { type: String, required: true },
 });
 
@@ -38,7 +38,7 @@ export async function getPage({id, conditions}: GetEntityArguments, pagination: 
 /**
  * Creating a page.
  *
- * @param page - The file object.
+ * @param page - The page object.
  */
 export async function createPage(page: PageInterface): Promise<TransactionResults> {
   return await createObject(Page, page);

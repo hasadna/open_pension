@@ -26,9 +26,17 @@ export const typeDefs = gql`
     label: String,
   }
 
+  type PageHelper {
+    id: String,
+    description: String,
+    elementID: String,
+    page: Page
+  }
+
   type AllItems {
     files: [File],
     users: [User],
+    pageHelpers: [PageHelper],
     totalCount: Int
   }
 
@@ -66,6 +74,10 @@ export const typeDefs = gql`
     pages: [Page],
     page(id: ID!): Page,
 
+    # Page helper.
+    pageHelpers(filter: [MessageInput], pagination: Pagination): AllItems,
+    pageHelper(id: ID!): PageHelper,
+
     # Auth.
     me: User
   },
@@ -83,6 +95,11 @@ export const typeDefs = gql`
     pageCreate(label: String): Page,
     pageUpdate(id: ID!, label: String): Page,
     pageDelete(id: ID!): Boolean,
+
+    # Page Helper.
+    pageHelperCreate(description: String, elementID: String, page: ID!): PageHelper,
+    pageHelperUpdate(id: ID!, description: String, elementID: String, page: ID!): PageHelper,
+    pageHelperDelete(id: ID!): Boolean,
 
     # Auth.
     tokenCreate(username: String, email: String, password: String): Token

@@ -1,13 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import {Page} from "../db/page";
-
 require('dotenv').config()
 
 process.env.dbURL = 'mongodb://127.0.0.1/test';
 
+import * as server from '../server/server';
+
 import { File } from '../db/file';
 import { User } from '../db/user';
-import * as server from '../server/server';
+import { Page } from "../db/page";
+import { PageHelper } from '../db/pageHelper';
+
 
 beforeEach(async () => {
 
@@ -18,7 +20,7 @@ beforeEach(async () => {
         }}
     });
 
-  await User.deleteMany({});
-  await File.deleteMany({});
-  await Page.deleteMany({});
+  [User, File, Page, PageHelper].forEach(async model => {
+    await model.deleteMany({})
+  });
 });

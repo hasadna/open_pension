@@ -1,18 +1,19 @@
-import { createToken, createUser, getUser } from '../db/user';
+import { createToken, createUser, getUser } from '../../db/user';
 
-import * as server from './server'
+import * as server from '../server'
 const { getUserFromRequest } = server;
 import {
   createTestingServer,
-  filesQuery,
+  sendQuery
+} from './testingUtils';
+import {queryFiles} from "./query.files";
+import {
   meQuery,
   refreshTokenQuery,
-  revokeTokenQuery,
-  sendQuery,
-  tokenQuery
-} from './testingUtils';
+  revokeTokenQuery, tokenQuery
+} from "./createTestingServer";
 
-describe('Auth', () => {
+describe('Testing server: auth', () => {
 
   let testingServer;
 
@@ -158,7 +159,7 @@ describe('Auth', () => {
         return {}
       });
 
-    const {errors: [{message}], data: {files}} = await sendQuery(filesQuery, testingServer);
+    const {errors: [{message}], data: {files}} = await sendQuery(queryFiles, testingServer);
     expect(message).toBe('you must be logged in');
     expect(files).toBeNull();
   });
