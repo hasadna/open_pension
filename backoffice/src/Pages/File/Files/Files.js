@@ -10,7 +10,7 @@ import {valuesReducer} from "componenets/Form/formReducers";
 
 export default () => {
   const [queryParams, setQueryParams] = useState({});
-  const [formValues, dispatchValue] = useReducer(valuesReducer, {filename: null, status: null});
+  const [formValues, dispatchValue] = useReducer(valuesReducer, {filename: null});
 
   const handleSubmit = () => {
     setQueryParams(formValues);

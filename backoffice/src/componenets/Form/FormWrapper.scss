@@ -43,6 +43,11 @@
     }
   }
 
+  .draft-wrapper {
+    width: 100%;
+    padding-right: 3em;
+  }
+
   .footer {
     display: flex;
     justify-content: flex-end;
@@ -53,6 +58,7 @@
 }
 
 .input-wrapper {
+  margin-right: .5em;
 
   label {
     font-size: .875rem;
@@ -63,6 +69,10 @@
   .input-error {
     color: var(--warning-error);
     font-size: .75em;
+  }
+
+  select {
+    height: 3.75em;
   }
 
   .form-element {

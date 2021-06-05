@@ -98,7 +98,11 @@ export async function createObject(entityModel: Model<any>, objectToInsert: Base
  */
 export async function getObject(entityModel: Model<any>, {id, conditions}: GetEntityArguments, pagination: Pagination = {}, filter: Filter[] = []) {
   if (id) {
-    return {collections: await entityModel.findById({_id: id}).exec()};
+    return {
+      collections: await entityModel.findById({_id: id})
+        .populate('page')
+        .exec()
+    };
   }
 
   let collections, totalCount;
@@ -131,7 +135,10 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
     collections = collections.limit(itemsNumber).skip(page * itemsNumber);
   }
 
-  collections = await collections.sort({'storageId': -1}).exec();
+  collections = await collections
+    .populate('page')
+    .sort({'storageId': -1})
+    .exec();
 
   return {collections, totalCount};
 }

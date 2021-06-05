@@ -1,3 +1,5 @@
+import {isString} from 'lodash';
+
 export const ADD_ERROR = 'setError';
 export const RESET_ERRORS = 'resetErrors';
 export const SET_ELEMENT_VALUE = 'setElement';
@@ -23,10 +25,15 @@ export const errorsReducer = (state, {type, error}) => {
 
 export const valuesReducer = (state, {element, name, action = SET_ELEMENT_VALUE, newState = {}}) => {
   if (action === SET_ELEMENT_VALUE) {
-    element.preventDefault();
-    return {...state, ...{[name]: element.target.value}};
+    let value;
+    if (isString(element)) {
+      value = element;
+    } else {
+      element.preventDefault();
+      value = element.target.value;
+    }
+    return {...state, ...{[name]: value}};
   }
 
   return {...state, ...newState}
-
 }
