@@ -45,3 +45,18 @@ model Row {
   YITRAT_NCHASIM_LSOF_TKUFA         Float
   TSUA_NOMINALIT_BRUTO_HODSHIT      Float
 }
+
+model InsuranceType {
+  id    Int     @id @default(autoincrement())
+  title String
+}
+
+model InvestmentType {
+  id    Int     @id @default(autoincrement())
+  title String
+}
+
+model Body {
+  id    Int     @id @default(autoincrement())
+  title String
+}

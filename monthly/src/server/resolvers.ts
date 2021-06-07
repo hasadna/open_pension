@@ -1,7 +1,6 @@
 export default {
   Query: {
-    // @ts-ignore
-    rows: async (_, args, ctx) => {
+    rows: async (_, __, ctx) => {
       const {prisma} = ctx;
       return await prisma.row.findMany({
         include: {
@@ -9,10 +8,21 @@ export default {
         }
       });
     },
-    // @ts-ignore
-    files: async (_, args, ctx) => {
+    files: async (_, __, ctx) => {
       const {prisma} = ctx;
       return await prisma.file.findMany({});
+    },
+    insuranceTypes: async (_, __, ctx) => {
+      const {prisma} = ctx;
+      return await prisma.insuranceType.findMany({});
+    },
+    investmentTypes: async (_, __, ctx) => {
+      const {prisma} = ctx;
+      return await prisma.investmentType.findMany({});
+    },
+    bodies: async (_, __, ctx) => {
+      const {prisma} = ctx;
+      return await prisma.body.findMany({});
     },
   },
 };
