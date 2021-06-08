@@ -1,4 +1,4 @@
-import Wrapper from "../Components/Wrapper/wrapper";
+import Wrapper from "../Components/Wrapper/Wrapper";
 import SecondaryHeader from "../Components/SecondaryHeader/SecondaryHeader";
 import HoldingsSearch from "../Components/HoldingsSearch/HoldingsSearch";
 import {useState} from 'react';

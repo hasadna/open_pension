@@ -9,6 +9,13 @@ volumes:
     external: false
 
 services:
+
+  front:
+    build:
+      context: ./front
+    ports:
+      - "3000:80"
+
   gateway:
     image: hasadna/open-pension-gateway:latest
     restart: always
@@ -42,7 +49,7 @@ services:
       tokenTimeToLive: 86400
       kafkaHost: kafka:9092
       listenedTopic: FileStored,fileStoredByService,processingStarted,processedWithErrors,processed
-      kafkaOn: true
+      kafkaOn: 1
     ports:
       - '2001:4000'
 
