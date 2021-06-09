@@ -9,6 +9,13 @@ volumes:
     external: false
 
 services:
+
+  front:
+    build:
+      context: ./front
+    ports:
+      - "80:3000"
+
   gateway:
     image: hasadna/open-pension-gateway:latest
     restart: always

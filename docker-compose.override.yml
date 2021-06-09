@@ -18,9 +18,6 @@ services:
       - /home/app/gateway/node_modules
       - ./gateway/:/home/app/gateway
     command: ["npm", "run", "dev"]
-    ports:
-      # Expose graphql-playground localhost:4000
-      - "4000:80"
 
   processor:
     volumes:
