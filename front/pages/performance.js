@@ -1,5 +1,5 @@
 import {isEmpty} from 'lodash';
-import Wrapper from "../Components/Wrapper/wrapper";
+import Wrapper from "../Components/Wrapper/Wrapper";
 import SecondaryHeader from "../Components/SecondaryHeader/SecondaryHeader";
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
 import {useState, useReducer, useEffect} from 'react';
