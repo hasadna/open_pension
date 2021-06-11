@@ -8,28 +8,27 @@ datasource db {
 }
 
 model File {
-  id                              Int     @id @default(autoincrement())
+  ID                              Int         @id @default(autoincrement())
   storageID                       Int
   filename                        String
-  path                            String  @db.LongText
-  created                         DateTime @default(now())
-  status                          Status @default(Ready)
-  error                           String @db.LongText
+  path                            String      @db.LongText
+  created                         DateTime    @default(now())
+  status                          FileStatus  @default(Ready)
+  error                           String      @db.LongText
   rows                            Row[]
 }
 
-enum Status {
+enum FileStatus {
   Ready
   Succeeded
   Failed
 }
 
 model Row {
-  id                                Int     @id @default(autoincrement())
-  fileId                            Int
-  created                           DateTime @default(now())
-  file                              File    @relation(fields: [fileId], references: [id])
+  ID                                Int       @id @default(autoincrement())
+  created                           DateTime  @default(now())
 
+  // Base rows.
   MANAGER_ID                        Int
   ALPHA_SHNATI                      Float
   SHARP_RIBIT_HASRAT_SIKUN          Float?
@@ -44,19 +43,81 @@ model Row {
   TSUA_MITZT_MI_THILAT_SHANA        Float
   YITRAT_NCHASIM_LSOF_TKUFA         Float
   TSUA_NOMINALIT_BRUTO_HODSHIT      Float
+
+  // File reference.
+  fileID    Int
+  file      File                    @relation(fields: [fileID], references: [ID])
+
+  // Managing body reference.
+  managingBodyID    Int
+  managingBody      ManagingBody    @relation(fields: [managingBodyID], references: [ID])
+
+  // Fund name.
+  fundNameyID       Int
+  fundName          FundName        @relation(fields: [fundNameyID], references: [ID])
+
+  // Status.
+  stausID           Int
+  status            Status          @relation(fields: [stausID], references: [ID])
+
+  // Channel.
+  channelID         Int
+  channel           Channel         @relation(fields: [channelID], references: [ID])
+
+  // Sub Channel.
+  subChannelID      Int
+  subChannel        SubChannel      @relation(fields: [subChannelID], references: [ID])
+
+  // Type.
+  typeID            Int
+  type              Type            @relation(fields: [typeID], references: [ID])
+
+  // PassiveActive.
+  passiveActiveID   Int
+  passiveActive     PassiveActive   @relation(fields: [passiveActiveID], references: [ID])
+
+  // Homebase.
+  homebaseID        Int
+  homebase          Homebase        @relation(fields: [homebaseID], references: [ID])
 }
 
-model InsuranceType {
-  id    Int     @id @default(autoincrement())
-  title String
+model ManagingBody {
+  ID      Int     @id @default(autoincrement())
+  label   String
 }
 
-model InvestmentType {
-  id    Int     @id @default(autoincrement())
-  title String
+model FundName {
+  ID      Int     @id @default(autoincrement())
+  label   String
 }
 
-model Body {
-  id    Int     @id @default(autoincrement())
-  title String
+model Status {
+  ID      Int     @id @default(autoincrement())
+  label   String
+}
+
+model Channel {
+  ID      Int     @id @default(autoincrement())
+  label   String
+  prefix  String
+}
+
+model SubChannel {
+  ID      Int     @id @default(autoincrement())
+  label   String
+}
+
+model Type {
+  ID      Int     @id @default(autoincrement())
+  label   String
+}
+
+model PassiveActive {
+  ID      Int     @id @default(autoincrement())
+  label   String
+}
+
+model Homebase {
+  ID      Int     @id @default(autoincrement())
+  label   String
 }
