@@ -24,6 +24,7 @@ enum FileStatus {
   Failed
 }
 
+// todo: consider if we need the object reference and just use the id reference.
 model Row {
   ID                                Int       @id @default(autoincrement())
   created                           DateTime  @default(now())
@@ -80,6 +81,19 @@ model Row {
   homebaseID        Int
   homebase          Homebase        @relation(fields: [homebaseID], references: [ID])
 }
+
+model Fund {
+  ID                Int       @id @default(autoincrement())
+  managingBodyID    Int
+  fundNameyID       Int
+  stausID           Int
+  channelID         Int
+  subChannelID      Int
+  typeID            Int
+  passiveActiveID   Int
+  homebaseID        Int
+}
+
 
 model ManagingBody {
   ID      Int     @id @default(autoincrement())
