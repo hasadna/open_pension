@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import {dataFromFile} from "../src/reclamation/reclamation";
+import { dataFromFile } from "../src/reclamation/reclamation";
+import { isEmpty } from 'lodash';
+
 const prisma = new PrismaClient()
 
 enum ItemsTypes {
@@ -13,9 +15,31 @@ enum ItemsTypes {
   Type = 'type',
 }
 
+const ModelItemTypes = {
+  [ItemsTypes.Fund]: prisma.fundName,
+  [ItemsTypes.Channel]: prisma.channel,
+  [ItemsTypes.SubChannel]: prisma.subChannel,
+  [ItemsTypes.HomeBase]: prisma.homebase,
+  [ItemsTypes.ManagingBody]: prisma.managingBody,
+  [ItemsTypes.PassiveActive]: prisma.passiveActive,
+  [ItemsTypes.Status]: prisma.status,
+  [ItemsTypes.Type]: prisma.type,
+};
+
+const ChannelToPrefix = {
+  'גמל': 'g',
+  'פנסיה': 'p',
+  'ביטוח': 'b',
+};
+
 let cache: any = {};
 
-async function getOrCreateItem(label: string, itemType: ItemsTypes, ) {
+async function getOrCreateItem(label: string, itemType: ItemsTypes) {
+
+  if (isEmpty(label)) {
+    // should be exists here. Remove after fixing the file.
+    return null;
+  }
 
   const keyExists = (object: Object, key: string): boolean => Object.keys(object).includes(key);
 
@@ -24,19 +48,41 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes, ) {
   }
 
   if (!keyExists(cache[itemType], label)) {
+    const model = ModelItemTypes[itemType];
 
     // First, check if the item exists in the DB.
-    // if not - create it. If so, get it.
-    // Second, check if we need to set the prefix for the channel entry.
-    cache[itemType][label] = 1;
+    // @ts-ignore
+    const results = await model.findFirst({where: {label}});
+
+    let recordFromDB;
+    if (isEmpty(results)) {
+      // The object does not exists in the DB. Create it and the set
+      // recordFromDB as the created object.
+      const data = {label};
+
+      if (itemType === ItemsTypes.Channel) {
+        data['prefix'] = ChannelToPrefix[label];
+      }
+
+      // @ts-ignore
+      recordFromDB = await model.create({data});
+    } else {
+      // We have a model with the ID in the table. Set that one as as the
+      // recordFromDB.
+      recordFromDB = results;
+    }
+
+    // Setting the cache for the next time so we won't hit the DB again.
+    cache[itemType][label] = recordFromDB;
   }
 
   return cache[itemType][label];
 }
 
 async function main() {
-
   const rows = await dataFromFile();
+
+  const funds = [];
   for (let row of rows.splice(1)) {
     // @ts-ignore
     const {FundID, FundName, Channel, SubChannel, HomeBase, ManagingBody, PassiveActive, Status, Type} = row;
@@ -52,9 +98,24 @@ async function main() {
       await getOrCreateItem(Type, ItemsTypes.Type),
     ];
 
+    funds.push({
+      fundID: FundID,
+      fundName: fundNameID,
+      channel: channelID,
+      subChannel: subChannelID,
+      homebase: homeBaseID,
+      managingBody: managingBodyID,
+      passiveActive: passiveActiveID,
+      status: statusID,
+      type: typeID,
+    });
+
+    await prisma.fund.create({data: funds[0]})
+
+    return
   }
 
-  console.log(cache);
+  // await prisma.fund.createMany({data: funds});
 }
 
 main()

@@ -41,10 +41,11 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-    "makeMigration": "prisma migrate dev --preview-feature",
+    "makeMigration": "prisma migrate dev",
     "migrate": "prisma db push --preview-feature",
     "clientGenerate": "prisma generate",
-    "seed": "prisma db seed --preview-feature"
+    "seed": "prisma db seed --preview-feature",
+    "prismaFormat": "prisma format"
   },
   "engines": {
     "node": ">=10"
@@ -52,7 +53,7 @@
   "dependencies": {
     "@bitauth/libauth": "^1.17.1",
     "@ladjs/graceful": "^1.0.5",
-    "@prisma/client": "^2.17.0",
+    "@prisma/client": "^2.24.1",
     "@types/xml2js": "^0.4.7",
     "apollo-server": "^2.19.2",
     "bree": "^6.2.0",
@@ -66,7 +67,6 @@
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@prisma/cli": "^2.14.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.20",
     "@typescript-eslint/eslint-plugin": "^4.0.1",

@@ -8,14 +8,14 @@ datasource db {
 }
 
 model File {
-  ID                              Int         @id @default(autoincrement())
-  storageID                       Int
-  filename                        String
-  path                            String      @db.LongText
-  created                         DateTime    @default(now())
-  status                          FileStatus  @default(Ready)
-  error                           String      @db.LongText
-  rows                            Row[]
+  ID        Int        @id @default(autoincrement())
+  storageID Int
+  filename  String
+  path      String     @db.LongText
+  created   DateTime   @default(now())
+  status    FileStatus @default(Ready)
+  error     String     @db.LongText
+  rows      Row[]
 }
 
 enum FileStatus {
@@ -24,114 +24,129 @@ enum FileStatus {
   Failed
 }
 
-// todo: consider if we need the object reference and just use the id reference.
 model Row {
-  ID                                Int       @id @default(autoincrement())
-  created                           DateTime  @default(now())
+  ID      Int      @id @default(autoincrement())
+  created DateTime @default(now())
 
   // Base rows.
-  MANAGER_ID                        Int
-  ALPHA_SHNATI                      Float
-  SHARP_RIBIT_HASRAT_SIKUN          Float?
-  STIAT_TEKEN_60_HODASHIM           Float
-  STIAT_TEKEN_36_HODASHIM           Float
-  TSUA_SHNATIT_MEMUZAAT_5_SHANIM    Float
-  TSUA_SHNATIT_MEMUZAAT_3_SHANIM    Float
-  TSUA_MITZTABERET_60_HODASHIM      Float
-  TSUA_MITZTABERET_36_HODASHIM      Float
-  TSUA_MEMUZAAT_60_HODASHIM         Float
-  TSUA_MEMUZAAT_36_HODASHIM         Float
-  TSUA_MITZT_MI_THILAT_SHANA        Float
-  YITRAT_NCHASIM_LSOF_TKUFA         Float
-  TSUA_NOMINALIT_BRUTO_HODSHIT      Float
+  MANAGER_ID                     Int
+  ALPHA_SHNATI                   Float
+  SHARP_RIBIT_HASRAT_SIKUN       Float?
+  STIAT_TEKEN_60_HODASHIM        Float
+  STIAT_TEKEN_36_HODASHIM        Float
+  TSUA_SHNATIT_MEMUZAAT_5_SHANIM Float
+  TSUA_SHNATIT_MEMUZAAT_3_SHANIM Float
+  TSUA_MITZTABERET_60_HODASHIM   Float
+  TSUA_MITZTABERET_36_HODASHIM   Float
+  TSUA_MEMUZAAT_60_HODASHIM      Float
+  TSUA_MEMUZAAT_36_HODASHIM      Float
+  TSUA_MITZT_MI_THILAT_SHANA     Float
+  YITRAT_NCHASIM_LSOF_TKUFA      Float
+  TSUA_NOMINALIT_BRUTO_HODSHIT   Float
 
-  // File reference.
-  fileID    Int
-  file      File                    @relation(fields: [fileID], references: [ID])
-
-  // Managing body reference.
-  managingBodyID    Int
-  managingBody      ManagingBody    @relation(fields: [managingBodyID], references: [ID])
-
-  // Fund name.
-  fundNameyID       Int
-  fundName          FundName        @relation(fields: [fundNameyID], references: [ID])
-
-  // Status.
-  stausID           Int
-  status            Status          @relation(fields: [stausID], references: [ID])
-
-  // Channel.
-  channelID         Int
-  channel           Channel         @relation(fields: [channelID], references: [ID])
-
-  // Sub Channel.
-  subChannelID      Int
-  subChannel        SubChannel      @relation(fields: [subChannelID], references: [ID])
-
-  // Type.
-  typeID            Int
-  type              Type            @relation(fields: [typeID], references: [ID])
-
-  // PassiveActive.
-  passiveActiveID   Int
-  passiveActive     PassiveActive   @relation(fields: [passiveActiveID], references: [ID])
-
-  // Homebase.
-  homebaseID        Int
-  homebase          Homebase        @relation(fields: [homebaseID], references: [ID])
+  file            File          @relation(fields: [fileID], references: [ID])
+  managingBody    ManagingBody  @relation(fields: [managingBodyID], references: [ID])
+  fundName        FundName      @relation(fields: [fundNameID], references: [ID])
+  status          Status        @relation(fields: [statusID], references: [ID])
+  channel         Channel       @relation(fields: [channelID], references: [ID])
+  subChannel      SubChannel    @relation(fields: [subChannelID], references: [ID])
+  type            Type          @relation(fields: [typeID], references: [ID])
+  passiveActive   PassiveActive @relation(fields: [passiveActiveID], references: [ID])
+  homebase        Homebase      @relation(fields: [homebaseID], references: [ID])
+  fileID          Int
+  managingBodyID  Int
+  fundNameID      Int
+  statusID        Int
+  channelID       Int
+  subChannelID    Int
+  typeID          Int
+  passiveActiveID Int
+  homebaseID      Int
 }
 
 model Fund {
-  ID                Int       @id @default(autoincrement())
-  managingBodyID    Int
-  fundNameyID       Int
-  stausID           Int
-  channelID         Int
-  subChannelID      Int
-  typeID            Int
-  passiveActiveID   Int
-  homebaseID        Int
+  ID            Int           @id @default(autoincrement())
+  fundID        Int
+  managingBody  ManagingBody  @relation(fields: [managingBodyID], references: [ID])
+  fundName      FundName      @relation(fields: [fundNameID], references: [ID])
+  status        Status        @relation(fields: [statusID], references: [ID])
+  channel       Channel       @relation(fields: [channelID], references: [ID])
+  subChannel    SubChannel    @relation(fields: [subChannelID], references: [ID])
+  type          Type          @relation(fields: [typeID], references: [ID])
+  passiveActive PassiveActive @relation(fields: [passiveActiveID], references: [ID])
+  homebase      Homebase      @relation(fields: [homebaseID], references: [ID])
+
+  managingBodyID  Int
+  fundNameID      Int
+  statusID        Int
+  channelID       Int
+  subChannelID    Int
+  typeID          Int
+  passiveActiveID Int
+  homebaseID      Int
 }
 
-
 model ManagingBody {
-  ID      Int     @id @default(autoincrement())
-  label   String
+  ID    Int    @id @default(autoincrement())
+  label String
+
+  Row  Row[]
+  Fund Fund[]
 }
 
 model FundName {
-  ID      Int     @id @default(autoincrement())
-  label   String
+  ID    Int    @id @default(autoincrement())
+  label String
+
+  Row  Row[]
+  Fund Fund[]
 }
 
 model Status {
-  ID      Int     @id @default(autoincrement())
-  label   String
+  ID    Int    @id @default(autoincrement())
+  label String
+
+  Row  Row[]
+  Fund Fund[]
 }
 
 model Channel {
-  ID      Int     @id @default(autoincrement())
-  label   String
-  prefix  String
+  ID     Int    @id @default(autoincrement())
+  label  String
+  prefix String
+
+  Row  Row[]
+  Fund Fund[]
 }
 
 model SubChannel {
-  ID      Int     @id @default(autoincrement())
-  label   String
+  ID    Int    @id @default(autoincrement())
+  label String
+
+  Row  Row[]
+  Fund Fund[]
 }
 
 model Type {
-  ID      Int     @id @default(autoincrement())
-  label   String
+  ID    Int    @id @default(autoincrement())
+  label String
+
+  Row  Row[]
+  Fund Fund[]
 }
 
 model PassiveActive {
-  ID      Int     @id @default(autoincrement())
-  label   String
+  ID    Int    @id @default(autoincrement())
+  label String
+
+  Row  Row[]
+  Fund Fund[]
 }
 
 model Homebase {
-  ID      Int     @id @default(autoincrement())
-  label   String
+  ID    Int    @id @default(autoincrement())
+  label String
+
+  Row  Row[]
+  Fund Fund[]
 }
