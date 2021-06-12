@@ -27,7 +27,7 @@ export async function queue() {
     console.log(`There are ${numberOfFiles} file(s) to process. Starting to process them`);
 
     await Promise.all(files.map(async (file: File) => {
-      console.log(`Processing the file ${file.id} - ${file.filename}`);
+      console.log(`Processing the file ${file.ID} - ${file.filename}`);
 
       // Sending the event for starting the processing.
       if (kafkaClient.serviceUp) {

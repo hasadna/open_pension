@@ -73,7 +73,7 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes) {
     }
 
     // Setting the cache for the next time so we won't hit the DB again.
-    cache[itemType][label] = recordFromDB;
+    cache[itemType][label] = recordFromDB.ID;
   }
 
   return cache[itemType][label];
@@ -82,9 +82,7 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes) {
 async function main() {
   const rows = await dataFromFile();
 
-  const funds = [];
   for (let row of rows.splice(1)) {
-    // @ts-ignore
     const {FundID, FundName, Channel, SubChannel, HomeBase, ManagingBody, PassiveActive, Status, Type} = row;
 
     const [fundNameID, channelID, subChannelID, homeBaseID, managingBodyID, passiveActiveID, statusID, typeID] = [
@@ -98,24 +96,20 @@ async function main() {
       await getOrCreateItem(Type, ItemsTypes.Type),
     ];
 
-    funds.push({
+    const data = {
       fundID: FundID,
-      fundName: fundNameID,
-      channel: channelID,
-      subChannel: subChannelID,
-      homebase: homeBaseID,
-      managingBody: managingBodyID,
-      passiveActive: passiveActiveID,
-      status: statusID,
-      type: typeID,
-    });
+      fundName: {connect: {ID: fundNameID}},
+      channel: {connect: {ID: channelID}},
+      subChannel: {connect: {ID: subChannelID}},
+      homebase: {connect: {ID: homeBaseID}},
+      managingBody: {connect: {ID: managingBodyID}},
+      passiveActive: {connect: {ID: passiveActiveID}},
+      status: {connect: {ID: statusID}},
+      type: {connect: {ID: typeID}},
+    };
 
-    await prisma.fund.create({data: funds[0]})
-
-    return
+    await prisma.fund.create({data})
   }
-
-  // await prisma.fund.createMany({data: funds});
 }
 
 main()

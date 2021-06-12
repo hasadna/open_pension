@@ -41,11 +41,12 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-    "makeMigration": "prisma migrate dev",
-    "migrate": "prisma db push --preview-feature",
-    "clientGenerate": "prisma generate",
-    "seed": "prisma db seed --preview-feature",
-    "prismaFormat": "prisma format"
+    "peisma:makeMigration": "prisma migrate dev",
+    "prisma:migrate": "prisma db push --preview-feature",
+    "prisma:clientGenerate": "prisma generate",
+    "prisma:seed": "prisma db seed --preview-feature",
+    "prisma:studio": "prisma studio",
+    "prisma:format": "prisma format"
   },
   "engines": {
     "node": ">=10"

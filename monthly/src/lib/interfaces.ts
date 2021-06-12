@@ -15,7 +15,7 @@ export enum FileStatus {
 }
 
 export interface File {
-  id: number,
+  ID: number,
   storageID: number,
   filename: string,
   path: string,
