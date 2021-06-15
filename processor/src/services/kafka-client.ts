@@ -1,18 +1,22 @@
-import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
+// import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
 import {getKafkaHost, getKafkaListenTopic} from "./env";
 import {handleKafkaMessage} from "./queue";
 
 export class KafkaClient {
+  // @ts-ignore
   private producer: kafka.Producer;
   public serviceUp: boolean;
 
   constructor() {
     try {
+      // @ts-ignore
+
       const client = new kafka.KafkaClient({
         kafkaHost: getKafkaHost(),
       });
 
       this.serviceUp = true;
+      // @ts-ignore
 
       this.producer = new kafka.Producer(client);
       this.producer.on("ready", () => console.log("Kafka producer ready"));
@@ -25,6 +29,7 @@ export class KafkaClient {
   }
 
   async sendMessage(messages: any, topic: any) {
+    return;
 
     if (!this.serviceUp) {
       console.error('The kafka host is not alive')
@@ -39,6 +44,8 @@ export class KafkaClient {
   }
 
   static listen() {
+    // @ts-ignore
+
     const options: ConsumerGroupOptions = {
       kafkaHost: getKafkaHost(),
       groupId: 'fetcher',
@@ -47,6 +54,7 @@ export class KafkaClient {
       fromOffset: 'latest', // default
       outOfRangeOffset: 'earliest', // default
     };
+    // @ts-ignore
 
     const consumerGroup = new ConsumerGroup(options, [getKafkaListenTopic()]);
     console.log('Start to listen to events')

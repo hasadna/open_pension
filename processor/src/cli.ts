@@ -1,14 +1,9 @@
-import {createInterface} from "readline";
-import * as fs from "fs";
-import * as path from "path";
+import {chunk} from 'lodash';
+import {readdirSync, existsSync, mkdirSync, writeFileSync} from 'fs';
+import {basename, parse, join} from 'path';
+import {totalmem, freemem} from 'os';
 import {performanceProcess, singleAssetProcess} from "./parse";
 import * as colors from "colors";
-
-const rl = createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-});
 
 const [type] = process.argv.slice(2);
 
@@ -27,70 +22,65 @@ const handleFile = async (processingType, filePath) => {
 
 
 const handleFiles = async (sourceDirectory, destination, results) => {
-    let index = 1;
-    const files = fs.readdirSync(sourceDirectory);
+    const filesChunks = 20;
 
-    return Promise.all(files.map(async (filename) => {
-        return new Promise(async (resolve) => {
-            console.log(colors.yellow(`Process the file ${filename}`));
-            const destinationPath = path.join(destination, `${filename.split('.')[0]}.json`);
+    if (!existsSync(destination)) {
+        mkdirSync(destination);
+        console.log(colors.magenta(`Destination folder ${destination} created`))
+    }
 
-            if (fs.existsSync(destinationPath)) {
-                results[filename] = "Skipped";
-                console.log(colors.blue(`${filename} (${index++} / ${files.length}) skipped`));
-            } else {
-                try {
-                    const processResults = await handleFile(type, path.join(sourceDirectory, filename));
-                    fs.writeFileSync(destinationPath, JSON.stringify(processResults));
-                    console.log(colors.green(`${filename} (${index++} / ${files.length}) processed`));
-                    results[filename] = "Passed";
-                } catch (e) {
-                    console.log(colors.red(`${filename} (${index++} / ${files.length}) error`));
-                    console.error(filename, e);
-                    results[filename] = `Failed: ${e}`
-                }
+    // Get all the files we need to process.
+    let filesFromSourceDirectory = await readdirSync(sourceDirectory);
+
+    // Get all the files we processed.
+    const filesFromDestination = await readdirSync(destination);
+
+    // Clean the processed files the un-processed files and log it and Split the unprocessed files to chunks of 20.
+    // todo: Filter is wrong, there are duplicate files!
+    let filesToProcess = chunk(filesFromSourceDirectory.filter((file: string) => {
+        const filename = basename(file);
+        return !filesFromDestination.includes(`${parse(filename).name}.json`) || file === '.DS_Store';
+    }), filesChunks);
+
+    if (filesFromDestination.length > 0) {
+        console.log(`${filesFromDestination.length} files were processed been processed: ${filesFromDestination.map(file => `${file}\n`)}`.yellow)
+    } else {
+        console.log('Starting to process all the files'.blue)
+    }
+
+    console.log(`Start to process ${filesToProcess.length} chunks of files.`.yellow.bgBlue);
+
+   for (let files of filesToProcess) {
+        for (let filename of files) {
+            console.log(filename, freemem() / 1000);
+            try {
+                const processResults = await handleFile(type, join(sourceDirectory, filename));
+                writeFileSync(join(destination, `${basename(filename)}.json`), JSON.stringify(processResults));
+                results[filename] = "Passed";
+            } catch (e) {
+                console.error(filename, e);
+                results[filename] = `Failed: ${e}`
             }
 
-            resolve();
-        });
+            global.gc();
+        }
 
-    }));
+        console.log('-------');
+    }
+
+   console.log(results);
+
+   return Promise.resolve();
 };
 
-const handlingDirectory = async (userPathInput) => {
-    if (fs.lstatSync(userPathInput).isDirectory()) {
-
-        rl.question(colors.blue('Enter destination folder '), async (destination: string) => {
-
-            if (!fs.existsSync(destination)) {
-                fs.mkdirSync(destination);
-                console.log(colors.magenta(`Destination folder ${destination} created`))
-            }
-
-            const results = {};
-            await handleFiles(userPathInput, destination, results);
-            console.log(results);
-            console.log(colors.green("Completed!"))
-            rl.close();
-        });
-
-    } else {
-        const results = await handleFile(type, userPathInput);
-        console.log(JSON.stringify(results));
-    }
+const handlingDirectory = async () => {
+    return await handleFiles("/Users/roysegall/Downloads/json_reports", "/Users/roysegall/Downloads/export", {});
 }
 
 if (!type) {
     console.log(colors.red("You need to provide a process types: performance or single_asset"));
 } else {
-    rl.question(colors.blue("What's the path for the files, can be a single files or a list of folder? "), async (sourceDirectory: string) => {
-
-        if (!fs.existsSync(sourceDirectory)) {
-            console.error(`The path ${sourceDirectory} does not exists`);
-            rl.close();
-            return;
-        }
-
-        await handlingDirectory(sourceDirectory)
-    });
+    (async () => {
+        await handlingDirectory();
+    })()
 }
