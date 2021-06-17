@@ -1,7 +1,7 @@
 import {chunk} from 'lodash';
 import {readdirSync, existsSync, mkdirSync, writeFileSync} from 'fs';
 import {basename, parse, join} from 'path';
-import {totalmem, freemem} from 'os';
+import {freemem} from 'os';
 import {performanceProcess, singleAssetProcess} from "./parse";
 import * as colors from "colors";
 
@@ -74,6 +74,7 @@ const handleFiles = async (sourceDirectory, destination, results) => {
 };
 
 const handlingDirectory = async () => {
+    // todo: support argument and if arguments are not available ask for them.
     return await handleFiles("/Users/roysegall/Downloads/json_reports", "/Users/roysegall/Downloads/export", {});
 }
 
