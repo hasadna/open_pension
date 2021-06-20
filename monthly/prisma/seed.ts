@@ -108,8 +108,10 @@ async function main() {
       type: {connect: {ID: typeID}},
     };
 
-    // todo: create insert multiple.
-    await prisma.fund.create({data})
+    // We cannot use createMany since there might be some data which relies on
+    // other data.
+    await prisma.fund.create({data});
+    console.log(`Fund ID ${FundID} has been processed to the DB`)
   }
 }
 

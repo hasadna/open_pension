@@ -41,7 +41,7 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-    "peisma:makeMigration": "prisma migrate dev",
+    "prisma:makeMigration": "prisma migrate dev",
     "prisma:migrate": "prisma db push --preview-feature",
     "prisma:clientGenerate": "prisma generate",
     "prisma:seed": "prisma db seed --preview-feature",
@@ -63,8 +63,8 @@
     "graphql": "^15.4.0",
     "kafka-node": "^5.0.0",
     "lodash": "^4.17.21",
-    "xml2js": "^0.4.23",
-    "read-excel-file": "^5.1.0"
+    "read-excel-file": "^5.1.0",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
