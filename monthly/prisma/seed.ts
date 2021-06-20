@@ -108,6 +108,7 @@ async function main() {
       type: {connect: {ID: typeID}},
     };
 
+    // todo: create insert multiple.
     await prisma.fund.create({data})
   }
 }

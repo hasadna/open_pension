@@ -76,7 +76,19 @@ export interface ProcessedXmlFileBituachRowsInterface {
   TSUA_NOMINALIT_BRUTO_HODSHIT: string[],
 }
 
-export interface FileRowInterface {
+export interface ReclamationResults {
+  managingBodyID: number,
+  fundNameID: number,
+  statusID: number,
+  channelID: number,
+  subChannelID: number,
+  typeID: number,
+  passiveActiveID: number,
+  homebaseID: number,
+}
+
+export interface FileRowInterface extends ReclamationResults {
+  row_ID: number,
   MANAGER_ID: number,
   ALPHA_SHNATI: number,
   SHARP_RIBIT_HASRAT_SIKUN?: number,
@@ -90,7 +102,7 @@ export interface FileRowInterface {
   TSUA_MEMUZAAT_36_HODASHIM: number,
   TSUA_MITZT_MI_THILAT_SHANA: number,
   YITRAT_NCHASIM_LSOF_TKUFA: number,
-  TSUA_NOMINALIT_BRUTO_HODSHIT: number
+  TSUA_NOMINALIT_BRUTO_HODSHIT: number,
 }
 
 export interface ProcessResults {
