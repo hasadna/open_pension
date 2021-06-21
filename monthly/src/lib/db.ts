@@ -25,9 +25,8 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
   if (!isEmpty(payload)) {
     console.log(`Inserting the results for ${file.filename} to the DB.`);
 
-    // todo: fix the reference to the file like in the seed.
     const baseData: any = {
-      fileId: file.ID,
+      file: {connect: { ID: file.ID } },
       created: new Date(),
     };
 

@@ -76,15 +76,21 @@ export interface ProcessedXmlFileBituachRowsInterface {
   TSUA_NOMINALIT_BRUTO_HODSHIT: string[],
 }
 
+interface ReclamationRow {
+  connect: {
+    ID: number,
+  }
+}
+
 export interface ReclamationResults {
-  managingBodyID: number,
-  fundNameID: number,
-  statusID: number,
-  channelID: number,
-  subChannelID: number,
-  typeID: number,
-  passiveActiveID: number,
-  homebaseID: number,
+  managingBody: ReclamationRow,
+  fundName: ReclamationRow,
+  status: ReclamationRow,
+  channel: ReclamationRow,
+  subChannel: ReclamationRow,
+  type: ReclamationRow,
+  passiveActive: ReclamationRow,
+  homebase: ReclamationRow,
 }
 
 export interface FileRowInterface extends ReclamationResults {

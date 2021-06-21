@@ -24,16 +24,15 @@ export async function getReclamationData(fundID: number): Promise<ReclamationRes
   }});
 
   // Build the data, save it a temporary cache and return it.
-  // todo: reference format is wrong. Do like we did in the seed.
   const dataToStore = {
-    managingBodyID: results.managingBodyID,
-    homebaseID: results.homebaseID,
-    channelID: results.channelID,
-    subChannelID: results.subChannelID,
-    fundNameID: results.fundNameID,
-    passiveActiveID: results.passiveActiveID,
-    typeID: results.typeID,
-    statusID: results.statusID,
+    managingBody: {connect: {ID: results.managingBodyID}},
+    homebase: {connect: {ID: results.homebaseID}},
+    channel: {connect: {ID: results.channelID}},
+    subChannel: {connect: {ID: results.subChannelID}},
+    fundName: {connect: {ID: results.fundNameID}},
+    passiveActive: {connect: {ID: results.passiveActiveID}},
+    type: {connect: {ID: results.typeID}},
+    status: {connect: {ID: results.statusID}},
   };
 
   reclamationData[fundID] = dataToStore;
