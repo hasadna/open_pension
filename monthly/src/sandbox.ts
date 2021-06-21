@@ -1,6 +1,9 @@
 // import {prisma} from "./server/context";
+import {seedDummyFiles} from "./files/seed";
 
 (async () => {
+
+  seedDummyFiles()
 
   // todo:
   //  1. call the queue.

@@ -50,7 +50,7 @@
     "dummySeed": "ts-node src/files/seed.ts"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14.16.1"
   },
   "dependencies": {
     "@bitauth/libauth": "^1.17.1",
