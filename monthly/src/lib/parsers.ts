@@ -14,7 +14,7 @@ const reclamationData: any = {};
 
 export async function getReclamationData(fundID: number): Promise<ReclamationResults> {
 
-  if (reclamationData.includes(fundID)) {
+  if (Object.keys(reclamationData).includes(String(fundID))) {
     return reclamationData[fundID];
   }
 
@@ -24,6 +24,7 @@ export async function getReclamationData(fundID: number): Promise<ReclamationRes
   }});
 
   // Build the data, save it a temporary cache and return it.
+  // todo: reference format is wrong. Do like we did in the seed.
   const dataToStore = {
     managingBodyID: results.managingBodyID,
     homebaseID: results.homebaseID,
@@ -59,7 +60,7 @@ function processStringToNumber(stringedNumber: string[], numberType: NumberType)
 export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterface): Promise<FileRowInterface[]> {
   const fileRows: FileRowInterface[] = [];
 
-  rawFieData.ROWSET.ROW.forEach(async (row) => {
+  for (let row of rawFieData.ROWSET.ROW) {
     const rowID = processStringToNumber(row.ID, NumberType.Int);
     const reclamationData = await getReclamationData(rowID);
 
@@ -81,7 +82,7 @@ export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterfac
       YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YIT_NCHASIM_BFOAL, NumberType.Float),
       ...reclamationData
     });
-  });
+  }
 
   return fileRows;
 }
@@ -99,7 +100,7 @@ export async function gemelProcess() {
 export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterface): Promise<FileRowInterface[]> {
   const fileRows: FileRowInterface[] = [];
 
-  rawFieData.ROWSET.ROW.forEach(async (row) => {
+  for (let row of rawFieData.ROWSET.ROW) {
     const rowID = processStringToNumber(row.ID, NumberType.Int);
     const reclamationData = await getReclamationData(rowID);
 
@@ -120,7 +121,7 @@ export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterf
       TSUA_NOMINALIT_BRUTO_HODSHIT: processStringToNumber(row.TSUA_NOMINALIT_BRUTO_HODSHIT, NumberType.Float),
       ...reclamationData
     });
-  });
+  }
 
   return fileRows;
 }
