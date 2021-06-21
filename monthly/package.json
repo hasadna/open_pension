@@ -46,7 +46,8 @@
     "prisma:clientGenerate": "prisma generate",
     "prisma:seed": "prisma db seed --preview-feature",
     "prisma:studio": "prisma studio",
-    "prisma:format": "prisma format"
+    "prisma:format": "prisma format",
+    "dummySeed": "ts-node src/files/seed.ts"
   },
   "engines": {
     "node": ">=10"
