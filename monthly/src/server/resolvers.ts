@@ -1,28 +1,27 @@
 export default {
   Query: {
-    rows: async (_, __, ctx) => {
+    channels: async (_, __, ctx) => {
+      // @ts-ignore
       const {prisma} = ctx;
-      return await prisma.row.findMany({
-        include: {
-          file: true
-        }
-      });
+      return await prisma.channel.findMany({});
     },
-    files: async (_, __, ctx) => {
+    fundNames: async (_, __, ctx) => {
+      // @ts-ignore
+
       const {prisma} = ctx;
-      return await prisma.file.findMany({});
+      return await prisma.fundName.findMany({});
     },
-    insuranceTypes: async (_, __, ctx) => {
+    managingBodies: async (_, __, ctx) => {
+      // @ts-ignore
+
       const {prisma} = ctx;
-      return await prisma.insuranceType.findMany({});
+      return await prisma.managingBody.findMany({});
     },
-    investmentTypes: async (_, __, ctx) => {
+    subChannels: async (_, __, ctx) => {
+      // @ts-ignore
+
       const {prisma} = ctx;
-      return await prisma.investmentType.findMany({});
-    },
-    bodies: async (_, __, ctx) => {
-      const {prisma} = ctx;
-      return await prisma.body.findMany({});
+      return await prisma.subChannel.findMany({});
     },
   },
 };

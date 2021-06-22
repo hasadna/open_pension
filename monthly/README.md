@@ -47,3 +47,11 @@ For explore the data in the DB you can run:
 ```bash
 npm run prisma:studio
 ```
+
+## Interacting with the server
+After all is set up run:
+```bash
+npm run dev
+```
+
+The GraphQL exists in ``
