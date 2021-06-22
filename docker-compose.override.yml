@@ -44,3 +44,4 @@ services:
       - ./monthly:/home/app
     ports:
       - "8000:4000"
+      - "8555:5555"

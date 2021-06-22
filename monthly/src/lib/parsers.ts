@@ -1,10 +1,44 @@
 import {
   FileRowInterface,
   NumberType,
-  ProcessedBituachXmlFileInterface
+  ProcessedBituachXmlFileInterface,
+  ReclamationResults
 } from "./interfaces";
 
+import {prisma} from "../server/context";
+
+
 import {head} from 'lodash';
+
+const reclamationData: any = {};
+
+export async function getReclamationData(fundID: number): Promise<ReclamationResults> {
+
+  if (Object.keys(reclamationData).includes(String(fundID))) {
+    return reclamationData[fundID];
+  }
+
+  // Get it form the DB.
+  const results = await prisma.fund.findFirst({where: {
+      fundID
+  }});
+
+  // Build the data, save it a temporary cache and return it.
+  const dataToStore = {
+    managingBody: {connect: {ID: results.managingBodyID}},
+    homebase: {connect: {ID: results.homebaseID}},
+    channel: {connect: {ID: results.channelID}},
+    subChannel: {connect: {ID: results.subChannelID}},
+    fundName: {connect: {ID: results.fundNameID}},
+    passiveActive: {connect: {ID: results.passiveActiveID}},
+    type: {connect: {ID: results.typeID}},
+    status: {connect: {ID: results.statusID}},
+  };
+
+  reclamationData[fundID] = dataToStore;
+
+  return dataToStore;
+}
 
 function processStringToNumber(stringedNumber: string[], numberType: NumberType): number {
   const numberFromString = numberType == NumberType.Int ? parseInt(head(stringedNumber)) : parseFloat(head(stringedNumber));
@@ -25,8 +59,12 @@ function processStringToNumber(stringedNumber: string[], numberType: NumberType)
 export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterface): Promise<FileRowInterface[]> {
   const fileRows: FileRowInterface[] = [];
 
-  rawFieData.ROWSET.ROW.forEach((row) => {
+  for (let row of rawFieData.ROWSET.ROW) {
+    const rowID = processStringToNumber(row.ID, NumberType.Int);
+    const reclamationData = await getReclamationData(rowID);
+
     fileRows.push({
+      row_ID: rowID,
       MANAGER_ID: processStringToNumber(row.ID_GUF, NumberType.Int),
       ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
       SHARP_RIBIT_HASRAT_SIKUN: processStringToNumber(row.SHARP_RIBIT_HASRAT_SIKUN, NumberType.Float),
@@ -40,9 +78,10 @@ export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterfac
       TSUA_NOMINALIT_BRUTO_HODSHIT: processStringToNumber(row.TSUA_HODSHIT, NumberType.Float),
       TSUA_SHNATIT_MEMUZAAT_3_SHANIM: processStringToNumber(row.TSUA_SHNATIT_MEMUZAAT_3_SHANIM, NumberType.Float),
       TSUA_SHNATIT_MEMUZAAT_5_SHANIM: processStringToNumber(row.TSUA_SHNATIT_MEMUZAAT_5_SHANIM, NumberType.Float),
-      YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YIT_NCHASIM_BFOAL, NumberType.Float)
+      YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YIT_NCHASIM_BFOAL, NumberType.Float),
+      ...reclamationData
     });
-  });
+  }
 
   return fileRows;
 }
@@ -60,8 +99,12 @@ export async function gemelProcess() {
 export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterface): Promise<FileRowInterface[]> {
   const fileRows: FileRowInterface[] = [];
 
-  rawFieData.ROWSET.ROW.forEach((row) => {
+  for (let row of rawFieData.ROWSET.ROW) {
+    const rowID = processStringToNumber(row.ID, NumberType.Int);
+    const reclamationData = await getReclamationData(rowID);
+
     fileRows.push({
+      row_ID: rowID,
       MANAGER_ID: processStringToNumber(row.ID, NumberType.Int),
       ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
       STIAT_TEKEN_60_HODASHIM: processStringToNumber(row.STIAT_TEKEN_60_HODASHIM, NumberType.Float),
@@ -75,8 +118,9 @@ export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterf
       TSUA_MITZT_MI_THILAT_SHANA: processStringToNumber(row.TSUA_MITZT_MI_THILAT_SHANA, NumberType.Float),
       YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YITRAT_NCHASIM_LSOF_TKUFA, NumberType.Float),
       TSUA_NOMINALIT_BRUTO_HODSHIT: processStringToNumber(row.TSUA_NOMINALIT_BRUTO_HODSHIT, NumberType.Float),
+      ...reclamationData
     });
-  });
+  }
 
   return fileRows;
 }

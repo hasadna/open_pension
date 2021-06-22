@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from "path";
+import {createWriteStream} from 'fs'
+import {extname, join} from "path";
 import request from "request";
 import {getStorageAddress, getUploadedPath} from "./env";
 import {FileModel, StatusNew} from "../db/FileModel";
@@ -7,17 +7,17 @@ import {FileModel, StatusNew} from "../db/FileModel";
 export const handleKafkaMessage = async (message) => {
   const { ID, filename } = message;
 
-  if (path.extname(filename) === '.xml') {
+  if (extname(filename) === '.xml') {
     console.log(`The file ${filename} was not an xml based file`);
     return;
   }
 
-  const dest = path.join(getUploadedPath(), filename);
+  const dest = join(getUploadedPath(), filename);
   const url = `${getStorageAddress()}/file/${ID}`;
 
   // Downloading the file.
   request(url)
-    .pipe(fs.createWriteStream(dest))
+    .pipe(createWriteStream(dest))
     .on('error', (err) => {
       console.error(`there was an error while downloading the file ${filename}`, err);
     })

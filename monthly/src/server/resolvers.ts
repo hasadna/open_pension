@@ -1,18 +1,20 @@
 export default {
   Query: {
-    // @ts-ignore
-    rows: async (_, args, ctx) => {
+    channels: async (_, __, ctx) => {
       const {prisma} = ctx;
-      return await prisma.row.findMany({
-        include: {
-          file: true
-        }
-      });
+      return await prisma.channel.findMany({});
     },
-    // @ts-ignore
-    files: async (_, args, ctx) => {
+    fundNames: async (_, __, ctx) => {
       const {prisma} = ctx;
-      return await prisma.file.findMany({});
+      return await prisma.fundName.findMany({});
+    },
+    managingBodies: async (_, __, ctx) => {
+      const {prisma} = ctx;
+      return await prisma.managingBody.findMany({});
+    },
+    subChannels: async (_, __, ctx) => {
+      const {prisma} = ctx;
+      return await prisma.subChannel.findMany({});
     },
   },
 };

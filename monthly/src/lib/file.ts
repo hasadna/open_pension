@@ -56,7 +56,7 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
       // @ts-ignore
       const file = await prisma.file.create({data: data});
 
-      console.log(`The file ${filename} was created to the DB with the id ${file.id}`);
+      console.log(`The file ${filename} was created to the DB with the id ${file.ID}`);
 
       if (kafkaClient !== null) {
         await kafkaClient.sendMessage({storageId: ID}, getKafkaFileStoredByService());

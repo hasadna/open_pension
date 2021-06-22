@@ -279,3 +279,4 @@ storage/data
 
 # Monthly.
 monthly/uploaded_files/*
+monthly/src/sandbox.ts

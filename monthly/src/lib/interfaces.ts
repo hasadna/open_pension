@@ -15,7 +15,7 @@ export enum FileStatus {
 }
 
 export interface File {
-  id: number,
+  ID: number,
   storageID: number,
   filename: string,
   path: string,
@@ -76,7 +76,25 @@ export interface ProcessedXmlFileBituachRowsInterface {
   TSUA_NOMINALIT_BRUTO_HODSHIT: string[],
 }
 
-export interface FileRowInterface {
+interface ReclamationRow {
+  connect: {
+    ID: number,
+  }
+}
+
+export interface ReclamationResults {
+  managingBody: ReclamationRow,
+  fundName: ReclamationRow,
+  status: ReclamationRow,
+  channel: ReclamationRow,
+  subChannel: ReclamationRow,
+  type: ReclamationRow,
+  passiveActive: ReclamationRow,
+  homebase: ReclamationRow,
+}
+
+export interface FileRowInterface extends ReclamationResults {
+  row_ID: number,
   MANAGER_ID: number,
   ALPHA_SHNATI: number,
   SHARP_RIBIT_HASRAT_SIKUN?: number,
@@ -90,7 +108,7 @@ export interface FileRowInterface {
   TSUA_MEMUZAAT_36_HODASHIM: number,
   TSUA_MITZT_MI_THILAT_SHANA: number,
   YITRAT_NCHASIM_LSOF_TKUFA: number,
-  TSUA_NOMINALIT_BRUTO_HODSHIT: number
+  TSUA_NOMINALIT_BRUTO_HODSHIT: number,
 }
 
 export interface ProcessResults {

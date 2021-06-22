@@ -41,17 +41,21 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-    "makeMigration": "prisma migrate dev --preview-feature",
-    "migrate": "prisma db push --preview-feature",
-    "clientGenerate": "prisma generate"
+    "prisma:makeMigration": "prisma migrate dev",
+    "prisma:migrate": "prisma db push --preview-feature",
+    "prisma:clientGenerate": "prisma generate",
+    "prisma:seed": "prisma db seed --preview-feature",
+    "prisma:studio": "prisma studio",
+    "prisma:format": "prisma format",
+    "dummySeed": "ts-node src/files/seed.ts"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14.16.1"
   },
   "dependencies": {
     "@bitauth/libauth": "^1.17.1",
     "@ladjs/graceful": "^1.0.5",
-    "@prisma/client": "^2.17.0",
+    "@prisma/client": "^2.24.1",
     "@types/xml2js": "^0.4.7",
     "apollo-server": "^2.19.2",
     "bree": "^6.2.0",
@@ -60,11 +64,11 @@
     "graphql": "^15.4.0",
     "kafka-node": "^5.0.0",
     "lodash": "^4.17.21",
+    "read-excel-file": "^5.1.0",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@prisma/cli": "^2.14.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.20",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
@@ -84,7 +88,7 @@
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
     "prettier": "^2.1.1",
-    "prisma": "^2.17.0",
+    "prisma": "^2.24.1",
     "request": "^2.88.2",
     "standard-version": "^9.0.0",
     "ts-jest": "^26.4.4",

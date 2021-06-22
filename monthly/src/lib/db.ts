@@ -14,7 +14,7 @@ async function updateFileStatus(file: File, status: FileStatus, prisma: PrismaCl
 
   // We failed, we need to update the file in the DB.
   await prisma.file.update({
-    where: {id: file.id},
+    where: {ID: file.ID},
     data,
   });
 }
@@ -26,7 +26,7 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
     console.log(`Inserting the results for ${file.filename} to the DB.`);
 
     const baseData: any = {
-      fileId: file.id,
+      file: {connect: { ID: file.ID } },
       created: new Date(),
     };
 
