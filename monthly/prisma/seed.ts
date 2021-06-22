@@ -82,8 +82,20 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes) {
 async function main() {
   const rows = await dataFromFile();
 
+  const seededRecords = await prisma.fund.findMany({
+    select: {
+      fundID: true,
+    }
+  });
+
+  const existsFundsIDs: number[] = seededRecords.map(record => record.fundID);
   for (let row of rows.splice(1)) {
     const {FundID, FundName, Channel, SubChannel, HomeBase, ManagingBody, PassiveActive, Status, Type} = row;
+
+    if (existsFundsIDs.includes(FundID)) {
+      console.log(`The fund ID ${FundID} already migrated. Skipping.`)
+      continue;
+    }
 
     const [fundNameID, channelID, subChannelID, homeBaseID, managingBodyID, passiveActiveID, statusID, typeID] = [
       await getOrCreateItem(FundName, ItemsTypes.Fund),
@@ -111,7 +123,7 @@ async function main() {
     // We cannot use createMany since there might be some data which relies on
     // other data.
     await prisma.fund.create({data});
-    console.log(`Fund ID ${FundID} has been processed to the DB`)
+    console.log(`Fund ID ${FundID} has been processed to the DB.`)
   }
 }
 

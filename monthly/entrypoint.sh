@@ -14,6 +14,7 @@ echo "DB is online"
 npm run build
 npm run clientGenerate
 npm run migrate
+npm run prisma:seed
 
 supervisord -c /etc/supervisor.conf
 
