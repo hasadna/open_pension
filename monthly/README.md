@@ -54,4 +54,13 @@ After all is set up run:
 npm run dev
 ```
 
-The GraphQL exists in ``
+The GraphQL exists in `http://localhost:4000`
+
+## Sandbox
+When you need to test code you can use the sandbox.
+
+Go to `src/sandbox.example.ts` and save it as `sandbox.ts`. In order to run it you nedd to hit:
+```bash
+npm run sandbox
+```
+

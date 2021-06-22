@@ -46,7 +46,6 @@ export class KafkaClient {
   }
 
   static listen() {
-    return;
     const options: ConsumerGroupOptions = {
       kafkaHost: getKafkaHost(),
       groupId: 'monthly',

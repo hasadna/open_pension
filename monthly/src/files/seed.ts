@@ -23,6 +23,8 @@ export async function seedDummyFiles() {
         status: 'Ready',
       };
 
+      // Applying the ts-ignore due to unknown model name and typescript has
+      // some issues with that.
       // @ts-ignore
       const file = await prisma.file.create({data: data});
 

@@ -37,7 +37,8 @@ let cache: any = {};
 async function getOrCreateItem(label: string, itemType: ItemsTypes) {
 
   if (isEmpty(label)) {
-    // should be exists here. Remove after fixing the file.
+    // The reclamation file has a couple of cells which are empty. Don't know if
+    // that a bug so for now we need to this one.
     return null;
   }
 
@@ -51,6 +52,8 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes) {
     const model = ModelItemTypes[itemType];
 
     // First, check if the item exists in the DB.
+    // Applying the ts-ignore due to unknown model name and typescript has some
+    // issues with that.
     // @ts-ignore
     const results = await model.findFirst({where: {label}});
 
@@ -64,6 +67,8 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes) {
         data['prefix'] = ChannelToPrefix[label];
       }
 
+      // Applying the ts-ignore due to unknown model name and typescript has some
+      // issues with that.
       // @ts-ignore
       recordFromDB = await model.create({data});
     } else {
