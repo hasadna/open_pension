@@ -5,11 +5,31 @@ import {useState} from 'react';
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
 import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
 import {getBodies, getInvestmentTypes, getLastUpdate} from "./api";
+import { gql } from "@apollo/client";
+import client from "../backend/apollo-client.js";
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  const { data: {managingBodies, channels} } = await client.query({
+    query: gql`
+      query {
+        managingBodies {
+          ID
+          label
+        }
+        channels {
+          ID
+          label
+        }
+      }
+    `,
+  });
+
+
   return {
     props: {
-      bodies: getBodies(),
+      bodies: Object.fromEntries(Object.entries(managingBodies).map(([, {ID, label}]) => {
+        return [ID, label];
+      })),
       investmentTypes: getInvestmentTypes(),
       lastUpdate: getLastUpdate()
     },

@@ -61,7 +61,6 @@
     "bree": "^6.2.0",
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
-    "graphql": "^15.4.0",
     "kafka-node": "^5.0.0",
     "lodash": "^4.17.21",
     "read-excel-file": "^5.1.0",

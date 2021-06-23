@@ -11,7 +11,7 @@ export default function HoldingsSearch({bodies, setSelectedBody}) {
   const handleFilterBodies = (event) => {
     const {target: {value}} = event;
     setCurrentSearchValue(value);
-    setFilteredBodies(bodies.filter((item) => item.includes(value)));
+    setFilteredBodies(Object.values(bodies).filter((item) => item.includes(value)));
   }
 
   const bodiesToShow = () => {
