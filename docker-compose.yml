@@ -13,6 +13,8 @@ services:
   front:
     build:
       context: ./front
+    env_file:
+      - ./front/.env.docker
     ports:
       - "80:3000"
 
