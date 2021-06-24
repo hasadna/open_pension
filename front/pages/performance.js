@@ -5,15 +5,35 @@ import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
 import {useState, useReducer, useEffect} from 'react';
 import PerformanceQuery from "../Components/PerformanceQuery/PerformanceQuery";
 import PerformanceResults from "../Components/PerformanceResults/PerformanceResults";
-import {getBodies, getInvestmentPath, getInvestmentTypes, getLastUpdate} from "./api";
-import BarsGraph from "../Components/BarsGraph/BarsGraph";
+import {convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
+import client from "../backend/apollo-client";
+import {gql} from "@apollo/client";
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  const { data: {managingBodies, channels, subChannels} } = await client.query({
+    query: gql`
+      query {
+        managingBodies {
+          ID
+          label
+        }
+        channels {
+          ID
+          label
+        },
+        subChannels {
+          ID
+          label
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      bodies: getBodies(),
-      investmentTypes: getInvestmentTypes(),
-      investmentPath: getInvestmentPath(),
+      bodies: convertServerEntitiesToKeyValue(managingBodies),
+      channels: convertServerEntitiesToKeyValue(channels),
+      subChannels: convertServerEntitiesToKeyValue(subChannels),
       lastUpdate: getLastUpdate()
     },
   }
@@ -41,10 +61,11 @@ const queryReducer = (state, {type, value}) => {
   }
 };
 
-export default function Performance({bodies, investmentTypes, investmentPath, lastUpdate}) {
+export default function Performance({bodies, channels, subChannels, lastUpdate}) {
   const [results, setResults] = useState(null);
   const [query, dispatchQuery] = useReducer(queryReducer, queryState);
 
+  // Convert to useMemo.
   useEffect(() => {
     const {bodies, investmentType, investmentPath} = query;
 
@@ -71,9 +92,8 @@ export default function Performance({bodies, investmentTypes, investmentPath, la
         <PerformanceQuery
           dispatchQuery={dispatchQuery}
           bodies={bodies}
-          investmentPath={investmentPath}
-          investmentTypes={investmentTypes} />
-
+          subChannels={subChannels}
+          channels={channels} />
 
         {results ? <PerformanceResults tracksInfo={[
           [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
