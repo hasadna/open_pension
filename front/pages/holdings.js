@@ -4,19 +4,36 @@ import HoldingsSearch from "../Components/HoldingsSearch/HoldingsSearch";
 import {useState} from 'react';
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
 import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
-import {getBodies, getInvestmentTypes, getLastUpdate} from "./api";
+import {getLastUpdate, convertServerEntitiesToKeyValue} from "./api";
+import { gql } from "@apollo/client";
+import client from "../backend/apollo-client.js";
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  const { data: {managingBodies, channels} } = await client.query({
+    query: gql`
+      query {
+        managingBodies {
+          ID
+          label
+        }
+        channels {
+          ID
+          label
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      bodies: getBodies(),
-      investmentTypes: getInvestmentTypes(),
+      bodies: convertServerEntitiesToKeyValue(managingBodies),
+      channels: convertServerEntitiesToKeyValue(channels),
       lastUpdate: getLastUpdate()
     },
   }
 }
 
-export default function Holdings({bodies, investmentTypes, lastUpdate}) {
+export default function Holdings({bodies, channels, lastUpdate}) {
   const [selectedBody, setSelectedBody] = useState(null);
 
   return <>
@@ -40,8 +57,9 @@ export default function Holdings({bodies, investmentTypes, lastUpdate}) {
       <div className="inner-page-content small">
         {selectedBody ?
           <HoldingsQuery
-            company={selectedBody}
-            investmentTypes={investmentTypes} /> :
+            company={bodies[selectedBody]}
+            companyID={selectedBody}
+            channels={channels} /> :
           <HoldingsWaiting />
         }
       </div>

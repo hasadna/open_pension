@@ -32,6 +32,11 @@ export default function ButtonGroups({title, buttons, selectHandler, defaultActi
         };
       }
       else {
+        if (optionIsSelected(identifier)) {
+          // This one is already selected so we cannot un-check it when we a single mode.
+          return;
+        }
+
         activeButtonState = {[identifier]: !optionIsSelected(identifier)};
       }
 

@@ -2,18 +2,38 @@ import {isEmpty} from 'lodash';
 import Wrapper from "../Components/Wrapper/Wrapper";
 import SecondaryHeader from "../Components/SecondaryHeader/SecondaryHeader";
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
-import {useState, useReducer, useEffect} from 'react';
+import {useReducer, useMemo} from 'react';
 import PerformanceQuery from "../Components/PerformanceQuery/PerformanceQuery";
 import PerformanceResults from "../Components/PerformanceResults/PerformanceResults";
-import {getBodies, getInvestmentPath, getInvestmentTypes, getLastUpdate} from "./api";
-import BarsGraph from "../Components/BarsGraph/BarsGraph";
+import {convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
+import client from "../backend/apollo-client";
+import {gql} from "@apollo/client";
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  const { data: {managingBodies, channels, subChannels} } = await client.query({
+    query: gql`
+      query {
+        managingBodies {
+          ID
+          label
+        }
+        channels {
+          ID
+          label
+        },
+        subChannels {
+          ID
+          label
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      bodies: getBodies(),
-      investmentTypes: getInvestmentTypes(),
-      investmentPath: getInvestmentPath(),
+      bodies: convertServerEntitiesToKeyValue(managingBodies),
+      channels: convertServerEntitiesToKeyValue(channels),
+      subChannels: convertServerEntitiesToKeyValue(subChannels),
       lastUpdate: getLastUpdate()
     },
   }
@@ -41,16 +61,43 @@ const queryReducer = (state, {type, value}) => {
   }
 };
 
-export default function Performance({bodies, investmentTypes, investmentPath, lastUpdate}) {
-  const [results, setResults] = useState(null);
+export default function Performance({bodies, channels, subChannels, lastUpdate}) {
   const [query, dispatchQuery] = useReducer(queryReducer, queryState);
 
-  useEffect(() => {
+  const results = useMemo(() => {
     const {bodies, investmentType, investmentPath} = query;
 
     if (!isEmpty(bodies) && !isEmpty(investmentType) && !isEmpty(investmentPath)) {
-      setResults({});
+      // todo: get results from backend.
+      return {
+        tracksInfo: [
+          [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
+          [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],
+          [11320, 'כלל חיסכון לכל ילד', '197', '4.2', '', '', ''],
+        ],
+        graphData: {
+          'עמיתים': null,
+          'הלמן אלדובי': null,
+          'מנורה': -2.2,
+          'אלטשולר שחם': -1.2,
+          'הפניקס': 0.08,
+          'הראל': 1.10,
+          'הכשרה': 1.8,
+          'מגדל': 2.85,
+          'ביטוח ישיר': 2.93,
+          'הראל פיננסי': 4.51,
+          'פסגות': 7.11,
+          'יונים': 10.18,
+        },
+        legends: [
+          'כלל חיסכון לכל ילד',
+          'חיסכון לכל ילד',
+          'פסגות חיסכון לכל ילד',
+          'הטובה ביותר: מיטב דש חיסכון לכל ילד',
+        ],
+      };
     }
+
   }, [query]);
 
   return <>
@@ -71,15 +118,10 @@ export default function Performance({bodies, investmentTypes, investmentPath, la
         <PerformanceQuery
           dispatchQuery={dispatchQuery}
           bodies={bodies}
-          investmentPath={investmentPath}
-          investmentTypes={investmentTypes} />
+          subChannels={subChannels}
+          channels={channels} />
 
-
-        {results ? <PerformanceResults tracksInfo={[
-          [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
-          [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],
-          [11320, 'כלל חיסכון לכל ילד', '197', '4.2', '', '', ''],
-        ]} /> : <HoldingsWaiting />}
+        {results ? <PerformanceResults results={results} /> : <HoldingsWaiting />}
       </div>
 
 

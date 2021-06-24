@@ -31,3 +31,7 @@ export const getBodies = () => {
     pasgot: 'פסגות',
   };
 }
+
+export const convertServerEntitiesToKeyValue = (entities) => Object.fromEntries(Object.entries(entities).map(([, {ID, label}]) => {
+  return [ID, label];
+}))

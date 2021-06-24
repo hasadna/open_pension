@@ -1,18 +1,18 @@
 import ButtonGroups from "../ButtonsGroup/ButtonsGroup";
 
-export default function PerformanceQuery({dispatchQuery, bodies, investmentPath, investmentTypes}) {
+export default function PerformanceQuery({dispatchQuery, bodies, subChannels, channels}) {
   return <div className="performance-query">
     <ButtonGroups
       title={"בחרו את אפיק ההשקעה"}
       description={'אפיק ההשקעה הוא סוג הביטוח הפנסיוני שלך'}
-      buttons={investmentTypes}
+      buttons={channels}
       selectHandler={(buttonState) => {dispatchQuery({type: 'investmentType', value: buttonState})}}
     />
 
     <ButtonGroups
       title={"בחרו את מסלול ההשקעה"}
       description={'כל גוף משקיע את הכסף בהתאם לפרופיל של מחזיק הכסף'}
-      buttons={investmentPath}
+      buttons={subChannels}
       selectHandler={(buttonState) => {dispatchQuery({type: 'investmentPath', value: buttonState})}}
     />
 
