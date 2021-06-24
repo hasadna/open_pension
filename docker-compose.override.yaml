@@ -14,16 +14,8 @@ services:
       - '2000:3000'
 
   backoffice_backend:
-    environment:
-      PORT: 4000
-      dbURL: mongodb://backoffice_backend_db/open_pesion_dashboard
-      storageAddress: http://storage:3000
-      tempStorageFiles: /app/files
-      saltRounds: 10
-      tokenTimeToLive: 86400
-      kafkaHost: kafka:9092
-      listenedTopic: FileStored,fileStoredByService,processingStarted,processedWithErrors,processed
-      kafkaOn: 1
+    env_file:
+      - ./backoffice_backend/.docker.env
     ports:
       - '2001:4000'
 
@@ -36,11 +28,8 @@ services:
       - ./application:/home/app
 
   application_db:
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: application
-      MYSQL_ROOT_PASSWORD: root
+    env_file:
+      - ./application/.docker.db.env
     ports:
       - '3308:3306'
 
@@ -63,11 +52,8 @@ services:
       - ./storage/.docker.env
 
   storage_db:
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: storage
-      MYSQL_ROOT_PASSWORD: root
+    env_file:
+      - ./storage/.docker.db.env
 
   monthly:
     volumes:
@@ -79,11 +65,9 @@ services:
       - ./monthly/.docker.env
 
   monthly_db:
+    env_file:
+      - ./monthly/.docker.db.env
     environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: monthly
-      MYSQL_ROOT_PASSWORD: root
 
   fetcher:
     volumes:
