@@ -59,11 +59,11 @@ export default function HoldingsSearch({bodies, setSelectedBody}) {
     </div>
 
     {showBodies && <ul className="bodies">
-      {Object.entries(bodiesToShow()).map(([, body], key) => <li key={key} className="item">
+      {Object.entries(bodiesToShow()).map(([ID, body], key) => <li key={key} className="item">
         <a href="#" className="item-link" onClick={(e) => {
           e.preventDefault();
           setShowBodies(false);
-          setSelectedBody(key);
+          setSelectedBody(ID);
         }}>{body}</a>
         </li>)}
       {bodiesToShow().length === 0 && <li className="empty">לא נמצאו גופים</li>}
