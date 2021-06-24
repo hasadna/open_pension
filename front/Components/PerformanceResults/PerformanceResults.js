@@ -4,7 +4,7 @@ import lineData from './lineData';
 import {ResponsiveLine} from "@nivo/line";
 import BarsGraph from "../BarsGraph/BarsGraph";
 
-export default function PerformanceResults({tracksInfo}) {
+export default function PerformanceResults({results: {tracksInfo, graphData, legends}}) {
   const [selectedFilter, setSelectedFilter] = useState('last12Years');
 
   const graphsFilterOptions = {
@@ -50,10 +50,7 @@ export default function PerformanceResults({tracksInfo}) {
       <div className="graph lines">
 
         <ul className="legends">
-          <li>כלל חיסכון לכל ילד</li>
-          <li>חיסכון לכל ילד</li>
-          <li>פסגות חיסכון לכל ילד</li>
-          <li>הטובה ביותר: מיטב דש חיסכון לכל ילד</li>
+          {legends.map((legend, key) => <li key={key}>{legend}</li>)}
         </ul>
         <ResponsiveLine
           data={lineData}
@@ -103,22 +100,7 @@ export default function PerformanceResults({tracksInfo}) {
     <h5 className="separator">משה מה לכתוב כאן?</h5>
 
     <div className="graph bars">
-      <BarsGraph
-        data={{
-          'עמיתים': null,
-          'הלמן אלדובי': null,
-          'מנורה': -2.2,
-          'אלטשולר שחם': -1.2,
-          'הפניקס': 0.08,
-          'הראל': 1.10,
-          'הכשרה': 1.8,
-          'מגדל': 2.85,
-          'ביטוח ישיר': 2.93,
-          'הראל פיננסי': 4.51,
-          'פסגות': 7.11,
-          'יונים': 10.18,
-        }}
-      />
+      <BarsGraph data={graphData} />
     </div>
 
   </div>
