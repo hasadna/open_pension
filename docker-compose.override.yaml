@@ -1,72 +1,42 @@
 version: "3.9"
 
 services:
-  front:
-    env_file:
-      - ./front/.env.docker
-    ports:
-      - "80:3000"
 
-  backoffice:
-    environment:
-      REACT_APP_API: http://localhost:2001
-    ports:
-      - '2000:3000'
-
-  backoffice_backend:
-    env_file:
-      - ./backoffice_backend/.docker.env
-    ports:
-      - '2001:4000'
-
-  application:
-    env_file:
-      - ./application/.docker.env
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./application:/home/app
-
+  # Databases.
   application_db:
     env_file:
-      - ./application/.docker.db.env
+      - ./application/envs/.local.docker.db.env
     ports:
       - '3308:3306'
 
-  processor:
+  monthly_db:
     env_file:
-      - ./processor/.env.docker
-    volumes:
-      - ./processor/src/app:/app/app
-    ports:
-      - "1000:80"
+      - ./monthly/envs/.local.docker.db.env
 
   processor_db:
     ports:
       - '27017:27017'
 
-  storage:
+  # Services.
+  application:
+    env_file:
+      - ./application/envs/.local.docker.env
     ports:
-      - "7000:3000"
-    env_file:
-      - ./storage/.docker.env
-
-  storage_db:
-    env_file:
-      - ./storage/.docker.db.env
-
-  monthly:
+      - '3000:3000'
     volumes:
-      - ./monthly:/home/app
-    ports:
-      - "8000:4000"
-      - "8555:5555"
-    env_file:
-      - ./monthly/.docker.env
+      - ./application:/home/app
 
-  monthly_db:
+  backoffice:
     env_file:
-      - ./monthly/.docker.db.env
+      - ./backoffice/envs/.local.docker.env
+    ports:
+      - '2000:3000'
+
+  backoffice_backend:
+    env_file:
+      - ./backoffice_backend/envs/.local.docker.env
+    ports:
+      - '2001:4000'
 
   fetcher:
     volumes:
@@ -74,13 +44,15 @@ services:
     ports:
       - "5000:80"
 
+  front:
+    env_file:
+      - ./front/.env.docker
+    ports:
+      - "80:3000"
+
   kafka:
     ports:
       - "9092:9092"
-
-  zookeeper:
-    ports:
-      - "2181:2181"
 
   kafka-ui:
     image: provectuslabs/kafka-ui
@@ -92,3 +64,34 @@ services:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=localhost:2181
+
+  monthly:
+    volumes:
+      - ./monthly:/home/app
+    ports:
+      - "8000:4000"
+      - "8555:5555"
+    env_file:
+      - ./monthly/envs/.local.docker.env
+
+  processor:
+    env_file:
+      - ./processor/envs/.local.docker.env
+    volumes:
+      - ./processor/src/app:/app/app
+    ports:
+      - "1000:80"
+
+  storage:
+    ports:
+      - "7000:3000"
+    env_file:
+      - ./storage/envs/.local.docker.env
+
+  storage_db:
+    env_file:
+      - ./storage/envs/.local.docker.db.env
+
+  zookeeper:
+    ports:
+      - "2181:2181"
