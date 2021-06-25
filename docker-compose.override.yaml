@@ -67,7 +67,6 @@ services:
   monthly_db:
     env_file:
       - ./monthly/.docker.db.env
-    environment:
 
   fetcher:
     volumes:
