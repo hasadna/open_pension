@@ -7,6 +7,7 @@ then
 else
   echo "Running in production mode"
   npm install pm2 -g
-  pm2-runtime ./build/main/index.js
+  mpm run build
+  pm2-runtime /home/app/build/main/index.js
 fi
 

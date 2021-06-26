@@ -39,10 +39,11 @@ services:
   backoffice_backend:
     volumes:
       - ./backoffice_backend:/home/app
+      - /home/app/node_modules # anonymous volume for node_modules only
     env_file:
       - ./backoffice_backend/envs/.local.docker.env
     ports:
-      - '2001:4000'
+      - '2001:80'
 
   fetcher:
     volumes:
