@@ -90,8 +90,10 @@ services:
       - "1000:80"
 
   storage:
+    volumes:
+      - ./storage:/home/app
     ports:
-      - "7000:3000"
+      - "7000:80"
     env_file:
       - ./storage/envs/.local.docker.env
 
