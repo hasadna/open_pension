@@ -37,6 +37,8 @@ services:
       - '2000:3000'
 
   backoffice_backend:
+    volumes:
+      - ./backoffice_backend:/home/app
     env_file:
       - ./backoffice_backend/envs/.local.docker.env
     ports:

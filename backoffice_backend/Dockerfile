@@ -1,9 +1,14 @@
 FROM node:14.16.1
 
-WORKDIR /app
-ADD . /app
+WORKDIR /home/app
+ADD . /home/app
 
-RUN mkdir -p /app/files && chmod 777 -R /app/files
-RUN npm i --also-dev && npm install pm2 -g && npm run build
+RUN mkdir -p /home/app/files && \
+    chmod 777 -R /home/app/files
 
-CMD ["pm2-runtime", "build/main/index.js"]
+# Intalling deps and build.
+RUN npm i --also-dev && npm run build
+
+# Run the entrypoint file.
+RUN chmod +x /home/app/entrypoint.sh
+CMD [ "/home/app/entrypoint.sh" ]

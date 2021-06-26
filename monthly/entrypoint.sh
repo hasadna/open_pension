@@ -22,6 +22,6 @@ then
   npm run worker &>> queue.txt &
   npm run dev
 else
-    echo "Running in production mode"
+  echo "Running in production mode"
   supervisord -c /etc/supervisor.conf
 fi
