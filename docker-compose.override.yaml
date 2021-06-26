@@ -13,6 +13,10 @@ services:
     env_file:
       - ./monthly/envs/.local.docker.db.env
 
+  storage_db:
+    env_file:
+      - ./storage/envs/.local.docker.db.env
+
   processor_db:
     ports:
       - '27017:27017'
@@ -87,10 +91,6 @@ services:
       - "7000:3000"
     env_file:
       - ./storage/envs/.local.docker.env
-
-  storage_db:
-    env_file:
-      - ./storage/envs/.local.docker.db.env
 
   zookeeper:
     ports:
