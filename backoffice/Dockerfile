@@ -1,14 +1,14 @@
-FROM node:12-alpine as build-stage
+FROM node:14.17.1
 
-ADD . /app
-WORKDIR /app
+WORKDIR /home/app
+ADD . /home/app
 
 ARG REACT_APP_API
-
 ENV REACT_APP_API $REACT_APP_API
 
 # installing the pakcages and build the front.
-RUN npm i --also-dev && npm run build
+RUN npm i --also-dev
 
-# todo: use nginx to serve it properly.
-CMD ["npm", "start"]
+# Running the entry point.
+RUN chmod +x /home/app/entrypoint.sh
+CMD [ "bash", "/home/app/entrypoint.sh" ]
