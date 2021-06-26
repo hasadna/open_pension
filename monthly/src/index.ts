@@ -6,9 +6,8 @@ import {KafkaClient} from "./services/kafka-client";
 
 const server = new ApolloServer({ typeDefs, resolvers, context: createContext });
 
-server.listen().then(({ url }) => {
+server.listen({port: 80}).then(({ url }) => {
 
-  // todo: add kafkaOn env for local development when kafka is not turned on.
   try {
     KafkaClient.listen();
   } catch (e) {

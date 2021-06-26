@@ -8,6 +8,5 @@ ADD . /app
 
 RUN go build ./server.go
 
-
 # todo: create an entry point and for the DB state.
 ENTRYPOINT ["./server"]

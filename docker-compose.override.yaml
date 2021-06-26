@@ -73,7 +73,7 @@ services:
     volumes:
       - ./monthly:/home/app
     ports:
-      - "8000:4000"
+      - "8000:80"
       - "8555:5555"
     env_file:
       - ./monthly/envs/.local.docker.env
