@@ -36,6 +36,11 @@ services:
       - ./data/db/monthly:/var/lib/mysql
 
   # Services.
+  gateway:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+
   front:
     build:
       context: ./front

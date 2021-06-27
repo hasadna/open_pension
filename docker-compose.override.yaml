@@ -33,8 +33,6 @@ services:
   backoffice:
     env_file:
       - ./backoffice/envs/.local.docker.env
-    ports:
-      - '2000:80'
 
   backoffice_backend:
     volumes:
@@ -42,8 +40,6 @@ services:
       - /home/app/node_modules # anonymous volume for node_modules only
     env_file:
       - ./backoffice_backend/envs/.local.docker.env
-    ports:
-      - '2001:80'
 
   fetcher:
     volumes:
@@ -54,8 +50,6 @@ services:
   front:
     env_file:
       - ./front/envs/.local.docker.env
-    ports:
-      - "80:80"
 
   kafka:
     ports:
