@@ -50,6 +50,7 @@ services:
       context: ./backoffice
     depends_on:
       - backoffice_backend
+      - gateway
 
   backoffice_backend:
     tty: true
@@ -57,6 +58,7 @@ services:
       context: ./backoffice_backend
     depends_on:
       - backoffice_backend_db
+      - gateway
 
   # Change to quarters.
   application:
@@ -121,6 +123,7 @@ services:
         - hasadna/open-pension-storage:latest
     depends_on:
       - storage_db
+      - gateway
 
   monthly:
     image: hasadna/open-pension-monthly:latest
@@ -131,3 +134,4 @@ services:
         - hasadna/open-pension-monthly:latest
     depends_on:
       - monthly_db
+      - gateway
