@@ -38,6 +38,8 @@ services:
   # Services.
   gateway:
     image: jwilder/nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
       - "80:80"
 
@@ -59,9 +61,8 @@ services:
     depends_on:
       - backoffice_backend_db
       - gateway
-      - zookeeper
+      - kafka
 
-  # Change to quarters.
   application:
     image: hasadna/open-pension-application:latest
     restart: always
@@ -82,7 +83,7 @@ services:
         - hasadna/open-pension-processor:latest
     depends_on:
       - processor_db
-      - zookeeper
+      - kafka
 
   kafka:
     image: hasadna/open-pension-kafka:latest
@@ -116,11 +117,13 @@ services:
       cache_from:
         - hasadna/open-pension-fetcher:latest
     depends_on:
-      - zookeeper
+      - kafka
 
   storage:
     image: hasadna/open-pension-storage:latest
     restart: always
+    volumes:
+      - ./data/files/storage:/home/app/download_files
     build:
       context: ./storage
       cache_from:
@@ -128,7 +131,7 @@ services:
     depends_on:
       - storage_db
       - gateway
-      - zookeeper
+      - kafka
 
   monthly:
     image: hasadna/open-pension-monthly:latest
@@ -140,4 +143,4 @@ services:
     depends_on:
       - monthly_db
       - gateway
-      - zookeeper
+      - kafka
