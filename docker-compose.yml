@@ -59,6 +59,7 @@ services:
     depends_on:
       - backoffice_backend_db
       - gateway
+      - zookeeper
 
   # Change to quarters.
   application:
@@ -81,6 +82,7 @@ services:
         - hasadna/open-pension-processor:latest
     depends_on:
       - processor_db
+      - zookeeper
 
   kafka:
     image: hasadna/open-pension-kafka:latest
@@ -113,6 +115,8 @@ services:
       context: ./fetcher
       cache_from:
         - hasadna/open-pension-fetcher:latest
+    depends_on:
+      - zookeeper
 
   storage:
     image: hasadna/open-pension-storage:latest
@@ -124,6 +128,7 @@ services:
     depends_on:
       - storage_db
       - gateway
+      - zookeeper
 
   monthly:
     image: hasadna/open-pension-monthly:latest
@@ -135,3 +140,4 @@ services:
     depends_on:
       - monthly_db
       - gateway
+      - zookeeper
