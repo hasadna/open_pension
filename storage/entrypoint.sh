@@ -16,7 +16,7 @@ then
   apt-get install -y nodejs
   npm i -g nodemon
 
-  nodemon --exec go run kafkaListener.go --signal SIGTERM &
+  nodemon --exec go run kafkaListener.go --signal SIGTERM &>> queue.txt &
   nodemon --exec go run storage.go --signal SIGTERM
 else
   echo "Running in production mode"

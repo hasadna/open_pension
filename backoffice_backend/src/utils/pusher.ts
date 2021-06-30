@@ -25,7 +25,7 @@ export function sendEvent(channel, event, data) {
  * @param model The model name.
  */
 export function prepareDocumentToPusherEvent(document, model) {
-  const {_doc: clonedDocument} = Object.assign(document);
+  const clonedDocument = document.toJSON();
   delete clonedDocument['password'];
   delete clonedDocument['token'];
   clonedDocument['model'] = model;

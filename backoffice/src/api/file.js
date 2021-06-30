@@ -30,7 +30,7 @@ export async function uploadFile(files) {
 
   Object.values(files).map(file => formData.append("files", file));
 
-  const axios = getAxios();
+  const axios = getAxios('/', false);
   return await axios.post('/file', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'

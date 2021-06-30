@@ -5,7 +5,6 @@ import {uploadMiddleware} from "./server/server";
 import {unlinkSync} from "fs";
 import {uploadFile} from "./utils/file";
 import {createFile, Status} from "./db/file";
-import {getKafkaOn} from "./utils/config";
 import {KafkaClient} from "./kafka/kafka-client";
 
 (async () => {
@@ -35,12 +34,10 @@ import {KafkaClient} from "./kafka/kafka-client";
     res.status(201).json(message);
   });
 
-  if (getKafkaOn()) {
-    try {
-      KafkaClient.listen();
-    } catch (e) {
-      console.error(e);
-    }
+  try {
+    KafkaClient.listen();
+  } catch (e) {
+    console.error(e);
   }
 
   server.applyMiddleware({ app });

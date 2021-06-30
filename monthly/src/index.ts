@@ -9,8 +9,10 @@ const server = new ApolloServer({ typeDefs, resolvers, context: createContext })
 server.listen({port: 80}).then(({ url }) => {
 
   try {
+    console.log('Starting kafka ')
     KafkaClient.listen();
   } catch (e) {
+    console.log('fooooo');
     console.error(e);
   }
 
