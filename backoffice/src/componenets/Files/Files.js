@@ -18,6 +18,7 @@ const filesHandler = (files) => {
     sent: 'Sent to storage',
     processStarted: 'Processing started',
     stored: 'Stored by the service',
+    storedByService: 'Stored by the service',
     processed: 'Processed successfully',
     processedWithError: 'processed with errors'
   };
