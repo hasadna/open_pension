@@ -28,7 +28,9 @@ export async function getFiles({itemsPerPage = 5, page = 0, queryParams = {}}) {
 export async function uploadFile(files) {
   const formData = new FormData();
 
-  Object.values(files).map(file => formData.append("files", file));
+  for (let file of files) {
+    formData.append("files", file);
+  }
 
   const axios = getAxios('/', false);
   return await axios.post('/file', formData, {

@@ -24,6 +24,11 @@ export default () => {
       return;
     }
 
+    if (files.length > 2) {
+      setErrors({errors, ...{file: 'For now, only 2 files are allowed at once'}})
+      return;
+    }
+
     setIsLoading(true);
 
     try {
