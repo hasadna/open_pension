@@ -15,22 +15,26 @@ const filesHandler = (files) => {
   }
 
   const fileStatusHandler = {
-    sent: 'Sent to storage',
-    processStarted: 'Processing started',
-    stored: 'Stored by the service',
-    storedByService: 'Stored by the service',
-    processed: 'Processed successfully',
-    processedWithError: 'processed with errors'
+    sent: {text: 'Sent to storage', icon: 'warning'},
+    processStarted: {text: 'Processing started', icon: 'warning'},
+    stored: {text: 'Stored by the service', icon: 'info'},
+    storedByService: {text: 'Stored by the service', icon: 'info'},
+    processed: {text: 'Processed successfully', icon: 'ok'},
+    processedWithError: {text: 'processed with errors', icon: 'error'},
   };
 
   const handleFileStatus = (fileStatus) => Object.keys(fileStatusHandler).includes(fileStatus) ?
     fileStatusHandler[fileStatus] : 'Unknown';
 
-  return files.map((file, key) => [
-    file.filename,
-    <Status status='info'>{handleFileStatus(file.status)}</Status>,
-    file.storageId
-  ]);
+  return files.map((file, key) => {
+    const {text, icon} = handleFileStatus(file.status);
+
+    return [
+      file.filename,
+      <Status status={icon}>{text}</Status>,
+      file.storageId
+    ]
+  });
 }
 
 export default ({isFrontpage, showPager, itemsPerPage = 25, queryParams}) => {
