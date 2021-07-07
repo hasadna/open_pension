@@ -12,7 +12,6 @@ server.listen({port: 80}).then(({ url }) => {
     console.log('Starting kafka ')
     KafkaClient.listen();
   } catch (e) {
-    console.log('fooooo');
     console.error(e);
   }
 

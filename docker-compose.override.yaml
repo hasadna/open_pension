@@ -9,7 +9,13 @@ services:
     ports:
       - '3308:3306'
 
+  backoffice_backend_db:
+    ports:
+      - '27017:27017'
+
   monthly_db:
+    ports:
+      - '27017:27017'
     env_file:
       - ./monthly/envs/.local.docker.db.env
 

@@ -20,6 +20,7 @@ if [[ -n $DEBUG ]]
 then
   echo "Running in local development mode"
   npm run worker &>> queue.txt &
+  npm run prisma:studio &
   npm run dev
 else
   echo "Running in production mode"

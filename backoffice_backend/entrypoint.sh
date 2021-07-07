@@ -10,4 +10,3 @@ else
   mpm run build
   pm2-runtime /home/app/build/main/index.js
 fi
-

@@ -53,6 +53,28 @@ npm i
 npm run dev
 ```
 
+## Data seed
+
+After everything is all set up, you need to have two thing: a user to admin and some dummy data in the monthly DB.
+
+### Creating user
+login to the backoffice backend:
+```bash
+docker-compose up exec backoffice_backend bash
+npm run cli:createUser
+```
+
+You would then go through questions for the credentials of the user. Remember, this must be a very strong password.
+
+### Seeding the monthly DB
+Unlike the admin user, the seeding data is good for playing around with the monthly service. It's not a must but good 
+when we need to develop the project:
+
+```bash
+docker-compose up exec monthly bash
+npm run dummySeed
+```
+
 ## Accessing the services:
 
 * `backoffice` - `http://backoffice.localhost/`
@@ -68,3 +90,12 @@ Here are some couple of command lines snippets which can help you work with the 
 ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --whitelist '.*'
 ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 ```
+
+### Debugging
+If you need to debug, you can run your local backend with the next mongo address:
+
+```
+mongodb://localhost:27017/open_pesion_dashboard
+```
+
+TBD on this one
