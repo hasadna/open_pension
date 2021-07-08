@@ -1,4 +1,4 @@
-FROM node:12.20.0
+FROM node:14.17.3
 
 LABEL maintainer="http://www.hasadna.org.il/"
 
@@ -12,8 +12,6 @@ COPY package*.json ./
 RUN npm i
 
 COPY . $APP_DIR
-
-RUN cp .docker.env .env
 
 RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
 ADD supervisor.conf /etc/supervisor.conf

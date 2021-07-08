@@ -5,7 +5,6 @@ import {uploadMiddleware} from "./server/server";
 import {unlinkSync} from "fs";
 import {uploadFile} from "./utils/file";
 import {createFile, Status} from "./db/file";
-import {getKafkaOn} from "./utils/config";
 import {KafkaClient} from "./kafka/kafka-client";
 
 (async () => {
@@ -35,19 +34,17 @@ import {KafkaClient} from "./kafka/kafka-client";
     res.status(201).json(message);
   });
 
-  if (getKafkaOn()) {
-    try {
-      KafkaClient.listen();
-    } catch (e) {
-      console.error(e);
-    }
+  try {
+    KafkaClient.listen();
+  } catch (e) {
+    console.error(e);
   }
 
   server.applyMiddleware({ app });
 
   // @ts-ignore
-  await new Promise(resolve => app.listen({ port: 4000 }, resolve));
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  await new Promise(resolve => app.listen({ port: process.env.PORT }, resolve));
+  console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
   return { server, app };
 })();
 

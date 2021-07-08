@@ -30,7 +30,6 @@ export default  {
 
     // @ts-ignore
     token['expires'] = Math.ceil(token.expires.getTime() / 1000);
-
     return token;
   },
   refreshToken: async (_, args) => {

@@ -38,8 +38,7 @@ func ListenToMessages() {
 }
 
 func SendMessage(file File) {
-
-	// to produce messages
+	// Starting to produce.
 	topic := GetEnv("KAFKA_BROADCAST_TOPIC")
 	partition := 0
 

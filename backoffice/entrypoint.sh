@@ -3,10 +3,10 @@
 if [[ -n $DEBUG ]]
 then
   echo "Running in local development mode"
-  npm run dev
+  npm run start
 else
   echo "Running in production mode"
-  npm install pm2 -g
-  mpm run build
-  pm2-runtime /home/app/build/main/index.js
+  npm run build
+  npm install -g serve
+  serve -s build -l 80
 fi
