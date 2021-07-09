@@ -57,9 +57,11 @@ export async function queue() {
 }
 
 queue().then(() => {
-  console.log(`Done processing files at ${new Date()}`)
+  console.log(`Done processing files at ${new Date()}`);
+  prisma.$disconnect()
   process.exit(0);
 }).catch((e) => {
+  prisma.$disconnect()
   console.error(`An error occurred while processing the files: ${e}`)
   process.exit(1);
 });

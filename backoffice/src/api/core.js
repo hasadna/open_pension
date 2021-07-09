@@ -8,13 +8,13 @@ export const PUSHER_APP_DEBUG = process.env.REACT_APP_PUSHER_DEBUG;
 
 let axiosInstance = null;
 
-export function getAxios() {
-  if (axiosInstance) {
+export function getAxios(baseAddress='graphql', cachedClient = true) {
+  if (axiosInstance && cachedClient) {
     return axiosInstance;
   }
 
   axiosInstance = axios.create({
-    baseURL: `${API_URL}`,
+    baseURL: `${API_URL}/${baseAddress}`,
   });
 
   axiosInstance.interceptors.request.use(function (config) {

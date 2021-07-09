@@ -1,20 +1,14 @@
 FROM golang:1.15.3
 
-RUN apt-get update && apt-get install -y supervisor
+RUN apt-get update && apt-get install -y supervisor netcat
 RUN mkdir -p /var/log/supervisor
-RUN mkdir -p /app
- 
-WORKDIR /app
- 
-ADD . /app
+RUN mkdir -p /home/app
 
-RUN go build ./storage.go
-RUN go build ./kafkaListener.go
-RUN go build ./queue.go
-
-RUN chmod +x /app/storage
-RUN chmod +x /app/kafkaListener
+WORKDIR /home/app
+ADD . /home/app
 
 ADD supervisor.conf /etc/supervisor.conf
 
-CMD ["supervisord", "-c", "/etc/supervisor.conf"]
+# Running the entry point.
+RUN chmod +x /home/app/entrypoint.sh
+CMD [ "bash", "/home/app/entrypoint.sh" ]

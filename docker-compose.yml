@@ -1,40 +1,58 @@
 version: "3.9"
 
-volumes:
-  application-db:
-    external: false
-  processor-db:
-    external: false
-  backoffice-backend-db:
-    external: false
-
 services:
+
+  # Databases.
+  backoffice_backend_db:
+    image: mongo
+    volumes:
+      - ./data/db/backoffice-backend:/data/db
+
+  application_db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./data/db/application:/var/lib/mysql
+
+  processor_db:
+    image: mongo
+    restart: always
+    volumes:
+      - ./data/db/processor:/data/db
+
+  storage_db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./data/db/storage:/var/lib/mysql
+
+  monthly_db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./data/db/monthly:/var/lib/mysql
+
+  # Services.
+  gateway:
+    image: jwilder/nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - "80:80"
 
   front:
     build:
       context: ./front
-    env_file:
-      - ./front/.env.docker
-    ports:
-      - "80:3000"
-
-  gateway:
-    image: hasadna/open-pension-gateway:latest
-    restart: always
-    build:
-      context: ./gateway
-      cache_from:
-        - hasadna/open-pension-gateway:latest
 
   backoffice:
     build:
       context: ./backoffice
     depends_on:
       - backoffice_backend
-    environment:
-      REACT_APP_API: http://localhost:2001
-    ports:
-      - '2000:3000'
+      - gateway
 
   backoffice_backend:
     tty: true
@@ -42,25 +60,9 @@ services:
       context: ./backoffice_backend
     depends_on:
       - backoffice_backend_db
-    environment:
-      PORT: 4000
-      dbURL: mongodb://backoffice_backend_db/open_pesion_dashboard
-      storageAddress: http://storage:3000
-      tempStorageFiles: /app/files
-      saltRounds: 10
-      tokenTimeToLive: 86400
-      kafkaHost: kafka:9092
-      listenedTopic: FileStored,fileStoredByService,processingStarted,processedWithErrors,processed
-      kafkaOn: 1
-    ports:
-      - '2001:4000'
+      - gateway
+      - kafka
 
-  backoffice_backend_db:
-    image: mongo
-    volumes:
-      - backoffice-backend-db:/data/db
-
-  # Change to quarters.
   application:
     image: hasadna/open-pension-application:latest
     restart: always
@@ -70,20 +72,6 @@ services:
         - hasadna/open-pension-application:latest
     depends_on:
       - application_db
-    env_file:
-      - ./application/.docker.env
-
-  application_db:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: application
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./db/data:/var/lib/mysql
 
   # Change to quarter
   processor:
@@ -93,17 +81,9 @@ services:
       context: ./processor
       cache_from:
         - hasadna/open-pension-processor:latest
-    env_file:
-      - ./processor/.env.docker
-
     depends_on:
       - processor_db
-
-  processor_db:
-    image: mongo
-    restart: always
-    volumes:
-      - processor-db:/data/db
+      - kafka
 
   kafka:
     image: hasadna/open-pension-kafka:latest
@@ -116,8 +96,6 @@ services:
       - BROKER_ID=1
     depends_on:
       - zookeeper
-    ports:
-      - "9092:9092"
 
   kafka2:
     image: hasadna/open-pension-kafka:latest
@@ -130,19 +108,6 @@ services:
   zookeeper:
     restart: always
     image: zookeeper:3.5
-    ports:
-      - "2181:2181"
-
-  kafka-ui:
-    image: provectuslabs/kafka-ui
-    container_name: kafka-ui
-    ports:
-      - "8080:8080"
-    restart: always
-    environment:
-      - KAFKA_CLUSTERS_0_NAME=local
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
-      - KAFKA_CLUSTERS_0_ZOOKEEPER=localhost:2181
 
   fetcher:
     image: hasadna/open-pension-fetcher:latest
@@ -151,30 +116,22 @@ services:
       context: ./fetcher
       cache_from:
         - hasadna/open-pension-fetcher:latest
+    depends_on:
+      - kafka
 
   storage:
     image: hasadna/open-pension-storage:latest
     restart: always
+    volumes:
+      - ./data/files/storage:/home/app/download_files
     build:
       context: ./storage
       cache_from:
         - hasadna/open-pension-storage:latest
     depends_on:
       - storage_db
-    env_file:
-      - ./storage/.docker.env
-
-  storage_db:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: storage
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./storage/data:/var/lib/mysql
+      - gateway
+      - kafka
 
   monthly:
     image: hasadna/open-pension-monthly:latest
@@ -185,17 +142,5 @@ services:
         - hasadna/open-pension-monthly:latest
     depends_on:
       - monthly_db
-    env_file:
-      - ./monthly/.docker.env
-
-  monthly_db:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: monthly
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./db/monthly/data:/var/lib/mysql
+      - gateway
+      - kafka

@@ -24,6 +24,12 @@ export default () => {
       return;
     }
 
+    if (files.length > 2) {
+      // todo: find out why we cannot support more than two files or add a support for zip files.
+      setErrors({errors, ...{file: 'For now, only 2 files are allowed at once'}})
+      return;
+    }
+
     setIsLoading(true);
 
     try {

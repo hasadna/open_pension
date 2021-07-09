@@ -16,5 +16,13 @@ npm run prisma:clientGenerate
 npm run prisma:migrate
 npm run prisma:seed
 
-supervisord -c /etc/supervisor.conf
-
+if [[ -n $DEBUG ]]
+then
+  echo "Running in local development mode"
+  npm run worker &>> queue.txt &
+  npm run prisma:studio &
+  npm run dev
+else
+  echo "Running in production mode"
+  supervisord -c /etc/supervisor.conf
+fi

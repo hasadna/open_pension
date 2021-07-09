@@ -152,7 +152,8 @@ export async function getObject(entityModel: Model<any>, {id, conditions}: GetEn
  */
 export async function updateObject(entityModel: Model<any>, id, newValues) {
   const document = await entityModel.findOneAndUpdate({_id: id}, newValues, {new: true});
-  await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, entityModel.modelName));
+  // todo: fix, don't know why.
+  // await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, entityModel.modelName));
   return document;
 }
 
