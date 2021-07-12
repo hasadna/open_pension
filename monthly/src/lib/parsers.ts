@@ -50,6 +50,11 @@ function processStringToNumber(stringedNumber: string[], numberType: NumberType)
   return numberFromString;
 }
 
+function convertTkufatDivuachToDate(tkufatDivuach: string[]): Date {
+  const [year, month] = [tkufatDivuach[0].substr(0,4), tkufatDivuach[0].substr(4,2)];
+  return new Date(`${year}-${month}-01T00:00:00.000Z`);
+}
+
 /**
  * Parsing rows from the bituch file types.
  *
@@ -79,6 +84,7 @@ export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterfac
       TSUA_SHNATIT_MEMUZAAT_3_SHANIM: processStringToNumber(row.TSUA_SHNATIT_MEMUZAAT_3_SHANIM, NumberType.Float),
       TSUA_SHNATIT_MEMUZAAT_5_SHANIM: processStringToNumber(row.TSUA_SHNATIT_MEMUZAAT_5_SHANIM, NumberType.Float),
       YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YIT_NCHASIM_BFOAL, NumberType.Float),
+      TKUFAT_DIVUACH: convertTkufatDivuachToDate(row.TKUFAT_DIVUACH),
       ...reclamationData
     });
   }
@@ -118,6 +124,7 @@ export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterf
       TSUA_MITZT_MI_THILAT_SHANA: processStringToNumber(row.TSUA_MITZT_MI_THILAT_SHANA, NumberType.Float),
       YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YITRAT_NCHASIM_LSOF_TKUFA, NumberType.Float),
       TSUA_NOMINALIT_BRUTO_HODSHIT: processStringToNumber(row.TSUA_NOMINALIT_BRUTO_HODSHIT, NumberType.Float),
+      TKUFAT_DIVUACH: convertTkufatDivuachToDate(row.TKUFAT_DIVUACH),
       ...reclamationData
     });
   }

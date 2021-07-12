@@ -109,6 +109,7 @@ export interface FileRowInterface extends ReclamationResults {
   TSUA_MITZT_MI_THILAT_SHANA: number,
   YITRAT_NCHASIM_LSOF_TKUFA: number,
   TSUA_NOMINALIT_BRUTO_HODSHIT: number,
+  TKUFAT_DIVUACH: Date
 }
 
 export interface ProcessResults {

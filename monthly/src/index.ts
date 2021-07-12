@@ -3,10 +3,11 @@ import typeDefs from './server/typeDefs'
 import resolvers from './server/resolvers'
 import {createContext} from "./server/context";
 import {KafkaClient} from "./services/kafka-client";
+import {getPort} from "./services/env";
 
 const server = new ApolloServer({ typeDefs, resolvers, context: createContext });
 
-server.listen({port: 80}).then(({ url }) => {
+server.listen({port: getPort()}).then(({ url }) => {
 
   try {
     console.log('Starting kafka ')
