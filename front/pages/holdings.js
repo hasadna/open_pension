@@ -36,33 +36,47 @@ export async function getServerSideProps(context) {
 export default function Holdings({bodies, channels, lastUpdate}) {
   const [selectedBody, setSelectedBody] = useState(null);
 
-  return <>
-    <Wrapper title="אחזקות">
-      <SecondaryHeader
-        title={"אחזקות"}
-        description={<p className="description">
+  return <Wrapper title="אחזקות">
+    <SecondaryHeader
+      title={"מבנה תיק"}
+      description={<p className="under-construction"> אנחנו עובדים על סיום העמוד, עוד קצת סבלנות.</p>}
+    >
+    </SecondaryHeader>
 
-          בכל רבעון, גופי הפניסה מפרסמים לציבור דוחות המפרטים<br />
-          את רשימת הכנסים שהם כספי החיסכון של הציבור מושקעים.
-          <br />
-          כאן, ניתן לראות, באילו מניות, אגרות חוב, נכסי נדל״ן, קרנות השקעה וכו׳<br />
-          בחרו גופי הפנסיה להשקעה את כספי החסכונות שלנו.
-        </p>
-        }
-        lastUpdate={lastUpdate}
-      >
-        <HoldingsSearch setSelectedBody={setSelectedBody} bodies={bodies} />
-      </SecondaryHeader>
-
-      <div className="inner-page-content small">
-        {selectedBody ?
-          <HoldingsQuery
-            company={bodies[selectedBody]}
-            companyID={selectedBody}
-            channels={channels} /> :
-          <HoldingsWaiting />
-        }
+    <div className="inner-page-content">
+      <div className="under-construction-image">
+        <img src="./svgs/under-constructions.svg" />
       </div>
-    </Wrapper>
-  </>
+    </div>
+  </Wrapper>
+
+  // return <>
+  //   <Wrapper title="אחזקות">
+  //     <SecondaryHeader
+  //       title={"אחזקות"}
+  //       description={<p className="description">
+  //
+  //         בכל רבעון, גופי הפניסה מפרסמים לציבור דוחות המפרטים<br />
+  //         את רשימת הכנסים שהם כספי החיסכון של הציבור מושקעים.
+  //         <br />
+  //         כאן, ניתן לראות, באילו מניות, אגרות חוב, נכסי נדל״ן, קרנות השקעה וכו׳<br />
+  //         בחרו גופי הפנסיה להשקעה את כספי החסכונות שלנו.
+  //       </p>
+  //       }
+  //       lastUpdate={lastUpdate}
+  //     >
+  //       <HoldingsSearch setSelectedBody={setSelectedBody} bodies={bodies} />
+  //     </SecondaryHeader>
+  //
+  //     <div className="inner-page-content small">
+  //       {selectedBody ?
+  //         <HoldingsQuery
+  //           company={bodies[selectedBody]}
+  //           companyID={selectedBody}
+  //           channels={channels} /> :
+  //         <HoldingsWaiting />
+  //       }
+  //     </div>
+  //   </Wrapper>
+  // </>
 }
