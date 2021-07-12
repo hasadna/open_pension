@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { dataFromFile } from "../src/reclamation/reclamation";
-import { isEmpty } from 'lodash';
+import { isEmpty, isNumber } from 'lodash';
 
 const prisma = new PrismaClient()
 
@@ -84,6 +84,14 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes) {
   return cache[itemType][label];
 }
 
+function setKeyIfNotEmpty(key, value) {
+  if (!isNumber(value)) {
+    return {};
+  }
+
+  return {[key]: {connect: {ID: value}}}
+}
+
 async function main() {
   const rows = await dataFromFile();
 
@@ -115,18 +123,19 @@ async function main() {
 
     const data = {
       fundID: FundID,
-      fundName: {connect: {ID: fundNameID}},
-      channel: {connect: {ID: channelID}},
-      subChannel: {connect: {ID: subChannelID}},
-      homebase: {connect: {ID: homeBaseID}},
-      managingBody: {connect: {ID: managingBodyID}},
-      passiveActive: {connect: {ID: passiveActiveID}},
-      status: {connect: {ID: statusID}},
-      type: {connect: {ID: typeID}},
+      ...setKeyIfNotEmpty('fundName', fundNameID),
+      ...setKeyIfNotEmpty('channel', channelID),
+      ...setKeyIfNotEmpty('subChannel', subChannelID),
+      ...setKeyIfNotEmpty('homebase', homeBaseID),
+      ...setKeyIfNotEmpty('managingBody', managingBodyID),
+      ...setKeyIfNotEmpty('passiveActive', passiveActiveID),
+      ...setKeyIfNotEmpty('status', statusID),
+      ...setKeyIfNotEmpty('type', typeID),
     };
 
     // We cannot use createMany since there might be some data which relies on
     // other data.
+    // @ts-ignore
     await prisma.fund.create({data});
     console.log(`Fund ID ${FundID} has been processed to the DB.`)
   }
