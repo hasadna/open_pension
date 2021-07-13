@@ -35,6 +35,7 @@ export interface ProcessedBituachXmlFileInterface {
     DESCRIPTION1: string[],
     DESCRIPTION2: string[],
     ROW: ProcessedXmlFileBituachRowsInterface[],
+    Row: ProcessedXmlFileBituachRowsInterface[],
   },
 }
 

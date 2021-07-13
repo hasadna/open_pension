@@ -7,12 +7,11 @@ import {
 
 import {prisma} from "../server/context";
 
-
-import {head} from 'lodash';
+import {head, isEmpty} from 'lodash';
 
 const reclamationData: any = {};
 
-export async function getReclamationData(fundID: number): Promise<ReclamationResults> {
+export async function getReclamationData(fundID: number): Promise<ReclamationResults|any> {
 
   if (Object.keys(reclamationData).includes(String(fundID))) {
     return reclamationData[fundID];
@@ -22,6 +21,10 @@ export async function getReclamationData(fundID: number): Promise<ReclamationRes
   const results = await prisma.fund.findFirst({where: {
       fundID
   }});
+
+  if (isEmpty(results)) {
+    return {};
+  }
 
   // Build the data, save it a temporary cache and return it.
   const dataToStore = {
@@ -95,8 +98,39 @@ export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterfac
 /**
  * Processing a rows from gemel.
  */
-export async function gemelProcess() {
-  throw new Error("I'm not working yet :(");
+export async function gemelProcess(rawFieData: ProcessedBituachXmlFileInterface) {
+  const fileRows: FileRowInterface[] = [];
+
+  for (let row of rawFieData.ROWSET.Row) {
+    const rowID = processStringToNumber(row.ID, NumberType.Int);
+    const reclamationData = await getReclamationData(rowID);
+
+    if (isEmpty(reclamationData)) {
+      // todo: Find a way to add errors to the file process.
+      console.error(`There is no reclamation data for fundID ${rowID}`)
+    }
+
+    fileRows.push({
+      row_ID: rowID,
+      MANAGER_ID: processStringToNumber(row.ID, NumberType.Int),
+      ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
+      STIAT_TEKEN_60_HODASHIM: processStringToNumber(row.STIAT_TEKEN_60_HODASHIM, NumberType.Float),
+      STIAT_TEKEN_36_HODASHIM: processStringToNumber(row.STIAT_TEKEN_36_HODASHIM, NumberType.Float),
+      TSUA_SHNATIT_MEMUZAAT_5_SHANIM: processStringToNumber(row.TSUA_SHNATIT_MEMUZAAT_5_SHANIM, NumberType.Float),
+      TSUA_SHNATIT_MEMUZAAT_3_SHANIM: processStringToNumber(row.TSUA_SHNATIT_MEMUZAAT_3_SHANIM, NumberType.Float),
+      TSUA_MITZTABERET_60_HODASHIM: processStringToNumber(row.TSUA_MITZTABERET_60_HODASHIM, NumberType.Float),
+      TSUA_MITZTABERET_36_HODASHIM: processStringToNumber(row.TSUA_MITZTABERET_36_HODASHIM, NumberType.Float),
+      TSUA_MEMUZAAT_60_HODASHIM: processStringToNumber(row.TSUA_MEMUZAAT_60_HODASHIM, NumberType.Float),
+      TSUA_MEMUZAAT_36_HODASHIM: processStringToNumber(row.TSUA_MEMUZAAT_36_HODASHIM, NumberType.Float),
+      TSUA_MITZT_MI_THILAT_SHANA: processStringToNumber(row.TSUA_MITZT_MI_THILAT_SHANA, NumberType.Float),
+      YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YITRAT_NCHASIM_LSOF_TKUFA, NumberType.Float),
+      TSUA_NOMINALIT_BRUTO_HODSHIT: processStringToNumber(row.TSUA_NOMINALIT_BRUTO_HODSHIT, NumberType.Float),
+      TKUFAT_DIVUACH: convertTkufatDivuachToDate(row.TKUFAT_DIVUACH),
+      ...reclamationData
+    });
+  }
+
+  return fileRows;
 }
 
 /**
