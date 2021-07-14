@@ -8,6 +8,7 @@ import {
 import {prisma} from "../server/context";
 
 import {head, isEmpty} from 'lodash';
+import {setKeyIfNotEmpty} from "./util";
 
 const reclamationData: any = {};
 
@@ -28,14 +29,14 @@ export async function getReclamationData(fundID: number): Promise<ReclamationRes
 
   // Build the data, save it a temporary cache and return it.
   const dataToStore = {
-    managingBody: {connect: {ID: results.managingBodyID}},
-    homebase: {connect: {ID: results.homebaseID}},
-    channel: {connect: {ID: results.channelID}},
-    subChannel: {connect: {ID: results.subChannelID}},
-    fundName: {connect: {ID: results.fundNameID}},
-    passiveActive: {connect: {ID: results.passiveActiveID}},
-    type: {connect: {ID: results.typeID}},
-    status: {connect: {ID: results.statusID}},
+    ...setKeyIfNotEmpty('managingBody', results.managingBodyID),
+    ...setKeyIfNotEmpty('homebase', results.homebaseID),
+    ...setKeyIfNotEmpty('channel', results.channelID),
+    ...setKeyIfNotEmpty('subChannel', results.subChannelID),
+    ...setKeyIfNotEmpty('fundName', results.fundNameID),
+    ...setKeyIfNotEmpty('passiveActive', results.passiveActiveID),
+    ...setKeyIfNotEmpty('type', results.typeID),
+    ...setKeyIfNotEmpty('status', results.statusID),
   };
 
   reclamationData[fundID] = dataToStore;
@@ -107,6 +108,7 @@ export async function gemelProcess(rawFieData: ProcessedBituachXmlFileInterface)
 
     if (isEmpty(reclamationData)) {
       // todo: Find a way to add errors to the file process.
+      //  Apple to other places.
       console.error(`There is no reclamation data for fundID ${rowID}`)
     }
 
