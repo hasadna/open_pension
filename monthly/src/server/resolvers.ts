@@ -16,7 +16,6 @@ export default {
       const {prisma} = ctx;
       return await prisma.subChannel.findMany({});
     },
-
     lastUpdated: async (_, __, ctx) => {
       const {prisma} = ctx;
 
@@ -31,6 +30,23 @@ export default {
       });
 
       return TKUFAT_DIVUACH.getTime() / 1000;
+    },
+    missingFundData: async (_, __, ctx) => {
+      const {prisma} = ctx;
+
+      // @ts-ignore
+      const data = await prisma.row.findMany({
+        select: {
+          row_ID: true
+        },
+        distinct: ['row_ID'],
+        where: {
+          // @ts-ignore
+          missingReclamationData: true
+        },
+      });
+
+      return Object.values(data).map((row: any) => row.row_ID);
     },
   },
 };
