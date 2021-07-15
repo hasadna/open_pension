@@ -49,6 +49,7 @@ model Row {
   file   File @relation(fields: [fileID], references: [ID])
   fileID Int
 
+  // Reclamation data.
   managingBody   ManagingBody? @relation(fields: [managingBodyID], references: [ID])
   managingBodyID Int?
 
@@ -72,6 +73,8 @@ model Row {
 
   homebase   Homebase? @relation(fields: [homebaseID], references: [ID])
   homebaseID Int?
+
+  missingReclamationData Boolean @default(false)
 }
 
 model Fund {

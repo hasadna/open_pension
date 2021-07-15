@@ -31,6 +31,7 @@ services:
   monthly_db:
     # Comment this one out when you need to connect to the db outside the
     # container - useful when you want working locally.
+    # todo: add a virtual address to allow outside connection
     ports:
       - '3306:3306'
     image: mysql:5.7

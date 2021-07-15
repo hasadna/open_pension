@@ -1,7 +1,7 @@
 import {
   FileRowInterface,
   NumberType,
-  ProcessedBituachXmlFileInterface,
+  ProcessedBituachXmlFileInterface, ProcessedXmlFileBituachRowsInterface,
   ReclamationResults
 } from "./interfaces";
 
@@ -59,6 +59,24 @@ function convertTkufatDivuachToDate(tkufatDivuach: string[]): Date {
   return new Date(`${year}-${month}-01T00:00:00.000Z`);
 }
 
+async function handleRowMetadata(row: ProcessedXmlFileBituachRowsInterface): Promise<any> {
+  const rowID = processStringToNumber(row.ID, NumberType.Int);
+  const reclamationData = await getReclamationData(rowID);
+
+  let missingReclamationData = false;
+
+  if (isEmpty(reclamationData)) {
+    console.error(`There is no reclamation data for fundID ${rowID}`);
+    missingReclamationData = true;
+  }
+
+  return {
+    row_ID: rowID,
+    ...reclamationData,
+    missingReclamationData
+  };
+}
+
 /**
  * Parsing rows from the bituch file types.
  *
@@ -69,11 +87,9 @@ export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterfac
   const fileRows: FileRowInterface[] = [];
 
   for (let row of rawFieData.ROWSET.ROW) {
-    const rowID = processStringToNumber(row.ID, NumberType.Int);
-    const reclamationData = await getReclamationData(rowID);
+    const rowMetaData = await handleRowMetadata(row);
 
     fileRows.push({
-      row_ID: rowID,
       MANAGER_ID: processStringToNumber(row.ID_GUF, NumberType.Int),
       ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
       SHARP_RIBIT_HASRAT_SIKUN: processStringToNumber(row.SHARP_RIBIT_HASRAT_SIKUN, NumberType.Float),
@@ -89,7 +105,7 @@ export async function bituachProcess(rawFieData: ProcessedBituachXmlFileInterfac
       TSUA_SHNATIT_MEMUZAAT_5_SHANIM: processStringToNumber(row.TSUA_SHNATIT_MEMUZAAT_5_SHANIM, NumberType.Float),
       YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YIT_NCHASIM_BFOAL, NumberType.Float),
       TKUFAT_DIVUACH: convertTkufatDivuachToDate(row.TKUFAT_DIVUACH),
-      ...reclamationData
+      ...rowMetaData
     });
   }
 
@@ -103,17 +119,9 @@ export async function gemelProcess(rawFieData: ProcessedBituachXmlFileInterface)
   const fileRows: FileRowInterface[] = [];
 
   for (let row of rawFieData.ROWSET.Row) {
-    const rowID = processStringToNumber(row.ID, NumberType.Int);
-    const reclamationData = await getReclamationData(rowID);
-
-    if (isEmpty(reclamationData)) {
-      // todo: Find a way to add errors to the file process.
-      //  Apple to other places.
-      console.error(`There is no reclamation data for fundID ${rowID}`)
-    }
+    const rowMetaData = await handleRowMetadata(row);
 
     fileRows.push({
-      row_ID: rowID,
       MANAGER_ID: processStringToNumber(row.ID, NumberType.Int),
       ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
       STIAT_TEKEN_60_HODASHIM: processStringToNumber(row.STIAT_TEKEN_60_HODASHIM, NumberType.Float),
@@ -128,7 +136,7 @@ export async function gemelProcess(rawFieData: ProcessedBituachXmlFileInterface)
       YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YITRAT_NCHASIM_LSOF_TKUFA, NumberType.Float),
       TSUA_NOMINALIT_BRUTO_HODSHIT: processStringToNumber(row.TSUA_NOMINALIT_BRUTO_HODSHIT, NumberType.Float),
       TKUFAT_DIVUACH: convertTkufatDivuachToDate(row.TKUFAT_DIVUACH),
-      ...reclamationData
+      ...rowMetaData
     });
   }
 
@@ -142,11 +150,9 @@ export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterf
   const fileRows: FileRowInterface[] = [];
 
   for (let row of rawFieData.ROWSET.ROW) {
-    const rowID = processStringToNumber(row.ID, NumberType.Int);
-    const reclamationData = await getReclamationData(rowID);
+    const rowMetaData = await handleRowMetadata(row);
 
     fileRows.push({
-      row_ID: rowID,
       MANAGER_ID: processStringToNumber(row.ID, NumberType.Int),
       ALPHA_SHNATI: processStringToNumber(row.ALPHA_SHNATI, NumberType.Float),
       STIAT_TEKEN_60_HODASHIM: processStringToNumber(row.STIAT_TEKEN_60_HODASHIM, NumberType.Float),
@@ -161,7 +167,7 @@ export async function pensyanetProcess(rawFieData: ProcessedBituachXmlFileInterf
       YITRAT_NCHASIM_LSOF_TKUFA: processStringToNumber(row.YITRAT_NCHASIM_LSOF_TKUFA, NumberType.Float),
       TSUA_NOMINALIT_BRUTO_HODSHIT: processStringToNumber(row.TSUA_NOMINALIT_BRUTO_HODSHIT, NumberType.Float),
       TKUFAT_DIVUACH: convertTkufatDivuachToDate(row.TKUFAT_DIVUACH),
-      ...reclamationData
+      ...rowMetaData
     });
   }
 

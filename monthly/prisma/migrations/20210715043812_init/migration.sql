@@ -40,6 +40,7 @@ CREATE TABLE `Row` (
     `typeID` INTEGER,
     `passiveActiveID` INTEGER,
     `homebaseID` INTEGER,
+    `missingReclamationData` BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY (`ID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
