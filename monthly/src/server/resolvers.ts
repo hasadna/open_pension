@@ -41,7 +41,6 @@ export default {
         },
         distinct: ['row_ID'],
         where: {
-          // @ts-ignore
           missingReclamationData: true
         },
       });
