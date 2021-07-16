@@ -1,6 +1,6 @@
 .frontpage-navigation {
   @include container-padding();
-  padding-top: 6.6em;
+  padding-top: 6.5em;
   color: var(--white-text);
   background-image: linear-gradient(197deg, var(--frontpage-purple-top), var(--frontpage-purple-bottom));
 
@@ -9,6 +9,13 @@
     line-height: 1.5em;
     padding-bottom: 1em;
     font-weight: 100;
+
+    @media only screen and (max-width: $large) {
+      font-size: 1.75em;
+    }
+    @media only screen and (max-width: $small) {
+      font-size: 1.5em;
+    }
   }
 
   ul {
@@ -26,6 +33,9 @@
       border-top: solid white 1px;
       padding-top: 2em;
       padding-bottom: 2em;
+      @media only screen and (max-width: $small) {
+        flex-direction: column;
+      }
 
       &:last-child {
         border-bottom: solid white 1px;
@@ -35,6 +45,14 @@
         font-size: 7em;
         font-weight: bold;
         padding-left: .25em;
+
+        @media only screen and (max-width: $large) {
+          font-size: 5em;
+        }
+
+        @media only screen and (max-width: $small) {
+          font-size: 3.5em;
+        }
       }
 
       .descriptions {
@@ -43,6 +61,10 @@
         p {
           font-size: 1.5em;
           line-height: 1.3;
+
+          @media only screen and (max-width: $large) {
+            font-size: 1em;
+          }
         }
       }
 
@@ -53,6 +75,10 @@
         margin-left: 0;
         margin-right: auto;
         text-decoration: none;
+
+        @media only screen and (max-width: $small) {
+          display: none;
+        }
       }
     }
   }
