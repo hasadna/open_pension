@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { dataFromFile } from "../src/reclamation/reclamation";
-import { isEmpty, isNumber } from 'lodash';
+import { isEmpty } from 'lodash';
+import {setKeyIfNotEmpty} from "../src/lib/util";
 
 const prisma = new PrismaClient()
 
@@ -82,14 +83,6 @@ async function getOrCreateItem(label: string, itemType: ItemsTypes) {
   }
 
   return cache[itemType][label];
-}
-
-function setKeyIfNotEmpty(key, value) {
-  if (!isNumber(value)) {
-    return {};
-  }
-
-  return {[key]: {connect: {ID: value}}}
 }
 
 async function main() {

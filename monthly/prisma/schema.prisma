@@ -46,28 +46,39 @@ model Row {
   TSUA_NOMINALIT_BRUTO_HODSHIT   Float
   TKUFAT_DIVUACH                 DateTime
 
-  file            File          @relation(fields: [fileID], references: [ID])
-  managingBody    ManagingBody  @relation(fields: [managingBodyID], references: [ID])
-  fundName        FundName      @relation(fields: [fundNameID], references: [ID])
-  status          Status        @relation(fields: [statusID], references: [ID])
-  channel         Channel       @relation(fields: [channelID], references: [ID])
-  subChannel      SubChannel    @relation(fields: [subChannelID], references: [ID])
-  type            Type          @relation(fields: [typeID], references: [ID])
-  passiveActive   PassiveActive @relation(fields: [passiveActiveID], references: [ID])
-  homebase        Homebase      @relation(fields: [homebaseID], references: [ID])
-  fileID          Int
-  managingBodyID  Int
-  fundNameID      Int
-  statusID        Int
-  channelID       Int
-  subChannelID    Int
-  typeID          Int
-  passiveActiveID Int
-  homebaseID      Int
+  file   File @relation(fields: [fileID], references: [ID])
+  fileID Int
+
+  // Reclamation data.
+  managingBody   ManagingBody? @relation(fields: [managingBodyID], references: [ID])
+  managingBodyID Int?
+
+  fundName   FundName? @relation(fields: [fundNameID], references: [ID])
+  fundNameID Int?
+
+  status   Status? @relation(fields: [statusID], references: [ID])
+  statusID Int?
+
+  channel   Channel? @relation(fields: [channelID], references: [ID])
+  channelID Int?
+
+  subChannel   SubChannel? @relation(fields: [subChannelID], references: [ID])
+  subChannelID Int?
+
+  type   Type? @relation(fields: [typeID], references: [ID])
+  typeID Int?
+
+  passiveActive   PassiveActive? @relation(fields: [passiveActiveID], references: [ID])
+  passiveActiveID Int?
+
+  homebase   Homebase? @relation(fields: [homebaseID], references: [ID])
+  homebaseID Int?
+
+  missingReclamationData Boolean @default(false)
 }
 
 model Fund {
-  ID            Int           @id @default(autoincrement())
+  ID            Int            @id @default(autoincrement())
   fundID        Int
   managingBody  ManagingBody?  @relation(fields: [managingBodyID], references: [ID])
   fundName      FundName?      @relation(fields: [fundNameID], references: [ID])

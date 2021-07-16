@@ -15,6 +15,7 @@ export default gql`
     fundNames: [BaseMetadata],
     managingBodies: [BaseMetadata],
     subChannels: [BaseMetadata],
-    lastUpdated: Int
+    lastUpdated: Int,
+    missingFundData: [Int]
   }
 `;
