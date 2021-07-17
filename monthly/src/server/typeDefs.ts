@@ -7,6 +7,13 @@ export default gql`
     label: String
   }
 
+  input PerformanceInput {
+    channel: Int,
+    subChannel: Int,
+    body: [Int],
+    timestamp: Int
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
@@ -16,6 +23,7 @@ export default gql`
     managingBodies: [BaseMetadata],
     subChannels: [BaseMetadata],
     lastUpdated: Int,
-    missingFundData: [Int]
+    missingFundData: [Int],
+    performance(input: PerformanceInput!): String,
   }
 `;

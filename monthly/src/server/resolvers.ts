@@ -1,3 +1,12 @@
+interface PerformanceInputArgs {
+  input: {
+    channel: number,
+    subChannel: number,
+    body: number[],
+    timestamp: number
+  }
+}
+
 export default {
   Query: {
     channels: async (_, __, ctx) => {
@@ -47,5 +56,10 @@ export default {
 
       return Object.values(data).map((row: any) => row.row_ID);
     },
+    performance: (_, args: PerformanceInputArgs, __) => {
+      const {channel, body, subChannel, timestamp} = args.input;
+      console.log(channel, body, subChannel, timestamp);
+      return channel;
+    }
   },
 };
