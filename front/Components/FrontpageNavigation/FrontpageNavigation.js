@@ -38,11 +38,15 @@ export default function FrontpageNavigation() {
 
     <ul className="internal-links">
       {links.map(({title, descriptions, path}, key) => <li key={key}>
-        <h4 className="link-title">{title}</h4>
+        <h4 className="link-title">
+          <Link href={path}>{title}</Link>
+        </h4>
         <div className="descriptions">
           {descriptions.map((description, key) => <p key={key}>{description}</p>)}
         </div>
-        <Link className="link" href={path}> > </Link>
+        <Link href="/" passHref>
+          <a className="link"> > </a>
+        </Link>
       </li>)}
     </ul>
 

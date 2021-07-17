@@ -12,6 +12,10 @@
   -moz-background-size: cover;
   background-size: cover;
 
+  @media only screen and (max-width: $large) {
+    min-height: 45vh;
+  }
+
   a {
     @include purple-gradient-button();
     box-shadow: 1px 1px 9px 0 rgba(255, 255, 255, 0.27);

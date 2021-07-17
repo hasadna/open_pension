@@ -1,6 +1,11 @@
 .frontpage-navigation {
   @include container-padding();
   padding-top: 6.5em;
+
+  @media only screen and (max-width: $large) {
+    padding-top: 4em;
+  }
+
   color: var(--white-text);
   background-image: linear-gradient(197deg, var(--frontpage-purple-top), var(--frontpage-purple-bottom));
 
@@ -13,6 +18,7 @@
     @media only screen and (max-width: $large) {
       font-size: 1.75em;
     }
+
     @media only screen and (max-width: $small) {
       font-size: 1.5em;
     }
@@ -29,11 +35,17 @@
     margin-top: 1em;
     padding-bottom: 10em;
 
+    @media only screen and (max-width: $large) {
+      flex-direction: column;
+      padding-bottom: 3em;
+    }
+
     li {
       border-top: solid white 1px;
       padding-top: 2em;
       padding-bottom: 2em;
-      @media only screen and (max-width: $small) {
+
+      @media only screen and (max-width: $large) {
         flex-direction: column;
       }
 
@@ -45,6 +57,10 @@
         font-size: 7em;
         font-weight: bold;
         padding-left: .25em;
+
+        a {
+          color: var(--white);
+        }
 
         @media only screen and (max-width: $large) {
           font-size: 6em;
@@ -78,7 +94,7 @@
         }
       }
 
-      a {
+      .link {
         padding-top: .25em;
         font-size: 5em;
         color: white;
@@ -86,7 +102,7 @@
         margin-right: auto;
         text-decoration: none;
 
-        @media only screen and (max-width: $small) {
+        @media only screen and (max-width: $large) {
           display: none;
         }
       }
@@ -102,6 +118,7 @@
       display: flex;
       flex-direction: column;
       padding-bottom: 2em;
+      justify-content: space-evenly;
 
       img {
         height: 10em;
@@ -138,6 +155,39 @@
           height: 2em;
         }
       }
+    }
+
+    @media only screen and (max-width: $extraLarge) {
+
+      li {
+        img {
+          height: 8em;
+          padding-bottom: 1.5em;
+        }
+
+        .title {
+          font-size: 1.2em;
+          padding-bottom: 1em;
+        }
+      }
+    }
+
+    @media only screen and (max-width: $large) {
+      li {
+        .title {
+          font-size: 1.5em;
+          padding-bottom: 1em;
+          text-decoration: underline;
+        }
+
+        .play {
+          display: none;
+        }
+      }
+    }
+
+    @media only screen and (max-width: $small) {
+      flex-direction: column;
     }
   }
 }
