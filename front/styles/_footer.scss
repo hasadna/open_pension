@@ -38,4 +38,13 @@ footer {
       }
     }
   }
+
+  @media only screen and (max-width: $extraSmall) {
+    flex-direction: column;
+    align-items: flex-end;
+
+    .icons {
+      padding-bottom: 2em;
+    }
+  }
 }

@@ -13,6 +13,12 @@
     font-weight: 400;
     line-height: 1.65;
     font-size: 1.25em;
+
+    @media only screen and (max-width: $small) {
+      font-weight: 100;
+      line-height: 1.65;
+      font-size: 1em;
+    }
   }
 
   .staff {
@@ -21,9 +27,15 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
+    align-content: flex-start;
 
-    .graphs {
-      padding-top: 10em;
+    @media only screen and (max-width: $small) {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: space-around;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
     }
 
     ul {
@@ -48,6 +60,29 @@
           font-size: .75em;
           color: var(--text-blue);
         }
+      }
+    }
+
+    .graphs {
+      padding-top: 10em;
+      margin-left: 0;
+      margin-right: auto;
+
+      @media only screen and (max-width: $extraLarge) {
+        padding-top: 5em;
+        height: 12em;
+      }
+
+      @media only screen and (max-width: $large) {
+        height: 11em;
+      }
+
+      @media only screen and (max-width: $small) {
+        height: 10em;
+      }
+
+      @media only screen and (max-width: $extraSmall) {
+        height: 9em;
       }
     }
   }

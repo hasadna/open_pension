@@ -20,6 +20,11 @@
     padding-left: 2em;
   }
 
+  @media only screen and (max-width: $extraSmall) {
+    padding-right: 1em;
+    padding-left: 1em;
+  }
+
 }
 
 @mixin drop-shadow {
