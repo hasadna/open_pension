@@ -28,6 +28,10 @@
     @media only screen and (max-width: $extraLarge) {
         font-size: 1.25em;
     }
+
+    @media only screen and (max-width: $extraSmall) {
+        font-size: 1em;
+    }
   }
 
   .welcome-message {

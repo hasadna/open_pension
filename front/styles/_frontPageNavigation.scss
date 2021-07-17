@@ -179,7 +179,11 @@
           padding-bottom: 1em;
           text-decoration: underline;
         }
+      }
+    }
 
+    @media only screen and (max-width: $small) {
+      li {
         .play {
           display: none;
         }

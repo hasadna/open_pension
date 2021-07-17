@@ -13,9 +13,6 @@ header {
 
   @media only screen and (max-width: $small) {
     padding-bottom: .75em;
-  }
-
-  @media only screen and (max-width: $extraSmall) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -44,13 +41,9 @@ header {
     margin-bottom: .5em;
 
     @media only screen and (max-width: $small) {
-      flex-direction: column;
-    }
-
-    @media only screen and (max-width: $extraSmall) {
       flex-direction: row;
       width: 100%;
-      padding-top: .25em;
+      padding-top: .5em;
       justify-content: space-between
     }
 
@@ -65,21 +58,17 @@ header {
 
       @media only screen and (max-width: $small) {
         font-size: 1.3em;
-
-        &:not(:nth-child(3)) {
-          padding-bottom: .25em;
-        }
-      }
-
-      @media only screen and (max-width: $extraSmall) {
         padding: 0;
         margin: 0;
-        font-size: 1em;
         padding-right: .5em;
 
         &:nth-child(1) {
           padding-right: 0;
         }
+      }
+
+      @media only screen and (max-width: $extraSmall) {
+        font-size: 1em;
       }
     }
   }
