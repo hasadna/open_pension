@@ -12,6 +12,10 @@
   -moz-background-size: cover;
   background-size: cover;
 
+  @media only screen and (max-width: $large) {
+    min-height: 45vh;
+  }
+
   a {
     @include purple-gradient-button();
     box-shadow: 1px 1px 9px 0 rgba(255, 255, 255, 0.27);
@@ -20,6 +24,14 @@
     margin: 6em auto;
     font-size: 1.75em;
     font-weight: bold;
+
+    @media only screen and (max-width: $extraLarge) {
+        font-size: 1.25em;
+    }
+
+    @media only screen and (max-width: $extraSmall) {
+        font-size: 1em;
+    }
   }
 
   .welcome-message {
@@ -37,6 +49,36 @@
       padding-top: 1em;
       font-size: 2.7em;
       font-weight: 500;
+    }
+
+    @media only screen and (max-width: $extraLarge) {
+      .h2 {
+        font-size: 7em;
+      }
+
+      .p {
+        font-size: 2em;
+      }
+    }
+
+    @media only screen and (max-width: $large) {
+      .h2 {
+        font-size: 5em;
+      }
+
+      .p {
+        font-size: 1.5em;
+      }
+    }
+
+    @media only screen and (max-width: $small) {
+      .h2 {
+        font-size: 3em;
+      }
+
+      .p {
+        font-size: 1.25em;
+      }
     }
   }
 }

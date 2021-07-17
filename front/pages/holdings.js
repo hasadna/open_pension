@@ -7,6 +7,7 @@ import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
 import {getLastUpdate, convertServerEntitiesToKeyValue} from "./api";
 import { gql } from "@apollo/client";
 import client from "../backend/apollo-client.js";
+import {HOLDINGS} from "../consts/titles";
 
 export async function getServerSideProps(context) {
   const { data: {managingBodies, channels} } = await client.query({
@@ -36,9 +37,9 @@ export async function getServerSideProps(context) {
 export default function Holdings({bodies, channels, lastUpdate}) {
   const [selectedBody, setSelectedBody] = useState(null);
 
-  return <Wrapper title="אחזקות">
+  return <Wrapper title={HOLDINGS}>
     <SecondaryHeader
-      title={"מבנה תיק"}
+      title={HOLDINGS}
       description={<p className="under-construction"> אנחנו עובדים על סיום העמוד, עוד קצת סבלנות.</p>}
     >
     </SecondaryHeader>

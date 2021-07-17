@@ -11,24 +11,41 @@ header {
   padding-bottom: 1.5em;
   font-weight: bold;
 
+  @media only screen and (max-width: $small) {
+    padding-bottom: .75em;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   &.front-page {
     background: var(--frontpage-bgblack);
   }
 
   .logo {
-    display: flex;
-    align-items: flex-end;
+    a {
+      display: flex;
+      align-items: flex-end;
+      color: white;
+      text-decoration: none;
 
-    img {
-      height: 3em;
-      padding-left: .25em;
-      margin-bottom: 0.5em;
+      img {
+        height: 3em;
+        padding-left: .25em;
+        margin-bottom: 0.5em;
+      }
     }
   }
 
   ul {
     display: flex;
     margin-bottom: .5em;
+
+    @media only screen and (max-width: $small) {
+      flex-direction: row;
+      width: 100%;
+      padding-top: .5em;
+      justify-content: space-between
+    }
 
     li {
       list-style-type: none;
@@ -37,6 +54,21 @@ header {
 
       &:last-child {
         padding-left: 0;
+      }
+
+      @media only screen and (max-width: $small) {
+        font-size: 1.3em;
+        padding: 0;
+        margin: 0;
+        padding-right: .5em;
+
+        &:nth-child(1) {
+          padding-right: 0;
+        }
+      }
+
+      @media only screen and (max-width: $extraSmall) {
+        font-size: 1em;
       }
     }
   }
