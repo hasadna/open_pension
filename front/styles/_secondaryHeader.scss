@@ -31,4 +31,21 @@
     font-size: 1.25em;
     color: white;
   }
+
+  @media only screen and (max-width: $extraLarge) {
+    h2 {
+      font-size: 5em;
+    }
+  }
+
+  @media only screen and (max-width: $extraSmall) {
+    h2 {
+      font-size: 2.5em;
+    }
+    p {
+      &.description, &.under-construction {
+        font-size: 1em;
+      }
+    }
+  }
 }
