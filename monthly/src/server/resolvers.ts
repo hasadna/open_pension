@@ -1,9 +1,11 @@
+import {query, TimePeriod} from '../lib/queries/performance';
+
 interface PerformanceInputArgs {
   input: {
     channel: number,
     subChannel: number,
-    body: number[],
-    timestamp: number
+    bodies: number[],
+    timePeriod: TimePeriod
   }
 }
 
@@ -56,10 +58,9 @@ export default {
 
       return Object.values(data).map((row: any) => row.row_ID);
     },
-    performance: (_, args: PerformanceInputArgs, __) => {
-      const {channel, body, subChannel, timestamp} = args.input;
-      console.log(channel, body, subChannel, timestamp);
-      return channel;
+    performance: (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
+      query({...args.input, ...{prismaClient}});
+      return args.input.channel;
     }
   },
 };

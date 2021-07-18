@@ -7,11 +7,20 @@ export default gql`
     label: String
   }
 
+  enum TimePeriod {
+    THREE_MONTHS
+    SIX_MONTHS
+    YEAR_START
+    LAST_TWELVE_MONTHS
+    LAST_THREE_YEARS
+    LAST_FIVE_YEARS
+  }
+
   input PerformanceInput {
     channel: Int,
     subChannel: Int,
-    body: [Int],
-    timestamp: Int
+    bodies: [Int],
+    timePeriod: TimePeriod
   }
 
   # The "Query" type is special: it lists all of the available queries that
