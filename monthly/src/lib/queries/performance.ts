@@ -1,5 +1,5 @@
 import {FileRowInterface} from "../interfaces";
-import type { PrismaClient } from '@prisma/client'
+import type { PrismaClient } from '@prisma/client';
 
 export enum TimePeriod {
   THREE_MONTHS = '3_months',
@@ -36,7 +36,6 @@ interface GetMatchingResultsFromDB {
  * @param queryData.bodies A list of body IDs.
  * @param queryData.timePeriod The time period upon we search the data in the DB.
  */
-// @ts-ignore
 export function query(queryData: QueryInterface) {
   const {channel, subChannel, bodies, timePeriod, prismaClient} = queryData;
 
@@ -60,8 +59,43 @@ export function query(queryData: QueryInterface) {
  * @param timePeriod The time period.
  */
 export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
-  console.log(TimePeriod[timePeriod]);
-  return {timeStartRange: new Date(), timeEndRange: new Date()}
+  const handlers = {
+    [TimePeriod.THREE_MONTHS]: (dateObjectToAlter) => {
+      dateObjectToAlter.setUTCMonth(dateObjectToAlter.getMonth() - 3);
+      return dateObjectToAlter;
+    },
+    [TimePeriod.SIX_MONTHS]: (dateObjectToAlter) => {
+      dateObjectToAlter.setUTCMonth(dateObjectToAlter.getMonth() - 6);
+      return dateObjectToAlter;
+    },
+    [TimePeriod.YEAR_START]: (dateObjectToAlter) => {
+      dateObjectToAlter.setUTCMonth(0);
+      return dateObjectToAlter;
+    },
+    [TimePeriod.LAST_TWELVE_MONTHS]: (dateObjectToAlter) => {
+      dateObjectToAlter.setUTCMonth(dateObjectToAlter.getMonth() - 12);
+      return dateObjectToAlter;
+    },
+    [TimePeriod.LAST_THREE_YEARS]: (dateObjectToAlter) => {
+      dateObjectToAlter.setYear(dateObjectToAlter.getUTCFullYear() - 3);
+      return dateObjectToAlter;
+    },
+    [TimePeriod.LAST_FIVE_YEARS]: (dateObjectToAlter) => {
+      dateObjectToAlter.setYear(dateObjectToAlter.getUTCFullYear() - 5);
+      return dateObjectToAlter;
+    },
+  };
+
+  // Start by setting today's date to the the start of the month.
+  let timeStartRange = new Date();
+  timeStartRange.setUTCHours(0,0,0,0);
+  timeStartRange.setUTCDate(1);
+
+  // Clone the date object and manipulate the time.
+  let timeEndRange = new Date(timeStartRange);
+  timeEndRange = handlers[timePeriod](timeEndRange);
+
+  return {timeStartRange, timeEndRange}
 }
 
 /**
