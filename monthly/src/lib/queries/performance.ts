@@ -36,7 +36,7 @@ interface GetMatchingResultsFromDB {
  * @param queryData.bodies A list of body IDs.
  * @param queryData.timePeriod The time period upon we search the data in the DB.
  */
-export function query(queryData: QueryInterface) {
+export async function query(queryData: QueryInterface) {
   const {channel, subChannel, bodies, timePeriod, prismaClient} = queryData;
 
   // Starting by getting the time range. We need the current datetime and the
@@ -45,7 +45,7 @@ export function query(queryData: QueryInterface) {
   const {timeStartRange, timeEndRange} = convertTimePeriodToTimeRangeQuery(timePeriod);
 
   // Now, we need to get all the matching results.
-  const results = getMatchingResultsFromDB({
+  const results = await getMatchingResultsFromDB({
     channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient
   });
 
@@ -104,9 +104,23 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  *
  * @param input The parameters upon we'll construct the query to the DB.
  */
-export function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): FileRowInterface[] {
+export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<FileRowInterface[]> {
   // @ts-ignore
   const {channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient} = input;
+  const results = await prismaClient.row.findMany({
+    take: 1,
+    orderBy: {
+      TKUFAT_DIVUACH: 'asc'
+    },
+    where: {
+      TKUFAT_DIVUACH: {
+        lte: timeStartRange,
+        gte: timeEndRange,
+      },
+      channel: channel
+    }
+  });
+  console.log(results);
 
   // @ts-ignore
   return [{}, {}]
