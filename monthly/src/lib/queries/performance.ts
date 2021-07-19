@@ -47,7 +47,7 @@ export async function query(queryData: QueryInterface) {
   // Now, we need to get all the matching results.
   const results = await getMatchingResultsFromDB({
     channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient
-  });
+  }) as FileRowInterface[];
 
   processResults(results);
 }
@@ -104,11 +104,10 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  *
  * @param input The parameters upon we'll construct the query to the DB.
  */
-export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<FileRowInterface[]> {
-  // @ts-ignore
+export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<object[]> {
   const {channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient} = input;
-  const results = await prismaClient.row.findMany({
-    take: 1,
+
+  return await prismaClient.row.findMany({
     orderBy: {
       TKUFAT_DIVUACH: 'asc'
     },
@@ -117,13 +116,13 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
         lte: timeStartRange,
         gte: timeEndRange,
       },
-      channel: channel
+      channelID: channel,
+      subChannelID: subChannel,
+      managingBodyID: {
+        in: bodies
+      }
     }
   });
-  console.log(results);
-
-  // @ts-ignore
-  return [{}, {}]
 }
 
 /**
@@ -134,5 +133,7 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
  */
 // @ts-ignore
 export function processResults(resultsFromDB: FileRowInterface[]) {
+
+  console.log(resultsFromDB);
   // resultsFromDB.map((row: FileRowInterface) => {});
 }
