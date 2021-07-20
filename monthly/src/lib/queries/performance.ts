@@ -1,5 +1,5 @@
 import {FileRowInterface} from "../interfaces";
-import type { PrismaClient } from '@prisma/client';
+import type {PrismaClient} from '@prisma/client';
 
 export enum TimePeriod {
   THREE_MONTHS = '3_months',
@@ -11,17 +11,17 @@ export enum TimePeriod {
 }
 
 interface QueryInterface {
+  fundId: number,
   channel: number,
-  subChannel: number,
-  bodies: number[],
+  managingBody: number,
   timePeriod: TimePeriod,
   prismaClient: PrismaClient
 }
 
 interface GetMatchingResultsFromDB {
+  fundId: number,
   channel: number,
-  subChannel: number,
-  bodies: number[],
+  managingBody: number,
   timeStartRange: Date,
   timeEndRange: Date,
   prismaClient: PrismaClient,
@@ -37,16 +37,19 @@ interface GetMatchingResultsFromDB {
  * @param queryData.timePeriod The time period upon we search the data in the DB.
  */
 export async function query(queryData: QueryInterface) {
-  const {channel, subChannel, bodies, timePeriod, prismaClient} = queryData;
+  const {channel, fundId, managingBody, timePeriod, prismaClient} = queryData;
 
   // Starting by getting the time range. We need the current datetime and the
   // the date object which represent the time period we needed - the last 5
   // years, the last 3 years etc.
-  const {timeStartRange, timeEndRange} = convertTimePeriodToTimeRangeQuery(timePeriod);
+  const {
+    timeStartRange,
+    timeEndRange
+  } = convertTimePeriodToTimeRangeQuery(timePeriod);
 
   // Now, we need to get all the matching results.
   const results = await getMatchingResultsFromDB({
-    channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient
+    channel, fundId, managingBody, timeStartRange, timeEndRange, prismaClient
   }) as FileRowInterface[];
 
   processResults(results);
@@ -88,7 +91,7 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
 
   // Start by setting today's date to the the start of the month.
   let timeStartRange = new Date();
-  timeStartRange.setUTCHours(0,0,0,0);
+  timeStartRange.setUTCHours(0, 0, 0, 0);
   timeStartRange.setUTCDate(1);
 
   // Clone the date object and manipulate the time.
@@ -105,9 +108,19 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  * @param input The parameters upon we'll construct the query to the DB.
  */
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<object[]> {
-  const {channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient} = input;
+  // @ts-ignore
+  const {fundId, channel, managingBody, timeStartRange, timeEndRange, prismaClient} = input;
 
   return await prismaClient.row.findMany({
+    take: 15,
+    select: {
+      managingBodyID: true,
+      channelID: true,
+      subChannelID: true,
+      TKUFAT_DIVUACH: true,
+      TSUA_NOMINALIT_BRUTO_HODSHIT: true,
+      fileID: true
+    },
     orderBy: {
       TKUFAT_DIVUACH: 'asc'
     },
@@ -117,10 +130,8 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
         gte: timeEndRange,
       },
       channelID: channel,
-      subChannelID: subChannel,
-      managingBodyID: {
-        in: bodies
-      }
+      managingBodyID: managingBody,
+      fundNameID: fundId,
     }
   });
 }
