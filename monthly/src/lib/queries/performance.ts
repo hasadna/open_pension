@@ -11,17 +11,17 @@ export enum TimePeriod {
 }
 
 interface QueryInterface {
-  fundId: number,
-  channel: number,
-  managingBody: number,
+  fundId: number[],
+  channel: number[],
+  managingBody: number[],
   timePeriod: TimePeriod,
   prismaClient: PrismaClient
 }
 
 interface GetMatchingResultsFromDB {
-  fundId: number,
-  channel: number,
-  managingBody: number,
+  fundId: number[],
+  channel: number[],
+  managingBody: number[],
   timeStartRange: Date,
   timeEndRange: Date,
   prismaClient: PrismaClient,
@@ -112,11 +112,10 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
   const {fundId, channel, managingBody, timeStartRange, timeEndRange, prismaClient} = input;
 
   return await prismaClient.row.findMany({
-    take: 15,
     select: {
       managingBodyID: true,
       channelID: true,
-      subChannelID: true,
+      fundNameID: true,
       TKUFAT_DIVUACH: true,
       TSUA_NOMINALIT_BRUTO_HODSHIT: true,
       fileID: true
@@ -129,9 +128,9 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
         lte: timeStartRange,
         gte: timeEndRange,
       },
-      channelID: channel,
-      managingBodyID: managingBody,
-      fundNameID: fundId,
+      channelID: {in: channel},
+      managingBodyID: {in: managingBody},
+      fundNameID: {in: fundId},
     }
   });
 }
