@@ -108,7 +108,6 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  * @param input The parameters upon we'll construct the query to the DB.
  */
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<object[]> {
-  // @ts-ignore
   const {fundId, channel, managingBody, timeStartRange, timeEndRange, prismaClient} = input;
 
   return await prismaClient.row.findMany({
@@ -118,7 +117,6 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
       fundNameID: true,
       TKUFAT_DIVUACH: true,
       TSUA_NOMINALIT_BRUTO_HODSHIT: true,
-      fileID: true
     },
     orderBy: {
       TKUFAT_DIVUACH: 'asc'
@@ -141,9 +139,18 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
  *
  * @param resultsFromDB The matching rows from the DB.
  */
-// @ts-ignore
-export function processResults(resultsFromDB: FileRowInterface[]) {
+export function processResults(resultsFromDB: any[]) {
+  const data = [];
 
-  console.log(resultsFromDB);
-  // resultsFromDB.map((row: FileRowInterface) => {});
+  resultsFromDB.forEach((entry) => {
+    const timestamp = String(entry.TKUFAT_DIVUACH.getTime() / 1000);
+
+    if (!Object.keys(data).includes(timestamp)) {
+      data[timestamp] = {};
+    }
+
+    data[timestamp][String(entry.fundNameID)] = entry.TSUA_NOMINALIT_BRUTO_HODSHIT;
+  })
+
+  return data;
 }
