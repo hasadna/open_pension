@@ -52,6 +52,7 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
           {legends.map((legend, key) => <li key={key}>{legend}</li>)}
         </ul>
         <ResponsiveLine
+          curve={'natural'}
           data={lineData}
           margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
           xScale={{ type: 'point' }}
@@ -59,15 +60,7 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
           yFormat=" >-.2f"
           axisTop={null}
           axisRight={null}
-          axisBottom={{
-            orient: 'bottom',
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'transportation',
-            legendOffset: 36,
-            legendPosition: 'middle'
-          }}
+          axisBottom={null}
           axisLeft={{
             orient: 'left',
             tickSize: 5,
@@ -77,8 +70,9 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
             legendOffset: -40,
             legendPosition: 'middle'
           }}
-          enableGridY={false}
-          lineWidth={5}
+          enableGridX={false}
+          enableGridY={true}
+          lineWidth={2}
           pointSize={10}
           pointColor={{ from: 'color', modifiers: [] }}
           pointBorderWidth={1}
@@ -91,6 +85,10 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
           crosshairType="top-right"
           useMesh={true}
           legends={[]}
+          tooltip={({point}) => {
+            const {data: {x, y, fund}, color} = point;
+            return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fund}</b>, {x}: {y}</div>;
+          }}
           motionConfig="default"
         />
       </div>

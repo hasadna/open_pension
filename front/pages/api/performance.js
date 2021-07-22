@@ -1,23 +1,24 @@
 import {gql} from "@apollo/client";
 import client from "../../backend/apollo-client";
 
+// Move this logic to the backend.
 const months = {
   0: 'ינואר', 1: 'פברואר', 2: 'מרץ', 3: 'אפריל', 4: 'מאי', 5: 'יוני', 6: 'יולי', 7: 'אוגוסט', 8: 'ספטמבר', 9: 'אוקטובר', 10: 'נובמבר', 11: 'דצמבר'
 };
 
-const colors = [
-  "hsl(78, 70%, 50%)",
-  "hsl(19, 70%, 50%)",
-  "hsl(240, 70%, 50%)",
-  "hsl(215, 70%, 50%)",
-];
+// Load the funds names as well.
+const funds = {
+  892: 'כלל לדמי מחלה',
+  72: 'מיטב דש גמל חו"ל',
+};
 
 function convertDataToGraph(graph) {
   const data = {};
   const nameOfMonth = {};
   const getMonthFromTimeStamp = (timestamp) => {
     if (!Object.keys(nameOfMonth).includes(timestamp)) {
-      nameOfMonth[timestamp] = months[new Date(timestamp * 1000).getMonth()];
+      const date = new Date(timestamp * 1000);
+      nameOfMonth[timestamp] = `${months[date.getMonth()]} ${date.getFullYear()}`;
       return nameOfMonth[timestamp];
     }
 
@@ -29,14 +30,13 @@ function convertDataToGraph(graph) {
       if (!Object.keys(data).includes(fundId)) {
         data[fundId] = [];
       }
-      data[fundId].push({x: getMonthFromTimeStamp(month), y: value});
+      data[fundId].push({x: getMonthFromTimeStamp(month), y: value, fund: funds[fundId]});
     });
   });
 
   return Object.entries(data).map(([fundId, data], index) => {
     return {
       "id": fundId,
-      "color": colors[index],
       data
     }
   });

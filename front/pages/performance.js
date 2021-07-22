@@ -8,7 +8,6 @@ import PerformanceResults from "../Components/PerformanceResults/PerformanceResu
 import {convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
 import client from "../backend/apollo-client";
 import {gql} from "@apollo/client";
-import lineData from "../Components/PerformanceResults/lineData";
 
 export async function getServerSideProps(context) {
   const { data: {managingBodies, channels, subChannels} } = await client.query({
