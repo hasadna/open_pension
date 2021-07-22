@@ -1,4 +1,3 @@
-import {FileRowInterface} from "../interfaces";
 import type {PrismaClient} from '@prisma/client';
 
 export enum TimePeriod {
@@ -27,6 +26,12 @@ interface GetMatchingResultsFromDB {
   prismaClient: PrismaClient,
 }
 
+interface Rows {
+  fundNameID: number,
+  TKUFAT_DIVUACH: Date,
+  TSUA_NOMINALIT_BRUTO_HODSHIT: number,
+}
+
 /**
  * Getting the results for performance query by th given arguments.
  *
@@ -50,9 +55,9 @@ export async function query(queryData: QueryInterface) {
   // Now, we need to get all the matching results.
   const results = await getMatchingResultsFromDB({
     channel, fundId, managingBody, timeStartRange, timeEndRange, prismaClient
-  }) as FileRowInterface[];
+  }) as Rows[];
 
-  processResults(results);
+  return processResults(results);
 }
 
 /**
@@ -107,20 +112,12 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  *
  * @param input The parameters upon we'll construct the query to the DB.
  */
-export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<object[]> {
+export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<any> {
   const {fundId, channel, managingBody, timeStartRange, timeEndRange, prismaClient} = input;
 
-  return await prismaClient.row.findMany({
-    select: {
-      managingBodyID: true,
-      channelID: true,
-      fundNameID: true,
-      TKUFAT_DIVUACH: true,
-      TSUA_NOMINALIT_BRUTO_HODSHIT: true,
-    },
-    orderBy: {
-      TKUFAT_DIVUACH: 'asc'
-    },
+  // @ts-ignore
+  return await prismaClient.row.groupBy({
+    by: ['fundNameID', 'managingBodyID', 'channelID', 'TKUFAT_DIVUACH', 'TSUA_NOMINALIT_BRUTO_HODSHIT'],
     where: {
       TKUFAT_DIVUACH: {
         lte: timeStartRange,
@@ -129,6 +126,9 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
       channelID: {in: channel},
       managingBodyID: {in: managingBody},
       fundNameID: {in: fundId},
+    },
+    orderBy: {
+      TKUFAT_DIVUACH: 'asc'
     }
   });
 }
@@ -139,17 +139,17 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
  *
  * @param resultsFromDB The matching rows from the DB.
  */
-export function processResults(resultsFromDB: any[]) {
-  const data = [];
+export function processResults(resultsFromDB: Rows[]) {
+  const data = {};
 
-  resultsFromDB.forEach((entry) => {
-    const timestamp = String(entry.TKUFAT_DIVUACH.getTime() / 1000);
+  resultsFromDB.forEach(({TKUFAT_DIVUACH, fundNameID, TSUA_NOMINALIT_BRUTO_HODSHIT}) => {
+    const timestamp = String(TKUFAT_DIVUACH.getTime() / 1000);
 
     if (!Object.keys(data).includes(timestamp)) {
       data[timestamp] = {};
     }
 
-    data[timestamp][String(entry.fundNameID)] = entry.TSUA_NOMINALIT_BRUTO_HODSHIT;
+    data[timestamp][String(fundNameID)] = TSUA_NOMINALIT_BRUTO_HODSHIT;
   })
 
   return data;
