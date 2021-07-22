@@ -1,12 +1,12 @@
 import type {PrismaClient} from '@prisma/client';
 
 export enum TimePeriod {
-  THREE_MONTHS = '3_months',
-  SIX_MONTHS = 'six_months',
-  YEAR_START = 'year_start',
-  LAST_TWELVE_MONTHS = 'last_12_months',
-  LAST_THREE_YEARS = 'last_3_years',
-  LAST_FIVE_YEARS = 'last_5_years',
+  THREE_MONTHS = 'THREE_MONTHS',
+  SIX_MONTHS = 'SIX_MONTHS',
+  YEAR_START = 'YEAR_START',
+  LAST_TWELVE_MONTHS = 'LAST_TWELVE_MONTHS',
+  LAST_THREE_YEARS = 'LAST_THREE_YEARS',
+  LAST_FIVE_YEARS = 'LAST_FIVE_YEARS',
 }
 
 interface QueryInterface {

@@ -1,10 +1,10 @@
-import {query, TimePeriod} from '../lib/queries/performance';
+import {query as performanceQuery, TimePeriod} from '../lib/queries/performance';
 
 interface PerformanceInputArgs {
   input: {
-    channel: number,
-    subChannel: number,
-    bodies: number[],
+    fundId: number[],
+    channel: number[],
+    managingBody: number[],
     timePeriod: TimePeriod
   }
 }
@@ -58,9 +58,11 @@ export default {
 
       return Object.values(data).map((row: any) => row.row_ID);
     },
-    performance: (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
-      query({...args.input, ...{prismaClient}});
-      return args.input.channel;
+    performance: async (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
+      const graph = await performanceQuery({...args.input, ...{prismaClient}});
+      return {
+        graph: JSON.stringify(graph)
+      }
     }
   },
 };

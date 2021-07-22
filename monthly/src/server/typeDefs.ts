@@ -17,10 +17,16 @@ export default gql`
   }
 
   input PerformanceInput {
-    channel: Int,
-    subChannel: Int,
-    bodies: [Int],
+    fundId: [Int],
+    channel: [Int],
+    managingBody: [Int],
     timePeriod: TimePeriod
+  }
+
+  type PerformanceOutput {
+    # Sicne the graph has an knowkn data structure the resolver returns it as a
+    # json string. The consumer will need to handle it and parse the string.
+    graph: String,
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -33,6 +39,6 @@ export default gql`
     subChannels: [BaseMetadata],
     lastUpdated: Int,
     missingFundData: [Int],
-    performance(input: PerformanceInput!): String,
+    performance(input: PerformanceInput!): PerformanceOutput,
   }
 `;
