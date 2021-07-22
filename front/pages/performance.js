@@ -8,6 +8,7 @@ import PerformanceResults from "../Components/PerformanceResults/PerformanceResu
 import {convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
 import client from "../backend/apollo-client";
 import {gql} from "@apollo/client";
+import lineData from "../Components/PerformanceResults/lineData";
 
 export async function getServerSideProps(context) {
   const { data: {managingBodies, channels, subChannels} } = await client.query({
@@ -81,12 +82,13 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
         method: 'POST'
       })
 
-      const result = await res.json()
+      const {graph} = await res.json()
 
-      console.log(result);
+      console.log(graph);
 
       // todo: get results from backend.
       setResults({
+        lineData: graph,
         tracksInfo: [
           [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
           [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],

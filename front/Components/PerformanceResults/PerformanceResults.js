@@ -1,10 +1,9 @@
 import Table from "../Table/Table";
 import {useState} from 'react';
-import lineData from './lineData';
 import {ResponsiveLine} from "@nivo/line";
 import BarsGraph from "../BarsGraph/BarsGraph";
 
-export default function PerformanceResults({results: {tracksInfo, graphData, legends}}) {
+export default function PerformanceResults({results: {tracksInfo, graphData, legends, lineData}}) {
   const [selectedFilter, setSelectedFilter] = useState('last12Years');
 
   const graphsFilterOptions = {
