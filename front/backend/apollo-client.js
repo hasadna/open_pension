@@ -5,4 +5,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+console.log(process.env.API_ADDRESS);
+
 export default client;

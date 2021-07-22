@@ -2,7 +2,7 @@ import {isEmpty} from 'lodash';
 import Wrapper from "../Components/Wrapper/Wrapper";
 import SecondaryHeader from "../Components/SecondaryHeader/SecondaryHeader";
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
-import {useReducer, useMemo} from 'react';
+import {useReducer, useEffect, useState} from 'react';
 import PerformanceQuery from "../Components/PerformanceQuery/PerformanceQuery";
 import PerformanceResults from "../Components/PerformanceResults/PerformanceResults";
 import {convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
@@ -63,13 +63,30 @@ const queryReducer = (state, {type, value}) => {
 
 export default function Performance({bodies, channels, subChannels, lastUpdate}) {
   const [query, dispatchQuery] = useReducer(queryReducer, queryState);
+  const [results, setResults] = useState(null)
 
-  const results = useMemo(() => {
+  useEffect(async () => {
     const {bodies, investmentType, investmentPath} = query;
 
     if (!isEmpty(bodies) && !isEmpty(investmentType) && !isEmpty(investmentPath)) {
+      const res = await fetch('/api/performance', {
+        body: JSON.stringify({
+          fundId: [892, 72],
+          managingBody: [3],
+          channel: [1]
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      })
+
+      const result = await res.json()
+
+      console.log(result);
+
       // todo: get results from backend.
-      return {
+      setResults({
         tracksInfo: [
           [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
           [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],
@@ -95,7 +112,7 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
           'פסגות חיסכון לכל ילד',
           'הטובה ביותר: מיטב דש חיסכון לכל ילד',
         ],
-      };
+      });
     }
 
   }, [query]);
