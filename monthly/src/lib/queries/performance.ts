@@ -32,6 +32,10 @@ interface Rows {
   TSUA_NOMINALIT_BRUTO_HODSHIT: number,
 }
 
+const months = {
+  0: 'ינואר', 1: 'פברואר', 2: 'מרץ', 3: 'אפריל', 4: 'מאי', 5: 'יוני', 6: 'יולי', 7: 'אוגוסט', 8: 'ספטמבר', 9: 'אוקטובר', 10: 'נובמבר', 11: 'דצמבר'
+};
+
 /**
  * Getting the results for performance query by th given arguments.
  *
@@ -57,7 +61,34 @@ export async function query(queryData: QueryInterface) {
     channel, fundId, managingBody, timeStartRange, timeEndRange, prismaClient
   }) as Rows[];
 
-  return processResults(results);
+  const fundNames = await getFundNamesFromDBResults(results, prismaClient);
+  return convertDataToGraph(processResults(results, fundNames));
+}
+
+/**
+ *
+ * @param results
+ * @param prismaClient
+ */
+async function getFundNamesFromDBResults(results: Rows[], prismaClient: PrismaClient) {
+  const fundIDs = results.map(result => result.fundNameID);
+  const funds = await prismaClient.fundName.findMany({
+    where: {
+      ID: {in: fundIDs}
+    },
+    select: {
+      ID: true,
+      label: true
+    },
+  });
+
+  const data = {};
+
+  funds.forEach(({ID, label}) => {
+    data[ID] = label;
+  });
+
+  return data;
 }
 
 /**
@@ -129,7 +160,7 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
     },
     orderBy: {
       TKUFAT_DIVUACH: 'asc'
-    }
+    },
   });
 }
 
@@ -138,8 +169,9 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
  * format which the consumer can handle.
  *
  * @param resultsFromDB The matching rows from the DB.
+ * @param fundNames
  */
-export function processResults(resultsFromDB: Rows[]) {
+export function processResults(resultsFromDB: Rows[], fundNames: object) {
   const data = {};
 
   resultsFromDB.forEach(({TKUFAT_DIVUACH, fundNameID, TSUA_NOMINALIT_BRUTO_HODSHIT}) => {
@@ -149,8 +181,39 @@ export function processResults(resultsFromDB: Rows[]) {
       data[timestamp] = {};
     }
 
-    data[timestamp][String(fundNameID)] = TSUA_NOMINALIT_BRUTO_HODSHIT;
+    data[timestamp][fundNames[fundNameID]] = TSUA_NOMINALIT_BRUTO_HODSHIT;
   })
 
   return data;
+}
+
+function convertDataToGraph(graph) {
+  const data = {};
+  const nameOfMonth = {};
+  const getMonthFromTimeStamp = (timestamp) => {
+    if (!Object.keys(nameOfMonth).includes(timestamp)) {
+      const date = new Date(timestamp * 1000);
+      nameOfMonth[timestamp] = `${months[date.getMonth()]} ${date.getFullYear()}`;
+      return nameOfMonth[timestamp];
+    }
+
+    return nameOfMonth[timestamp];
+  };
+
+  Object.entries(graph).forEach(([month, value]) => {
+    Object.entries(value).forEach(([fundName, value]) => {
+      if (!Object.keys(data).includes(fundName)) {
+        data[fundName] = [];
+      }
+
+      data[fundName].push({x: getMonthFromTimeStamp(month), y: value, fundName});
+    });
+  });
+
+  return Object.entries(data).map(([fundId, data]) => {
+    return {
+      "id": fundId,
+      data
+    }
+  });
 }

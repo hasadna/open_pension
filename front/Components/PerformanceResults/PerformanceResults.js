@@ -54,7 +54,7 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
         <ResponsiveLine
           curve={'natural'}
           data={lineData}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
           xScale={{ type: 'point' }}
           yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
           yFormat=" >-.2f"
@@ -64,19 +64,18 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
           axisLeft={{
             orient: 'left',
             tickSize: 5,
-            tickPadding: 5,
+            tickPadding: 20,
             tickRotation: 0,
-            legend: 'count',
             legendOffset: -40,
             legendPosition: 'middle'
           }}
           enableGridX={false}
           enableGridY={true}
           lineWidth={2}
-          pointSize={10}
+          pointSize={8}
           pointColor={{ from: 'color', modifiers: [] }}
           pointBorderWidth={1}
-          pointBorderColor={{ theme: 'background' }}
+          pointBorderColor={{ theme: 'background',  }}
           pointLabel="x"
           pointLabelYOffset={-12}
           areaBlendMode="overlay"
@@ -86,8 +85,8 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
           useMesh={true}
           legends={[]}
           tooltip={({point}) => {
-            const {data: {x, y, fund}, color} = point;
-            return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fund}</b>, {x}: {y}</div>;
+            const {data: {x, y, fundName}, color} = point;
+            return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fundName}</b>, {x}: {y}</div>;
           }}
           motionConfig="default"
         />

@@ -60,8 +60,9 @@ export default {
     },
     performance: async (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
       const graph = await performanceQuery({...args.input, ...{prismaClient}});
+
       return {
-        graph: JSON.stringify(graph)
+        graph: JSON.stringify(graph),
       }
     }
   },
