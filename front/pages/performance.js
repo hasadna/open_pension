@@ -81,38 +81,12 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
         method: 'POST'
       })
 
-      const {graph} = await res.json()
-
-      console.log(graph);
-
-      // todo: get results from backend.
+      const {graph, graphData, legends, tracksInfo} = await res.json();
       setResults({
-        lineData: graph,
-        tracksInfo: [
-          [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
-          [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],
-          [11320, 'כלל חיסכון לכל ילד', '197', '4.2', '', '', ''],
-        ],
-        graphData: {
-          'עמיתים': null,
-          'הלמן אלדובי': null,
-          'מנורה': -2.2,
-          'אלטשולר שחם': -1.2,
-          'הפניקס': 0.08,
-          'הראל': 1.10,
-          'הכשרה': 1.8,
-          'מגדל': 2.85,
-          'ביטוח ישיר': 2.93,
-          'הראל פיננסי': 4.51,
-          'פסגות': 7.11,
-          'יונים': 10.18,
-        },
-        legends: [
-          'כלל חיסכון לכל ילד',
-          'חיסכון לכל ילד',
-          'פסגות חיסכון לכל ילד',
-          'הטובה ביותר: מיטב דש חיסכון לכל ילד',
-        ],
+        graph,
+        tracksInfo,
+        graphData,
+        legends,
       });
     }
 
@@ -141,8 +115,6 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
 
         {results ? <PerformanceResults results={results} /> : <HoldingsWaiting />}
       </div>
-
-
     </Wrapper>
   </>
 }

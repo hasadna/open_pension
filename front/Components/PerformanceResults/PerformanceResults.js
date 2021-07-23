@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {ResponsiveLine} from "@nivo/line";
 import BarsGraph from "../BarsGraph/BarsGraph";
 
-export default function PerformanceResults({results: {tracksInfo, graphData, legends, lineData}}) {
+export default function PerformanceResults({results: {tracksInfo, graphData, legends, graph}}) {
   const [selectedFilter, setSelectedFilter] = useState('last12Years');
 
   const graphsFilterOptions = {
@@ -53,8 +53,8 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
         </ul>
         <ResponsiveLine
           curve={'natural'}
-          data={lineData}
-          margin={{ top: 50, right: 50, bottom: 100, left: 50 }}
+          data={graph}
+          margin={{ top: 50, right: 25, bottom: 100, left: 20 }}
           xScale={{ type: 'point' }}
           yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
           yFormat=" >-.2f"
@@ -68,14 +68,7 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
             legendOffset: 36,
             legendPosition: 'middle'
           }}
-          axisLeft={{
-            orient: 'left',
-            tickSize: 5,
-            tickPadding: 20,
-            tickRotation: 0,
-            legendOffset: -40,
-            legendPosition: 'middle'
-          }}
+          axisLeft={null}
           enableGridX={false}
           enableGridY={true}
           lineWidth={2}

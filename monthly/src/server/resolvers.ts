@@ -45,7 +45,6 @@ export default {
     missingFundData: async (_, __, ctx) => {
       const {prisma} = ctx;
 
-      // @ts-ignore
       const data = await prisma.row.findMany({
         select: {
           row_ID: true
@@ -59,10 +58,13 @@ export default {
       return Object.values(data).map((row: any) => row.row_ID);
     },
     performance: async (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
-      const graph = await performanceQuery({...args.input, ...{prismaClient}});
+      const {graph, graphData, legends, tracksInfo} = await performanceQuery({...args.input, ...{prismaClient}});
 
       return {
         graph: JSON.stringify(graph),
+        graphData: JSON.stringify(graphData),
+        tracksInfo: JSON.stringify(tracksInfo),
+        legends,
       }
     }
   },

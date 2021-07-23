@@ -27,6 +27,9 @@ export default gql`
     # Sicne the graph has an knowkn data structure the resolver returns it as a
     # json string. The consumer will need to handle it and parse the string.
     graph: String,
+    graphData: String,
+    legends: [String]
+    tracksInfo: String,
   }
 
   # The "Query" type is special: it lists all of the available queries that
