@@ -190,6 +190,8 @@ export function processResults(resultsFromDB: Rows[], fundNames: object) {
 function convertDataToGraph(graph) {
   const data = {};
   const nameOfMonth = {};
+  const fundDeltaFromLastMonth = {};
+
   const getMonthFromTimeStamp = (timestamp) => {
     if (!Object.keys(nameOfMonth).includes(timestamp)) {
       const date = new Date(timestamp * 1000);
@@ -202,11 +204,20 @@ function convertDataToGraph(graph) {
 
   Object.entries(graph).forEach(([month, value]) => {
     Object.entries(value).forEach(([fundName, value]) => {
+
       if (!Object.keys(data).includes(fundName)) {
-        data[fundName] = [];
+        const previousMonth = new Date(parseInt(month) - 86400 * 30);
+
+        // Starting the fund record with 100 for the previous month.
+        fundDeltaFromLastMonth[fundName] = 100;
+        data[fundName] = [
+          {x: getMonthFromTimeStamp(previousMonth), y: 0, fundName, valueToDisplay: fundDeltaFromLastMonth[fundName]}
+        ];
       }
 
-      data[fundName].push({x: getMonthFromTimeStamp(month), y: value, fundName});
+      const currentMonthValue = value + fundDeltaFromLastMonth[fundName];
+      data[fundName].push({x: getMonthFromTimeStamp(month), y: value, fundName, valueToDisplay: currentMonthValue.toFixed(2)});
+      fundDeltaFromLastMonth[fundName] = currentMonthValue;
     });
   });
 

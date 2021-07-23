@@ -54,13 +54,20 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
         <ResponsiveLine
           curve={'natural'}
           data={lineData}
-          margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
+          margin={{ top: 50, right: 50, bottom: 100, left: 50 }}
           xScale={{ type: 'point' }}
           yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
           yFormat=" >-.2f"
           axisTop={null}
           axisRight={null}
-          axisBottom={null}
+          axisBottom={{
+            orient: 'bottom',
+            tickSize: 5,
+            tickPadding: 70,
+            tickRotation: 90,
+            legendOffset: 36,
+            legendPosition: 'middle'
+          }}
           axisLeft={{
             orient: 'left',
             tickSize: 5,
@@ -85,8 +92,8 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
           useMesh={true}
           legends={[]}
           tooltip={({point}) => {
-            const {data: {x, y, fundName}, color} = point;
-            return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fundName}</b>, {x}: {y}</div>;
+            const {data: {x, valueToDisplay, fundName}, color} = point;
+            return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fundName}</b>, {x}: {valueToDisplay}</div>;
           }}
           motionConfig="default"
         />

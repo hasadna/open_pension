@@ -161,9 +161,10 @@
 
   .line-tooltip {
     background-color: white;
-    border: solid 1px black;
+    border: solid 3px black;
     padding: .25em;
     font-weight: 100;
     font-size: 1em;
+    max-width: 10vw;
   }
 }
