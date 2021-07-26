@@ -1,49 +1,17 @@
 import type {PrismaClient} from '@prisma/client';
-
-export enum TimePeriod {
-  THREE_MONTHS = 'THREE_MONTHS',
-  SIX_MONTHS = 'SIX_MONTHS',
-  YEAR_START = 'YEAR_START',
-  LAST_TWELVE_MONTHS = 'LAST_TWELVE_MONTHS',
-  LAST_THREE_YEARS = 'LAST_THREE_YEARS',
-  LAST_FIVE_YEARS = 'LAST_FIVE_YEARS',
-}
-
-interface QueryInterface {
-  fundId: number[],
-  channel: number[],
-  managingBody: number[],
-  timePeriod: TimePeriod,
-  prismaClient: PrismaClient
-}
-
-interface GetMatchingResultsFromDB {
-  fundId: number[],
-  channel: number[],
-  managingBody: number[],
-  timeStartRange: Date,
-  timeEndRange: Date,
-  prismaClient: PrismaClient,
-}
-
-interface Rows {
-  fundNameID: number,
-  TKUFAT_DIVUACH: Date,
-  TSUA_NOMINALIT_BRUTO_HODSHIT: number,
-}
-
-const months = {
-  0: 'ינואר', 1: 'פברואר', 2: 'מרץ', 3: 'אפריל', 4: 'מאי', 5: 'יוני', 6: 'יולי', 7: 'אוגוסט', 8: 'ספטמבר', 9: 'אוקטובר', 10: 'נובמבר', 11: 'דצמבר'
-};
+import {TimePeriod, QueryInterface, GetMatchingResultsFromDB, Rows, Months} from './performanceTypesAndConsts';
 
 /**
  * Getting the results for performance query by th given arguments.
  *
  * @param queryData
- * @param queryData.channel The ID of the channel.
- * @param queryData.subChannel The ID of the sub channel.
- * @param queryData.bodies A list of body IDs.
- * @param queryData.timePeriod The time period upon we search the data in the DB.
+ * @param {number[]} queryData.fundId List of funds IDs.
+ * @param {number[]} queryData.channel list of channel IDs.
+ * @param {number[]} queryData.managingBody List of managing bodies IDs.
+ * @param {number[]} queryData.timePeriod The time period upon we search the
+ *  data in the DB.
+ * @param {PrismaClient} queryData.prismaClient The time period upon we search
+ *  the data in the DB.
  */
 export async function query(queryData: QueryInterface) {
   const {channel, fundId, managingBody, timePeriod, prismaClient} = queryData;
@@ -64,17 +32,20 @@ export async function query(queryData: QueryInterface) {
   const fundNames = await getFundNamesFromDBResults(results, prismaClient);
   const resultsFromDB = await processResults(results, fundNames);
   return {
-    graph: convertDataToGraph(resultsFromDB),
-    graphData: convertDataToGraphData(resultsFromDB),
+    graph: convertDataToLineGraph(resultsFromDB),
+    graphData: convertDataToColumnGraphData(resultsFromDB),
     legends: convertDataToLegends(resultsFromDB),
     tracksInfo: convertDataToTracksInfo(resultsFromDB)
   };
 }
 
 /**
+ * Get all the fund names by the fund IDs the getMatchingResultsFromDB returned
+ * from the DB. This can be removed and combined with groupBy one prisma will
+ * support it.
  *
- * @param results
- * @param prismaClient
+ * @param {Rows[]} results The results from the DB.
+ * @param {PrismaClient} prismaClient The prisma client object.
  */
 async function getFundNamesFromDBResults(results: Rows[], prismaClient: PrismaClient) {
   const fundIDs = results.map(result => result.fundNameID);
@@ -101,7 +72,7 @@ async function getFundNamesFromDBResults(results: Rows[], prismaClient: PrismaCl
  * Get the date objects for the starting and ending time period which we'll
  * filter results from the DB.
  *
- * @param timePeriod The time period.
+ * @param {TimePeriod} timePeriod The time period.
  */
 export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
   const handlers = {
@@ -144,10 +115,20 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
 }
 
 /**
- *
  * Getting results from the DB according to the given parameters.
  *
- * @param input The parameters upon we'll construct the query to the DB.
+ * @param {GetMatchingResultsFromDB} input The parameters upon we'll construct
+ *  the query to the DB.
+ *
+ * @param {number[]} input.fundId List of funds IDs.
+ * @param {number[]} input.channel list of channel IDs.
+ * @param {number[]} input.managingBody List of managing bodies IDs.
+ * @param {Date} input.timeStartRange A date object which represent the starting
+ *  time of the query in.
+ * @param {Date} input.timeEndRange A date object which represent the ending
+ *  time of the query in.
+ * @param {PrismaClient} input.prismaClient The time period upon we search
+ *  the data in the DB.
  */
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<any> {
   const {fundId, channel, managingBody, timeStartRange, timeEndRange, prismaClient} = input;
@@ -174,8 +155,9 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
  * Processing all the results we got from the DB to match to the expected data
  * format which the consumer can handle.
  *
- * @param resultsFromDB The matching rows from the DB.
- * @param fundNames
+ * @param {Rows[]} resultsFromDB The matching rows from the DB.
+ * @param {fundNames} fundNames A key-value object which represent the fund ID
+ *  and the name in the DB.
  */
 export function processResults(resultsFromDB: Rows[], fundNames: object) {
   const data = {};
@@ -193,7 +175,13 @@ export function processResults(resultsFromDB: Rows[], fundNames: object) {
   return data;
 }
 
-function convertDataToGraph(graph) {
+/**
+ * Converting the results from the DB to the formant of the graph in the main
+ * site.
+ *
+ * @param resultsFromDB The results form the DB.
+ */
+function convertDataToLineGraph(resultsFromDB) {
   const data = {};
   const nameOfMonth = {};
   const fundDeltaFromLastMonth = {};
@@ -201,14 +189,14 @@ function convertDataToGraph(graph) {
   const getMonthFromTimeStamp = (timestamp) => {
     if (!Object.keys(nameOfMonth).includes(timestamp)) {
       const date = new Date(timestamp * 1000);
-      nameOfMonth[timestamp] = `${months[date.getMonth()]} ${date.getFullYear()}`;
+      nameOfMonth[timestamp] = `${Months[date.getMonth()]} ${date.getFullYear()}`;
       return nameOfMonth[timestamp];
     }
 
     return nameOfMonth[timestamp];
   };
 
-  Object.entries(graph).forEach(([month, value]) => {
+  Object.entries(resultsFromDB).forEach(([month, value]) => {
     Object.entries(value).forEach(([fundName, value]) => {
 
       if (!Object.keys(data).includes(fundName)) {
@@ -235,9 +223,15 @@ function convertDataToGraph(graph) {
   });
 }
 
-// Ignore for now until I'll process the data.
+/**
+ * Converting the results from the DB to the formant in which the column graph
+ * in the front can handle.
+ *
+ * @param resultsFromDB The results form the DB.
+ */
 // @ts-ignore
-function convertDataToGraphData(graph) {
+// Ignore for now until I'll process the data.
+function convertDataToColumnGraphData(resultsFromDB) {
   return {
     'עמיתים': null,
     'הלמן אלדובי': null,
@@ -254,6 +248,11 @@ function convertDataToGraphData(graph) {
   };
 }
 
+/**
+ * Extracting the legends from the resultsFromDB.
+ *
+ * @param resultsFromDB The results form the DB.
+ */
 // Ignore for now until I'll process the data.
 // @ts-ignore
 function convertDataToLegends(resultsFromDB) {
@@ -265,8 +264,13 @@ function convertDataToLegends(resultsFromDB) {
   ];
 }
 
-// Ignore for now until I'll process the data.
+/**
+ * Get the tracks info form the resultsFromDB.
+ *
+ * @param resultsFromDB The results form the DB.
+ */
 // @ts-ignore
+// Ignore for now until I'll process the data.
 function convertDataToTracksInfo(resultsFromDB) {
   return [
     [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],

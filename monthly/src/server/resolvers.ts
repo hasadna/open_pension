@@ -1,4 +1,5 @@
-import {query as performanceQuery, TimePeriod} from '../lib/queries/performance';
+import {query as performanceQuery} from '../lib/queries/performance';
+import {TimePeriod} from "../lib/queries/performanceTypesAndConsts";
 
 interface PerformanceInputArgs {
   input: {
