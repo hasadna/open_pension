@@ -273,8 +273,25 @@ function convertDataToLegends(resultsFromDB) {
 // Ignore for now until I'll process the data.
 function convertDataToTracksInfo(resultsFromDB) {
   return [
-    [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
-    [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],
-    [11320, 'כלל חיסכון לכל ילד', '197', '4.2', '', '', ''],
+    {
+      fundNumber: 11320,
+      fundName: 'מנורה חיסכון לכל ילד',
+      balance: 198,
+      yearlyRevenue: 100,
+      yearlyBalance: 5.6,
+      threeYearsAverageBalance: 2,
+      fiveYearsAverageBalance: 3,
+      sharp: 4
+    },
+    {
+      fundNumber: 11320,
+      fundName: 'פסגות חיסכון לכל ילד',
+      balance: 198,
+      yearlyRevenue: 100,
+      yearlyBalance: 5.6,
+      threeYearsAverageBalance: 2,
+      fiveYearsAverageBalance: 3,
+      sharp: 4
+    },
   ];
 }

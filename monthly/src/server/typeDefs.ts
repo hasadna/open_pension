@@ -16,6 +16,17 @@ export default gql`
     LAST_FIVE_YEARS
   }
 
+  type TracksInfo {
+    fundNumber: Int
+    fundName: String,
+    yearlyRevenue: Int
+    balance: Int
+    yearlyBalance: Int
+    threeYearsAverageBalance: Int
+    fiveYearsAverageBalance: Int
+    sharp: Int
+  }
+
   input PerformanceInput {
     fundId: [Int],
     channel: [Int],
@@ -29,7 +40,7 @@ export default gql`
     graph: String,
     graphData: String,
     legends: [String]
-    tracksInfo: String,
+    tracksInfo: [TracksInfo],
   }
 
   # The "Query" type is special: it lists all of the available queries that

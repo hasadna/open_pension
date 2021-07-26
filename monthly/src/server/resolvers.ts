@@ -64,7 +64,7 @@ export default {
       return {
         graph: JSON.stringify(graph),
         graphData: JSON.stringify(graphData),
-        tracksInfo: JSON.stringify(tracksInfo),
+        tracksInfo,
         legends,
       }
     }
