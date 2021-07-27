@@ -296,11 +296,10 @@ async function convertDataToTracksInfo(fundNames, prismaClient: PrismaClient) {
     return {
       fundNumber: ID,
       fundName: label,
-      balance: 198,
+      balance: YITRAT_NCHASIM_LSOF_TKUFA,
       yearlyRevenue: YITRAT_NCHASIM_LSOF_TKUFA,
-      yearlyBalance: 5.6,
-      threeYearsAverageBalance: TSUA_SHNATIT_MEMUZAAT_5_SHANIM,
-      fiveYearsAverageBalance: TSUA_SHNATIT_MEMUZAAT_3_SHANIM,
+      threeYearsAverageBalance: TSUA_SHNATIT_MEMUZAAT_3_SHANIM,
+      fiveYearsAverageBalance: TSUA_SHNATIT_MEMUZAAT_5_SHANIM,
       sharp: SHARP_RIBIT_HASRAT_SIKUN ?? 0,
     }
   });

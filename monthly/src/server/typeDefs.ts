@@ -21,7 +21,6 @@ export default gql`
     fundName: String,
     yearlyRevenue: Float
     balance: Float
-    yearlyBalance: Float
     threeYearsAverageBalance: Float
     fiveYearsAverageBalance: Float
     sharp: Float

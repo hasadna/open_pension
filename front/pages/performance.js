@@ -73,7 +73,8 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
         body: JSON.stringify({
           fundId: [892, 72],
           managingBody: [3],
-          channel: [1]
+          channel: [1],
+          timePeriod: "LAST_TWELVE_MONTHS",
         }),
         headers: {
           'Content-Type': 'application/json'
