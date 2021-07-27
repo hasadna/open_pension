@@ -62,7 +62,7 @@ const handleFiles = async (sourceDirectory, destination, results) => {
                 results[filename] = `Failed: ${e}`
             }
 
-            global.gc();
+            // global.gc();
         }
 
         console.log('-------');
@@ -75,7 +75,7 @@ const handleFiles = async (sourceDirectory, destination, results) => {
 
 const handlingDirectory = async () => {
     // todo: support argument and if arguments are not available ask for them.
-    return await handleFiles("/Users/roysegall/Downloads/json_reports", "/Users/roysegall/Downloads/export", {});
+    return await handleFiles("/Users/roysegall/Sites/localhost/open_pension/processor/files_to_process/source", "/Users/roysegall/Sites/localhost/open_pension/processor/files_to_process/output", {});
 }
 
 if (!type) {

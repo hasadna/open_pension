@@ -19,12 +19,12 @@ export default gql`
   type TracksInfo {
     fundNumber: Int
     fundName: String,
-    yearlyRevenue: Int
-    balance: Int
-    yearlyBalance: Int
-    threeYearsAverageBalance: Int
-    fiveYearsAverageBalance: Int
-    sharp: Int
+    yearlyRevenue: Float
+    balance: Float
+    yearlyBalance: Float
+    threeYearsAverageBalance: Float
+    fiveYearsAverageBalance: Float
+    sharp: Float
   }
 
   input PerformanceInput {

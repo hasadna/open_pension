@@ -35,7 +35,7 @@ export async function query(queryData: QueryInterface) {
     graph: convertDataToLineGraph(resultsFromDB),
     graphData: convertDataToColumnGraphData(resultsFromDB),
     legends: convertDataToLegends(resultsFromDB),
-    tracksInfo: convertDataToTracksInfo(resultsFromDB)
+    tracksInfo: convertDataToTracksInfo(fundNames, prismaClient)
   };
 }
 
@@ -133,7 +133,6 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<any> {
   const {fundId, channel, managingBody, timeStartRange, timeEndRange, prismaClient} = input;
 
-  // @ts-ignore
   return await prismaClient.row.groupBy({
     by: ['fundNameID', 'managingBodyID', 'channelID', 'TKUFAT_DIVUACH', 'TSUA_NOMINALIT_BRUTO_HODSHIT'],
     where: {
@@ -267,31 +266,42 @@ function convertDataToLegends(resultsFromDB) {
 /**
  * Get the tracks info form the resultsFromDB.
  *
- * @param resultsFromDB The results form the DB.
+ * @param fundNames The metadata about the funds.
+ * @param prismaClient The prisma client object.
  */
-// @ts-ignore
-// Ignore for now until I'll process the data.
-function convertDataToTracksInfo(resultsFromDB) {
-  return [
-    {
-      fundNumber: 11320,
-      fundName: 'מנורה חיסכון לכל ילד',
-      balance: 198,
-      yearlyRevenue: 100,
-      yearlyBalance: 5.6,
-      threeYearsAverageBalance: 2,
-      fiveYearsAverageBalance: 3,
-      sharp: 4
+async function convertDataToTracksInfo(fundNames, prismaClient: PrismaClient) {
+  const matchingFundsAndRows = await prismaClient.row.findMany({
+    distinct: ['fundNameID'],
+    orderBy: {
+      TKUFAT_DIVUACH: 'asc'
     },
-    {
-      fundNumber: 11320,
-      fundName: 'פסגות חיסכון לכל ילד',
-      balance: 198,
-      yearlyRevenue: 100,
-      yearlyBalance: 5.6,
-      threeYearsAverageBalance: 2,
-      fiveYearsAverageBalance: 3,
-      sharp: 4
+    include: {
+      fundName: true,
     },
-  ];
+    where: {
+      fundNameID: {
+        in: Object.keys(fundNames).map((key) => parseInt(key))
+      }
+    },
+  });
+
+  return matchingFundsAndRows.map((matchingFundsAndRow) => {
+    const {
+      fundName: {ID, label},
+      YITRAT_NCHASIM_LSOF_TKUFA,
+      TSUA_SHNATIT_MEMUZAAT_5_SHANIM,
+      TSUA_SHNATIT_MEMUZAAT_3_SHANIM,
+      SHARP_RIBIT_HASRAT_SIKUN
+    } = matchingFundsAndRow;
+    return {
+      fundNumber: ID,
+      fundName: label,
+      balance: 198,
+      yearlyRevenue: YITRAT_NCHASIM_LSOF_TKUFA,
+      yearlyBalance: 5.6,
+      threeYearsAverageBalance: TSUA_SHNATIT_MEMUZAAT_5_SHANIM,
+      fiveYearsAverageBalance: TSUA_SHNATIT_MEMUZAAT_3_SHANIM,
+      sharp: SHARP_RIBIT_HASRAT_SIKUN ?? 0,
+    }
+  });
 }
