@@ -43,6 +43,7 @@ const queryState = {
   bodies: [],
   investmentType: null,
   investmentPath: null,
+  selectedPeriod: 'LAST_TWELVE_MONTHS',
 };
 
 const queryReducer = (state, {type, value}) => {
@@ -56,6 +57,9 @@ const queryReducer = (state, {type, value}) => {
     case 'bodies':
       return {...state, ...{bodies: value}};
 
+    case 'period':
+      return {...state, ...{selectedPeriod: value}};
+
     default:
       return state;
   }
@@ -63,10 +67,16 @@ const queryReducer = (state, {type, value}) => {
 
 export default function Performance({bodies, channels, subChannels, lastUpdate}) {
   const [query, dispatchQuery] = useReducer(queryReducer, queryState);
-  const [results, setResults] = useState(null)
+  const [results, setResults] = useState(null);
+  const {selectedPeriod} = query;
+
+  const setPeriod = (value) => {
+    dispatchQuery({type: 'period', value});
+  }
+
 
   useEffect(async () => {
-    const {bodies, investmentType, investmentPath} = query;
+    const {bodies, investmentType, investmentPath, selectedPeriod} = query;
 
     if (!isEmpty(bodies) && !isEmpty(investmentType) && !isEmpty(investmentPath)) {
       const res = await fetch('/api/performance', {
@@ -74,7 +84,7 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
           fundId: [892, 72],
           managingBody: [3],
           channel: [1],
-          timePeriod: "LAST_TWELVE_MONTHS",
+          timePeriod: selectedPeriod,
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -114,7 +124,7 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
           subChannels={subChannels}
           channels={channels} />
 
-        {results ? <PerformanceResults results={results} /> : <HoldingsWaiting />}
+        {results ? <PerformanceResults results={results} selectedPeriod={selectedPeriod} setPeriod={setPeriod} /> : <HoldingsWaiting />}
       </div>
     </Wrapper>
   </>

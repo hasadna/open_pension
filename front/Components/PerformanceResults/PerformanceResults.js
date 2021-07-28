@@ -1,18 +1,16 @@
 import Table from "../Table/Table";
-import {useState} from 'react';
 import {ResponsiveLine} from "@nivo/line";
 import BarsGraph from "../BarsGraph/BarsGraph";
 
-export default function PerformanceResults({results: {tracksInfo, graphData, legends, graph}}) {
-  const [selectedFilter, setSelectedFilter] = useState('last12Years');
+export default function PerformanceResults({results: {tracksInfo, graphData, legends, graph}, selectedPeriod, setPeriod}) {
 
-  const graphsFilterOptions = {
-    last3Months: '3 חוד׳ אחרונים',
-    last6Months: '6 חוד׳ אחרונים',
-    yearStart: 'תחילת שנה',
-    last12Years: '12 חודשים אחרונים',
-    last3Years: '3 שנים אחרונות',
-    last5Years: '5 שנים אחרונות',
+  const periodFilterOptions = {
+    THREE_MONTHS: '3 חוד׳ אחרונים',
+    SIX_MONTHS: '6 חוד׳ אחרונים',
+    YEAR_START: 'תחילת שנה',
+    LAST_TWELVE_MONTHS: '12 חודשים אחרונים',
+    LAST_THREE_YEARS: '3 שנים אחרונות',
+    LAST_FIVE_YEARS: '5 שנים אחרונות',
   };
 
   return <div className="performance-results">
@@ -34,13 +32,13 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
     <h5 className="separator">משה מה לכתוב כאן?</h5>
     <div className="graph-wrapper">
       <ul className="period-picker">
-        {Object.entries(graphsFilterOptions).map(([filterBy, title], key) => {
-          const className = selectedFilter === filterBy ? 'active' : '';
+        {Object.entries(periodFilterOptions).map(([period, title], key) => {
+          const className = selectedPeriod === period ? 'active' : '';
 
           return <li key={key} className={className}>
             <a href="#" onClick={(e) => {
               e.preventDefault();
-              setSelectedFilter(filterBy);
+              setPeriod(period);
             }}>{title}</a>
           </li>
         })}
