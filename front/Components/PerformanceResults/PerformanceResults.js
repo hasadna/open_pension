@@ -1,6 +1,7 @@
 import Table from "../Table/Table";
-import {ResponsiveLine} from "@nivo/line";
 import BarsGraph from "../BarsGraph/BarsGraph";
+import {isEmpty} from 'lodash';
+import ResponsiveLine from "./ResponsiveLine";
 
 export default function PerformanceResults({results: {tracksInfo, graphData, legends, graph}, selectedPeriod, setPeriod}) {
 
@@ -44,50 +45,11 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
         })}
       </ul>
 
-      <div className="graph lines">
-
-        <ul className="legends">
-          {legends.map((legend, key) => <li key={key}>{legend}</li>)}
-        </ul>
-        <ResponsiveLine
-          curve={'natural'}
-          data={graph}
-          margin={{ top: 50, right: 25, bottom: 100, left: 20 }}
-          xScale={{ type: 'point' }}
-          yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-          yFormat=" >-.2f"
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-            orient: 'bottom',
-            tickSize: 5,
-            tickPadding: 70,
-            tickRotation: 90,
-            legendOffset: 36,
-            legendPosition: 'middle'
-          }}
-          axisLeft={null}
-          enableGridX={false}
-          enableGridY={true}
-          lineWidth={2}
-          pointSize={8}
-          pointColor={{ from: 'color', modifiers: [] }}
-          pointBorderWidth={1}
-          pointBorderColor={{ theme: 'background',  }}
-          pointLabel="x"
-          pointLabelYOffset={-12}
-          areaBlendMode="overlay"
-          areaOpacity={0}
-          enableCrosshair={false}
-          crosshairType="top-right"
-          useMesh={true}
-          legends={[]}
-          tooltip={({point}) => {
-            const {data: {x, valueToDisplay, fundName}, color} = point;
-            return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fundName}</b>, {x}: {valueToDisplay}</div>;
-          }}
-          motionConfig="default"
-        />
+      <div className={`graph lines ${isEmpty(graph) && 'no-results'}`}>
+        {isEmpty(graph) ? <>
+          <p>מצטערים אבל נראה שאין לנו תוצאות מדיהמות לתקופת הזמן שבחרת.</p>
+          <p>אולי תנסה לבחור תקופת זמן אחרת.</p>
+        </> : <ResponsiveLine graph={graph} legends={legends} />}
       </div>
     </div>
 

@@ -87,6 +87,21 @@
       margin-top: 2em;
       border-radius: 15px;
 
+      &.no-results {
+        display: flex;
+        height: 50vh;
+        align-items: center;
+        justify-content: center;
+        font-weight: 100;
+        font-size: 2em;
+        flex-direction: column;
+
+        p {
+          padding-bottom: .25em;
+          color: var(--text-black-gray)
+        }
+      }
+
       &.lines {
         & > div {
           height: 50vh !important;

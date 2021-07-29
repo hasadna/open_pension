@@ -10,7 +10,7 @@ import client from "../backend/apollo-client";
 import {gql} from "@apollo/client";
 
 export async function getServerSideProps(context) {
-  const { data: {managingBodies, channels, subChannels} } = await client.query({
+  const {data: {managingBodies, channels, subChannels}} = await client.query({
     query: gql`
       query {
         managingBodies {
@@ -108,8 +108,8 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
       <SecondaryHeader
         title={"ביצועים"}
         description={<p className="description">
-          גופי הפנסיה משקיעים את הכספי החסכון שלך כדי להשיג תשואה.<br />
-          ככל הם מרווחים יותר, לך יהיה יותר. כאן, אפשר לבדוק,כמה גוף הפנסיה שלך מרווח בשבילך,<br />
+          גופי הפנסיה משקיעים את הכספי החסכון שלך כדי להשיג תשואה.<br/>
+          ככל הם מרווחים יותר, לך יהיה יותר. כאן, אפשר לבדוק,כמה גוף הפנסיה שלך מרווח בשבילך,<br/>
           באיזה סיכון, וכמה הייתה היכול להרוויח במקום אחר.
         </p>
         }
@@ -122,9 +122,10 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
           dispatchQuery={dispatchQuery}
           bodies={bodies}
           subChannels={subChannels}
-          channels={channels} />
+          channels={channels}/>
 
-        {results ? <PerformanceResults results={results} selectedPeriod={selectedPeriod} setPeriod={setPeriod} /> : <HoldingsWaiting />}
+        {results ? <PerformanceResults results={results} selectedPeriod={selectedPeriod} setPeriod={setPeriod}/> :
+          <HoldingsWaiting/>}
       </div>
     </Wrapper>
   </>
