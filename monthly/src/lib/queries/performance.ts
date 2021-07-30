@@ -199,7 +199,7 @@ function convertDataToLineGraph(resultsFromDB) {
     Object.entries(value).forEach(([fundName, value]) => {
 
       if (!Object.keys(data).includes(fundName)) {
-        const previousMonth = new Date(parseInt(month) - 86400 * 30);
+        const previousMonth = new Date(parseInt(month) - (86400 * 30));
 
         // Starting the fund record with 100 for the previous month.
         fundDeltaFromLastMonth[fundName] = 100;

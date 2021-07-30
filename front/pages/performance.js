@@ -5,12 +5,12 @@ import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
 import {useReducer, useEffect, useState} from 'react';
 import PerformanceQuery from "../Components/PerformanceQuery/PerformanceQuery";
 import PerformanceResults from "../Components/PerformanceResults/PerformanceResults";
-import {convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
+import {convertLastUpdate, convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
 import client from "../backend/apollo-client";
 import {gql} from "@apollo/client";
 
 export async function getServerSideProps(context) {
-  const {data: {managingBodies, channels, subChannels}} = await client.query({
+  const {data: {managingBodies, channels, subChannels, lastUpdated}} = await client.query({
     query: gql`
       query {
         managingBodies {
@@ -24,7 +24,8 @@ export async function getServerSideProps(context) {
         subChannels {
           ID
           label
-        }
+        },
+        lastUpdated
       }
     `,
   });
@@ -34,7 +35,7 @@ export async function getServerSideProps(context) {
       bodies: convertServerEntitiesToKeyValue(managingBodies),
       channels: convertServerEntitiesToKeyValue(channels),
       subChannels: convertServerEntitiesToKeyValue(subChannels),
-      lastUpdate: getLastUpdate()
+      lastUpdate: convertLastUpdate(lastUpdated)
     },
   }
 }
