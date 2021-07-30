@@ -44,6 +44,7 @@ const queryState = {
   investmentType: null,
   investmentPath: null,
   selectedPeriod: 'LAST_TWELVE_MONTHS',
+  onlyUpdateGraph: false,
 };
 
 const queryReducer = (state, {type, value}) => {
@@ -60,6 +61,9 @@ const queryReducer = (state, {type, value}) => {
     case 'period':
       return {...state, ...{selectedPeriod: value}};
 
+    case 'onlyUpdateGraph':
+      return {...state, ...{onlyUpdateGraph: value}};
+
     default:
       return state;
   }
@@ -72,11 +76,11 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
 
   const setPeriod = (value) => {
     dispatchQuery({type: 'period', value});
+    dispatchQuery({type: 'onlyUpdateGraph', value: true});
   }
 
-
   useEffect(async () => {
-    const {bodies, investmentType, investmentPath, selectedPeriod} = query;
+    const {bodies, investmentType, investmentPath, selectedPeriod, onlyUpdateGraph} = query;
 
     if (!isEmpty(bodies) && !isEmpty(investmentType) && !isEmpty(investmentPath)) {
       const res = await fetch('/api/performance', {
@@ -93,12 +97,21 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
       })
 
       const {graph, graphData, legends, tracksInfo} = await res.json();
-      setResults({
-        graph,
-        tracksInfo,
-        graphData,
-        legends,
-      });
+
+      let resultsFromResponse;
+      if (onlyUpdateGraph) {
+        console.log('update Only graph');
+        resultsFromResponse = {...results, ...{graph}}
+      } else {
+        console.log('update all');
+        resultsFromResponse = {
+          graph,
+          tracksInfo,
+          graphData,
+          legends,
+        };
+      }
+      setResults(resultsFromResponse);
     }
 
   }, [query]);
