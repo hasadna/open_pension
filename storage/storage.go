@@ -31,7 +31,7 @@ func main() {
 	e.GET("/file/:id", api.ServeFile)
 	e.POST("/file", api.StoreFile)
 
-	if err := e.Start(":80"); err != nil {
+	if err := e.Start(":7000"); err != nil {
 		log.Fatalln(err)
 	}
 
