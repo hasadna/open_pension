@@ -95,6 +95,9 @@ func StoreFile(c echo.Context) error {
 
 			response.Files = append(response.Files, fileResponse)
 		}
+
+		// Deleting the file. For now, we don't care for the error.
+		_ = os.Remove(path)
 	} else {
 		fileResponse, err := storeFileToDB(fileFolder, filename, db)
 
