@@ -1,6 +1,7 @@
 package api
 
 import (
+	"archive/zip"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
@@ -54,38 +55,60 @@ func StoreFile(c echo.Context) error {
 	defer src.Close()
 
 	// Create the path destination and mak sure we can copy the fie to the desired path.
-	filename := CreateUniqueFileName(file.Filename)
+	path, filename, err := storeFileToDisk(fileFolder, file.Filename, src)
+
+	if err != nil {
+		return err
+	}
+
+	// Create the base response object in which we will append files.
+	response := FilesResponse{Files: []FileResponse{}}
 
 	if strings.HasSuffix(filename, ".zip") {
-		// todo: extract all the file and handle it.
-		return c.JSON(http.StatusCreated, nil)
-	} else {
-		res, err := storeFile(fileFolder, filename, err, src, db)
+		r, err := zip.OpenReader(path)
 
 		if err != nil {
 			return err
 		}
 
-		response := FilesResponse{Files: []FileResponse{res}}
+		defer r.Close()
 
-		return c.JSON(http.StatusCreated, response)
+		for _, f := range r.File {
+			uniqueFilenameFromZip, path := getUniqueNameAndPathFromFile(fileFolder, f.Name)
+
+			dst, err := os.Create(path)
+			if err != nil {
+				return err
+			}
+			defer dst.Close()
+
+			// Copying the file.
+			if _, err = io.Copy(dst, src); err != nil {
+				return err
+			}
+
+			fileResponse, err := storeFileToDB(path, uniqueFilenameFromZip, db)
+
+			if err != nil {
+				return err
+			}
+
+			response.Files = append(response.Files, fileResponse)
+		}
+	} else {
+		fileResponse, err := storeFileToDB(fileFolder, filename, db)
+
+		if err != nil {
+			return err
+		}
+
+		response.Files = append(response.Files, fileResponse)
 	}
+
+	return c.JSON(http.StatusCreated, response)
 }
 
-func storeFile(fileFolder string, filename string, err error, src multipart.File, db *gorm.DB) (FileResponse, error) {
-	path := fmt.Sprintf("%s/%s", fileFolder, filename)
-
-	dst, err := os.Create(path)
-	if err != nil {
-		return FileResponse{}, err
-	}
-	defer dst.Close()
-
-	// Copying the file.
-	if _, err = io.Copy(dst, src); err != nil {
-		return FileResponse{}, err
-	}
-
+func storeFileToDB(path string, filename string, db *gorm.DB) (FileResponse, error) {
 	// Create a record in the DB as downloaded and send the kafka event.
 	var dbFile File
 	db.Where(&File{
@@ -97,8 +120,29 @@ func storeFile(fileFolder string, filename string, err error, src multipart.File
 	// Sending a kafka event.
 	//SendMessage(dbFile)
 
-
 	resp := FileResponse{ID: dbFile.ID, Filename: dbFile.Filename}
 
 	return resp, nil
+}
+
+func storeFileToDisk(fileFolder string, filename string, src multipart.File) (string, string, error) {
+	uniqueFilename, path := getUniqueNameAndPathFromFile(fileFolder, filename)
+
+	dst, err := os.Create(path)
+	if err != nil {
+		return "", uniqueFilename, err
+	}
+	defer dst.Close()
+
+	// Copying the file.
+	if _, err = io.Copy(dst, src); err != nil {
+		return "", uniqueFilename, err
+	}
+	return path, uniqueFilename, nil
+}
+
+func getUniqueNameAndPathFromFile(fileFolder string, filename string) (string, string) {
+	uniqueFilename := CreateUniqueFileName(filename)
+	path := fmt.Sprintf("%s/%s", fileFolder, uniqueFilename)
+	return uniqueFilename, path
 }
