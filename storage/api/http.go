@@ -1,12 +1,8 @@
 package api
 
 import (
-	"archive/zip"
 	"github.com/labstack/echo/v4"
-	"io"
 	"net/http"
-	"os"
-	"strings"
 )
 
 
@@ -52,48 +48,9 @@ func StoreFile(c echo.Context) error {
 	// Create the base response object in which we will append files.
 	response := FilesResponse{Files: []FileResponse{}}
 
-	if strings.HasSuffix(filename, ".zip") {
-		r, err := zip.OpenReader(path)
-
-		if err != nil {
-			return err
-		}
-
-		defer r.Close()
-
-		for _, f := range r.File {
-			uniqueFilenameFromZip, path := getUniqueNameAndPathFromFile(fileFolder, f.Name)
-
-			dst, err := os.Create(path)
-			if err != nil {
-				return err
-			}
-			defer dst.Close()
-
-			// Copying the file.
-			if _, err = io.Copy(dst, src); err != nil {
-				return err
-			}
-
-			fileResponse, err := storeFileToDB(path, uniqueFilenameFromZip, db)
-
-			if err != nil {
-				return err
-			}
-
-			response.Files = append(response.Files, fileResponse)
-		}
-
-		// Deleting the file. For now, we don't care for the error.
-		_ = os.Remove(path)
-	} else {
-		fileResponse, err := storeFileToDB(fileFolder, filename, db)
-
-		if err != nil {
-			return err
-		}
-
-		response.Files = append(response.Files, fileResponse)
+	err = storeFile(filename, path, fileFolder, src, db, response)
+	if err != nil {
+		return err
 	}
 
 	return c.JSON(http.StatusCreated, response)
