@@ -32,7 +32,7 @@ func GetDbConnection() *gorm.DB {
 
 		if err != nil {
 			log.Info(fmt.Sprintf("Failed to connect to the for in iteration No. %d. The reason: %s", i, err.Error()))
-			time.Sleep(time.Second)
+			time.Sleep(time.Second * 5)
 			continue
 		}
 
