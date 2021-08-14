@@ -46,7 +46,7 @@ func StoreFile(c echo.Context) error {
 	}
 
 	// Create the base response object in which we will append files.
-	response := FilesResponse{Files: []FileResponse{}}
+	response := &FilesResponse{Files: []FileResponse{}}
 
 	err = storeFile(filename, path, fileFolder, src, db, response)
 	if err != nil {

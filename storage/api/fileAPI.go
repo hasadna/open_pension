@@ -25,7 +25,7 @@ func getUniqueNameAndPathFromFile(fileFolder string, filename string) (string, s
 	return uniqueFilename, path
 }
 
-func storeFile(filename string, path string, fileFolder string, src multipart.File, db *gorm.DB, response FilesResponse) error {
+func storeFile(filename string, path string, fileFolder string, src multipart.File, db *gorm.DB, response *FilesResponse) error {
 	if strings.HasSuffix(filename, ".zip") {
 		err := handleZipFile(path, fileFolder, src, db, response)
 		if err != nil {
@@ -43,7 +43,7 @@ func storeFile(filename string, path string, fileFolder string, src multipart.Fi
 	return nil
 }
 
-func handleZipFile(path string, fileFolder string, src multipart.File, db *gorm.DB, response FilesResponse) error {
+func handleZipFile(path string, fileFolder string, src multipart.File, db *gorm.DB, response *FilesResponse) error {
 	r, err := zip.OpenReader(path)
 
 	if err != nil {
@@ -114,11 +114,9 @@ func storeFileToDB(path string, filename string, db *gorm.DB) (FileResponse, err
 	}).FirstOrCreate(&dbFile)
 
 	// Sending a kafka event.
-	//SendMessage(dbFile)
+	SendMessage(dbFile)
 
 	resp := FileResponse{ID: dbFile.ID, Filename: dbFile.Filename}
 
 	return resp, nil
 }
-
-
