@@ -27,9 +27,9 @@ export default gql`
   }
 
   input PerformanceInput {
-    fundId: [Int],
-    channel: [Int],
-    managingBody: [Int],
+    channel: Int
+    subChannel: Int,
+    bodies: [Int],
     timePeriod: TimePeriod
   }
 

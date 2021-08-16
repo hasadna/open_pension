@@ -4,8 +4,8 @@ import client from "../../backend/apollo-client";
 export default async function handler(req, res) {
   try {
     const results = await client.query({
-      query: gql`query ($fundId: [Int], $managingBody: [Int], $channel: [Int], $timePeriod: TimePeriod) {
-        performance(input:{fundId: $fundId, managingBody: $managingBody, channel: $channel, timePeriod: $timePeriod}) {
+      query: gql`query ($channel: Int, $subChannel: Int, $bodies: [Int], $timePeriod: TimePeriod) {
+        performance(input:{channel: $channel, subChannel: $subChannel, bodies: $bodies, timePeriod: $timePeriod}) {
           graph,
           graphData,
           legends,

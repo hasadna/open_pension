@@ -14,7 +14,7 @@ import {TimePeriod, QueryInterface, GetMatchingResultsFromDB, Rows, Months} from
  *  the data in the DB.
  */
 export async function query(queryData: QueryInterface) {
-  const {channel, fundId, managingBody, timePeriod, prismaClient} = queryData;
+  const {channel, subChannel, bodies, timePeriod, prismaClient} = queryData;
 
   // Starting by getting the time range. We need the current datetime and the
   // the date object which represent the time period we needed - the last 5
@@ -24,12 +24,17 @@ export async function query(queryData: QueryInterface) {
     timeEndRange
   } = convertTimePeriodToTimeRangeQuery(timePeriod);
 
+  //todo: the fund id number: SELECT count(*) FROM Fund WHERE channelId=1 and SubchannelId=1 AND managingBodyID in (1, 2) ORDER BY fundId
+  //  and pass it to the getMatchingResultsFromDB.
+
   // Now, we need to get all the matching results.
   const results = await getMatchingResultsFromDB({
-    channel, fundId, managingBody, timeStartRange, timeEndRange, prismaClient
+    channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient
   }) as Rows[];
 
   const fundNames = await getFundNamesFromDBResults(results, prismaClient);
+
+  console.log(fundNames);
   const resultsFromDB = await processResults(results, fundNames);
   return {
     graph: convertDataToLineGraph(resultsFromDB),
@@ -131,7 +136,7 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  *  the data in the DB.
  */
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<any> {
-  const {fundId, channel, managingBody, timeStartRange, timeEndRange, prismaClient} = input;
+  const {channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient} = input;
 
   return await prismaClient.row.groupBy({
     by: ['fundNameID', 'managingBodyID', 'channelID', 'TKUFAT_DIVUACH', 'TSUA_NOMINALIT_BRUTO_HODSHIT'],
@@ -140,9 +145,9 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
         lte: timeStartRange,
         gte: timeEndRange,
       },
-      channelID: {in: channel},
-      managingBodyID: {in: managingBody},
-      fundNameID: {in: fundId},
+      channelID: channel,
+      subChannelID: subChannel,
+      managingBodyID: {in: bodies},
     },
     orderBy: {
       TKUFAT_DIVUACH: 'asc'

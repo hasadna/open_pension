@@ -86,9 +86,9 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
     if (!isEmpty(bodies) && !isEmpty(investmentType) && !isEmpty(investmentPath)) {
       const res = await fetch('/api/performance', {
         body: JSON.stringify({
-          fundId: [892, 72],
-          managingBody: [3],
-          channel: [1],
+          bodies: Object.entries(bodies).filter(([_, isSelected]) => isSelected).map(([ID]) => parseInt(ID)),
+          channel: parseInt(investmentType),
+          subChannel: parseInt(investmentPath),
           timePeriod: selectedPeriod,
         }),
         headers: {

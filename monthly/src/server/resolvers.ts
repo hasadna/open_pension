@@ -3,9 +3,9 @@ import {TimePeriod} from "../lib/queries/performanceTypesAndConsts";
 
 interface PerformanceInputArgs {
   input: {
-    fundId: number[],
-    channel: number[],
-    managingBody: number[],
+    channel: number,
+    subChannel: number,
+    bodies: number[],
     timePeriod: TimePeriod
   }
 }

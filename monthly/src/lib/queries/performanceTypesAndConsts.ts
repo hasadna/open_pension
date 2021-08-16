@@ -10,17 +10,17 @@ export enum TimePeriod {
 }
 
 export interface QueryInterface {
-  fundId: number[],
-  channel: number[],
-  managingBody: number[],
+  channel: number,
+  subChannel: number,
+  bodies: number[],
   timePeriod: TimePeriod,
   prismaClient: PrismaClient
 }
 
 export interface GetMatchingResultsFromDB {
-  fundId: number[],
-  channel: number[],
-  managingBody: number[],
+  channel: number,
+  subChannel: number,
+  bodies: number[],
   timeStartRange: Date,
   timeEndRange: Date,
   prismaClient: PrismaClient,
