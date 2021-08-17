@@ -1,5 +1,13 @@
 import type {PrismaClient} from '@prisma/client';
-import {TimePeriod, QueryInterface, GetMatchingResultsFromDB, Rows, Months} from './performanceTypesAndConsts';
+import {
+  TimePeriod,
+  QueryInterface,
+  GetMatchingResultsFromDB,
+  Rows,
+  Months,
+  MatchingFundsIDsInterface
+} from './performanceTypesAndConsts';
+
 
 /**
  * Getting the results for performance query by th given arguments.
@@ -24,12 +32,11 @@ export async function query(queryData: QueryInterface) {
     timeEndRange
   } = convertTimePeriodToTimeRangeQuery(timePeriod);
 
-  //todo: the fund id number: SELECT count(*) FROM Fund WHERE channelId=1 and SubchannelId=1 AND managingBodyID in (1, 2) ORDER BY fundId
-  //  and pass it to the getMatchingResultsFromDB.
+  const funds = await getMatchingFundsIDs({channel, subChannel, managingBodies: bodies, prismaClient});
 
   // Now, we need to get all the matching results.
   const results = await getMatchingResultsFromDB({
-    channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient
+    channel, subChannel, bodies, funds, timeStartRange, timeEndRange, prismaClient
   }) as Rows[];
 
   const fundNames = await getFundNamesFromDBResults(results, prismaClient);
@@ -120,6 +127,30 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
 }
 
 /**
+ *
+ * @param channel
+ * @param subChannel
+ * @param managingBodies
+ * @param prismaClient
+ */
+async function getMatchingFundsIDs({channel, subChannel, managingBodies, prismaClient}: MatchingFundsIDsInterface): Promise<number[]> {
+  const results = await prismaClient.fund.findMany({
+    select: {
+      fundID: true,
+    },
+    where: {
+      channelID: channel,
+      subChannelID: subChannel,
+      managingBodyID: {
+        in: managingBodies
+      }
+    },
+  });
+
+  return Object.values(results).map(({fundID}) => fundID);
+}
+
+/**
  * Getting results from the DB according to the given parameters.
  *
  * @param {GetMatchingResultsFromDB} input The parameters upon we'll construct
@@ -136,7 +167,7 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  *  the data in the DB.
  */
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<any> {
-  const {channel, subChannel, bodies, timeStartRange, timeEndRange, prismaClient} = input;
+  const {channel, bodies, funds, timeStartRange, timeEndRange, prismaClient} = input;
 
   return await prismaClient.row.groupBy({
     by: ['fundNameID', 'managingBodyID', 'channelID', 'TKUFAT_DIVUACH', 'TSUA_NOMINALIT_BRUTO_HODSHIT'],
@@ -146,8 +177,8 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
         gte: timeEndRange,
       },
       channelID: channel,
-      subChannelID: subChannel,
       managingBodyID: {in: bodies},
+      fundNameID: {in: funds},
     },
     orderBy: {
       TKUFAT_DIVUACH: 'asc'

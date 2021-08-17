@@ -20,7 +20,8 @@ export interface QueryInterface {
 export interface GetMatchingResultsFromDB {
   channel: number,
   subChannel: number,
-  bodies: number[],
+  bodies: number[]
+  funds: number[],
   timeStartRange: Date,
   timeEndRange: Date,
   prismaClient: PrismaClient,
@@ -30,6 +31,13 @@ export interface Rows {
   fundNameID: number,
   TKUFAT_DIVUACH: Date,
   TSUA_NOMINALIT_BRUTO_HODSHIT: number,
+}
+
+export interface MatchingFundsIDsInterface {
+  channel: number
+  subChannel: number
+  managingBodies: number[]
+  prismaClient: PrismaClient
 }
 
 export const Months = {
