@@ -39,9 +39,8 @@ export async function query(queryData: QueryInterface) {
     channel, subChannel, bodies, funds, timeStartRange, timeEndRange, prismaClient
   }) as Rows[];
 
-  const fundNames = await getFundNamesFromDBResults(results, prismaClient);
+  const fundNames = await getFundNamesFromDBResults(funds, prismaClient);
 
-  console.log(fundNames);
   const resultsFromDB = await processResults(results, fundNames);
   return {
     graph: convertDataToLineGraph(resultsFromDB),
@@ -56,11 +55,10 @@ export async function query(queryData: QueryInterface) {
  * from the DB. This can be removed and combined with groupBy one prisma will
  * support it.
  *
- * @param {Rows[]} results The results from the DB.
+ * @param {number[]} fundIDs The fund IDs we got from the DB.
  * @param {PrismaClient} prismaClient The prisma client object.
  */
-async function getFundNamesFromDBResults(results: Rows[], prismaClient: PrismaClient) {
-  const fundIDs = results.map(result => result.fundNameID);
+async function getFundNamesFromDBResults(fundIDs: number[], prismaClient: PrismaClient) {
   const funds = await prismaClient.fundName.findMany({
     where: {
       ID: {in: fundIDs}
