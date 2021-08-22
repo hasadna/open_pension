@@ -5,7 +5,6 @@ export default function PerformanceQuery({dispatchQuery, bodies, subChannels, ch
   const updateQueryHandler = (type, value) => {
     dispatchQuery({type: type, value})
     dispatchQuery({type: 'onlyUpdateGraph', value: false});
-    dispatchQuery({type: 'period', value: "LAST_TWELVE_MONTHS"});
   }
 
   return <div className="performance-query">

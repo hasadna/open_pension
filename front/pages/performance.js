@@ -101,10 +101,8 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
 
       let resultsFromResponse;
       if (onlyUpdateGraph) {
-        console.log('update Only graph');
         resultsFromResponse = {...results, ...{graph}}
       } else {
-        console.log('update all');
         resultsFromResponse = {
           graph,
           tracksInfo,
