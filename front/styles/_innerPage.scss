@@ -83,6 +83,14 @@
       border-bottom: solid 2px #000000;
     }
 
+    .tracks-wrapper {
+
+      .tracks {
+        max-height: 50vh;
+        overflow: scroll;
+      }
+    }
+
     .graph {
       margin-top: 2em;
       border-radius: 15px;

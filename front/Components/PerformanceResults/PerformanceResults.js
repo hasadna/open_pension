@@ -8,19 +8,25 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
 
   return <div className="performance-results">
 
-    <h5>רשימת מסלולים</h5>
-    <Table
-      headers={[
-        'מספר קרן',
-        'שם הקרן',
-        'יתרת נכסים',
-        'תשואה שנתית',
-        'ת.ממוצאות ב-3 שנים',
-        'ת.ממוצאות ב-5 שנים',
-        'שארפ',
-      ]}
-      rows={tracksInfo}
-    />
+    <div className="tracks-wrapper">
+      <h5>רשימת מסלולים</h5>
+
+      <div className={"tracks"}>
+
+        <Table
+          headers={[
+            'מספר קרן',
+            'שם הקרן',
+            'יתרת נכסים',
+            'תשואה שנתית',
+            'ת.ממוצאות ב-3 שנים',
+            'ת.ממוצאות ב-5 שנים',
+            'שארפ',
+          ]}
+          rows={tracksInfo}
+        />
+      </div>
+    </div>
 
     <h5 className="separator">משה מה לכתוב כאן?</h5>
     <div className="graph-wrapper">
