@@ -140,10 +140,7 @@
 
           li {
             font-weight: bold;
-            margin-top: .75em;
-            margin-bottom: .75em;
-            margin-left: 1.75em;
-            margin-right: 1.75em;
+            margin: .75em 1.75em;
 
             a {
               color: var(--text-black-gray);
@@ -178,7 +175,6 @@
                 margin-left: .25em;
               }
             }
-
         }
       }
 
