@@ -266,7 +266,7 @@ function convertDataToLineGraph(resultsFromDB) {
         ];
       }
 
-      const currentMonthValue = fundDeltaFromLastMonth[fundName] * (1 + (value / 100));
+      const currentMonthValue = fundDeltaFromLastMonth[fundName] * (1 + value / 100);
       data[fundName].push({x: getMonthFromTimeStamp(month), y: value, fundName, valueToDisplay: currentMonthValue.toFixed(2)});
       fundDeltaFromLastMonth[fundName] = currentMonthValue;
     });
