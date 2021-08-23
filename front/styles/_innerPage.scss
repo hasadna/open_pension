@@ -86,6 +86,7 @@
     .tracks-wrapper {
 
       .tracks {
+        margin-top: .5em;
         max-height: 50vh;
         overflow: scroll;
       }
@@ -158,11 +159,26 @@
         }
 
         &.legends {
-          padding-top: .75em;
+          padding-top: 1em;
           padding-bottom: .75em;
           border-bottom: solid 3px #ebebeb;
-          width: 95%;
+          width: 98%;
           margin: 0 auto;
+          overflow-x: scroll;
+
+            li {
+              display: flex;
+              min-width: fit-content;
+              margin-left: 1em;
+
+              .cube {
+                width: 20px;
+                height: 20px;
+                display: block;
+                margin-left: .25em;
+              }
+            }
+
         }
       }
 

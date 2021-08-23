@@ -8,6 +8,30 @@ import {
   MatchingFundsIDsInterface
 } from './performanceTypesAndConsts';
 
+const colors = [
+  '#e8c1a0',
+  '#f47560',
+  '#f1e15b',
+  '#e8a838',
+  '#61cdbb',
+  '#97e3d5',
+  '#1f77b4',
+  '#2ca02c',
+  '#d62728',
+  '#9467bd',
+  '#8c564b',
+  '#e377c2',
+  '#7f7f7f',
+  '#bcbd22',
+  '#17becf',
+  '#7fc97f',
+  '#beaed4',
+  '#f0027f',
+  '#fbb4ae',
+  '#b3cde3',
+  '#ccebc5',
+];
+
 
 /**
  * Getting the results for performance query by th given arguments.
@@ -248,10 +272,11 @@ function convertDataToLineGraph(resultsFromDB) {
     });
   });
 
-  return Object.entries(data).map(([fundId, data]) => {
+  return Object.entries(data).map(([fundId, data], key) => {
     return {
       "id": fundId,
-      data
+      data,
+      color: colors[key]
     }
   });
 }

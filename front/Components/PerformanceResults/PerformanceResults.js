@@ -4,7 +4,9 @@ import {isEmpty} from 'lodash';
 import ResponsiveLine from "./ResponsiveLine";
 import {periodFilterOptions} from "../../consts/performance";
 
-export default function PerformanceResults({results: {tracksInfo, graphData, legends, graph}, selectedPeriod, setPeriod}) {
+export default function PerformanceResults({results: {tracksInfo, graphData, graph}, selectedPeriod, setPeriod}) {
+  const colors = graph.map(({color}) => color);
+  const legends = graph.map(({id, color}) => [id, color])
 
   return <div className="performance-results">
 
@@ -47,7 +49,7 @@ export default function PerformanceResults({results: {tracksInfo, graphData, leg
         {isEmpty(graph) ? <>
           <p>מצטערים אבל נראה שאין לנו תוצאות מדיהמות לתקופת הזמן שבחרת.</p>
           <p>אולי תנסה לבחור תקופת זמן אחרת.</p>
-        </> : <ResponsiveLine graph={graph} legends={legends} />}
+        </> : <ResponsiveLine graph={graph} legends={legends} colors={colors} />}
       </div>
     </div>
 

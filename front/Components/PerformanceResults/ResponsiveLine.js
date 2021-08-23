@@ -1,12 +1,13 @@
 import {ResponsiveLine} from "@nivo/line";
 
-export default ({graph, legends}) => <>
+export default ({graph, legends, colors}) => <>
   <ul className="legends">
-    {legends.map((legend, key) => <li key={key}>{legend}</li>)}
+    {legends.map(([legend, color], key) => <li key={key}><span className="cube" style={{backgroundColor: color}}>&nbsp;</span> {legend}</li>)}
   </ul>
   <ResponsiveLine
     curve={'natural'}
     data={graph}
+    colors={colors}
     margin={{ top: 50, right: 25, bottom: 100, left: 20 }}
     xScale={{ type: 'point' }}
     yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
