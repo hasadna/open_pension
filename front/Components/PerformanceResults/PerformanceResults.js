@@ -6,7 +6,7 @@ import {periodFilterOptions} from "../../consts/performance";
 
 export default function PerformanceResults({results: {tracksInfo, graphData, graph}, selectedPeriod, setPeriod}) {
   const colors = graph.map(({color}) => color);
-  const legends = graph.map(({id, color}) => [id, color])
+  const legends = graph.map(({id, color}) => [id, color]);
 
   return <div className="performance-results">
 

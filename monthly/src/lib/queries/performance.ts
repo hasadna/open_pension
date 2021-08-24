@@ -82,6 +82,7 @@ export async function query(queryData: QueryInterface) {
  * @param {number[]} fundIDs The fund IDs we got from the DB.
  * @param {PrismaClient} prismaClient The prisma client object.
  */
+// @ts-ignore
 async function getFundNamesFromDBResults(fundIDs: number[], prismaClient: PrismaClient) {
   const funds = await prismaClient.fundName.findMany({
     where: {
@@ -155,6 +156,7 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
  * @param managingBodies
  * @param prismaClient
  */
+// @ts-ignore
 async function getMatchingFundsIDs({channel, subChannel, managingBodies, prismaClient}: MatchingFundsIDsInterface): Promise<number[]> {
   const results = await prismaClient.fund.findMany({
     select: {
@@ -189,18 +191,19 @@ async function getMatchingFundsIDs({channel, subChannel, managingBodies, prismaC
  *  the data in the DB.
  */
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<any> {
-  const {channel, bodies, funds, timeStartRange, timeEndRange, prismaClient} = input;
+  // @ts-ignore
+  const {channel, bodies, funds, subChannel, timeStartRange, timeEndRange, prismaClient} = input;
 
+
+  // todo: check the manager ID and not fund name ID.
   return await prismaClient.row.groupBy({
     by: ['fundNameID', 'managingBodyID', 'channelID', 'TKUFAT_DIVUACH', 'TSUA_NOMINALIT_BRUTO_HODSHIT'],
     where: {
-      TKUFAT_DIVUACH: {
-        lte: timeStartRange,
-        gte: timeEndRange,
-      },
-      channelID: channel,
-      managingBodyID: {in: bodies},
-      fundNameID: {in: funds},
+      // TKUFAT_DIVUACH: {
+      //   lte: new Date(2019, 7, 1, 0, 0, 0),
+      //   gte: timeEndRange,
+      // },
+      MANAGER_ID: 12536,
     },
     orderBy: {
       TKUFAT_DIVUACH: 'asc'
@@ -262,12 +265,12 @@ function convertDataToLineGraph(resultsFromDB) {
         // Starting the fund record with 100 for the previous month.
         fundDeltaFromLastMonth[fundName] = 100;
         data[fundName] = [
-          {x: getMonthFromTimeStamp(previousMonth), y: 0, fundName, valueToDisplay: fundDeltaFromLastMonth[fundName]}
+          {x: getMonthFromTimeStamp(previousMonth), y: fundDeltaFromLastMonth[fundName], fundName}
         ];
       }
 
-      const currentMonthValue = fundDeltaFromLastMonth[fundName] * (1 + value / 100);
-      data[fundName].push({x: getMonthFromTimeStamp(month), y: value, fundName, valueToDisplay: currentMonthValue.toFixed(2)});
+      const currentMonthValue = fundDeltaFromLastMonth[fundName] * (1 + (value / 100));
+      data[fundName].push({x: getMonthFromTimeStamp(month), y: currentMonthValue.toFixed(2), fundName});
       fundDeltaFromLastMonth[fundName] = currentMonthValue;
     });
   });

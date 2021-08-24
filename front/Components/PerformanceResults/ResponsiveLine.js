@@ -39,8 +39,8 @@ export default ({graph, legends, colors}) => <>
     useMesh={true}
     legends={[]}
     tooltip={({point}) => {
-      const {data: {x, valueToDisplay, fundName}, color} = point;
-      return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fundName}</b>, {x}: {valueToDisplay}</div>;
+      const {data: {x, y, fundName}, color} = point;
+      return <div className={"line-tooltip"} style={{borderColor: color}}><b>{fundName}</b>, {x}: {y}</div>;
     }}
     motionConfig="default"
   />
