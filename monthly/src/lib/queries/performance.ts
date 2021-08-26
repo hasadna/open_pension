@@ -194,16 +194,16 @@ export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB):
   // @ts-ignore
   const {channel, bodies, funds, subChannel, timeStartRange, timeEndRange, prismaClient} = input;
 
-
-  // todo: check the manager ID and not fund name ID.
   return await prismaClient.row.groupBy({
     by: ['fundNameID', 'managingBodyID', 'channelID', 'TKUFAT_DIVUACH', 'TSUA_NOMINALIT_BRUTO_HODSHIT'],
     where: {
-      // TKUFAT_DIVUACH: {
-      //   lte: new Date(2019, 7, 1, 0, 0, 0),
-      //   gte: timeEndRange,
-      // },
-      MANAGER_ID: 12536,
+      TKUFAT_DIVUACH: {
+        lte: timeStartRange,
+        gte: timeEndRange,
+      },
+      channelID: channel,
+      managingBodyID: {in: bodies},
+      fundNameID: {in: funds},
     },
     orderBy: {
       TKUFAT_DIVUACH: 'asc'
