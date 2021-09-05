@@ -59,13 +59,12 @@ export default {
       return Object.values(data).map((row: any) => row.row_ID);
     },
     performance: async (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
-      const {graph, graphData, legends, tracksInfo} = await performanceQuery({...args.input, ...{prismaClient}});
+      const {graph, graphData, tracksInfo} = await performanceQuery({...args.input, ...{prismaClient}});
 
       return {
         graph: JSON.stringify(graph),
         graphData: JSON.stringify(graphData),
         tracksInfo,
-        legends,
       }
     }
   },

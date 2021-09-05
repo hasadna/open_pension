@@ -38,7 +38,6 @@ export default gql`
     # json string. The consumer will need to handle it and parse the string.
     graph: String,
     graphData: String,
-    legends: [String]
     tracksInfo: [TracksInfo],
   }
 

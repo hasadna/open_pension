@@ -4,34 +4,10 @@ import {
   QueryInterface,
   GetMatchingResultsFromDB,
   Rows,
+  MatchingFundsIDsInterface,
   Months,
-  MatchingFundsIDsInterface
+  colors,
 } from './performanceTypesAndConsts';
-
-const colors = [
-  '#e8c1a0',
-  '#f47560',
-  '#f1e15b',
-  '#e8a838',
-  '#61cdbb',
-  '#97e3d5',
-  '#1f77b4',
-  '#2ca02c',
-  '#d62728',
-  '#9467bd',
-  '#8c564b',
-  '#e377c2',
-  '#7f7f7f',
-  '#bcbd22',
-  '#17becf',
-  '#7fc97f',
-  '#beaed4',
-  '#f0027f',
-  '#fbb4ae',
-  '#b3cde3',
-  '#ccebc5',
-];
-
 
 /**
  * Getting the results for performance query by th given arguments.
@@ -69,7 +45,6 @@ export async function query(queryData: QueryInterface) {
   return {
     graph: convertDataToLineGraph(resultsFromDB),
     graphData: convertDataToColumnGraphData(resultsFromDB),
-    legends: convertDataToLegends(resultsFromDB),
     tracksInfo: convertDataToTracksInfo(fundNames, prismaClient)
   };
 }
@@ -82,7 +57,6 @@ export async function query(queryData: QueryInterface) {
  * @param {number[]} fundIDs The fund IDs we got from the DB.
  * @param {PrismaClient} prismaClient The prisma client object.
  */
-// @ts-ignore
 async function getFundNamesFromDBResults(fundIDs: number[], prismaClient: PrismaClient) {
   const funds = await prismaClient.fundName.findMany({
     where: {
@@ -150,13 +124,13 @@ export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
 }
 
 /**
+ * Get the matching funds by the channel, sub channel and managing body.
  *
- * @param channel
- * @param subChannel
- * @param managingBodies
- * @param prismaClient
+ * @param channel The channel ID.
+ * @param subChannel The sub channel ID.
+ * @param managingBodies The managing bodies IDs.
+ * @param prismaClient The prisma client object.
  */
-// @ts-ignore
 async function getMatchingFundsIDs({channel, subChannel, managingBodies, prismaClient}: MatchingFundsIDsInterface): Promise<number[]> {
   const results = await prismaClient.fund.findMany({
     select: {
@@ -191,8 +165,7 @@ async function getMatchingFundsIDs({channel, subChannel, managingBodies, prismaC
  *  the data in the DB.
  */
 export async function getMatchingResultsFromDB(input: GetMatchingResultsFromDB): Promise<any> {
-  // @ts-ignore
-  const {channel, bodies, funds, subChannel, timeStartRange, timeEndRange, prismaClient} = input;
+  const {channel, bodies, funds, timeStartRange, timeEndRange, prismaClient} = input;
 
   return await prismaClient.row.groupBy({
     by: ['fundNameID', 'managingBodyID', 'channelID', 'TKUFAT_DIVUACH', 'TSUA_NOMINALIT_BRUTO_HODSHIT'],
@@ -307,22 +280,6 @@ function convertDataToColumnGraphData(resultsFromDB) {
     'פסגות': 7.11,
     'יונים': 10.18,
   };
-}
-
-/**
- * Extracting the legends from the resultsFromDB.
- *
- * @param resultsFromDB The results form the DB.
- */
-// Ignore for now until I'll process the data.
-// @ts-ignore
-function convertDataToLegends(resultsFromDB) {
-  return [
-    'כלל חיסכון לכל ילד',
-    'חיסכון לכל ילד',
-    'פסגות חיסכון לכל ילד',
-    'הטובה ביותר: מיטב דש חיסכון לכל ילד',
-  ];
 }
 
 /**
