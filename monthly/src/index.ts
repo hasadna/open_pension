@@ -5,7 +5,7 @@ import {createContext} from "./server/context";
 import {KafkaClient} from "./services/kafka-client";
 import {getPort} from "./services/env";
 
-const server = new ApolloServer({ typeDefs, resolvers, context: createContext });
+const server = new ApolloServer({ typeDefs, resolvers, context: createContext});
 
 server.listen({port: getPort()}).then(({ url }) => {
 

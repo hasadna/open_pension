@@ -1,99 +1,55 @@
 import Table from "../Table/Table";
-import {useState} from 'react';
-import lineData from './lineData';
-import {ResponsiveLine} from "@nivo/line";
 import BarsGraph from "../BarsGraph/BarsGraph";
+import {isEmpty} from 'lodash';
+import ResponsiveLine from "./ResponsiveLine";
+import {periodFilterOptions} from "../../consts/performance";
 
-export default function PerformanceResults({results: {tracksInfo, graphData, legends}}) {
-  const [selectedFilter, setSelectedFilter] = useState('last12Years');
-
-  const graphsFilterOptions = {
-    last3Months: '3 חוד׳ אחרונים',
-    last6Months: '6 חוד׳ אחרונים',
-    yearStart: 'תחילת שנה',
-    last12Years: '12 חודשים אחרונים',
-    last3Years: '3 שנים אחרונות',
-    last5Years: '5 שנים אחרונות',
-  };
+export default function PerformanceResults({results: {tracksInfo, graphData, graph}, selectedPeriod, setPeriod}) {
+  const colors = graph.map(({color}) => color);
+  const legends = graph.map(({id, color}) => [id, color]);
 
   return <div className="performance-results">
 
-    <h5>רשימת מסלולים</h5>
-    <Table
-      headers={[
-        'מספר קרן',
-        'שם הקרן',
-        'יתרת נכסים',
-        'תשואה שנתית',
-        'ת.ממוצאות ב-3 שנים',
-        'ת.ממוצאות ב-5 שנים',
-        'שארפ',
-      ]}
-      rows={tracksInfo}
-    />
+    <div className="tracks-wrapper">
+      <h5>רשימת מסלולים</h5>
+
+      <div className={"tracks"}>
+
+        <Table
+          headers={[
+            'מספר קרן',
+            'שם הקרן',
+            'יתרת נכסים',
+            'תשואה שנתית',
+            'ת.ממוצאות ב-3 שנים',
+            'ת.ממוצאות ב-5 שנים',
+            'שארפ',
+          ]}
+          rows={tracksInfo}
+        />
+      </div>
+    </div>
 
     <h5 className="separator">משה מה לכתוב כאן?</h5>
     <div className="graph-wrapper">
       <ul className="period-picker">
-        {Object.entries(graphsFilterOptions).map(([filterBy, title], key) => {
-          const className = selectedFilter === filterBy ? 'active' : '';
+        {Object.entries(periodFilterOptions).map(([period, title], key) => {
+          const className = selectedPeriod === period ? 'active' : '';
 
           return <li key={key} className={className}>
             <a href="#" onClick={(e) => {
               e.preventDefault();
-              setSelectedFilter(filterBy);
+              setPeriod(period);
             }}>{title}</a>
           </li>
         })}
       </ul>
 
-      <div className="graph lines">
-
-        <ul className="legends">
-          {legends.map((legend, key) => <li key={key}>{legend}</li>)}
-        </ul>
-        <ResponsiveLine
-          data={lineData}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-          xScale={{ type: 'point' }}
-          yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-          yFormat=" >-.2f"
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-            orient: 'bottom',
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'transportation',
-            legendOffset: 36,
-            legendPosition: 'middle'
-          }}
-          axisLeft={{
-            orient: 'left',
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'count',
-            legendOffset: -40,
-            legendPosition: 'middle'
-          }}
-          enableGridY={false}
-          lineWidth={5}
-          pointSize={10}
-          pointColor={{ from: 'color', modifiers: [] }}
-          pointBorderWidth={1}
-          pointBorderColor={{ theme: 'background' }}
-          pointLabel="x"
-          pointLabelYOffset={-12}
-          areaBlendMode="overlay"
-          areaOpacity={0}
-          enableCrosshair={false}
-          crosshairType="top-right"
-          useMesh={true}
-          legends={[]}
-          motionConfig="default"
-        />
+      <div className={`graph lines ${isEmpty(graph) && 'no-results'}`}>
+        {isEmpty(graph) ? <>
+          <p>מצטערים אבל נראה שאין לנו תוצאות מדיהמות לתקופת הזמן שבחרת.</p>
+          <p>אולי תנסה לבחור תקופת זמן אחרת.</p>
+        </> : <ResponsiveLine graph={graph} legends={legends} colors={colors} />}
       </div>
     </div>
 

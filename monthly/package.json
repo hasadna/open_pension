@@ -59,7 +59,7 @@
     "@types/xml2js": "^0.4.7",
     "apollo-server": "^2.19.2",
     "bree": "^6.2.0",
-    "date-fns": "^2.16.1",
+    "date-fns": "^2.22.1",
     "dotenv": "^8.2.0",
     "graphql": "^15.4.0",
     "kafka-node": "^5.0.0",

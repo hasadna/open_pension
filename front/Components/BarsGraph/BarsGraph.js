@@ -30,7 +30,7 @@ export default function BarsGraph({data}) {
                 <Bar value={value}/>
               </td>;
             }
-            return <td>&nbsp;</td>
+            return <td key={key}>&nbsp;</td>
           })}
         </tr>
       </thead>

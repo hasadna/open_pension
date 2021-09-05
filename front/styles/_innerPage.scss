@@ -83,9 +83,33 @@
       border-bottom: solid 2px #000000;
     }
 
+    .tracks-wrapper {
+
+      .tracks {
+        margin-top: .5em;
+        max-height: 50vh;
+        overflow: scroll;
+      }
+    }
+
     .graph {
       margin-top: 2em;
       border-radius: 15px;
+
+      &.no-results {
+        display: flex;
+        height: 51.5vh;
+        align-items: center;
+        justify-content: center;
+        font-weight: 100;
+        font-size: 2em;
+        flex-direction: column;
+
+        p {
+          padding-bottom: .25em;
+          color: var(--text-black-gray)
+        }
+      }
 
       &.lines {
         & > div {
@@ -116,10 +140,7 @@
 
           li {
             font-weight: bold;
-            margin-top: .75em;
-            margin-bottom: .75em;
-            margin-left: 1.75em;
-            margin-right: 1.75em;
+            margin: .75em 1.75em;
 
             a {
               color: var(--text-black-gray);
@@ -135,11 +156,25 @@
         }
 
         &.legends {
-          padding-top: .75em;
+          padding-top: 1em;
           padding-bottom: .75em;
           border-bottom: solid 3px #ebebeb;
-          width: 95%;
+          width: 98%;
           margin: 0 auto;
+          overflow-x: scroll;
+
+            li {
+              display: flex;
+              min-width: fit-content;
+              margin-left: 1em;
+
+              .cube {
+                width: 20px;
+                height: 20px;
+                display: block;
+                margin-left: .25em;
+              }
+            }
         }
       }
 
@@ -157,5 +192,14 @@
     img {
       width: 75vw;
     }
+  }
+
+  .line-tooltip {
+    background-color: white;
+    border: solid 3px black;
+    padding: .25em;
+    font-weight: 100;
+    font-size: 1em;
+    max-width: 10vw;
   }
 }

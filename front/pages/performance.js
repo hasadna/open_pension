@@ -2,15 +2,15 @@ import {isEmpty} from 'lodash';
 import Wrapper from "../Components/Wrapper/Wrapper";
 import SecondaryHeader from "../Components/SecondaryHeader/SecondaryHeader";
 import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
-import {useReducer, useMemo} from 'react';
+import {useReducer, useEffect, useState} from 'react';
 import PerformanceQuery from "../Components/PerformanceQuery/PerformanceQuery";
 import PerformanceResults from "../Components/PerformanceResults/PerformanceResults";
-import {convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
+import {convertLastUpdate, convertServerEntitiesToKeyValue, getLastUpdate} from "./api";
 import client from "../backend/apollo-client";
 import {gql} from "@apollo/client";
 
 export async function getServerSideProps(context) {
-  const { data: {managingBodies, channels, subChannels} } = await client.query({
+  const {data: {managingBodies, channels, subChannels, lastUpdated}} = await client.query({
     query: gql`
       query {
         managingBodies {
@@ -24,7 +24,8 @@ export async function getServerSideProps(context) {
         subChannels {
           ID
           label
-        }
+        },
+        lastUpdated
       }
     `,
   });
@@ -34,7 +35,7 @@ export async function getServerSideProps(context) {
       bodies: convertServerEntitiesToKeyValue(managingBodies),
       channels: convertServerEntitiesToKeyValue(channels),
       subChannels: convertServerEntitiesToKeyValue(subChannels),
-      lastUpdate: getLastUpdate()
+      lastUpdate: convertLastUpdate(lastUpdated)
     },
   }
 }
@@ -43,6 +44,8 @@ const queryState = {
   bodies: [],
   investmentType: null,
   investmentPath: null,
+  selectedPeriod: 'LAST_TWELVE_MONTHS',
+  onlyUpdateGraph: false,
 };
 
 const queryReducer = (state, {type, value}) => {
@@ -56,6 +59,12 @@ const queryReducer = (state, {type, value}) => {
     case 'bodies':
       return {...state, ...{bodies: value}};
 
+    case 'period':
+      return {...state, ...{selectedPeriod: value}};
+
+    case 'onlyUpdateGraph':
+      return {...state, ...{onlyUpdateGraph: value}};
+
     default:
       return state;
   }
@@ -63,39 +72,45 @@ const queryReducer = (state, {type, value}) => {
 
 export default function Performance({bodies, channels, subChannels, lastUpdate}) {
   const [query, dispatchQuery] = useReducer(queryReducer, queryState);
+  const [results, setResults] = useState(null);
+  const {selectedPeriod} = query;
 
-  const results = useMemo(() => {
-    const {bodies, investmentType, investmentPath} = query;
+  const setPeriod = (value) => {
+    dispatchQuery({type: 'period', value});
+    dispatchQuery({type: 'onlyUpdateGraph', value: true});
+  }
+
+  useEffect(async () => {
+    const {bodies, investmentType, investmentPath, selectedPeriod, onlyUpdateGraph} = query;
 
     if (!isEmpty(bodies) && !isEmpty(investmentType) && !isEmpty(investmentPath)) {
-      // todo: get results from backend.
-      return {
-        tracksInfo: [
-          [11320, 'מנורה חיסכון לכל ילד', '198', '5.6', '', '', ''],
-          [11320, 'פסגות חיסכון לכל ילד', '193', '5.9', '', '', ''],
-          [11320, 'כלל חיסכון לכל ילד', '197', '4.2', '', '', ''],
-        ],
-        graphData: {
-          'עמיתים': null,
-          'הלמן אלדובי': null,
-          'מנורה': -2.2,
-          'אלטשולר שחם': -1.2,
-          'הפניקס': 0.08,
-          'הראל': 1.10,
-          'הכשרה': 1.8,
-          'מגדל': 2.85,
-          'ביטוח ישיר': 2.93,
-          'הראל פיננסי': 4.51,
-          'פסגות': 7.11,
-          'יונים': 10.18,
+      const res = await fetch('/api/performance', {
+        body: JSON.stringify({
+          bodies: Object.entries(bodies).filter(([_, isSelected]) => isSelected).map(([ID]) => parseInt(ID)),
+          channel: parseInt(investmentType),
+          subChannel: parseInt(investmentPath),
+          timePeriod: selectedPeriod,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
         },
-        legends: [
-          'כלל חיסכון לכל ילד',
-          'חיסכון לכל ילד',
-          'פסגות חיסכון לכל ילד',
-          'הטובה ביותר: מיטב דש חיסכון לכל ילד',
-        ],
-      };
+        method: 'POST'
+      })
+
+      const {graph, graphData, legends, tracksInfo} = await res.json();
+
+      let resultsFromResponse;
+      if (onlyUpdateGraph) {
+        resultsFromResponse = {...results, ...{graph}}
+      } else {
+        resultsFromResponse = {
+          graph,
+          tracksInfo,
+          graphData,
+          legends,
+        };
+      }
+      setResults(resultsFromResponse);
     }
 
   }, [query]);
@@ -105,8 +120,8 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
       <SecondaryHeader
         title={"ביצועים"}
         description={<p className="description">
-          גופי הפנסיה משקיעים את הכספי החסכון שלך כדי להשיג תשואה.<br />
-          ככל הם מרווחים יותר, לך יהיה יותר. כאן, אפשר לבדוק,כמה גוף הפנסיה שלך מרווח בשבילך,<br />
+          גופי הפנסיה משקיעים את הכספי החסכון שלך כדי להשיג תשואה.<br/>
+          ככל הם מרווחים יותר, לך יהיה יותר. כאן, אפשר לבדוק,כמה גוף הפנסיה שלך מרווח בשבילך,<br/>
           באיזה סיכון, וכמה הייתה היכול להרוויח במקום אחר.
         </p>
         }
@@ -119,12 +134,11 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
           dispatchQuery={dispatchQuery}
           bodies={bodies}
           subChannels={subChannels}
-          channels={channels} />
+          channels={channels}/>
 
-        {results ? <PerformanceResults results={results} /> : <HoldingsWaiting />}
+        {results ? <PerformanceResults results={results} selectedPeriod={selectedPeriod} setPeriod={setPeriod}/> :
+          <HoldingsWaiting/>}
       </div>
-
-
     </Wrapper>
   </>
 }

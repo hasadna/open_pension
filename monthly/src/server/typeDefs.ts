@@ -7,6 +7,40 @@ export default gql`
     label: String
   }
 
+  enum TimePeriod {
+    THREE_MONTHS
+    SIX_MONTHS
+    YEAR_START
+    LAST_TWELVE_MONTHS
+    LAST_THREE_YEARS
+    LAST_FIVE_YEARS
+  }
+
+  type TracksInfo {
+    fundNumber: Int
+    fundName: String,
+    yearlyRevenue: Float
+    balance: Float
+    threeYearsAverageBalance: Float
+    fiveYearsAverageBalance: Float
+    sharp: Float
+  }
+
+  input PerformanceInput {
+    channel: Int
+    subChannel: Int,
+    bodies: [Int],
+    timePeriod: TimePeriod
+  }
+
+  type PerformanceOutput {
+    # Sicne the graph has an knowkn data structure the resolver returns it as a
+    # json string. The consumer will need to handle it and parse the string.
+    graph: String,
+    graphData: String,
+    tracksInfo: [TracksInfo],
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
@@ -16,6 +50,7 @@ export default gql`
     managingBodies: [BaseMetadata],
     subChannels: [BaseMetadata],
     lastUpdated: Int,
-    missingFundData: [Int]
+    missingFundData: [Int],
+    performance(input: PerformanceInput!): PerformanceOutput,
   }
 `;

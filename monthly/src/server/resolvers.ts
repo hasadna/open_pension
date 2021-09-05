@@ -1,3 +1,15 @@
+import {query as performanceQuery} from '../lib/queries/performance';
+import {TimePeriod} from "../lib/queries/performanceTypesAndConsts";
+
+interface PerformanceInputArgs {
+  input: {
+    channel: number,
+    subChannel: number,
+    bodies: number[],
+    timePeriod: TimePeriod
+  }
+}
+
 export default {
   Query: {
     channels: async (_, __, ctx) => {
@@ -34,7 +46,6 @@ export default {
     missingFundData: async (_, __, ctx) => {
       const {prisma} = ctx;
 
-      // @ts-ignore
       const data = await prisma.row.findMany({
         select: {
           row_ID: true
@@ -47,5 +58,14 @@ export default {
 
       return Object.values(data).map((row: any) => row.row_ID);
     },
+    performance: async (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
+      const {graph, graphData, tracksInfo} = await performanceQuery({...args.input, ...{prismaClient}});
+
+      return {
+        graph: JSON.stringify(graph),
+        graphData: JSON.stringify(graphData),
+        tracksInfo,
+      }
+    }
   },
 };
