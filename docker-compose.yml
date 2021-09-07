@@ -39,6 +39,7 @@ services:
     restart: always
     volumes:
       - ./data/db/monthly:/var/lib/mysql
+      - ./monthly/mysql/open-pension.cnf:/etc/mysql/my.cnf
 
   # Services.
   gateway:
