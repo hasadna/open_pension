@@ -79,7 +79,7 @@ services:
     depends_on:
       - application_db
 
-  # Change to quarter
+  # todo: Change to quarter
   processor:
     image: hasadna/open-pension-processor:latest
     restart: always
@@ -150,3 +150,36 @@ services:
       - monthly_db
       - gateway
       - kafka
+
+  # Logging services.
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.6.2
+    links:
+      - elasticsearch
+    volumes:
+      - .:/etc/logstash
+    ports:
+      - 12201:12201/udp
+      - 9600:9600
+      - 5044:5044
+    depends_on:
+      - elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+      - logstash
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "demo2_kibana"
+

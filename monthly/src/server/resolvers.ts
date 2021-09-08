@@ -14,6 +14,7 @@ export default {
   Query: {
     channels: async (_, __, ctx) => {
       const {prisma} = ctx;
+      console.log('a');
       return await prisma.channel.findMany({});
     },
     fundNames: async (_, __, ctx) => {
