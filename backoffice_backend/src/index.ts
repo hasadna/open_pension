@@ -40,13 +40,11 @@ import {log, createIndex} from "open-pension-logger";
     log('Start listen to kafka event');
   } catch (e) {
     log(`Start listen to kafka event: ${e}`, 'error');
-
   }
 
   server.applyMiddleware({ app });
+  await app.listen({ port: process.env.PORT })
 
-  // @ts-ignore
-  await new Promise(resolve => app.listen({ port: process.env.PORT }, resolve));
   log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
   return { server, app };
 })();
