@@ -15,3 +15,14 @@ export const uploadFile = async (path) => {
 
   return axios.post(`${getStorageAddress()}/file`, form, request_config);
 }
+export const getFilenameFromStorage = async (storageID) => {
+  const {data: {data: {file: {filename}}}} = await axios.post('http://storage/graphql', {
+    query: `query {
+      file(id: ${storageID}) {
+        filename
+      }
+    }`
+  });
+
+  return filename;
+};

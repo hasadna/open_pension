@@ -90,6 +90,7 @@ export async function readFile(path: string): Promise<InfoReturnInterface> {
       payload: processedXmlFile
     };
   } catch (e) {
+    log(`There was an error while trying to parse the file: ${e}`)
     return {
       status: false,
       message: 'The file is not an xml file',

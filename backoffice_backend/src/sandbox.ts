@@ -1,13 +1,10 @@
-import {Status, updateFileStatus} from "./db/file";
+import {getFilenameFromStorage} from "./utils/file";
 
 (async () => {
+  const results = await getFilenameFromStorage(7);
 
-  // const {collections} = await getFile({conditions: {storageId: 142}});
-  await updateFileStatus(156, Status.processedWithError);
+  console.log(results);
 
-  // const [{_id}] = await collections.exec();
-  // const results = await updateFile(_id, {filename: 'pizza.png'});
-  // console.log(results);
 })();
 
 
