@@ -20,7 +20,7 @@ const filesHandler = (files) => {
     stored: {text: 'Stored by the service', icon: 'info'},
     storedByService: {text: 'Stored by the service', icon: 'info'},
     processed: {text: 'Processed successfully', icon: 'ok'},
-    processedWithError: {text: 'processed with errors', icon: 'error'},
+    processedWithError: {text: 'Processed with errors', icon: 'error'},
   };
 
   const handleFileStatus = (fileStatus) => Object.keys(fileStatusHandler).includes(fileStatus) ?

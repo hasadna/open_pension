@@ -45,7 +45,9 @@ export async function queue() {
           getKafkaProcessCompletedTopic() :
           getKafkaProcessCompletedWithErrorsTopic();
 
-        log(`sending kafka event: ${topic} ${KafkaClient.getPayloadByStorageId(file.storageID)}`);
+        const payload = KafkaClient.getPayloadByStorageId(file.storageID);
+
+        log(`sending kafka event: ${JSON.stringify({topic, payload})}`);
         await kafkaClient.sendMessage(
           KafkaClient.getPayloadByStorageId(file.storageID),
           topic
