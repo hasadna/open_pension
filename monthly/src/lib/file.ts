@@ -19,7 +19,7 @@ import {
   getStorageAddress,
   getUploadedPath
 } from "../services/env";
-import {log} from '../services/Logger';
+import {log} from 'open-pension-logger';
 
 /**
  * Saving the file to the local disk and save it later for processing.

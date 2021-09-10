@@ -4,7 +4,7 @@ import resolvers from './server/resolvers'
 import {createContext} from "./server/context";
 import {KafkaClient} from "./services/kafka-client";
 import {getPort} from "./services/env";
-import {createIndex, log} from "./services/Logger";
+import {createIndex, log} from "open-pension-logger";
 
 const server = new ApolloServer({
   typeDefs,

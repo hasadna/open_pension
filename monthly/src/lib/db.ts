@@ -2,7 +2,7 @@ import {PrismaClient} from "@prisma/client"
 import {isEmpty} from "lodash";
 import {File, FileStatus, ProcessState} from "./interfaces";
 import {processFile} from "./file";
-import {log} from '../services/Logger';
+import {log} from 'open-pension-logger';
 
 async function updateFileStatus(file: File, status: FileStatus, prisma: PrismaClient, error = null) {
   let data: object = {};

@@ -3,7 +3,7 @@ import {readdirSync} from "fs";
 import {chunk} from "lodash";
 import {prisma} from "../server/context";
 import {processFilesToRows} from "../lib/db";
-import {log} from '../services/Logger';
+import {log} from 'open-pension-logger';
 
 export async function seedDummyFiles() {
   const baseFilesPath = join(process.cwd(), 'src', 'files', 'dummy_files');

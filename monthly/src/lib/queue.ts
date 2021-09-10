@@ -7,7 +7,7 @@ import {
   getKafkaProcessCompletedTopic, getKafkaProcessCompletedWithErrorsTopic,
   getKafkaProcessStartedTopic
 } from "../services/env";
-import {log} from '../services/Logger'
+import {log} from 'open-pension-logger'
 
 const fileToProcessEachQueue = 5;
 

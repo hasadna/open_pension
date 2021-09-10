@@ -1,6 +1,7 @@
 import {assertLoggedIn} from "../server";
 import {createUser, deleteUser, updateUser} from "../../db/user";
 import {UserInputError} from "apollo-server";
+import {log} from "open-pension-logger";
 
 export default {
   userCreate: async (_, args, context) => {
@@ -8,6 +9,7 @@ export default {
     const {object: user, errors} = await createUser(args);
 
     if (errors) {
+      log(`Error while trying to create the user: ${JSON.stringify(args)}`, 'error');
       throw new UserInputError('There was an error while creating the user', errors)
     }
 
@@ -24,8 +26,8 @@ export default {
     try {
       await deleteUser(id);
       return true;
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      log(`There was an error while trying to delete the user: ${JSON.stringify(error)}`, 'error')
       return false;
     }
   },

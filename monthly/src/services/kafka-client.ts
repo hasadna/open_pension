@@ -1,7 +1,7 @@
 import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
 import {getKafkaHost, getKafkaListenTopic} from "./env";
 import {storeFile} from "../lib/file";
-import {log} from "../services/Logger"
+import {log} from "open-pension-logger"
 
 export class KafkaClient {
   private producer: kafka.Producer;

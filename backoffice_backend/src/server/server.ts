@@ -10,7 +10,7 @@ import {ApolloServer} from "apollo-server-express";
 import {getTempStorageFiles} from "../utils/config";
 const uploadMiddlewareHandler = require('multer');
 import {join} from 'path';
-
+import {log} from "open-pension-logger"
 
 export const getUserFromRequest = async (req) => {
   if (isEmpty(req)) {
@@ -38,6 +38,7 @@ export const getUserFromRequest = async (req) => {
 export const assertLoggedIn = ({user}) => {
   // todo: should be a middelware.
   if (isEmpty(user)) {
+    log('An un-authorized user try to access the endpoint', 'error')
     throw new AuthenticationError('you must be logged in');
   }
 }

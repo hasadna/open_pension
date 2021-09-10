@@ -1,6 +1,6 @@
 import {query as performanceQuery} from '../lib/queries/performance';
 import {TimePeriod} from "../lib/queries/performanceTypesAndConsts";
-import {log} from '../services/Logger';
+import {log} from 'open-pension-logger';
 
 interface PerformanceInputArgs {
   input: {
