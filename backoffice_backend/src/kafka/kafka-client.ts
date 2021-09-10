@@ -1,6 +1,7 @@
 import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
 import {getKafkaHost, getListenedTopics} from "../utils/config";
 import {handleKafkaEvent} from "./handlers";
+import {log} from "open-pension-logger"
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -15,9 +16,9 @@ export class KafkaClient {
       this.serviceUp = true;
 
       this.producer = new kafka.Producer(client);
-      this.producer.on("ready", () => console.log("Kafka producer ready"));
-      this.producer.on("error", err =>
-          console.error("Kafka producer error", err)
+      this.producer.on("ready", () => log("Kafka producer ready"));
+      this.producer.on("error", error =>
+          log(`Kafka producer error: ${error}`, 'error')
       );
     } catch (e) {
       this.serviceUp = false;
@@ -27,15 +28,16 @@ export class KafkaClient {
   async sendMessage(messages: any, topic: any) {
 
     if (!this.serviceUp) {
-      console.error('The kafka host is not alive')
+      log('The kafka host is not alive', 'error')
       return;
     }
 
     try {
       messages = JSON.stringify(messages);
       return await this.producer.send([{topic, messages}], () => {});
-    } catch (e) {
-      throw new Error(e);
+    } catch (error) {
+      console.log(`There was an error while trying to send the message: ${error}`, 'error')
+      throw new Error(error);
     }
   }
 
@@ -53,10 +55,10 @@ export class KafkaClient {
       outOfRangeOffset: 'earliest', // default
     };
     const consumerGroup = new ConsumerGroup(options, getListenedTopics());
-    console.log('Start to listen to events');
+    log('Start to listen to events');
 
     consumerGroup.on('connect', () => {
-      console.log('connected to kafka 📞');
+      log('connected to kafka 📞');
     });
 
     consumerGroup.on('message', async function (message) {

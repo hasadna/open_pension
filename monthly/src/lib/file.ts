@@ -19,6 +19,7 @@ import {
   getStorageAddress,
   getUploadedPath
 } from "../services/env";
+import {log} from 'open-pension-logger';
 
 /**
  * Saving the file to the local disk and save it later for processing.
@@ -29,7 +30,7 @@ import {
  */
 export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
   if (path.extname(filename) !== '.xml') {
-    console.log(`The file ${filename} was not an xml based file`);
+    log(`The file ${filename} was not an xml based file`)
     return;
   }
 
@@ -40,10 +41,10 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
   request(url)
     .pipe(fs.createWriteStream(dest))
     .on('error', (err) => {
-      console.error(`there was an error while downloading the file ${filename}`, err);
+      log(`there was an error while downloading the file ${filename}: ${String(err)}`, "error")
     })
     .on('close', async () => {
-      console.log(`The file, ${filename}, was created successfully in ${dest}.`);
+      log(`The file, ${filename}, was created successfully in ${dest}.`)
 
       const data = {
         filename,
@@ -56,7 +57,7 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
       // @ts-ignore
       const file = await prisma.file.create({data: data});
 
-      console.log(`The file ${filename} was created to the DB with the id ${file.ID}`);
+      log(`The file ${filename} was created to the DB with the id ${file.ID}`)
 
       if (kafkaClient !== null) {
         await kafkaClient.sendMessage({storageId: ID}, getKafkaFileStoredByService());

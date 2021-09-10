@@ -2,6 +2,7 @@ import {PrismaClient} from "@prisma/client"
 import {isEmpty} from "lodash";
 import {File, FileStatus, ProcessState} from "./interfaces";
 import {processFile} from "./file";
+import {log} from 'open-pension-logger';
 
 async function updateFileStatus(file: File, status: FileStatus, prisma: PrismaClient, error = null) {
   let data: object = {};
@@ -23,7 +24,7 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
   const {status, payload, message: error} = await processFile(file.path);
 
   if (!isEmpty(payload)) {
-    console.log(`Inserting the results for ${file.filename} to the DB.`);
+    await log(`Inserting the results for ${file.filename} to the DB.`)
 
     const baseData: any = {
       file: {connect: { ID: file.ID } },
@@ -37,10 +38,10 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
         await prisma.row.create({data: combined});
       }));
     } catch (e) {
-      console.log(`Failed parsing the file ${file.filename} with the error: ${String(e)}`)
+      await log(`Failed parsing the file ${file.filename} with the error: ${String(e)}`)
     }
   } else {
-    console.log(`There are now rows for the file ${file.filename}. Update the file as success anyway.`);
+    await log(`There are now rows for the file ${file.filename}. Update the file as success anyway.`);
   }
 
   const newFileStatus = status == ProcessState.Failed ? FileStatus.Failed : FileStatus.Succeeded;

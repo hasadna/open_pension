@@ -4,6 +4,7 @@ import resolvers from './server/resolvers'
 import {createContext} from "./server/context";
 import {KafkaClient} from "./services/kafka-client";
 import {getPort} from "./services/env";
+import {createIndex, log} from "open-pension-logger";
 
 const server = new ApolloServer({
   typeDefs,
@@ -14,9 +15,9 @@ const server = new ApolloServer({
       const { prisma } = createContext();
       return {
         async serverWillStop() {
-          console.log('Server about to stop - closing the DB connection')
+          log('Server about to stop - closing the DB connection')
           await prisma.$disconnect();
-          console.log('Server closed - DB connection closed');
+          log('Server closed - DB connection closed');
         }
       }
     }
@@ -24,14 +25,16 @@ const server = new ApolloServer({
 });
 
 
-server.listen({port: getPort()}).then(({ url }) => {
+server.listen({port: getPort()}).then(async ({ url }) => {
+
+  await createIndex();
 
   try {
-    console.log('Starting kafka ')
+    log("Starting kafka");
     KafkaClient.listen();
   } catch (e) {
-    console.error(e);
+    log(`There was an error while trying to connect to kafka: ${e}`, 'error');
   }
 
-  console.log(`🚀 Server ready ${url}`);
+  log(`🚀 Server ready ${url}`);
 });

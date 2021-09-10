@@ -6,10 +6,11 @@ import {unlinkSync} from "fs";
 import {uploadFile} from "./utils/file";
 import {createFile, Status} from "./db/file";
 import {KafkaClient} from "./kafka/kafka-client";
+import {log, createIndex} from "open-pension-logger";
 
 (async () => {
   const app = express();
-  await server.start();
+  await Promise.all([server.start, createIndex]);
 
   app.use(cors());
 
@@ -22,7 +23,7 @@ import {KafkaClient} from "./kafka/kafka-client";
         await createFile({status: Status.sent, filename, storageId});
         unlinkSync(filePath);
       } catch (e) {
-        console.error(e);
+        log(`There was an error while trying to store the file: ${e}`, 'error');
         unlinkSync(filePath);
         uploadResults = false;
       }
@@ -36,15 +37,15 @@ import {KafkaClient} from "./kafka/kafka-client";
 
   try {
     KafkaClient.listen();
+    log('Start listen to kafka event');
   } catch (e) {
-    console.error(e);
+    log(`Start listen to kafka event: ${e}`, 'error');
   }
 
   server.applyMiddleware({ app });
+  await app.listen({ port: process.env.PORT })
 
-  // @ts-ignore
-  await new Promise(resolve => app.listen({ port: process.env.PORT }, resolve));
-  console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
+  log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
   return { server, app };
 })();
 

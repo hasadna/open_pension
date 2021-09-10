@@ -101,3 +101,7 @@ services:
   zookeeper:
     ports:
       - "2181:2181"
+
+  elasticsearch:
+    ports:
+      - 9200:9200

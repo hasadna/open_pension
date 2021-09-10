@@ -7,6 +7,7 @@ import {
   getKafkaProcessCompletedTopic, getKafkaProcessCompletedWithErrorsTopic,
   getKafkaProcessStartedTopic
 } from "../services/env";
+import {log} from 'open-pension-logger'
 
 const fileToProcessEachQueue = 5;
 
@@ -21,13 +22,13 @@ export async function queue() {
   });
 
   if (isEmpty(files)) {
-    console.log('There are no files to process');
+    log('There are no files to process');
   } else {
     const numberOfFiles = files.length;
-    console.log(`There are ${numberOfFiles} file(s) to process. Starting to process them`);
+    log(`There are ${numberOfFiles} file(s) to process. Starting to process them`);
 
     await Promise.all(files.map(async (file: File) => {
-      console.log(`Processing the file ${file.ID} - ${file.filename}`);
+      log(`Processing the file ${file.ID} - ${file.filename}`);
 
       // Sending the event for starting the processing.
       if (kafkaClient.serviceUp) {
@@ -44,7 +45,7 @@ export async function queue() {
           getKafkaProcessCompletedTopic() :
           getKafkaProcessCompletedWithErrorsTopic();
 
-        console.log('sending kafka event', topic, KafkaClient.getPayloadByStorageId(file.storageID));
+        log(`sending kafka event: ${topic} ${KafkaClient.getPayloadByStorageId(file.storageID)}`);
         await kafkaClient.sendMessage(
           KafkaClient.getPayloadByStorageId(file.storageID),
           topic
@@ -52,16 +53,16 @@ export async function queue() {
       }
     }));
 
-    console.log(`Done processing ${numberOfFiles} file(s).`);
+    log(`Done processing ${numberOfFiles} file(s).`);
   }
 }
 
 queue().then(() => {
-  console.log(`Done processing files at ${new Date()}`);
+  log(`Done processing files at ${new Date()}`);
   prisma.$disconnect()
   process.exit(0);
 }).catch((e) => {
   prisma.$disconnect()
-  console.error(`An error occurred while processing the files: ${e}`)
+  log(`An error occurred while processing the files: ${e}`, 'error')
   process.exit(1);
 });

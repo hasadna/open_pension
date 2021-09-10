@@ -8,7 +8,6 @@ export default async function handler(req, res) {
         performance(input:{channel: $channel, subChannel: $subChannel, bodies: $bodies, timePeriod: $timePeriod}) {
           graph,
           graphData,
-          legends,
           tracksInfo {
             fundNumber
             fundName
@@ -23,12 +22,11 @@ export default async function handler(req, res) {
       variables: {...req.body}
     });
 
-    const {graph, graphData, legends, tracksInfo} = results.data.performance;
+    const {graph, graphData, tracksInfo} = results.data.performance;
 
     res.status(200).json({
       graph: JSON.parse(graph),
       graphData: JSON.parse(graphData),
-      legends,
       tracksInfo: Object.values(tracksInfo)
         .map(({fundNumber, fundName, yearlyRevenue, balance, threeYearsAverageBalance, fiveYearsAverageBalance, sharp}) => {
           return [fundNumber, fundName, yearlyRevenue, balance, threeYearsAverageBalance, fiveYearsAverageBalance, sharp]

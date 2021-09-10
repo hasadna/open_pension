@@ -6,9 +6,9 @@ import {
 } from "./interfaces";
 
 import {prisma} from "../server/context";
-
 import {head, isEmpty} from 'lodash';
 import {setKeyIfNotEmpty} from "./util";
+import {log} from "open-pension-logger"
 
 const reclamationData: any = {};
 
@@ -66,7 +66,7 @@ async function handleRowMetadata(row: ProcessedXmlFileBituachRowsInterface): Pro
   let missingReclamationData = false;
 
   if (isEmpty(reclamationData)) {
-    console.error(`There is no reclamation data for fundID ${rowID}`);
+    log(`There is no reclamation data for fundID ${rowID}`, "error");
     missingReclamationData = true;
   }
 
