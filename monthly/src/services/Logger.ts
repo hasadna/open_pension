@@ -43,7 +43,6 @@ export async function createIndex() {
  * Inserting a document to the ES logs index.
  */
 export function log(text: string, level: DebugLevel = 'info') {
-  // todo: extract the service to an env variable.
   const doc = {
     text,
     level,

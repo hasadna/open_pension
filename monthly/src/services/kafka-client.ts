@@ -1,6 +1,7 @@
 import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
 import {getKafkaHost, getKafkaListenTopic} from "./env";
 import {storeFile} from "../lib/file";
+import {log} from "../services/Logger"
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -15,9 +16,9 @@ export class KafkaClient {
       this.serviceUp = true;
 
       this.producer = new kafka.Producer(client);
-      this.producer.on("ready", () => console.log("Kafka producer ready"));
+      this.producer.on("ready", () => log("Kafka producer ready"));
       this.producer.on("error", err =>
-          console.error("Kafka producer error", err)
+        log(`Kafka producer error: ${err}`, "error")
       );
     } catch (e) {
       this.serviceUp = false;
@@ -27,15 +28,19 @@ export class KafkaClient {
   sendMessage(messages: any, topic: any) {
     return new Promise((resolve, reject) => {
       if (!this.serviceUp) {
-        reject('The kafka host is not alive')
+        log("The kafka host is not alive", "error");
+        reject('The kafka host is not alive');
       }
+
       try {
         messages = JSON.stringify(messages);
         this.producer.send([{topic, messages}], () => {
           resolve({messages, topic});
+          log(`Sending the kafka message: ${JSON.stringify({messages, topic})}`)
         });
       } catch (e) {
         reject(e);
+        log(`Could not send a kafka message due to: ${e}`, "error")
         throw new Error(e);
       }
     });
@@ -57,10 +62,10 @@ export class KafkaClient {
     const kafkaClient = new KafkaClient();
 
     const consumerGroup = new ConsumerGroup(options, [getKafkaListenTopic()]);
-    console.log('Start to listen to events');
+    log(`Start to listen to events: ${JSON.stringify(getKafkaListenTopic())}`);
 
     consumerGroup.on('connect', () => {
-      console.log('connected');
+      log('connected');
     });
 
     consumerGroup.on('message', async function (message) {
@@ -70,6 +75,5 @@ export class KafkaClient {
       const { ID, filename } = parsedMessage;
       storeFile(filename, ID, kafkaClient);
     });
-
   }
 }

@@ -41,6 +41,13 @@ services:
       - ./data/db/monthly:/var/lib/mysql
       - ./monthly/mysql/open-pension.cnf:/etc/mysql/my.cnf
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - ./data/db/elasticsearch:/usr/share/elasticsearch/data
+
   # Services.
   gateway:
     image: jwilder/nginx-proxy
@@ -151,10 +158,6 @@ services:
       - gateway
       - kafka
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
-    environment:
-      - discovery.type=single-node
   kibana:
     image: docker.elastic.co/kibana/kibana:7.6.2
     ports:
