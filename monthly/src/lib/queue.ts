@@ -5,9 +5,13 @@ import {File, ProcessState} from "./interfaces";
 import {KafkaClient} from "../services/kafka-client";
 import {
   getKafkaProcessCompletedTopic, getKafkaProcessCompletedWithErrorsTopic,
-  getKafkaProcessStartedTopic
+  // getKafkaProcessStartedTopic
 } from "../services/env";
-import {log} from 'open-pension-logger'
+// import {log} from 'open-pension-logger'
+
+const log = (arg: string, level: string = 'info') => {
+  console.log(level, arg);
+}
 
 const fileToProcessEachQueue = 5;
 
@@ -18,7 +22,7 @@ export async function queue() {
   const files: any = await prisma.file.findMany({
     where: {status: 'Ready'},
     take: fileToProcessEachQueue,
-    orderBy: {created: 'asc'}
+    orderBy: {created: 'asc'},
   });
 
   if (isEmpty(files)) {
@@ -32,10 +36,10 @@ export async function queue() {
 
       // Sending the event for starting the processing.
       if (kafkaClient.serviceUp) {
-        await kafkaClient.sendMessage(
-          KafkaClient.getPayloadByStorageId(file.storageID),
-          getKafkaProcessStartedTopic()
-        );
+        // await kafkaClient.sendMessage(
+        //   KafkaClient.getPayloadByStorageId(file.storageID),
+        //   getKafkaProcessStartedTopic()
+        // );
       }
 
       const status = await processFilesToRows(file, prisma);

@@ -109,7 +109,7 @@ func storeFileToDB(path string, filename string, db *gorm.DB) (FileResponse, err
 	var dbFile File
 	db.Where(&File{
 		Filename:   filename,
-		Path:       path,
+		Path:       fmt.Sprintf("%s/%s", path, filename),
 		Downloaded: true,
 	}).FirstOrCreate(&dbFile)
 

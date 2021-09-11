@@ -1,0 +1,16 @@
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
+/home/app/entrypoint.sh: line 19: nodemon: command not found
