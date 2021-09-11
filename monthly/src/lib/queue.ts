@@ -9,7 +9,6 @@ import {
 } from "../services/env";
 import {log} from 'open-pension-logger'
 
-
 const fileToProcessEachQueue = 5;
 
 export async function queue() {
@@ -19,7 +18,7 @@ export async function queue() {
   const files: any = await prisma.file.findMany({
     where: {status: 'Ready'},
     take: fileToProcessEachQueue,
-    orderBy: {created: 'asc'},
+    orderBy: {created: 'asc'}
   });
 
   if (isEmpty(files)) {
