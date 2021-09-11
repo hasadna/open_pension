@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -9,10 +8,9 @@ import (
 
 func ServeFile(c echo.Context) error {
 	db := GetDbConnection()
-	//
+
 	var file File
-	fmt.Println(file)
-	//
+
 	db.First(&file, c.Param("id"))
 	return c.File(file.Path)
 }
