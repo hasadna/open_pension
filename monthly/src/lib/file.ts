@@ -81,8 +81,7 @@ export async function readFile(path: string): Promise<InfoReturnInterface> {
     };
   }
 
-  const results = readFileSync(path);
-  console.log(results.toString('utf8'));
+  const results = readFileSync(path, {encoding: "utf8"});
 
   try {
     const processedXmlFile: ProcessedBituachXmlFileInterface = await parseStringPromise(results);
