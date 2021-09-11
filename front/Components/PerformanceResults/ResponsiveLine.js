@@ -10,7 +10,7 @@ export default ({graph, legends, colors}) => <>
     colors={colors}
     margin={{ top: 50, right: 25, bottom: 100, left: 20 }}
     xScale={{ type: 'point' }}
-    yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+    yScale={{ type: 'linear', min: 'auto', max: 'auto', reverse: false }}
     yFormat=" >-.2f"
     axisTop={null}
     axisRight={null}
@@ -22,7 +22,15 @@ export default ({graph, legends, colors}) => <>
       legendOffset: 36,
       legendPosition: 'middle'
     }}
-    axisLeft={null}
+    axisLeft={{
+      orient: 'left',
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: 'count',
+      legendOffset: -40,
+      legendPosition: 'middle'
+    }}
     enableGridX={false}
     enableGridY={true}
     lineWidth={2}
@@ -34,8 +42,8 @@ export default ({graph, legends, colors}) => <>
     pointLabelYOffset={-12}
     areaBlendMode="overlay"
     areaOpacity={0}
-    enableCrosshair={false}
-    crosshairType="top-right"
+    enableCrosshair={true}
+    crosshairType="bottom-left"
     useMesh={true}
     legends={[]}
     tooltip={({point}) => {
