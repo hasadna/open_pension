@@ -38,10 +38,10 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
         await prisma.row.create({data: combined});
       }));
     } catch (e) {
-      log(`Failed parsing the file ${file.filename} with the error: ${String(e)}`)
+      log(`Failed parsing the file ${file.filename} with the error: ${String(e)}`, 'error')
     }
   } else {
-    log(`There are now rows for the file ${file.filename}. Update the file as success anyway.`);
+    log(`There are no rows for the file ${file.filename}. Update the file as success anyway.`, 'warning');
   }
 
   const newFileStatus = status == ProcessState.Failed ? FileStatus.Failed : FileStatus.Succeeded;

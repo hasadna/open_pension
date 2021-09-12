@@ -81,7 +81,7 @@ export async function readFile(path: string): Promise<InfoReturnInterface> {
     };
   }
 
-  const results = readFileSync(path, {encoding: "utf8"});
+  const results = readFileSync(path);
 
   try {
     const processedXmlFile: ProcessedBituachXmlFileInterface = await parseStringPromise(results);
@@ -92,7 +92,7 @@ export async function readFile(path: string): Promise<InfoReturnInterface> {
       payload: processedXmlFile
     };
   } catch (e) {
-    log(`There was an error while trying to parse the file ${path}: ${e}`)
+    log(`There was an error while trying to parse the file ${path}: ${e}`, 'error')
     return {
       status: false,
       message: 'The file is not an xml file',
@@ -124,6 +124,7 @@ export async function processFile(path: string): Promise<ProcessResults> {
   const parser = Object.keys(parsers).find(parser => firstFileName.includes(parser));
 
   if (!parser) {
+    log(`There is no matching processor for the file ${fileName}`, 'error');
     return {
       status: ProcessState.Failed,
       payload: [],

@@ -32,7 +32,7 @@ func storeFile(filename string, path string, fileFolder string, src multipart.Fi
 			return err
 		}
 	} else {
-		fileResponse, err := storeFileToDB(fileFolder, filename, db)
+		fileResponse, err := storeFileToDB(path, filename, db)
 
 		if err != nil {
 			return err
@@ -69,14 +69,22 @@ func handleZipFile(path string, fileFolder string, src multipart.File, db *gorm.
 func extractFileFromZip(fileFolder string, f *zip.File, src multipart.File, db *gorm.DB) (FileResponse, error) {
 	uniqueFilenameFromZip, path := getUniqueNameAndPathFromFile(fileFolder, f.Name)
 
+	// Create the path fo the file.
 	dst, err := os.Create(path)
 	if err != nil {
 		return FileResponse{}, err
 	}
 	defer dst.Close()
 
-	// Copying the file.
-	if _, err = io.Copy(dst, src); err != nil {
+	// Reading the file from the zip file.
+	fileFromZip, err := f.Open()
+
+	if err != nil {
+		return FileResponse{}, err
+	}
+
+	// Copying the file we opened to the destination we read.
+	if _, err = io.Copy(dst, fileFromZip); err != nil {
 		return FileResponse{}, err
 	}
 
@@ -109,7 +117,7 @@ func storeFileToDB(path string, filename string, db *gorm.DB) (FileResponse, err
 	var dbFile File
 	db.Where(&File{
 		Filename:   filename,
-		Path:       fmt.Sprintf("%s/%s", path, filename),
+		Path:       path,
 		Downloaded: true,
 	}).FirstOrCreate(&dbFile)
 
