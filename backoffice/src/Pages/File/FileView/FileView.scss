@@ -1,0 +1,24 @@
+.fileView {
+  padding-bottom: 1em;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 1em;
+  }
+
+  .file-info {
+    margin-left: 1em;
+    font-weight: 400;
+
+    .info-item {
+      font-weight: 300;
+      padding-bottom: 1em;
+
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+}
