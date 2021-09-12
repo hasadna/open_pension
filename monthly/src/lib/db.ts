@@ -10,7 +10,7 @@ async function updateFileStatus(file: File, status: FileStatus, prisma: PrismaCl
     data = {status, error}
   }
   else {
-    data = {status};
+    data = {status, error: ""};
   }
 
   // We failed, we need to update the file in the DB.
@@ -38,10 +38,10 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
         await prisma.row.create({data: combined});
       }));
     } catch (e) {
-      await log(`Failed parsing the file ${file.filename} with the error: ${String(e)}`)
+      log(`Failed parsing the file ${file.filename} with the error: ${String(e)}`, 'error')
     }
   } else {
-    await log(`There are now rows for the file ${file.filename}. Update the file as success anyway.`);
+    log(`There are no rows for the file ${file.filename}. Update the file as success anyway.`, 'warning');
   }
 
   const newFileStatus = status == ProcessState.Failed ? FileStatus.Failed : FileStatus.Succeeded;
