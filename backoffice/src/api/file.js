@@ -25,6 +25,22 @@ export async function getFiles({itemsPerPage = 5, page = 0, queryParams = {}}) {
   return {data, error}
 }
 
+export async function getFile(id) {
+  const results = await sendQuery(`
+    query {
+      file(id: "${id}") {
+        filename,
+        status,
+        createdAt,
+      }
+    }
+  `);
+
+  const {data: {file: file}} = results;
+
+  return file;
+}
+
 export async function uploadFile(files) {
   const formData = new FormData();
 

@@ -65,6 +65,15 @@
           padding-bottom: 1em;
           font-weight: 200;
 
+          a {
+            color: var(--text);
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
           &:first-child {
             padding-left: 2em;
           }
