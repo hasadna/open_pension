@@ -16,7 +16,7 @@ const Content = ({file}) => {
   return <RoundedElement>
     <div className="fileView">
       <Top filename={filename} status={status}/>
-      <Info numberOfRows={150} uploadedAt={date.toDateString()}/>
+      <Info numberOfRows={150} uploadedAt={date.toDateString()} />
 
       <Table
         title="File rows"
