@@ -32,6 +32,7 @@ export async function getFile(id) {
         filename,
         status,
         createdAt,
+        extra
       }
     }
   `);

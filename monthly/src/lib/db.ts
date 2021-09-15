@@ -55,8 +55,32 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
   return status;
 }
 
-async function getManagerData(managerID: number): Promise<object> {
-  return {managerID};
+async function getManagerData(managerID: number, prisma: PrismaClient): Promise<object> {
+  const fund = await prisma.fund.findFirst({
+    where: {
+      ID: managerID,
+    },
+    select: {
+      status: true,
+      channel: true,
+      subChannel: true,
+      fundName: true,
+      type: true,
+      passiveActive: true,
+      homebase: true,
+      managingBody: true,
+    },
+  });
+
+  const parsedFund = {};
+
+  if (!isEmpty(fund)) {
+    Object.entries(fund).map(([key, value]) => {
+      parsedFund[key] = !isEmpty(value) ? value['label'] : null;
+    });
+  }
+
+  return parsedFund;
 }
 
 export async function getFileMetadata(storageID: number, prisma: PrismaClient): Promise<FileMetadata> {
@@ -69,39 +93,50 @@ export async function getFileMetadata(storageID: number, prisma: PrismaClient): 
     },
   );
 
+  const keys = [
+    'row_ID',
+    'MANAGER_ID',
+    'ALPHA_SHNATI',
+    'SHARP_RIBIT_HASRAT_SIKUN',
+    'STIAT_TEKEN_60_HODASHIM',
+    'STIAT_TEKEN_36_HODASHIM',
+    'TSUA_SHNATIT_MEMUZAAT_5_SHANIM',
+    'TSUA_SHNATIT_MEMUZAAT_3_SHANIM',
+    'TSUA_MITZTABERET_60_HODASHIM',
+    'TSUA_MITZTABERET_36_HODASHIM',
+    'TSUA_MEMUZAAT_60_HODASHIM',
+    'TSUA_MEMUZAAT_36_HODASHIM',
+    'TSUA_MITZT_MI_THILAT_SHANA',
+    'YITRAT_NCHASIM_LSOF_TKUFA',
+    'TSUA_NOMINALIT_BRUTO_HODSHIT',
+    'TKUFAT_DIVUACH',
+    'missingReclamationData',
+  ];
+
+  const memoManagers = {};
+
   return {
     error: error,
-    numberOfRows: 150,
-    fileRows: rows.map(async (row: Partial<FileRowInterface>) => {
-      const keys = [
-        'row_ID',
-        'MANAGER_ID',
-        'ALPHA_SHNATI',
-        'SHARP_RIBIT_HASRAT_SIKUN',
-        'STIAT_TEKEN_60_HODASHIM',
-        'STIAT_TEKEN_36_HODASHIM',
-        'TSUA_SHNATIT_MEMUZAAT_5_SHANIM',
-        'TSUA_SHNATIT_MEMUZAAT_3_SHANIM',
-        'TSUA_MITZTABERET_60_HODASHIM',
-        'TSUA_MITZTABERET_36_HODASHIM',
-        'TSUA_MEMUZAAT_60_HODASHIM',
-        'TSUA_MEMUZAAT_36_HODASHIM',
-        'TSUA_MITZT_MI_THILAT_SHANA',
-        'YITRAT_NCHASIM_LSOF_TKUFA',
-        'TSUA_NOMINALIT_BRUTO_HODSHIT',
-        'TKUFAT_DIVUACH',
-        'missingReclamationData',
-      ];
+    numberOfRows: rows.length,
+    fileRows: await Promise.all(rows.map(async (row: Partial<FileRowInterface>) => {
       const returnedValue = {};
 
-      keys.map( async (key) => {
+      keys.map((key) => {
         returnedValue[key] = row[key];
       });
 
-      console.log(await getManagerData(1));
-      returnedValue['ManagerMetadata'] = {};
+      const managerID = returnedValue['MANAGER_ID'];
+      let managerData;
+      if (Object.keys(memoManagers).includes(managerID)) {
+        managerData = memoManagers[managerID];
+      } else {
+        managerData = await getManagerData(returnedValue['MANAGER_ID'], prisma);
+        memoManagers[managerID] = managerData;
+      }
+
+      returnedValue['managerMetadata'] = managerData;
 
       return returnedValue;
-    }),
+    })),
   };
 }

@@ -31,62 +31,72 @@
     }
   }
 
-  table {
-    padding-top: .5em;
-    width: 100%;
-    border-collapse: collapse;
+  .table-wrapper {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    max-height: 60vh;
 
-    thead {
-      color: #8898aa;
-      background-color: #f6f9fc;
-      border: solid 1px #e9ecef;
-      border-left: none;
-      border-right: none;
+    table {
+      padding-top: .5em;
+      width: 100%;
+      border-collapse: collapse;
 
-      tr {
-        td {
-          padding-top: 1.5em;
-          padding-bottom: 1.5em;
-          text-transform: uppercase;
-          font-size: .75em;
-          margin-left: 1em;
+      thead {
+        color: #8898aa;
+        background-color: #f6f9fc;
+        border: solid 1px #e9ecef;
+        border-left: none;
+        border-right: none;
 
-          &:first-child {
-            padding-left: 1.25em;
+        tr {
+          td {
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
+            text-transform: uppercase;
+            font-size: .75em;
+            margin-left: 1em;
+            padding-right: 1.25em;
+
+
+            &:first-child {
+              padding-right: 1.25em;
+              padding-left: 1.25em;
+            }
+
           }
         }
       }
-    }
 
-    tbody {
-      tr {
-        td {
-          padding-top: 1em;
-          padding-bottom: 1em;
-          font-weight: 200;
+      tbody {
+        tr {
+          td {
+            padding-top: 1em;
+            padding-bottom: 1em;
+            font-weight: 200;
 
-          a {
-            color: var(--text);
-            text-decoration: none;
+            a {
+              color: var(--text);
+              text-decoration: none;
 
-            &:hover {
-              text-decoration: underline;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+
+            &:first-child {
+              padding-left: 2em;
+            }
+
+            &.empty-row {
+              text-align: center;
             }
           }
-
-          &:first-child {
-            padding-left: 2em;
-          }
-
-          &.empty-row {
-            text-align: center;
-          }
         }
       }
     }
-  }
 
-  .bottom {
-    display: flex;
+    .bottom {
+      display: flex;
+    }
   }
 }

@@ -16,22 +16,25 @@ export default ({title, headers, rows, navigationButton = {}, pager, emptyElemen
       </div> }
     </section>
 
-    <table>
-      <thead>
+    <div className="table-wrapper">
+      <table>
+        <thead>
         <tr>
           {headers.map((header, key) => <td key={key}>{header}</td>)}
         </tr>
-      </thead>
+        </thead>
 
-      <tbody>
+        <tbody>
         {rows.map((row, key) => <tr key={key}>
           {row.map((cell, key) => <td key={key}>{cell}</td>)}
         </tr>)}
         {isEmpty(rows) && <tr><td className="empty-row" colSpan={5}>
           {emptyElement}
         </td></tr>}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
+
     {pager && <section className="bottom">
       {pager}
     </section>}

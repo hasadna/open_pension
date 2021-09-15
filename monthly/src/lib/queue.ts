@@ -49,7 +49,7 @@ export async function queue() {
 
         log(`sending kafka event: ${JSON.stringify({topic, payload})}`);
         await kafkaClient.sendMessage(
-          KafkaClient.getPayloadByStorageId(file.storageID),
+          payload,
           topic
         );
       }

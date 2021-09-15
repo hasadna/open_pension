@@ -5,11 +5,13 @@ import {
 } from './Utils';
 import mongoose from './db';
 import {prepareDocumentToPusherEvent, sendEvent} from "../utils/pusher";
+import axios from "axios";
 
 export type FileInterface = BaseEntity & {
   readonly filename: string,
   readonly storageId?: number,
   readonly status: Status,
+  readonly extra?: object,
   readonly createdAt?: Date,
   readonly updatedAt?: Date,
 };
@@ -30,6 +32,7 @@ const fileSchema = new mongoose.Schema({
   status: {type: String, required: true, enum: Status},
   createdAt: { type: Date, default: () => new Date() },
   updatedAt: { type: Date, default: () => new Date() },
+  extra: { type: Object, required: false }
 });
 
 export const File = mongoose.model('files', fileSchema);
@@ -81,4 +84,54 @@ export async function updateFileStatus(storageId: number, status: Status) {
  */
 export async function updateFile(id, newValues) {
   return await updateObject(File, id, newValues);
+}
+
+export async function getFileMetadata(storageId: number) {
+  const query = `
+      query {
+        fileInfo(storageID: ${storageId}) {
+          error,
+          numberOfRows,
+           fileRows {
+            row_ID
+            MANAGER_ID
+            ALPHA_SHNATI
+            SHARP_RIBIT_HASRAT_SIKUN
+            STIAT_TEKEN_60_HODASHIM
+            STIAT_TEKEN_36_HODASHIM
+            TSUA_SHNATIT_MEMUZAAT_5_SHANIM
+            TSUA_SHNATIT_MEMUZAAT_3_SHANIM
+            TSUA_MITZTABERET_60_HODASHIM
+            TSUA_MITZTABERET_36_HODASHIM
+            TSUA_MEMUZAAT_60_HODASHIM
+            TSUA_MEMUZAAT_36_HODASHIM
+            TSUA_MITZT_MI_THILAT_SHANA
+            YITRAT_NCHASIM_LSOF_TKUFA
+            TSUA_NOMINALIT_BRUTO_HODSHIT
+            TKUFAT_DIVUACH
+            missingReclamationData
+            managerMetadata {
+              status
+              channel
+              subChannel
+              fundName
+              type
+              passiveActive
+              homebase
+              managingBody
+            }
+          }
+        }
+      }
+    `
+
+  const axiosInstance = axios.create({
+    baseURL: `http://monthly`,
+  });
+
+  const {data: {data: {fileInfo}}} = await axiosInstance.post('/graphql', {
+    query
+  });
+
+  return fileInfo;
 }

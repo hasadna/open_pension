@@ -8,6 +8,7 @@ export const typeDefs = gql`
     status: String,
     createdAt: String,
     updatedAt: String,
+    extra: String,
   }
 
 
