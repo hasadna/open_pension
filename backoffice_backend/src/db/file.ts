@@ -6,6 +6,7 @@ import {
 import mongoose from './db';
 import {prepareDocumentToPusherEvent, sendEvent} from "../utils/pusher";
 import axios from "axios";
+import {getMonthlyAddress} from "../utils/config";
 
 export type FileInterface = BaseEntity & {
   readonly filename: string,
@@ -126,7 +127,7 @@ export async function getFileMetadata(storageId: number) {
     `
 
   const axiosInstance = axios.create({
-    baseURL: `http://monthly`,
+    baseURL: getMonthlyAddress(),
   });
 
   const {data: {data: {fileInfo}}} = await axiosInstance.post('/graphql', {

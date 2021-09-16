@@ -1,3 +1,6 @@
+export const FILE_ROWS = 'file_rows';
+export const METADATA_ROWS = 'metadata_rows';
+
 export const rowsHeaders = [
   'MANAGER_ID',
   'ALPHA_SHNATI',
@@ -15,7 +18,6 @@ export const rowsHeaders = [
   'TSUA_NOMINALIT_BRUTO_HODSHIT',
   'TKUFAT_DIVUACH',
 ];
-
 
 export const metadataHeaders = [
   'status',

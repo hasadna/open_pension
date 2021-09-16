@@ -17,6 +17,10 @@ export function getStorageAddress() {
   return safeGet('storageAddress', 'http://storage');
 }
 
+export function getMonthlyAddress() {
+  return safeGet('monthlyAddress', 'http://monthly');
+}
+
 export function getTempStorageFiles() {
   return safeGet('tempStorageFiles', '');
 }
