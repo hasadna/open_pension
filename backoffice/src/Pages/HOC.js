@@ -34,7 +34,7 @@ export default () => {
         <Route exact path="/services-and-analytics"><ServicesAndAnalytics /></Route>
 
         <Route exact path="/files"><FilesList /></Route>
-        <Route exact path="/file/view/:id/:action?"><FileView /></Route>
+        <Route exact path="/file/view/:id"><FileView /></Route>
         <Route exact path="/file/add"><FileAdd /></Route>
 
         <Route exact path="/front/pages"><PagesList /></Route>

@@ -40,6 +40,8 @@
       padding-top: .5em;
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
+      white-space: nowrap;
 
       thead {
         color: #8898aa;
@@ -56,7 +58,9 @@
             font-size: .75em;
             margin-left: 1em;
             padding-right: 1.25em;
-
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             &:first-child {
               padding-right: 1.25em;
