@@ -13,7 +13,6 @@ const handleFileStatus = (fileStatus) => Object.keys(fileStatusHandler).includes
   fileStatusHandler[fileStatus] :
   'Unknown';
 
-
 export default ({file}) => {
   const {text, icon} = handleFileStatus(file.status);
   return <Status status={icon}>{text}</Status>
