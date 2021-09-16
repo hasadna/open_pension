@@ -41,6 +41,44 @@ export default gql`
     tracksInfo: [TracksInfo],
   }
 
+  type FileRows {
+    row_ID: Int,
+    MANAGER_ID: Int,
+    ALPHA_SHNATI: Float,
+    SHARP_RIBIT_HASRAT_SIKUN: Float,
+    STIAT_TEKEN_60_HODASHIM: Float,
+    STIAT_TEKEN_36_HODASHIM: Float,
+    TSUA_SHNATIT_MEMUZAAT_5_SHANIM: Float,
+    TSUA_SHNATIT_MEMUZAAT_3_SHANIM: Float,
+    TSUA_MITZTABERET_60_HODASHIM: Float,
+    TSUA_MITZTABERET_36_HODASHIM: Float,
+    TSUA_MEMUZAAT_60_HODASHIM: Float,
+    TSUA_MEMUZAAT_36_HODASHIM: Float,
+    TSUA_MITZT_MI_THILAT_SHANA: Float,
+    YITRAT_NCHASIM_LSOF_TKUFA: Float,
+    TSUA_NOMINALIT_BRUTO_HODSHIT: Float,
+    TKUFAT_DIVUACH: String,
+    missingReclamationData: Boolean,
+    managerMetadata: ManagerMetadata
+  }
+
+  type ManagerMetadata {
+    status: String,
+    channel: String,
+    subChannel: String,
+    fundName: String,
+    type: String,
+    passiveActive: String,
+    homebase: String,
+    managingBody: String,
+  }
+
+  type FileInfo {
+    error: String,
+    numberOfRows: Int,
+    fileRows: [FileRows]
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
@@ -52,5 +90,6 @@ export default gql`
     lastUpdated: Int,
     missingFundData: [Int],
     performance(input: PerformanceInput!): PerformanceOutput,
+    fileInfo(storageID: Int): FileInfo
   }
 `;

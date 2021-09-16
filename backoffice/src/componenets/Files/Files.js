@@ -6,7 +6,8 @@ import {useEffect, useState} from 'react';
 import {isEmpty} from 'lodash';
 import {getFiles} from "api/file";
 import {getPusherChannel} from "api/pusher";
-
+import {Link} from "react-router-dom";
+import FileStatus from "componenets/FileStatus/FileStatus";
 
 const filesHandler = (files) => {
 
@@ -14,24 +15,10 @@ const filesHandler = (files) => {
     return [];
   }
 
-  const fileStatusHandler = {
-    sent: {text: 'Sent to storage', icon: 'warning'},
-    processStarted: {text: 'Processing started', icon: 'warning'},
-    stored: {text: 'Stored by the service', icon: 'info'},
-    storedByService: {text: 'Stored by the service', icon: 'info'},
-    processed: {text: 'Processed successfully', icon: 'ok'},
-    processedWithError: {text: 'Processed with errors', icon: 'error'},
-  };
-
-  const handleFileStatus = (fileStatus) => Object.keys(fileStatusHandler).includes(fileStatus) ?
-    fileStatusHandler[fileStatus] : 'Unknown';
-
   return files.map((file, key) => {
-    const {text, icon} = handleFileStatus(file.status);
-
     return [
-      file.filename,
-      <Status status={icon}>{text}</Status>,
+      <Link to={`file/view/${file.id}`}>{file.filename}</Link>,
+      <FileStatus file={file} />,
       file.storageId
     ]
   });

@@ -119,3 +119,9 @@ export interface ProcessResults {
   payload: FileRowInterface[],
   message: string
 }
+
+export interface FileMetadata {
+  error?: string,
+  numberOfRows: number,
+  fileRows: Partial<FileRowInterface>[] | any;
+}

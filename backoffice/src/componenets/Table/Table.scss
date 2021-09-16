@@ -50,8 +50,10 @@
           text-transform: uppercase;
           font-size: .75em;
           margin-left: 1em;
+          padding-right: 1.25em;
 
           &:first-child {
+            padding-right: 1.25em;
             padding-left: 1.25em;
           }
         }
@@ -64,6 +66,15 @@
           padding-top: 1em;
           padding-bottom: 1em;
           font-weight: 200;
+
+          a {
+            color: var(--text);
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
 
           &:first-child {
             padding-left: 2em;
@@ -79,5 +90,26 @@
 
   .bottom {
     display: flex;
+  }
+
+  .table-wrapper {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    max-height: 60vh;
+
+    table {
+      table-layout: fixed;
+      white-space: nowrap;
+
+      thead {
+        tr {
+          td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
   }
 }

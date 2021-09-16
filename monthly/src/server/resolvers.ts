@@ -1,6 +1,7 @@
 import {query as performanceQuery} from '../lib/queries/performance';
 import {TimePeriod} from "../lib/queries/performanceTypesAndConsts";
 import {log} from 'open-pension-logger';
+import {getFileMetadata} from "../lib/db";
 
 interface PerformanceInputArgs {
   input: {
@@ -77,6 +78,9 @@ export default {
         graphData: JSON.stringify(graphData),
         tracksInfo,
       }
+    },
+    fileInfo: async (_, args, {prisma: prismaClient}) => {
+      return await getFileMetadata(args['storageID'], prismaClient);
     }
   },
 };

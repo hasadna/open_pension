@@ -15,7 +15,7 @@ export default () => {
   const tokenFromStorage = localStorage.getItem('token');
   const isAuth = tokenFromState || tokenFromStorage;
 
-  const {FilesList, FileAdd} = filePages;
+  const {FilesList, FileAdd, FileView} = filePages;
   const {UsersList, UserAdd, UserDelete, UserEdit} = userPages;
   const {PagesList, PageAdd, PageEdit, PageDelete} = frontPagesPages;
   const {PageHelpersList, DeletePageHelper, AddPageHelper, EditPageHelper} = PageHelpers;
@@ -34,6 +34,7 @@ export default () => {
         <Route exact path="/services-and-analytics"><ServicesAndAnalytics /></Route>
 
         <Route exact path="/files"><FilesList /></Route>
+        <Route exact path="/file/view/:id"><FileView /></Route>
         <Route exact path="/file/add"><FileAdd /></Route>
 
         <Route exact path="/front/pages"><PagesList /></Route>
