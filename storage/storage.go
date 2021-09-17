@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	log.Log("Starting server", "info")
+	log.Info("Starting server")
 
 	db := api.GetDbConnection()
 	defer db.Close()
@@ -27,16 +27,18 @@ func main() {
 
 	h, err := graphql.NewHandler(db)
 
-	log.Log(err.Error(), "error")
+	if err != nil {
+		log.Error(err)
+		return
+	}
 
 	e.POST("/graphql", echo.WrapHandler(h))
 	e.GET("/file/:id", api.ServeFile)
 	e.POST("/file", api.StoreFile)
 
 	if err := e.Start(":7001"); err != nil {
-		log.Log(err.Error(), "error")
+		log.Error(err)
 	}
 
-	//defer db.Close()
-
+	defer db.Close()
 }

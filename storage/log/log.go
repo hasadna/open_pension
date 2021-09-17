@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
-	"log"
+	"github.com/labstack/gommon/log"
 	"strings"
 	"time"
 )
@@ -32,7 +32,7 @@ func getClient() *elasticsearch.Client {
 
 // todo: convert this to a internal function and expose methods like Log.info. Log.Error while know to ge the error
 // 	object and handle it approitialy.
-func Log(message, level string) {
+func logToEs(message, level string) {
 
 	// todo: find out how to define the strucy of the index.
 
@@ -62,6 +62,23 @@ func Log(message, level string) {
 		Refresh:    "true",
 	}
 	req.Do(context.Background(), client)
+}
 
-	log.Println(message)
+func Info(text string) {
+	logToEs(text, "info")
+}
+
+func Debug(text string) {
+	log.Debug(text)
+	logToEs(text, "debug")
+}
+
+func Warning(text string) {
+	log.Warn(text)
+	logToEs(text, "warning")
+}
+
+func Error(err error) {
+	log.Error(err)
+	logToEs(err.Error(), "info")
 }

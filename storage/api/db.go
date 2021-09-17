@@ -1,10 +1,11 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/labstack/gommon/log"
+	"storage/log"
 	"time"
 )
 
@@ -42,8 +43,10 @@ func GetDbConnection() *gorm.DB {
 		return db
 	}
 
-	// Did not managed to connect to the DB.
-	panic("failed to connect database after 10 attempts.")
+	// Did not maneged to connect to the DB.
+	errorMessage := "failed to connect database after 10 attempts"
+	log.Error(errors.New(errorMessage))
+	panic(errorMessage)
 }
 
 func (File) TableName() string {
@@ -58,13 +61,15 @@ func (file *File) AlterFileRecordAfterDownload(path string) {
 
 func SaveUrlToDb(url string, db *gorm.DB) File {
 	var file File
+
+	log.Warning(fmt.Sprintf("Saving the file from %s to the DB", url))
 	db.Where(&File{URL: url}).FirstOrCreate(&file)
+	log.Info(fmt.Sprintf("The file from the url %s saved to the DB", url))
 
 	return file
 }
 
 func GetUnDownloadedFiles(limit int, db *gorm.DB) []File {
-
 	var files []File
 
 	db.Where("downloaded = ?", false).Limit(limit).Find(&files)

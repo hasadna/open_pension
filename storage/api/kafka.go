@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/segmentio/kafka-go"
-	"log"
+	"storage/log"
 	"time"
 )
 
@@ -23,7 +23,7 @@ func ListenToMessages() {
 	for {
 		m, err := r.ReadMessage(context.Background())
 		if err != nil {
-			log.Fatal(err)
+			log.Error(err)
 			break
 		}
 
@@ -33,7 +33,7 @@ func ListenToMessages() {
 	}
 
 	if err := r.Close(); err != nil {
-		log.Fatal("failed to close reader:", err)
+		log.Error(err)
 	}
 }
 
@@ -44,7 +44,7 @@ func SendMessage(file File) {
 
 	conn, err := kafka.DialLeader(context.Background(), "tcp", GetEnv("KAFKA_HOST"), topic, partition)
 	if err != nil {
-		log.Fatal("failed to dial leader:", err)
+		log.Error(err)
 	}
 
 	marshal, _ := json.Marshal(file)
@@ -54,10 +54,10 @@ func SendMessage(file File) {
 		kafka.Message{Value: marshal},
 	)
 	if err != nil {
-		log.Fatal("failed to write messages:", err)
+		log.Error(err)
 	}
 
 	if err := conn.Close(); err != nil {
-		log.Fatal("failed to close writer:", err)
+		log.Error(err)
 	}
 }

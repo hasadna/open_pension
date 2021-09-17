@@ -1,13 +1,17 @@
 package api
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"storage/log"
 )
 
 
 func ServeFile(c echo.Context) error {
 	db := GetDbConnection()
+
+	log.Info(fmt.Sprintf("Serving the file %s", c.Param("id")))
 
 	var file File
 
@@ -16,6 +20,7 @@ func ServeFile(c echo.Context) error {
 }
 
 func StoreFile(c echo.Context) error {
+	log.Info("Starting to store a file")
 
 	// First, create the upload folder.
 	createFolderForDownloading()
@@ -28,11 +33,13 @@ func StoreFile(c echo.Context) error {
 
 	file, err := c.FormFile("file")
 	if err != nil {
+		log.Error(err)
 		return err
 	}
 
 	src, err := file.Open()
 	if err != nil {
+		log.Error(err)
 		return err
 	}
 
@@ -42,6 +49,7 @@ func StoreFile(c echo.Context) error {
 	path, filename, err := storeFileToDisk(fileFolder, file.Filename, src)
 
 	if err != nil {
+		log.Error(err)
 		return err
 	}
 
@@ -50,6 +58,7 @@ func StoreFile(c echo.Context) error {
 
 	err = storeFile(filename, path, fileFolder, src, db, response)
 	if err != nil {
+		log.Error(err)
 		return err
 	}
 
