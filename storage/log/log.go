@@ -6,6 +6,7 @@ import (
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"github.com/labstack/gommon/log"
+	"os"
 	"strings"
 	"time"
 )
@@ -18,24 +19,17 @@ type Message struct {
 }
 
 func getClient() *elasticsearch.Client {
-	// todo: export this to a cached variable to keep one connection.
-	cfg := elasticsearch.Config{
+	config := elasticsearch.Config{
 		Addresses: []string{
-			// todo: take from env file
-			"http://localhost:9200",
+			os.Getenv("ES_ADDRESS"),
 		},
 	}
-	es, _ := elasticsearch.NewClient(cfg)
+	es, _ := elasticsearch.NewClient(config)
 
 	return es
 }
 
-// todo: convert this to a internal function and expose methods like Log.info. Log.Error while know to ge the error
-// 	object and handle it approitialy.
 func logToEs(message, level string) {
-
-	// todo: find out how to define the strucy of the index.
-
 	client := getClient()
 
 	res, err := client.Info()
