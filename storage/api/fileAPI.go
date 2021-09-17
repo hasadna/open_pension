@@ -7,6 +7,7 @@ import (
 	"io"
 	"mime/multipart"
 	"os"
+	"storage/log"
 	"strings"
 )
 
@@ -27,11 +28,13 @@ func getUniqueNameAndPathFromFile(fileFolder string, filename string) (string, s
 
 func storeFile(filename string, path string, fileFolder string, src multipart.File, db *gorm.DB, response *FilesResponse) error {
 	if strings.HasSuffix(filename, ".zip") {
+		log.Info(fmt.Sprintf("Handeling a ZIP file %s", filename))
 		err := handleZipFile(path, fileFolder, src, db, response)
 		if err != nil {
 			return err
 		}
 	} else {
+		log.Info(fmt.Sprintf("Handeling a simple file %s", filename))
 		fileResponse, err := storeFileToDB(path, filename, db)
 
 		if err != nil {
@@ -55,6 +58,7 @@ func handleZipFile(path string, fileFolder string, src multipart.File, db *gorm.
 	for _, f := range r.File {
 		fileResponse, err := extractFileFromZip(fileFolder, f, src, db)
 		if err != nil {
+			log.Error(err)
 			return err
 		}
 
@@ -63,6 +67,7 @@ func handleZipFile(path string, fileFolder string, src multipart.File, db *gorm.
 
 	// Deleting the file. For now, we don't care for the error.
 	_ = os.Remove(path)
+	log.Info(fmt.Sprintf("Removing the zip file %s", path))
 	return nil
 }
 

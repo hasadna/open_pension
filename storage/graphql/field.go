@@ -1,9 +1,11 @@
 package graphql
 
 import (
+	"fmt"
 	"github.com/graphql-go/graphql"
 	"github.com/jinzhu/gorm"
 	"storage/api"
+	"storage/log"
 )
 
 var file = graphql.NewObject(
@@ -27,6 +29,7 @@ func Files(db *gorm.DB) *graphql.Field {
 		Type: graphql.NewList(file),
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			var file []api.File
+			log.Info("Getting all the files")
 
 			if err := db.Find(&file).Error; err != nil {
 				panic(err)
@@ -50,7 +53,7 @@ func File(db *gorm.DB) *graphql.Field {
 		},
 		Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
 			file := api.File{}
-
+			log.Info(fmt.Sprintf("Loading the file %d", p.Args["id"]))
 			if err := db.First(&file, p.Args["id"]).Error; err != nil {
 				panic(err)
 			}

@@ -3,13 +3,15 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"log"
 	"net/http"
 	"storage/api"
 	"storage/graphql"
+	"storage/log"
 )
 
 func main() {
+	log.Info("Starting server")
+
 	db := api.GetDbConnection()
 	defer db.Close()
 
@@ -25,22 +27,18 @@ func main() {
 
 	h, err := graphql.NewHandler(db)
 
-	logFatal(err)
+	if err != nil {
+		log.Error(err)
+		return
+	}
 
 	e.POST("/graphql", echo.WrapHandler(h))
 	e.GET("/file/:id", api.ServeFile)
 	e.POST("/file", api.StoreFile)
 
 	if err := e.Start(":80"); err != nil {
-		log.Fatalln(err)
+		log.Error(err)
 	}
 
 	defer db.Close()
-
-}
-
-func logFatal(err error) {
-	if err != nil {
-		log.Fatalln(err)
-	}
 }
