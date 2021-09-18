@@ -1,5 +1,6 @@
 import "./Loading.scss";
 import {useEffect} from 'react';
+import {isEmpty} from 'lodash';
 
 const sleep = (seconds = 4) => {
   return new Promise((resolve => {
@@ -10,6 +11,10 @@ const sleep = (seconds = 4) => {
 }
 
 const animate = async (box) => {
+  if (isEmpty(box.classList)) {
+    box.classList = [];
+  }
+
   box.classList.add('top');
 
   await sleep(1);

@@ -1,4 +1,4 @@
-FROM node:16.9.0-bullseye-slim
+FROM node:14.17.3
 
 WORKDIR /home/app
 ADD . /home/app

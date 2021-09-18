@@ -3,11 +3,11 @@ version: "3.9"
 services:
 
   # Databases.
-  application_db:
-    env_file:
-      - ./application/envs/.local.docker.db.env
-    ports:
-      - '3308:3306'
+#  application_db:
+#    env_file:
+#      - ./application/envs/.local.docker.db.env
+#    ports:
+#      - '3308:3306'
 
   backoffice_backend_db:
     ports:
@@ -21,18 +21,18 @@ services:
     env_file:
       - ./storage/envs/.local.docker.db.env
 
-  processor_db:
-    ports:
-      - '27017:27017'
+#  processor_db:
+#    ports:
+#      - '27017:27017'
 
   # Services.
-  application:
-    env_file:
-      - ./application/envs/.local.docker.env
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./application:/home/app
+#  application:
+#    env_file:
+#      - ./application/envs/.local.docker.env
+#    ports:
+#      - '3000:3000'
+#    volumes:
+#      - ./application:/home/app
 
   backoffice:
     volumes:
@@ -48,11 +48,11 @@ services:
     env_file:
       - ./backoffice_backend/envs/.local.docker.env
 
-  fetcher:
-    volumes:
-      - ./fetcher:/home/app
-    ports:
-      - "5000:80"
+#  fetcher:
+#    volumes:
+#      - ./fetcher:/home/app
+#    ports:
+#      - "5000:80"
 
   front:
     env_file:
@@ -82,13 +82,13 @@ services:
     env_file:
       - ./monthly/envs/.local.docker.env
 
-  processor:
-    env_file:
-      - ./processor/envs/.local.docker.env
-    volumes:
-      - ./processor/src/app:/app/app
-    ports:
-      - "1000:80"
+#  processor:
+#    env_file:
+#      - ./processor/envs/.local.docker.env
+#    volumes:
+#      - ./processor/src/app:/app/app
+#    ports:
+#      - "1000:80"
 
   storage:
     volumes:
