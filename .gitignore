@@ -241,23 +241,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# CMS.
-cms/src/vendor
-cms/src/console
-cms/src/web/.*
-cms/src/web/*.txt
-cms/src/web/*.php
-cms/src/web/*.config
-cms/src/web/core/*
-cms/src/web/*.gitignore
-cms/src/web/modules/
-cms/src/web/sites/
-cms/src/web/themes/
-cms-db-data
+queue.txt
 
-/db
-
-fetcher/temp_files
+data
 
 # Processor.
 processor/*/*.js
@@ -266,16 +252,12 @@ processor/files/uploaded/*.xlsx
 processor-db
 processor/out/*.json
 
-# Blog.
-blog/.cache
-blog/node_modules
-blog/public
-blog/revisions
-
 # Storage.
 storage/files
 storage/.env
 storage/data
+storage/kafkaListener
+storage/storage
 
 # Monthly.
 monthly/uploaded_files/*
