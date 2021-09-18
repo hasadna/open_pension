@@ -50,7 +50,8 @@ services:
 
   # Services.
   gateway:
-    image: jwilder/nginx-proxy
+    build:
+      context: ./gateway
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:

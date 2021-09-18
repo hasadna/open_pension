@@ -24,7 +24,6 @@ const server = new ApolloServer({
   }],
 });
 
-
 server.listen({port: getPort()}).then(async ({ url }) => {
 
   await createIndex();

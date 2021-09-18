@@ -74,4 +74,7 @@ const storage = uploadMiddlewareHandler.diskStorage({
   }
 })
 
-export const uploadMiddleware = uploadMiddlewareHandler({ storage: storage }).array('files')
+export const uploadMiddleware = uploadMiddlewareHandler({
+  storage: storage,
+  limits: { fileSize: 1000 * 1024 * 1024 }
+}).array('files')

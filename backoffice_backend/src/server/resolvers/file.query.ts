@@ -16,18 +16,23 @@ export default {
     assertLoggedIn(context);
     log(`Getting a single file: ${JSON.stringify(args)}`);
     const {id} = args;
-
     const {collections: file} = await getFile({id});
 
-    if (isEmpty(file.extra)) {
-      log(`Getting the metadata for file ${id}`)
-      file.extra = await getFileMetadata(file.storageId);
-      await updateFile(id, {extra: file.extra});
-    } else {
-      log(`Not getting the metadata for file ${args.id} since the data already exists`)
+    try {
+
+      if (isEmpty(file.extra)) {
+        log(`Getting the metadata for file ${id}`)
+        file.extra = await getFileMetadata(file.storageId);
+        await updateFile(id, {extra: file.extra});
+      } else {
+        log(`Not getting the metadata for file ${args.id} since the data already exists`)
+      }
+
+      file.extra = JSON.stringify(file.extra);
+    } catch (e) {
+      file.extra = JSON.stringify({});
     }
 
-    file.extra = JSON.stringify(file.extra);
     return file;
   },
 }
