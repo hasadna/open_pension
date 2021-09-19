@@ -36,7 +36,7 @@ export class KafkaClient {
       messages = JSON.stringify(messages);
       return await this.producer.send([{topic, messages}], () => {});
     } catch (error) {
-      console.log(`There was an error while trying to send the message: ${error}`, 'error')
+      log(`There was an error while trying to send the message: ${error}`, 'error')
       throw new Error(error);
     }
   }
