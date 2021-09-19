@@ -67,7 +67,7 @@
     "multer": "^1.4.2",
     "pusher": "^5.0.0",
     "ts-jest": "^26.5.4",
-    "open-pension-logger": "https://github.com/hasadna/open-pension-logger.git#6594839"
+    "open-pension-logger": "https://github.com/hasadna/open-pension-logger.git#0.0.1"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",

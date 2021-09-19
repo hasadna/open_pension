@@ -43,6 +43,7 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    restart: always
     environment:
       - discovery.type=single-node
     volumes:
@@ -79,6 +80,7 @@ services:
       - gateway
       - kafka
       - elasticsearch
+      - storage
 
 #  application:
 #    image: hasadna/open-pension-application:latest
@@ -165,9 +167,11 @@ services:
       - gateway
       - kafka
       - elasticsearch
+      - storage
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.6.2
+    restart: always
     ports:
       - 5601:5601
     depends_on:
