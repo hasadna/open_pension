@@ -14,7 +14,6 @@ export default () => {
 
   useEffect(async () => {
     const file = await getFile(id);
-    console.log(file);
     file.extra = file.extra !== "null" ? JSON.parse(file.extra) : {};
     setFile(file);
 
