@@ -8,18 +8,18 @@ services:
     volumes:
       - ./data/db/backoffice-backend:/data/db
 
-  application_db:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    volumes:
-      - ./data/db/application:/var/lib/mysql
+#  application_db:
+#    image: mysql:5.7
+#    command: --default-authentication-plugin=mysql_native_password
+#    restart: always
+#    volumes:
+#      - ./data/db/application:/var/lib/mysql
 
-  processor_db:
-    image: mongo
-    restart: always
-    volumes:
-      - ./data/db/processor:/data/db
+#  processor_db:
+#    image: mongo
+#    restart: always
+#    volumes:
+#      - ./data/db/processor:/data/db
 
   storage_db:
     image: mysql:5.7
@@ -50,7 +50,8 @@ services:
 
   # Services.
   gateway:
-    image: jwilder/nginx-proxy
+    build:
+      context: ./gateway
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
@@ -59,6 +60,8 @@ services:
   front:
     build:
       context: ./front
+    depends_on:
+      - monthly
 
   backoffice:
     build:
@@ -75,28 +78,29 @@ services:
       - backoffice_backend_db
       - gateway
       - kafka
+      - elasticsearch
 
-  application:
-    image: hasadna/open-pension-application:latest
-    restart: always
-    build:
-      context: ./application
-      cache_from:
-        - hasadna/open-pension-application:latest
-    depends_on:
-      - application_db
+#  application:
+#    image: hasadna/open-pension-application:latest
+#    restart: always
+#    build:
+#      context: ./application
+#      cache_from:
+#        - hasadna/open-pension-application:latest
+#    depends_on:
+#      - application_db
 
   # todo: Change to quarter
-  processor:
-    image: hasadna/open-pension-processor:latest
-    restart: always
-    build:
-      context: ./processor
-      cache_from:
-        - hasadna/open-pension-processor:latest
-    depends_on:
-      - processor_db
-      - kafka
+#  processor:
+#    image: hasadna/open-pension-processor:latest
+#    restart: always
+#    build:
+#      context: ./processor
+#      cache_from:
+#        - hasadna/open-pension-processor:latest
+#    depends_on:
+#      - processor_db
+#      - kafka
 
   kafka:
     image: hasadna/open-pension-kafka:latest
@@ -122,15 +126,15 @@ services:
     restart: always
     image: zookeeper:3.5
 
-  fetcher:
-    image: hasadna/open-pension-fetcher:latest
-    restart: always
-    build:
-      context: ./fetcher
-      cache_from:
-        - hasadna/open-pension-fetcher:latest
-    depends_on:
-      - kafka
+#  fetcher:
+#    image: hasadna/open-pension-fetcher:latest
+#    restart: always
+#    build:
+#      context: ./fetcher
+#      cache_from:
+#        - hasadna/open-pension-fetcher:latest
+#    depends_on:
+#      - kafka
 
   storage:
     image: hasadna/open-pension-storage:latest
@@ -145,10 +149,13 @@ services:
       - storage_db
       - gateway
       - kafka
+      - elasticsearch
 
   monthly:
     image: hasadna/open-pension-monthly:latest
     restart: always
+    volumes:
+      - ./data/files/monthly:/home/app/uploaded_files
     build:
       context: ./monthly
       cache_from:
@@ -157,6 +164,7 @@ services:
       - monthly_db
       - gateway
       - kafka
+      - elasticsearch
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.6.2

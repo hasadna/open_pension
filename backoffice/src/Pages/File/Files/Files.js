@@ -34,7 +34,7 @@ export default () => {
       isFrontpage={false}
       showPager={true}
       queryParams={queryParams}
-      itemsPerPage={10}
+      itemsPerPage={15}
     />
   </Page>
 };
