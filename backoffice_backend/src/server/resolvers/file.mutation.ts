@@ -6,7 +6,7 @@ export default {
   fileUpdate: async (_, args, context) => {
     assertLoggedIn(context);
     const id = args.id;
-    log(`Updating the file: ${JSON.stringify(args)}`)
+    log({text: `Updating the file: ${JSON.stringify(args)}`})
     return await updateFile(id, args);
   }
 }

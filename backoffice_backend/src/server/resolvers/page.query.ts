@@ -5,14 +5,14 @@ import {log} from "open-pension-logger";
 export default {
   pages: async (_, args, context) => {
     assertLoggedIn(context);
-    log(`Getting all the pages: ${JSON.stringify(args)}`)
+    log({text: `Getting all the pages: ${JSON.stringify(args)}`})
     const {collections: pages} = await getPage({conditions: {}});
 
     return pages;
   },
   page: async (_, args, context) => {
     assertLoggedIn(context);
-    log(`Getting a page: ${JSON.stringify(args)}`)
+    log({text: `Getting a page: ${JSON.stringify(args)}`})
 
     const {collections: page} = await getPage({id: args.id});
     return page;

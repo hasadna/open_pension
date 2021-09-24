@@ -12,7 +12,7 @@ const topicsStatus = {
 };
 
 export async function handleKafkaEvent(topic, message) {
-  log(`Listen to the log messages: ${JSON.stringify({topic, message})}`);
+  log({text: `Listen to the log messages: ${JSON.stringify({topic, message})}`});
   const storageId = topic === 'FileStored' ? message.ID : message.storageId;
   const {collections} = await getFile({conditions: {storageId}});
   const status = topicsStatus[topic];
@@ -21,9 +21,9 @@ export async function handleKafkaEvent(topic, message) {
     const filename = await getFilenameFromStorage(storageId)
     await createFile({status, filename, storageId});
 
-    log(`The record for the file ${filename} has been created with the status ${status}`)
+    log({text: `The record for the file ${filename} has been created with the status ${status}`})
   } else {
     await updateFile(collections[0]._id, {status})
-    log(`The record for the file ${collections[0].filename} has been updated with the status ${status}`)
+    log({text: `The record for the file ${collections[0].filename} has been updated with the status ${status}`})
   }
 }
