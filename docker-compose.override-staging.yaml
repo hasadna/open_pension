@@ -71,7 +71,3 @@ services:
   storage:
     env_file:
       - ./storage/envs/.staging.docker.env
-
-  kibana:
-    ports:
-      - "6000:5601"
