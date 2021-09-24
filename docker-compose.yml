@@ -55,8 +55,8 @@ services:
       context: ./gateway
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    ports:
-      - "80:80"
+        #    ports:
+        #- "80:80"
 
   front:
     build:
