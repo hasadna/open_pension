@@ -3,15 +3,6 @@ version: "3.9"
 services:
 
   # Databases.
-  #  application_db:
-  #    env_file:
-  #      - ./application/envs/.local.docker.db.env
-  #    ports:
-  #      - '3308:3306'
-
-  backoffice_backend_db:
-    ports:
-      - '27017:27017'
 
   monthly_db:
     env_file:
@@ -21,19 +12,7 @@ services:
     env_file:
       - ./storage/envs/.local.docker.db.env
 
-  #  processor_db:
-  #    ports:
-  #      - '27017:27017'
-
   # Services.
-  #  application:
-  #    env_file:
-  #      - ./application/envs/.local.docker.env
-  #    ports:
-  #      - '3000:3000'
-  #    volumes:
-  #      - ./application:/home/app
-
   backoffice:
     ports:
       - "1000:80"
@@ -46,27 +25,18 @@ services:
     env_file:
       - ./backoffice_backend/envs/.staging.docker.env
 
-  #  fetcher:
-  #    volumes:
-  #      - ./fetcher:/home/app
-  #    ports:
-  #      - "5000:80"
-
   front:
     env_file:
       - ./front/envs/.staging.docker.env
+    ports:
+      - "80:80"
+
+  gateway:
+    ports: []
 
   monthly:
     env_file:
       - ./monthly/envs/.staging.docker.env
-
-  #  processor:
-  #    env_file:
-  #      - ./processor/envs/.local.docker.env
-  #    volumes:
-  #      - ./processor/src/app:/app/app
-  #    ports:
-  #      - "1000:80"
 
   storage:
     env_file:
