@@ -7,7 +7,7 @@ export default {
     assertLoggedIn(context);
     const {filter, pagination = {}} = args;
 
-    log(`Get all the page helpers: ${JSON.stringify(args)}`)
+    log({text: `Get all the page helpers: ${JSON.stringify(args)}`})
 
     const {collections: pageHelpers, totalCount} = await getPageHelper({conditions: {}}, pagination, filter)
     return {pageHelpers, totalCount}
@@ -16,7 +16,7 @@ export default {
   pageHelper: async (_, args, context) => {
     assertLoggedIn(context);
     const {id} = args;
-    log(`Get a page helper: ${JSON.stringify(args)}`)
+    log({text: `Get a page helper: ${JSON.stringify(args)}`})
 
     const {collections: pageHelper} = await getPageHelper({id})
     return pageHelper

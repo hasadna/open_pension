@@ -12,7 +12,7 @@ export default {
   pageHelperCreate: async(_, args, context) => {
     assertLoggedIn(context);
     const {description, page, elementID} = args;
-    log(`Creating a page helper: ${JSON.stringify(args)}`)
+    log({text: `Creating a page helper: ${JSON.stringify(args)}`})
 
     // todo: handle non-existing page.
     const {collections: pageFromDB} = await getPage({id: page});
@@ -21,7 +21,7 @@ export default {
     })
 
     if (errors) {
-      log(`There was an error while creating the page helper: ${JSON.stringify(errors)}`, 'error');
+      log({text: `There was an error while creating the page helper: ${JSON.stringify(errors)}`}, 'error');
       throw new UserInputError('There was an error while creating the page helper', errors)
     }
 
@@ -29,7 +29,7 @@ export default {
   },
   pageHelperUpdate: async (_, args, context) => {
     assertLoggedIn(context);
-    log(`Update a page helper: ${JSON.stringify(args)}`)
+    log({text: `Update a page helper: ${JSON.stringify(args)}`})
 
     const {description, page, elementID, id} = args;
     const {collections: pageFromDB} = await getPage({id: page});
@@ -45,7 +45,7 @@ export default {
   },
   pageHelperDelete: async (_, args, context) => {
     assertLoggedIn(context);
-    log(`Delete a page helper: ${JSON.stringify(args)}`)
+    log({text: `Delete a page helper: ${JSON.stringify(args)}`})
 
     const {id} = args;
     await deletePageHelper(id);

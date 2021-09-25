@@ -30,7 +30,7 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
   const {status, payload, message: error} = await processFile(file.path);
 
   if (!isEmpty(payload)) {
-    await log(`Inserting the results for ${file.filename} to the DB.`)
+    log({text: `Inserting the results for ${file.filename} to the DB.`})
 
     const baseData: any = {
       file: {connect: {ID: file.ID}},
@@ -43,11 +43,11 @@ export async function processFilesToRows(file: File, prisma: PrismaClient): Prom
         // @ts-ignore
         await prisma.row.create({data: combined});
       }));
-    } catch (e) {
-      log(`Failed parsing the file ${file.filename} with the error: ${String(e)}`, 'error')
+    } catch (error) {
+      log({text: `Failed parsing the file ${file.filename} with the error`, error}, 'error')
     }
   } else {
-    log(`There are no rows for the file ${file.filename}. Update the file as success anyway.`, 'warning');
+    log({text: `There are no rows for the file ${file.filename}. Update the file as success anyway.`}, 'warning');
   }
 
   const newFileStatus = status == ProcessState.Failed ? FileStatus.Failed : FileStatus.Succeeded;

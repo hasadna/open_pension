@@ -16,9 +16,9 @@ export class KafkaClient {
       this.serviceUp = true;
 
       this.producer = new kafka.Producer(client);
-      this.producer.on("ready", () => log("Kafka producer ready"));
+      this.producer.on("ready", () => log({text: "Kafka producer ready"}));
       this.producer.on("error", error =>
-          log(`Kafka producer error: ${error}`, 'error')
+          log({text: 'Kafka producer error', error}, 'error')
       );
     } catch (e) {
       this.serviceUp = false;
@@ -28,7 +28,7 @@ export class KafkaClient {
   async sendMessage(messages: any, topic: any) {
 
     if (!this.serviceUp) {
-      log('The kafka host is not alive', 'error')
+      log({text: 'The kafka host is not alive'}, 'error')
       return;
     }
 
@@ -36,7 +36,7 @@ export class KafkaClient {
       messages = JSON.stringify(messages);
       return await this.producer.send([{topic, messages}], () => {});
     } catch (error) {
-      log(`There was an error while trying to send the message: ${error}`, 'error')
+      log({text: 'There was an error while trying to send the message', error}, 'error');
       throw new Error(error);
     }
   }
@@ -55,10 +55,10 @@ export class KafkaClient {
       outOfRangeOffset: 'earliest', // default
     };
     const consumerGroup = new ConsumerGroup(options, getListenedTopics());
-    log('Start to listen to events');
+    log({text: 'Start to listen to events'});
 
     consumerGroup.on('connect', () => {
-      log('connected to kafka 📞');
+      log({text: 'connected to kafka 📞'});
     });
 
     consumerGroup.on('message', async function (message) {

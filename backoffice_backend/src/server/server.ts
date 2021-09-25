@@ -36,9 +36,9 @@ export const getUserFromRequest = async (req) => {
 }
 
 export const assertLoggedIn = ({user}) => {
-  // todo: should be a middelware.
+  // todo: should be a middelware and log endpoint.
   if (isEmpty(user)) {
-    log('An un-authorized user try to access the endpoint', 'error')
+    log({text: 'An un-authorized user try to access the endpoint'}, 'error');
     throw new AuthenticationError('you must be logged in');
   }
 }

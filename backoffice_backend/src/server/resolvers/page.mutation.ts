@@ -6,13 +6,13 @@ import {log} from "open-pension-logger";
 export default {
   pageCreate: async (_, args, context) => {
     assertLoggedIn(context);
-    log(`Creating a page: ${JSON.stringify(args)}`)
+    log({text: `Creating a page: ${JSON.stringify(args)}`})
 
     const {label} = args;
     const {object: page, errors} = await createPage({label});
 
     if (errors) {
-      log(`There was an error while creating the user: ${JSON.stringify(errors)}`, 'error');
+      log({text: `There was an error while creating the user: ${JSON.stringify(errors)}`}, 'error');
       throw new UserInputError('There was an error while creating the user', errors)
     }
 
@@ -20,14 +20,14 @@ export default {
   },
   pageUpdate: async(_, args, context) => {
     assertLoggedIn(context);
-    log(`Updating a page: ${JSON.stringify(args)}`)
+    log({text: `Updating a page: ${JSON.stringify(args)}`})
 
     const {label, id} = args;
     return await updatePage(id, {label});
   },
   pageDelete: async(_, args, context) => {
     assertLoggedIn(context);
-    log(`Deleting a page: ${JSON.stringify(args)}`)
+    log({text: `Deleting a page: ${JSON.stringify(args)}`})
 
     const {id} = args;
     await deletePage(id);

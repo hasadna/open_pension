@@ -9,7 +9,7 @@ export default {
     const {object: user, errors} = await createUser(args);
 
     if (errors) {
-      log(`Error while trying to create the user: ${JSON.stringify(args)}`, 'error');
+      log({text: `Error while trying to create the user: ${JSON.stringify(args)}`}, 'error');
       throw new UserInputError('There was an error while creating the user', errors)
     }
 
@@ -27,7 +27,7 @@ export default {
       await deleteUser(id);
       return true;
     } catch (error) {
-      log(`There was an error while trying to delete the user: ${JSON.stringify(error)}`, 'error')
+      log({text: `There was an error while trying to delete the user: ${JSON.stringify(error)}`}, 'error')
       return false;
     }
   },

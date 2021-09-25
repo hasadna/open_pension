@@ -21,59 +21,30 @@ services:
     env_file:
       - ./storage/envs/.local.docker.db.env
 
-  #  processor_db:
-  #    ports:
-  #      - '27017:27017'
-
   # Services.
-  #  application:
-  #    env_file:
-  #      - ./application/envs/.local.docker.env
-  #    ports:
-  #      - '3000:3000'
-  #    volumes:
-  #      - ./application:/home/app
 
   backoffice:
     ports:
       - "1000:80"
     env_file:
-      - ./backoffice/envs/.staging.docker.env
+      - ./backoffice/envs/.local.docker.env
 
   backoffice_backend:
     ports:
       - "2000:80"
     env_file:
-      - ./backoffice_backend/envs/.staging.docker.env
-
-  #  fetcher:
-  #    volumes:
-  #      - ./fetcher:/home/app
-  #    ports:
-  #      - "5000:80"
+      - ./backoffice_backend/envs/.local.docker.env
 
   front:
     ports:
-      - "80:80"
+      - "3000:80"
     env_file:
-      - ./front/envs/.staging.docker.env
+      - ./front/envs/.local.docker.env
 
   monthly:
     env_file:
       - ./monthly/envs/.staging.docker.env
 
-  #  processor:
-  #    env_file:
-  #      - ./processor/envs/.local.docker.env
-  #    volumes:
-  #      - ./processor/src/app:/app/app
-  #    ports:
-  #      - "1000:80"
-
   storage:
     env_file:
-      - ./storage/envs/.staging.docker.env
-
-  kibana:
-    ports:
-      - "6000:5601"
+      - ./storage/envs/.local.docker.env

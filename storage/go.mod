@@ -3,6 +3,7 @@ module storage
 go 1.15
 
 require (
+	github.com/coralogix/go-coralogix-sdk v1.0.2
 	github.com/elastic/go-elasticsearch/v7 v7.14.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/graphql-go/graphql v0.7.9
