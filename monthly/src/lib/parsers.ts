@@ -66,7 +66,7 @@ async function handleRowMetadata(row: ProcessedXmlFileBituachRowsInterface): Pro
   let missingReclamationData = false;
 
   if (isEmpty(reclamationData)) {
-    log(`There is no reclamation data for fundID ${rowID}`, "error");
+    log({text: `There is no reclamation data for fundID ${rowID}`}, "error");
     missingReclamationData = true;
   }
 

@@ -22,13 +22,13 @@ export async function queue() {
   });
 
   if (isEmpty(files)) {
-    log('There are no files to process');
+    log({text: 'There are no files to process'});
   } else {
     const numberOfFiles = files.length;
-    log(`There are ${numberOfFiles} file(s) to process. Starting to process them`);
+    log({text: `There are ${numberOfFiles} file(s) to process. Starting to process them`});
 
     await Promise.all(files.map(async (file: File) => {
-      log(`Processing the file ${file.ID} - ${file.filename}`);
+      log({text: `Processing the file ${file.ID} - ${file.filename}`});
 
       // Sending the event for starting the processing.
       if (kafkaClient.serviceUp) {
@@ -47,7 +47,7 @@ export async function queue() {
 
         const payload = KafkaClient.getPayloadByStorageId(file.storageID);
 
-        log(`sending kafka event: ${JSON.stringify({topic, payload})}`);
+        log({text: `sending kafka event: ${JSON.stringify({topic, payload})}`});
         await kafkaClient.sendMessage(
           payload,
           topic
@@ -55,16 +55,16 @@ export async function queue() {
       }
     }));
 
-    log(`Done processing ${numberOfFiles} file(s).`);
+    log({text: `Done processing ${numberOfFiles} file(s).`});
   }
 }
 
 queue().then(() => {
-  log(`Done processing files at ${new Date()}`);
+  log({text: `Done processing files at ${new Date()}`});
   prisma.$disconnect()
   process.exit(0);
-}).catch((e) => {
+}).catch((error) => {
   prisma.$disconnect()
-  log(`An error occurred while processing the files: ${e}`, 'error')
+  log({text: 'An error occurred while processing the files', error}, 'error')
   process.exit(1);
 });

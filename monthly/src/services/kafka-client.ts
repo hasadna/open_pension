@@ -16,9 +16,9 @@ export class KafkaClient {
       this.serviceUp = true;
 
       this.producer = new kafka.Producer(client);
-      this.producer.on("ready", () => log("Kafka producer ready"));
-      this.producer.on("error", err =>
-        log(`Kafka producer error: ${err}`, "error")
+      this.producer.on("ready", () => log({text: "Kafka producer ready"}));
+      this.producer.on("error", error =>
+        log({text: 'Kafka producer error', error}, "error")
       );
     } catch (e) {
       this.serviceUp = false;
@@ -28,7 +28,7 @@ export class KafkaClient {
   sendMessage(messages: any, topic: any) {
     return new Promise((resolve, reject) => {
       if (!this.serviceUp) {
-        log("The kafka host is not alive", "error");
+        log({text: "The kafka host is not alive"}, "error");
         reject('The kafka host is not alive');
       }
 
@@ -36,12 +36,12 @@ export class KafkaClient {
         messages = JSON.stringify(messages);
         this.producer.send([{topic, messages}], () => {
           resolve({messages, topic});
-          log(`Sending the kafka message: ${JSON.stringify({messages, topic})}`)
+          log({text: `Sending the kafka message: ${JSON.stringify({messages, topic})}`})
         });
-      } catch (e) {
-        reject(e);
-        log(`Could not send a kafka message due to: ${e}`, "error")
-        throw new Error(e);
+      } catch (error) {
+        log({text: 'Could not send a kafka message', error}, "error")
+        reject(error);
+        throw new Error(error);
       }
     });
   }
@@ -62,10 +62,10 @@ export class KafkaClient {
     const kafkaClient = new KafkaClient();
 
     const consumerGroup = new ConsumerGroup(options, [getKafkaListenTopic()]);
-    log(`Start to listen to events: ${JSON.stringify(getKafkaListenTopic())}`);
+    log({text: `Start to listen to events: ${JSON.stringify(getKafkaListenTopic())}`});
 
     consumerGroup.on('connect', () => {
-      log('connected');
+      log({text: 'connected to the kafka events'});
     });
 
     consumerGroup.on('message', async function (message) {
