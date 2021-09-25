@@ -66,7 +66,7 @@
     "kafka-node": "^5.0.0",
     "lodash": "^4.17.21",
     "next": "^11.1.1",
-    "open-pension-logger": "github:hasadna/open-pension-logger#c1dd73",
+    "open-pension-logger": "github:hasadna/open-pension-logger#0.1.0",
     "read-excel-file": "^5.1.0",
     "xml2js": "^0.4.23"
   },
