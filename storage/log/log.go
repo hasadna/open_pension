@@ -1,78 +1,52 @@
 package log
 
 import (
-	"context"
-	"encoding/json"
-	"github.com/elastic/go-elasticsearch/v7"
-	"github.com/elastic/go-elasticsearch/v7/esapi"
-	"github.com/labstack/gommon/log"
+	"github.com/coralogix/go-coralogix-sdk"
 	"os"
-	"strings"
-	"time"
 )
 
-type Message struct {
-	Text    string    `json:"text"`
-	Level   string    `json:"level"`
-	Service string    `json:"service"`
-	Time    time.Time `json:"time"`
+var logger *coralogix.CoralogixLogger
+var started bool
+
+func getApplicationName() string {
+	hostname, _ := os.Hostname()
+	CoralogixApplicationName := os.Getenv("CORALOGIX_APPLICATION_NAME")
+
+	if CoralogixApplicationName != "" {
+		return CoralogixApplicationName
+	}
+
+	return hostname
 }
 
-func getClient() *elasticsearch.Client {
-	config := elasticsearch.Config{
-		Addresses: []string{
-			os.Getenv("ES_ADDRESS"),
-		},
-	}
-	es, _ := elasticsearch.NewClient(config)
+func getLogger() *coralogix.CoralogixLogger {
 
-	return es
-}
+	if started == false {
+		logger = coralogix.NewCoralogixLogger(
+			os.Getenv("CORALOGIX_PRIVATE_KEY"),
+			getApplicationName(),
+			"storage",
+		)
 
-func logToEs(message, level string) {
-	client := getClient()
-
-	res, err := client.Info()
-	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
-	}
-	defer res.Body.Close()
-
-
-	out, err := json.Marshal(Message{
-		Level: level,
-		Service: "storage",
-		Text: message,
-		Time: time.Now(),
-	})
-
-	if err != nil {
-		panic (err)
+		started = true
 	}
 
-	req := esapi.IndexRequest{
-		Index:      "logs",
-		Body:       strings.NewReader(string(out)),
-		Refresh:    "true",
-	}
-	req.Do(context.Background(), client)
+	return logger
 }
 
 func Info(text string) {
-	logToEs(text, "info")
+	getLogger().Info(map[string]string{"text":  text})
 }
 
 func Debug(text string) {
-	log.Debug(text)
-	logToEs(text, "debug")
+	getLogger().Debug(map[string]string{"text":  text})
+
 }
 
 func Warning(text string) {
-	log.Warn(text)
-	logToEs(text, "warning")
+	getLogger().Warning(map[string]string{"text":  text})
 }
 
 func Error(err error) {
-	log.Error(err)
-	logToEs(err.Error(), "info")
+	getLogger().Error(map[string]string{"text":  err.Error()})
 }
