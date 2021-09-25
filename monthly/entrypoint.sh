@@ -11,10 +11,10 @@ done
 echo "DB is online"
 
 # Migrating the DB.
-npm run build
 npm run prisma:clientGenerate
 npm run prisma:migrate
 npm run prisma:seed
+npm run build
 
 if [[ -n $DEBUG ]]
 then
