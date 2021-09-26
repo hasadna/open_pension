@@ -42,6 +42,8 @@ services:
       - ./front/envs/.local.docker.env
 
   monthly:
+    ports:
+      - "4000:80"
     env_file:
       - ./monthly/envs/.staging.docker.env
 

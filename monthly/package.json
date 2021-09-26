@@ -15,6 +15,14 @@
     "start": "node build/main/index.js",
     "worker": "node build/main/job.js",
     "queue:dev": "nodemon --watch '**/*.ts' --exec 'ts-node' src/lib/queue.ts",
+    "prisma:makeMigration": "prisma migrate dev",
+    "prisma:migrate": "prisma db push --preview-feature",
+    "prisma:clientGenerate": "prisma generate",
+    "prisma:seed": "prisma db seed --preview-feature",
+    "prisma:studio": "prisma studio",
+    "prisma:format": "prisma format",
+    "dummySeed": "ts-node src/files/seed.ts",
+    "pm2": "npx pm2-runtime",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
@@ -41,14 +49,7 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
-    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
-    "prisma:makeMigration": "prisma migrate dev",
-    "prisma:migrate": "prisma db push --preview-feature",
-    "prisma:clientGenerate": "prisma generate",
-    "prisma:seed": "prisma db seed --preview-feature",
-    "prisma:studio": "prisma studio",
-    "prisma:format": "prisma format",
-    "dummySeed": "ts-node src/files/seed.ts"
+    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
   },
   "engines": {
     "node": ">=14.16.1"
@@ -67,6 +68,7 @@
     "lodash": "^4.17.21",
     "next": "^11.1.1",
     "open-pension-logger": "github:hasadna/open-pension-logger#0.1.0",
+    "pm2": "^5.1.2",
     "read-excel-file": "^5.1.0",
     "xml2js": "^0.4.23"
   },
