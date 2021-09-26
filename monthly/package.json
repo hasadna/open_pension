@@ -23,6 +23,7 @@
     "prisma:format": "prisma format",
     "dummySeed": "ts-node src/files/seed.ts",
     "pm2": "npx pm2-runtime",
+    "start-server": "npm run pm2 start ecosystem.config.js",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",

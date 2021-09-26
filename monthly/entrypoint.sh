@@ -24,5 +24,5 @@ then
   npm run dev
 else
   echo "Running in production mode"
-  npm run pm2 start ecosystem.config.js
+  npm run start-server
 fi
