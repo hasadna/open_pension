@@ -7,7 +7,5 @@ then
 else
   echo "Running in production mode"
   npm run build
-  # todo: move to npm script
-  npm install -g serve
-  serve -s build -l 80
+  npm run serve -s build -l 80
 fi
