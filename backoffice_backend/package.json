@@ -12,6 +12,9 @@
     "dev": "nodemon --watch '**/*.ts' --exec 'ts-node' src/index.ts",
     "sandbox": "nodemon --watch '**/*.ts' --exec 'ts-node' src/sandbox.ts",
     "cli:createUser": "ts-node src/utils/cli.ts createUser",
+    "pm2": "npx pm2-runtime",
+    "start-server": "npm run pm2 start /home/app/build/main/index.js",
+    "stop-server": "npm run pm2 stop /home/app/build/main/index.js",
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
@@ -65,9 +68,10 @@
     "mongoose": "^5.13.9",
     "mongoose-beautiful-unique-validation": "^7.1.1",
     "multer": "^1.4.2",
+    "open-pension-logger": "github:hasadna/open-pension-logger#0.1.0",
+    "pm2": "^5.1.2",
     "pusher": "^5.0.0",
-    "ts-jest": "^26.5.4",
-    "open-pension-logger": "https://github.com/hasadna/open-pension-logger.git#0.0.1"
+    "ts-jest": "^26.5.4"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",

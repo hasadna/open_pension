@@ -16,28 +16,28 @@ export default {
   Query: {
     channels: async (_, __, ctx) => {
       const {prisma} = ctx;
-      log('Requesting all the channels');
+      log({text: 'Requesting all the channels'});
       return await prisma.channel.findMany({});
     },
     fundNames: async (_, __, ctx) => {
       const {prisma} = ctx;
-      log('Requesting all the fund names');
+      log({text: 'Requesting all the fund names'});
       return await prisma.fundName.findMany({});
     },
     managingBodies: async (_, __, ctx) => {
       const {prisma} = ctx;
-      log('Requesting all the managing bodies');
+      log({text: 'Requesting all the managing bodies'});
       return await prisma.managingBody.findMany({});
     },
     subChannels: async (_, __, ctx) => {
       const {prisma} = ctx;
-      log('Requesting all the sub channels');
+      log({text: 'Requesting all the sub channels'});
       return await prisma.subChannel.findMany({});
     },
     lastUpdated: async (_, __, ctx) => {
       const {prisma} = ctx;
 
-      log('Requesting the last update');
+      log({text: 'Requesting the last update'});
 
       const {TKUFAT_DIVUACH} = await prisma.row.findFirst({
         take: 1,
@@ -54,7 +54,7 @@ export default {
     missingFundData: async (_, __, ctx) => {
       const {prisma} = ctx;
 
-      log(`Getting the missing fund data`);
+      log({text: `Getting the missing fund data`});
 
       const data = await prisma.row.findMany({
         select: {
@@ -71,7 +71,7 @@ export default {
     performance: async (_, args: PerformanceInputArgs, {prisma: prismaClient}) => {
       const {graph, graphData, tracksInfo} = await performanceQuery({...args.input, ...{prismaClient}});
 
-      log(`Requesting the performance query: ${String(JSON.stringify(args))}`);
+      log({text: `Requesting the performance query: ${String(JSON.stringify(args))}`});
 
       return {
         graph: JSON.stringify(graph),
@@ -80,6 +80,7 @@ export default {
       }
     },
     fileInfo: async (_, args, {prisma: prismaClient}) => {
+      log({text: `Requesting file info with the args ${String(JSON.stringify(args))}`})
       return await getFileMetadata(args['storageID'], prismaClient);
     }
   },

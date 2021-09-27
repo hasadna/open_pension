@@ -13,7 +13,7 @@ export async function seedDummyFiles() {
 
   const filesModels = [];
 
-  log('Start reading files');
+  log({text: 'Start reading files'});
   for (let fileChunk of fileChunks) {
     await Promise.all(fileChunk.map(async (filename: string) => {
       const data = {
@@ -31,18 +31,18 @@ export async function seedDummyFiles() {
 
       filesModels.push(file);
 
-      log(`Create file ${filename} with the ID ${file.ID}`)
+      log({text: `Create file ${filename} with the ID ${file.ID}`})
     }));
   }
 
-  log('Done reading file, handle process');
+  log({text: 'Done reading file, handle process'});
 
   const modelChunks = chunk(filesModels, 20);
   for (let modelChunk of modelChunks) {
     await Promise.all(modelChunk.map(model => processFilesToRows(model, prisma)));
   }
 
-  log('Done processing results');
+  log({text: 'Done processing results'});
 }
 
 seedDummyFiles()

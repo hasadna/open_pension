@@ -30,23 +30,23 @@ import {log} from 'open-pension-logger';
  */
 export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
   if (path.extname(filename) !== '.xml') {
-    log(`The file ${filename} was not an xml based file`)
+    log({text: `The file ${filename} was not an xml based file`})
     return;
   }
 
   const dest = path.join(getUploadedPath(), filename);
   const url = `${getStorageAddress()}/file/${ID}`;
 
-  log(`Trying to download the file ${url}`)
+  log({text: `Trying to download the file ${url}`});
 
   // Downloading the file.
   request(url)
     .pipe(fs.createWriteStream(dest))
-    .on('error', (err) => {
-      log(`there was an error while downloading the file ${filename}: ${String(err)}`, "error")
+    .on('error', (error) => {
+      log({text: `there was an error while downloading the file ${filename}`, error}, "error")
     })
     .on('close', async () => {
-      log(`The file, ${filename}, was created successfully in ${dest}.`)
+      log({text: `The file, ${filename}, was created successfully in ${dest}.`})
 
       const data = {
         filename,
@@ -59,7 +59,7 @@ export function storeFile(filename: string, ID: any, kafkaClient: KafkaClient) {
       // @ts-ignore
       const file = await prisma.file.create({data: data});
 
-      log(`The file ${filename} was created to the DB with the id ${file.ID}`)
+      log({text: `The file ${filename} was created to the DB with the id ${file.ID}`})
 
       if (kafkaClient !== null) {
         await kafkaClient.sendMessage({storageId: ID}, getKafkaFileStoredByService());
@@ -91,8 +91,8 @@ export async function readFile(path: string): Promise<InfoReturnInterface> {
       message: 'file processed',
       payload: processedXmlFile
     };
-  } catch (e) {
-    log(`There was an error while trying to parse the file ${path}: ${e}`, 'error')
+  } catch (error) {
+    log({text: `There was an error while trying to parse the file ${path}`, error}, 'error')
     return {
       status: false,
       message: 'The file is not an xml file',
@@ -124,7 +124,7 @@ export async function processFile(path: string): Promise<ProcessResults> {
   const parser = Object.keys(parsers).find(parser => firstFileName.includes(parser));
 
   if (!parser) {
-    log(`There is no matching processor for the file ${fileName}`, 'error');
+    log({text: `There is no matching processor for the file ${fileName}`}, 'error');
     return {
       status: ProcessState.Failed,
       payload: [],

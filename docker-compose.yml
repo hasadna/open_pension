@@ -41,14 +41,6 @@ services:
       - ./data/db/monthly:/var/lib/mysql
       - ./monthly/mysql/open-pension.cnf:/etc/mysql/my.cnf
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
-    restart: always
-    environment:
-      - discovery.type=single-node
-    volumes:
-      - ./data/db/elasticsearch:/usr/share/elasticsearch/data
-
   # Services.
   gateway:
     build:
@@ -79,7 +71,6 @@ services:
       - backoffice_backend_db
       - gateway
       - kafka
-      - elasticsearch
       - storage
 
 #  application:
@@ -151,7 +142,6 @@ services:
       - storage_db
       - gateway
       - kafka
-      - elasticsearch
 
   monthly:
     image: hasadna/open-pension-monthly:latest
@@ -166,13 +156,4 @@ services:
       - monthly_db
       - gateway
       - kafka
-      - elasticsearch
       - storage
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.6.2
-    restart: always
-    ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch

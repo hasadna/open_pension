@@ -9,7 +9,7 @@ export default  {
     const {username, email, password} = args;
     const conditions = {};
 
-    log(`Create a token for the user: ${JSON.stringify(username, email)}`)
+    log({text: `Create a token for the user: ${JSON.stringify(username, email)}`})
 
     if (username) {
       conditions['username'] = username;
@@ -20,14 +20,14 @@ export default  {
     const [user] = await getUser({conditions});
 
     if (isEmpty(user)) {
-      log(`Trying to login with the wrong ${JSON.stringify(args)}`, 'error');
+      log({text: `Trying to login with the wrong ${JSON.stringify(args)}`}, 'error');
       throw new UserInputError('Wrong username or password')
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      log(`Trying to login with the wrong ${JSON.stringify(args)}`, 'error');
+      log({text: `Trying to login with the wrong ${JSON.stringify(args)}`}, 'error');
       throw new UserInputError('Wrong username or password');
     }
 
@@ -38,7 +38,7 @@ export default  {
     return token;
   },
   refreshToken: async (_, args) => {
-    log(`Refreshing a token: ${args.token}`)
+    log({text: `Refreshing a token: ${args.token}`})
 
     return await refreshToken(args.token, args.refreshToken);
   },
@@ -47,7 +47,7 @@ export default  {
     const {id} = args;
     const user = await getUser({id});
 
-    log(`Revoking a token for the user: ${user.email}`)
+    log({text: `Revoking a token for the user: ${user.email}`})
 
     await revokeToken(user)
     return true;

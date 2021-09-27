@@ -62,6 +62,7 @@ func handleZipFile(path string, fileFolder string, src multipart.File, db *gorm.
 			return err
 		}
 
+		log.Info(fmt.Sprintf("Appending the file %s to the response", f.Name))
 		response.Files = append(response.Files, fileResponse)
 	}
 
@@ -72,7 +73,10 @@ func handleZipFile(path string, fileFolder string, src multipart.File, db *gorm.
 }
 
 func extractFileFromZip(fileFolder string, f *zip.File, src multipart.File, db *gorm.DB) (FileResponse, error) {
+	log.Info(fmt.Sprintf("Start to extract the file %s from the zip file", f.Name))
 	uniqueFilenameFromZip, path := getUniqueNameAndPathFromFile(fileFolder, f.Name)
+	log.Info(fmt.Sprintf("The file %s will be stored as %s in %s", f.Name, uniqueFilenameFromZip, path))
+
 
 	// Create the path fo the file.
 	dst, err := os.Create(path)
@@ -93,7 +97,9 @@ func extractFileFromZip(fileFolder string, f *zip.File, src multipart.File, db *
 		return FileResponse{}, err
 	}
 
+	log.Info(fmt.Sprintf("Storing the %s in the DB", f.Name))
 	fileResponse, err := storeFileToDB(path, uniqueFilenameFromZip, db)
+	log.Info(fmt.Sprintf("The file %s will be store in the DB with the ID %d", f.Name, fileResponse.ID))
 
 	if err != nil {
 		return FileResponse{}, err

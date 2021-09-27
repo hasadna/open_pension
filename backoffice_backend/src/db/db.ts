@@ -9,7 +9,7 @@ mongoose.connect(getMongoURL(), {
 
 const db = mongoose.connection;
 db.on('error', (error) => {
-  log(`There was an error while trying to connect to mongo: ${error}`, 'error')
+  log({text: 'There was an error while trying to connect to mongo', error}, 'error')
 });
 db.once('open', function() {});
 

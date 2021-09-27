@@ -24,5 +24,5 @@ then
   npm run dev
 else
   echo "Running in production mode"
-  supervisord -c /etc/supervisor.conf
+  npm run start-server
 fi
