@@ -12,6 +12,7 @@ import {log} from 'open-pension-logger'
 const fileToProcessEachQueue = 5;
 
 export async function queue() {
+  log({text: `Start processing files`});
 
   const kafkaClient = new KafkaClient();
 
