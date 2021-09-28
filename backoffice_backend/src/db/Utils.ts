@@ -1,6 +1,5 @@
 import {isEmpty} from 'lodash';
 import { Model, ObjectId } from 'mongoose';
-import {prepareDocumentToPusherEvent, sendEvent} from "../utils/pusher";
 
 export type BaseEntity = {
   readonly _id?: ObjectId
@@ -72,7 +71,7 @@ export function convertErrorToObject(errors) {
 export async function createObject(entityModel: Model<any>, objectToInsert: BaseEntity): Promise<TransactionResults> {
   try {
     const createdObject = await entityModel.create(objectToInsert);
-    await sendEvent('main', 'objectInsert', prepareDocumentToPusherEvent(createdObject, entityModel.modelName));
+    // await sendEvent('main', 'objectInsert', prepareDocumentToPusherEvent(createdObject, entityModel.modelName));
     return {errors: null, object: createdObject};
   } catch (e) {
     const {name, errors, message} = e;
@@ -165,5 +164,5 @@ export async function updateObject(entityModel: Model<any>, id, newValues) {
  */
 export async function deleteObject(entityModel: Model<any>, id) {
   await entityModel.deleteOne({_id: id});
-  await sendEvent('main', 'objectDelete', {id});
+  // await sendEvent('main', 'objectDelete', {id});
 }

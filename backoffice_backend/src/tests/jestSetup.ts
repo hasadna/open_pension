@@ -12,7 +12,6 @@ import { User } from '../db/user';
 import { Page } from "../db/page";
 import { PageHelper } from '../db/pageHelper';
 
-
 beforeEach(async () => {
 
   jest.spyOn(server, 'getUserFromRequest')
@@ -22,7 +21,10 @@ beforeEach(async () => {
         }}
     });
 
-  [User, File, Page, PageHelper].forEach(model => model.deleteMany({}));
+  await User.deleteMany();
+  await File.deleteMany();
+  await Page.deleteMany();
+  await PageHelper.deleteMany();
 });
 
 afterAll(() => mongoose.disconnect());
