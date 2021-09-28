@@ -30,7 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: cd backoffice_backend && npm i
-       todo: handle this one.
       - name: run jest
         env:
           CI: true
