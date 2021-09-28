@@ -12,7 +12,7 @@ export const validUser = {
   email: 'test@example.com',
 };
 
-describe('Testing user', () => {
+describe.only('Testing user', () => {
 
   const baseUser = {
     username: '',

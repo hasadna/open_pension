@@ -33,4 +33,4 @@ jobs:
       - name: run jest
         env:
           CI: true
-        run: cd backoffice_backend && npm run jest
+        run: cd backoffice_backend && npm run jest --ci --watchAll=false

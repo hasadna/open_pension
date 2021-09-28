@@ -1,4 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+import mongoose from "../db/db";
+
 require('dotenv').config()
 
 process.env.dbURL = 'mongodb://127.0.0.1/test';
@@ -20,7 +22,7 @@ beforeEach(async () => {
         }}
     });
 
-  [User, File, Page, PageHelper].forEach(async model => {
-    await model.deleteMany({})
-  });
+  [User, File, Page, PageHelper].forEach(model => model.deleteMany({}));
 });
+
+afterAll(() => mongoose.disconnect());
