@@ -1,4 +1,4 @@
-name: Unit Backoffice Backend
+name: Backoffice Backend
 
 on:
   push:

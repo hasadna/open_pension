@@ -21,6 +21,7 @@ beforeEach(async () => {
         }}
     });
 
+  // Truncating models before the test starts.
   await User.deleteMany();
   await File.deleteMany();
   await Page.deleteMany();
