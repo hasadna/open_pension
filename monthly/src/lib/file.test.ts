@@ -52,7 +52,7 @@ describe('Testing the file processing', () => {
       TSUA_SHNATIT_MEMUZAAT_5_SHANIM: 5.55,
       YITRAT_NCHASIM_LSOF_TKUFA: 90.38057,
       missingReclamationData: true,
-      "row_ID": 0,
+      row_ID: 0,
     };
 
     expect(expected).toStrictEqual(payload[0]);
@@ -60,8 +60,8 @@ describe('Testing the file processing', () => {
 
   it('gemel processor: Testing file processing', async () => {
     // todo: handle this one.
+    // @ts-ignore
     const res = await processFile(getPathForFixture('gemelnet_2017_01_perut.xml'));
-    console.log(res);
   });
 
   it('pensya processor: Testing file process', async () => {
