@@ -21,13 +21,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql version: '5.7'
-          mysql database: monthly
-          mysql root password: monthly
-          mysql user: monthly
-          mysql password: monthly
+      - name: Login to Docker Hub
+        uses: docker/mysql@5.7
+        env:
+          MYSQL_ROOT_PASSWORD: monthly
+          MYSQL_DATABASE: monthly
+          MYSQL_USER: monthly
+          MYSQL_PASSWORD: monthly
 
       - name: Install dependencies
         run: cd monthly && npm i && npm run prisma:clientGenerate && npm run prisma:migrate
