@@ -9,6 +9,15 @@ export const channelsQuery = gql`
   }
 `;
 
+export const subChannelQuery = gql`
+  query {
+    subChannels {
+      ID
+      label
+    }
+  }
+`;
+
 export const fundsQuery = gql`
   query {
     fundNames {
@@ -17,6 +26,7 @@ export const fundsQuery = gql`
     }
   }
 `;
+
 export const mangingBodyQuery = gql`
   query {
     managingBodies {
