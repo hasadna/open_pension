@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Setup the monthly DB
-        run: cd monthly && docker-compsoe up -d monthly_db
+        run: cd monthly && docker-compose up -d monthly_db
 
       - name: Install dependencies
         run: cd monthly && npm i && npm run prisma:clientGenerate && npm run prisma:migrate
