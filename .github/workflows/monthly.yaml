@@ -24,10 +24,10 @@ jobs:
       - uses: mirromutth/mysql-action@v1.1
         with:
           mysql version: '5.7'
-          mysql database: 'monthly'
-          mysql root password: 'monthly'
-          mysql user: 'monthly'
-          mysql password: 'monthly'
+          mysql database: monthly
+          mysql root password: monthly
+          mysql user: monthly
+          mysql password: monthly
 
       - name: Install dependencies
         run: cd monthly && npm i && npm run prisma:clientGenerate && npm run prisma:migrate
