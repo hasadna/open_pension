@@ -8,3 +8,12 @@ export const channelsQuery = gql`
     }
   }
 `;
+
+export const fundsQuery = gql`
+  query {
+    fundNames {
+      ID
+      label
+    }
+  }
+`;
