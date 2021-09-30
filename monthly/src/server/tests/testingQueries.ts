@@ -35,3 +35,9 @@ export const mangingBodyQuery = gql`
     }
   }
 `;
+
+export const lastUpdateQuery = gql`
+  query {
+    lastUpdated
+  }
+`;

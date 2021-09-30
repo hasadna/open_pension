@@ -2,6 +2,7 @@ import {query as performanceQuery} from '../lib/queries/performance';
 import {TimePeriod} from "../lib/queries/performanceTypesAndConsts";
 import {log} from 'open-pension-logger';
 import {getFileMetadata} from "../lib/db";
+import {isEmpty} from 'lodash';
 
 interface PerformanceInputArgs {
   input: {
@@ -39,7 +40,7 @@ export default {
 
       log({text: 'Requesting the last update'});
 
-      const {TKUFAT_DIVUACH} = await prisma.row.findFirst({
+      const row = await prisma.row.findFirst({
         take: 1,
         orderBy: {
           TKUFAT_DIVUACH: 'desc'
@@ -49,7 +50,11 @@ export default {
         },
       });
 
-      return TKUFAT_DIVUACH.getTime() / 1000;
+      if (isEmpty(row)) {
+        return null
+      }
+
+      return Math.round(row.TKUFAT_DIVUACH.getTime() / 1000);
     },
     missingFundData: async (_, __, ctx) => {
       const {prisma} = ctx;
