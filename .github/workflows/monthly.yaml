@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Login to Docker Hub
-        uses: docker/mysql@5.7
+        uses: docker/mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: monthly
           MYSQL_DATABASE: monthly
