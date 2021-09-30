@@ -41,3 +41,15 @@ export const lastUpdateQuery = gql`
     lastUpdated
   }
 `;
+
+export const fileInfoQuery = (storageID) => gql`
+  query {
+    fileInfo(storageID: ${storageID}) {
+      error
+      numberOfRows
+      fileRows {
+        MANAGER_ID
+      }
+    }
+  }
+`;

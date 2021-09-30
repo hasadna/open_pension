@@ -9,6 +9,7 @@ beforeEach(async () => {
     prisma.fundName.deleteMany(),
     prisma.managingBody.deleteMany(),
     prisma.row.deleteMany(),
+    prisma.file.deleteMany(),
   ]
   await prisma.$transaction(tablesToDelete)
 });

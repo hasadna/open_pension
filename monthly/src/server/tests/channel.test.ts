@@ -1,5 +1,5 @@
 import {prisma} from '../context';
-import {createTestingServer, sendQuery} from "./testingServer";
+import {createTestingServer, sendQuery} from "./testingServerUtils";
 import {channelsQuery} from "./testingQueries";
 
 describe('Channel', () => {

@@ -84,7 +84,7 @@ async function getManagerData(managerID: number, prisma: PrismaClient): Promise<
 }
 
 export async function getFileMetadata(storageID: number, prisma: PrismaClient): Promise<FileMetadata> {
-  const {error, rows} = await prisma.file.findFirst({
+  const results = await prisma.file.findFirst({
       where: {storageID},
       select: {
         error: true,
@@ -92,6 +92,16 @@ export async function getFileMetadata(storageID: number, prisma: PrismaClient): 
       },
     },
   );
+
+  if (isEmpty(results)) {
+    return {
+      error: '',
+      numberOfRows: 0,
+      fileRows: [],
+    };
+  }
+
+  const {error, rows} = results;
 
   const keys = [
     'row_ID',

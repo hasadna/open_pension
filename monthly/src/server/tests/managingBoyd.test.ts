@@ -1,4 +1,4 @@
-import {createTestingServer, sendQuery} from "./testingServer";
+import {createTestingServer, sendQuery} from "./testingServerUtils";
 import {mangingBodyQuery} from "./testingQueries";
 import {prisma} from "../context";
 
