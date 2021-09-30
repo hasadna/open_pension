@@ -5,7 +5,8 @@ beforeEach(async () => {
 
   const tablesToDelete = [
     prisma.channel.deleteMany(),
-    prisma.fundName.deleteMany()
+    prisma.fundName.deleteMany(),
+    prisma.managingBody.deleteMany(),
   ]
   await prisma.$transaction(tablesToDelete)
 });

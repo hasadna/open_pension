@@ -17,3 +17,11 @@ export const fundsQuery = gql`
     }
   }
 `;
+export const mangingBodyQuery = gql`
+  query {
+    managingBodies {
+      ID
+      label
+    }
+  }
+`;
