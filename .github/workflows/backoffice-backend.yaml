@@ -29,8 +29,12 @@ jobs:
           mongodb-version: ${{ matrix.mongodb-version }}
 
       - name: Install dependencies
-        run: cd backoffice_backend && npm i
+        run: |
+          cd backoffice_backend
+          npm i
       - name: run jest
         env:
           CI: true
-        run: cd backoffice_backend && npm run jest --ci --watchAll=false
+        run: |
+          cd backoffice_backend
+          npm run jest --ci --watchAll=false

@@ -21,13 +21,23 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Setup the monthly DB
-        run: cd storage && docker-compose up -d storage storage_db
+      - name: Set up the storage service
+        run: |
+          cd storage
+          docker-compose up -d storage storage_db
+          # Sleeping for 30 seconds to wait for the server to be ready
+          sleep 30
 
       - name: Install dependencies
-        run: cd storage/testing && npm i && npm run prisma:clientGenerate && npm run prisma:migrate
+        run: |
+          cd storage/testing
+          npm i
+          npm run prisma:clientGenerate
+          npm run prisma:migrate
       - name: run jest
         env:
           CI: true
           DATABASE_URL: mysql://root:root@localhost:3306/storage?schema=public
-        run: cd storage/testing && npm run test
+        run: |
+          cd storage/testing
+          npm run test
