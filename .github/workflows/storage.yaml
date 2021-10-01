@@ -23,6 +23,8 @@ jobs:
 
       - name: Fixing permissions
         run: |
+          ls -al
+          pwd
           chmod 777 storage/testing/src/tests/assets/cat.png
           chmod 777 data/files/storage
 
