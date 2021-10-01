@@ -48,5 +48,7 @@ services:
       - ./monthly/envs/.staging.docker.env
 
   storage:
+    ports:
+      - "7000:80"
     env_file:
       - ./storage/envs/.local.docker.env
