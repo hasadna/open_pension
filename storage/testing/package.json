@@ -20,6 +20,7 @@
   "dependencies": {
     "@prisma/client": "^3.1.1",
     "@types/jest": "^27.0.2",
+    "axios": "^0.22.0",
     "jest": "^27.2.4",
     "ts-jest": "^27.0.5"
   }
