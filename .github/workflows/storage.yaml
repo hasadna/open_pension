@@ -29,4 +29,5 @@ jobs:
       - name: run jest
         env:
           CI: true
+          DATABASE_URL: mysql://root:root@localhost:3306/storage?schema=public
         run: cd storage/testing && npm run jest
