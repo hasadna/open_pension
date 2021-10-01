@@ -32,8 +32,8 @@ jobs:
         run: |
           ls -al
           pwd
-          chmod 777 storage/testing/src/tests/assets/cat.png
-          chmod 777 data/files/storage
+          sudo chmod 777 storage/testing/src/tests/assets/cat.png
+          sudo chmod 777 data/files/storage
 
       - name: Install dependencies
         run: |
