@@ -1,11 +1,13 @@
 import {getAxios} from "./utils";
+import {AxiosError} from "./interfaces";
+
 describe('File information', () => {
 
   it('Downloading a file which not exists', async () => {
     try {
       await getAxios().get('/file/21');
     } catch (e) {
-      const {response: {data, status}} = e as any;
+      const {response: {data, status}} = e as AxiosError;
       expect(status).toBe(404);
       expect(data).toStrictEqual({message: "Not Found"});
     }
