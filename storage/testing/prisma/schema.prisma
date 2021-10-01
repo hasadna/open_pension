@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model file {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  filename   String?   @db.VarChar(255)
+  path       String?   @db.VarChar(255)
+  downloaded Boolean?
+  url        String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+  deleted_at DateTime? @db.DateTime(0)
+
+  @@index([deleted_at], map: "idx_file_deleted_at")
+}
