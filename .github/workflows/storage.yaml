@@ -21,6 +21,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Fixing permissions
+        run: |
+          chmod 777 storage/testing/src/tests/assets/cat.png
+          chmod 777 data/files/storage
+
       - name: Set up the storage service
         run: |
           cd storage
