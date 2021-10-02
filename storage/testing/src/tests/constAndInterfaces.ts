@@ -57,3 +57,4 @@ export const catImageDestinationPath = join(process.cwd(), '../', '../', 'data',
 
 export const xmlFileOriginPath = join(process.cwd(), 'src', 'tests', 'assets', 'animals.xml');
 export const xmlFileDestinationPath = join(process.cwd(), '../', '../', 'data', 'files', 'storage', 'animals.xml');
+export const zipFile = join(process.cwd(), 'src', 'tests', 'assets', 'zipWithFiles.zip');
