@@ -4,7 +4,6 @@ import {
   TransactionResults, updateObject
 } from './Utils';
 import mongoose from './db';
-import {prepareDocumentToPusherEvent, sendEvent} from "../utils/pusher";
 import axios from "axios";
 import {getMonthlyAddress} from "../utils/config";
 
@@ -73,8 +72,8 @@ export async function createFile(file: FileInterface): Promise<TransactionResult
  */
 export async function updateFileStatus(storageId: number, status: Status) {
   // @ts-ignore
-  const document = await File.findOneAndUpdate({storageId}, {status}, {new: true});
-  await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, 'files'));
+  return File.findOneAndUpdate({storageId}, {status}, {new: true});
+  // await sendEvent('main', 'objectUpdate', prepareDocumentToPusherEvent(document, 'files'));
 }
 
 /**

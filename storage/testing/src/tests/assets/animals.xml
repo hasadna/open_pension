@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<animals>
+    <description>This is the list of animals</description>
+    <animal>
+        <type>Cat</type>
+        <name>Sam</name>
+    </animal>
+    <animal>
+        <type>Cat</type>
+        <name>Tom</name>
+    </animal>
+</animals>

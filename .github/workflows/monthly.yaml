@@ -1,0 +1,36 @@
+name: Monthly
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup the monthly DB
+        run: cd monthly && docker-compose up -d monthly_db
+
+      - name: Install dependencies
+        run: |
+          cd monthly
+          npm i
+          npm run prisma:clientGenerate
+          npm run prisma:migrate
+      - name: run jest
+        env:
+          CI: true
+        run: cd monthly && npm run jest
