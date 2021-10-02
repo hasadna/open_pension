@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {prisma} from "../server/context";
 import {FileCreateType, FileResponse, FilesResponse} from "./constAndInterfaces";
+import {createReadStream} from "fs";
+const FormData = require('form-data'); // npm install --save form-data
 
 export function getAxios() {
   return axios.create({
@@ -9,6 +11,20 @@ export function getAxios() {
 }
 
 export const fileCreate = async (data: FileCreateType) => await prisma.file.create({data,});
+export const sendGraphQLQuery = async (query: string): Promise<FileResponse|FilesResponse> => getAxios().post(`/graphql`, {query});
+
+export const uploadFile = async (paths: string[]) => {
+  const form = new FormData();
+  paths.forEach(path => form.append('file', createReadStream(path)));
+
+  const request_config = {
+    headers: {
+      ...form.getHeaders()
+    }
+  };
+
+  return getAxios().post(`/file`, form, request_config);
+}
 
 export const createMultipleFiles = async () => {
   const filesData = [
@@ -20,6 +36,4 @@ export const createMultipleFiles = async () => {
 
   return Promise.all(filesData.map(data => fileCreate(data)));
 }
-
-export const sendGraphQLQuery = async (query: string): Promise<FileResponse|FilesResponse> => getAxios().post(`/graphql`, {query});
 
