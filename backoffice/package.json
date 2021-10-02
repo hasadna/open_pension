@@ -1,5 +1,5 @@
 {
-  "name": "recoil-testing",
+  "name": "backoffice",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,6 +12,7 @@
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "immutable": "^3.8.2",
+    "jest": "^27.2.4",
     "lodash": "^4.17.21",
     "node-sass": "^5.0.0",
     "pusher-js": "^7.0.3",
@@ -32,7 +33,7 @@
   "scripts": {
     "start": "PORT=80 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject",
     "serve": "npx serve"
   },
