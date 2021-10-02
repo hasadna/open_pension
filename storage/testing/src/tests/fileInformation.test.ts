@@ -24,6 +24,8 @@ describe('File information', () => {
     return Promise.all(filesData.map(data => prisma.file.create({data})));
   }
 
+  const sendGraphQLQuery = async (query: string) => getAxios().post(`/graphql`, {query});
+
   it('Downloading a file which not exists', async () => {
     try {
       await getAxios().get('/file/21');
@@ -83,25 +85,23 @@ describe('File information', () => {
     const {animals: {description, animal: [firstAnimal, secondAnimal]}} = await parseStringPromise(data);
 
     expect(headers['content-type']).toBe('application/xml');
-    expect(description).toStrictEqual([ 'This is the list of animals' ]);
-    expect(firstAnimal).toStrictEqual({ type: [ 'Cat' ], name: [ 'Sam' ] });
-    expect(secondAnimal).toStrictEqual({ type: [ 'Cat' ], name: [ 'Tom' ] });
+    expect(description).toStrictEqual(['This is the list of animals']);
+    expect(firstAnimal).toStrictEqual({type: ['Cat'], name: ['Sam']});
+    expect(secondAnimal).toStrictEqual({type: ['Cat'], name: ['Tom']});
   });
 
   it('Getting all the files from the graphql endpoint', async () => {
     const files = await createMultipleFiles();
 
-    const {data: {data: {files: filesFromResponse}}} = await getAxios().post(`/graphql`, {
-      query: `
-        query {
-          files {
-            id
-            filename
-            path
-          }
+    const {data: {data: {files: filesFromResponse}}} = await sendGraphQLQuery(`
+      query {
+        files {
+          id
+          filename
+          path
         }
-      `
-    }) as any;
+      }
+    `) as any;
 
     // @ts-ignore
     files.forEach(({id, filename, path}) => {
@@ -111,6 +111,23 @@ describe('File information', () => {
     });
   });
 
-  // it('Getting a single file the graphql endpoint', async () => {
-  // });
+  it('Getting a single file the graphql endpoint', async () => {
+    const [firstFile, secondFile] = await createMultipleFiles();
+    const assertFileData = async ({id, expectedFilename, expectedPath}: any) => {
+      const {data: {data: {file: {path, filename}}}} = await sendGraphQLQuery(`
+        query {
+          file(id: ${id}) {
+            filename
+            path
+          }
+        }
+      `) as any;
+
+      expect(expectedPath).toBe(path);
+      expect(expectedFilename).toBe(filename);
+    }
+
+    await assertFileData({id: firstFile.id, expectedFilename: firstFile.filename, expectedPath: firstFile.path})
+    await assertFileData({id: secondFile.id, expectedFilename: secondFile.filename, expectedPath: secondFile.path})
+  });
 });
