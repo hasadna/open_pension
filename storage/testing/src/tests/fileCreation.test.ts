@@ -17,6 +17,7 @@ describe('File uploading', () => {
     expect(await getFileByIDs([file.ID])).not.toBeNull();
   });
 
+  // todo: handle this one later on. I know this work but for some reason failed here.
   // it('Uploading multiple files', async () => {
   //   // const {data: {files}} = await uploadFile([catImageOriginPath, xmlFileOriginPath]);
   //   // // expect(firstFile.ID).not.toBeNull();
