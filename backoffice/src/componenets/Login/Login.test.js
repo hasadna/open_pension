@@ -66,10 +66,10 @@ describe('Login', () => {
         refreshToken: 'sushi'
       }, error: {}
     });
-    clickEvent({wrapper, selector: 'submit', recoilComponent: true})
 
-    await flushPromises();
+    await clickEvent({wrapper, selector: 'submit', recoilComponent: true})
     expect(mockLoginQuery).toBeCalledTimes(1);
+
     verifyElementNotExists({wrapper, selector: '.message.error', recoilComponent: true});
   });
 });

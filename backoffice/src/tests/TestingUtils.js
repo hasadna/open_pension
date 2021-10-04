@@ -47,10 +47,14 @@ export const setElementValue = ({wrapper, selector, value, recoilComponent}) => 
 
 }
 
-export const clickEvent = ({wrapper, selector, recoilComponent}) => {
+export const clickEvent = async ({wrapper, selector, recoilComponent, flushPromise}) => {
   if (recoilComponent) {
     const {getByTestId} = wrapper;
     fireEvent.click(getByTestId(selector));
+  }
+
+  if (flushPromise) {
+    await flushPromise();
   }
 }
 
