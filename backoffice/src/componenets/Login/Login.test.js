@@ -1,5 +1,12 @@
 import {fireEvent} from '@testing-library/react';
-import {getComponent,verifyElementExists,verifyElementNotExists, flushPromises, searchText} from "../../tests/TestingUtils";
+import {
+  getComponent,
+  verifyElementExists,
+  verifyElementNotExists,
+  flushPromises,
+  searchText,
+  setElementValue, clickEvent
+} from "../../tests/TestingUtils";
 
 let mockLoginQuery = jest.fn()
 
@@ -45,10 +52,10 @@ describe('Login', () => {
   });
 
   it('Handling an success from server upon a valid form', async () => {
-    const {getByTestId, queryByTestId} = getComponent(<Login />, {recoil: true});
+    const wrapper = getComponent(<Login />, {recoil: true});
 
-    fireEvent.change(getByTestId('email'), {target: {value: 'test@example.com'}});
-    fireEvent.change(getByTestId('password'), {target: {value: '1234'}});
+    setElementValue({wrapper, selector: 'email', value: 'test@example.com', recoilComponent: true})
+    setElementValue({wrapper, selector: 'password', value: '1234', recoilComponent: true})
 
     expect(mockLoginQuery).not.toBeCalled();
 
@@ -59,11 +66,10 @@ describe('Login', () => {
         refreshToken: 'sushi'
       }, error: {}
     });
-    fireEvent.click(getByTestId('submit'), {target: {value: '1234'}});
+    clickEvent({wrapper, selector: 'submit', recoilComponent: true})
 
     await flushPromises();
     expect(mockLoginQuery).toBeCalledTimes(1);
-
-    expect(queryByTestId('message-error')).toBeNull();
+    verifyElementNotExists({wrapper, selector: '.message.error', recoilComponent: true});
   });
 });

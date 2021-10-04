@@ -1,5 +1,5 @@
 import {shallow} from "enzyme";
-import {render} from "@testing-library/react";
+import {fireEvent, render} from "@testing-library/react";
 import {RecoilRoot} from "recoil";
 import Login from "../componenets/Login/Login";
 
@@ -26,9 +26,31 @@ export const verifyElementExists = ({wrapper, selector, text}) => {
   }
 }
 
-export const verifyElementNotExists = ({wrapper, selector}) => {
+export const verifyElementNotExists = ({wrapper, selector, recoilComponent}) => {
+
+  if (recoilComponent) {
+    let {queryByTestId} = wrapper;
+    expect(queryByTestId(selector)).toBeNull();
+    return;
+  }
+
   expect(wrapper.find(selector).length).toBe(0);
 }
 
 export const flushPromises = () => new Promise(setImmediate);
+
+export const setElementValue = ({wrapper, selector, value, recoilComponent}) => {
+  if (recoilComponent) {
+    const {getByTestId} = wrapper;
+    fireEvent.change(getByTestId(selector), {target: {value}});
+  }
+
+}
+
+export const clickEvent = ({wrapper, selector, recoilComponent}) => {
+  if (recoilComponent) {
+    const {getByTestId} = wrapper;
+    fireEvent.click(getByTestId(selector));
+  }
+}
 
