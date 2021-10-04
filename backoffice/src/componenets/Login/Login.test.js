@@ -1,4 +1,5 @@
 import {configure, shallow} from 'enzyme';
+import {fireEvent, render, screen} from '@testing-library/react';
 import Adapter from 'enzyme-adapter-react-16';
 
 configure({adapter: new Adapter()});
@@ -68,12 +69,13 @@ describe('Login', () => {
   });
 
   it('Handling an success from server upon a valid form', async () => {
-    const wrapper = shallow(<RecoilRoot><Login/></RecoilRoot>)
+    const {getByTestId, queryByTestId} = render(<RecoilRoot><Login/></RecoilRoot>);
+
+    fireEvent.change(getByTestId('email'), {target: {value: 'test@example.com'}});
+    fireEvent.change(getByTestId('password'), {target: {value: '1234'}});
 
     expect(mockLoginQuery).not.toBeCalled();
 
-    wrapper.find('#username').simulate('change', {target: {value: 'test@example.com'}});
-    wrapper.find('#password').simulate('change', {target: {value: '1234'}});
     mockLoginQuery.mockReturnValue({
       data: {
         token: 'pizza',
@@ -81,9 +83,11 @@ describe('Login', () => {
         refreshToken: 'sushi'
       }, error: {}
     });
-    wrapper.find('.button.button-ok').simulate('click');
+    fireEvent.click(getByTestId('submit'), {target: {value: '1234'}});
+
     await flushPromises();
     expect(mockLoginQuery).toBeCalledTimes(1);
-    verifyElementNotExists({wrapper, selector: '.message.error'})
+
+    expect(queryByTestId('message-error')).toBeNull();
   });
 });
