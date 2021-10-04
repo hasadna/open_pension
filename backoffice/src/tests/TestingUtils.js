@@ -43,6 +43,8 @@ export const setElementValue = ({wrapper, selector, value, recoilComponent}) => 
   if (recoilComponent) {
     const {getByTestId} = wrapper;
     fireEvent.change(getByTestId(selector), {target: {value}});
+  } else {
+    wrapper.find(selector).simulate('change', {target: {value}})
   }
 
 }
@@ -51,10 +53,12 @@ export const clickEvent = async ({wrapper, selector, recoilComponent, flushPromi
   if (recoilComponent) {
     const {getByTestId} = wrapper;
     fireEvent.click(getByTestId(selector));
+  } else {
+    wrapper.find(selector).simulate('click');
   }
 
   if (flushPromise) {
-    await flushPromise();
+    await flushPromises();
   }
 }
 

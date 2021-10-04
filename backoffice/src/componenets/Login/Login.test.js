@@ -1,9 +1,7 @@
-import {fireEvent} from '@testing-library/react';
 import {
   getComponent,
   verifyElementExists,
   verifyElementNotExists,
-  flushPromises,
   searchText,
   setElementValue, clickEvent
 } from "../../tests/TestingUtils";
@@ -20,19 +18,21 @@ import Login from "./Login";
 
 describe('Login', () => {
 
-  it('Submitting the form without a username or password', () => {
+  it('Submitting the form without a username or password', async () => {
     const wrapper = getComponent(<Login />);
+
     verifyElementNotExists({wrapper, selector: '.message.error'});
-    wrapper.find('.button.button-ok').simulate('click');
+    await clickEvent({wrapper, selector: '.button.button-ok'});
 
     searchText({wrapper: wrapper.find('Input').at(0), text: 'You need to set a username or email'});
     searchText({wrapper: wrapper.find('Input').at(1), text: 'Password cannot be empty'});
   });
 
-  it('Submitting the form without a password', () => {
-    const wrapper = getComponent(<Login />)
-    wrapper.find('#username').simulate('change', {target: {value: 'test@example.com'}})
-    wrapper.find('.button.button-ok').simulate('click');
+  it('Submitting the form without a password', async () => {
+    const wrapper = getComponent(<Login />);
+
+    setElementValue({wrapper, selector: '#username', value: 'test@example.com'});
+    await clickEvent({wrapper, selector: '.button.button-ok'});
 
     searchText({wrapper: wrapper.find('Input').at(1), text: 'Password cannot be empty'});
   });
@@ -42,11 +42,12 @@ describe('Login', () => {
 
     expect(mockLoginQuery).not.toBeCalled();
 
-    wrapper.find('#username').simulate('change', {target: {value: 'test@example.com'}});
-    wrapper.find('#password').simulate('change', {target: {value: '1234'}});
+    setElementValue({wrapper, selector: '#username', value: 'test@example.com'});
+    setElementValue({wrapper, selector: '#password', value: '1234'});
+
     mockLoginQuery.mockReturnValue({data: {}, error: {message: 'There was an error with the request'}});
-    wrapper.find('.button.button-ok').simulate('click');
-    await flushPromises();
+    await clickEvent({wrapper, selector: '.button.button-ok', flushPromise: true});
+
     expect(mockLoginQuery).toBeCalledTimes(1);
     verifyElementExists({wrapper, selector: '.message.error', text: 'There was an error with the request'});
   });
@@ -67,7 +68,7 @@ describe('Login', () => {
       }, error: {}
     });
 
-    await clickEvent({wrapper, selector: 'submit', recoilComponent: true})
+    await clickEvent({wrapper, selector: 'submit', recoilComponent: true});
     expect(mockLoginQuery).toBeCalledTimes(1);
 
     verifyElementNotExists({wrapper, selector: '.message.error', recoilComponent: true});
