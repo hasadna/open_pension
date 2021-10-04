@@ -1,8 +1,5 @@
-import {configure, shallow} from 'enzyme';
-import {fireEvent, render, screen} from '@testing-library/react';
-import Adapter from 'enzyme-adapter-react-16';
-
-configure({adapter: new Adapter()});
+import {fireEvent} from '@testing-library/react';
+import {getComponent,verifyElementExists,verifyElementNotExists, flushPromises, searchText} from "../../tests/TestingUtils";
 
 let mockLoginQuery = jest.fn()
 
@@ -13,32 +10,11 @@ jest.mock('api/user', () => {
 })
 
 import Login from "./Login";
-import {RecoilRoot} from "recoil";
 
 describe('Login', () => {
-  const getComponent = () => shallow(<Login/>);
-
-  const searchText = ({wrapper, text}) => {
-    expect(wrapper.html().includes(text)).toBeTruthy();
-  }
-
-  const verifyElementExists = ({wrapper, selector, text}) => {
-    const element = wrapper.find(selector);
-    expect(element.length).toBe(1);
-
-    if (text) {
-      expect(element.text()).toBe(text);
-    }
-  }
-
-  const verifyElementNotExists = ({wrapper, selector}) => {
-    expect(wrapper.find(selector).length).toBe(0);
-  }
-
-  const flushPromises = () => new Promise(setImmediate);
 
   it('Submitting the form without a username or password', () => {
-    const wrapper = getComponent();
+    const wrapper = getComponent(<Login />);
     verifyElementNotExists({wrapper, selector: '.message.error'});
     wrapper.find('.button.button-ok').simulate('click');
 
@@ -47,7 +23,7 @@ describe('Login', () => {
   });
 
   it('Submitting the form without a password', () => {
-    const wrapper = getComponent();
+    const wrapper = getComponent(<Login />)
     wrapper.find('#username').simulate('change', {target: {value: 'test@example.com'}})
     wrapper.find('.button.button-ok').simulate('click');
 
@@ -55,7 +31,7 @@ describe('Login', () => {
   });
 
   it('Handling an error from the server upon a valid form', async () => {
-    const wrapper = getComponent();
+    const wrapper = getComponent(<Login />);
 
     expect(mockLoginQuery).not.toBeCalled();
 
@@ -69,7 +45,7 @@ describe('Login', () => {
   });
 
   it('Handling an success from server upon a valid form', async () => {
-    const {getByTestId, queryByTestId} = render(<RecoilRoot><Login/></RecoilRoot>);
+    const {getByTestId, queryByTestId} = getComponent(<Login />, {recoil: true});
 
     fireEvent.change(getByTestId('email'), {target: {value: 'test@example.com'}});
     fireEvent.change(getByTestId('password'), {target: {value: '1234'}});
