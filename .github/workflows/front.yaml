@@ -31,4 +31,4 @@ jobs:
           CI: true
         run: |
           cd front
-          npm run test
+          npm run test:ci
