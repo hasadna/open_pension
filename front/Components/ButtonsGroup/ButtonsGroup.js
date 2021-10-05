@@ -51,11 +51,11 @@ export default function ButtonGroups({title, buttons, selectHandler, defaultActi
 
   return <div className="buttons-group">
     <div className="title-wrapper">
-      <span className="title">{title}</span>
-      {description && <div className="info-wrapper"><InfoTooltip description={description} /></div>}
+      <span className="title" data-testid="title">{title}</span>
+      {description && <div className="info-wrapper" data-testid="description"><InfoTooltip description={description} /></div>}
     </div>
 
-    <ul>
+    <ul data-testid="items-wrapper">
       {Object
         .entries(buttons)
         .map(([identifier, value], key) =>
@@ -64,6 +64,7 @@ export default function ButtonGroups({title, buttons, selectHandler, defaultActi
                onClick={handleButtonClick}
                data-identifier={identifier}
                className={getButtonClass(identifier)}
+               data-testid="item"
             >{value}</a>
           </li>
         )
