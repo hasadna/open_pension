@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Buttons group Snapshot 1`] = `
+<div
+  className="buttons-group"
+>
+  <div
+    className="title-wrapper"
+  >
+    <span
+      className="title"
+      data-testid="title"
+    >
+      Testing component
+    </span>
+    <div
+      className="info-wrapper"
+      data-testid="description"
+    >
+      <div
+        className="info-tooltip off"
+      >
+        <div
+          className="a-wrapper"
+        >
+          <a
+            href="#"
+            onClick={[Function]}
+          >
+            i
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul
+    data-testid="items-wrapper"
+  >
+    <li>
+      <a
+        className={null}
+        data-identifier="0"
+        data-testid="item"
+        href="#"
+        onClick={[Function]}
+      >
+        First option
+      </a>
+    </li>
+    <li>
+      <a
+        className={null}
+        data-identifier="1"
+        data-testid="item"
+        href="#"
+        onClick={[Function]}
+      >
+        Second option
+      </a>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Buttons group Snapshot 2`] = `
+<div
+  className="buttons-group"
+>
+  <div
+    className="title-wrapper"
+  >
+    <span
+      className="title"
+      data-testid="title"
+    >
+      Testing component
+    </span>
+    
+  </div>
+  <ul
+    data-testid="items-wrapper"
+  >
+    <li>
+      <a
+        className={null}
+        data-identifier="0"
+        data-testid="item"
+        href="#"
+        onClick={[Function]}
+      >
+        First option
+      </a>
+    </li>
+    <li>
+      <a
+        className={null}
+        data-identifier="1"
+        data-testid="item"
+        href="#"
+        onClick={[Function]}
+      >
+        Second option
+      </a>
+    </li>
+  </ul>
+</div>
+`;

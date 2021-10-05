@@ -1,7 +1,6 @@
 {
-  "name": "recoil-testing",
+  "name": "backoffice",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
@@ -11,9 +10,11 @@
     "axios": "^0.21.3",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "immutable": "^3.8.2",
     "lodash": "^4.17.21",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.0",
     "pusher-js": "^7.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

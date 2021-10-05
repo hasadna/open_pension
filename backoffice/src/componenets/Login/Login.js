@@ -96,14 +96,14 @@ export default () => {
     <section className="login">
       <small className="title">Login</small>
 
-      {error && <div className="message error">{error}</div>}
+      {error && <div className="message error" data-testid="message-error">{error}</div>}
 
       <div className="inputs">
-        <Input title={"Email or Username"} type="text" id="username" className="email" placeholder="Enter email or username" onChange={(e) => {setUsernameOrEmail(e.target.value)}} error={usernameOrEmailError} />
-        <Input title={"Password"} type="password" id="password" className="password"  placeholder="Enter password" onChange={(e) => {setPassword(e.target.value)}} error={passwordError} />
+        <Input title={"Email or Username"} type="text" data-testid="email" id="username" className="email" placeholder="Enter email or username" onChange={(e) => {setUsernameOrEmail(e.target.value)}} error={usernameOrEmailError} />
+        <Input title={"Password"} type="password" data-testid="password" id="password" className="password"  placeholder="Enter password" onChange={(e) => {setPassword(e.target.value)}} error={passwordError} />
       </div>
 
-      <button className={`button button-ok ${isLoading ? 'on-click':''}`} onClick={() => handleClick()}>Login</button>
+      <button className={`button button-ok ${isLoading ? 'on-click':''}`} onClick={() => handleClick()} data-testid="submit">Login</button>
     </section>
   </div>
 };

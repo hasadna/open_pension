@@ -56,7 +56,7 @@ export default ({title, children, topContent, activePage = "home", notch="big"})
       <nav>
         <ul className="side-menu">
           {Object.entries(menuItems).map(([id, menuItem], key) => {
-            return <li className={`${id === activePage ? 'active' : ''} link-wrapper`}>
+            return <li key={key} className={`${id === activePage ? 'active' : ''} link-wrapper`}>
               {menuItem}
             </li>
           })}

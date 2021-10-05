@@ -11,6 +11,7 @@ export async function loginQuery({username, email, password}) {
       }
     }
   `);
+
   const {data: {tokenCreate: data}, error} = results;
   return {data, error}
 }

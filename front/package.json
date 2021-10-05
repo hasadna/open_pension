@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 80"
+    "start": "next start -p 80",
+    "test:ci": "jest --all",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.4.0",
@@ -23,5 +25,13 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "sass": "^1.32.11"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
+    "babel-jest": "^27.2.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.2.4",
+    "react-test-renderer": "^17.0.2"
   }
 }
