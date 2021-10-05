@@ -47,4 +47,4 @@ jobs:
           DATABASE_URL: mysql://root:root@localhost:3306/storage?schema=public
         run: |
           cd storage/testing
-          npm run test
+          npm run test:ci

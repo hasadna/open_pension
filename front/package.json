@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 80",
+    "test:ci": "jest --all",
     "test": "jest --watch"
   },
   "dependencies": {
