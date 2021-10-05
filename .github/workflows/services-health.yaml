@@ -24,4 +24,6 @@ jobs:
 
       - name: Fire up docker services
         run: |
+          ls -al
+          pwd
           docker-compose up -d front backoffice backoffice_backend storage monthly
