@@ -13,7 +13,7 @@ describe('File uploading', () => {
   it('Uploading file a single file', async () => {
     const {data: {files: [file]}} = await uploadFile([catImageOriginPath]);
     expect(file.ID).not.toBeNull();
-    expect(file.filename).toBe('cat.png');
+    expect(file.filename).not.toBe('cat.png');
     expect(await getFileByIDs([file.ID])).not.toBeNull();
   });
 
