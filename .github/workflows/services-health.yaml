@@ -13,6 +13,8 @@ on:
 jobs:
 
   test:
+    needs:
+      - test-Storage
 
     runs-on: ubuntu-20.04
 
