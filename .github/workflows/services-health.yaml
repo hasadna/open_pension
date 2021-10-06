@@ -5,6 +5,8 @@ on:
     workflows: [ "Backoffice", "Backoffice Backend", "Front", "Monthly", "Storage" ]
     types:
       - completed
+      - requested
+
   push:
     branches: [ master ]
   pull_request:
@@ -13,9 +15,6 @@ on:
 jobs:
 
   test:
-    needs:
-      - test-Storage
-
     runs-on: ubuntu-20.04
 
     strategy:
