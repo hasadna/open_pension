@@ -1,12 +1,6 @@
 name: Services helath
 
 on:
-  workflow_run:
-    workflows: [ "Backoffice", "Backoffice Backend", "Front", "Monthly", "Storage" ]
-    types:
-      - completed
-      - requested
-
   push:
     branches: [ master ]
   pull_request:
@@ -30,6 +24,14 @@ jobs:
 
       - name: Fire up docker services
         run: |
-          ls -al
-          pwd
           docker-compose up -d front backoffice backoffice_backend storage monthly
+
+      - name: Install packages
+        run: |
+          cd services-health-checker
+          npm i
+
+      - name: Run tests
+        run: |
+          cd services-health-checker
+          npm run test
