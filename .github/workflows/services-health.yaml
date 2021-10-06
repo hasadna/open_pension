@@ -34,4 +34,6 @@ jobs:
       - name: Run tests
         run: |
           cd services-health-checker
+          # Sleeping three minutes so the container would done to build.
+          sleep 180
           npm run test
