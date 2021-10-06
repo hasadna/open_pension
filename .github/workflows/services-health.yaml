@@ -1,6 +1,10 @@
 name: Services helath
 
 on:
+  workflow_run:
+    workflows: [ "Backoffice", "Backoffice Backend", "Front", "Monthly", "Storage" ]
+    types:
+      - completed
   push:
     branches: [ master ]
   pull_request:
