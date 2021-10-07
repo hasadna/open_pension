@@ -62,7 +62,7 @@ jobs:
       - name: Run tests
         run: |
           # Sleeping three minutes so the container would done to build.
-          sleep 240
+          sleep 180
 
           # todo: create here a user and run the sanity tests of login and verify the front works
           curl http://localhost:1000
