@@ -1,0 +1,23 @@
+name: 'Running unit'
+description: 'Running a unit of a service'
+inputs:
+  service:
+    description: The name of the service AKA the folder
+    required: true
+  node-version:
+    description: The node version
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ inputs.node-version }}
+    - run: |
+      cd ${{ inputs.service }}
+      npm i
+      shell: "bash"
+    - run: |
+        cd ${{ inputs.service }}
+        npm run test
+      shell: "bash"
