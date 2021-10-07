@@ -7,6 +7,9 @@ import (
 	"storage/log"
 )
 
+func ServiceHealth(c echo.Context) error {
+    return c.String(http.StatusOK, "Service is working")
+}
 
 func ServeFile(c echo.Context) error {
 	db := GetDbConnection()

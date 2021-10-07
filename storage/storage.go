@@ -32,6 +32,7 @@ func main() {
 		return
 	}
 
+	e.GET("/", api.ServiceHealth)
 	e.POST("/graphql", echo.WrapHandler(h))
 	e.GET("/file/:id", api.ServeFile)
 	e.POST("/file", api.StoreFile)
