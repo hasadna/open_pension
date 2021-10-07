@@ -62,5 +62,5 @@ jobs:
       - name: Run tests
         run: |
           # Sleeping three minutes so the container would done to build.
-          sleep 360
+          sleep 300
           curl http://localhost:1000
