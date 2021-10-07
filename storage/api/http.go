@@ -8,7 +8,7 @@ import (
 )
 
 func ServiceHealth(c echo.Context) error {
-    return c.String(http.StatusOK, "Hello, World!")
+    return c.String(http.StatusOK, "Service is working")
 }
 
 func ServeFile(c echo.Context) error {

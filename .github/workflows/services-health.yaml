@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  test:
+  service-health:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -35,5 +35,4 @@ jobs:
         run: |
           cd services-health-checker
           # Sleeping three minutes so the container would done to build.
-          sleep 180
           npm run test
