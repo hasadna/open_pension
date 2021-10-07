@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run unit
-        uses: actions/run-unit@v1
+        uses: ./run-unit
         env:
           CI: true
         with:
