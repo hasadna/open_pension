@@ -1,0 +1,13 @@
+name: Unit
+description: "Run unit"
+inputs:
+  folder:
+    description: 'folder'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - run: cd ${{ inputs.folder }}
+      shell: bash
+    - run: npm i
+      shell: bash
