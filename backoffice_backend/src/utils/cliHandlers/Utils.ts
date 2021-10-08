@@ -37,9 +37,10 @@ export function verifyPassedOptions(action: string, options: HandlerOptions) {
 
 // @ts-ignore
 export function executeHandler({questions, postInterrogationHandler}: HandlerPayload, options: HandlerOptions) {
-
+  //todo: remove from the options the values which we already got.
   console.log(options);
   inquirer.prompt(questions).then(async (answers) => {
+    // todo: combine the answers and the options we got.
     console.log(answers);
     // await postInterrogationHandler(answers)
   });
