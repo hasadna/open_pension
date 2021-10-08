@@ -2,11 +2,17 @@ name: Unit
 description: "Run unit"
 inputs:
   folder:
-    description: 'folder'
-    required: false
+    description: The folder
+    required: true
+  node-version:
+    description: Node version
+    required: true
 runs:
   using: "composite"
   steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ imput.node-version }}
     - run: |
         cd ${{ inputs.folder }}
         npm i
