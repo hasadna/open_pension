@@ -1,0 +1,160 @@
+name: Unit
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  backoffice:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          cd backoffice
+          npm i
+      - name: run jest
+        env:
+          CI: true
+        run: |
+          cd backoffice
+          npm run test
+
+  bakoffice_backend:
+
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+        mongodb-version: [ 4.4 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.4.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      - name: Install dependencies
+        run: |
+          cd backoffice_backend
+          npm i
+      - name: run jest
+        env:
+          CI: true
+        run: |
+          cd backoffice_backend
+          npm run jest --ci --watchAll=false
+
+
+  front:
+
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          cd front
+          npm i
+      - name: run jest
+        env:
+          CI: true
+        run: |
+          cd front
+          npm run test:ci
+
+  monthly:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup the monthly DB
+        run: cd monthly && docker-compose up -d monthly_db
+
+      - name: Install dependencies
+        run: |
+          cd monthly
+          npm i
+          npm run prisma:clientGenerate
+          npm run prisma:migrate
+      - name: run jest
+        env:
+          CI: true
+        run: cd monthly && npm run jest
+  storage:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Set up the storage service
+        run: |
+          cd storage
+          docker-compose up -d storage storage_db
+          # Sleeping for 30 seconds to wait for the server to be ready
+          sleep 30
+
+      - name: Fixing permissions
+        run: |
+          sudo chmod 777 storage/testing/src/tests/assets/cat.png
+          sudo chmod 777 data/files/storage
+
+      - name: Install dependencies
+        run: |
+          cd storage/testing
+          npm i
+          npm run prisma:clientGenerate
+          npm run prisma:migrate
+      - name: run jest
+        env:
+          CI: true
+          DATABASE_URL: mysql://root:root@localhost:3308/storage?schema=public
+        run: |
+          cd storage/testing
+          npm run test

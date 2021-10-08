@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  services-health:
+  endpoint-health:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -38,31 +38,47 @@ jobs:
           sleep 180
           npm run test
 
-  services-sanity:
-    runs-on: ubuntu-20.04
-
-    needs:
-      - services-health
-
-    strategy:
-      matrix:
-        node-version: [ 16.9.0 ]
-
-    steps:
-      - uses: actions/checkout@v2
+#  services-sanity:
+#    runs-on: ubuntu-20.04
+##
+##    needs:
+##      - endpoint-health
+#
+#    strategy:
+#      matrix:
+#        node-version: [ 16.9.0 ]
+#
+#    steps:
+#      # todo: run only when the commit have run-e2e-sanity
+#      - uses: actions/checkout@v2
 #      - name: Use Node.js ${{ matrix.node-version }}
 #        uses: actions/setup-node@v1
 #        with:
 #          node-version: ${{ matrix.node-version }}
-
-      - name: Fire up docker services
-        run: |
-          docker-compose up -d front backoffice backoffice_backend storage monthly
-
-      - name: Run tests
-        run: |
-          # Sleeping three minutes so the container would done to build.
-          sleep 180
-
-          # todo: create here a user and run the sanity tests of login and verify the front works
-          curl http://localhost:1000
+#
+#      - name: Install testim
+#        env:
+#          TESTIM_TOKEN: ${{ secrets.TESTIM_TOKEN }}
+#          TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
+#        run: |
+#          npm i -g @testim/testim-cli
+#          testim --token $TESTIM_TOKEN --project $TESTIM_PROJECT --grid "Testim-Grid" --suite "Sanity"
+#
+#
+#      - name: Fire up docker services
+#        run: |
+#          docker-compose up -d front backoffice backoffice_backend storage monthly
+#
+#      - name: Prepare env stuff
+#        run: |
+#          # Sleeping three minutes so the container would done to build.
+#          sleep 180
+#
+#          # todo: create here a user and run the sanity tests of login and verify the front works
+#          curl http://localhost:1000
+#
+#          docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
+##      - name: Install testim
+##        run: |
+##          npm i -g @testim/testim-cli
+##          testim --token ${{ secrets.TESTIM_TOKEN }} --project ${{secrets.TESTIM_PROJECT}} --grid "Testim-Grid" --suite "Sanity"

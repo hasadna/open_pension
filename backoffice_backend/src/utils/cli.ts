@@ -1,11 +1,8 @@
-import {last} from "lodash";
+import {
+  extractActionNameAndOptions, executeHandler, verifyPassedOptions
+} from "./cliHandlers/Utils";
 
-import createUser from './cliHandlers/createUser';
+const {action, options} = extractActionNameAndOptions();
+const handler = verifyPassedOptions(action, options);
 
-const action = last(process.argv);
-
-const actions = {
-  createUser: createUser,
-};
-
-actions[action]();
+executeHandler(handler(), options);
