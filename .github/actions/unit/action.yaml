@@ -23,6 +23,6 @@ runs:
         npm i
       shell: bash
     - run: |
-        cd backoffice
+        cd ${{ inputs.folder }}
         npm run test
       shell: bash
