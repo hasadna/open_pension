@@ -1,18 +1,22 @@
 import {
-  ActionNameAndOptions,
-  ArgsRegex,
-  HandlerOptions, HandlerPayload
+  ArgsRegex, ActionNameAndOptions, HandlerOptions, HandlerPayload
 } from "./typesAndConsts";
 import * as inquirer from 'inquirer';
 import {handlers} from "./Handlers";
+import {isEmpty} from 'lodash';
 
 export function extractActionNameAndOptions(): ActionNameAndOptions {
   const [,,action, ...optionsFromArgv] = (process.argv);
-
   const options = {};
 
-  optionsFromArgv.forEach(item => {
-    const [, option, value] = ArgsRegex.exec(item)
+  optionsFromArgv.filter(item => item).map(optionFromArgv => {
+    const matches = ArgsRegex.exec(optionFromArgv);
+
+    if (isEmpty(matches)) {
+      return;
+    }
+
+    const [, option, value] = matches
     options[option] = value;
   });
 
@@ -35,13 +39,11 @@ export function verifyPassedOptions(action: string, options: HandlerOptions) {
   return handler
 }
 
-// @ts-ignore
 export function executeHandler({questions, postInterrogationHandler}: HandlerPayload, options: HandlerOptions) {
-  //todo: remove from the options the values which we already got.
-  console.log(options);
-  inquirer.prompt(questions).then(async (answers) => {
-    // todo: combine the answers and the options we got.
-    console.log(answers);
-    // await postInterrogationHandler(answers)
+  // Remove from the options the values which we already got.
+  const filteredQuestions = questions.filter((question: any) => !Object.keys(options).includes(question.name));
+
+  inquirer.prompt(filteredQuestions).then(async (answers) => {
+    await postInterrogationHandler({...answers, ...options});
   });
 }
