@@ -35,6 +35,12 @@ export function verifyPassedOptions(action: string, options: HandlerOptions) {
   return handler
 }
 
-export function executeHandler({questions, postInterrogationHandler}: HandlerPayload) {
-  inquirer.prompt(questions).then(postInterrogationHandler);
+// @ts-ignore
+export function executeHandler({questions, postInterrogationHandler}: HandlerPayload, options: HandlerOptions) {
+
+  console.log(options);
+  inquirer.prompt(questions).then(async (answers) => {
+    console.log(answers);
+    // await postInterrogationHandler(answers)
+  });
 }

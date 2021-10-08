@@ -5,4 +5,4 @@ import {
 const {action, options} = extractActionNameAndOptions();
 const handler = verifyPassedOptions(action, options);
 
-executeHandler(handler());
+executeHandler(handler(), options);
