@@ -142,8 +142,6 @@ jobs:
 
       - name: Fixing permissions
         run: |
-          ls -al
-          pwd
           sudo chmod 777 storage/testing/src/tests/assets/cat.png
           sudo chmod 777 data/files/storage
 
