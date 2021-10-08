@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     needs:
-      - services-health
+      - endpoint-health
 
     strategy:
       matrix:
