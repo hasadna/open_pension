@@ -7,8 +7,6 @@ on:
     branches: [ master ]
 
 jobs:
-  env:
-
 
   backoffice:
     runs-on: ubuntu-20.04
@@ -25,3 +23,63 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           folder: backoffice
+  backoffice_backend:
+      runs-on: ubuntu-20.04
+
+      strategy:
+        matrix:
+          node-version: [ 16.9.0 ]
+
+      steps:
+        - uses: actions/checkout@v2
+        - uses: ./.github/actions/unit
+          env:
+            CI: true
+          with:
+            node-version: ${{ matrix.node-version }}
+            folder: backoffice_backend
+  front:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/unit
+        env:
+          CI: true
+        with:
+          node-version: ${{ matrix.node-version }}
+          folder: front
+  monthly:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/unit
+        env:
+          CI: true
+        with:
+          node-version: ${{ matrix.node-version }}
+          folder: front
+  storage:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 16.9.0 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/unit
+        env:
+          CI: true
+        with:
+          node-version: ${{ matrix.node-version }}
+          folder: storage
