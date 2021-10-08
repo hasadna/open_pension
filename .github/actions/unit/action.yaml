@@ -8,10 +8,15 @@ runs:
   using: "composite"
   steps:
     - run: |
-        pwd
-        echo ${{ inputs.folder }}
-        ls -al
+        cd ${{ inputs.folder }}
+        npm i
 
       shell: bash
-    - run: npm i
+    - run: |
+        cd ${{ inputs.folder }}
+        npm i
+      shell: bash
+    - run: |
+        cd backoffice
+        npm run test
       shell: bash
