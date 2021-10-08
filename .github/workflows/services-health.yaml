@@ -67,3 +67,6 @@ jobs:
 
           # todo: create here a user and run the sanity tests of login and verify the front works
           curl http://localhost:1000
+
+          docker-compose exec backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
+
