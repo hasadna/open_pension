@@ -23,6 +23,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           folder: backoffice
+      - name: run jest
+        env:
+          CI: true
+        run: |
+          cd backoffice
+          npm run test
   backoffice_backend:
       runs-on: ubuntu-20.04
 
@@ -38,6 +44,12 @@ jobs:
           with:
             node-version: ${{ matrix.node-version }}
             folder: backoffice_backend
+        - name: run jest
+          env:
+            CI: true
+          run: |
+            cd backoffice_backend
+            npm run jest --ci --watchAll=false
   front:
     runs-on: ubuntu-20.04
 
@@ -53,6 +65,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           folder: front
+      - name: run jest
+        env:
+          CI: true
+        run: |
+          cd front
+          npm run test:ci
   monthly:
     runs-on: ubuntu-20.04
 
@@ -68,6 +86,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           folder: front
+
+      - name: Install dependencies
+        run: |
+          cd monthly
+          npm run prisma:clientGenerate
+          npm run prisma:migrate
+      - name: run jest
+        env:
+          CI: true
+        run: cd monthly && npm run jest
   storage:
     runs-on: ubuntu-20.04
 

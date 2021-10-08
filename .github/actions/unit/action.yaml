@@ -22,7 +22,3 @@ runs:
         cd ${{ inputs.folder }}
         npm i
       shell: bash
-    - run: |
-        cd ${{ inputs.folder }}
-        npm run test
-      shell: bash
