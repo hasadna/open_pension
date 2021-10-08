@@ -7,7 +7,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: cd ${{ inputs.folder }}
+    - run: |
+        pwd
+        cd ${{ inputs.folder }}
+
       shell: bash
     - run: npm i
       shell: bash
