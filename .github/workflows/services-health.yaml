@@ -69,4 +69,3 @@ jobs:
           curl http://localhost:1000
 
           docker-compose exec backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
-
