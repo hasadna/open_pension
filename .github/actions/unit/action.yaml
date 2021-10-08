@@ -9,7 +9,8 @@ runs:
   steps:
     - run: |
         pwd
-        cd ${{ inputs.folder }}
+        echo ${{ inputs.folder }}
+        ls -al
 
       shell: bash
     - run: npm i
