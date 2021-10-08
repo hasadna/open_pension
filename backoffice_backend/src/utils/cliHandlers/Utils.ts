@@ -45,6 +45,6 @@ export function executeHandler({questions, postInterrogationHandler}: HandlerPay
 
   inquirer.prompt(filteredQuestions).then(async (answers) => {
     await postInterrogationHandler({...answers, ...options});
-    process.exit(1)
+    process.exit(0)
   });
 }
