@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  services-health:
+  endpoint-health:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -51,16 +51,16 @@ jobs:
     steps:
       # todo: run only when the commit have run-e2e-sanity
       - uses: actions/checkout@v2
-#      - name: Use Node.js ${{ matrix.node-version }}
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Fire up docker services
         run: |
           docker-compose up -d front backoffice backoffice_backend storage monthly
 
-      - name: Run tests
+      - name: Prepare env stuff
         run: |
           # Sleeping three minutes so the container would done to build.
           sleep 180
@@ -69,3 +69,7 @@ jobs:
           curl http://localhost:1000
 
           docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
+      - name: Install testim
+        run: |
+          npm i -g @testim/testim-
+          testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{secrets.TESTIM_PROJECT}}" --grid "Testim-Grid" --suite "Sanity"
