@@ -1,7 +1,7 @@
 import * as inquirer from 'inquirer';
 import { createUser } from '../../db/user';
 
-export default () => {
+export default ({username, password, email}) => {
 
   const questions = [
     {
@@ -21,6 +21,8 @@ export default () => {
       message: "Please enter email",
     },
   ];
+
+  console.log(username, password, email);
 
   inquirer.prompt(questions).then(async (answers) => {
     const user = await createUser(answers);
