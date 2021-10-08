@@ -1,8 +1,9 @@
 import {
   ActionNameAndOptions,
   ArgsRegex,
-  HandlerOptions
+  HandlerOptions, HandlerPayload
 } from "./typesAndConsts";
+import * as inquirer from 'inquirer';
 import {handlers} from "./Handlers";
 
 export function extractActionNameAndOptions(): ActionNameAndOptions {
@@ -32,4 +33,8 @@ export function verifyPassedOptions(action: string, options: HandlerOptions) {
   });
 
   return handler
+}
+
+export function executeHandler({questions, postInterrogationHandler}: HandlerPayload) {
+  inquirer.prompt(questions).then(postInterrogationHandler);
 }
