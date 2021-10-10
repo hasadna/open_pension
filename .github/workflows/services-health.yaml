@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ master ]
 
+  workflow_run:
+    workflows: ["Unit"]
+    types:
+      - completed
+
 jobs:
 
   endpoint-health:
