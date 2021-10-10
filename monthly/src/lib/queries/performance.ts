@@ -30,7 +30,7 @@ export async function query(queryData: QueryInterface) {
   const {
     timeStartRange,
     timeEndRange
-  } = convertTimePeriodToTimeRangeQuery(timePeriod);
+  } = await convertTimePeriodToTimeRangeQuery(timePeriod);
 
   const funds = await getMatchingFundsIDs({channel, subChannel, managingBodies: bodies, prismaClient});
 
@@ -83,7 +83,7 @@ async function getFundNamesFromDBResults(fundIDs: number[], prismaClient: Prisma
  *
  * @param {TimePeriod} timePeriod The time period.
  */
-export function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
+export async function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) {
   const handlers = {
     [TimePeriod.THREE_MONTHS]: (dateObjectToAlter) => {
       dateObjectToAlter.setUTCMonth(dateObjectToAlter.getMonth() - 3);
