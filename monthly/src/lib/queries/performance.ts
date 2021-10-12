@@ -8,6 +8,7 @@ import {
   Months,
   colors,
 } from './performanceTypesAndConsts';
+import {getRecentRow} from "../file";
 
 /**
  * Getting the results for performance query by th given arguments.
@@ -111,8 +112,10 @@ export async function convertTimePeriodToTimeRangeQuery(timePeriod: TimePeriod) 
     },
   };
 
+  const {TKUFAT_DIVUACH} = await getRecentRow();
+
   // Start by setting today's date to the the start of the month.
-  let timeStartRange = new Date();
+  let timeStartRange = TKUFAT_DIVUACH;
   timeStartRange.setUTCHours(0, 0, 0, 0);
   timeStartRange.setUTCDate(1);
 
