@@ -56,15 +56,6 @@ jobs:
        with:
          node-version: ${{ matrix.node-version }}
 
-     - name: Install testim
-       shell: bash
-       env:
-         TESTIM_TOKEN: ${{ secrets.TESTIM_TOKEN }}
-         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
-       run: |
-         npm i -g @testim/testim-cli
-         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --suite "Sanity"
-
 
      - name: Fire up docker services
        run: |
@@ -79,7 +70,12 @@ jobs:
          curl http://localhost:1000
 
          docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
-#      - name: Install testim
-#        run: |
-#          npm i -g @testim/testim-cli
-#          testim --token ${{ secrets.TESTIM_TOKEN }} --project ${{secrets.TESTIM_PROJECT}} --grid "Testim-Grid" --suite "Sanity"
+
+     - name: Install testim
+       shell: bash
+       env:
+        TESTIM_TOKEN: ${{ secrets.TESTIM_TOKEN }}
+        TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
+       run: |
+         npm i -g @testim/testim-cli
+         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --suite "Sanity"
