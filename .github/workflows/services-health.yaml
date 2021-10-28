@@ -55,8 +55,7 @@ jobs:
        uses: actions/setup-node@v1
        with:
          node-version: ${{ matrix.node-version }}
-
-
+     - uses: browser-actions/setup-chrome@latest
      - name: Fire up docker services
        run: |
          docker-compose up -d front backoffice backoffice_backend storage monthly
