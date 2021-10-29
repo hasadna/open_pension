@@ -83,4 +83,4 @@ jobs:
         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
        run: |
          npm i -g @testim/testim-cli
-         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --user "${{ secrets.TESTIM_USER }}" --suite "Sanity" --use-local-chrome-driver
+         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --user "${{ secrets.TESTIM_USER }}" --suite "Sanity" --use-local-chrome-driver --chrome-binary-location "/usr/bin/google-chrome"
