@@ -8,35 +8,35 @@ on:
 
 jobs:
 
-  endpoint-health:
-    runs-on: ubuntu-20.04
-
-    strategy:
-      matrix:
-        node-version: [ 16.9.0 ]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Fire up docker services
-        run: |
-          docker-compose up -d front backoffice backoffice_backend storage monthly
-
-      - name: Install packages
-        run: |
-          cd services-health-checker
-          npm i
-
-      - name: Run tests
-        run: |
-          cd services-health-checker
-          # Sleeping three minutes so the container would done to build.
-          sleep 180
-          npm run test
+#  endpoint-health:
+#    runs-on: ubuntu-20.04
+#
+#    strategy:
+#      matrix:
+#        node-version: [ 16.9.0 ]
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#
+#      - name: Fire up docker services
+#        run: |
+#          docker-compose up -d front backoffice backoffice_backend storage monthly
+#
+#      - name: Install packages
+#        run: |
+#          cd services-health-checker
+#          npm i
+#
+#      - name: Run tests
+#        run: |
+#          cd services-health-checker
+#          # Sleeping three minutes so the container would done to build.
+#          sleep 180
+#          npm run test
 
   services-sanity:
    runs-on: ubuntu-20.04

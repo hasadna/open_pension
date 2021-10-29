@@ -2,9 +2,9 @@ name: Unit
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ sssssss ]
+#  pull_request:
+#    branches: [ master ]
 
 jobs:
 
