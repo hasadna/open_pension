@@ -75,11 +75,11 @@ jobs:
 #
 #         docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
 #
-#     - name: Install testim
-#       shell: bash
-#       env:
-#        TESTIM_TOKEN: ${{ secrets.TESTIM_TOKEN }}
-#        TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
-#       run: |
-#         npm i -g @testim/testim-cli
-#         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --suite "Sanity"  --use-local-chrome-driver --user "${{ secrets.TESTIM_USER }}" --chrome-binary-location "/opt/hostedtoolcache/chromium/latest/x64"
+     - name: Install testim
+       shell: bash
+       env:
+        TESTIM_TOKEN: ${{ secrets.TESTIM_TOKEN }}
+        TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
+       run: |
+         npm i -g @testim/testim-cli
+         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --suite "Sanity"  --use-local-chrome-driver --user "${{ secrets.TESTIM_USER }}" --chrome-binary-location "/usr/bin/google-chrome"
