@@ -85,4 +85,4 @@ jobs:
          npm i -g @testim/testim-cli
 #         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --user "${{ secrets.TESTIM_USER }}" --suite "Sanity" --grid "Testim-Grid" --chrome-binary-location "/usr/bin/chromedriver"
 #         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --user "${{ secrets.TESTIM_USER }}" --suite "Sanity" --chrome-binary-location "/usr/bin/chromedriver"
-          testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --use-local-chrome-driver --user "${{ secrets.TESTIM_USER }}"
+         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --use-local-chrome-driver --user "${{ secrets.TESTIM_USER }}"
