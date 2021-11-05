@@ -59,8 +59,10 @@ jobs:
        run: |
          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
          sudo apt install ./google-chrome-stable_current_amd64.deb
-         /usr/bin/google-chrome --version
-         sudo apt-get install chromium-driver
+         npm install -g webdriver-manager
+         webdriver-manager start &
+#         /usr/bin/google-chrome --version
+#         sudo apt-get install chromium-driver
 
      - name: Fire up docker services
        run: |
@@ -83,4 +85,4 @@ jobs:
         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
        run: |
          npm i -g @testim/testim-cli
-         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --use-local-chrome-driver --user "${{ secrets.TESTIM_USER }}" --chrome-binary-location "/usr/bin/google-chrome"
+         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --use-local-chrome-driver --user "${{ secrets.TESTIM_USER }}" --host "localhost"
