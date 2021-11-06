@@ -57,10 +57,9 @@ jobs:
          node-version: ${{ matrix.node-version }}
      - name: browser-actions/setup-chrome@latest
        run: |
-         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-         apt install ./google-chrome-stable_current_amd64.deb
+#         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#         apt install ./google-chrome-stable_current_amd64.deb
          npm install -g webdriver-manager
-
          webdriver-manager update
          webdriver-manager --detach start
 #         /usr/bin/google-chrome --version
