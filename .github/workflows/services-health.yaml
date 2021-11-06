@@ -62,6 +62,8 @@ jobs:
          webdriver-manager --detach start
          sleep 20
          webdriver-manager status
+         curl http://localhost:4444
+         curl http://127.0.0.1:4444
 
 #     - name: Fire up docker services
 #       run: |
