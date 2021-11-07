@@ -84,4 +84,4 @@ jobs:
         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
        run: |
          docker pull testim/docker-cli
-         docker run --rm -v "$(pwd)":/opt/testim-runner testim/docker-cli --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid"
+         docker run --rm -v "$(pwd)":/opt/testim-runner testim/docker-cli --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --use-local-chrome-driver
