@@ -57,11 +57,8 @@ jobs:
          node-version: ${{ matrix.node-version }}
      - name: browser-actions/setup-chrome@latest
        run: |
-         npm install -g webdriver-manager
-         webdriver-manager update
-         webdriver-manager --detach start
-         sleep 20
-         webdriver-manager status
+         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+         sudo apt install ./google-chrome-stable_current_amd64.deb
 
      - name: Fire up docker services
        run: |
@@ -84,4 +81,4 @@ jobs:
         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
        run: |
          docker pull testim/docker-cli
-         docker run --rm -v "$(pwd)":/opt/testim-runner testim/docker-cli --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --use-local-chrome-driver
+         docker run --rm -v "$(pwd)":/opt/testim-runner testim/docker-cli --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --chrome-binary-location "/usr/bin/google-chrome" 
