@@ -44,8 +44,9 @@ services:
   monthly:
     ports:
       - "4000:80"
+      - "8555:5555"
     env_file:
-      - ./monthly/envs/.staging.docker.env
+      - ./monthly/envs/.local.docker.env
 
   storage:
     ports:

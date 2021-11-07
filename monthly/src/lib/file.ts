@@ -8,6 +8,7 @@ import {parsers} from "./parsers";
 import {prisma} from "../server/context";
 import {KafkaClient} from "../services/kafka-client";
 import {
+  FileRowInterface,
   InfoReturnInterface,
   ProcessedBituachXmlFileInterface,
   ProcessResults,
@@ -148,4 +149,16 @@ export async function processFile(path: string): Promise<ProcessResults> {
       message: e.message
     };
   }
+}
+
+export async function getRecentRow(): Promise<Partial<FileRowInterface>> {
+  return prisma.row.findFirst({
+    take: 1,
+    orderBy: {
+      TKUFAT_DIVUACH: 'desc'
+    },
+    select: {
+      TKUFAT_DIVUACH: true
+    },
+  })
 }
