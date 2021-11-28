@@ -3,6 +3,7 @@ import {TimePeriod} from "../lib/queries/performanceTypesAndConsts";
 import {log} from 'open-pension-logger';
 import {getFileMetadata} from "../lib/db";
 import {isEmpty} from 'lodash';
+import {getRecentRow} from "../lib/file";
 
 interface PerformanceInputArgs {
   input: {
@@ -35,20 +36,10 @@ export default {
       log({text: 'Requesting all the sub channels'});
       return await prisma.subChannel.findMany({});
     },
-    lastUpdated: async (_, __, ctx) => {
-      const {prisma} = ctx;
-
+    lastUpdated: async (_, __, ___) => {
       log({text: 'Requesting the last update'});
 
-      const row = await prisma.row.findFirst({
-        take: 1,
-        orderBy: {
-          TKUFAT_DIVUACH: 'desc'
-        },
-        select: {
-          TKUFAT_DIVUACH: true
-        },
-      });
+      const row = await getRecentRow();
 
       if (isEmpty(row)) {
         return null
