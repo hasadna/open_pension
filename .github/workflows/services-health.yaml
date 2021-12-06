@@ -57,11 +57,8 @@ jobs:
          node-version: ${{ matrix.node-version }}
      - name: browser-actions/setup-chrome@latest
        run: |
-         npm install -g webdriver-manager
-         webdriver-manager update
-         webdriver-manager --detach start
-         sleep 20
-         webdriver-manager status
+         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+         sudo apt install ./google-chrome-stable_current_amd64.deb
 
      - name: Enabling ngrok
        run: |
@@ -92,5 +89,5 @@ jobs:
         TESTIM_TOKEN: ${{ secrets.TESTIM_TOKEN }}
         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
        run: |
-         npm i -g @testim/testim-cli
-         testim --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --user "${{ secrets.TESTIM_USER }}" --host "127.0.0.1"
+         docker pull testim/docker-cli
+         docker run --rm -v "$(pwd)":/opt/testim-runner testim/docker-cli --token "${{ secrets.TESTIM_TOKEN }}" --project "${{ secrets.TESTIM_PROJECT }}" --grid "Testim-Grid" --chrome-binary-location "/usr/bin/google-chrome" 
