@@ -45,12 +45,12 @@
 
     ul {
       li {
-        display: flex;
-        align-content: center;
-
+        list-style-type: none;
+        a {
+          display: flex;
+          align-content: center;
+        }
       }
     }
-
   }
-
 }
