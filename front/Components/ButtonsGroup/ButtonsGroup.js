@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 const useChoicesStates = ({defaultActiveButton = null}) => {
@@ -10,6 +10,7 @@ const useChoicesStates = ({defaultActiveButton = null}) => {
 
       return {};
     }),
+
   };
 };
 
@@ -19,14 +20,14 @@ export default function ButtonGroups({title, buttons, selectHandler, defaultActi
     choices: [activeButtons, setActiveButtons],
   } = useChoicesStates({defaultActiveButton});
 
-  const existsSelectedButtons = Object.keys(activeButtons);
-  const optionIsSelected = (identifier) => {
+  const optionIsSelected = useCallback((identifier) => {
+    const existsSelectedButtons = Object.keys(activeButtons);
     if (existsSelectedButtons.includes(identifier)) {
       return activeButtons[identifier];
     }
 
     return false;
-  }
+  }, [activeButtons]);
 
   const handleButtonClick = (e) => {
       e.preventDefault();
