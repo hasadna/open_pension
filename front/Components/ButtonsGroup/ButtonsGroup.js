@@ -1,15 +1,23 @@
 import {useState} from 'react';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
+const useChoicesStates = ({defaultActiveButton = null}) => {
+  return {
+    choices: useState(() => {
+      if (defaultActiveButton) {
+        return {[defaultActiveButton]: true};
+      }
+
+      return {};
+    }),
+  };
+};
+
+
 export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton, description = null, multiple = false}) {
-
-  const [activeButtons, setActiveButtons] = useState(() => {
-    if (defaultActiveButton) {
-      return {[defaultActiveButton]: true};
-    }
-
-    return {};
-  });
+  const {
+    choices: [activeButtons, setActiveButtons],
+  } = useChoicesStates({defaultActiveButton});
 
   const existsSelectedButtons = Object.keys(activeButtons);
   const optionIsSelected = (identifier) => {

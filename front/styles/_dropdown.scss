@@ -1,0 +1,56 @@
+.dropdown-menu {
+
+  .header {
+    padding: .25em;
+    display: flex;
+    justify-content: space-between;
+    border: solid 1px var(--tooltip-border);
+    width: 10vw;
+
+    span {
+      font-weight: 300;
+      margin-left: 2em;
+      cursor: pointer;
+    }
+
+    .fa-chevron-down, .fa-chevron-up {
+      height: 1.25em;
+      cursor: pointer;
+    }
+
+    button {
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .options {
+    border: solid 1px var(--tooltip-border);
+    border-top: none;
+    width: 10vw;
+    padding: .25em;
+
+    input {
+      margin-bottom: .25em;
+      height: 1.5em;
+    }
+
+    .fa-square, .fa-check-square {
+      height: 1.25em;
+      padding-left: .25em;
+      color: var(--active-graph-text-filter)
+    }
+
+    ul {
+      li {
+        display: flex;
+        align-content: center;
+
+      }
+    }
+
+  }
+
+}

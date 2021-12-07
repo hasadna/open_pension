@@ -1,4 +1,5 @@
 import ButtonGroups from "../ButtonsGroup/ButtonsGroup";
+import Dropdown from "../Dropdown/Dropdown";
 
 export default function PerformanceQuery({dispatchQuery, bodies, subChannels, channels}) {
 
@@ -8,6 +9,9 @@ export default function PerformanceQuery({dispatchQuery, bodies, subChannels, ch
   }
 
   return <div className="performance-query">
+
+    <Dropdown title={"אפיק השקעה"} options={channels} />
+
     <ButtonGroups
       title={"בחרו את אפיק ההשקעה"}
       description={'אפיק ההשקעה הוא סוג הביטוח הפנסיוני שלך'}

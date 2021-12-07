@@ -11,7 +11,7 @@ function safeGet(keyName: string, defaultValue?: any) {
 }
 
 export function getPort(): number {
-    return safeGet('PORT', 80);
+    return safeGet('PORT', 4000);
 }
 
 export function getUploadedPath(): string {
