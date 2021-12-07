@@ -2,59 +2,87 @@ import {useCallback, useState} from 'react';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 const useChoicesStates = ({defaultActiveButton = null}) => {
+  const [activeButtons, setActiveButtons] = useState(() => {
+    if (defaultActiveButton) {
+      return {[defaultActiveButton]: true};
+    }
+
+    return {};
+  });
+
   return {
-    choices: useState(() => {
-      if (defaultActiveButton) {
-        return {[defaultActiveButton]: true};
+    buttonsState: [activeButtons, setActiveButtons],
+    optionIsSelected: useCallback((identifier) => {
+      const existsSelectedButtons = Object.keys(activeButtons);
+      if (existsSelectedButtons.includes(identifier)) {
+        return activeButtons[identifier];
       }
 
-      return {};
-    }),
-
+      return false;
+    }, [activeButtons])
   };
 };
 
 
 export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton, description = null, multiple = false}) {
   const {
-    choices: [activeButtons, setActiveButtons],
+    buttonsState: [activeButtons, setActiveButtons],
+    optionIsSelected,
   } = useChoicesStates({defaultActiveButton});
 
-  const optionIsSelected = useCallback((identifier) => {
-    const existsSelectedButtons = Object.keys(activeButtons);
-    if (existsSelectedButtons.includes(identifier)) {
-      return activeButtons[identifier];
+  const handleButtonClick = useCallback((e) => {
+    e.preventDefault();
+    const {target: {dataset: {identifier}}} = e;
+    let activeButtonState;
+
+    if (multiple) {
+      activeButtonState = {
+        ...activeButtons,
+        ...{[identifier]: !optionIsSelected(identifier)}
+      };
+    }
+    else {
+      if (optionIsSelected(identifier)) {
+        // This one is already selected so we cannot un-check it when we a single mode.
+        return;
+      }
+
+      activeButtonState = {[identifier]: !optionIsSelected(identifier)};
     }
 
-    return false;
-  }, [activeButtons]);
+    setActiveButtons(activeButtonState);
 
-  const handleButtonClick = (e) => {
-      e.preventDefault();
-      const {target: {dataset: {identifier}}} = e;
-      let activeButtonState;
+    if (selectHandler) {
+      selectHandler(activeButtonState);
+    }
+  }, []);
 
-      if (multiple) {
-        activeButtonState = {
-          ...activeButtons,
-          ...{[identifier]: !optionIsSelected(identifier)}
-        };
-      }
-      else {
-        if (optionIsSelected(identifier)) {
-          // This one is already selected so we cannot un-check it when we a single mode.
-          return;
-        }
-
-        activeButtonState = {[identifier]: !optionIsSelected(identifier)};
-      }
-
-      setActiveButtons(activeButtonState);
-
-      if (selectHandler) {
-        selectHandler(activeButtonState);
-      }
-  };
+  // const handleButtonClick = (e) => {
+  //     e.preventDefault();
+  //     const {target: {dataset: {identifier}}} = e;
+  //     let activeButtonState;
+  //
+  //     if (multiple) {
+  //       activeButtonState = {
+  //         ...activeButtons,
+  //         ...{[identifier]: !optionIsSelected(identifier)}
+  //       };
+  //     }
+  //     else {
+  //       if (optionIsSelected(identifier)) {
+  //         // This one is already selected so we cannot un-check it when we a single mode.
+  //         return;
+  //       }
+  //
+  //       activeButtonState = {[identifier]: !optionIsSelected(identifier)};
+  //     }
+  //
+  //     setActiveButtons(activeButtonState);
+  //
+  //     if (selectHandler) {
+  //       selectHandler(activeButtonState);
+  //     }
+  // };
 
   const getButtonClass = (identifier) => optionIsSelected(identifier) ? 'active' : null;
 
