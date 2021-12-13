@@ -1,0 +1,1 @@
+exports.config = { beforeTest: function (test) { return {"backend":"https://520b-77-125-98-78.ngrok.io","front":"https://d2c2-77-125-98-78.ngrok.io"} } }
