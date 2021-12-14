@@ -3,7 +3,6 @@ const {writeFileSync} = require('fs');
 const {join} = require('path');
 const { spawn } = require("child_process");
 
-
 (async function() {
 
   const [backend, front] = await Promise.all([
@@ -13,7 +12,12 @@ const { spawn } = require("child_process");
 
   const configFilePath = join(process.cwd(), 'e2e', 'config.js');
 
-  writeFileSync(configFilePath,  `exports.config = { beforeTest: function (test) { return ${JSON.stringify({backend, front})} } }`);
+  writeFileSync(configFilePath,  `exports.config = { 
+    beforeTest: function (test) {
+      test.config.baseUrl = '${backend}'; 
+      return ${JSON.stringify({backend, front})} 
+    } 
+  }`);
   const ls = spawn(`testim`,  [
     `-c`, './e2e/config.js',
     "--token", process.env.TESTIM_TOKEN,
