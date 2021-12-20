@@ -90,5 +90,5 @@ jobs:
         NGROKTOKEN: ${{ secrets.NGROKTOKEN }}
        run: |
          cd services-health-checker
-         run npm i 
+         npm i
          npm run e2e
