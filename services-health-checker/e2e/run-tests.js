@@ -6,8 +6,8 @@ const { spawn } = require("child_process");
 (async function() {
 
   const [backend, front] = await Promise.all([
-    ngrok.connect({authtoken: process.env.ngrokToken, addr: 1000}),
-    ngrok.connect({authtoken: process.env.ngrokToken, addr: 3000})
+    ngrok.connect({authtoken: process.env.NGROKTOKEN, addr: 1000}),
+    ngrok.connect({authtoken: process.env.NGROKTOKEN, addr: 3000})
   ]);
 
   const configFilePath = join(process.cwd(), 'e2e', 'config.js');
