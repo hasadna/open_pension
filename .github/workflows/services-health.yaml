@@ -55,6 +55,7 @@ jobs:
        uses: actions/setup-node@v1
        with:
          node-version: ${{ matrix.node-version }}
+     - uses: nanasess/setup-chromedriver@v1
      - name: browser-actions/setup-chrome@latest
        run: |
          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
