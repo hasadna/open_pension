@@ -5,9 +5,12 @@ const {spawn} = require("child_process");
 
 (async function () {
   try {
-    const backend = await ngrok.connect({authtoken: process.env.NGROKTOKEN, addr: 1000});
-    const front = await ngrok.connect({authtoken: process.env.NGROKTOKEN, addr: 3000});
+    const backend = await ngrok.connect({authtoken: process.env.NGROKTOKEN, addr: 1000, "bind-tls": true});
+    const backendAPI = await ngrok.connect({authtoken: process.env.NGROKTOKEN, addr: 2000, "bind-tls": true});
+    const front = await ngrok.connect({authtoken: process.env.NGROKTOKEN, addr: 3000, "bind-tls": true});
 
+
+    console.log({backend, front})
 
     const configFilePath = join(process.cwd(), 'e2e', 'config.js');
 
@@ -16,6 +19,8 @@ const {spawn} = require("child_process");
       return ${JSON.stringify({backend, front})} 
     } 
   }`);
+
+    return;
     const ls = spawn(`testim`, [
       `-c`, './e2e/config.js',
       "--token", process.env.TESTIM_TOKEN,

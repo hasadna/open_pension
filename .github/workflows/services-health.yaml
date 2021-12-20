@@ -89,6 +89,4 @@ jobs:
         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
         NGROKTOKEN: ${{ secrets.NGROKTOKEN }}
        run: |
-         cd services-health-checker
-         npm i
-         npm run e2e
+         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --use-local-chrome-driver --user AWI4zpV8YRZiBCBEubYp
