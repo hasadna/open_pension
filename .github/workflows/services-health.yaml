@@ -87,4 +87,4 @@ jobs:
         NGROKTOKEN: ${{ secrets.NGROKTOKEN }}
        run: |
          npm i -g @testim/testim-cli
-         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --use-local-chrome-driver --user AWI4zpV8YRZiBCBEubYp --chrome-binary-location /usr/bin/google-chrome-stable
+         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --use-local-chrome-driver --user AWI4zpV8YRZiBCBEubYp --chrome-binary-location "/usr/bin/google-chrome-stable"
