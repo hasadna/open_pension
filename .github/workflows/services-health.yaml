@@ -57,6 +57,7 @@ jobs:
          node-version: ${{ matrix.node-version }}
      - name: browser-actions/setup-chrome@latest
        run: |
+         sudo apt-get install chromium-driver
          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
          sudo apt install ./google-chrome-stable_current_amd64.deb
          whereis google-chrome-stable
