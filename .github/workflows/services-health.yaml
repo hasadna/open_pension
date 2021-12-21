@@ -62,7 +62,7 @@ jobs:
          whereis google-chrome-stable
          which google-chrome-stable
 
-         chmod +x /usr/bin/google-chrome-stable
+         sudo chmod +x /usr/bin/google-chrome-stable
          export PATH="/usr/bin/google-chrome-stable:$PATH"
 
 #     - name: Fire up docker services
