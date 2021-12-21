@@ -60,28 +60,22 @@ jobs:
        run: |
          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
          sudo apt install ./google-chrome-stable_current_amd64.deb
+         whereis google-chrome-stable
+         which google-chrome-stable
 
-#     - name: Enabling ngrok
+#     - name: Fire up docker services
 #       run: |
-#         curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null &&
-#                       echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list &&
-#                       sudo apt update && sudo apt install ngrok
+#         docker-compose up -d front backoffice backoffice_backend storage monthly
 #
-#         ngrok authtoken ${{ secrets.NGROK_TOKEN }}
-
-     - name: Fire up docker services
-       run: |
-         docker-compose up -d front backoffice backoffice_backend storage monthly
-
-     - name: Prepare env stuff
-       run: |
-         # Sleeping three minutes so the container would done to build.
-         sleep 180
-
-         # todo: create here a user and run the sanity tests of login and verify the front works
-         curl http://localhost:1000
-
-         docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
+#     - name: Prepare env stuff
+#       run: |
+#         # Sleeping three minutes so the container would done to build.
+#         sleep 180
+#
+#         # todo: create here a user and run the sanity tests of login and verify the front works
+#         curl http://localhost:1000
+#
+#         docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
 
      - name: Running E2E
        shell: bash
