@@ -75,6 +75,7 @@ export default function Performance({bodies, channels, subChannels, lastUpdate})
   const [results, setResults] = useState(null);
   const {selectedPeriod} = query;
 
+
   const setPeriod = (value) => {
     dispatchQuery({type: 'period', value});
     dispatchQuery({type: 'onlyUpdateGraph', value: true});

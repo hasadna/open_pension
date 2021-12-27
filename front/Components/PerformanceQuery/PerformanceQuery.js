@@ -10,14 +10,21 @@ export default function PerformanceQuery({dispatchQuery, bodies, subChannels, ch
 
   return <div className="performance-query">
 
-    <Dropdown title={"אפיק השקעה"} options={channels} />
-
-    <ButtonGroups
+    <Dropdown
       title={"בחרו את אפיק ההשקעה"}
+      firstOption={"אפיק ההשקעה"}
+      options={channels}
       description={'אפיק ההשקעה הוא סוג הביטוח הפנסיוני שלך'}
-      buttons={channels}
       selectHandler={(value) => {updateQueryHandler('investmentType', value)}}
+
     />
+    
+    {/*<ButtonGroups*/}
+    {/*  title={"בחרו את אפיק ההשקעה"}*/}
+    {/*  description={'אפיק ההשקעה הוא סוג הביטוח הפנסיוני שלך'}*/}
+    {/*  buttons={channels}*/}
+    {/*  selectHandler={(value) => {updateQueryHandler('investmentType', value)}}*/}
+    {/*/>*/}
 
     <ButtonGroups
       title={"בחרו את מסלול ההשקעה"}

@@ -5,6 +5,8 @@ import { faFacebookSquare, faTwitterSquare, faLinkedinIn } from '@fortawesome/fr
 
 export const Play = () => <FontAwesomeIcon icon={faPlay} />
 export const Checkbox = ({checked = false}) => <FontAwesomeIcon icon={checked ? faCheckSquare : faSquare} />
+export const Checked = ({checked = false}) => <FontAwesomeIcon icon={faCheckSquare} />
+export const UnChecked = () => <FontAwesomeIcon icon={faSquare} />
 export const ArrowLeft = () => <FontAwesomeIcon icon={faChevronLeft} />
 export const ArrowDown = () => <FontAwesomeIcon icon={faChevronDown} />
 export const ArrowUp = () => <FontAwesomeIcon icon={faChevronUp} />

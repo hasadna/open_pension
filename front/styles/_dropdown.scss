@@ -1,56 +1,80 @@
-.dropdown-menu {
+.dropdown-wrapper {
 
-  .header {
-    padding: .25em;
+  .title-wrapper {
     display: flex;
-    justify-content: space-between;
-    border: solid 1px var(--tooltip-border);
-    width: 10vw;
+    padding-bottom: 1em;
 
     span {
-      font-weight: 300;
-      margin-left: 2em;
-      cursor: pointer;
+      font-size: 1.25em;
+      font-weight: 500;
     }
-
-    .fa-chevron-down, .fa-chevron-up {
-      height: 1.25em;
-      cursor: pointer;
-    }
-
-    button {
-      border: none;
-      background: none;
-      display: flex;
-      align-items: center;
+    .info-wrapper {
+      position: relative;
     }
   }
 
-  .options {
-    border: solid 1px var(--tooltip-border);
-    border-top: none;
-    width: 10vw;
-    padding: .25em;
+  .dropdown-menu {
 
-    input {
-      margin-bottom: .25em;
-      height: 1.5em;
+    .header {
+      padding: .25em;
+      display: flex;
+      justify-content: space-between;
+      border: solid 1px var(--tooltip-border);
+
+      span {
+        font-weight: 300;
+        margin-left: 2em;
+        cursor: pointer;
+      }
+
+      .fa-chevron-down, .fa-chevron-up {
+        height: 1.25em;
+        cursor: pointer;
+      }
+
+      button {
+        border: none;
+        background: none;
+        display: flex;
+        align-items: center;
+      }
     }
 
-    .fa-square, .fa-check-square {
-      height: 1.25em;
-      padding-left: .25em;
-      color: var(--active-graph-text-filter)
-    }
+    .options {
+      border: solid 1px var(--tooltip-border);
+      border-top: none;
+      padding: .25em;
 
-    ul {
-      li {
-        list-style-type: none;
-        a {
-          display: flex;
-          align-content: center;
+      input {
+        margin-bottom: .25em;
+        height: 1.5em;
+      }
+
+      .fa-square, .fa-check-square {
+        height: 1.25em;
+        padding-left: .25em;
+        color: var(--active-graph-text-filter)
+      }
+
+      ul {
+        li {
+          list-style-type: none;
+          a {
+            display: flex;
+            align-content: center;
+
+            input {
+              pointer-events: none;
+              height: 1.5em;
+              width: 1.5em;
+              margin-left: .5em;
+              border: solid 1px black;
+            }
+          }
         }
       }
     }
   }
+
 }
+
