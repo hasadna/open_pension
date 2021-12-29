@@ -1,11 +1,28 @@
-import {useCallback, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {ArrowDown, ArrowUp, Checkbox, Checked, UnChecked} from "../Icons/Incons";
 import useChoicesState from "../Hooks/useChoicesStates";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import {isEmpty} from "lodash";
 
 export default ({title, firstOption, options, allowSearch = false, defaultActiveButton, selectHandler, multiple, description = ''}) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
+  const [searchText, setSearchText] = useState(null);
+  const currentOptions = useMemo(() => {
+
+    if (isEmpty(searchText)) {
+      return options;
+    }
+
+    let newMatchedResults = {};
+
+    Object.entries(options).filter(([_, option]) => option.includes(searchText)).forEach(([identifier, option]) => {
+      newMatchedResults[identifier] = option;
+    });
+
+    return newMatchedResults;
+
+  }, [searchText]);
 
   const {optionIsSelected, handleButtonClick} = useChoicesState({defaultActiveButton, selectHandler, multiple});
 
@@ -23,9 +40,9 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
 
       {isOpen && <div>
         <div className="options">
-          {allowSearch && <input placeholder={"הזו טקסט לסינון תוצאות"}/>}
+          {allowSearch && <input placeholder={"הזו טקסט לסינון תוצאות"} className="search" onChange={e => setSearchText(e.target.value)}/>}
           <ul>
-            {Object.entries(options).map(([value, label], key) => <li key={key}>
+            {Object.entries(currentOptions).map(([value, label], key) => <li key={key}>
               <a onClick={handleButtonClick} data-identifier={value}><input type='checkbox' data-identifier={value} checked={optionIsSelected(value)} /> {label}</a>
             </li>)}
           </ul>

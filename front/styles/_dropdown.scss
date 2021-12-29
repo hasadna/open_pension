@@ -46,8 +46,18 @@
       padding: .25em;
 
       input {
-        margin-bottom: .25em;
+        margin-bottom: .5em;
         height: 1.5em;
+
+        &.search {
+          margin-top: .25em;
+          padding: .5em;
+          width: 90%;
+          font-size: 1em;
+
+          &::placeholder {
+          }
+        }
       }
 
       .fa-square, .fa-check-square {
@@ -57,6 +67,11 @@
       }
 
       ul {
+
+        max-height: 18em;
+        overflow: scroll;
+        overflow-x: hidden;
+
         li {
           list-style-type: none;
           a {
