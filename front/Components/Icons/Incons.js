@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faPlay, faChevronLeft, faSearch, faChevronDown, faChevronUp,} from '@fortawesome/free-solid-svg-icons';
+import {faPlay, faChevronLeft, faSearch, faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
 import {faSquare, faCheckSquare} from "@fortawesome/free-regular-svg-icons";
 import { faFacebookSquare, faTwitterSquare, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 

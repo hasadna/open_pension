@@ -1,5 +1,5 @@
 import {useCallback, useMemo, useState} from "react";
-import {ArrowDown, ArrowUp, Checkbox, Checked, UnChecked} from "../Icons/Incons";
+import {ArrowDown, ArrowUp, Checkbox, Checked, Close, UnChecked} from "../Icons/Incons";
 import useChoicesState from "../Hooks/useChoicesStates";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import {isEmpty} from "lodash";
@@ -40,7 +40,12 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
 
       {isOpen && <div>
         <div className="options">
-          {allowSearch && <input placeholder={"הזו טקסט לסינון תוצאות"} className="search" onChange={e => setSearchText(e.target.value)}/>}
+          {allowSearch && <div className="search-input-wrapper">
+            <input placeholder={"הזו טקסט לסינון תוצאות"} className="search" value={searchText} onChange={e => setSearchText(e.target.value)}/>
+            {searchText && <button className="close-button" onClick={() => setSearchText('')}>X</button> }
+          </div>}
+
+          {searchText && isEmpty(currentOptions) && <div className='no-results'>לא נמצאו תוצאות</div> }
           <ul>
             {Object.entries(currentOptions).map(([value, label], key) => <li key={key}>
               <a onClick={handleButtonClick} data-identifier={value}><input type='checkbox' data-identifier={value} checked={optionIsSelected(value)} /> {label}</a>

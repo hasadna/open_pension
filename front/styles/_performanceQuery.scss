@@ -1,7 +1,9 @@
 .performance-query {
   display: flex;
   justify-content: space-between;
-  height: 25em;
+  position: absolute;
+  width: 90%;
+  z-index: 1000;
 
   .dropdown-wrapper {
     width: 100%;
