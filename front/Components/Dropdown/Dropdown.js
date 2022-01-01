@@ -6,25 +6,56 @@ import {isEmpty} from "lodash";
 
 export default ({title, firstOption, options, allowSearch = false, defaultActiveButton, selectHandler, multiple, description = ''}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
   const [searchText, setSearchText] = useState(null);
-  const currentOptions = useMemo(() => {
+  const toggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
 
-    if (isEmpty(searchText)) {
-      return options;
-    }
+  const filterOptions = (callback) => {
 
     let newMatchedResults = {};
 
-    Object.entries(options).filter(([_, option]) => option.includes(searchText)).forEach(([identifier, option]) => {
+    Object.entries(options).filter(callback).forEach(([identifier, option]) => {
       newMatchedResults[identifier] = option;
     });
 
     return newMatchedResults;
+  }
+
+  const currentOptions = useMemo(() => {
+    if (isEmpty(searchText)) {
+      return options;
+    }
+
+    return filterOptions(([_, option]) => option.includes(searchText));
 
   }, [searchText]);
 
-  const {optionIsSelected, handleButtonClick} = useChoicesState({defaultActiveButton, selectHandler, multiple});
+  const {optionIsSelected, handleButtonClick, activeButtons} = useChoicesState({defaultActiveButton, selectHandler, multiple});
+
+  const calculateDisplay = useMemo(() => {
+    if (isEmpty(activeButtons)) {
+      return firstOption;
+    }
+
+    const selectedOptions = Object.keys(activeButtons);
+
+    if (multiple) {
+      const returnValue = Object.entries(filterOptions(([key]) => {
+        if (selectedOptions.includes(key)) {
+          return activeButtons[key];
+        }
+      }))
+        .map(([_, selectedOption])=> selectedOption)
+        .join(", ");
+
+      if (returnValue) {
+        return returnValue;
+      }
+
+      return firstOption;
+    }
+
+    return options[selectedOptions[0]]
+  }, [firstOption, activeButtons, currentOptions]);
 
   return <div className="dropdown-wrapper">
     <div className="title-wrapper">
@@ -34,7 +65,7 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
 
     <div className="dropdown-menu">
       <div className="header" onClick={() => {toggle()}}>
-        <span>{firstOption}</span>
+        <div className="text" title={calculateDisplay}>{calculateDisplay}</div>
         <button>{isOpen ? <ArrowUp /> : <ArrowDown />}</button>
       </div>
 
@@ -47,8 +78,9 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
 
           {searchText && isEmpty(currentOptions) && <div className='no-results'>לא נמצאו תוצאות</div> }
           <ul>
-            {Object.entries(currentOptions).map(([value, label], key) => <li key={key}>
-              <a onClick={handleButtonClick} data-identifier={value}><input type='checkbox' data-identifier={value} checked={optionIsSelected(value)} /> {label}</a>
+            {Object.entries(currentOptions).map(([value, label], key) => <li key={key} onClick={handleButtonClick} data-identifier={value}>
+              <input type='checkbox' data-identifier={value} checked={optionIsSelected(value)} />
+              <a > {label}</a>
             </li>)}
           </ul>
         </div>

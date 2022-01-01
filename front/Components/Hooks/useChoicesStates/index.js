@@ -47,6 +47,7 @@ export default ({selectHandler, defaultActiveButton = null, multiple = false}) =
 
   return {
     optionIsSelected,
-    handleButtonClick
+    handleButtonClick,
+    activeButtons
   }
 };
