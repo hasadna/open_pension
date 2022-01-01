@@ -78,7 +78,13 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
 
           {searchText && isEmpty(currentOptions) && <div className='no-results'>לא נמצאו תוצאות</div> }
           <ul>
-            {Object.entries(currentOptions).map(([value, label], key) => <li key={key} onClick={handleButtonClick} data-identifier={value}>
+            {Object.entries(currentOptions).map(([value, label], key) => <li key={key} onClick={(e) => {
+              handleButtonClick(e);
+
+              if (!multiple) {
+                setIsOpen(false);
+              }
+            }} data-identifier={value}>
               <input type='checkbox' data-identifier={value} checked={optionIsSelected(value)} />
               <a > {label}</a>
             </li>)}
