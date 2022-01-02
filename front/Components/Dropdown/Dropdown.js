@@ -1,16 +1,37 @@
-import {useCallback, useMemo, useState} from "react";
-import {ArrowDown, ArrowUp, Checkbox, Checked, Close, UnChecked} from "../Icons/Incons";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {ArrowDown, ArrowUp} from "../Icons/Incons";
 import useChoicesState from "../Hooks/useChoicesStates";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import {isEmpty} from "lodash";
 
 export default ({title, firstOption, options, allowSearch = false, defaultActiveButton, selectHandler, multiple, description = ''}) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const {
+    optionIsSelected,
+    handleButtonClick,
+    activeButtons,
+    isOpen: [isOpen, setIsOpen]
+  } = useChoicesState({defaultActiveButton, selectHandler, multiple});
+
   const [searchText, setSearchText] = useState(null);
-  const toggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
+  const componentElement = useRef(null);
+
+  useEffect(() => {
+    const clickEventHandler = (event, {current: element}, setIsOpen) => {
+      if (!event.path.includes(element)) {
+        setSearchText('');
+        setIsOpen(false);
+      }
+    }
+    window.addEventListener('click', (e) => {
+      clickEventHandler(e, componentElement, setIsOpen);
+    });
+
+    return () => {
+      window.removeEventListener('click', clickEventHandler);
+    }
+  }, [componentElement]);
 
   const filterOptions = (callback) => {
-
     let newMatchedResults = {};
 
     Object.entries(options).filter(callback).forEach(([identifier, option]) => {
@@ -29,7 +50,10 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
 
   }, [searchText]);
 
-  const {optionIsSelected, handleButtonClick, activeButtons} = useChoicesState({defaultActiveButton, selectHandler, multiple});
+  const toggle = useCallback(() => {
+    setSearchText('');
+    setIsOpen(!isOpen);
+  }, [isOpen]);
 
   const calculateDisplay = useMemo(() => {
     if (isEmpty(activeButtons)) {
@@ -57,7 +81,7 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
     return options[selectedOptions[0]]
   }, [firstOption, activeButtons, currentOptions]);
 
-  return <div className="dropdown-wrapper">
+  return <div className="dropdown-wrapper" ref={componentElement}>
     <div className="title-wrapper">
       <span className="title" data-testid="title">{title}</span>
       {description && <div className="info-wrapper" data-testid="description"><InfoTooltip description={description} /></div>}
@@ -78,21 +102,13 @@ export default ({title, firstOption, options, allowSearch = false, defaultActive
 
           {searchText && isEmpty(currentOptions) && <div className='no-results'>לא נמצאו תוצאות</div> }
           <ul>
-            {Object.entries(currentOptions).map(([value, label], key) => <li key={key} onClick={(e) => {
-              handleButtonClick(e);
-
-              if (!multiple) {
-                setIsOpen(false);
-              }
-            }} data-identifier={value}>
+            {Object.entries(currentOptions).map(([value, label], key) => <li key={key} onClick={handleButtonClick} data-identifier={value}>
               <input type='checkbox' data-identifier={value} checked={optionIsSelected(value)} />
-              <a > {label}</a>
+              <a data-identifier={value}> {label}</a>
             </li>)}
           </ul>
         </div>
       </div> }
     </div>
   </div>
-
-
 };

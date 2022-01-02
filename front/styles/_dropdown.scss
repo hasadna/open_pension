@@ -57,7 +57,7 @@
         margin-bottom: .5em;
         margin-left: .5em;
         display: flex;
-        width: 100%;
+        width: 95%;
         justify-content: space-between;
 
         .close-button {
@@ -121,6 +121,7 @@
             height: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
+            cursor: pointer;
           }
         }
       }

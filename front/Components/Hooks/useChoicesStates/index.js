@@ -1,6 +1,8 @@
 import {useState, useCallback} from "react";
 
 export default ({selectHandler, defaultActiveButton = null, multiple = false}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [activeButtons, setActiveButtons] = useState(() => {
     if (defaultActiveButton) {
       return {[defaultActiveButton]: true};
@@ -36,6 +38,7 @@ export default ({selectHandler, defaultActiveButton = null, multiple = false}) =
       }
 
       activeButtonState = {[identifier]: !optionIsSelected(identifier)};
+      setIsOpen(false);
     }
 
     setActiveButtons(activeButtonState);
@@ -45,9 +48,11 @@ export default ({selectHandler, defaultActiveButton = null, multiple = false}) =
     }
   }, [activeButtons]);
 
+
   return {
     optionIsSelected,
     handleButtonClick,
-    activeButtons
+    activeButtons,
+    isOpen: [isOpen, setIsOpen]
   }
 };
