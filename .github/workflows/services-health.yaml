@@ -62,7 +62,7 @@ jobs:
          sudo apt install ./google-chrome-stable_current_amd64.deb
          whereis google-chrome-stable
          which google-chrome-stable
-         npm install chromedriver
+         sudo npm install chromedriver
          chromedriver &
 
          sudo chmod +x /usr/bin/google-chrome-stable
