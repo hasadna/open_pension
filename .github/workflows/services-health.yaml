@@ -57,16 +57,10 @@ jobs:
          node-version: ${{ matrix.node-version }}
      - name: browser-actions/setup-chrome@latest
        run: |
-         sudo apt-get install chromium-driver
          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
          sudo apt install ./google-chrome-stable_current_amd64.deb
-         whereis google-chrome-stable
-         which google-chrome-stable
          sudo npm install chromedriver
          chromedriver &
-
-         sudo chmod +x /usr/bin/google-chrome-stable
-         export PATH="/usr/bin/google-chrome-stable:$PATH"
 
 #     - name: Fire up docker services
 #       run: |
@@ -81,6 +75,7 @@ jobs:
 #         curl http://localhost:1000
 #
 #         docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
+     # --chrome-binary-location "/usr/bin/google-chrome-stable"
 
      - name: Running E2E
        shell: bash
@@ -90,4 +85,4 @@ jobs:
         NGROKTOKEN: ${{ secrets.NGROKTOKEN }}
        run: |
          npm i -g @testim/testim-cli
-         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --use-local-chrome-driver --user AWI4zpV8YRZiBCBEubYp --chrome-binary-location "/usr/bin/google-chrome-stable"
+         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --user AWI4zpV8YRZiBCBEubYp --use-local-chrome-driver
