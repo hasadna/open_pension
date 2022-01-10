@@ -1,4 +1,4 @@
-import ButtonGroups from "../ButtonsGroup/ButtonsGroup";
+import Dropdown from "../Dropdown/Dropdown";
 
 export default function PerformanceQuery({dispatchQuery, bodies, subChannels, channels}) {
 
@@ -8,26 +8,31 @@ export default function PerformanceQuery({dispatchQuery, bodies, subChannels, ch
   }
 
   return <div className="performance-query">
-    <ButtonGroups
+    <Dropdown
       title={"בחרו את אפיק ההשקעה"}
+      firstOption={"אפיק ההשקעה"}
+      options={channels}
       description={'אפיק ההשקעה הוא סוג הביטוח הפנסיוני שלך'}
-      buttons={channels}
       selectHandler={(value) => {updateQueryHandler('investmentType', value)}}
     />
 
-    <ButtonGroups
+    <Dropdown
       title={"בחרו את מסלול ההשקעה"}
+      firstOption={"מסלול ההשקעה"}
+      options={subChannels}
       description={'כל גוף משקיע את הכסף בהתאם לפרופיל של מחזיק הכסף'}
-      buttons={subChannels}
       selectHandler={(value) => {updateQueryHandler('investmentPath', value)}}
+      allowSearch={true}
     />
 
-    <ButtonGroups
+    <Dropdown
       title={"בחר את הגוף שמייצג אותך"}
+      firstOption={"גוף מייצג"}
+      options={bodies}
       description={'כל גוף משקיע את הכסף בהתאם לפרופיל של מחזיק הכסף. אפשר לבחור כמה גופים על מנת לבצע השוואה'}
-      buttons={bodies}
+      selectHandler={(value) => {updateQueryHandler('bodies', value)}}
+      allowSearch={true}
       multiple={true}
-      selectHandler={(value) => {updateQueryHandler('bodies', value);}}
     />
   </div>
 }

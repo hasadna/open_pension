@@ -1,0 +1,12 @@
+.performance-query {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 90%;
+  z-index: 1000;
+
+  .dropdown-wrapper {
+    width: 100%;
+    max-width: 33%;
+  }
+}

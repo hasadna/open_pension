@@ -1,52 +1,8 @@
-import {useState} from 'react';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import useChoicesState from "../Hooks/useChoicesStates";
 
 export default function ButtonGroups({title, buttons, selectHandler, defaultActiveButton, description = null, multiple = false}) {
-
-  const [activeButtons, setActiveButtons] = useState(() => {
-    if (defaultActiveButton) {
-      return {[defaultActiveButton]: true};
-    }
-
-    return {};
-  });
-
-  const existsSelectedButtons = Object.keys(activeButtons);
-  const optionIsSelected = (identifier) => {
-    if (existsSelectedButtons.includes(identifier)) {
-      return activeButtons[identifier];
-    }
-
-    return false;
-  }
-
-  const handleButtonClick = (e) => {
-      e.preventDefault();
-      const {target: {dataset: {identifier}}} = e;
-      let activeButtonState;
-
-      if (multiple) {
-        activeButtonState = {
-          ...activeButtons,
-          ...{[identifier]: !optionIsSelected(identifier)}
-        };
-      }
-      else {
-        if (optionIsSelected(identifier)) {
-          // This one is already selected so we cannot un-check it when we a single mode.
-          return;
-        }
-
-        activeButtonState = {[identifier]: !optionIsSelected(identifier)};
-      }
-
-      setActiveButtons(activeButtonState);
-
-      if (selectHandler) {
-        selectHandler(activeButtonState);
-      }
-  };
-
+  const {optionIsSelected, handleButtonClick} = useChoicesState({defaultActiveButton, selectHandler, multiple});
   const getButtonClass = (identifier) => optionIsSelected(identifier) ? 'active' : null;
 
   return <div className="buttons-group">
