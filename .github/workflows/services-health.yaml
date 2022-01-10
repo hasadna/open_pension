@@ -84,5 +84,10 @@ jobs:
         TESTIM_PROJECT: ${{ secrets.TESTIM_PROJECT }}
         NGROKTOKEN: ${{ secrets.NGROKTOKEN }}
        run: |
-         npm i -g @testim/testim-cli
-         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --user AWI4zpV8YRZiBCBEubYp --use-local-chrome-driver
+         npm i -g @testim/testim-cli webdriver-manager
+         webdriver-manager update
+         webdriver-manager start &
+         sleep 10
+
+         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --user AWI4zpV8YRZiBCBEubYp --host 127.0.0.1 --port 4444 --browser "chrome"
+
