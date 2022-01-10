@@ -1,9 +1,6 @@
 import Wrapper from "../Components/Wrapper/Wrapper";
 import SecondaryHeader from "../Components/SecondaryHeader/SecondaryHeader";
-import HoldingsSearch from "../Components/HoldingsSearch/HoldingsSearch";
 import {useState} from 'react';
-import HoldingsWaiting from "../Components/HoldingsWaiting/HoldingsWaiting";
-import HoldingsQuery from "../Components/HoldingsQuery/HoldingsQuery";
 import {getLastUpdate, convertServerEntitiesToKeyValue} from "./api";
 import { gql } from "@apollo/client";
 import client from "../backend/apollo-client.js";
