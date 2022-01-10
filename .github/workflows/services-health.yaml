@@ -59,23 +59,22 @@ jobs:
        run: |
          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
          sudo apt install ./google-chrome-stable_current_amd64.deb
-         sudo npm install chromedriver
-         chromedriver &
+#         sudo npm install chromedriver
+#         chromedriver &
 
-#     - name: Fire up docker services
-#       run: |
-#         docker-compose up -d front backoffice backoffice_backend storage monthly
-#
-#     - name: Prepare env stuff
-#       run: |
-#         # Sleeping three minutes so the container would done to build.
-#         sleep 180
-#
-#         # todo: create here a user and run the sanity tests of login and verify the front works
-#         curl http://localhost:1000
-#
-#         docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
-     # --chrome-binary-location "/usr/bin/google-chrome-stable"
+     - name: Fire up docker services
+       run: |
+         docker-compose up -d front backoffice backoffice_backend storage monthly
+
+     - name: Prepare env stuff
+       run: |
+         # Sleeping three minutes so the container would done to build.
+         sleep 180
+
+         # todo: create here a user and run the sanity tests of login and verify the front works
+         curl http://localhost:1000
+
+         docker-compose exec -T backoffice_backend npm run cli:createUser -- --username=admin -- --email=foo@openpension.org.il -- --password=admin
 
      - name: Running E2E
        shell: bash
@@ -86,8 +85,6 @@ jobs:
        run: |
          npm i -g @testim/testim-cli webdriver-manager
          webdriver-manager update
-         webdriver-manager start &
-         sleep 10
+         webdriver-manager start --detach
 
          testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --user AWI4zpV8YRZiBCBEubYp --host 127.0.0.1 --port 4444 --browser "chrome"
-
