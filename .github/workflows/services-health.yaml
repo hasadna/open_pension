@@ -87,4 +87,4 @@ jobs:
          webdriver-manager update
          webdriver-manager start --detach
 
-         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --user AWI4zpV8YRZiBCBEubYp --host 127.0.0.1 --port 4444 --browser "chrome"
+         testim --token "IHklfgtPVKhalOXVL45j6yYeVlUtvH1yz6hHsEUAyyCiLbuIpd" --project "B2wDpX2LGmLTZajsJAaw" --user AWI4zpV8YRZiBCBEubYp --host localhost --port 4444 --browser "chrome"
