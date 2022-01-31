@@ -2,6 +2,7 @@ import kafka, {ConsumerGroup, ConsumerGroupOptions} from "kafka-node";
 import {getKafkaHost, getKafkaListenTopic} from "./env";
 import {storeFile} from "../lib/file";
 import {log} from "open-pension-logger"
+import axios from "axios";
 
 export class KafkaClient {
   private producer: kafka.Producer;
@@ -51,29 +52,44 @@ export class KafkaClient {
   }
 
   static listen() {
-    const options: ConsumerGroupOptions = {
-      kafkaHost: getKafkaHost(),
-      groupId: 'monthly',
-      protocol: ['roundrobin'],
-      encoding: 'utf8', // default is utf8, use 'buffer' for binary data
-      fromOffset: 'latest', // default
-      outOfRangeOffset: 'earliest', // default
-    };
-    const kafkaClient = new KafkaClient();
+    const kafkaHost = getKafkaHost();
 
-    const consumerGroup = new ConsumerGroup(options, [getKafkaListenTopic()]);
-    log({text: `Start to listen to events: ${JSON.stringify(getKafkaListenTopic())}`});
+    if (!kafkaHost) {
+      log({text: 'The address of the kafka host is empty'});
+      return undefined;
+    }
 
-    consumerGroup.on('connect', () => {
-      log({text: 'connected to the kafka events'});
-    });
+    return axios.get(kafkaHost)
+      .then(_ => {
+        const options: ConsumerGroupOptions = {
+          kafkaHost: kafkaHost,
+          groupId: 'monthly',
+          protocol: ['roundrobin'],
+          encoding: 'utf8', // default is utf8, use 'buffer' for binary data
+          fromOffset: 'latest', // default
+          outOfRangeOffset: 'earliest', // default
+        };
 
-    consumerGroup.on('message', async function (message) {
-      // @ts-ignore
-      const parsedMessage = JSON.parse(message.value);
+        const kafkaClient = new KafkaClient();
+        const consumerGroup = new ConsumerGroup(options, [getKafkaListenTopic()]);
+        log({text: `Start to listen to events: ${JSON.stringify(getKafkaListenTopic())}`});
 
-      const { ID, filename } = parsedMessage;
-      storeFile(filename, ID, kafkaClient);
-    });
+        consumerGroup.on('connect', () => {
+          log({text: 'connected to the kafka events'});
+        });
+
+        consumerGroup.on('message', async function (message) {
+          // @ts-ignore
+          const parsedMessage = JSON.parse(message.value);
+
+          const { ID, filename } = parsedMessage;
+          storeFile(filename, ID, kafkaClient);
+        });
+
+      })
+      .catch(error => {
+        log({text: 'There wass an error parsing the kafka address', error});
+      }
+    );
   }
 }
