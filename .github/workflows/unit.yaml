@@ -2,9 +2,9 @@ name: Unit
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ sssssss ]
+#  pull_request:
+#    branches: [ master ]
 
 jobs:
 
@@ -124,7 +124,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 16.9.0 ]
+        node-version: [ 12.14.0 ]
 
     steps:
       - uses: actions/checkout@v2

@@ -1,0 +1,7 @@
+tunnels:
+  backoffice:
+    proto: http
+    addr: 1000
+  front:
+    proto: http
+    addr: 3000
