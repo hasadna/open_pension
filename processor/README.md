@@ -4,6 +4,8 @@ The processor responsible for converting a rough xsl file to an object which lat
 
 ## Setting up
 
+**This part is deprecated, for now**
+
 You can do
 ```bash
 docker-compose up -d processor
@@ -12,6 +14,13 @@ and go to `http://localhsot:processor`.
 
 ### Local development
 Just do `npm -i` and start to fire up.
+
+### Processing files
+
+In order to process the files you can use the npm scripts:
+
+* `process-single-asset` - Handle the quarter reports
+* `process-perfomance` - Monthly files, though if not needed to export to JSON files no need to run this one
 
 ## Endpoint
 

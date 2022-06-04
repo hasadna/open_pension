@@ -39,7 +39,8 @@ The docker machine are already ready for development. You can have two options:
 This will fire up all the services. This one is a good options if you need to run them all:
 
 ```bash  
-docker-compose up -d```  
+docker-compose up -d
+```
   
 ### Turn on a specific service:  
 There are a couple of services that we are handling: `monthly`, `storage`, `monthly`, `backoffice`, `backoffice_bakend`  
@@ -53,18 +54,26 @@ docker-compose up -d monthly # But you can go with the other service which menti
 For now, the front has a couple of technical issues to be developed under a docker instance. So you need to go to the front folder and install. It's basically goes like this:
 ```bash  
 cd front
-npm inpm run dev
+npm npm run dev
 ```  
 
 ## Data seed
 
 After everything is all set up, you need to have two thing: a user to admin and some dummy data in the monthly DB.
 
+**All the commands should be executed from inside the container**
+
+In order to log in to the container you to run:
+
+```bash
+docker-compose exec <CONTAINER_NAME> bash
+```
+
 ### Creating user
 login to the backoffice backend:
 
 ```bash  
-docker-compose up exec backoffice_backend bashnpm run cli:createUser
+docker-compose exec backoffice_backend bash npm run cli:createUser
 ```  
 
 You would then go through questions for the credentials of the user. Remember, this must be a very strong password.
@@ -74,7 +83,7 @@ Unlike the admin user, the seeding data is good for playing around with the mont
 when we need to develop the project:
 
 ```bash  
-docker-compose up exec monthly bashnpm run dummySeed
+docker-compose exec monthly bash npm run dummySeed
 ```  
 
 ## Accessing the services:
@@ -95,4 +104,3 @@ Here are some couple of command lines snippets which can help you work with the 
 ### Debugging
 If you need to debug, you can run your local backend with the next mongo address:  
 `mongodb://localhost:27017/open_pesion_dashboard`
- 
