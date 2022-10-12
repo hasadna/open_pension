@@ -37,7 +37,7 @@
     "kafka-node": "^5.0.0",
     "mongoose": "^5.9.14",
     "multer": "^1.4.2",
-    "read-excel-file": "^4.0.6"
+    "read-excel-file": "^5.5.1"
   },
   "jest": {
     "preset": "ts-jest",
