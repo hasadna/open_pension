@@ -72,7 +72,7 @@
     "next": "^11.1.1",
     "open-pension-logger": "github:hasadna/open-pension-logger#0.1.0",
     "pm2": "^5.1.2",
-    "read-excel-file": "^5.1.0",
+    "read-excel-file": "^5.2.29",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
