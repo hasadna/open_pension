@@ -61,7 +61,7 @@
     "@ladjs/graceful": "^1.0.5",
     "@prisma/client": "^2.24.1",
     "@types/xml2js": "^0.4.7",
-    "apollo-server": "^2.19.2",
+    "apollo-server": "^2.25.4",
     "apollo-server-testing": "^2.25.2",
     "bree": "^6.2.0",
     "date-fns": "^2.22.1",
