@@ -1,4 +1,4 @@
-FROM node:16.9.0-bullseye-slim
+FROM node:16.18-bullseye-slim
 
 ENV NODE_ENV production
 
