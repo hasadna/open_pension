@@ -54,7 +54,7 @@
     "apollo-server": "^2.21.2",
     "apollo-server-express": "^2.23.0",
     "apollo-server-testing": "^2.22.1",
-    "axios": "^0.21.3",
+    "axios": "^1.6.3",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "form-data": "^3.0.1",
